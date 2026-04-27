@@ -7,15 +7,13 @@ set -euo pipefail
 MODELS_DIR="${MODELS_DIR:-${HOME}/models}"
 mkdir -p "$MODELS_DIR"
 
-if [[ ! -d "$MODELS_DIR/Qwen3.6-27B-NVFP4" ]]; then
-  echo "[download] Cloning sakamakismile/Qwen3.6-27B-NVFP4 (~19.7 GB)..."
-  hf download sakamakismile/Qwen3.6-27B-NVFP4 --local-dir "$MODELS_DIR/Qwen3.6-27B-NVFP4"
-fi
+# NOTE: hf download is idempotent and resumes partial downloads via the .incomplete
+# files in .cache. Always invoke it (don't gate on dir existence) so resumes work.
+echo "[download] Pulling sakamakismile/Qwen3.6-27B-NVFP4 (~19.7 GB; resumes if partial)..."
+hf download sakamakismile/Qwen3.6-27B-NVFP4 --local-dir "$MODELS_DIR/Qwen3.6-27B-NVFP4"
 
-if [[ ! -d "$MODELS_DIR/Qwen3.6-27B-DFlash" ]]; then
-  echo "[download] Cloning z-lab/Qwen3.6-27B-DFlash (~3.5 GB)..."
-  hf download z-lab/Qwen3.6-27B-DFlash --local-dir "$MODELS_DIR/Qwen3.6-27B-DFlash"
-fi
+echo "[download] Pulling z-lab/Qwen3.6-27B-DFlash (~3.5 GB; resumes if partial)..."
+hf download z-lab/Qwen3.6-27B-DFlash --local-dir "$MODELS_DIR/Qwen3.6-27B-DFlash"
 
 echo "[download] DONE."
 echo "  - $MODELS_DIR/Qwen3.6-27B-NVFP4   (target)"
