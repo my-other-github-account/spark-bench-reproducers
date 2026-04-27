@@ -1,0 +1,101 @@
+# Qwen3.6-35B-A3B-NVFP4 + DFlash on DGX Spark — minimum reproduction
+
+End-to-end Docker reproduction of the 35B-A3B MoE sibling to the 27B dense recipe in
+[`../qwen36-27b-dflash-spark`](../qwen36-27b-dflash-spark). Same hardware (NVIDIA DGX
+Spark, GB10 Blackwell, 128 GiB unified, aarch64), same engine (vLLM nightly + flashinfer),
+same harness (eugr/llama-benchy 0.3.6).
+
+**Target:** [`RedHatAI/Qwen3.6-35B-A3B-NVFP4`](https://huggingface.co/RedHatAI/Qwen3.6-35B-A3B-NVFP4) (~22 GB)
+**Drafter:** [`z-lab/Qwen3.6-35B-A3B-DFlash`](https://huggingface.co/z-lab/Qwen3.6-35B-A3B-DFlash) (~1.5 GB BF16)
+
+## Headline expected (TBD — measurement in progress)
+
+The 27B dense recipe lands at:
+- tg_throughput median **32.83 tok/s** (sherlock pp=128, n=30, thinking-ON)
+- ttfr median **268 ms**, pp_throughput **462 tok/s**
+- Speedup **4.18× over FP8-AR baseline (7.85 t/s)**
+
+The 35B-A3B is a MoE with **only ~3B active params per token**, so naive expectation is
+**>40 tok/s decode** (more memory bandwidth saved per active param). That theory will be
+tested by this reproducer.
+
+## Differences from the 27B recipe
+
+| Decision | 27B value | 35B-A3B value | Reason |
+|---|---|---|---|
+| Drafter `target_layer_ids` | `[1,16,31,46,61]` | `[1,10,19,28,37]` | Matches z-lab drafter config.json |
+| Captured aux layers (post +1 fix) | `(2,17,32,47,62)` | `(2,11,20,29,38)` | Off-by-one fix is the same patch |
+| Architecture | dense + standard GQA | MoE (35B / 3B active) | More compute-bound at small batches |
+| Approx weights size (NVFP4) | 19.7 GB | 22 GB | More total parameters |
+| `--max-num-seqs` | 1 | 1 | Same single-stream leaderboard target |
+| All other flags | identical | identical | Verifies recipe portability across model classes |
+
+The DFlash off-by-one vLLM patch is **identical** — it operates on the
+`target_layer_ids` field generically, regardless of whether the underlying
+architecture is dense or MoE.
+
+## Quick start
+
+Same flow as the 27B repo. Prerequisites and Docker build are identical because both
+recipes inherit from the same `ghcr.io/spark-arena/dgx-vllm-eugr-nightly:latest` base
+image with the same DFlash off-by-one patch applied at build time.
+
+```bash
+git clone https://github.com/my-other-github-account/spark-bench-reproducers
+cd spark-bench-reproducers/qwen36-35b-a3b-dflash-spark
+
+# 1. Download models (~24 GB total)
+bash scripts/download_models.sh
+
+# 2. Build the image
+docker build -t qwen36-35b-a3b-dflash-spark .
+
+# 3. Start the server
+docker run --rm -d --name qwen36-35b-a3b-dflash --runtime=nvidia --gpus all --network=host \
+    -v ~/models:/models:ro \
+    -e THINK_KWARGS='{"enable_thinking": true}' \
+    qwen36-35b-a3b-dflash-spark
+
+# 4. Wait for readiness, then run the headline bench
+docker exec qwen36-35b-a3b-dflash bash /repro/scripts/wait_for_server.sh
+docker run --rm --network=host \
+    -v ~/models:/models:ro \
+    -v $(pwd):/out \
+    --entrypoint bash qwen36-35b-a3b-dflash-spark \
+    -c "OUT=/out/result.json bash /repro/scripts/bench.sh"
+```
+
+## Repository contents
+
+```
+.
+├── Dockerfile                              # identical to 27B variant
+├── README.md
+├── patches/
+│   └── apply_dflash_off_by_one.sh          # identical vLLM source patch
+└── scripts/
+    ├── download_models.sh                  # 35B-A3B specific
+    ├── launch_server.sh                    # 35B-A3B target + drafter paths
+    ├── launch_server_ar.sh                 # NVFP4 autoregressive baseline
+    ├── launch_server_fp8_ar.sh             # FP8 AR baseline (Qwen3.6-35B-A3B-FP8)
+    ├── launch_server_fp8_dflash.sh         # FP8 + DFlash variant
+    ├── wait_for_server.sh                  # poll /v1/models until ready
+    ├── bench.sh                            # default Sherlock prose corpus
+    └── bench-codegen.sh                    # CPython _pydecimal.py corpus
+```
+
+## Verification
+
+When healthy you should see in `docker logs`:
+
+- `DFlash layer-tap off-by-one fix applied: aux_hidden_state_layers=(2, 11, 20, 29, 38)`
+  — confirms the patch is active and we're capturing the right layers for **35B-A3B**.
+  (The 27B recipe shows `(2, 17, 32, 47, 62)` — different model, different layers.)
+- `Resolved architecture: DFlashDraftModel` for the drafter
+- `SpecDecoding metrics: Mean acceptance length: ~4.0` — healthy DFlash acceptance
+
+## License
+
+Same as parent repo: Apache-2.0 for patches, MIT for README and scripts.
+
+By [@banana_baeee](https://x.com/banana_baeee)
