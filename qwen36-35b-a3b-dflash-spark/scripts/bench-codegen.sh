@@ -10,7 +10,10 @@ RUNS="${RUNS:-30}"
 PP="${PP:-128}"
 TG="${TG:-128}"
 DEPTH="${DEPTH:-0}"
-BOOK_URL="${BOOK_URL:-https://raw.githubusercontent.com/python/cpython/main/Lib/_pydecimal.py}"
+# Large vLLM source file (gpu_model_runner.py, ~7k lines, ~311 KB). This file
+# contains the DFlash drafter integration so it stresses dense Python+CUDA
+# code with realistic LLM-engineering vocabulary.
+BOOK_URL="${BOOK_URL:-https://raw.githubusercontent.com/vllm-project/vllm/main/vllm/v1/worker/gpu_model_runner.py}"
 
 uvx llama-benchy \
   --base-url "http://${HOST}:${PORT}/v1" \
