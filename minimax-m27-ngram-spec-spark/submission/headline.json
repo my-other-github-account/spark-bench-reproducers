@@ -1,5 +1,5 @@
 {
-  "hfId": "unsloth/MiniMax-M2.7-GGUF",
+  "hfId": "unsloth/MiniMax-M2.7",
   "modelRevision": "main",
   "hardware": {
     "hwClass": "UNIFIED",
