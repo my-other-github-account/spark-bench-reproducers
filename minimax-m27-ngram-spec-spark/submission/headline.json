@@ -1,0 +1,36 @@
+{
+  "hfId": "unsloth/MiniMax-M2.7-GGUF",
+  "modelRevision": "main",
+  "hardware": {
+    "hwClass": "UNIFIED",
+    "chipVendor": "NVIDIA",
+    "chipFamily": "GB10 Blackwell",
+    "chipVariant": "DGX Spark",
+    "unifiedMemoryGb": 128,
+    "cpu": "aarch64 GB10 host",
+    "os": "Ubuntu 24.04"
+  },
+  "engineName": "llama.cpp",
+  "engineVersion": "b8833 (45cac7ca7)",
+  "quantization": "UD-IQ4_XS",
+  "backend": "cuda",
+  "promptTokens": 128,
+  "outputTokens": 128,
+  "contextLength": 32768,
+  "batchSize": 1,
+  "ttftMs": 783,
+  "tokSOut": 30.98,
+  "engineFlags": {
+    "specDecoding": true,
+    "specMethod": "ngram",
+    "specModel": null,
+    "specNumTokens": 16,
+    "mtpEnabled": false,
+    "concurrency": 1,
+    "kvCacheDtype": "q8_0",
+    "flashAttn": true,
+    "prefixCaching": false,
+    "commandSnippet": "/opt/llama.cpp/build-cuda/bin/llama-server --jinja -fa on --no-warmup -t 20 -c 32768 -ctk q8_0 -ctv q8_0 -np 1 -a MiniMax-M2.7-UD-IQ4_XS -m /models/MiniMax-M2.7-GGUF/UD-IQ4_XS/MiniMax-M2.7-UD-IQ4_XS-00001-of-00004.gguf --host 127.0.0.1 --port 8012 --spec-type ngram-simple --draft-max 16 --draft-min 1 --draft-p-min 0.5 --spec-ngram-size-n 4"
+  },
+  "notes": "MiniMax-M2.7-UD-IQ4_XS (unsloth dynamic Q4 quant, 4-shard 101 GB GGUF) on DGX Spark GB10 with llama.cpp `--spec-type ngram-simple` (n-gram speculative decode, draft-max=16, draft-min=1, p-min=0.5, ngram-size-n=4). Sherlock prose corpus, pp=128, tg=128, c=1, depth=0, n=30 trials, q8_0 KV cache. tokSOut = 30.98 tok/s (MEDIAN warm-pass, n=29 after dropping cold-start sample). Mean=31.00, std=4.00. AR baseline (no spec decode, same recipe) = 24.68 tok/s median; speedup = 1.255\u00d7. Tested all 5 llama.cpp ngram spec types: ngram-simple wins (30.98), ngram-mod 2nd (26.13), ngram-cache slower than AR (20.25), ngram-map-k and ngram-map-k4v crash in common_ngram_map_draft. Reproducer (Dockerfile + scripts + canonical result JSONs): https://github.com/my-other-github-account/minimax-m27-ngram-spec-spark \u2014 verified clean-from-scratch. By @banana_baeee."
+}
