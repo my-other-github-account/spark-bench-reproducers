@@ -29,7 +29,7 @@
     "mtpEnabled": false,
     "concurrency": 1,
     "tensorParallel": 1,
-    "gpuMemUtil": 0.92,
+    "gpuMemUtil": 0.50,
     "kvCacheDtype": "auto",
     "attentionBackend": "flash_attn",
     "prefixCaching": true,

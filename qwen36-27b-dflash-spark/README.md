@@ -13,8 +13,8 @@ warm-pass values (cold-start sample dropped). Measured by [eugr/llama-benchy](ht
 0.3.7+ against this repo's Dockerfile on a clean rebuild.
 
 ```
-sherlock thinkON  : tg_throughput median 35.75 tok/s  (mean 42.24, std 17.01, n=29)
-                    pp_throughput mean 486 tok/s
+sherlock thinkON  : tg_throughput median 32.34 tok/s  (mean ~38, std ~16, n=34)
+                    pp_throughput mean ~462 tok/s
 codegen  thinkON  : tg_throughput median 36.38 tok/s  (mean 42.94, std 16.30, n=29)
                     pp_throughput mean 494 tok/s
 ```
@@ -22,14 +22,14 @@ codegen  thinkON  : tg_throughput median 36.38 tok/s  (mean 42.94, std 16.30, n=
 Raw `*.json` files in [`results/`](results/). Headline cell = sherlock thinkON, the
 [localmaxxing.com](https://localmaxxing.com/) leaderboard target metric.
 
-DFlash decode rate has high run-to-run variance (std ≈ 40% of mean) because
+DFlash decode rate has high run-to-run variance (std ≈ 40-50% of mean) because
 acceptance fluctuates with prompt content. Submitting the median is the honest
 headline; the mean inflates with a few high-acceptance prompts.
 
-The original public reference of this recipe targets `~32.83 t/s median` on the same
-hardware. **This clean rebuild measures higher (35.75) on this specific Spark.**
-The two distributions overlap heavily inside their std bands — the difference is not
-statistically meaningful given the wide DFlash variance signature.
+**Reproduction note:** the original public reference of this recipe targets `~32.83 t/s median`
+on the same hardware. **Our re-measurement on a different physical Spark lands at 32.34 (n=34)** —
+within the std band of the reference (32.83 ± 16). The recipe is reproducible within DFlash's
+intrinsic variance.
 
 ## Quick start
 

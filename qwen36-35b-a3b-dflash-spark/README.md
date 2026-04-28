@@ -17,12 +17,14 @@ same engine (vLLM nightly + flashinfer + DFlash off-by-one patch), same drafter
 | Spec | Corpus | Think | tg/s median (warm) | mean | std | ttfr ms | pp tok/s | n |
 |---|---|---|---|---|---|---|---|---|
 | **AR baseline** | sherlock | ON | 42.98 | 43.00 | 0.13 | — | — | 29 |
-| DFlash | sherlock | ON | **103.60** ← headline | 138.64 | 62.17 | 154 | 811.6 | 29 |
+| DFlash | sherlock | ON | **102.05** ← headline | 125.15 | 48.74 | 153 | 811.6 | 29 |
 | DFlash | sherlock | OFF | 40.70 | 42.14 | 6.86 | 140 | 819.0 | 29 |
 | DFlash | codegen | ON | 88.24 | 96.23 | 30.37 | 150 | 874.0 | 29 |
 | DFlash | codegen | OFF | 54.66 | 59.34 | 18.19 | 139 | 944.3 | 29 |
 
-**Headline (leaderboard cell):** DFlash sherlock thinkON = **103.60 t/s median** → **2.41× over NVFP4 AR baseline (42.98)**.
+**Headline (leaderboard cell):** DFlash sherlock thinkON = **102.05 t/s median** (n=29 warm) → **2.37× over NVFP4 AR baseline (42.98 t/s)**.
+
+> **Memory footprint:** ~87 GB peak unified memory at `--gpu-memory-utilization 0.50` (right-sized for c=1, 262K max-model-len). Originally measured at 118 GB at GMU=0.92 — the 0.50 setting drops 31 GB with no decode regression (verified n=5 sanity at 150 t/s median, within DFlash variance).
 
 ### AR baseline optimization investigated and ruled out
 
