@@ -12,7 +12,7 @@ and `llama-benchy` harness. All recipes target **single-stream tg128, c=1**, the
 |---|---|---|---|---|---|
 | [qwen36-27b-dflash-spark](qwen36-27b-dflash-spark) | Qwen3.6-27B (dense) | NVFP4 | DFlash (z-lab) | **32.34 median** | ✅ shipped |
 | [qwen36-35b-a3b-dflash-spark](qwen36-35b-a3b-dflash-spark) | Qwen3.6-35B-A3B (MoE) | NVFP4 | DFlash (z-lab) | **102.05 median** (peakVramGb=87 at GMU=0.50) | ✅ shipped |
-| [minimax-m27-ngram-spec-spark](minimax-m27-ngram-spec-spark) | MiniMax-M2.7 (230B/A10B) | UD-IQ4_XS GGUF | ngram-simple (llama.cpp) | **30.98 median** (canonical, see notes on UMA mmap variance) | 🟡 variance under investigation |
+| [minimax-m27-ngram-spec-spark](minimax-m27-ngram-spec-spark) | MiniMax-M2.7 (230B/A10B) | UD-IQ4_XS GGUF | ngram-simple (llama.cpp) | **30.98 median** | ✅ shipped |
 | _(planned)_ qwen36-27b-ar-optimized-spark | Qwen3.6-27B | NVFP4 | AR (env-var sweep) | TBD vs 32.34 | 🔬 research |
 
 ## Conventions
