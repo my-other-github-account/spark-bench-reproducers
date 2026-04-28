@@ -1,0 +1,21 @@
+{
+  "reference_tg_median": 32.83,
+  "results": {
+    "baseline-sherlock-thinkON.json": {
+      "tg_median_warm": 35.777576280130916,
+      "pp_median_warm": 509.5047103897598,
+      "ttfr_median_warm": 254.78534499961825,
+      "delta_pct": 8.978301188336637,
+      "verdict": "ABOVE REF (BEATS)",
+      "n": 30
+    },
+    "baseline-codegen-thinkON.json": {
+      "tg_median_warm": 35.79543585674119,
+      "pp_median_warm": 513.6375315937423,
+      "ttfr_median_warm": 253.17584599906695,
+      "delta_pct": 9.03270136077123,
+      "verdict": "ABOVE REF (BEATS)",
+      "n": 30
+    }
+  }
+}
