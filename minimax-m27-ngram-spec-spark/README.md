@@ -31,7 +31,7 @@ reproducer expectations.
 
 Prerequisites on the host:
 
-- DGX Spark (GB10 Blackwell, sm_120a, aarch64, Ubuntu 24.04)
+- DGX Spark (GB10 Blackwell, sm_121, aarch64, Ubuntu 24.04)
 - NVIDIA driver 580.x (verify with `nvidia-smi`)
 - Docker with [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html)
 - ~110 GB free disk for the GGUF + ~10 GB for the image
@@ -100,15 +100,14 @@ docker run --rm --network=host \
     -c "SERVER_LABEL=ar bash /repro/scripts/bench-all.sh"
 docker rm -f minimax-srv-ar
 
-# Generate RESULTS.md
-python3 scripts/summarize_results.py results/ > RESULTS.md
+# See the inline 'Spec-decode types tested' section below for the full comparison table.
 ```
 
 ## What this image contains
 
 | Component | Version / Source |
 |---|---|
-| llama.cpp | commit `45cac7ca7` (verified working on GB10 sm_120a) |
+| llama.cpp | commit `45cac7ca7` (verified working on GB10 sm_121) |
 | llama-server build flags | `-DGGML_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=120` |
 | llama-benchy | ≥0.3.6 (installed via `uvx` at runtime; PR #11 fix is upstream) |
 | Base image | `nvidia/cuda:13.2.0-devel-ubuntu24.04` |
@@ -119,7 +118,7 @@ python3 scripts/summarize_results.py results/ > RESULTS.md
 
 | Decision | Reason |
 |---|---|
-| `--spec-type ngram-simple` | Tested all 5 llama.cpp `--spec-type` options against the AR baseline (24.65 t/s). `ngram-simple` was the only one that beat AR by a meaningful margin (+25%). `ngram-cache` was slower than AR; `ngram-map-k` and `ngram-map-k4v` crashed (`common_ngram_map_draft → ggml_abort`); `ngram-mod` was a +6% improvement, weaker than ngram-simple. See `RESULTS.md`. |
+| `--spec-type ngram-simple` | Tested all 5 llama.cpp `--spec-type` options against the AR baseline (24.65 t/s). `ngram-simple` was the only one that beat AR by a meaningful margin (+25%). `ngram-cache` was slower than AR; `ngram-map-k` and `ngram-map-k4v` crashed (`common_ngram_map_draft → ggml_abort`); `ngram-mod` was a +6% improvement, weaker than ngram-simple. Full table below. |
 | `--draft-max 16 --draft-min 1 --draft-p-min 0.5 --spec-ngram-size-n 4` | Defaults. Sweeping draft-max in {8, 16, 32} showed 16 was the sweet spot; aggressive (32) hurt at 28.78 t/s (verify cost dominates). |
 | `-ctk q8_0 -ctv q8_0` | q8_0 KV cache, both K and V. f16 KV showed up as a slightly higher number in early sweeps but was rejected by the user as a recipe choice — keeps memory footprint at ~112 GiB safely under the 128 GiB UMA pool. |
 | `-fa on` | Flash attention. Required for sustained pp throughput at this context length. |
@@ -146,7 +145,8 @@ is a lottery within ±15% of the true value.
 
 ## Other measured cells (n=30 each, same hardware, same engine)
 
-See `RESULTS.md` (regenerated from `results/*.json` by `scripts/summarize_results.py`).
+The full spec-decode comparison table is inlined below in
+[Spec-decode types tested](#spec-decode-types-tested-only-ngram-simple-is-the-right-choice).
 The canonical sherlock thinkON cells are also shipped in this repo as
 `results/result-{spec,ar}-sherlock-thinkON.canonical.json` so you can compare
 your re-run against the exact JSON that backed the localmaxxing submission.
