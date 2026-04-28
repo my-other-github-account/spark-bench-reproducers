@@ -30,7 +30,7 @@ same engine: 32.83 / 7.85 = **4.18×**.
 
 Prerequisites on the host:
 
-- DGX Spark or other GB10 Blackwell sm_120a aarch64 system
+- DGX Spark or other GB10 Blackwell sm_121 aarch64 system
 - NVIDIA driver 580.x (verify with `nvidia-smi`)
 - Docker with [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html)
 - ~25 GB free disk for models + ~10 GB for the image

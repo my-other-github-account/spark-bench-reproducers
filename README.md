@@ -1,7 +1,7 @@
 # spark-bench-reproducers
 
 Minimum-reproduction recipes for our LLM-inference benchmarks on **DGX Spark (NVIDIA GB10
-Blackwell, sm_120a, aarch64, 128 GiB unified memory)**. Each subdirectory is a
+Blackwell, sm_121, aarch64, 128 GiB unified memory)**. Each subdirectory is a
 self-contained Docker reproduction with model download, vLLM/llama.cpp server launch,
 and `llama-benchy` harness. All recipes target **single-stream tg128, c=1**, the
 [localmaxxing.com](https://localmaxxing.com/) leaderboard headline metric.
