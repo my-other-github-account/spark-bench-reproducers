@@ -8,7 +8,14 @@ same harness (eugr/llama-benchy 0.3.6).
 **Target:** [`RedHatAI/Qwen3.6-35B-A3B-NVFP4`](https://huggingface.co/RedHatAI/Qwen3.6-35B-A3B-NVFP4) (~22 GB)
 **Drafter:** [`z-lab/Qwen3.6-35B-A3B-DFlash`](https://huggingface.co/z-lab/Qwen3.6-35B-A3B-DFlash) (~1.5 GB BF16)
 
-## Headline expected (TBD — measurement in progress)
+## Headline — measured
+
+**tg_throughput median = 103.60 tok/s** (DFlash, sherlock pp=128, n=30, thinking-ON)
+vs **NVFP4 AR baseline = 42.98 tok/s** → **2.41× speedup**.
+
+See [RESULTS.md](RESULTS.md) for the full 5-cell table (AR baseline + DFlash × {sherlock, codegen} × {thinkON, thinkOFF}).
+
+## Original (pre-measurement) hypothesis
 
 The 27B dense recipe lands at:
 - tg_throughput median **32.83 tok/s** (sherlock pp=128, n=30, thinking-ON)
