@@ -63,18 +63,37 @@ For each config:
 
 **Headline cell to beat:** sherlock pp=128 tg=128 thinkON depth=0 c=1 → **42.98 t/s**
 
-## Phase order
+## Phase 1 Results (n=21 warm, sherlock thinkON, pp=128, tg=128, c=1)
 
-**Phase 1 — Targeted single-shots** (this session): Test the 3 highest-EV deltas one at a time:
-1. AR + `flashinfer` + `fp8_e4m3` KV (everything else equal)
-2. AR + `triton_attn` + `fp8_e4m3` KV
-3. AR + current backend + `--no-enable-flashinfer-autotune` + `VLLM_USE_FLASHINFER_MOE_FP4=0` + `expandable_segments:True` env vars
+| Config | Backend | KV | Special | tg/s median | mean | std | ttfr ms (warm) | pp t/s | vs baseline |
+|---|---|---|---|---|---|---|---|---|---|
+| **Baseline** | flash_attn | auto | (none) | 42.98 | 43.00 | 0.13 | — | — | — |
+| A | flashinfer | fp8_e4m3 | (none) | 42.29 | 42.31 | 0.09 | 108 | 1158.6 | -1.6% |
+| B | triton_attn | fp8_e4m3 | (none) | 42.71 | 42.61 | 0.46 | 103 | **1249.1** | -0.6% |
+| C | flash_attn | auto | autotune-off + Blackwell env vars | 41.12 | 41.08 | 0.18 | 113 | 1067 | -4.3% |
 
-**Phase 2 — Best-of-Phase-1 cross sweep** (Ralph loop): Take the best Phase-1 config, then A/B `--enforce-eager` on/off, gpu-mem-util 0.92/0.95/0.98, and try `turboquant_attn`.
+**Phase 1 verdict: NO decode wins.** All 3 hypothesized improvements landed within ±5% of baseline.
 
-**Phase 3 — Combine winners**: Stack the wins from each axis and re-measure as the new AR baseline.
+**Why no decode win** (working theory):
+1. **MoE weights dominate memory traffic, not KV.** At A3B (3B active params per token) the KV is a small fraction of decode bandwidth → halving KV does little.
+2. **Compressed-tensors NVFP4 may already be FP8-equivalent on KV path.** vLLM may be doing FP8 internally regardless of `--kv-cache-dtype` flag.
+3. **MoE expert dispatch overhead is fixed-cost** — masks any KV savings.
 
-**Phase 4 — Update repo**: New AR baseline lands in README + JSON; localmaxxing AR submission body updated.
+**Notable: prefill side-wins.** Config B hit **1249 t/s prefill** and TTFR 103ms — 35B-A3B prefill is *much* faster with FP8 KV than baseline. Useful for TTFT-sensitive submissions, irrelevant to tg128 headline.
+
+## Decision: skip Phase 2 / Phase 3, accept current AR baseline
+
+Phase 1 disproved the skill's prediction that Blackwell + NVFP4 + FP8-KV gives +10-20% decode. On this specific model + hardware combination, NO config we tested beats the unoptimized 42.98 t/s baseline by >5%.
+
+**Therefore:** Workstream pivots — no AR-optimized number to ship. The 35B-A3B AR baseline submission body uses **42.98 t/s as-is**. Remove asterisk from README. Update `notes` field with what we tried and what didn't work for transparency.
+
+### What we did NOT try (low-EV, defer unless decode-win matters)
+
+- `--enforce-eager` A/B (model-specific per skill, ±20% possible)
+- `turboquant_attn` backend (122B Qwen Spark leaderboard uses it)
+- gpu-mem-util sweep (skill says no decode delta, just KV pool size)
+
+These remain available as future experiments. Not blocking the submission pipeline.
 
 ## Stopping rule
 - Stop iterating when no flag combo beats the current best by >5% over 2 consecutive A/Bs (within noise).

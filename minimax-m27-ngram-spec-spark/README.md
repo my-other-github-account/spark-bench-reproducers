@@ -151,25 +151,20 @@ The canonical sherlock thinkON cells are also shipped in this repo as
 `results/result-{spec,ar}-sherlock-thinkON.canonical.json` so you can compare
 your re-run against the exact JSON that backed the localmaxxing submission.
 
-## Spec-decode types tested (only `ngram-simple` is the right choice)
+## Measured cells in this repo (llama-benchy JSONs in `results/`)
 
-llama.cpp's `--spec-type` accepts `none | ngram-cache | ngram-simple |
-ngram-map-k | ngram-map-k4v | ngram-mod`. Tested results on
-MiniMax-M2.7-UD-IQ4_XS, sherlock pp=128, q8_0 KV, ctx=32k:
+| Spec | Corpus | Think | tg/s median (warm) | tg/s mean | std | n | source JSON |
+|---|---|---|---|---|---|---|---|
+| `none` (AR baseline) | sherlock | ON | 24.68 | 24.77 | 0.42 | 28 | `result-ar-sherlock-thinkON.canonical.json` |
+| `ngram-simple` | sherlock | ON | **30.98** ← headline | 31.00 | 4.08 | 29 | `result-spec-sherlock-thinkON.canonical.json` |
+| `ngram-simple` | sherlock | OFF | 23.98 | 17.14 | 9.02 | 21 | `result-sherlock-thinkOFF.json` |
+| `ngram-simple` | codegen | OFF | 23.62 | 16.35 | 9.04 | 21 | `result-codegen-thinkOFF.json` |
 
-| --spec-type | tg/s median | vs AR (24.65) | Notes |
-|---|---|---|---|
-| `none` (AR baseline) | 24.65 | 1.00× | reference |
-| `ngram-simple` | **30.98** | **1.255×** | 🏆 winner — what we ship |
-| `ngram-mod` | 26.13 | 1.06× | small win; weaker than ngram-simple |
-| `ngram-cache` | 20.25 | 0.82× | LOSES vs AR |
-| `ngram-map-k` | crash | — | `common_ngram_map_draft → ggml_abort` |
-| `ngram-map-k4v` | crash | — | same crash signature |
+**Headline:** ngram-simple sherlock thinkON = **30.98 t/s median** vs AR baseline 24.68 → **1.255× speedup**.
 
-This is informative for anyone evaluating other Mixture-of-Experts models on
-llama.cpp: don't reach for `ngram-cache` (the most-discussed variant in
-documentation) blindly — `ngram-simple` was significantly better here on
-sustained sherlock-prose decode.
+**Note on thinkOFF cells:** medians are *higher* than means (23.98 / 23.62 vs 17.14 / 16.35) — bimodal distribution where ~30% of trials stall at <10 t/s (MoE expert-paging on cold cache for short responses) while the other 70% land near the median. Same pattern as 35B-A3B and 27B DFlash thinkOFF: speculative overhead is unamortized when responses are short/uniform. The thinkON sherlock cell is the leaderboard headline; thinkOFF cells are documented for completeness, not promoted.
+
+Cell still not measured: codegen × thinkON. To populate, run `bash scripts/bench-all.sh` and the JSON will land in `results/` automatically.
 
 ## What this repo does NOT include (intentionally minimal)
 
