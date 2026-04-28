@@ -6,25 +6,30 @@ with DFlash speculative decoding (`z-lab/Qwen3.6-27B-DFlash`, num_speculative_to
 on a single NVIDIA DGX Spark (GB10 Blackwell, 128 GiB unified memory, aarch64,
 Ubuntu 24.04). Measured with [eugr/llama-benchy](https://github.com/eugr/llama-benchy) 0.3.6.
 
-## Headline result (matches localmaxxing.com submission)
+## Headline result (this clean rebuild on DGX Spark)
 
 Single-stream tg128, c=1, depth=0, **pp=128**, n=30, thinking-ON,
-warm-pass values (cold-start sample dropped):
+warm-pass values (cold-start sample dropped). Measured by [eugr/llama-benchy](https://github.com/eugr/llama-benchy)
+0.3.7+ against this repo's Dockerfile on a clean rebuild.
 
 ```
-tg_throughput  median 32.83 tok/s   (mean 40.10, std 15.63)   ← headline
-ttfr           median 268 ms        (mean 274, max 344)
-pp_throughput  462 tok/s
-peak unified   117 / 128 GiB
-mean accept τ  4.11 (per-position [0.75, 0.52, 0.38, ...])
+sherlock thinkON  : tg_throughput median 35.75 tok/s  (mean 42.24, std 17.01, n=29)
+                    pp_throughput mean 486 tok/s
+codegen  thinkON  : tg_throughput median 36.38 tok/s  (mean 42.94, std 16.30, n=29)
+                    pp_throughput mean 494 tok/s
 ```
 
-Median is the honest headline number: DFlash decode rate has high run-to-run
-variance (std ≈ 40% of mean) because acceptance fluctuates with prompt content.
-Submitting the median keeps reproducer expectations calibrated.
+Raw `*.json` files in [`results/`](results/). Headline cell = sherlock thinkON, the
+[localmaxxing.com](https://localmaxxing.com/) leaderboard target metric.
 
-Speedup vs Qwen3.6-27B-FP8 autoregressive baseline on the same hardware in the
-same engine: 32.83 / 7.85 = **4.18×**.
+DFlash decode rate has high run-to-run variance (std ≈ 40% of mean) because
+acceptance fluctuates with prompt content. Submitting the median is the honest
+headline; the mean inflates with a few high-acceptance prompts.
+
+The original public reference of this recipe targets `~32.83 t/s median` on the same
+hardware. **This clean rebuild measures higher (35.75) on this specific Spark.**
+The two distributions overlap heavily inside their std bands — the difference is not
+statistically meaningful given the wide DFlash variance signature.
 
 ## Quick start
 
@@ -126,46 +131,27 @@ Inside the running server, check `docker logs qwen36-dflash` for:
 - `Capturing CUDA graphs ... 100%` — graphs DO capture on GB10 + driver 580.
 - `SpecDecoding metrics: Mean acceptance length: ~4.0` — healthy DFlash acceptance.
 
-## All measured cells (n=30 each, same hardware, same engine, same drafter)
+## All measured cells in this repo (llama-benchy JSONs in `results/`)
 
-### Headline pp=128 (matches leaderboard submission)
+n=30 each, same hardware, same engine, same drafter. Pulled directly from the
+JSONs shipped in this repo:
 
-| Quant | Spec | Corpus | Think | tg/s median (warm) | ttfr ms (warm median) |
-|---|---|---|---|---|---|
-| NVFP4 | DFlash | sherlock | ON | **32.83** | **268** |
+| Quant | Spec | Corpus | Think | tg/s median (warm) | tg/s mean | std | pp tok/s | n |
+|---|---|---|---|---|---|---|---|---|
+| NVFP4 | DFlash | sherlock | ON | **35.75** ← headline | 42.24 | 17.01 | 486 | 29 |
+| NVFP4 | DFlash | codegen  | ON | 36.38 | 42.94 | 16.30 | 494 | 29 |
 
-### Large-prefill pp=2048 (kept here for comparison; not on leaderboard)
-
-| Quant | Spec | Corpus | Think | tg/s mean | ttfr ms |
-|---|---|---|---|---|---|
-| NVFP4 | DFlash | sherlock | ON  | 32.17 (median 30.54, std 7.49) | 1069 |
-| NVFP4 | DFlash | sherlock | OFF | 17.76 | — |
-| NVFP4 | DFlash | codegen  | ON  | 34.69 | — |
-| NVFP4 | DFlash | codegen  | OFF | 31.51 | — |
-| NVFP4 | AR     | sherlock | ON  | 12.06 | — |
-| NVFP4 | AR     | sherlock | OFF | 12.00 | — |
-| FP8   | DFlash | sherlock | ON  | 23.14 | — |
-| FP8   | DFlash | codegen  | ON  | 28.26 | — |
-| FP8   | AR     | sherlock | ON  | **7.85** ← FP8 AR baseline | — |
-
-Speedup vs FP8 AR baseline (the leaderboard standard):
-
-- NVFP4 DFlash sherlock pp=128 think-ON (median): 4.18×
-- NVFP4 DFlash sherlock pp=2048 think-ON (mean): 4.10×
-- NVFP4 AR alone (quant uplift): 1.54×
-
-The pp=128 and pp=2048 runs are not directly comparable: the pp=128 row's
-mean is dragged up by occasional high-acceptance "lucky" runs (the std is
-~40% of the mean), while the pp=2048 row averages over more decoded tokens
-per request and converges tighter (std ~23% of mean). The honest
-single-number summary is the median per row.
+Cells not yet measured for this clean rebuild: thinkOFF (sherlock + codegen),
+AR baselines, FP8 variants, large-prefill pp=2048. To populate any of those,
+run `bash scripts/bench-all.sh` and the matching cell JSON will land in
+`results/` automatically.
 
 ## Decode variance note
 
 DFlash decode `tg/s` std is large (~30-40% of the mean) because acceptance
 fluctuates with prompt content. The bench uses `--runs 30` to get a stable
 median. Don't trust shorter runs: `n=5` produces individual-run draws ranging
-from ~22 to ~45 tok/s for the same configuration.
+across a wide band for the same configuration.
 
 ## What this repo does NOT include (intentionally minimal)
 

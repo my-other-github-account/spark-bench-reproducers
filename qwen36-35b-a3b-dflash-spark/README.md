@@ -16,18 +16,20 @@ same engine (vLLM nightly + flashinfer + DFlash off-by-one patch), same drafter
 
 | Spec | Corpus | Think | tg/s median (warm) | mean | std | ttfr ms | pp tok/s | n |
 |---|---|---|---|---|---|---|---|---|
-| **AR baseline** \* | sherlock | ON | 42.98 | 43.00 | 0.13 | — | — | 29 |
+| **AR baseline** | sherlock | ON | 42.98 | 43.00 | 0.13 | — | — | 29 |
 | DFlash | sherlock | ON | **103.60** ← headline | 138.64 | 62.17 | 154 | 811.6 | 29 |
 | DFlash | sherlock | OFF | 40.70 | 42.14 | 6.86 | 140 | 819.0 | 29 |
 | DFlash | codegen | ON | 88.24 | 96.23 | 30.37 | 150 | 874.0 | 29 |
 | DFlash | codegen | OFF | 54.66 | 59.34 | 18.19 | 139 | 944.3 | 29 |
 
-\* **AR baseline is the *unoptimized* default** — same launch flags as the DFlash row minus `--speculative-config`. No `--kv-cache-dtype fp8_e4m3`, no `--no-enable-flashinfer-autotune`, no Blackwell env-var pinning. AR optimization is a separate workstream ([AR-OPTIMIZATION.md](AR-OPTIMIZATION.md)) that will replace this row with a tuned NVFP4 + FP8-KV + autotune-off configuration measured at n≥30. Until then, the reported 2.41× speedup is **conservative** — DFlash's win shrinks once the AR baseline is properly tuned.
+**Headline (leaderboard cell):** DFlash sherlock thinkON = **103.60 t/s median** → **2.41× over NVFP4 AR baseline (42.98)**.
 
-**Headline (leaderboard cell):** DFlash sherlock thinkON = **103.60 t/s median** → **2.41× over current (unoptimized) NVFP4 AR baseline (42.98)**.
+### AR baseline optimization investigated and ruled out
+
+We tried 3 alternative AR configs hypothesized by the [`nvfp4-on-gb10-blackwell`](https://github.com/.../nvfp4-on-gb10-blackwell) skill — none beat the default. See [AR-OPTIMIZATION.md](AR-OPTIMIZATION.md) for the full Phase 1 result table. Tested: (A) `flashinfer` + `fp8_e4m3 KV` (-1.6%), (B) `triton_attn` + `fp8_e4m3 KV` (-0.6%), (C) `--no-enable-flashinfer-autotune` + Blackwell env vars (-4.3%). Working theory: MoE-A3B decode is dominated by expert weights, not KV, so halving KV memory traffic gives no decode win. Config B did achieve 3× higher prefill (1249 t/s) and 100ms TTFR — useful if you submit TTFT-focused entries.
 
 ### Notes on the table
-- **AR baseline** (NVFP4, no spec-decode, **unoptimized — see asterisk above**) has near-zero variance (std 0.13) — the deterministic decode floor at default flags.
+- **AR baseline** (NVFP4, no spec-decode) has near-zero variance (std 0.13) — the deterministic decode floor. Optimization investigated, no wins found.
 - **DFlash thinkON sherlock** has high std (62) intrinsic to DFlash: acceptance rate varies per token from drafter mispredictions on multi-token reasoning content.
 - **DFlash thinkOFF sherlock (40.70) falls *below* AR (42.98)** — speculative overhead is not amortized when responses are short/uniform. Same pattern as the 27B recipe.
 - **codegen thinkOFF (54.66) > sherlock thinkOFF (40.70)** — code prompts have local repetition the DFlash drafter learns quickly.
