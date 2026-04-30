@@ -6,13 +6,19 @@
 # the headline number on the localmaxxing.com leaderboard. Self-contained: the
 # image bundles the binary; the model GGUF and tokenizer are mounted at runtime.
 #
-# Base: nvidia/cuda:13.2.0-devel-ubuntu24.04
-#   - aarch64 wheels available on Docker Hub, no NGC auth required
-#   - has nvcc + headers needed to build llama.cpp from source
+# Base: nvcr.io/nvidia/cuda:13.0.0-devel-ubuntu24.04 (NVIDIA NGC)
+#   - REQUIRED: ships libcublas 13.0.0.19 + libcudart 13.0.48
+#   - DO NOT change to nvidia/cuda:13.2.x or 13.3.x (Docker Hub) — those ship
+#     libcublas 13.3.0.5 which silently produces wrong matmul on GB10 sm_121,
+#     resulting in corrupt logits, garbled output, AND zero n-gram draft hits.
+#     The model loads cleanly, the server returns 200, the bench harness records
+#     "successful" runs — but the OUTPUT is wrong. No error is logged.
+#   - Docker Hub does NOT mirror CUDA 13.0; you MUST use NGC (nvcr.io). No NGC
+#     auth is needed for public CUDA base images.
 #
 # Bench tool: llama-benchy (eugr/llama-benchy >=0.3.6) — installed via uvx at runtime.
 
-FROM nvidia/cuda:13.2.0-devel-ubuntu24.04
+FROM nvcr.io/nvidia/cuda:13.0.0-devel-ubuntu24.04
 
 ENV DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
@@ -47,8 +53,8 @@ RUN cd /opt/llama.cpp && \
       -DLLAMA_BUILD_TESTS=OFF \
       -DLLAMA_BUILD_EXAMPLES=ON \
       -DLLAMA_BUILD_SERVER=ON \
-      -DCMAKE_EXE_LINKER_FLAGS="-L/usr/local/cuda/lib64/stubs -Wl,--no-as-needed -Wl,--allow-shlib-undefined" \
-      -DCMAKE_SHARED_LINKER_FLAGS="-L/usr/local/cuda/lib64/stubs -Wl,--no-as-needed -Wl,--allow-shlib-undefined" \
+      -DCMAKE_EXE_LINKER_FLAGS="-L/usr/local/cuda/lib64/stubs -lcuda" \
+      -DCMAKE_SHARED_LINKER_FLAGS="-L/usr/local/cuda/lib64/stubs -lcuda" \
  && cmake --build build-cuda --target llama-server -j$(nproc)
 
 # --- bench tool: install uv (provides uvx) ---

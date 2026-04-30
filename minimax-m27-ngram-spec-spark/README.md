@@ -38,8 +38,8 @@ Prerequisites on the host:
 - HuggingFace CLI on the host: `pip install --user huggingface_hub[cli]`
 
 ```bash
-git clone https://github.com/my-other-github-account/minimax-m27-ngram-spec-spark
-cd minimax-m27-ngram-spec-spark
+git clone https://github.com/my-other-github-account/spark-bench-reproducers
+cd spark-bench-reproducers/minimax-m27-ngram-spec-spark
 
 # 1. Download model + tokenizer to ~/models (~101 GB GGUF + 17 MB tokenizer)
 bash scripts/download_models.sh
@@ -108,9 +108,9 @@ docker rm -f minimax-srv-ar
 | Component | Version / Source |
 |---|---|
 | llama.cpp | commit `45cac7ca7` (verified working on GB10 sm_121) |
-| llama-server build flags | `-DGGML_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=120` |
+| llama-server build flags | `-DGGML_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=121` |
 | llama-benchy | ≥0.3.6 (installed via `uvx` at runtime; PR #11 fix is upstream) |
-| Base image | `nvidia/cuda:13.2.0-devel-ubuntu24.04` |
+| Base image | `nvcr.io/nvidia/cuda:13.0.0-devel-ubuntu24.04` (NGC — see "Base-image trap" below) |
 | Model GGUF | `unsloth/MiniMax-M2.7-GGUF` path `UD-IQ4_XS/` (4 shards, ~101 GB) |
 | Tokenizer | `MiniMaxAI/MiniMax-M2.7` (tokenizer.json, vocab.json, merges.txt only) |
 
@@ -135,6 +135,46 @@ Inside the running container, check `docker logs minimax-srv` for:
 - `n_ctx = 32768`, `n_threads = 20`
 - `--spec-type ngram-simple` echoed in the launch command
 - After serving a few requests: `slot ... | NSimple draft used N tokens, accepted M` (or similar) — confirms n-gram drafts are firing
+
+## Base-image trap — verify cublas BEFORE trusting bench numbers
+
+CUDA base images **newer than 13.0** silently produce wrong matmul on GB10
+(sm_121). The model loads cleanly, the server returns 200, and llama-benchy
+records "successful" trials — **but the output is corrupted and n-gram spec
+decode silently degenerates to autoregressive speed**. No error is logged.
+
+This Dockerfile pins `nvcr.io/nvidia/cuda:13.0.0-devel-ubuntu24.04` (NGC)
+specifically to avoid this. Two-step pre-flight check after `docker build`:
+
+```bash
+# 1. cublas version inside the image — must be 13.0.0.19, NOT 13.2.x or 13.3.x
+docker run --rm --entrypoint bash minimax-m27-ngram -c \
+  'readlink /usr/local/cuda/lib64/libcublas.so.13'
+# expected: libcublas.so.13.0.0.19
+```
+
+If the readlink output is anything other than `libcublas.so.13.0.0.19` (e.g.
+`libcublas.so.13.3.0.5`), your build is silently broken. Most likely cause:
+the Dockerfile `FROM` was edited to a Docker Hub `nvidia/cuda:13.2.x` or
+`13.3.x` tag. Revert to the NGC `13.0.0` base and rebuild.
+
+```bash
+# 2. (optional but strongest signal) binary sha — should match the canonical
+#    build that produced the headline 30.98 t/s. Same source + same toolchain
+#    + same CUDA 13.0 headers → byte-reproducible artifact.
+docker run --rm --entrypoint bash minimax-m27-ngram -c \
+  'sha256sum /opt/llama.cpp/build-cuda/bin/llama-server' | awk '{print $1}'
+# expected: 4e1ac56ee668c8767b5445cdf42899a98e40d4e453beaba10ec4c986fc57f3fa
+```
+
+Behaviour-level smoke test once the server is running, before launching the
+full n=30 bench: send a short repetitive prompt and grep server logs for an
+n-gram statistics line with non-zero accepts. If `#acc tokens = 0`, spec
+decode is dead and your tg/s will collapse to the AR baseline (~24.7 t/s)
+regardless of the `--spec-type` flag. The most common root cause is a wrong
+base image; the second most common is forgetting `--jinja` (the headline
+number is measured with thinking-mode-ON Jinja templating, which produces
+self-repeating reasoning prose that the n-gram drafter can match).
 
 ## Decode variance note
 
@@ -168,9 +208,9 @@ Cell still not measured: codegen × thinkON. To populate, run `bash scripts/benc
 
 ## What this repo does NOT include (intentionally minimal)
 
-- No bundled wheels — `nvidia/cuda:13.2.0-devel-ubuntu24.04` already ships
-  the right CUDA + nvcc + headers for GB10. llama.cpp is built from source
-  inside the image (~10 min on the Spark; cached after first build).
+- No bundled wheels — `nvcr.io/nvidia/cuda:13.0.0-devel-ubuntu24.04` already
+  ships the right CUDA + nvcc + headers for GB10. llama.cpp is built from
+  source inside the image (~10 min on the Spark; cached after first build).
 - No pre-built llama.cpp binary — the build is fast and ties the binary to
   the verified commit `45cac7ca7` that produced the headline number.
 - No Python/torch/vLLM — pure llama.cpp + llama-benchy.
