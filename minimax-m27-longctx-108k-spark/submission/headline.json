@@ -1,0 +1,37 @@
+{
+  "hfId": "unsloth/MiniMax-M2.7",
+  "modelRevision": "main",
+  "hardware": {
+    "hwClass": "UNIFIED",
+    "chipVendor": "NVIDIA",
+    "chipFamily": "GB10 Blackwell",
+    "chipVariant": "DGX Spark",
+    "unifiedMemoryGb": 128,
+    "cpu": "aarch64 GB10 host",
+    "os": "Ubuntu 24.04"
+  },
+  "engineName": "llama.cpp",
+  "engineVersion": "b8833 (45cac7ca7)",
+  "quantization": "UD-IQ4_XS",
+  "backend": "cuda",
+  "promptTokens": 128,
+  "outputTokens": 128,
+  "contextLength": 108000,
+  "batchSize": 1,
+  "ttftMs": 807,
+  "tokSOut": 30.88,
+  "peakVramGb": 117.0,
+  "engineFlags": {
+    "specDecoding": true,
+    "specMethod": "ngram",
+    "specNumTokens": 16,
+    "specNgramSize": 4,
+    "mtpEnabled": false,
+    "concurrency": 1,
+    "kvCacheDtype": "q8_0",
+    "flashAttn": true,
+    "prefixCaching": true,
+    "commandSnippet": "/opt/llama.cpp/build-cuda/bin/llama-server --jinja -fa on --no-warmup -t 20 -c 108000 -ctk q8_0 -ctv q8_0 -np 1 -ngl 99 -a MiniMax-M2.7-UD-IQ4_XS -m /models/MiniMax-M2.7-GGUF/UD-IQ4_XS/MiniMax-M2.7-UD-IQ4_XS-00001-of-00004.gguf --host 0.0.0.0 --port 18080 --cache-reuse 256 --ctx-checkpoints 0 -cram 100 --spec-type ngram-simple --draft-max 16 --draft-min 1 --draft-p-min 0.5 --spec-ngram-size-n 4"
+  },
+  "notes": "MiniMax-M2.7-UD-IQ4_XS (101 GB GGUF) on a single DGX Spark with llama.cpp ngram-simple speculative decode at 108K context. Sherlock prose, pp=128, tg=128, c=1, depth=0. tokSOut = 30.88 t/s MEDIAN over n=38 warm trials across 2 independent rounds (mean 30.88, std 4.11, range 24.57-41.85). ttftMs = 807 median. Companion to my prior 32K submission (cmoi6yfxh000nk304si0uyyp5, 30.98 t/s c=32K) — same headline tg/s at 3.3× context window with provably stable long-context behavior.\n\nWhat's new vs the 32K submission:\n1) Recipe extended to c=108K with 5-phase stability battery + 10× back-to-back 100K torture (R10/R1 = 1.006, no drift).\n2) Image base PINNED to nvcr.io/nvidia/cuda:13.0.0-devel-ubuntu24.04 — earlier CUDA 13.2/13.3 bases produced silent libcublas matmul corruption that quietly poisoned all longctx results until caught. Pre-flight: `readlink libcublas.so.13` must show 13.0.0.19.\n3) Stability flags (3 that override defaults): --cache-reuse 256, --ctx-checkpoints 0, -cram 100. -cram=100 is intentional (NOT 4096 — verified 4096 collapses decode 5.6→1.0 t/s by run 4).\n\nSpec acceptance ~36-82% across runs (server log statistics ngram_simple). peakVramGb=117 (free -g; 101 GB GGUF + ~16 GB KV in 128 GiB UMA, ~11 GiB headroom).\n\nFull recipe + raw JSONs + Dockerfile: github.com/my-other-github-account/spark-bench-reproducers/tree/main/minimax-m27-longctx-108k-spark\n\nBy @banana_baeee."
+}

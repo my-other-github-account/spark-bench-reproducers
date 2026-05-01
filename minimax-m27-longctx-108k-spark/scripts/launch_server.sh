@@ -5,12 +5,10 @@
 # Recipe:
 #   - MiniMax-M2.7-UD-IQ4_XS GGUF (4-shard, ~101 GB)
 #   - ctx=108000, q8_0 KV cache (both K and V), -fa on (flash attention)
-#   - Stability flags (the discovery — see README "Why these flags"):
-#       --cache-reuse 256        # enable prefix-cache reuse for shared prefixes
-#       --ctx-checkpoints 0      # disable per-slot rewind checkpoints
-#       --cache-prompt           # save slot KV between requests
-#       -cram 100                # tiny cram cap (intentional — see README)
-#       --no-context-shift       # don't auto-evict; bounce on overflow
+#   - Stability flags (override defaults — see README "Stability flags"):
+#       --cache-reuse 256        # KV-shift prefix-cache reuse (default 0)
+#       --ctx-checkpoints 0      # disable per-slot checkpoints (default 32)
+#       -cram 100                # cap CPU prompt-cache pool (default 8192)
 #   - threads=20, single sequence (-np 1), no warmup
 #   - ngl 99 (offload everything to GPU), --jinja chat template
 #
@@ -44,7 +42,7 @@ fi
 echo "[launch] llama-server commit: $(cd /opt/llama.cpp && git rev-parse --short HEAD)"
 echo "[launch] model: $GGUF_FIRST"
 echo "[launch] ctx=$CTX  kv=$KV  threads=$THREADS  port=$PORT"
-echo "[launch] stability: --cache-reuse 256 --ctx-checkpoints 0 --cache-prompt -cram 100"
+echo "[launch] stability (default-overrides only): --cache-reuse 256 --ctx-checkpoints 0 -cram 100"
 
 exec /opt/llama.cpp/build-cuda/bin/llama-server \
     --jinja -fa on \
@@ -57,7 +55,5 @@ exec /opt/llama.cpp/build-cuda/bin/llama-server \
     -a MiniMax-M2.7-UD-IQ4_XS \
     -m "$GGUF_FIRST" \
     --host "$HOST" --port "$PORT" \
-    --cache-reuse 256 --ctx-checkpoints 0 \
-    --cache-prompt -cram 100 \
-    --no-context-shift \
+    --cache-reuse 256 --ctx-checkpoints 0 -cram 100 \
     --log-prefix
