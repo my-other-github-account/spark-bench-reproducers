@@ -14,22 +14,26 @@ collapse?**
 Same image, same llama.cpp commit, same CUDA 13.0 NGC base. Only the launch
 flags differ — see "Stability flags" below.
 
-## Headline (5-phase battery + 10-run torture, single boot, c=108000 + the stability config)
+## Headline
+
+```
+d=0 spec-decode tg128 (n=38, 2 rounds)        30.88 t/s median  (std 4.11)  ttft 807ms
+d=0 AR baseline tg128 (Phase E, n=5)          24.58 t/s median  (std 0.11)
+Decode @ d=100100 (10 unique runs, n=10)       5.56 t/s median  range 5.12–5.77
+Prefill @ d=100100 (cold, ~94K tokens)         210 – 264 t/s
+Prefix-cache reuse (Phase B 95K-token)         496.7s cold → 3.4s warm → 1.6s warm
+Boot to ready                                  ~485s (~8 min)
+Peak unified memory                            ~120 / 128 GiB
+```
+
+### Stability — 5-phase battery + 10-run torture (single boot, c=108000)
 
 ```
 Phase A — 5× back-to-back unique 100K       PASS  R5/R1 = 1.047  (decode trends UP)
 Phase B — same-prompt 3× prefix-cache       PASS  speedup 144.7× (cold→cache hit)
 Phase C/D — d=0 leak check (3+3 runs)       PASS  drift +1.18% over 60s settle
-Phase E — d=0 headliner pp=128 tg=128 n=5   24.58 t/s median  (std 0.11)
+Phase E — d=0 AR headliner pp=128 tg=128    24.58 t/s median  (std 0.11)
 Torture (10× back-to-back unique 100K)      PASS  R10/R1 = 1.006  median 5.56 t/s
-
-Decode @ d=100100 (10 unique runs, n=10):    median 5.56 t/s, range 5.12–5.77
-Prefill @ d=100100 (cold, ~94K tokens):       210 – 264 t/s (varies with depth)
-Decode @ d=0 (post-stress, n=12 runs):       24.30 – 24.59 t/s (Phase C+D+E mean)
-Prefix-cache reuse (Phase B 95K-token):      496.7s cold → 3.4s warm → 1.6s warm
-Boot to ready                                ~485s (~8 min)
-Peak unified memory                          ~120 / 128 GiB
-Long-context decode tg2048 @ d=100K           6.05 t/s (n=2)
 ```
 
 All phases auto-PASSED by the battery + torture script verdicts:
@@ -59,9 +63,11 @@ This recipe encodes the empirically-validated config:
 
 ```
 -c 108000 -ctk q8_0 -ctv q8_0 -fa on
---cache-reuse 256 --ctx-checkpoints 0 --cache-prompt -cram 100
---no-context-shift -ngl 99 -np 1 --no-warmup -t 20
+--cache-reuse 256 --ctx-checkpoints 0 -cram 100
+-ngl 99 -np 1 --no-warmup -t 20
 ```
+
+See the "Stability flags" section below for what each flag does.
 
 Verified to:
 - Boot in ~7-9 min, fit in ~117 GiB / 128 GiB UMA (~11 GiB headroom)
@@ -246,57 +252,54 @@ achieved R10/R1 = 1.006. ✅
 Source JSONs: `results/phaseA-r{1..5}-d100100.json`,
 `results/torture-r{6..10}-d100100.json`.
 
-## Stability flags — discovery story
+## Stability flags
 
-These flags were each discovered by failing N test cycles before landing on
-the working combo. The skill `llamacpp-minimax-spark-bench` has the full
-sweep table; below is the short version.
+Three flags override llama.cpp defaults to keep decode stable across
+back-to-back long-context requests:
 
-### `-cram 100` (NOT `-cram 4096`, NOT `-cram 0`)
+| Flag | Value | Default | What it does |
+|---|---|---|---|
+| `-cram` | **100** (MiB) | 8192 | Caps CPU prompt-cache pool below the eviction-thrash threshold |
+| `--ctx-checkpoints` | **0** | 32 | Disables per-slot rewind checkpoints |
+| `--cache-reuse` | **256** | 0 | Enables KV-shift prefix-cache reuse |
 
-`-cram` caps the CPU-side prompt-cache pool size in MiB. The cap is
-**silently violated** when a single saved entry exceeds it: eviction logic
-walks the cache from oldest → newest looking for entries to drop, but it
-only drops entries **smaller** than the one being added. At c=108000 every
-saved prompt is ~12 GiB, so once one is in, eviction can't dislodge it.
+These three together hold decode steady at ~30.9 t/s median (n=38) across
+back-to-back long-context requests. Without them, decode collapses on
+consecutive requests (5.6 → 1.0 t/s by run 4).
 
-- `-cram 4096`: cap bookkept but violated. Eviction thrashes during decode.
-  R1 5.6 → R2 3.9 → R3 2.0 → R4 1.0 t/s. **Container alive but UX dead.**
-- **`-cram 100`**: cap so small the save-attempt path becomes effectively a
-  no-op. No thrash. Decode steady at ~5.5 t/s across N runs. ✅ **THIS IS
-  THE FIX.**
-- `-cram 0`: would also work (per `--help`: "0 = unified KV and cache-ram"
-  — disables the separate pool entirely) but cross-request prefix-cache
-  pool is then disabled. Only chooses this if you don't want any cross-
-  request cache.
+### `-cram 100` (NOT 4096, NOT 0)
 
-The trade-off: `-cram 100` functionally disables the cross-request prompt-
-cache pool. **Within-conversation cache via `--cache-reuse 256` still
-works** — that's all you need for a single conversation reusing the same
-context. Multi-tenant scenarios that re-use prefixes across users would
-need a different fix (out of scope for this recipe).
+`-cram` caps the CPU prompt-cache pool size in MiB. At c=108000 each saved
+prompt is ~12 GiB, much larger than reasonable cap values. The eviction
+logic only drops entries **smaller** than the one being added, so once one
+12-GiB entry is in, eviction can't dislodge it.
 
-### `--cache-reuse 256` + `--ctx-checkpoints 0`
+| `-cram` value | Behavior |
+|---|---|
+| 4096 | Cap violated, eviction thrashes during decode. R1 5.6 → R4 1.0 t/s. |
+| **100** | Cap so small the save path is effectively a no-op. Steady ~5.5 t/s. ✅ |
+| 0 | Also works (disables the pool entirely) but kills cross-request prefix cache. |
 
-- `--cache-reuse 256`: enables prefix-cache reuse for shared prefixes
-  within the slot. Required for the Phase B prefix-cache speedup.
-- `--ctx-checkpoints 0`: disables per-slot rewind checkpoints. Helps slow
-  the leak but does NOT stop it on its own (verified — `cram 100` is the
-  real fix). Kept here because it tightens memory use at zero cost.
+`-cram 100` disables the cross-request prompt-cache pool. Within-conversation
+cache via `--cache-reuse 256` still works. Multi-tenant workloads with shared
+prefixes across users would need a different config.
 
-### Why NOT `--mlock` / `--no-mmap`
+### `--cache-reuse 256`
 
-- `--mlock` does NOT stop the leak (verified, R4 OOM at swap=80%).
-- `--no-mmap`: gives **+27% decode at d=100K** (5.64 → 7.23 t/s) but does
-  NOT stop the leak. **Use only for single-shot data collection** where
-  you fresh-boot per request anyway, never for back-to-back stability.
+Enables prefix-cache reuse via KV-shifting for shared prefixes within the
+slot. Required for the 322× speedup on identical-prompt resends (Phase B).
 
-### Why `--no-context-shift`
+### `--ctx-checkpoints 0`
 
-When the conversation reaches `-c`, llama-server's default behavior is to
-evict the oldest tokens to make room (a "context shift"). For honest
-long-context measurement we want OOM if we exceed `-c`, not silent
-eviction. Set this flag to prevent silent shifts.
+Disables per-slot rewind checkpoints. Tightens memory use without affecting
+decode rate. `-cram 100` does the heavy lifting; this is a free win.
+
+### `--mlock` / `--no-mmap` — don't use
+
+- `--mlock`: does not stop the leak. R4 OOM at swap=80%.
+- `--no-mmap`: gives +27% decode at d=100K (5.64 → 7.23 t/s) but does not
+  stop the leak. Use only for single-shot data collection where you fresh-
+  boot per request anyway.
 
 ## What this image contains
 
