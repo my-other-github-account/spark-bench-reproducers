@@ -34,6 +34,35 @@ Receipt JSON:
 results/llama_benchy_cutlass_noeager_mbt8192_chunked_pp2048_tg32_c1_post_explicit_shape_warmup_runs5_20260503_183310.json
 ```
 
+
+## LocalMaxxing headline cell
+
+LocalMaxxing-style tg128 headline measured after the pp2048 prefill receipt:
+
+```text
+shape             pp=128, tg=128, depth=0, concurrency=1
+measured runs     30, after explicit pp128/tg128/c1 warmup runs=2
+
+tokSOut           mean 11.49 tok/s, median 11.49, std 0.01
+                  range 11.47-11.51
+ttftMs            median 142.43 ms, mean 141.04 ms
+pp_throughput     mean 991.53 tok/s, median 981.20 tok/s
+peak unified mem  113.5 GiB sampled from /proc/meminfo during bench
+```
+
+Submission draft:
+
+```text
+submission/headline.json
+submission/submit.sh
+```
+
+LocalMaxxing raw receipt:
+
+```text
+results/llama_benchy_localmaxxing_pp128_tg128_c1_runs30_postwarm_20260503_184705.json
+```
+
 ## Why explicit same-shape warmup matters
 
 `llama-benchy`'s built-in warmup did run, but it was not enough to warm the exact PP2048
