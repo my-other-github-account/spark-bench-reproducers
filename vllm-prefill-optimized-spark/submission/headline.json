@@ -1,5 +1,5 @@
 {
-  "hfId": "AxionML/Qwen3.5-27B-NVFP4",
+  "hfId": "Qwen/Qwen3.5-27B",
   "modelRevision": "main",
   "hardware": {
     "hwClass": "UNIFIED",
@@ -32,5 +32,5 @@
     "attentionBackend": "flash_attn",
     "commandSnippet": "VLLM_NVFP4_GEMM_BACKEND=cutlass vllm serve /models/AxionML-Qwen3.5-27B-NVFP4 --host 127.0.0.1 --port 8000 --trust-remote-code --max-model-len 4096 --served-model-name qwen35-27b-axionml-nvfp4 --generation-config vllm --load-format fastsafetensors --attention-backend FLASH_ATTN --gpu-memory-utilization 0.90 --enable-prefix-caching --max-num-batched-tokens 8192 --max-num-seqs 1 --enable-chunked-prefill"
   },
-  "notes": "AxionML/Qwen3.5-27B-NVFP4 on a single DGX Spark with vLLM ModelOpt FP4, Cutlass NVFP4 GEMM, FlashAttention, CUDA graphs enabled (no --enforce-eager), chunked prefill, max_num_batched_tokens=8192, max_num_seqs=1. LocalMaxxing headline cell: Sherlock prose, pp=128, tg=128, c=1, n=30 after explicit same-shape warmup. tokSOut = 11.49 t/s mean (median 11.49, std 0.01, range 11.47-11.51). ttftMs = 142.43 median. Prefill side result from same server: pp2048/tg32/c1 post-warm pp_throughput = 2575.12 tok/s mean. peakVramGb=113.5 is peak unified memory used sampled from /proc/meminfo during bench; GB10 nvidia-smi FB memory is N/A. Full recipe + raw JSONs + logs: github.com/my-other-github-account/spark-bench-reproducers/tree/main/vllm-prefill-optimized-spark. By @banana_baeee."
+  "notes": "Submitted under parent hfId Qwen/Qwen3.5-27B; actual served weights are the AxionML/Qwen3.5-27B-NVFP4 ModelOpt NVFP4 quant on a single DGX Spark with vLLM ModelOpt FP4, Cutlass NVFP4 GEMM, FlashAttention, CUDA graphs enabled (no --enforce-eager), chunked prefill, max_num_batched_tokens=8192, max_num_seqs=1. LocalMaxxing headline cell: Sherlock prose, pp=128, tg=128, c=1, n=30 after explicit same-shape warmup. tokSOut = 11.49 t/s mean (median 11.49, std 0.01, range 11.47-11.51). ttftMs = 142.43 median. Prefill side result from same server: pp2048/tg32/c1 post-warm pp_throughput = 2575.12 tok/s mean. peakVramGb=113.5 is peak unified memory used sampled from /proc/meminfo during bench; GB10 nvidia-smi FB memory is N/A. Full recipe + raw JSONs + logs: github.com/my-other-github-account/spark-bench-reproducers/tree/main/vllm-prefill-optimized-spark. By @banana_baeee."
 }
