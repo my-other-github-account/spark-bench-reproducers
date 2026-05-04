@@ -1,20 +1,21 @@
 # spark-bench-reproducers
 
 Minimum-reproduction recipes for our LLM-inference benchmarks on **DGX Spark (NVIDIA GB10
-Blackwell, sm_121, aarch64, 128 GiB unified memory)**. Each subdirectory is a
+Blackwell, sm_120a, aarch64, 128 GiB unified memory)**. Each subdirectory is a
 self-contained Docker reproduction with model download, vLLM/llama.cpp server launch,
-and `llama-benchy` harness. All recipes target **single-stream tg128, c=1**, the
-[localmaxxing.com](https://localmaxxing.com/) leaderboard headline metric.
+and `llama-benchy` harness. Most recipes target **single-stream tg128, c=1** for the
+[localmaxxing.com](https://localmaxxing.com/) leaderboard headline metric; explicitly named
+prefill recipes target PP-heavy throughput instead.
 
 ## Recipes
 
 | Directory | Model | Quant | Spec method | Headline (tok/s) | Status |
 |---|---|---|---|---|---|
-| [qwen36-27b-dflash-spark](qwen36-27b-dflash-spark) | Qwen3.6-27B (dense) | NVFP4 | DFlash (z-lab) | **32.34 median** | ✅ shipped |
-| [qwen36-35b-a3b-dflash-spark](qwen36-35b-a3b-dflash-spark) | Qwen3.6-35B-A3B (MoE) | NVFP4 | DFlash (z-lab) | **102.05 median** (peakVramGb=87 at GMU=0.50) | ✅ shipped |
-| [minimax-m27-ngram-spec-spark](minimax-m27-ngram-spec-spark) | MiniMax-M2.7 (230B/A10B) | UD-IQ4_XS GGUF | ngram-simple (llama.cpp) | **30.98 median** | ✅ shipped |
-| [minimax-m27-longctx-108k-spark](minimax-m27-longctx-108k-spark) | MiniMax-M2.7 (230B/A10B) | UD-IQ4_XS GGUF | ngram-simple @ c=108K | **30.88 t/s d=0 / 5.56 t/s d=100K** (R10/R1=1.006) | ✅ shipped |
-| _(planned)_ qwen36-27b-ar-optimized-spark | Qwen3.6-27B | NVFP4 | AR (env-var sweep) | TBD vs 32.34 | 🔬 research |
+| [qwen36-27b-dflash-spark](qwen36-27b-dflash-spark) | Qwen3.6-27B (dense) | NVFP4 | DFlash (z-lab) | **32.83 median** | ✅ shipped |
+| [qwen36-35b-a3b-dflash-spark](qwen36-35b-a3b-dflash-spark) | Qwen3.6-35B-A3B (MoE) | NVFP4 | DFlash (z-lab) | **TBD** | 🔄 measuring |
+| [vllm-prefill-optimized-spark](vllm-prefill-optimized-spark) | Qwen3.5-27B | NVFP4 | none (AR) | **2575 pp tok/s** at pp2048/tg32/c1 | ✅ measured |
+| _(planned)_ qwen36-27b-ddtree-spark | Qwen3.6-27B | NVFP4 | DDTree | TBD vs 32.83 | 🔬 research |
+| _(planned)_ minimax-m27-llamacpp-spark | MiniMax-M2.7 (UD-IQ4_XS) | Q8_0-KV | ngram-* | TBD | 🔬 research |
 
 ## Conventions
 
@@ -57,7 +58,7 @@ All recipes are tuned for and measured on:
 | | |
 |---|---|
 | Hardware | NVIDIA DGX Spark (GB10) |
-| Compute | sm_121 (Blackwell SBSA, GB10) |
+| Compute | sm_120a (Blackwell SBSA) |
 | Unified memory | 128 GiB LPDDR5X |
 | OS | Ubuntu 24.04 LTS aarch64 |
 | Driver | 580.x |
