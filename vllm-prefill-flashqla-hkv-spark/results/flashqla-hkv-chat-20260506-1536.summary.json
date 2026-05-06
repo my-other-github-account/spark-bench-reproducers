@@ -1,0 +1,11 @@
+{
+  "response": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Task: Name the capital of France and one notable landmark there.\n    *   Constraint: Answer only with the final answer, no reasoning.\n    *   Format: One sentence.\n\n2.  **Identify Key Information:**\n    *   Capital of France: Paris.\n    *   Notable landmark in Paris: Eiffel Tower, Louvre, Notre-Dame, Arc de Triomphe, etc. (I'll choose the Eiffel Tower as it's the most iconic).\n\n3.  **Draft the Sentence:**",
+  "finish_reason": "length",
+  "non_empty": true,
+  "mentions_paris": true,
+  "mentions_landmark": true,
+  "repeated_punctuation_corruption": false,
+  "hkv_active": true,
+  "hybrid_call_lines": 0,
+  "fallback_lines": 0
+}
