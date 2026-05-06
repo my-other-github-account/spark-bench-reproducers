@@ -87,7 +87,7 @@ else:
                 if scale is None:
                     scale = q.shape[-1] ** -0.5
                 _flashqla_fwd, _vllm_chunk_fwd_o = _ensure_lazy()
-                if _calls[0] in (1,2,10,20):
+                if os.environ.get("FLASHQLA_VERBOSE_META", "0") == "1" and _calls[0] in (1,2,10,20):
                     sys.stderr.write(f"[flashqla-patch] hybrid call #{_calls[0]} output_final_state={output_final_state} scale={scale}\n")
                     for name,x in [("q",q),("k",k),("v",v),("g",g),("beta",beta),("initial_state",initial_state),("cu_seqlens",cu_seqlens)]:
                         sys.stderr.write("[flashqla-meta] "+_meta(name,x)+"\n")
@@ -98,7 +98,7 @@ else:
                     cu_seqlens=cu_seqlens,output_final_state=output_final_state,output_h=True,auto_cp=False)
                 out = _vllm_chunk_fwd_o(q,k,v_new,h_fq,g_cum,scale,cu_seqlens=cu_seqlens,chunk_indices=chunk_indices)
                 final_state = final_state_fq.transpose(-1,-2).contiguous() if final_state_fq is not None else None
-                if _calls[0] in (1,2,10,20):
+                if os.environ.get("FLASHQLA_VERBOSE_META", "0") == "1" and _calls[0] in (1,2,10,20):
                     for name,x in [("v_new",v_new),("h_fq",h_fq),("out",out),("final_state",final_state)]:
                         sys.stderr.write("[flashqla-meta] "+_meta(name,x)+"\n")
                     sys.stderr.flush()
@@ -108,7 +108,7 @@ else:
                 _ops.chunk_gated_delta_rule = _patched
             if _gdn is not None:
                 _gdn.fla_chunk_gated_delta_rule = _patched
-            sys.stderr.write("[flashqla-patch] active: HKV-output FlashQLA packed-single prefill with first-large-shape logging and short-decode fallback; original FLA fallback for unsupported paths\n"); sys.stderr.flush()
+            sys.stderr.write("[flashqla-v2] active: HKV-output FlashQLA packed-single prefill with tunable HKV output kernel and short-decode fallback; original FLA fallback for unsupported paths\n"); sys.stderr.flush()
         else:
             sys.stderr.write(f"[flashqla-patch] cap={cap}; not patching\n"); sys.stderr.flush()
     except Exception as e:
