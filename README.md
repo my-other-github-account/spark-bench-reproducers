@@ -14,6 +14,7 @@ prefill recipes target PP-heavy throughput instead.
 | [qwen36-27b-dflash-spark](qwen36-27b-dflash-spark) | Qwen3.6-27B (dense) | NVFP4 | DFlash (z-lab) | **32.83 median** | ✅ shipped |
 | [qwen36-35b-a3b-dflash-spark](qwen36-35b-a3b-dflash-spark) | Qwen3.6-35B-A3B (MoE) | NVFP4 | DFlash (z-lab) | **TBD** | 🔄 measuring |
 | [vllm-prefill-optimized-spark](vllm-prefill-optimized-spark) | Qwen3.5-27B | NVFP4 | none (AR) | **2575 pp tok/s** at pp2048/tg32/c1 | ✅ measured |
+| [vllm-prefill-flashqla-hkv-spark](vllm-prefill-flashqla-hkv-spark) | Qwen3.5-27B | NVFP4 | FlashQLA HKV-output | **3030.63 pp tok/s** at pp2048/tg32/c1, n=30 | 🔄 staged |
 | _(planned)_ qwen36-27b-ddtree-spark | Qwen3.6-27B | NVFP4 | DDTree | TBD vs 32.83 | 🔬 research |
 | _(planned)_ minimax-m27-llamacpp-spark | MiniMax-M2.7 (UD-IQ4_XS) | Q8_0-KV | ngram-* | TBD | 🔬 research |
 
