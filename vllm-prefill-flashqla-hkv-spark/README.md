@@ -14,8 +14,12 @@ This is a prefill-focused recipe, not a decode/speculative-decoding recipe. The 
 | FlashQLA HKV | 5 | 3021.34 | 3016.31 | 13.62 | `results/result-flashqla-hkv-pp2048-tg32-c1-20260506-1537.json` |
 | FlashQLA HKV confirmation | 30 | **3030.63** | **3028.05** | 12.61 | `results/result-flashqla-hkv-pp2048-tg32-c1-n30-20260506-163233.json` |
 | Fresh public-clone rebuild verification | 30 | **3006.58** | **3006.54** | 8.44 | `results/result-flashqla-hkv-pp2048-tg32-c1-public-clone-n30-20260506-1745.json` |
+| Paired clean baseline, same session | 30 | 2871.59 | 2871.69 | 11.02 | `../vllm-prefill-optimized-spark/results/result-clean-github-baseline-paired-n30-20260506-194809.json` |
+| Paired FlashQLA HKV, same session | 30 | **3000.36** | **2999.36** | 11.12 | `results/result-flashqla-hkv-paired-n30-20260506-194809.json` |
 
-**N=30 verdict:** holds. Mean is `3030.6261` pp tok/s, `+119.3002` over the clean baseline (`1.04098×`). It also clears the +2% target `2969.5524` by `+61.0737` pp tok/s.
+**Paired N=30 verdict:** holds. In a baseline-then-FlashQLA run with host reset before each side, FlashQLA mean was `3000.3640` vs baseline `2871.5927`: `+128.7712` pp tok/s, `1.044843×`, `+4.4843%`.
+
+**Standalone N=30 verdict:** holds. Mean is `3030.6261` pp tok/s, `+119.3002` over the clean baseline (`1.04098×`). It also clears the +2% target `2969.5524` by `+61.0737` pp tok/s.
 
 N=30 raw `pp_throughput.values`:
 
@@ -102,6 +106,59 @@ sudo docker rm -f vllm-prefill-flashqla-hkv
 
 Expected reproduction pass threshold for `pp_throughput` mean: `>=2969.5524` pp tok/s, the predeclared +2% target over the strong clean baseline. The original measured N=30 mean was `3030.6261`; a full public-clone/no-cache rebuild on spark-6 reproduced the win at `3006.5776` pp tok/s.
 
+## Paired baseline-then-FlashQLA N=30 reproduction
+
+Use this when comparing live baseline vs FlashQLA under the same host conditions. Reset host memory state before each server run.
+
+```bash
+# 0. Clone and build both images from scratch
+git clone https://github.com/my-other-github-account/spark-bench-reproducers.git
+cd spark-bench-reproducers
+bash vllm-prefill-flashqla-hkv-spark/scripts/download_models.sh
+
+sudo docker build --no-cache --pull \
+  -t vllm-prefill-optimized-spark:clean-github-ad0e691 \
+  vllm-prefill-optimized-spark
+
+sudo docker build --no-cache --pull \
+  -t vllm-prefill-flashqla-hkv-spark:repro \
+  vllm-prefill-flashqla-hkv-spark
+
+# 1. Clean baseline N=30
+cd vllm-prefill-flashqla-hkv-spark
+bash scripts/prepare_host_for_bench.sh
+sudo docker run --rm -d --name vllm-prefill-test \
+  --runtime=nvidia --gpus all --ipc=host --network=host \
+  -v ~/models:/models:ro \
+  vllm-prefill-optimized-spark:clean-github-ad0e691
+sudo docker exec vllm-prefill-test bash /repro/scripts/wait_for_server.sh
+sudo docker run --rm --network=host \
+  -v ~/models:/models:ro \
+  -v "$(pwd)":/out \
+  --entrypoint bash vllm-prefill-optimized-spark:clean-github-ad0e691 \
+  -c 'RUNS=30 WARMUP_RUNS=2 OUT=/out/baseline-n30.json WARMUP_OUT=/tmp/baseline-warmup.json bash /repro/scripts/bench.sh'
+sudo docker rm -f vllm-prefill-test
+
+# 2. FlashQLA HKV N=30
+bash scripts/prepare_host_for_bench.sh
+sudo docker run --rm -d --name vllm-prefill-test \
+  --runtime=nvidia --gpus all --ipc=host --network=host \
+  -v ~/models:/models:ro \
+  vllm-prefill-flashqla-hkv-spark:repro
+sudo docker exec vllm-prefill-test bash /repro/scripts/wait_for_server.sh
+sudo docker logs vllm-prefill-test 2>&1 | grep -F "HKV-output FlashQLA"
+sudo docker run --rm --network=host \
+  -v ~/models:/models:ro \
+  -v "$(pwd)":/out \
+  --entrypoint bash vllm-prefill-flashqla-hkv-spark:repro \
+  -c 'RUNS=30 WARMUP_RUNS=2 OUT=/out/flashqla-hkv-n30.json WARMUP_OUT=/tmp/flashqla-warmup.json bash /repro/scripts/bench.sh'
+sudo docker rm -f vllm-prefill-test
+
+# 3. Summarize
+python3 scripts/summarize_results.py baseline-n30.json
+python3 scripts/summarize_results.py flashqla-hkv-n30.json
+```
+
 ## Runtime flags
 
 Same benchmark/server flags as `vllm-prefill-optimized-spark`:
@@ -127,7 +184,7 @@ vllm serve /models/AxionML-Qwen3.5-27B-NVFP4 \
 Expected server-log signals:
 
 ```text
-[flashqla-patch] active: HKV-output FlashQLA packed-single prefill with short-decode fallback
+[flashqla-patch] active: HKV-output FlashQLA packed-single prefill with first-large-shape logging and short-decode fallback; original FLA fallback for unsupported paths
 Using CutlassNvFp4LinearKernel for NVFP4 GEMM
 Using AttentionBackendEnum.FLASH_ATTN backend
 quantization=modelopt_fp4
@@ -149,6 +206,7 @@ CUDA graph capture finished
 │   ├── result-flashqla-hkv-pp2048-tg32-c1-20260506-1537.json
 │   ├── result-flashqla-hkv-pp2048-tg32-c1-n30-20260506-163233.json
 │   ├── result-flashqla-hkv-pp2048-tg32-c1-public-clone-n30-20260506-1745.json
+│   ├── result-flashqla-hkv-paired-n30-20260506-194809.json
 │   ├── flashqla-hkv-correctness-timing-20260506-152738.json
 │   ├── flashqla-hkv-state-propagation-canonical-20260506-153109.json
 │   └── flashqla-hkv-chat-20260506-1536.summary.json
@@ -167,5 +225,6 @@ CUDA graph capture finished
 - N=30 confirmation run completed on spark-6: `results/result-flashqla-hkv-pp2048-tg32-c1-n30-20260506-163233.json`.
 - Fresh public-clone rebuild verified from an empty directory on spark-6 after push: `results/result-flashqla-hkv-pp2048-tg32-c1-public-clone-n30-20260506-1745.json` (`n=30`, mean `3006.5776`, median `3006.5436`, clears +2% target by `+37.0252` pp tok/s).
 - Fresh public-clone rebuild uses `scripts/prepare_host_for_bench.sh` before server start to clear no-cache-build page cache/swap on GB10 unified memory.
+- Paired baseline-then-FlashQLA N=30 run completed on spark-6: baseline `../vllm-prefill-optimized-spark/results/result-clean-github-baseline-paired-n30-20260506-194809.json`, FlashQLA `results/result-flashqla-hkv-paired-n30-20260506-194809.json`; FlashQLA wins by `+4.4843%`.
 
 By [@banana_baeee](https://x.com/banana_baeee)
