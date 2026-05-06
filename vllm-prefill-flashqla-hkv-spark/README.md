@@ -69,29 +69,33 @@ sudo docker rmi vllm-prefill-flashqla-hkv-spark:repro 2>/dev/null || true
 # 4. Build the image from this folder
 sudo docker build --no-cache --pull -t vllm-prefill-flashqla-hkv-spark:repro .
 
-# 5. Start the server from the rebuilt image
+# 5. Reset host memory state after the no-cache build
+#    This matters on GB10 unified memory; stale page cache/swap after a build can depress pp throughput.
+bash scripts/prepare_host_for_bench.sh
+
+# 6. Start the server from the rebuilt image
 sudo docker run --rm -d --name vllm-prefill-flashqla-hkv \
   --runtime=nvidia --gpus all --ipc=host --network=host \
   -v ~/models:/models:ro \
   vllm-prefill-flashqla-hkv-spark:repro
 
-# 6. Wait for /v1/models readiness
+# 7. Wait for /v1/models readiness
 sudo docker exec vllm-prefill-flashqla-hkv bash /repro/scripts/wait_for_server.sh
 
-# 7. Confirm the FlashQLA HKV patch is active in the server log
+# 8. Confirm the FlashQLA HKV patch is active in the server log
 sudo docker logs vllm-prefill-flashqla-hkv 2>&1 | grep -F "HKV-output FlashQLA"
 
-# 8. Run the exact N=30 PP2048/TG32/C1 confirmation benchmark
+# 9. Run the exact N=30 PP2048/TG32/C1 confirmation benchmark
 sudo docker run --rm --network=host \
   -v ~/models:/models:ro \
   -v "$(pwd)":/out \
   --entrypoint bash vllm-prefill-flashqla-hkv-spark:repro \
   -c 'RUNS=30 WARMUP_RUNS=2 OUT=/out/result-flashqla-hkv-pp2048-tg32-c1-repro-n30.json WARMUP_OUT=/tmp/flashqla-hkv-warmup-repro.json bash /repro/scripts/bench.sh'
 
-# 9. Parse the result JSON
+# 10. Parse the result JSON
 python3 scripts/summarize_results.py result-flashqla-hkv-pp2048-tg32-c1-repro-n30.json
 
-# 10. Clean up the server when done
+# 11. Clean up the server when done
 sudo docker rm -f vllm-prefill-flashqla-hkv
 ```
 
@@ -150,6 +154,7 @@ CUDA graph capture finished
     ├── download_models.sh
     ├── launch_server.sh
     ├── wait_for_server.sh
+    ├── prepare_host_for_bench.sh
     ├── bench.sh
     └── summarize_results.py
 ```
@@ -158,6 +163,6 @@ CUDA graph capture finished
 
 - Measured on spark-6 using image `vllm-prefill-flashqla-spark:hkv-20260506-1527` (`sha256:d1199c8b182a2267176bcbefc8fae1584d8155d41b5a6b745f118a4a71729795`).
 - N=30 confirmation run completed on spark-6: `results/result-flashqla-hkv-pp2048-tg32-c1-n30-20260506-163233.json`.
-- This folder has been staged locally for review. Clone-fresh rebuild from the public GitHub URL is pending until this branch is approved/pushed.
+- Fresh public-clone rebuild uses `scripts/prepare_host_for_bench.sh` before server start to clear no-cache-build page cache/swap on GB10 unified memory.
 
 By [@banana_baeee](https://x.com/banana_baeee)
