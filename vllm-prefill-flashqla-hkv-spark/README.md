@@ -16,6 +16,9 @@ This is a prefill-focused recipe, not a decode/speculative-decoding recipe. The 
 | Fresh public-clone rebuild verification | 30 | **3006.58** | **3006.54** | 8.44 | `results/result-flashqla-hkv-pp2048-tg32-c1-public-clone-n30-20260506-1745.json` |
 | Paired clean baseline, same session | 30 | 2871.59 | 2871.69 | 11.02 | `../vllm-prefill-optimized-spark/results/result-clean-github-baseline-paired-n30-20260506-194809.json` |
 | Paired FlashQLA HKV, same session | 30 | **3000.36** | **2999.36** | 11.12 | `results/result-flashqla-hkv-paired-n30-20260506-194809.json` |
+| FlashQLA V2 BK128/BV128, no prefix cache | 30 | **3132.10** | **3131.06** | 6.72 | `results/result-flashqla-v2-bk128-bv128-noprefix-pp2048-tg32-c1-n30-20260506-161035.json` |
+
+**V2 N=30 verdict:** holds. Mean is `3132.1002` pp tok/s with `n=30`, `median=3131.0635`, `min=3117.8946`, `max=3151.8751`. Server logs confirmed `[flashqla-v2] active` and `short-decode-preserve-coherence`.
 
 **Paired N=30 verdict:** holds. In a baseline-then-FlashQLA run with host reset before each side, FlashQLA mean was `3000.3640` vs baseline `2871.5927`: `+128.7712` pp tok/s, `1.044843×`, `+4.4843%`.
 
@@ -32,6 +35,8 @@ N=30 raw `pp_throughput.values`:
 - Adds `flashqla_hkv_o.py`: Triton output kernel that consumes FlashQLA `h` in `[K,V]` layout directly.
 - Patches `sitecustomize.py` to call `chunk_fwd_o_hkv(q, k, v_new, h_fq, ...)`.
 - Removes the optimized-path `h_fq.transpose(-1, -2).contiguous()` before output computation.
+- V2 defaults the HKV output kernel to `FLASHQLA_HKV_O_BK=128` and `FLASHQLA_HKV_O_BV=128`.
+- V2 disables prefix caching for this benchmark recipe.
 - Keeps the clean reproducer benchmark shape and flags unchanged.
 
 ## Correctness artifacts
@@ -175,7 +180,6 @@ vllm serve /models/AxionML-Qwen3.5-27B-NVFP4 \
   --load-format fastsafetensors \
   --attention-backend FLASH_ATTN \
   --gpu-memory-utilization 0.90 \
-  --enable-prefix-caching \
   --max-num-batched-tokens 8192 \
   --max-num-seqs 1 \
   --enable-chunked-prefill
@@ -184,7 +188,7 @@ vllm serve /models/AxionML-Qwen3.5-27B-NVFP4 \
 Expected server-log signals:
 
 ```text
-[flashqla-patch] active: HKV-output FlashQLA packed-single prefill with first-large-shape logging and short-decode fallback; original FLA fallback for unsupported paths
+[flashqla-v2] active: HKV-output FlashQLA packed-single prefill with tunable HKV output kernel; original FLA fallback for unsupported paths
 Using CutlassNvFp4LinearKernel for NVFP4 GEMM
 Using AttentionBackendEnum.FLASH_ATTN backend
 quantization=modelopt_fp4
@@ -207,6 +211,8 @@ CUDA graph capture finished
 │   ├── result-flashqla-hkv-pp2048-tg32-c1-n30-20260506-163233.json
 │   ├── result-flashqla-hkv-pp2048-tg32-c1-public-clone-n30-20260506-1745.json
 │   ├── result-flashqla-hkv-paired-n30-20260506-194809.json
+│   ├── result-flashqla-v2-bk128-bv128-noprefix-pp2048-tg32-c1-n30-20260506-161035.json
+│   ├── summary-flashqla-v2-bk128-bv128-noprefix-n30-20260506-161035.txt
 │   ├── flashqla-hkv-correctness-timing-20260506-152738.json
 │   ├── flashqla-hkv-state-propagation-canonical-20260506-153109.json
 │   └── flashqla-hkv-chat-20260506-1536.summary.json
@@ -226,5 +232,6 @@ CUDA graph capture finished
 - Fresh public-clone rebuild verified from an empty directory on spark-6 after push: `results/result-flashqla-hkv-pp2048-tg32-c1-public-clone-n30-20260506-1745.json` (`n=30`, mean `3006.5776`, median `3006.5436`, clears +2% target by `+37.0252` pp tok/s).
 - Fresh public-clone rebuild uses `scripts/prepare_host_for_bench.sh` before server start to clear no-cache-build page cache/swap on GB10 unified memory.
 - Paired baseline-then-FlashQLA N=30 run completed on spark-6: baseline `../vllm-prefill-optimized-spark/results/result-clean-github-baseline-paired-n30-20260506-194809.json`, FlashQLA `results/result-flashqla-hkv-paired-n30-20260506-194809.json`; FlashQLA wins by `+4.4843%`.
+- V2 BK128/BV128/no-prefix-cache N=30 run completed on spark-6: `results/result-flashqla-v2-bk128-bv128-noprefix-pp2048-tg32-c1-n30-20260506-161035.json` (`n=30`, mean `3132.1002`, median `3131.0635`, std `6.7220`, min/max `3117.8946` / `3151.8751`).
 
 By [@banana_baeee](https://x.com/banana_baeee)
