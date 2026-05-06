@@ -22,7 +22,7 @@ else:
         _orig = getattr(_gdn, "fla_chunk_gated_delta_rule", None) or getattr(_chunk, "chunk_gated_delta_rule", None)
         cap = torch.cuda.get_device_capability(0) if torch.cuda.is_available() else (0, 0)
         if cap in ((12, 0), (12, 1)):
-            _calls=[0]; _fallbacks=[0]; _lazy={"fq":None,"o":None}
+            _calls=[0]; _fallbacks=[0]; _large_logged=[False]; _lazy={"fq":None,"o":None}
             def _ensure_lazy():
                 if _lazy["fq"] is None:
                     from flash_qla.ops.gated_delta_rule.chunk import chunk_gated_delta_rule_fwd as _flashqla_fwd
@@ -57,6 +57,9 @@ else:
                          chunk_indices=None,chunk_offsets=None,
                          use_qk_l2norm_in_kernel=False,head_first=False,**kw):
                 _calls[0]+=1
+                if (not _large_logged[0]) and q.shape[1] >= 128:
+                    _large_logged[0] = True
+                    sys.stderr.write(f"[flashqla-large-shape] optimized shape={tuple(q.shape)} calls={_calls[0]} fallbacks={_fallbacks[0]}\n"); sys.stderr.flush()
                 if _orig is None:
                     raise RuntimeError("FlashQLA fallback original FLA function unavailable")
                 if head_first or use_qk_l2norm_in_kernel:
@@ -105,7 +108,7 @@ else:
                 _ops.chunk_gated_delta_rule = _patched
             if _gdn is not None:
                 _gdn.fla_chunk_gated_delta_rule = _patched
-            sys.stderr.write("[flashqla-patch] active: HKV-output FlashQLA packed-single prefill with short-decode fallback; original FLA fallback for unsupported paths\n"); sys.stderr.flush()
+            sys.stderr.write("[flashqla-patch] active: HKV-output FlashQLA packed-single prefill with first-large-shape logging and short-decode fallback; original FLA fallback for unsupported paths\n"); sys.stderr.flush()
         else:
             sys.stderr.write(f"[flashqla-patch] cap={cap}; not patching\n"); sys.stderr.flush()
     except Exception as e:
