@@ -67,7 +67,7 @@ sudo docker rm -f vllm-prefill-flashqla-hkv 2>/dev/null || true
 sudo docker rmi vllm-prefill-flashqla-hkv-spark:repro 2>/dev/null || true
 
 # 4. Build the image from this folder
-sudo docker build --pull -t vllm-prefill-flashqla-hkv-spark:repro .
+sudo docker build --no-cache --pull -t vllm-prefill-flashqla-hkv-spark:repro .
 
 # 5. Start the server from the rebuilt image
 sudo docker run --rm -d --name vllm-prefill-flashqla-hkv \
