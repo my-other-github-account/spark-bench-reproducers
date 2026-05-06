@@ -18,7 +18,6 @@ fi
 
 "$HF" download "$MODEL_REPO" \
   --local-dir "$MODEL_DIR" \
-  --local-dir-use-symlinks False \
-  --resume-download
+  --max-workers 8
 
 echo "Downloaded $MODEL_REPO to $MODEL_DIR"
