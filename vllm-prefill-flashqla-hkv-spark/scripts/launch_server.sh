@@ -12,6 +12,8 @@ export VLLM_NVFP4_GEMM_BACKEND="${VLLM_NVFP4_GEMM_BACKEND:-cutlass}"
 export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
 export FLASHINFER_CUDA_ARCH_LIST="${FLASHINFER_CUDA_ARCH_LIST:-12.1a}"
 export TORCH_CUDA_ARCH_LIST="${TORCH_CUDA_ARCH_LIST:-12.1a}"
+export FLASHQLA_HKV_O_BK="${FLASHQLA_HKV_O_BK:-128}"
+export FLASHQLA_HKV_O_BV="${FLASHQLA_HKV_O_BV:-128}"
 
 exec vllm serve "$MODEL_DIR" \
   --host "$HOST" \
@@ -23,7 +25,6 @@ exec vllm serve "$MODEL_DIR" \
   --load-format fastsafetensors \
   --attention-backend FLASH_ATTN \
   --gpu-memory-utilization 0.90 \
-  --enable-prefix-caching \
   --max-num-batched-tokens 8192 \
   --max-num-seqs 1 \
   --enable-chunked-prefill

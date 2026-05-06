@@ -1,4 +1,4 @@
-
+import os
 import torch
 from vllm.triton_utils import tl, triton
 from vllm.model_executor.layers.fla.ops.index import prepare_chunk_indices
@@ -69,9 +69,13 @@ def chunk_fwd_o_hkv(q, k, v, h, g=None, scale=None, cu_seqlens=None, chunk_indic
     NT = triton.cdiv(T, chunk_size) if cu_seqlens is None else len(chunk_indices)
     if scale is None:
         scale = K ** -0.5
+    bk = int(os.environ.get("FLASHQLA_HKV_O_BK", "64"))
+    bv = int(os.environ.get("FLASHQLA_HKV_O_BV", "64"))
+    warps = int(os.environ.get("FLASHQLA_HKV_O_WARPS", "4"))
+    stages = int(os.environ.get("FLASHQLA_HKV_O_STAGES", "3"))
     o = torch.empty_like(v)
-    grid = (triton.cdiv(V, 64), NT, B * H)
+    grid = (triton.cdiv(V, bv), NT, B * H)
     _chunk_fwd_kernel_o_hkv[grid](q, k, v, h, g, o, cu_seqlens, chunk_indices, scale,
-                                  T=T, H=H, Hg=Hg, K=K, V=V, BT=chunk_size, BK=64, BV=64,
-                                  num_warps=4, num_stages=3)
+                                  T=T, H=H, Hg=Hg, K=K, V=V, BT=chunk_size, BK=bk, BV=bv,
+                                  num_warps=warps, num_stages=stages)
     return o
