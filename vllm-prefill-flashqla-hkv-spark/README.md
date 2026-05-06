@@ -13,6 +13,7 @@ This is a prefill-focused recipe, not a decode/speculative-decoding recipe. The 
 | Clean vLLM baseline | 5 | 2911.33 | 2912.997 | 4.98 | `../vllm-prefill-optimized-spark/results/result-clean-github-baseline-20260505-191157.json` |
 | FlashQLA HKV | 5 | 3021.34 | 3016.31 | 13.62 | `results/result-flashqla-hkv-pp2048-tg32-c1-20260506-1537.json` |
 | FlashQLA HKV confirmation | 30 | **3030.63** | **3028.05** | 12.61 | `results/result-flashqla-hkv-pp2048-tg32-c1-n30-20260506-163233.json` |
+| Fresh public-clone rebuild verification | 30 | **3006.58** | **3006.54** | 8.44 | `results/result-flashqla-hkv-pp2048-tg32-c1-public-clone-n30-20260506-1745.json` |
 
 **N=30 verdict:** holds. Mean is `3030.6261` pp tok/s, `+119.3002` over the clean baseline (`1.04098×`). It also clears the +2% target `2969.5524` by `+61.0737` pp tok/s.
 
@@ -99,7 +100,7 @@ python3 scripts/summarize_results.py result-flashqla-hkv-pp2048-tg32-c1-repro-n3
 sudo docker rm -f vllm-prefill-flashqla-hkv
 ```
 
-Expected reproduction band for `pp_throughput` mean: about `3030.6` pp tok/s on spark-6. Treat `>=2969.5524` as the pass threshold because that is the predeclared +2% target over the strong clean baseline.
+Expected reproduction pass threshold for `pp_throughput` mean: `>=2969.5524` pp tok/s, the predeclared +2% target over the strong clean baseline. The original measured N=30 mean was `3030.6261`; a full public-clone/no-cache rebuild on spark-6 reproduced the win at `3006.5776` pp tok/s.
 
 ## Runtime flags
 
@@ -147,6 +148,7 @@ CUDA graph capture finished
 ├── results/
 │   ├── result-flashqla-hkv-pp2048-tg32-c1-20260506-1537.json
 │   ├── result-flashqla-hkv-pp2048-tg32-c1-n30-20260506-163233.json
+│   ├── result-flashqla-hkv-pp2048-tg32-c1-public-clone-n30-20260506-1745.json
 │   ├── flashqla-hkv-correctness-timing-20260506-152738.json
 │   ├── flashqla-hkv-state-propagation-canonical-20260506-153109.json
 │   └── flashqla-hkv-chat-20260506-1536.summary.json
@@ -163,6 +165,7 @@ CUDA graph capture finished
 
 - Measured on spark-6 using image `vllm-prefill-flashqla-spark:hkv-20260506-1527` (`sha256:d1199c8b182a2267176bcbefc8fae1584d8155d41b5a6b745f118a4a71729795`).
 - N=30 confirmation run completed on spark-6: `results/result-flashqla-hkv-pp2048-tg32-c1-n30-20260506-163233.json`.
+- Fresh public-clone rebuild verified from an empty directory on spark-6 after push: `results/result-flashqla-hkv-pp2048-tg32-c1-public-clone-n30-20260506-1745.json` (`n=30`, mean `3006.5776`, median `3006.5436`, clears +2% target by `+37.0252` pp tok/s).
 - Fresh public-clone rebuild uses `scripts/prepare_host_for_bench.sh` before server start to clear no-cache-build page cache/swap on GB10 unified memory.
 
 By [@banana_baeee](https://x.com/banana_baeee)
