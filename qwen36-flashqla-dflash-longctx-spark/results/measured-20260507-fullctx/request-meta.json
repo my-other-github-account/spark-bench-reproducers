@@ -1,0 +1,7 @@
+{
+  "target_prompt_tokens": 258048,
+  "actual_prompt_tokens_local": 258048,
+  "chars": 1470886,
+  "max_tokens": 1,
+  "endpoint": "/v1/completions"
+}
