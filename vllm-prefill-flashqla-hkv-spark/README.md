@@ -133,6 +133,54 @@ sudo docker rm -f vllm-prefill-flashqla-v2
 
 Expected V2 reproduction pass threshold for `pp_throughput` mean: `>=3100.0` pp tok/s at `RUNS=30`, `WARMUP_RUNS=2`, `pp=2048`, `tg=32`, `depth=0`, `concurrency=1`. The measured V2 N=30 mean on spark-6 was `3132.1002` pp tok/s.
 
+## Run the same llama-benchy cell against your own endpoint
+
+Use this when you already have a vLLM/OpenAI-compatible server running and only want to compare the benchmark cell. Replace `BASE_URL`, `MODEL`, and `TOKENIZER` for your setup. `MODEL` must match the served model name accepted by your endpoint.
+
+```bash
+export BASE_URL="http://127.0.0.1:8000/v1"
+export MODEL="qwen35-27b-axionml-nvfp4"
+export TOKENIZER="/models/AxionML-Qwen3.5-27B-NVFP4"
+
+# Same-shape warmup. Do not report this file.
+uvx llama-benchy \
+  --base-url "$BASE_URL" \
+  --model "$MODEL" \
+  --served-model-name "$MODEL" \
+  --tokenizer "$TOKENIZER" \
+  --pp 2048 \
+  --tg 32 \
+  --concurrency 1 \
+  --runs 2 \
+  --no-cache \
+  --no-adapt-prompt \
+  --skip-coherence \
+  --format json \
+  --save-result warmup-pp2048-tg32-c1-n2.json
+
+# Report benchmarks[0].pp_throughput.mean from this measured file.
+uvx llama-benchy \
+  --base-url "$BASE_URL" \
+  --model "$MODEL" \
+  --served-model-name "$MODEL" \
+  --tokenizer "$TOKENIZER" \
+  --pp 2048 \
+  --tg 32 \
+  --concurrency 1 \
+  --runs 30 \
+  --no-cache \
+  --no-adapt-prompt \
+  --skip-coherence \
+  --format json \
+  --save-result result-pp2048-tg32-c1-n30.json
+```
+
+Metric mapping:
+
+- Prefill TPS: `benchmarks[0].pp_throughput.mean`
+- Decode TPS: `benchmarks[0].tg_throughput.mean`
+- TTFT/TTFR ms: `benchmarks[0].ttfr.mean`
+
 ## Patch inventory
 
 - `Dockerfile` clones `https://github.com/my-other-github-account/FlashQLA.git` at `827fdd88e0829646e3c90be0c76158a9be62ab37` and applies `patches/flashqla-source-diff-827fdd88-hkv.patch`.
