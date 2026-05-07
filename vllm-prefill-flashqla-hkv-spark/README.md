@@ -135,7 +135,7 @@ Expected V2 reproduction pass threshold for `pp_throughput` mean: `>=3100.0` pp 
 
 ## Run the same llama-benchy cell against your own endpoint
 
-Use this when you already have a vLLM/OpenAI-compatible server running and only want to compare the benchmark cell. Replace `BASE_URL`, `MODEL`, and `TOKENIZER` for your setup. `MODEL` must match the served model name accepted by your endpoint.
+Use this when you already have a vLLM/OpenAI-compatible server running and only want to compare the benchmark cell. Replace `BASE_URL`, `MODEL`, and `TOKENIZER` for your setup. `MODEL` must match the served model name accepted by your endpoint; `TOKENIZER` can be a local tokenizer path or a Hugging Face tokenizer repo.
 
 ```bash
 export BASE_URL="http://127.0.0.1:8000/v1"
