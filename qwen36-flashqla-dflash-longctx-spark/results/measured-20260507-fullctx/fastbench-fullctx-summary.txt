@@ -1,0 +1,6 @@
+--- prefill-pp2048-tg32-c1-n30-fullctx.json
+pp_throughput mean 3082.994929154097 median 3090.5474120391286 n 30
+tg_throughput mean 10.767997397899832 median 10.769466728115942 n 30
+--- sherlock-pp128-tg128-c1-n30-fullctx.json
+pp_throughput mean 535.5205212199747 median 484.25115740440987 n 30
+tg_throughput mean 33.50415510658238 median 28.02907774437187 n 30
