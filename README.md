@@ -1,7 +1,7 @@
 # spark-bench-reproducers
 
 Minimum-reproduction recipes for our LLM-inference benchmarks on **DGX Spark (NVIDIA GB10
-Blackwell, sm_120a, aarch64, 128 GiB unified memory)**. Each subdirectory is a
+Blackwell, sm_121, aarch64, 128 GiB unified memory)**. Each subdirectory is a
 self-contained Docker reproduction with model download, vLLM/llama.cpp server launch,
 and `llama-benchy` harness. Most recipes target **single-stream tg128, c=1** for the
 [localmaxxing.com](https://localmaxxing.com/) leaderboard headline metric; explicitly named
@@ -15,6 +15,7 @@ prefill recipes target PP-heavy throughput instead.
 | [qwen36-35b-a3b-dflash-spark](qwen36-35b-a3b-dflash-spark) | Qwen3.6-35B-A3B (MoE) | NVFP4 | DFlash (z-lab) | **TBD** | 🔄 measuring |
 | [vllm-prefill-optimized-spark](vllm-prefill-optimized-spark) | Qwen3.5-27B | NVFP4 | none (AR) | **2575 pp tok/s** at pp2048/tg32/c1 | ✅ measured |
 | [vllm-prefill-flashqla-hkv-spark](vllm-prefill-flashqla-hkv-spark) | Qwen3.5-27B | NVFP4 | FlashQLA HKV-output | **3030.63 pp tok/s** at pp2048/tg32/c1, n=30 | 🔄 staged |
+| [prefill-fusions/flashqla-megafusion-3300-spark](prefill-fusions/flashqla-megafusion-3300-spark) | Qwen3.5-27B | NVFP4 | FlashQLA fused-output alias+kpack2 | **3315.97 pp tok/s** at pp2048/tg32/c1, n=30 API | ✅ audit bundle |
 | _(planned)_ qwen36-27b-ddtree-spark | Qwen3.6-27B | NVFP4 | DDTree | TBD vs 32.83 | 🔬 research |
 | _(planned)_ minimax-m27-llamacpp-spark | MiniMax-M2.7 (UD-IQ4_XS) | Q8_0-KV | ngram-* | TBD | 🔬 research |
 
@@ -59,7 +60,7 @@ All recipes are tuned for and measured on:
 | | |
 |---|---|
 | Hardware | NVIDIA DGX Spark (GB10) |
-| Compute | sm_120a (Blackwell SBSA) |
+| Compute | sm_121 (GB10 Blackwell) |
 | Unified memory | 128 GiB LPDDR5X |
 | OS | Ubuntu 24.04 LTS aarch64 |
 | Driver | 580.x |

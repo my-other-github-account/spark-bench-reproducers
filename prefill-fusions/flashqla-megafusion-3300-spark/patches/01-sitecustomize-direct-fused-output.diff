@@ -1,0 +1,13 @@
+--- spark1-current/sitecustomize.py	2026-05-09 10:06:48
++++ spark1-fusedo-qkgemm-alias-kpack2/sitecustomize.py	2026-05-09 10:06:50
+@@ -95,8 +95,8 @@
+                 fq_initial_state = initial_state.transpose(-1,-2).contiguous() if initial_state is not None else None
+                 g_cum, A, v_new, h_fq, final_state_fq = _flashqla_fwd(
+                     q=q,k=k,v=v,g=g,beta=beta,scale=scale,initial_state=fq_initial_state,
+-                    cu_seqlens=cu_seqlens,output_final_state=output_final_state,output_h=True,auto_cp=False)
+-                out = _vllm_chunk_fwd_o(q,k,v_new,h_fq,g_cum,scale,cu_seqlens=cu_seqlens,chunk_indices=chunk_indices)
++                    cu_seqlens=cu_seqlens,output_final_state=output_final_state,output_h=False,auto_cp=False)
++                out = v_new
+                 final_state = final_state_fq.transpose(-1,-2).contiguous() if final_state_fq is not None else None
+                 if os.environ.get("FLASHQLA_VERBOSE_META", "0") == "1" and _calls[0] in (1,2,10,20):
+                     for name,x in [("v_new",v_new),("h_fq",h_fq),("out",out),("final_state",final_state)]:
