@@ -1,0 +1,70 @@
+--- spark1-current/fused_fwd.py	2026-05-09 10:06:49
++++ spark1-fusedo-qkgemm-alias-kpack2/fused_fwd.py	2026-05-09 10:06:51
+@@ -302,12 +302,13 @@
+                     # [STAGE 0] 0
+                     T.barrier_wait(bar_0, i_s % 2)
+                     # P = Q K^T
+-                    T.gemm_v1(
++                    T.gemm(
+                         q_shared[:, :],
+                         k_shared[:, :],
+                         p_fragment,
+                         transpose_B=True,
+                         clear_accum=True,
++                        k_pack=2,
+                     )
+ 
+                     # [STAGE 0] 1
+@@ -358,10 +359,18 @@
+ 
+                     # [STAGE 0] 5
+                     T.barrier_wait(bar_5, i_s % 2)
+-                    # HYBRID: expose internal Vd/v_new in output slot.
+-                    # The Blackwell Pg@Vd fused-output path has a TileLang shared-layout bug;
+-                    # vLLM chunk_fwd_o computes the final output from (q,k,v_new,h,g) correctly.
+-                    T.copy(vd_shared, o_shared)
++                    # Store final output directly from the consumer branch.
++                    # This avoids the Blackwell shared-layout path through o_shared.
++                    if store_o:
++                        for j_s, j_v in T.Parallel(block_S, block_DV):
++                            with T.If(seq_start_idx + i_s * block_S + j_s < seq_end_idx):
++                                with T.Then():
++                                    o[
++                                        batch_idx,
++                                        seq_start_idx + i_s * block_S + j_s,
++                                        bh,
++                                        bv * block_DV + j_v,
++                                    ] = o_fragment[j_s, j_v]
+ 
+                     T.barrier_arrive(data_is_free[0])
+ 
+@@ -455,7 +464,7 @@
+ 
+                         T.barrier_wait(bar_0, i_s % 2)
+                         # Store O
+-                        if i_s > 0 and store_o:
++                        if False and i_s > 0 and store_o:
+                             T.copy(
+                                 o_shared,
+                                 o[
+@@ -489,7 +498,7 @@
+ 
+                         T.barrier_wait(bar_0, num_unmasked_iters % 2)
+                         # Store O
+-                        if num_unmasked_iters > 0 and store_o:
++                        if False and num_unmasked_iters > 0 and store_o:
+                             T.copy(
+                                 o_shared,
+                                 o[
+@@ -517,9 +526,9 @@
+ 
+                     seq_split_idx = seq_start_idx + (num_iters - 1) * block_S
+ 
+-                    # Store O
++                    # Store O already handled directly by consumer branch.
+                     T.barrier_wait(bar_o, 0)
+-                    if store_o:
++                    if False and store_o:
+                         for j_s, j_v in T.Parallel(block_S, block_DV):
+                             with T.If(seq_split_idx + j_s < seq_end_idx):
+                                 with T.Then():
