@@ -25,7 +25,7 @@ index c333e51..a27f299 100644
 +        chunk_size=chunk_size,
      )
      return g, A, o, h, final_state
- 
+
 diff --git a/flash_qla/ops/gated_delta_rule/chunk/blackwell/fused_fwd.py b/flash_qla/ops/gated_delta_rule/chunk/blackwell/fused_fwd.py
 index 57480cb..2a499a6 100644
 --- a/flash_qla/ops/gated_delta_rule/chunk/blackwell/fused_fwd.py
@@ -33,7 +33,7 @@ index 57480cb..2a499a6 100644
 @@ -120,12 +120,12 @@ def tilelang_fused_chunk_gdr_fwd(
              num_iters = T.ceildiv(seq_end_idx - seq_start_idx, block_S)
              num_unmasked_iters = (seq_end_idx - seq_start_idx) // block_S
- 
+
 -            q_shared = T.alloc_shared((2, block_S, DK), dtype=qkva_dtype)
 -            k_shared = T.alloc_shared((2, block_S, DK), dtype=qkva_dtype)
 -            v_shared = T.alloc_shared((2, block_S, block_DV), dtype=qkva_dtype)
@@ -46,18 +46,18 @@ index 57480cb..2a499a6 100644
 +            a_shared = T.alloc_shared((block_S, block_S), dtype=qkva_dtype)
 +            g_shared = T.alloc_shared((block_S,), dtype=accum_dtype, scope="shared")
 +            b_shared = T.alloc_shared((block_S,), dtype=accum_dtype, scope="shared")
- 
+
              o_shared = T.alloc_shared((block_S, block_DV), dtype=o_dtype)
              h_shared = T.alloc_shared((DK, block_DV), dtype=qkva_dtype)
 @@ -146,8 +146,8 @@ def tilelang_fused_chunk_gdr_fwd(
              g_fragment = T.alloc_fragment((block_S, block_S), dtype=accum_dtype)
              g_last_local = T.alloc_local((1), dtype=accum_dtype)
- 
+
 -            data_is_ready = T.alloc_barrier(arrive_count=[96] * 2)
 -            data_is_free = T.alloc_barrier(arrive_count=[384] * 2)
 +            data_is_ready = T.alloc_barrier(arrive_count=[96])
 +            data_is_free = T.alloc_barrier(arrive_count=[384])
- 
+
              bar_o = T.alloc_barrier(arrive_count=128)
              bar_0 = T.alloc_barrier(arrive_count=416)
 @@ -181,7 +181,7 @@ def tilelang_fused_chunk_gdr_fwd(
@@ -67,7 +67,7 @@ index 57480cb..2a499a6 100644
 -                    T.barrier_wait(data_is_ready[i_s % 2], (i_s // 2 + 0) % 2)
 +                    T.barrier_wait(data_is_ready[0], i_s % 2)
                      T.barrier_arrive(bar_0)
- 
+
                      # [STAGE 0] 0
 @@ -202,14 +202,14 @@ def tilelang_fused_chunk_gdr_fwd(
                      T.barrier_wait(bar_5, i_s % 2)
@@ -80,10 +80,10 @@ index 57480cb..2a499a6 100644
                          transpose_A=True,
                          clear_accum=False,
                      )
- 
+
 -                    T.barrier_arrive(data_is_free[i_s % 2])
 +                    T.barrier_arrive(data_is_free[0])
- 
+
                  # Store final S
                  if need_store_final_state:
 @@ -226,21 +226,21 @@ def tilelang_fused_chunk_gdr_fwd(
@@ -93,7 +93,7 @@ index 57480cb..2a499a6 100644
 -                    T.barrier_wait(data_is_ready[i_s % 2], (i_s // 2 + 0) % 2)
 +                    T.barrier_wait(data_is_ready[0], i_s % 2)
                      T.barrier_arrive(bar_0)
- 
+
                      # [STAGE 0] 0
                      T.barrier_wait(bar_0, i_s % 2)
                      # Precompute g, g_last/g
@@ -119,7 +119,7 @@ index 57480cb..2a499a6 100644
 -                        k_shared[i_s % 2, :, :], h_shared, u_fragment, clear_accum=True
 +                        k_shared[:, :], h_shared, u_fragment, clear_accum=True
                      )
- 
+
                      # [STAGE 0] 2
 @@ -260,17 +260,17 @@ def tilelang_fused_chunk_gdr_fwd(
                      for j_s, j_v in T.Parallel(block_S, block_DV):
@@ -131,7 +131,7 @@ index 57480cb..2a499a6 100644
                      for j_s, j_v in T.Parallel(block_S, block_DV):
 -                        v_shared[i_s % 2, j_s, j_v] = u_fragment[j_s, j_v]
 +                        v_shared[j_s, j_v] = u_fragment[j_s, j_v]
- 
+
                      # [STAGE 0] 3
                      T.barrier_wait(bar_3, i_s % 2)
                      # Vd = Ag @ W
@@ -144,12 +144,12 @@ index 57480cb..2a499a6 100644
                          clear_accum=True,
                      )
 @@ -288,7 +288,7 @@ def tilelang_fused_chunk_gdr_fwd(
- 
+
                      T.barrier_wait(bar_5, i_s % 2)
- 
+
 -                    T.barrier_arrive(data_is_free[i_s % 2])
 +                    T.barrier_arrive(data_is_free[0])
- 
+
              elif tx < 384:
                  T.set_max_nreg(CONSUMER_O_NREG, 1)
 @@ -296,15 +296,15 @@ def tilelang_fused_chunk_gdr_fwd(
@@ -159,7 +159,7 @@ index 57480cb..2a499a6 100644
 -                    T.barrier_wait(data_is_ready[i_s % 2], (i_s // 2 + 0) % 2)
 +                    T.barrier_wait(data_is_ready[0], i_s % 2)
                      T.barrier_arrive(bar_0)
- 
+
                      # [STAGE 0] 0
                      T.barrier_wait(bar_0, i_s % 2)
                      # P = Q K^T
@@ -195,7 +195,7 @@ index 57480cb..2a499a6 100644
 -                    for j_s, j_t in T.Parallel(block_S, block_S):
 -                        a_shared[i_s % 2, j_s, j_t] = a_fragment[j_s, j_t]
 +                        a_shared[j_s, j_t] = a_fragment[j_s, j_t]
- 
+
                      # [STAGE 0] 2
                      T.barrier_wait(bar_1, i_s % 2)
                      # O = Q @ S
@@ -203,7 +203,7 @@ index 57480cb..2a499a6 100644
 -                        q_shared[i_s % 2, :, :], h_shared, o_fragment, clear_accum=True
 +                        q_shared[:, :], h_shared, o_fragment, clear_accum=True
                      )
- 
+
                      # [STAGE 0] 3
 @@ -348,8 +347,8 @@ def tilelang_fused_chunk_gdr_fwd(
                      T.copy(p_fragment, p_shared)
@@ -213,11 +213,11 @@ index 57480cb..2a499a6 100644
 -                        o_fragment[j_s, j_k] *= scale * g_exp_shared[j_s]
 +                    for j_s, j_v in T.Parallel(block_S, block_DV):
 +                        o_fragment[j_s, j_v] *= scale * g_exp_shared[j_s]
- 
+
                      # [STAGE 0] 4
                      T.barrier_wait(bar_4, i_s % 2)
 @@ -359,10 +358,12 @@ def tilelang_fused_chunk_gdr_fwd(
- 
+
                      # [STAGE 0] 5
                      T.barrier_wait(bar_5, i_s % 2)
 -                    # S2[S] O
@@ -226,21 +226,21 @@ index 57480cb..2a499a6 100644
 +                    # The Blackwell Pg@Vd fused-output path has a TileLang shared-layout bug;
 +                    # vLLM chunk_fwd_o computes the final output from (q,k,v_new,h,g) correctly.
 +                    T.copy(vd_shared, o_shared)
- 
+
 -                    T.barrier_arrive(data_is_free[i_s % 2])
 +                    T.barrier_arrive(data_is_free[0])
- 
+
                  T.barrier_arrive(bar_o)
- 
+
 @@ -371,24 +372,24 @@ def tilelang_fused_chunk_gdr_fwd(
- 
+
                  if tx < 384 + 32:
                      for i_s in T.serial(num_iters):
 -                        T.barrier_wait(data_is_free[i_s % 2], (i_s // 2 + 1) % 2)
 +                        T.barrier_wait(data_is_free[0], (i_s + 1) % 2)
                          left = seq_start_idx + i_s * block_S
                          right = left + block_S
- 
+
                          # Load Q
                          T.copy(
 -                            q[batch_idx, left:right, bhg, 0:DK], q_shared[i_s % 2, :, :]
@@ -251,17 +251,17 @@ index 57480cb..2a499a6 100644
 -                            k[batch_idx, left:right, bhg, 0:DK], k_shared[i_s % 2, :, :]
 +                            k[batch_idx, left:right, bhg, 0:DK], k_shared[:, :]
                          )
- 
+
 -                        T.barrier_arrive(data_is_ready[i_s % 2])
 +                        T.barrier_arrive(data_is_ready[0])
- 
+
                  elif tx < 384 + 64:
                      for i_s in T.serial(num_iters):
 -                        T.barrier_wait(data_is_free[i_s % 2], (i_s // 2 + 1) % 2)
 +                        T.barrier_wait(data_is_free[0], (i_s + 1) % 2)
                          left = seq_start_idx + i_s * block_S
                          right = left + block_S
- 
+
 @@ -400,50 +401,50 @@ def tilelang_fused_chunk_gdr_fwd(
                                  bh,
                                  bv * block_DV : (bv + 1) * block_DV,
@@ -284,17 +284,17 @@ index 57480cb..2a499a6 100644
                                  else:
 -                                    b_shared[i_s % 2, j_s] = 0
 +                                    b_shared[j_s] = 0
- 
+
 -                        T.barrier_arrive(data_is_ready[i_s % 2])
 +                        T.barrier_arrive(data_is_ready[0])
- 
+
                  elif tx < 384 + 96:
                      for i_s in T.serial(num_iters):
 -                        T.barrier_wait(data_is_free[i_s % 2], (i_s // 2 + 1) % 2)
 +                        T.barrier_wait(data_is_free[0], (i_s + 1) % 2)
                          left = seq_start_idx + i_s * block_S
                          right = left + block_S
- 
+
                          # Load A
                          T.copy(
                              a[batch_idx, left:right, bh, 0:block_S],
@@ -318,16 +318,16 @@ index 57480cb..2a499a6 100644
 +                                    g_shared[j_s] = g[
                                          batch_idx, seq_end_idx - 1, bh
                                      ]
- 
+
 -                        T.barrier_arrive(data_is_ready[i_s % 2])
 +                        T.barrier_arrive(data_is_ready[0])
- 
+
                  else:
                      for i_s in T.serial(num_unmasked_iters):
 @@ -608,6 +609,12 @@ def fused_gdr_fwd(
      else:
          block_DV = 32
- 
+
 +    # Blackwell consumer (sm_120a / sm_121a) caps dynamic SMEM at ~99 KB,
 +    # so block_DV=128 doesn't fit (kernel SMEM is ~116 KB at that tile).
 +    # Cap to 64 here.  This doubles the grid_size but each block fits.
@@ -350,12 +350,12 @@ index 14eca1d..4dd5ede 100644
      seqlen_dtype,
      is_varlen,
 @@ -37,6 +38,7 @@ def tilelang_kkt_solve(
- 
+
      k_shape = (data_batch_size, num_tokens, Hg, DK)
      a_shape = (data_batch_size, num_tokens, H, chunk_size)
 +    g_shape = (data_batch_size, num_tokens, H)
      b_shape = (data_batch_size, num_tokens, H)
- 
+
      @T.macro
 @@ -50,6 +52,7 @@ def tilelang_kkt_solve(
          seq_start_idx,
@@ -367,16 +367,16 @@ index 14eca1d..4dd5ede 100644
      ):
 @@ -57,6 +60,7 @@ def tilelang_kkt_solve(
          right = left + block_S
- 
+
          k_shared = T.alloc_shared((block_S, DK), dtype=qkva_dtype)
 +        g_shared = T.alloc_shared((block_S), dtype=accum_dtype, scope="shared")
          b_shared = T.alloc_shared((block_S), dtype=accum_dtype, scope="shared")
          a64_fragment = T.alloc_fragment((block_S, block_S), dtype=accum_dtype)
- 
+
 @@ -93,15 +97,18 @@ def tilelang_kkt_solve(
          if tx < 128:
              T.set_max_nreg(CONSUMER_NREG, 1)
- 
+
 -            # Load b
 +            # Load cumulative gate and beta
              if right <= seq_end_idx:
@@ -391,18 +391,18 @@ index 14eca1d..4dd5ede 100644
                      else:
 +                        g_shared[j_s] = 0
                          b_shared[j_s] = 0
- 
+
              T.barrier_wait(k_is_ready, 0)
 @@ -111,9 +118,9 @@ def tilelang_kkt_solve(
                  k_shared, k_shared, a64_fragment, transpose_B=True, clear_accum=True
              )
- 
+
 -            # A = b * A
 +            # A = beta_i * exp(g_i - g_j) * K_i @ K_j^T, matching vLLM FLA KKT.
              for j_s, j_t in T.Parallel(block_S, block_S):
 -                a64_fragment[j_s, j_t] *= b_shared[j_s]
 +                a64_fragment[j_s, j_t] *= b_shared[j_s] * T.exp2((g_shared[j_s] - g_shared[j_t]) * 1.442695)
- 
+
              # A = I + StrictLower(A)
              for j_s, j_t in T.Parallel(block_S, block_S):
 @@ -227,6 +234,7 @@ def tilelang_kkt_solve(
@@ -438,7 +438,7 @@ index 14eca1d..4dd5ede 100644
                      a,
                  )
 @@ -304,6 +315,7 @@ def tilelang_kkt_solve(
- 
+
  def kkt_solve(
      k: torch.Tensor,
 +    g: torch.Tensor,
@@ -451,7 +451,7 @@ index 14eca1d..4dd5ede 100644
      assert K == 128
 -    assert chunk_size == 64
 +    assert chunk_size in (32, 48, 64)
- 
+
      if cu_seqlens is None:
          num_chunks = batch_size * tilelang.cdiv(num_tokens, chunk_size)
 @@ -332,14 +344,15 @@ def kkt_solve(
@@ -470,7 +470,7 @@ index 14eca1d..4dd5ede 100644
      else:
 -        tilelang_kkt_solve_kernel(k, b, a, num_chunks)
 +        tilelang_kkt_solve_kernel(k, g, b, a, num_chunks)
- 
+
      return a
 diff --git a/flash_qla/ops/gated_delta_rule/chunk/blackwell/prepare_h.py b/flash_qla/ops/gated_delta_rule/chunk/blackwell/prepare_h.py
 index c243167..fcb13af 100644
@@ -482,6 +482,6 @@ index c243167..fcb13af 100644
      assert K == V == 128
 -    assert chunk_size == 64
 +    assert chunk_size in (32, 48, 64)
- 
+
      if cu_seqlens is None:
          assert num_warmup_chunks is None
