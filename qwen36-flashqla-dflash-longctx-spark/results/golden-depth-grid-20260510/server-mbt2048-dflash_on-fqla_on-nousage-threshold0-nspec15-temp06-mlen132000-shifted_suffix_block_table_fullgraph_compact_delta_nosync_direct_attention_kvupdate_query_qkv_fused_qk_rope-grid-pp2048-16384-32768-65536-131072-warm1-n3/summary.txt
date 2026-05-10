@@ -1,0 +1,34 @@
+artifact /home/user/flashqla-v2-3100/spark-bench-reproducers/qwen36-flashqla-dflash-longctx-spark/results/golden-depth-grid-20260510/server-mbt2048-dflash_on-fqla_on-nousage-threshold0-nspec15-temp06-mlen132000-shifted_suffix_block_table_fullgraph_compact_delta_nosync_direct_attention_kvupdate_query_qkv_fused_qk_rope-grid-pp2048-16384-32768-65536-131072-warm1-n3
+wait-for-server-8001-exit-code.txt 0
+row 2048 bench_rc 0
+2048 pp_throughput mean 2122.683175755085 median 2138.791240779055 values [2055.126399599648, 2138.791240779055, 2174.1318868865533]
+2048 tg_throughput mean 7.7188866448741935 median 7.732663590086992 values [7.732701637677489, 7.732663590086992, 7.6912947068581]
+row 16384 bench_rc 0
+16384 pp_throughput mean 2619.640296282818 median 2619.314227148951 values [2631.244852842156, 2608.361808857346, 2619.314227148951]
+16384 tg_throughput mean 7.132642167610481 median 7.1374799304575145 values [7.117006955142171, 7.1374799304575145, 7.143439617231756]
+row 32768 bench_rc 0
+32768 pp_throughput mean 2385.2536772768585 median 2381.369863858974 values [2393.5031288653345, 2380.888039106267, 2381.369863858974]
+32768 tg_throughput mean 25.298106309007053 median 26.07529883502633 values [26.07529883502633, 22.007122298442365, 27.811897793552458]
+row 65536 bench_rc 0
+65536 pp_throughput mean 1973.5704068527164 median 1972.1992394852632 values [1981.0077095645277, 1967.5042715083584, 1972.1992394852632]
+65536 tg_throughput mean 19.10986002967049 median 19.929797060822086 values [19.929797060822086, 17.464207346370145, 19.935575681819248]
+row 131072 bench_rc 0
+131072 pp_throughput mean 1468.006372454706 median 1467.7360324148472 values [1467.7344528649114, 1467.7360324148472, 1468.5486320843588]
+131072 tg_throughput mean 14.342496873611696 median 14.18726395702048 values [14.18726395702048, 12.97209336843909, 15.868133295375516]
+DFlash shifted suffix block-table path active 72
+block_table_shifted=True 25
+seq_lens_adjusted=True 25
+slot_mapping_preserved=True 25
+SpecDecoding metrics 34
+spec_counts= 1398
+': 15} 1350
+[flashqla-v2] active 3
+Using Triton/FLA GDN prefill kernel 1
+[flashqla-large-shape] optimized 1
+Traceback 0
+EngineDeadError 0
+sampling 2048 temperature=0.6 8 top_p_present=False 8 min_tokens_present=False 8 ignore_eos_present=False 8
+sampling 16384 temperature=0.6 8 top_p_present=False 8 min_tokens_present=False 8 ignore_eos_present=False 8
+sampling 32768 temperature=0.6 8 top_p_present=False 8 min_tokens_present=False 8 ignore_eos_present=False 8
+sampling 65536 temperature=0.6 8 top_p_present=False 8 min_tokens_present=False 8 ignore_eos_present=False 8
+sampling 131072 temperature=0.6 8 top_p_present=False 8 min_tokens_present=False 8 ignore_eos_present=False 8
