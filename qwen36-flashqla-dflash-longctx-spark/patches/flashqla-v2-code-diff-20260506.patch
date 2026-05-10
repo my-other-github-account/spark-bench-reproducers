@@ -66,7 +66,7 @@ index 23e9e6c..987a9c4 100755
  export TORCH_CUDA_ARCH_LIST="${TORCH_CUDA_ARCH_LIST:-12.1a}"
 +export FLASHQLA_HKV_O_BK="${FLASHQLA_HKV_O_BK:-128}"
 +export FLASHQLA_HKV_O_BV="${FLASHQLA_HKV_O_BV:-128}"
- 
+
  exec vllm serve "$MODEL_DIR" \
    --host "$HOST" \
 @@ -23,7 +25,6 @@ exec vllm serve "$MODEL_DIR" \
