@@ -12,18 +12,20 @@ By [@banana_baeee](https://x.com/banana_baeee).
 
 ## Measured results
 
-Raw JSONs are included under `results/final-pp32k-shifted-suffix/`.
+Raw JSONs are included under `results/final-pp32k-shifted-suffix/`. The PP128K DFlash ON row is now the **golden full-depth DFlash config** for this recipe.
 
 | Shape | DFlash | FlashQLA | Runs | PP mean | PP median | TG mean | TG median | TG min | TG max | Raw JSON |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | PP32768/TG128/C1/MBT2048 | on | on | 30 | 2407.4593 | 2407.8549 | **24.4411** | **24.4312** | 18.0189 | 30.7199 | `results/final-pp32k-shifted-suffix/dflash_on_fqla_on_pp32768_tg128_c1_mbt2048_n30.json` |
+| PP131072/TG128/C1/MBT2048 | on | on | 3 | 1468.1245 | 1465.6273 | **13.7570** | **13.6200** | 13.3361 | 14.3149 | `results/final-pp32k-shifted-suffix/dflash_on_fqla_on_pp131072_tg128_c1_mbt2048_n3.json` |
 | PP32768/TG128/C1/MBT2048 | on | effectively off | 30 | 2316.0058 | 2316.0448 | 23.8651 | 23.7121 | 15.9879 | 31.9160 | `results/final-pp32k-shifted-suffix/dflash_on_fqla_effectively_off_pp32768_tg128_c1_mbt2048_n30.json` |
 | PP131072/TG128/C1/MBT2048 | off | on | 3 | 1535.3933 | 1533.5035 | 8.2617 | 8.2632 | 8.2577 | 8.2641 | `results/final-pp32k-shifted-suffix/dflash_off_fqla_on_pp131072_tg128_c1_mbt2048_n3_baseline.json` |
 
 Notes:
 
-- The PP131072 row is the current **128K-depth baseline** with DFlash OFF + FlashQLA ON. Full shifted-suffix DFlash ON at 128K is not yet a verified final row in this folder.
-- The hard PP32K DFlash ON success floor was `>15.749112456536343 tok/s` (50% above the stronger DFlash-OFF baseline of `10.499408304357562 tok/s`). The FlashQLA-ON final mean clears it by `+8.6920 tok/s`.
+- PP128K DFlash ON + FlashQLA ON is now validated as the golden full-depth config: shifted suffix block-table markers, FlashQLA markers, SpecDecoding metrics, `temperature=0.6`, no forced `top_p`, no `min_tokens`, no `ignore_eos`, and no crash markers.
+- PP128K DFlash ON improves TG mean from `8.2617` to `13.7570` tok/s vs the DFlash-OFF FlashQLA-ON PP128K baseline, while PP mean is lower (`1468.12` vs `1535.39`) because DFlash decode is active at full depth.
+- The hard PP32K DFlash ON success floor was `>15.749112456536343 tok/s`; the FlashQLA-ON final PP32K mean clears it by `+8.6920 tok/s`.
 
 ## What made the combined result work
 
@@ -175,7 +177,7 @@ Experimental PP128K DFlash ON + FlashQLA ON probe, if present in this checkout:
 bash scripts/bench_pp128k_tg128_dflash_fqla_on_shifted_suffix_n3.sh
 ```
 
-The current verified PP128K artifact in this folder is still the DFlash-OFF baseline; do not claim PP128K DFlash ON until a raw JSON row is produced and marker-validated.
+The PP128K DFlash ON + FlashQLA ON row is now marker-validated and included as the golden full-depth config.
 
 ## Raw API bench command shape
 
