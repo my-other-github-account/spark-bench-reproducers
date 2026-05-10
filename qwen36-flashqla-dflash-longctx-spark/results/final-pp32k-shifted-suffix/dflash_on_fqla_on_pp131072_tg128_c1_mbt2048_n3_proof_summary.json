@@ -1,0 +1,19 @@
+{
+  "source_artifact": "results/pp128k-tg128-dflash-shifted-suffix-20260510/mbt2048-dflash_on-fqla_on-nousage-threshold0-nspec15-temp06-mlen132000-shifted_suffix_block_table_fullgraph_compact_delta_nosync_direct_attention_kvupdate_query_qkv_fused_qk_rope-warm1-n3-pp131072",
+  "summary_txt": "artifact /home/user/flashqla-v2-3100/spark-bench-reproducers/qwen36-flashqla-dflash-longctx-spark/results/pp128k-tg128-dflash-shifted-suffix-20260510/mbt2048-dflash_on-fqla_on-nousage-threshold0-nspec15-temp06-mlen132000-shifted_suffix_block_table_fullgraph_compact_delta_nosync_direct_attention_kvupdate_query_qkv_fused_qk_rope-warm1-n3-pp131072\nwait-for-server-8001-exit-code.txt 0\nbench-8001-exit-code.txt 0\njson measured-pp131072-tg128-c1-n3.json\npp_throughput mean 1468.124455131486 median 1465.6272565781408 values [1473.5486183839778, 1465.6272565781408, 1465.19749043234]\ntg_throughput mean 13.75700469530661 median 13.619950582462561 values [13.336116989088275, 14.31494651436899, 13.619950582462561]\nDFlash direct draft-query attention v2 path active 30\npreserved_query_qkv=True 30\nkv_cache_update_preserved=True 30\nfused_qk_norm_rope=True 30\navoided_generic_attention_wrapper=True 30\nDFlash local argmax proposer path active 29\nDFlash query QKV workspace v3 path active 2\nDFlash compact delta rejection v2 no-sync plus DFlash proposer FULL cudagraph path active 23\nDFlash longctx feature metadata gpu path active 248\nDFlash longctx feature metadata draft ids 88\nDFlash longctx feature metadata proposer set_inputs active 403\nDFlash longctx feature metadata precompute active 403\nDFlash longctx prompt-boundary trim path active 0\nDFlash shifted suffix block-table path active 108\nsuffix_intrablock_offset=0 85\nblock_table_shifted=True 85\nseq_lens_adjusted=True 85\ntrimmed_extra_context_rows=1 0\nprompt_boundary_context_max_before=131073 0\nprompt_boundary_context_max_after=32768 0\noutput_unchanged=True 1142\navoided_hot_path_cpu_sync=True 23\npreserved_delta_proposal_sampling=True 23\navoided_full_vocab_target_softmax=True 23\navoided_full_vocab_recovered_scan=True 23\nSpecDecoding metrics 7\nflashqla 12\nflash_qla 0\nFlashQLA 3\nscheduled_spec_decode_tokens 0\nTraceback 0\nEngineDeadError 0\ntemperature=0.6 8\ntop_p_present=False 8\nmin_tokens_present=False 8\nignore_eos_present=False 8\n",
+  "markers": {
+    "DFlash shifted suffix block-table path active": 216,
+    "block_table_shifted=True": 170,
+    "seq_lens_adjusted=True": 170,
+    "slot_mapping_preserved=True": 170,
+    "SpecDecoding metrics": 14,
+    "spec_counts": 496,
+    "[flashqla-v2] active": 7,
+    "temperature=0.6": 8,
+    "top_p_present=False": 8,
+    "min_tokens_present=False": 8,
+    "ignore_eos_present=False": 8,
+    "Traceback": 0,
+    "EngineDeadError": 0
+  }
+}
