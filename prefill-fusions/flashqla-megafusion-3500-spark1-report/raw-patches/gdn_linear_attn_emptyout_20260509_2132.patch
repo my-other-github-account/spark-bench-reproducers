@@ -1,0 +1,14 @@
+--- patches/gdn_linear_attn_nobaro_full_20260509_1635.py
++++ patches/gdn_linear_attn_emptyout_20260509_2132.py
+@@ -566,9 +566,8 @@
+         # ============================================================
+         # Part 2: Core Attention (Custom Op)
+         # ============================================================
+-        # Note: we should not use torch.empty here like other attention backends,
+-        # see discussions in https://github.com/vllm-project/vllm/pull/28182
+-        core_attn_out = torch.zeros(
++        # FlashQLA/vLLM GDN core writes the active token range before projection.
++        core_attn_out = torch.empty(
+             (num_tokens, self.num_v_heads // self.tp_size, self.head_v_dim),
+             dtype=hidden_states.dtype,
+             device=hidden_states.device,

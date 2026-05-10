@@ -1,0 +1,176 @@
+INFO 05-09 21:13:24 [nixl_utils.py:20] Setting UCX_RCACHE_MAX_UNRELEASED to '1024' to avoid a rare memory leak in UCX when using NIXL.
+WARNING 05-09 21:13:24 [nixl_utils.py:34] NIXL is not available
+WARNING 05-09 21:13:24 [nixl_utils.py:44] NIXL agent config is not available
+[flashqla-v2] active: HKV-output FlashQLA packed-single prefill with tunable HKV output kernel and short-decode fallback; original FLA fallback for unsupported paths
+(APIServer pid=1) INFO 05-09 21:13:25 [utils.py:299] 
+(APIServer pid=1) INFO 05-09 21:13:25 [utils.py:299]        █     █     █▄   ▄█
+(APIServer pid=1) INFO 05-09 21:13:25 [utils.py:299]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.20.2rc1.dev1+g54dc64d5d.d20260503
+(APIServer pid=1) INFO 05-09 21:13:25 [utils.py:299]   █▄█▀ █     █     █     █  model   /models/AxionML-Qwen3.5-27B-NVFP4
+(APIServer pid=1) INFO 05-09 21:13:25 [utils.py:299]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
+(APIServer pid=1) INFO 05-09 21:13:25 [utils.py:299] 
+(APIServer pid=1) INFO 05-09 21:13:25 [utils.py:233] non-default args: {'model_tag': '/models/AxionML-Qwen3.5-27B-NVFP4', 'host': '127.0.0.1', 'model': '/models/AxionML-Qwen3.5-27B-NVFP4', 'trust_remote_code': True, 'max_model_len': 4096, 'served_model_name': ['qwen35-27b-axionml-nvfp4'], 'generation_config': 'vllm', 'load_format': 'fastsafetensors', 'attention_backend': 'FLASH_ATTN', 'gpu_memory_utilization': 0.9, 'max_num_batched_tokens': 8192, 'max_num_seqs': 1, 'enable_chunked_prefill': True}
+(APIServer pid=1) WARNING 05-09 21:13:25 [envs.py:1855] Unknown vLLM environment variable detected: VLLM_BASE_DIR
+(APIServer pid=1) INFO 05-09 21:13:31 [model.py:563] Resolved architecture: Qwen3_5ForConditionalGeneration
+(APIServer pid=1) INFO 05-09 21:13:31 [model.py:1692] Using max model len 4096
+(APIServer pid=1) INFO 05-09 21:13:32 [scheduler.py:239] Chunked prefill is enabled with max_num_batched_tokens=8192.
+(APIServer pid=1) WARNING 05-09 21:13:32 [scheduler.py:281] max_num_batched_tokens (8192) exceeds max_num_seqs * max_model_len (4096). This may lead to unexpected behavior.
+(APIServer pid=1) WARNING 05-09 21:13:32 [modelopt.py:1014] Detected ModelOpt NVFP4 checkpoint. Please note that the format is experimental and could change in future.
+(APIServer pid=1) INFO 05-09 21:13:32 [vllm.py:840] Asynchronous scheduling is enabled.
+(APIServer pid=1) INFO 05-09 21:13:32 [kernel.py:210] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+(APIServer pid=1) INFO 05-09 21:13:32 [compilation.py:303] Enabled custom fusions: act_quant
+(APIServer pid=1) [transformers] `Qwen2VLImageProcessorFast` is deprecated. The `Fast` suffix for image processors has been removed; use `Qwen2VLImageProcessor` instead.
+(APIServer pid=1) [transformers] The `use_fast` parameter is deprecated and will be removed in a future version. Use `backend="torchvision"` instead of `use_fast=True`, or `backend="pil"` instead of `use_fast=False`.
+WARNING 05-09 21:13:41 [nixl_utils.py:34] NIXL is not available
+WARNING 05-09 21:13:41 [nixl_utils.py:44] NIXL agent config is not available
+[flashqla-v2] active: HKV-output FlashQLA packed-single prefill with tunable HKV output kernel and short-decode fallback; original FLA fallback for unsupported paths
+(EngineCore pid=130) INFO 05-09 21:13:41 [core.py:109] Initializing a V1 LLM engine (v0.20.2rc1.dev1+g54dc64d5d.d20260503) with config: model='/models/AxionML-Qwen3.5-27B-NVFP4', speculative_config=None, tokenizer='/models/AxionML-Qwen3.5-27B-NVFP4', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=4096, download_dir=None, load_format=fastsafetensors, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, decode_context_parallel_size=1, dcp_comm_backend=ag_rs, disable_custom_all_reduce=False, quantization=modelopt_fp4, quantization_config=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=qwen35-27b-axionml-nvfp4, enable_prefix_caching=False, enable_chunked_prefill=True, pooler_config=None, compilation_config={'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'ir_enable_torch_wrap': True, 'splitting_ops': ['vllm::unified_attention_with_output', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::linear_attention', 'vllm::plamo2_mamba_mixer', 'vllm::gdn_attention_core', 'vllm::gdn_attention_core_xpu', 'vllm::olmo_hybrid_gdn_full_forward', 'vllm::kda_attention', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer', 'vllm::deepseek_v4_attention', 'vllm::unified_kv_cache_update', 'vllm::unified_mla_kv_cache_update'], 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'compile_sizes': [], 'compile_ranges_endpoints': [8192], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'size_asserts': False, 'alignment_asserts': False, 'scalar_asserts': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': True, 'fuse_attn_quant': False, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False, 'fuse_act_padding': False}, 'max_cudagraph_capture_size': 2, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native']), enable_flashinfer_autotune=True, moe_backend='auto')
+WARNING 05-09 21:13:41 [nixl_utils.py:34] NIXL is not available
+WARNING 05-09 21:13:41 [nixl_utils.py:44] NIXL agent config is not available
+[flashqla-v2] active: HKV-output FlashQLA packed-single prefill with tunable HKV output kernel and short-decode fallback; original FLA fallback for unsupported paths
+(EngineCore pid=130) [transformers] `Qwen2VLImageProcessorFast` is deprecated. The `Fast` suffix for image processors has been removed; use `Qwen2VLImageProcessor` instead.
+(EngineCore pid=130) INFO 05-09 21:13:42 [parallel_state.py:1410] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://10.0.0.103:35661 backend=nccl
+(EngineCore pid=130) INFO 05-09 21:13:42 [parallel_state.py:1723] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A, EPLB rank N/A
+(EngineCore pid=130) INFO 05-09 21:13:44 [topk_topp_sampler.py:45] Using FlashInfer for top-p & top-k sampling.
+(EngineCore pid=130) [transformers] The `use_fast` parameter is deprecated and will be removed in a future version. Use `backend="torchvision"` instead of `use_fast=True`, or `backend="pil"` instead of `use_fast=False`.
+(EngineCore pid=130) INFO 05-09 21:13:48 [gpu_model_runner.py:4815] Starting to load model /models/AxionML-Qwen3.5-27B-NVFP4...
+(EngineCore pid=130) INFO 05-09 21:13:48 [cuda.py:423] Using backend AttentionBackendEnum.FLASH_ATTN for vit attention
+(EngineCore pid=130) INFO 05-09 21:13:48 [mm_encoder_attention.py:372] Using AttentionBackendEnum.FLASH_ATTN for MMEncoderAttention.
+(EngineCore pid=130) INFO 05-09 21:13:48 [__init__.py:648] Using CutlassNvFp4LinearKernel for NVFP4 GEMM
+(EngineCore pid=130) INFO 05-09 21:13:48 [gdn_linear_attn.py:153] Using Triton/FLA GDN prefill kernel
+(EngineCore pid=130) INFO 05-09 21:13:48 [cuda.py:308] Using AttentionBackendEnum.FLASH_ATTN backend.
+(EngineCore pid=130) INFO 05-09 21:13:48 [flash_attn.py:646] Using FlashAttention version 2
+(EngineCore pid=130) Loading safetensors using Fastsafetensor loader:   0% Completed | 0/1 [00:00<?, ?it/s]
+(EngineCore pid=130) /usr/local/lib/python3.12/dist-packages/fastsafetensors/copier/gds.py:201: UserWarning: GDS is not supported in this platform but nogds is False. use nogds=True
+(EngineCore pid=130)   warnings.warn(
+(EngineCore pid=130) Exception in thread Thread-1 (_report_usage_worker):
+(EngineCore pid=130) Traceback (most recent call last):
+(EngineCore pid=130)   File "/usr/lib/python3.12/threading.py", line 1073, in _bootstrap_inner
+(EngineCore pid=130)     self.run()
+(EngineCore pid=130)   File "/usr/lib/python3.12/threading.py", line 1010, in run
+(EngineCore pid=130)     self._target(*self._args, **self._kwargs)
+(EngineCore pid=130)   File "/usr/local/lib/python3.12/dist-packages/vllm/usage/usage_lib.py", line 173, in _report_usage_worker
+(EngineCore pid=130)     self._report_usage_once(model_architecture, usage_context, extra_kvs)
+(EngineCore pid=130)   File "/usr/local/lib/python3.12/dist-packages/vllm/usage/usage_lib.py", line 217, in _report_usage_once
+(EngineCore pid=130)     info = cpuinfo.get_cpu_info()
+(EngineCore pid=130)            ^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=130)   File "/usr/local/lib/python3.12/dist-packages/cpuinfo/cpuinfo.py", line 2762, in get_cpu_info
+(EngineCore pid=130)     output = json.loads(output, object_hook = _utf_to_str)
+(EngineCore pid=130)              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=130)   File "/usr/lib/python3.12/json/__init__.py", line 359, in loads
+(EngineCore pid=130)     return cls(**kw).decode(s)
+(EngineCore pid=130)            ^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=130)   File "/usr/lib/python3.12/json/decoder.py", line 337, in decode
+(EngineCore pid=130)     obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+(EngineCore pid=130)                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=130)   File "/usr/lib/python3.12/json/decoder.py", line 355, in raw_decode
+(EngineCore pid=130)     raise JSONDecodeError("Expecting value", s, err.value) from None
+(EngineCore pid=130) json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+(EngineCore pid=130) Loading safetensors using Fastsafetensor loader: 100% Completed | 1/1 [00:13<00:00, 13.59s/it]
+(EngineCore pid=130) Loading safetensors using Fastsafetensor loader: 100% Completed | 1/1 [00:13<00:00, 13.59s/it]
+(EngineCore pid=130) 
+(EngineCore pid=130) INFO 05-09 21:14:03 [default_loader.py:391] Loading weights took 13.59 seconds
+(EngineCore pid=130) INFO 05-09 21:14:04 [gpu_model_runner.py:4917] Model loading took 18.48 GiB memory and 15.770337 seconds
+(EngineCore pid=130) INFO 05-09 21:14:04 [interface.py:609] Setting attention block size to 784 tokens to ensure that attention page size is >= mamba page size.
+(EngineCore pid=130) INFO 05-09 21:14:04 [interface.py:633] Padding mamba page size by 0.13% to ensure that mamba page size and attention page size are exactly equal.
+(EngineCore pid=130) INFO 05-09 21:14:04 [gpu_model_runner.py:5878] Encoder cache will be initialized with a budget of 16384 tokens, and profiled with 1 image items of the maximum feature size.
+(EngineCore pid=130) INFO 05-09 21:14:23 [backends.py:1089] Using cache directory: /root/.cache/vllm/torch_compile_cache/e82223cbb3/rank_0_0/backbone for vLLM's torch.compile
+(EngineCore pid=130) INFO 05-09 21:14:23 [backends.py:1148] Dynamo bytecode transform time: 11.21 s
+(EngineCore pid=130) INFO 05-09 21:14:25 [backends.py:378] Cache the graph of compile range (1, 8192) for later use
+(EngineCore pid=130) INFO 05-09 21:14:49 [backends.py:393] Compiling a graph for compile range (1, 8192) takes 26.07 s
+(EngineCore pid=130) INFO 05-09 21:14:54 [decorators.py:708] saved AOT compiled function to /root/.cache/vllm/torch_compile_cache/torch_aot_compile/6e9cec8c6896d0dc8464161bac3b343bdc7e40bc7eaef93dc264f8d7f89a30be/rank_0_0/model
+(EngineCore pid=130) INFO 05-09 21:14:54 [monitor.py:53] torch.compile took 42.16 s in total
+[21:15:01] /project/src/transform/legalize_safe_memory_access.cc:126: Warning: Index access may be negative: (i * 2 + vec) % 8 // 4 * 4 + tx % 64 // 32 * 2 + (i * 2 + vec) % 4 // 2 - 4 < 0; Buffer name: a32o_shared
+[21:15:01] /project/src/transform/warp_specialized_rewriter.h:43: Warning: Auto warp specialization will be disabled because TMA and mbarrier are both present
+[21:15:15] /project/src/transform/warp_specialized_rewriter.h:43: Warning: Auto warp specialization will be disabled because TMA and mbarrier are both present
+(EngineCore pid=130) 2026-05-09 21:14:57  [TileLang:tilelang.jit.kernel:INFO]: TileLang begins to compile kernel `tilelang_chunk_local_cumsum_kernel` with `out_idx=None`
+(EngineCore pid=130) 2026-05-09 21:15:00  [TileLang:tilelang.jit.kernel:INFO]: TileLang completes to compile kernel `tilelang_chunk_local_cumsum_kernel`
+(EngineCore pid=130) 2026-05-09 21:15:00  [TileLang:tilelang.jit.kernel:INFO]: TileLang begins to compile kernel `tilelang_kkt_solve_kernel` with `out_idx=None`
+(EngineCore pid=130) 2026-05-09 21:15:11  [TileLang:tilelang.jit.kernel:INFO]: TileLang completes to compile kernel `tilelang_kkt_solve_kernel`
+(EngineCore pid=130) 2026-05-09 21:15:12  [TileLang:tilelang.jit.kernel:INFO]: TileLang begins to compile kernel `tilelang_prepare_chunk_offsets_kernel` with `out_idx=None`
+(EngineCore pid=130) 2026-05-09 21:15:14  [TileLang:tilelang.jit.kernel:INFO]: TileLang completes to compile kernel `tilelang_prepare_chunk_offsets_kernel`
+(EngineCore pid=130) 2026-05-09 21:15:14  [TileLang:tilelang.jit.kernel:INFO]: TileLang begins to compile kernel `tilelang_fused_chunk_gdr_fwd_kernel` with `out_idx=None`
+(EngineCore pid=130) 2026-05-09 21:15:25  [TileLang:tilelang.jit.kernel:INFO]: TileLang completes to compile kernel `tilelang_fused_chunk_gdr_fwd_kernel`
+(EngineCore pid=130) INFO 05-09 21:15:37 [monitor.py:81] Initial profiling/warmup run took 43.15 s
+(EngineCore pid=130) INFO 05-09 21:15:37 [gpu_model_runner.py:6021] Profiling CUDA graph memory: PIECEWISE=2 (largest=2), FULL=1 (largest=1)
+(EngineCore pid=130) INFO 05-09 21:16:13 [gpu_model_runner.py:6100] Estimated CUDA graph memory: 0.35 GiB total
+(EngineCore pid=130) INFO 05-09 21:16:14 [gpu_worker.py:460] Available KV cache memory: 82.27 GiB
+(EngineCore pid=130) WARNING 05-09 21:16:14 [gpu_worker.py:492] CUDA graph memory profiling is disabled (VLLM_MEMORY_PROFILER_ESTIMATE_CUDAGRAPHS=0). Without it, CUDA graph memory is not accounted for during KV cache allocation, which may require lowering --gpu-memory-utilization to avoid OOM. Consider re-enabling it (the default as of v0.21.0) and increasing --gpu-memory-utilization from 0.9000 to 0.9029.
+(EngineCore pid=130) INFO 05-09 21:16:14 [kv_cache_utils.py:1710] GPU KV cache size: 782,336 tokens
+(EngineCore pid=130) INFO 05-09 21:16:14 [kv_cache_utils.py:1711] Maximum concurrency for 4,096 tokens per request: 191.00x
+(EngineCore pid=130) 2026-05-09 21:16:17,651 - INFO - autotuner.py:583 - flashinfer.jit: [Autotuner]: Autotuning process starts ...
+(EngineCore pid=130) 2026-05-09 21:16:17,898 - INFO - autotuner.py:602 - flashinfer.jit: [Autotuner]: Autotuning process ends
+(EngineCore pid=130) Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/2 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 2/2 [00:00<00:00, 11.23it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 2/2 [00:00<00:00, 11.22it/s]
+(EngineCore pid=130) Capturing CUDA graphs (decode, FULL):   0%|          | 0/1 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 1/1 [00:00<00:00,  5.77it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 1/1 [00:00<00:00,  5.76it/s]
+(EngineCore pid=130) INFO 05-09 21:16:22 [gpu_model_runner.py:6191] Graph capturing finished in 4 secs, took 0.02 GiB
+(EngineCore pid=130) INFO 05-09 21:16:22 [gpu_worker.py:619] CUDA graph pool memory: 0.02 GiB (actual), 0.35 GiB (estimated), difference: 0.32 GiB (1465.1%).
+(EngineCore pid=130) INFO 05-09 21:16:22 [core.py:299] init engine (profile, create kv cache, warmup model) took 137.74 s (compilation: 42.16 s)
+(EngineCore pid=130) INFO 05-09 21:16:22 [vllm.py:840] Asynchronous scheduling is enabled.
+(EngineCore pid=130) INFO 05-09 21:16:22 [kernel.py:210] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+(EngineCore pid=130) INFO 05-09 21:16:22 [compilation.py:303] Enabled custom fusions: act_quant
+(APIServer pid=1) INFO 05-09 21:16:22 [api_server.py:598] Supported tasks: ['generate']
+(APIServer pid=1) INFO 05-09 21:16:23 [hf.py:482] Detected the chat template content format to be 'string'. You can set `--chat-template-content-format` to override this.
+(APIServer pid=1) INFO 05-09 21:16:27 [base.py:233] Multi-modal warmup completed in 4.078s
+(APIServer pid=1) INFO 05-09 21:16:31 [base.py:233] Readonly multi-modal warmup completed in 4.038s
+(APIServer pid=1) INFO 05-09 21:16:31 [api_server.py:602] Starting vLLM server on http://127.0.0.1:8000
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:37] Available routes are:
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /openapi.json, Methods: HEAD, GET
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /docs, Methods: HEAD, GET
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /docs/oauth2-redirect, Methods: HEAD, GET
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /redoc, Methods: HEAD, GET
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /tokenize, Methods: POST
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /detokenize, Methods: POST
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /load, Methods: GET
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /version, Methods: GET
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /health, Methods: GET
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /metrics, Methods: GET
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /v1/models, Methods: GET
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /ping, Methods: GET
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /ping, Methods: POST
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /invocations, Methods: POST
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /v1/chat/completions, Methods: POST
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /v1/chat/completions/batch, Methods: POST
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /v1/responses, Methods: POST
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /v1/responses/{response_id}, Methods: GET
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /v1/responses/{response_id}/cancel, Methods: POST
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /v1/completions, Methods: POST
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /v1/messages, Methods: POST
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /v1/messages/count_tokens, Methods: POST
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /inference/v1/generate, Methods: POST
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /scale_elastic_ep, Methods: POST
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /is_scaling_elastic_ep, Methods: POST
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /generative_scoring, Methods: POST
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /v1/chat/completions/render, Methods: POST
+(APIServer pid=1) INFO 05-09 21:16:31 [launcher.py:46] Route: /v1/completions/render, Methods: POST
+(APIServer pid=1) INFO:     Started server process [1]
+(APIServer pid=1) INFO:     Waiting for application startup.
+(APIServer pid=1) INFO:     Application startup complete.
+(APIServer pid=1) INFO:     127.0.0.1:45764 - "GET /v1/models HTTP/1.1" 200 OK
+(EngineCore pid=130) [flashqla-patch] fallback #1 reason=short-decode-preserve-coherence q_shape=(1, 30, 16, 128) chunk_indices=True chunk_offsets=True
+(EngineCore pid=130) [flashqla-patch] fallback #2 reason=short-decode-preserve-coherence q_shape=(1, 30, 16, 128) chunk_indices=True chunk_offsets=True
+(EngineCore pid=130) [flashqla-patch] fallback #3 reason=short-decode-preserve-coherence q_shape=(1, 30, 16, 128) chunk_indices=True chunk_offsets=True
+(EngineCore pid=130) [flashqla-patch] fallback #4 reason=short-decode-preserve-coherence q_shape=(1, 30, 16, 128) chunk_indices=True chunk_offsets=True
+(EngineCore pid=130) [flashqla-patch] fallback #5 reason=short-decode-preserve-coherence q_shape=(1, 30, 16, 128) chunk_indices=True chunk_offsets=True
+(EngineCore pid=130) [flashqla-patch] fallback #6 reason=short-decode-preserve-coherence q_shape=(1, 30, 16, 128) chunk_indices=True chunk_offsets=True
+(EngineCore pid=130) [flashqla-patch] fallback #7 reason=short-decode-preserve-coherence q_shape=(1, 30, 16, 128) chunk_indices=True chunk_offsets=True
+(EngineCore pid=130) [flashqla-patch] fallback #8 reason=short-decode-preserve-coherence q_shape=(1, 30, 16, 128) chunk_indices=True chunk_offsets=True
+(APIServer pid=1) INFO:     127.0.0.1:59242 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=1) INFO:     127.0.0.1:59242 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=1) INFO:     127.0.0.1:59242 - "GET /v1/models HTTP/1.1" 200 OK
+(APIServer pid=1) INFO:     127.0.0.1:59242 - "GET /v1/models HTTP/1.1" 200 OK
+(APIServer pid=1) INFO:     127.0.0.1:59242 - "GET /v1/models HTTP/1.1" 200 OK
+(APIServer pid=1) INFO:     127.0.0.1:59242 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(EngineCore pid=130) [flashqla-large-shape] optimized shape=(1, 2058, 16, 128) calls=145 fallbacks=96
+[21:18:30] /project/src/transform/warp_specialized_rewriter.h:43: Warning: Auto warp specialization will be disabled because TMA and mbarrier are both present
+(APIServer pid=1) INFO 05-09 21:18:31 [loggers.py:271] Engine 000: Avg prompt throughput: 6.5 tokens/s, Avg generation throughput: 0.2 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 0.0%
+(APIServer pid=1) INFO 05-09 21:18:41 [loggers.py:271] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 0.0 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 0.0%
+(APIServer pid=1) INFO:     127.0.0.1:59242 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=1) INFO:     127.0.0.1:39802 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=1) INFO:     127.0.0.1:39802 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=1) INFO:     127.0.0.1:39802 - "GET /v1/models HTTP/1.1" 200 OK
+(APIServer pid=1) INFO:     127.0.0.1:39802 - "GET /v1/models HTTP/1.1" 200 OK
+(APIServer pid=1) INFO:     127.0.0.1:39802 - "GET /v1/models HTTP/1.1" 200 OK
+(APIServer pid=1) INFO:     127.0.0.1:39802 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=1) INFO 05-09 21:18:51 [loggers.py:271] Engine 000: Avg prompt throughput: 418.1 tokens/s, Avg generation throughput: 6.6 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 0.0%
+(APIServer pid=1) INFO:     127.0.0.1:39802 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=1) INFO:     127.0.0.1:39802 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+(APIServer pid=1) INFO 05-09 21:19:01 [loggers.py:271] Engine 000: Avg prompt throughput: 617.4 tokens/s, Avg generation throughput: 9.6 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 0.0%

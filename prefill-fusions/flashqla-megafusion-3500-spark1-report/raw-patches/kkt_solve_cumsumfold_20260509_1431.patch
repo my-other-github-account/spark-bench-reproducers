@@ -1,0 +1,104 @@
+--- patches/kkt_solve_nobaro_20260509_1328.py	2026-05-09 12:53:07.216132796 -0700
++++ patches/kkt_solve_cumsumfold_20260509_1431.py	2026-05-09 13:23:00.687287001 -0700
+@@ -55,6 +55,7 @@
+         g,
+         b,
+         a,
++        g_cumsum,
+     ):
+         left = seq_start_idx + chunk_idx * block_S
+         right = left + block_S
+@@ -63,6 +64,7 @@
+         g_shared = T.alloc_shared((block_S), dtype=accum_dtype, scope="shared")
+         b_shared = T.alloc_shared((block_S), dtype=accum_dtype, scope="shared")
+         a64_fragment = T.alloc_fragment((block_S, block_S), dtype=accum_dtype)
++        g_scan = T.alloc_fragment((1, block_S), dtype=accum_dtype)
+ 
+         a16i_row = T.alloc_fragment((4, 16), dtype=accum_dtype)
+         a16i_sum = T.alloc_fragment((4, 16), dtype=accum_dtype)
+@@ -97,19 +99,29 @@
+         if tx < 128:
+             T.set_max_nreg(CONSUMER_NREG, 1)
+ 
+-            # Load cumulative gate and beta
++            # Load raw gate, compute per-chunk cumulative gate, and save it for fused_fwd.
+             if right <= seq_end_idx:
+                 for j_s in T.Parallel(block_S):
+-                    g_shared[j_s] = g[bb, left + j_s, bh]
++                    g_scan[0, j_s] = g[bb, left + j_s, bh]
+                     b_shared[j_s] = b[bb, left + j_s, bh]
+             else:
+                 for j_s in T.Parallel(block_S):
+                     if left + j_s < seq_end_idx:
+-                        g_shared[j_s] = g[bb, left + j_s, bh]
++                        g_scan[0, j_s] = g[bb, left + j_s, bh]
+                         b_shared[j_s] = b[bb, left + j_s, bh]
+                     else:
+-                        g_shared[j_s] = 0
++                        g_scan[0, j_s] = 0
+                         b_shared[j_s] = 0
++            T.cumsum(g_scan, dim=1, reverse=False)
++            if right <= seq_end_idx:
++                for j_s in T.Parallel(block_S):
++                    g_shared[j_s] = g_scan[0, j_s]
++                    g_cumsum[bb, left + j_s, bh] = g_scan[0, j_s]
++            else:
++                for j_s in T.Parallel(block_S):
++                    g_shared[j_s] = g_scan[0, j_s]
++                    if left + j_s < seq_end_idx:
++                        g_cumsum[bb, left + j_s, bh] = g_scan[0, j_s]
+ 
+             T.barrier_wait(k_is_ready, 0)
+ 
+@@ -239,6 +251,7 @@
+             cu_seqlens: T.Tensor([real_batch_size + 1], dtype=seqlen_dtype),
+             chunk_indices: T.Tensor([num_chunks, 2], dtype=seqlen_dtype),
+             a: T.Tensor(a_shape, dtype=qkva_dtype),
++            g_cumsum: T.Tensor(g_shape, dtype=g_dtype),
+         ):
+             with T.Kernel(num_chunks * H, threads=256) as (bch,):
+                 bc, bh = bch // H, bch % H
+@@ -268,6 +281,7 @@
+                     g,
+                     b,
+                     a,
++                    g_cumsum,
+                 )
+ 
+     else:
+@@ -278,6 +292,7 @@
+             g: T.Tensor(g_shape, dtype=g_dtype),
+             b: T.Tensor(b_shape, dtype=b_dtype),
+             a: T.Tensor(a_shape, dtype=qkva_dtype),
++            g_cumsum: T.Tensor(g_shape, dtype=g_dtype),
+             num_chunks: T.int32,
+         ):
+             with T.Kernel(num_chunks * H, threads=256) as (bch,):
+@@ -308,6 +323,7 @@
+                     g,
+                     b,
+                     a,
++                    g_cumsum,
+                 )
+ 
+     return tilelang_kkt_solve_kernel
+@@ -337,6 +353,7 @@
+     a = torch.empty(
+         (batch_size, num_tokens, H, chunk_size), dtype=k.dtype, device=k.device
+     )
++    g_cumsum = torch.empty_like(g)
+ 
+     tilelang_kkt_solve_kernel = tilelang_kkt_solve(
+         H,
+@@ -351,8 +368,8 @@
+         is_varlen=is_varlen,
+     )
+     if is_varlen:
+-        tilelang_kkt_solve_kernel(k, g, b, cu_seqlens, chunk_indices, a)
++        tilelang_kkt_solve_kernel(k, g, b, cu_seqlens, chunk_indices, a, g_cumsum)
+     else:
+-        tilelang_kkt_solve_kernel(k, g, b, a, num_chunks)
++        tilelang_kkt_solve_kernel(k, g, b, a, g_cumsum, num_chunks)
+ 
+-    return a
++    return a, g_cumsum

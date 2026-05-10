@@ -1,0 +1,55 @@
+--- patches/fused_fwd_metanosync_20260509_1218.py	2026-05-09 12:09:46.560131090 -0700
++++ patches/fused_fwd_nooshared128_20260510_0224.py	2026-05-09 18:12:21.116503931 -0700
+@@ -127,7 +127,6 @@
+             g_shared = T.alloc_shared((block_S,), dtype=accum_dtype, scope="shared")
+             b_shared = T.alloc_shared((block_S,), dtype=accum_dtype, scope="shared")
+ 
+-            o_shared = T.alloc_shared((block_S, block_DV), dtype=o_dtype)
+             h_shared = T.alloc_shared((DK, block_DV), dtype=qkva_dtype)
+             vd_shared = T.alloc_shared((block_S, block_DV), dtype=qkva_dtype)
+             vn_shared = T.alloc_shared((block_S, block_DV), dtype=qkva_dtype)
+@@ -360,7 +359,7 @@
+                     # [STAGE 0] 5
+                     T.barrier_wait(bar_5, i_s % 2)
+                     # Store final output directly from the consumer branch.
+-                    # This avoids the Blackwell shared-layout path through o_shared.
++                    # This avoids the Blackwell shared-layout path through vd_shared.
+                     if store_o:
+                         for j_s, j_v in T.Parallel(block_S, block_DV):
+                             with T.If(seq_start_idx + i_s * block_S + j_s < seq_end_idx):
+@@ -466,7 +465,7 @@
+                         # Store O
+                         if False and i_s > 0 and store_o:
+                             T.copy(
+-                                o_shared,
++                                vd_shared,
+                                 o[
+                                     batch_idx,
+                                     left:right,
+@@ -500,7 +499,7 @@
+                         # Store O
+                         if False and num_unmasked_iters > 0 and store_o:
+                             T.copy(
+-                                o_shared,
++                                vd_shared,
+                                 o[
+                                     batch_idx,
+                                     seq_split_idx - block_S : seq_split_idx,
+@@ -537,7 +536,7 @@
+                                         seq_split_idx + j_s,
+                                         bh,
+                                         bv * block_DV + j_v,
+-                                    ] = o_shared[j_s, j_v]
++                                    ] = vd_shared[j_s, j_v]
+ 
+     return tilelang_fused_chunk_gdr_fwd_kernel
+ 
+@@ -627,7 +626,7 @@
+     # so block_DV=128 doesn't fit (kernel SMEM is ~116 KB at that tile).
+     # Cap to 64 here.  This doubles the grid_size but each block fits.
+     if tilelang.contrib.nvcc.get_target_compute_version() in ("12.1", "12.0"):
+-        block_DV = min(block_DV, 64)
++        block_DV = 128
+ 
+     tilelang_fused_chunk_gdr_fwd_kernel = tilelang_fused_chunk_gdr_fwd(
+         H,

@@ -1,0 +1,87 @@
+llama-benchy not found in PATH; trying uvx llama-benchy
+[warmup] explicit same-shape warmup: pp=2048 tg=32 c=1 runs=2
+Downloading cpython-3.14.4-linux-aarch64-gnu (download) (29.2MiB)
+ Downloaded cpython-3.14.4-linux-aarch64-gnu (download)
+Downloading pygments (1.2MiB)
+Downloading hf-xet (4.1MiB)
+Downloading numpy (15.0MiB)
+Downloading aiohttp (1.6MiB)
+Downloading openai (1.2MiB)
+Downloading transformers (10.1MiB)
+Downloading tokenizers (3.1MiB)
+Downloading pydantic-core (1.9MiB)
+ Downloaded pygments
+ Downloaded openai
+ Downloaded aiohttp
+ Downloaded pydantic-core
+ Downloaded tokenizers
+ Downloaded hf-xet
+ Downloaded transformers
+ Downloaded numpy
+Installed 49 packages in 200ms
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+llama-benchy (0.3.7)
+Date: 2026-05-08 21:44:49
+Benchmarking model: qwen35-27b-axionml-nvfp4 at http://127.0.0.1:8000/v1
+Concurrency levels: [1]
+Downloading book from https://www.gutenberg.org/files/1661/1661-0.txt...
+Saved text to cache: /root/.cache/llama-benchy/cc6a0b5782734ee3b9069aa3b64cc62c.txt
+Total tokens available in text corpus: 144494
+Warming up...
+Warmup (User only) complete. Delta: 9 tokens (Server: 30, Local: 21)
+Warmup (System+Empty) complete. Delta: 14 tokens (Server: 35, Local: 21)
+
+Skipping coherence test (--skip-coherence specified)
+Measuring latency using mode: api...
+Average latency (api): 1.62 ms
+Running test: pp=2048, tg=32, depth=0, concurrency=1
+  Run 1/2 (batch size 1)...
+  Run 2/2 (batch size 1)...
+Saving results to /tmp/warmup-20260508-144500-fusedo-directstore-flashinfer-cutlass-n10.json in JSON format...
+
+
+
+llama-benchy (0.3.7)
+date: 2026-05-08 21:44:49 | latency mode: api
+[measure] post-warm run: pp=2048 tg=32 c=1 runs=10 out=/out/results/result-20260508-144500-fusedo-directstore-flashinfer-cutlass-n10.json
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+llama-benchy (0.3.7)
+Date: 2026-05-08 21:45:52
+Benchmarking model: qwen35-27b-axionml-nvfp4 at http://127.0.0.1:8000/v1
+Concurrency levels: [1]
+Loading text from cache: /root/.cache/llama-benchy/cc6a0b5782734ee3b9069aa3b64cc62c.txt
+Total tokens available in text corpus: 144480
+Warming up...
+Warmup (User only) complete. Delta: 9 tokens (Server: 30, Local: 21)
+Warmup (System+Empty) complete. Delta: 14 tokens (Server: 35, Local: 21)
+
+Skipping coherence test (--skip-coherence specified)
+Measuring latency using mode: api...
+Average latency (api): 1.74 ms
+Running test: pp=2048, tg=32, depth=0, concurrency=1
+  Run 1/10 (batch size 1)...
+  Run 2/10 (batch size 1)...
+  Run 3/10 (batch size 1)...
+  Run 4/10 (batch size 1)...
+  Run 5/10 (batch size 1)...
+  Run 6/10 (batch size 1)...
+  Run 7/10 (batch size 1)...
+  Run 8/10 (batch size 1)...
+  Run 9/10 (batch size 1)...
+  Run 10/10 (batch size 1)...
+Saving results to /out/results/result-20260508-144500-fusedo-directstore-flashinfer-cutlass-n10.json in JSON format...
+
+
+
+llama-benchy (0.3.7)
+date: 2026-05-08 21:45:52 | latency mode: api
+
+[bench] Saved measured result to /out/results/result-20260508-144500-fusedo-directstore-flashinfer-cutlass-n10.json
+INFO 05-08 21:46:08 [nixl_utils.py:20] Setting UCX_RCACHE_MAX_UNRELEASED to '1024' to avoid a rare memory leak in UCX when using NIXL.
+WARNING 05-08 21:46:08 [nixl_utils.py:34] NIXL is not available
+WARNING 05-08 21:46:08 [nixl_utils.py:44] NIXL agent config is not available
+[flashqla-v2] active: HKV-output FlashQLA packed-single prefill with tunable HKV output kernel and short-decode fallback; original FLA fallback for unsupported paths
+pp tok/s  : mean 2873.03 median 2986.38 std 199.41 values=[2494.6714702278755, 2847.903539271596, 3025.427781124404, 2986.3773177243143, 3010.7454748415075]
+tg tok/s  : mean 10.10 median 11.11 std 2.33 values=[6.1113427241376455, 11.03593858920537, 11.181830848806506, 12.06194064098723]
+ttfr ms   : mean 705.69 median 688.41 std 45.72 values=[826.6957640007604, 724.3742729988298, 714.9656989968207, 718.3755689984537, 681.9718209990242, 690.8667009993223, 684.0475989993138, 685.9533629976795, 646.3134580008045, 683.3000900005572]
+latency_ms : 1.737

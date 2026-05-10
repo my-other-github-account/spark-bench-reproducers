@@ -1,0 +1,18 @@
+--- patches/chunk_init_installed_emptyout_20260510_0002.py
++++ patches/chunk_init_outbuf2_20260510_0012.py
+@@ -34,6 +34,7 @@
+     output_final_state: bool = True,
+     output_h: bool = False,
+     auto_cp: bool = True,
++    out: torch.Tensor | None = None,
+ ):
+     chunk_size = 64
+     g = chunk_local_cumsum(g, chunk_size=chunk_size, cu_seqlens=cu_seqlens)
+@@ -77,6 +78,7 @@
+         cp_seq_map=cp_seq_map,
+         raw_cu_seqlens=raw_cu_seqlens,
+         chunk_size=chunk_size,
++        out=out,
+     )
+     return g, A, o, h, final_state
+ 

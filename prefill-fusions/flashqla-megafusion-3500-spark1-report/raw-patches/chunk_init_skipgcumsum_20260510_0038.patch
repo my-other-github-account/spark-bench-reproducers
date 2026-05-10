@@ -1,0 +1,12 @@
+--- patches/chunk_init_installed_20260510_0032.py
++++ patches/chunk_init_skipgcumsum_20260510_0038.py
+@@ -36,7 +36,8 @@
+     auto_cp: bool = True,
+ ):
+     chunk_size = 64
+-    g = chunk_local_cumsum(g, chunk_size=chunk_size, cu_seqlens=cu_seqlens)
++    # vLLM fused_post_conv_prep is specialized to emit chunk-local cumulative g
++    # for the packed-single FlashQLA prefill path, removing this launch.
+     A = kkt_solve(
+         k=k,
+         g=g,

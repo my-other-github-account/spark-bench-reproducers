@@ -1,0 +1,14 @@
+--- patches/kkt_solve_nobaro_20260509_1328.py	2026-05-09 12:53:07.216132796 -0700
++++ patches/kkt_solve_abeta_20260509_1510.py	2026-05-09 13:32:43.849203445 -0700
+@@ -202,6 +202,11 @@
+             for k_s, k_t in T.Parallel(32, 32):
+                 a64_shared[k_s, 32 + k_t] = 0
+ 
++            # Pre-apply the beta_j column factor that fused_fwd otherwise applies
++            # separately for each value tile before Vd = Ag @ W.
++            for j_s, j_t in T.Parallel(block_S, block_S):
++                a64_shared[j_s, j_t] *= b_shared[j_t]
++
+             T.barrier_arrive(a_is_ready)
+ 
+         else:

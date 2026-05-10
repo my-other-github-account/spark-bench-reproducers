@@ -1,0 +1,203 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.24kB done
+#1 DONE 0.0s
+
+#2 resolve image config for docker-image://docker.io/docker/dockerfile:1.6
+#2 DONE 0.7s
+
+#3 docker-image://docker.io/docker/dockerfile:1.6@sha256:ac85f380a63b13dfcefa89046420e1781752bab202122f8f50032edf31be0021
+#3 CACHED
+
+#4 [internal] load metadata for ghcr.io/spark-arena/dgx-vllm-eugr-nightly:latest
+#4 DONE 0.6s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 2B done
+#5 DONE 0.0s
+
+#6 [1/9] FROM ghcr.io/spark-arena/dgx-vllm-eugr-nightly:latest@sha256:8d389a3c20139c618f186311c1ae80516003c471f02c405bedb7f5caa3c4e864
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 31.09kB done
+#7 DONE 0.0s
+
+#8 [2/9] WORKDIR /repro
+#8 CACHED
+
+#9 [3/9] COPY scripts /repro/scripts
+#9 CACHED
+
+#10 [4/9] COPY patches /repro/patches
+#10 DONE 0.0s
+
+#11 [5/9] RUN chmod +x /repro/scripts/*.sh
+#11 DONE 0.2s
+
+#12 [6/9] RUN git clone https://github.com/my-other-github-account/FlashQLA.git /opt/flashqla &&     cd /opt/flashqla &&     git checkout 827fdd88e0829646e3c90be0c76158a9be62ab37 &&     git apply /repro/patches/flashqla-source-diff-827fdd88-hkv.patch
+#12 0.189 Cloning into '/opt/flashqla'...
+#12 0.907 Note: switching to '827fdd88e0829646e3c90be0c76158a9be62ab37'.
+#12 0.907 
+#12 0.907 You are in 'detached HEAD' state. You can look around, make experimental
+#12 0.907 changes and commit them, and you can discard any commits you make in this
+#12 0.907 state without impacting any branches by switching back to a branch.
+#12 0.907 
+#12 0.907 If you want to create a new branch to retain commits you create, you may
+#12 0.907 do so (now or later) by using -c with the switch command. Example:
+#12 0.907 
+#12 0.907   git switch -c <new-branch-name>
+#12 0.907 
+#12 0.907 Or undo this operation with:
+#12 0.907 
+#12 0.907   git switch -
+#12 0.907 
+#12 0.907 Turn off this advice by setting config variable advice.detachedHead to false
+#12 0.907 
+#12 0.907 HEAD is now at 827fdd8 Initial Blackwell (sm_120a/sm_121a) port scaffold
+#12 DONE 0.9s
+
+#13 [7/9] RUN pip install --no-cache-dir tilelang==0.1.9 apache-tvm-ffi==0.1.9 flash_linear_attention==0.5.0 &&     cd /opt/flashqla && pip install --no-cache-dir -e . --no-build-isolation
+#13 0.669 Requirement already satisfied: tilelang==0.1.9 in /usr/local/lib/python3.12/dist-packages (0.1.9)
+#13 0.670 Requirement already satisfied: apache-tvm-ffi==0.1.9 in /usr/local/lib/python3.12/dist-packages (0.1.9)
+#13 0.759 Collecting flash_linear_attention==0.5.0
+#13 0.830   Downloading flash_linear_attention-0.5.0-py3-none-any.whl.metadata (44 kB)
+#13 0.858      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.4/44.4 kB 1.8 MB/s eta 0:00:00
+#13 0.872 Requirement already satisfied: torch-c-dlpack-ext in /usr/local/lib/python3.12/dist-packages (from tilelang==0.1.9) (0.1.5)
+#13 0.872 Requirement already satisfied: cloudpickle in /usr/local/lib/python3.12/dist-packages (from tilelang==0.1.9) (3.1.2)
+#13 0.873 Requirement already satisfied: ml-dtypes in /usr/local/lib/python3.12/dist-packages (from tilelang==0.1.9) (0.5.4)
+#13 0.876 Requirement already satisfied: numpy>=1.23.5 in /usr/local/lib/python3.12/dist-packages (from tilelang==0.1.9) (2.3.5)
+#13 0.876 Requirement already satisfied: psutil in /usr/local/lib/python3.12/dist-packages (from tilelang==0.1.9) (7.2.2)
+#13 0.877 Requirement already satisfied: torch in /usr/local/lib/python3.12/dist-packages (from tilelang==0.1.9) (2.11.0+cu130)
+#13 0.878 Requirement already satisfied: tqdm>=4.62.3 in /usr/local/lib/python3.12/dist-packages (from tilelang==0.1.9) (4.67.3)
+#13 0.878 Requirement already satisfied: typing-extensions>=4.10.0 in /usr/local/lib/python3.12/dist-packages (from tilelang==0.1.9) (4.15.0)
+#13 0.878 Requirement already satisfied: z3-solver<4.15.5,>=4.13.0 in /usr/local/lib/python3.12/dist-packages (from tilelang==0.1.9) (4.15.4.0)
+#13 0.898 Collecting fla-core==0.5.0 (from flash_linear_attention==0.5.0)
+#13 0.910   Downloading fla_core-0.5.0-py3-none-any.whl.metadata (44 kB)
+#13 0.928      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.0/44.0 kB 2.6 MB/s eta 0:00:00
+#13 0.931 Requirement already satisfied: transformers in /usr/local/lib/python3.12/dist-packages (from flash_linear_attention==0.5.0) (5.8.0)
+#13 0.932 Requirement already satisfied: einops in /usr/local/lib/python3.12/dist-packages (from fla-core==0.5.0->flash_linear_attention==0.5.0) (0.8.2)
+#13 0.941 Requirement already satisfied: filelock in /usr/local/lib/python3.12/dist-packages (from torch->tilelang==0.1.9) (3.25.2)
+#13 0.942 Requirement already satisfied: setuptools<82 in /usr/local/lib/python3.12/dist-packages (from torch->tilelang==0.1.9) (80.10.2)
+#13 0.942 Requirement already satisfied: sympy>=1.13.3 in /usr/local/lib/python3.12/dist-packages (from torch->tilelang==0.1.9) (1.14.0)
+#13 0.942 Requirement already satisfied: networkx>=2.5.1 in /usr/local/lib/python3.12/dist-packages (from torch->tilelang==0.1.9) (3.6.1)
+#13 0.943 Requirement already satisfied: jinja2 in /usr/local/lib/python3.12/dist-packages (from torch->tilelang==0.1.9) (3.1.6)
+#13 0.943 Requirement already satisfied: fsspec>=0.8.5 in /usr/local/lib/python3.12/dist-packages (from torch->tilelang==0.1.9) (2026.2.0)
+#13 0.944 Requirement already satisfied: cuda-toolkit==13.0.2 in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch->tilelang==0.1.9) (13.0.2)
+#13 0.945 Requirement already satisfied: cuda-bindings<14,>=13.0.3 in /usr/local/lib/python3.12/dist-packages (from torch->tilelang==0.1.9) (13.2.0)
+#13 0.945 Requirement already satisfied: nvidia-cudnn-cu13==9.19.0.56 in /usr/local/lib/python3.12/dist-packages (from torch->tilelang==0.1.9) (9.19.0.56)
+#13 0.946 Requirement already satisfied: nvidia-cusparselt-cu13==0.8.0 in /usr/local/lib/python3.12/dist-packages (from torch->tilelang==0.1.9) (0.8.0)
+#13 0.946 Requirement already satisfied: nvidia-nccl-cu13==2.28.9 in /usr/local/lib/python3.12/dist-packages (from torch->tilelang==0.1.9) (2.28.9)
+#13 0.947 Requirement already satisfied: nvidia-nvshmem-cu13==3.4.5 in /usr/local/lib/python3.12/dist-packages (from torch->tilelang==0.1.9) (3.4.5)
+#13 0.947 Requirement already satisfied: triton==3.6.0 in /usr/local/lib/python3.12/dist-packages (from torch->tilelang==0.1.9) (3.6.0)
+#13 1.013 Requirement already satisfied: nvidia-cublas==13.1.0.3.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch->tilelang==0.1.9) (13.1.0.3)
+#13 1.014 Requirement already satisfied: nvidia-cuda-runtime==13.0.96.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch->tilelang==0.1.9) (13.0.96)
+#13 1.014 Requirement already satisfied: nvidia-cufft==12.0.0.61.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch->tilelang==0.1.9) (12.0.0.61)
+#13 1.015 Requirement already satisfied: nvidia-cufile==1.15.1.6.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch->tilelang==0.1.9) (1.15.1.6)
+#13 1.015 Requirement already satisfied: nvidia-cuda-cupti==13.0.85.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch->tilelang==0.1.9) (13.0.85)
+#13 1.016 Requirement already satisfied: nvidia-curand==10.4.0.35.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch->tilelang==0.1.9) (10.4.0.35)
+#13 1.017 Requirement already satisfied: nvidia-cusolver==12.0.4.66.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch->tilelang==0.1.9) (12.0.4.66)
+#13 1.017 Requirement already satisfied: nvidia-cusparse==12.6.3.3.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch->tilelang==0.1.9) (12.6.3.3)
+#13 1.018 Requirement already satisfied: nvidia-nvjitlink==13.0.88.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch->tilelang==0.1.9) (13.0.88)
+#13 1.019 Requirement already satisfied: nvidia-cuda-nvrtc==13.0.88.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch->tilelang==0.1.9) (13.0.88)
+#13 1.019 Requirement already satisfied: nvidia-nvtx==13.0.85.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch->tilelang==0.1.9) (13.0.85)
+#13 1.113 Requirement already satisfied: huggingface-hub<2.0,>=1.5.0 in /usr/local/lib/python3.12/dist-packages (from transformers->flash_linear_attention==0.5.0) (1.14.0)
+#13 1.115 Requirement already satisfied: packaging>=20.0 in /usr/local/lib/python3.12/dist-packages (from transformers->flash_linear_attention==0.5.0) (26.2)
+#13 1.115 Requirement already satisfied: pyyaml>=5.1 in /usr/local/lib/python3.12/dist-packages (from transformers->flash_linear_attention==0.5.0) (6.0.3)
+#13 1.116 Requirement already satisfied: regex>=2025.10.22 in /usr/local/lib/python3.12/dist-packages (from transformers->flash_linear_attention==0.5.0) (2026.4.4)
+#13 1.116 Requirement already satisfied: tokenizers<=0.23.0,>=0.22.0 in /usr/local/lib/python3.12/dist-packages (from transformers->flash_linear_attention==0.5.0) (0.22.2)
+#13 1.117 Requirement already satisfied: typer in /usr/local/lib/python3.12/dist-packages (from transformers->flash_linear_attention==0.5.0) (0.25.1)
+#13 1.117 Requirement already satisfied: safetensors>=0.4.3 in /usr/local/lib/python3.12/dist-packages (from transformers->flash_linear_attention==0.5.0) (0.7.0)
+#13 1.120 Requirement already satisfied: cuda-pathfinder~=1.1 in /usr/local/lib/python3.12/dist-packages (from cuda-bindings<14,>=13.0.3->torch->tilelang==0.1.9) (1.2.2)
+#13 1.166 Requirement already satisfied: hf-xet<2.0.0,>=1.4.3 in /usr/local/lib/python3.12/dist-packages (from huggingface-hub<2.0,>=1.5.0->transformers->flash_linear_attention==0.5.0) (1.5.0)
+#13 1.166 Requirement already satisfied: httpx<1,>=0.23.0 in /usr/local/lib/python3.12/dist-packages (from huggingface-hub<2.0,>=1.5.0->transformers->flash_linear_attention==0.5.0) (0.28.1)
+#13 1.206 Requirement already satisfied: mpmath<1.4,>=1.1.0 in /usr/local/lib/python3.12/dist-packages (from sympy>=1.13.3->torch->tilelang==0.1.9) (1.3.0)
+#13 1.212 Requirement already satisfied: click>=8.2.1 in /usr/local/lib/python3.12/dist-packages (from typer->transformers->flash_linear_attention==0.5.0) (8.3.3)
+#13 1.212 Requirement already satisfied: shellingham>=1.3.0 in /usr/local/lib/python3.12/dist-packages (from typer->transformers->flash_linear_attention==0.5.0) (1.5.4)
+#13 1.213 Requirement already satisfied: rich>=13.8.0 in /usr/local/lib/python3.12/dist-packages (from typer->transformers->flash_linear_attention==0.5.0) (15.0.0)
+#13 1.213 Requirement already satisfied: annotated-doc>=0.0.2 in /usr/local/lib/python3.12/dist-packages (from typer->transformers->flash_linear_attention==0.5.0) (0.0.4)
+#13 1.217 Requirement already satisfied: MarkupSafe>=2.0 in /usr/local/lib/python3.12/dist-packages (from jinja2->torch->tilelang==0.1.9) (3.0.3)
+#13 1.231 Requirement already satisfied: anyio in /usr/local/lib/python3.12/dist-packages (from httpx<1,>=0.23.0->huggingface-hub<2.0,>=1.5.0->transformers->flash_linear_attention==0.5.0) (4.13.0)
+#13 1.231 Requirement already satisfied: certifi in /usr/local/lib/python3.12/dist-packages (from httpx<1,>=0.23.0->huggingface-hub<2.0,>=1.5.0->transformers->flash_linear_attention==0.5.0) (2026.4.22)
+#13 1.232 Requirement already satisfied: httpcore==1.* in /usr/local/lib/python3.12/dist-packages (from httpx<1,>=0.23.0->huggingface-hub<2.0,>=1.5.0->transformers->flash_linear_attention==0.5.0) (1.0.9)
+#13 1.232 Requirement already satisfied: idna in /usr/local/lib/python3.12/dist-packages (from httpx<1,>=0.23.0->huggingface-hub<2.0,>=1.5.0->transformers->flash_linear_attention==0.5.0) (3.13)
+#13 1.235 Requirement already satisfied: h11>=0.16 in /usr/local/lib/python3.12/dist-packages (from httpcore==1.*->httpx<1,>=0.23.0->huggingface-hub<2.0,>=1.5.0->transformers->flash_linear_attention==0.5.0) (0.16.0)
+#13 1.243 Requirement already satisfied: markdown-it-py>=2.2.0 in /usr/local/lib/python3.12/dist-packages (from rich>=13.8.0->typer->transformers->flash_linear_attention==0.5.0) (4.1.0)
+#13 1.243 Requirement already satisfied: pygments<3.0.0,>=2.13.0 in /usr/local/lib/python3.12/dist-packages (from rich>=13.8.0->typer->transformers->flash_linear_attention==0.5.0) (2.20.0)
+#13 1.252 Requirement already satisfied: mdurl~=0.1 in /usr/local/lib/python3.12/dist-packages (from markdown-it-py>=2.2.0->rich>=13.8.0->typer->transformers->flash_linear_attention==0.5.0) (0.1.2)
+#13 1.280 Downloading flash_linear_attention-0.5.0-py3-none-any.whl (319 kB)
+#13 1.432    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 319.0/319.0 kB 2.2 MB/s eta 0:00:00
+#13 1.444 Downloading fla_core-0.5.0-py3-none-any.whl (595 kB)
+#13 1.713    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 595.3/595.3 kB 2.2 MB/s eta 0:00:00
+#13 2.224 Installing collected packages: fla-core, flash_linear_attention
+#13 2.626 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#13 2.626 Successfully installed fla-core-0.5.0 flash_linear_attention-0.5.0
+#13 2.862 Obtaining file:///opt/flashqla
+#13 2.862   Preparing metadata (setup.py): started
+#13 3.151   Preparing metadata (setup.py): finished with status 'done'
+#13 3.182 Requirement already satisfied: torch>=2.8 in /usr/local/lib/python3.12/dist-packages (from flash_qla==0.1.0+827fdd8) (2.11.0+cu130)
+#13 3.273 Collecting tilelang==0.1.8 (from flash_qla==0.1.0+827fdd8)
+#13 3.360   Downloading tilelang-0.1.8-cp38-abi3-manylinux_2_34_aarch64.whl.metadata (15 kB)
+#13 3.367 Requirement already satisfied: apache-tvm-ffi==0.1.9 in /usr/local/lib/python3.12/dist-packages (from flash_qla==0.1.0+827fdd8) (0.1.9)
+#13 3.368 Requirement already satisfied: typing-extensions>=4.5 in /usr/local/lib/python3.12/dist-packages (from apache-tvm-ffi==0.1.9->flash_qla==0.1.0+827fdd8) (4.15.0)
+#13 3.373 Requirement already satisfied: torch-c-dlpack-ext in /usr/local/lib/python3.12/dist-packages (from tilelang==0.1.8->flash_qla==0.1.0+827fdd8) (0.1.5)
+#13 3.373 Requirement already satisfied: cloudpickle in /usr/local/lib/python3.12/dist-packages (from tilelang==0.1.8->flash_qla==0.1.0+827fdd8) (3.1.2)
+#13 3.373 Requirement already satisfied: ml-dtypes in /usr/local/lib/python3.12/dist-packages (from tilelang==0.1.8->flash_qla==0.1.0+827fdd8) (0.5.4)
+#13 3.376 Requirement already satisfied: numpy>=1.23.5 in /usr/local/lib/python3.12/dist-packages (from tilelang==0.1.8->flash_qla==0.1.0+827fdd8) (2.3.5)
+#13 3.377 Requirement already satisfied: psutil in /usr/local/lib/python3.12/dist-packages (from tilelang==0.1.8->flash_qla==0.1.0+827fdd8) (7.2.2)
+#13 3.378 Requirement already satisfied: tqdm>=4.62.3 in /usr/local/lib/python3.12/dist-packages (from tilelang==0.1.8->flash_qla==0.1.0+827fdd8) (4.67.3)
+#13 3.378 Requirement already satisfied: z3-solver<4.15.5,>=4.13.0 in /usr/local/lib/python3.12/dist-packages (from tilelang==0.1.8->flash_qla==0.1.0+827fdd8) (4.15.4.0)
+#13 3.384 Requirement already satisfied: filelock in /usr/local/lib/python3.12/dist-packages (from torch>=2.8->flash_qla==0.1.0+827fdd8) (3.25.2)
+#13 3.385 Requirement already satisfied: setuptools<82 in /usr/local/lib/python3.12/dist-packages (from torch>=2.8->flash_qla==0.1.0+827fdd8) (80.10.2)
+#13 3.385 Requirement already satisfied: sympy>=1.13.3 in /usr/local/lib/python3.12/dist-packages (from torch>=2.8->flash_qla==0.1.0+827fdd8) (1.14.0)
+#13 3.386 Requirement already satisfied: networkx>=2.5.1 in /usr/local/lib/python3.12/dist-packages (from torch>=2.8->flash_qla==0.1.0+827fdd8) (3.6.1)
+#13 3.386 Requirement already satisfied: jinja2 in /usr/local/lib/python3.12/dist-packages (from torch>=2.8->flash_qla==0.1.0+827fdd8) (3.1.6)
+#13 3.386 Requirement already satisfied: fsspec>=0.8.5 in /usr/local/lib/python3.12/dist-packages (from torch>=2.8->flash_qla==0.1.0+827fdd8) (2026.2.0)
+#13 3.387 Requirement already satisfied: cuda-toolkit==13.0.2 in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch>=2.8->flash_qla==0.1.0+827fdd8) (13.0.2)
+#13 3.388 Requirement already satisfied: cuda-bindings<14,>=13.0.3 in /usr/local/lib/python3.12/dist-packages (from torch>=2.8->flash_qla==0.1.0+827fdd8) (13.2.0)
+#13 3.388 Requirement already satisfied: nvidia-cudnn-cu13==9.19.0.56 in /usr/local/lib/python3.12/dist-packages (from torch>=2.8->flash_qla==0.1.0+827fdd8) (9.19.0.56)
+#13 3.389 Requirement already satisfied: nvidia-cusparselt-cu13==0.8.0 in /usr/local/lib/python3.12/dist-packages (from torch>=2.8->flash_qla==0.1.0+827fdd8) (0.8.0)
+#13 3.389 Requirement already satisfied: nvidia-nccl-cu13==2.28.9 in /usr/local/lib/python3.12/dist-packages (from torch>=2.8->flash_qla==0.1.0+827fdd8) (2.28.9)
+#13 3.390 Requirement already satisfied: nvidia-nvshmem-cu13==3.4.5 in /usr/local/lib/python3.12/dist-packages (from torch>=2.8->flash_qla==0.1.0+827fdd8) (3.4.5)
+#13 3.390 Requirement already satisfied: triton==3.6.0 in /usr/local/lib/python3.12/dist-packages (from torch>=2.8->flash_qla==0.1.0+827fdd8) (3.6.0)
+#13 3.457 Requirement already satisfied: nvidia-cublas==13.1.0.3.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch>=2.8->flash_qla==0.1.0+827fdd8) (13.1.0.3)
+#13 3.457 Requirement already satisfied: nvidia-cuda-runtime==13.0.96.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch>=2.8->flash_qla==0.1.0+827fdd8) (13.0.96)
+#13 3.458 Requirement already satisfied: nvidia-cufft==12.0.0.61.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch>=2.8->flash_qla==0.1.0+827fdd8) (12.0.0.61)
+#13 3.459 Requirement already satisfied: nvidia-cufile==1.15.1.6.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch>=2.8->flash_qla==0.1.0+827fdd8) (1.15.1.6)
+#13 3.459 Requirement already satisfied: nvidia-cuda-cupti==13.0.85.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch>=2.8->flash_qla==0.1.0+827fdd8) (13.0.85)
+#13 3.460 Requirement already satisfied: nvidia-curand==10.4.0.35.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch>=2.8->flash_qla==0.1.0+827fdd8) (10.4.0.35)
+#13 3.461 Requirement already satisfied: nvidia-cusolver==12.0.4.66.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch>=2.8->flash_qla==0.1.0+827fdd8) (12.0.4.66)
+#13 3.461 Requirement already satisfied: nvidia-cusparse==12.6.3.3.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch>=2.8->flash_qla==0.1.0+827fdd8) (12.6.3.3)
+#13 3.462 Requirement already satisfied: nvidia-nvjitlink==13.0.88.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch>=2.8->flash_qla==0.1.0+827fdd8) (13.0.88)
+#13 3.463 Requirement already satisfied: nvidia-cuda-nvrtc==13.0.88.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch>=2.8->flash_qla==0.1.0+827fdd8) (13.0.88)
+#13 3.463 Requirement already satisfied: nvidia-nvtx==13.0.85.* in /usr/local/lib/python3.12/dist-packages (from cuda-toolkit[cublas,cudart,cufft,cufile,cupti,curand,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.0.2; platform_system == "Linux"->torch>=2.8->flash_qla==0.1.0+827fdd8) (13.0.85)
+#13 3.479 Requirement already satisfied: cuda-pathfinder~=1.1 in /usr/local/lib/python3.12/dist-packages (from cuda-bindings<14,>=13.0.3->torch>=2.8->flash_qla==0.1.0+827fdd8) (1.2.2)
+#13 3.525 Requirement already satisfied: mpmath<1.4,>=1.1.0 in /usr/local/lib/python3.12/dist-packages (from sympy>=1.13.3->torch>=2.8->flash_qla==0.1.0+827fdd8) (1.3.0)
+#13 3.534 Requirement already satisfied: MarkupSafe>=2.0 in /usr/local/lib/python3.12/dist-packages (from jinja2->torch>=2.8->flash_qla==0.1.0+827fdd8) (3.0.3)
+#13 3.579 Downloading tilelang-0.1.8-cp38-abi3-manylinux_2_34_aarch64.whl (40.4 MB)
+#13 22.80    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 40.4/40.4 MB 2.1 MB/s eta 0:00:00
+#13 23.36 Installing collected packages: tilelang, flash_qla
+#13 23.36   Attempting uninstall: tilelang
+#13 23.38     Found existing installation: tilelang 0.1.9
+#13 23.49     Uninstalling tilelang-0.1.9:
+#13 29.08       Successfully uninstalled tilelang-0.1.9
+#13 30.45   Running setup.py develop for flash_qla
+#13 33.09 Successfully installed flash_qla-0.1.0+827fdd8 tilelang-0.1.8
+#13 33.09 ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+#13 33.09 vllm 0.20.2rc1.dev1+g54dc64d5d.d20260503.cu132 requires tilelang==0.1.9, but you have tilelang 0.1.8 which is incompatible.
+#13 33.09 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#13 DONE 33.2s
+
+#14 [8/9] COPY patches/flashqla_hkv_o.py /opt/flashqla_hkv_o.py
+#14 DONE 0.0s
+
+#15 [9/9] COPY patches/sitecustomize.py /usr/lib/python3.12/sitecustomize.py
+#15 DONE 0.1s
+
+#16 exporting to image
+#16 exporting layers
+#16 exporting layers 1.0s done
+#16 writing image sha256:a2b8b401710339c37658952db1d87ca138b5f355b3c40d20404a8ef5763a705b done
+#16 naming to docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-tilelang019 done
+#16 DONE 1.1s

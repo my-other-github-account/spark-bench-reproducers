@@ -1,0 +1,19 @@
+--- patches/fused_fwd_metanosync_20260509_1218.py
++++ patches/fused_fwd_outbuf_20260510_0005.py
+@@ -558,6 +558,7 @@
+     cp_seq_map: torch.LongTensor | None = None,
+     raw_cu_seqlens: torch.LongTensor | None = None,
+     chunk_size: int = 64,
++    out: torch.Tensor | None = None,
+ ):
+     batch_size, num_tokens, Hg, K = k.shape
+     _, _, H, V = v.shape
+@@ -613,7 +614,7 @@
+         final_state = torch.empty(
+             (raw_cu_seqlens.shape[0] - 1, H, K, V), dtype=torch.float32, device=k.device
+         )
+-    o = torch.empty_like(v)
++    o = out if out is not None else torch.empty_like(v)
+ 
+     grid_size = real_batch_size * H
+     if grid_size >= TARGET_NUM_CTAS:

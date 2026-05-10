@@ -1,0 +1,89 @@
+llama-benchy not found in PATH; trying uvx llama-benchy
+[warmup] explicit same-shape warmup: pp=2048 tg=32 c=1 runs=2
+Downloading cpython-3.14.4-linux-aarch64-gnu (download) (29.2MiB)
+ Downloaded cpython-3.14.4-linux-aarch64-gnu (download)
+Downloading aiohttp (1.6MiB)
+Downloading numpy (15.0MiB)
+Downloading transformers (10.1MiB)
+Downloading pygments (1.2MiB)
+Downloading openai (1.2MiB)
+Downloading pydantic-core (1.9MiB)
+Downloading hf-xet (4.1MiB)
+Downloading tokenizers (3.1MiB)
+ Downloaded pygments
+ Downloaded openai
+ Downloaded aiohttp
+ Downloaded pydantic-core
+ Downloaded tokenizers
+ Downloaded hf-xet
+ Downloaded transformers
+ Downloaded numpy
+Installed 49 packages in 219ms
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+llama-benchy (0.3.7)
+Date: 2026-05-09 00:33:30
+Benchmarking model: qwen35-27b-axionml-nvfp4 at http://127.0.0.1:8000/v1
+Concurrency levels: [1]
+Downloading book from https://www.gutenberg.org/files/1661/1661-0.txt...
+Saved text to cache: /root/.cache/llama-benchy/cc6a0b5782734ee3b9069aa3b64cc62c.txt
+Total tokens available in text corpus: 144494
+Warming up...
+Warmup (User only) complete. Delta: 9 tokens (Server: 30, Local: 21)
+Warmup (System+Empty) complete. Delta: 14 tokens (Server: 35, Local: 21)
+
+Skipping coherence test (--skip-coherence specified)
+Measuring latency using mode: api...
+Average latency (api): 1.17 ms
+Running test: pp=2048, tg=32, depth=0, concurrency=1
+  Run 1/2 (batch size 1)...
+  Run 2/2 (batch size 1)...
+Saving results to /tmp/warmup-20260508-172834-fusedo-qkgemmv2-fullrow-n5.json in JSON format...
+
+
+
+llama-benchy (0.3.7)
+date: 2026-05-09 00:33:30 | latency mode: api
+[measure] post-warm run: pp=2048 tg=32 c=1 runs=5 out=/out/results/result-20260508-172834-fusedo-qkgemmv2-fullrow-n5.json
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+llama-benchy (0.3.7)
+Date: 2026-05-09 00:34:37
+Benchmarking model: qwen35-27b-axionml-nvfp4 at http://127.0.0.1:8000/v1
+Concurrency levels: [1]
+Loading text from cache: /root/.cache/llama-benchy/cc6a0b5782734ee3b9069aa3b64cc62c.txt
+Total tokens available in text corpus: 144480
+Warming up...
+Warmup (User only) complete. Delta: 9 tokens (Server: 30, Local: 21)
+Warmup (System+Empty) complete. Delta: 14 tokens (Server: 35, Local: 21)
+
+Skipping coherence test (--skip-coherence specified)
+Measuring latency using mode: api...
+Average latency (api): 1.62 ms
+Running test: pp=2048, tg=32, depth=0, concurrency=1
+  Run 1/5 (batch size 1)...
+  Run 2/5 (batch size 1)...
+  Run 3/5 (batch size 1)...
+  Run 4/5 (batch size 1)...
+  Run 5/5 (batch size 1)...
+Saving results to /out/results/result-20260508-172834-fusedo-qkgemmv2-fullrow-n5.json in JSON format...
+
+
+
+llama-benchy (0.3.7)
+date: 2026-05-09 00:34:37 | latency mode: api
+
+[bench] Saved measured result to /out/results/result-20260508-172834-fusedo-qkgemmv2-fullrow-n5.json
+INFO 05-09 00:34:56 [importing.py:44] Triton is installed but 0 active driver(s) found (expected 1). Disabling Triton to prevent runtime errors.
+INFO 05-09 00:34:56 [importing.py:68] Triton not installed or not compatible; certain GPU-related functions will not be available.
+WARNING 05-09 00:34:57 [interface.py:243] Failed to import from vllm._C: ImportError('libcuda.so.1: cannot open shared object file: No such file or directory')
+WARNING 05-09 00:34:57 [interface.py:243] Failed to import from vllm._C: ImportError('libcuda.so.1: cannot open shared object file: No such file or directory')
+WARNING 05-09 00:34:57 [interface.py:243] Failed to import from vllm._C: ImportError('libcuda.so.1: cannot open shared object file: No such file or directory')
+WARNING 05-09 00:34:57 [interface.py:243] Failed to import from vllm._C: ImportError('libcuda.so.1: cannot open shared object file: No such file or directory')
+W0509 00:34:57.973000 274 torch/utils/cpp_extension.py:140] No CUDA runtime is found, using CUDA_HOME='/usr/local/cuda'
+INFO 05-09 00:34:58 [nixl_utils.py:20] Setting UCX_RCACHE_MAX_UNRELEASED to '1024' to avoid a rare memory leak in UCX when using NIXL.
+WARNING 05-09 00:34:58 [nixl_utils.py:34] NIXL is not available
+WARNING 05-09 00:34:58 [nixl_utils.py:44] NIXL agent config is not available
+[flashqla-patch] cap=(0, 0); not patching
+pp tok/s  : mean 2909.40 median 2893.04 std 163.88 values=[3144.967120363786, 2645.470820797695, 2869.0926246128647, 2893.0444855590235, 2994.4451848672825]
+tg tok/s  : mean 11.58 median 11.58 std 0.03 values=[11.630422245329934, 11.579794035790151, 11.586873351239825, 11.568071055451707, 11.55142723014677]
+ttfr ms   : mean 711.27 median 712.98 std 40.69 values=[655.9962059982354, 779.5507040027587, 718.9172969992796, 712.9786850018718, 688.8899030018365]
+latency_ms : 1.617

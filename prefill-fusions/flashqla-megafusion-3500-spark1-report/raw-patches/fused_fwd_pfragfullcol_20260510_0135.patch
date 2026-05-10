@@ -1,0 +1,10 @@
+--- patches/fused_fwd_pfragvd32_20260509_2014.py	2026-05-09 15:57:05.649657802 -0700
++++ patches/fused_fwd_pfragfullcol_20260510_0135.py	2026-05-09 17:51:44.651155875 -0700
+@@ -306,6 +306,7 @@
+                         k_shared[:, :],
+                         p_fragment,
+                         transpose_B=True,
++                        policy=T.GemmWarpPolicy.FullCol,
+                         clear_accum=True,
+                         k_pack=2,
+                     )

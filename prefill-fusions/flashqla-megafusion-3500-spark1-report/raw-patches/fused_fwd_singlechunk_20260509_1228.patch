@@ -1,0 +1,23 @@
+--- fused_fwd_nobaro.py
++++ fused_fwd_singlechunk.py
+@@ -576,10 +576,16 @@
+         is_varlen = False
+     else:
+         real_batch_size = len(cu_seqlens) - 1
+-        chunk_offsets = prepare_chunk_offsets(cu_seqlens, chunk_size).to(
+-            cu_seqlens.dtype
+-        )
+-        num_chunks = chunk_offsets[-1].item() if output_h else 0
++        if real_batch_size == 1:
++            # Single packed-sequence API path: chunk_start_idx is always zero,
++            # so skip the prepare_chunk_offsets kernel and CUDA scalar read.
++            chunk_offsets = cu_seqlens
++            num_chunks = tilelang.cdiv(num_tokens, chunk_size) if output_h else 0
++        else:
++            chunk_offsets = prepare_chunk_offsets(cu_seqlens, chunk_size).to(
++                cu_seqlens.dtype
++            )
++            num_chunks = chunk_offsets[-1].item() if output_h else 0
+         seqlen_dtype = cu_seqlens.dtype
+         is_varlen = True
+ 

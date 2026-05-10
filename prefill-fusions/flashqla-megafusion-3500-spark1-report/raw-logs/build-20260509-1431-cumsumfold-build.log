@@ -1,0 +1,49 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.cumsumfold-20260509
+#1 transferring dockerfile: 1.07kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-nobaro
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/9] FROM docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-nobaro
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 62.18kB done
+#5 DONE 0.0s
+
+#6 [3/9] COPY patches/fused_fwd_metanosync_20260509_1218.py /opt/flashqla/flash_qla/ops/gated_delta_rule/chunk/blackwell/fused_fwd.py
+#6 CACHED
+
+#7 [2/9] COPY patches/sitecustomize_fastpack_20260509_1210.py /usr/lib/python3.12/sitecustomize.py
+#7 CACHED
+
+#8 [4/9] COPY patches/sitecustomize_fastpack_20260509_1210.patch /repro/patches/sitecustomize_fastpack_20260509_1210.patch
+#8 CACHED
+
+#9 [5/9] COPY patches/fused_fwd_metanosync_20260509_1218.patch /repro/patches/fused_fwd_metanosync_20260509_1218.patch
+#9 CACHED
+
+#10 [6/9] COPY patches/kkt_solve_cumsumfold_20260509_1431.py /opt/flashqla/flash_qla/ops/gated_delta_rule/chunk/blackwell/kkt_solve.py
+#10 DONE 0.1s
+
+#11 [7/9] COPY patches/chunk_init_cumsumfold_20260509_1431.py /opt/flashqla/flash_qla/ops/gated_delta_rule/chunk/__init__.py
+#11 DONE 0.1s
+
+#12 [8/9] COPY patches/kkt_solve_cumsumfold_20260509_1431.patch /repro/patches/kkt_solve_cumsumfold_20260509_1431.patch
+#12 DONE 0.1s
+
+#13 [9/9] COPY patches/chunk_init_cumsumfold_20260509_1431.patch /repro/patches/chunk_init_cumsumfold_20260509_1431.patch
+#13 DONE 0.1s
+
+#14 exporting to image
+#14 exporting layers 0.1s done
+#14 writing image sha256:98b308751738db72d96938961e6d873805a2a79c447a8889876f80c13987eb41 done
+#14 naming to docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-cumsumfold done
+#14 DONE 0.2s

@@ -1,0 +1,31 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.nogfrag-20260510
+#1 transferring dockerfile: 396B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-emptyout
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/3] FROM docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-emptyout
+#4 CACHED
+
+#5 [internal] load build context
+#5 transferring context: 28.24kB done
+#5 DONE 0.0s
+
+#6 [2/3] COPY patches/fused_fwd_nogfrag_20260510_0024.py /opt/flashqla/flash_qla/ops/gated_delta_rule/chunk/blackwell/fused_fwd.py
+#6 DONE 0.1s
+
+#7 [3/3] COPY patches/fused_fwd_nogfrag_20260510_0024.patch /repro/patches/fused_fwd_nogfrag_20260510_0024.patch
+#7 DONE 0.1s
+
+#8 exporting to image
+#8 exporting layers 0.1s done
+#8 writing image sha256:034128a90cc9b9e262f716cc813946e972114a98eb45a48bc98c012e8fb1398f done
+#8 naming to docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-nogfrag done
+#8 DONE 0.1s

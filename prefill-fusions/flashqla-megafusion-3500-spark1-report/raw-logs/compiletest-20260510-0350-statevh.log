@@ -1,0 +1,8 @@
+INFO 05-10 01:46:14 [nixl_utils.py:20] Setting UCX_RCACHE_MAX_UNRELEASED to '1024' to avoid a rare memory leak in UCX when using NIXL.
+WARNING 05-10 01:46:14 [nixl_utils.py:34] NIXL is not available
+WARNING 05-10 01:46:14 [nixl_utils.py:44] NIXL agent config is not available
+[flashqla-v2] active: HKV-output FlashQLA packed-single prefill with tunable HKV output kernel and short-decode fallback; original FLA fallback for unsupported paths
+[01:46:18] /project/src/transform/warp_specialized_rewriter.h:43: Warning: Auto warp specialization will be disabled because TMA and mbarrier are both present
+2026-05-10 01:46:17  [TileLang:tilelang.jit.kernel:INFO]: TileLang begins to compile kernel `tilelang_fused_chunk_gdr_fwd_kernel` with `out_idx=None`
+2026-05-10 01:46:29  [TileLang:tilelang.jit.kernel:INFO]: TileLang completes to compile kernel `tilelang_fused_chunk_gdr_fwd_kernel`
+OK

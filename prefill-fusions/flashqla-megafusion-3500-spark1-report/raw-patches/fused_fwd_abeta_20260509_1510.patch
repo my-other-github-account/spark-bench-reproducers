@@ -1,0 +1,54 @@
+--- patches/fused_fwd_metanosync_20260509_1218.py	2026-05-09 12:09:46.560131090 -0700
++++ patches/fused_fwd_abeta_20260509_1510.py	2026-05-09 13:32:43.849705644 -0700
+@@ -125,7 +125,6 @@
+             v_shared = T.alloc_shared((block_S, block_DV), dtype=qkva_dtype)
+             a_shared = T.alloc_shared((block_S, block_S), dtype=qkva_dtype)
+             g_shared = T.alloc_shared((block_S,), dtype=accum_dtype, scope="shared")
+-            b_shared = T.alloc_shared((block_S,), dtype=accum_dtype, scope="shared")
+ 
+             o_shared = T.alloc_shared((block_S, block_DV), dtype=o_dtype)
+             h_shared = T.alloc_shared((DK, block_DV), dtype=qkva_dtype)
+@@ -142,7 +141,6 @@
+             v_fragment = T.alloc_fragment((block_S, block_DV), dtype=accum_dtype)
+             u_fragment = T.alloc_fragment((block_S, block_DV), dtype=accum_dtype)
+             p_fragment = T.alloc_fragment((block_S, block_S), dtype=accum_dtype)
+-            a_fragment = T.alloc_fragment((block_S, block_S), dtype=accum_dtype)
+             g_fragment = T.alloc_fragment((block_S, block_S), dtype=accum_dtype)
+             g_last_local = T.alloc_local((1), dtype=accum_dtype)
+ 
+@@ -324,14 +322,7 @@
+                             )
+                         else:
+                             g_fragment[j_s, j_t] = 0
+-                    # Ag = G * Ar * b
+-                    for j_s, j_t in T.Parallel(block_S, block_S):
+-                        a_fragment[j_s, j_t] = a_shared[j_s, j_t]
+-                    # A already includes exp(g_i-g_j) from KKT solve; only apply beta_j for v_new.
+-                    for j_s, j_t in T.Parallel(block_S, block_S):
+-                        a_fragment[j_s, j_t] *= b_shared[j_t]
+-                    for j_s, j_t in T.Parallel(block_S, block_S):
+-                        a_shared[j_s, j_t] = a_fragment[j_s, j_t]
++                    # A is pre-scaled by beta_j in KKT for the direct forward path.
+ 
+                     # [STAGE 0] 2
+                     T.barrier_wait(bar_1, i_s % 2)
+@@ -412,19 +403,6 @@
+                             ],
+                             v_shared[:, :],
+                         )
+-                        # Load beta
+-                        if right <= seq_end_idx:
+-                            for j_s in T.Parallel(block_S):
+-                                b_shared[j_s] = b[batch_idx, left + j_s, bh]
+-                        else:
+-                            for j_s in T.Parallel(block_S):
+-                                if left + j_s < seq_end_idx:
+-                                    b_shared[j_s] = b[
+-                                        batch_idx, left + j_s, bh
+-                                    ]
+-                                else:
+-                                    b_shared[j_s] = 0
+-
+                         T.barrier_arrive(data_is_ready[0])
+ 
+                 elif tx < 384 + 96:

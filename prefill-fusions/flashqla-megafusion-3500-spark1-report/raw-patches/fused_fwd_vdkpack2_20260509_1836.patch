@@ -1,0 +1,10 @@
+--- fused_fwd_metanosync_20260509_1218.py
++++ fused_fwd_vdkpack2_20260509_1836.py
+@@ -273,6 +273,7 @@
+                         v_shared[:, :],
+                         v_fragment,
+                         clear_accum=True,
++                        k_pack=2,
+                     )
+                     # S2[2] Vd
+                     T.copy(v_fragment, vd_shared)

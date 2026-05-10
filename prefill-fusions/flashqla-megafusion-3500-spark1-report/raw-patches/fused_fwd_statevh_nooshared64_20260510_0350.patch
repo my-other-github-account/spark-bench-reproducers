@@ -1,0 +1,41 @@
+--- patches/fused_fwd_nooshared64_20260510_0230.py	2026-05-09 18:13:15.225184954 -0700
++++ patches/fused_fwd_statevh_nooshared64_20260510_0350.py	2026-05-09 18:45:59.548082629 -0700
+@@ -67,8 +67,8 @@
+         g_shape = (batch_size, num_tokens, H)
+         b_shape = (batch_size, num_tokens, H)
+         h_shape = (batch_size, num_chunks, H, DK, DV)
+-    h0_shape = (batch_size, H, DK, DV)
+-    ht_shape = (raw_batch_size, H, DK, DV)
++    h0_shape = (batch_size, H, DV, DK)
++    ht_shape = (raw_batch_size, H, DV, DK)
+ 
+     @T.prim_func
+     def tilelang_fused_chunk_gdr_fwd_kernel(
+@@ -170,10 +170,8 @@
+ 
+                 # Initialize S
+                 if use_initial_state:
+-                    T.copy(
+-                        h0[bb, bh, 0:DK, bv * block_DV : (bv + 1) * block_DV],
+-                        h_fragment,
+-                    )
++                    for j_k, j_v in T.Parallel(DK, block_DV):
++                        h_fragment[j_k, j_v] = h0[bb, bh, bv * block_DV + j_v, j_k]
+                 else:
+                     T.clear(h_fragment)
+ 
+@@ -212,12 +210,8 @@
+ 
+                 # Store final S
+                 if need_store_final_state:
+-                    T.copy(
+-                        h_fragment,
+-                        ht[
+-                            raw_batch_idx, bh, 0:DK, bv * block_DV : (bv + 1) * block_DV
+-                        ],
+-                    )
++                    for j_k, j_v in T.Parallel(DK, block_DV):
++                        ht[raw_batch_idx, bh, bv * block_DV + j_v, j_k] = h_fragment[j_k, j_v]
+ 
+             elif tx < 256:
+                 T.set_max_nreg(CONSUMER_V_NREG, 1)

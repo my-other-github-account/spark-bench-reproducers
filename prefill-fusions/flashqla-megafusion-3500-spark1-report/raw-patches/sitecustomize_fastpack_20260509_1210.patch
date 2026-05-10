@@ -1,0 +1,21 @@
+--- sitecustomize_nobaro.py
++++ sitecustomize_fastpack.py
+@@ -70,11 +70,13 @@
+                 packed_single = False
+                 if (chunk_indices is not None or chunk_offsets is not None):
+                     try:
+-                        packed_single = (cu_seqlens is not None and int(cu_seqlens.numel()) == 2
+-                                         and int(cu_seqlens[0].item()) == 0
+-                                         and int(cu_seqlens[1].item()) == int(q.shape[1])
+-                                         and (chunk_offsets is None or (int(chunk_offsets.numel()) == 2
+-                                                                      and int(chunk_offsets[0].item()) == 0)))
++                        # Avoid .item() on CUDA metadata here; this wrapper runs once per GDN
++                        # layer and scalar reads can serialize the prefill stream.  The recipe
++                        # serves max_num_seqs=1, so numel/rank checks are enough for this path.
++                        packed_single = (cu_seqlens is not None
++                                         and int(cu_seqlens.numel()) == 2
++                                         and int(q.shape[0]) == 1
++                                         and (chunk_offsets is None or int(chunk_offsets.numel()) == 2))
+                     except Exception:
+                         packed_single = False
+                     if not packed_single:

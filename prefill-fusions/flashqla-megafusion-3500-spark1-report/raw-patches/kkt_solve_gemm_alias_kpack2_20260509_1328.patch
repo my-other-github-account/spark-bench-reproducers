@@ -1,0 +1,13 @@
+--- kkt_solve_nobaro.py
++++ kkt_solve_gemm_alias_kpack2.py
+@@ -114,8 +114,8 @@
+             T.barrier_wait(k_is_ready, 0)
+ 
+             # A = K @ K^T
+-            T.gemm_v1(
+-                k_shared, k_shared, a64_fragment, transpose_B=True, clear_accum=True
++            T.gemm(
++                k_shared, k_shared, a64_fragment, transpose_B=True, clear_accum=True, k_pack=2
+             )
+ 
+             # A = beta_i * exp(g_i - g_j) * K_i @ K_j^T, matching vLLM FLA KKT.

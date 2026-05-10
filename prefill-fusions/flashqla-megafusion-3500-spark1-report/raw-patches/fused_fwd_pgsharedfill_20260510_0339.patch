@@ -1,0 +1,16 @@
+--- patches/fused_fwd_nooshared64_20260510_0230.py	2026-05-09 18:13:15.225184954 -0700
++++ patches/fused_fwd_pgsharedfill_20260510_0339.py	2026-05-09 18:37:07.300667380 -0700
+@@ -340,11 +340,9 @@
+                     )
+ 
+                     # [STAGE 0] 3
+-                    # Pg = s * G * P
++                    # Pg = s * G * P; write the GEMM input shared tile directly.
+                     for j_s, j_t in T.Parallel(block_S, block_S):
+-                        p_fragment[j_s, j_t] *= scale * g_fragment[j_s, j_t]
+-                    # S1[1] Pg
+-                    T.copy(p_fragment, p_shared)
++                        p_shared[j_s, j_t] = p_fragment[j_s, j_t] * scale * g_fragment[j_s, j_t]
+                     T.barrier_arrive(bar_3)
+                     # O = s * g * O
+                     for j_s, j_v in T.Parallel(block_S, block_DV):

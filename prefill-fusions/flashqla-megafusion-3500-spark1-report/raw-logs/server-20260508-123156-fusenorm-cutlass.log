@@ -1,0 +1,8 @@
+INFO 05-08 19:32:12 [nixl_utils.py:20] Setting UCX_RCACHE_MAX_UNRELEASED to '1024' to avoid a rare memory leak in UCX when using NIXL.
+WARNING 05-08 19:32:12 [nixl_utils.py:34] NIXL is not available
+WARNING 05-08 19:32:12 [nixl_utils.py:44] NIXL agent config is not available
+[flashqla-v2] active: HKV-output FlashQLA packed-single prefill with tunable HKV output kernel and short-decode fallback; original FLA fallback for unsupported paths
+usage: vllm serve [model_tag] [options]
+vllm serve: error: argument --compilation-config/-cc: 1 validation error for CompilationConfig
+  Invalid JSON: key must be a string at line 1 column 2 [type=json_invalid, input_value='{pass_config:fuse_act_quant:true}', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/json_invalid

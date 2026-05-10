@@ -1,0 +1,46 @@
+--- fused_fwd_metanosync_20260509_1218.py
++++ fused_fwd_nogfrag_20260510_0024.py
+@@ -143,7 +143,6 @@
+             u_fragment = T.alloc_fragment((block_S, block_DV), dtype=accum_dtype)
+             p_fragment = T.alloc_fragment((block_S, block_S), dtype=accum_dtype)
+             a_fragment = T.alloc_fragment((block_S, block_S), dtype=accum_dtype)
+-            g_fragment = T.alloc_fragment((block_S, block_S), dtype=accum_dtype)
+             g_last_local = T.alloc_local((1), dtype=accum_dtype)
+ 
+             data_is_ready = T.alloc_barrier(arrive_count=[96])
+@@ -312,18 +311,6 @@
+                     )
+ 
+                     # [STAGE 0] 1
+-                    # G = Lower(diag(g) @ I @ diag(1/g))
+-                    for j_s, j_t in T.Parallel(block_S, block_S):
+-                        g_fragment[j_s, j_t] = (
+-                            g_shared[j_s] - g_shared[j_t]
+-                        )
+-                    for j_s, j_t in T.Parallel(block_S, block_S):
+-                        if j_s >= j_t:
+-                            g_fragment[j_s, j_t] = T.exp2(
+-                                g_fragment[j_s, j_t] * 1.442695
+-                            )
+-                        else:
+-                            g_fragment[j_s, j_t] = 0
+                     # Ag = G * Ar * b
+                     for j_s, j_t in T.Parallel(block_S, block_S):
+                         a_fragment[j_s, j_t] = a_shared[j_s, j_t]
+@@ -341,9 +328,14 @@
+                     )
+ 
+                     # [STAGE 0] 3
+-                    # Pg = s * G * P
++                    # Pg = s * Lower(diag(g) @ P @ diag(1/g))
+                     for j_s, j_t in T.Parallel(block_S, block_S):
+-                        p_fragment[j_s, j_t] *= scale * g_fragment[j_s, j_t]
++                        if j_s >= j_t:
++                            p_fragment[j_s, j_t] *= scale * T.exp2(
++                                (g_shared[j_s] - g_shared[j_t]) * 1.442695
++                            )
++                        else:
++                            p_fragment[j_s, j_t] = 0
+                     # S1[1] Pg
+                     T.copy(p_fragment, p_shared)
+                     T.barrier_arrive(bar_3)

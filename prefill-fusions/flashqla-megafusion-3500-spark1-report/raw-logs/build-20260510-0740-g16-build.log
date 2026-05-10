@@ -1,0 +1,34 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.g16-20260510
+#1 DONE 0.0s
+
+#1 [internal] load build definition from Dockerfile.g16-20260510
+#1 transferring dockerfile: 469B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-nooshared64
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/3] FROM docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-nooshared64
+#4 CACHED
+
+#5 [internal] load build context
+#5 transferring context: 9.32kB done
+#5 DONE 0.0s
+
+#6 [2/3] COPY patches/fused_gdn_prefill_post_conv_g16_20260510_0740.py /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/fla/ops/fused_gdn_prefill_post_conv.py
+#6 DONE 0.1s
+
+#7 [3/3] COPY patches/fused_gdn_prefill_post_conv_g16_20260510_0740.patch /repro/patches/fused_gdn_prefill_post_conv_g16_20260510_0740.patch
+#7 DONE 0.1s
+
+#8 exporting to image
+#8 exporting layers 0.1s done
+#8 writing image sha256:34a7456595669115d0266f88ee977bae107cc1c9e802e0dcb4ee2d20af44f984 done
+#8 naming to docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-g16 done
+#8 DONE 0.1s

@@ -1,0 +1,12 @@
+--- patches/chunk_init_installed_emptyout_20260510_0002.py
++++ patches/chunk_init_cumsumfold_kpack2_20260510_0710.py
+@@ -36,8 +36,7 @@
+     auto_cp: bool = True,
+ ):
+     chunk_size = 64
+-    g = chunk_local_cumsum(g, chunk_size=chunk_size, cu_seqlens=cu_seqlens)
+-    A = kkt_solve(
++    A, g = kkt_solve(
+         k=k,
+         g=g,
+         b=beta,

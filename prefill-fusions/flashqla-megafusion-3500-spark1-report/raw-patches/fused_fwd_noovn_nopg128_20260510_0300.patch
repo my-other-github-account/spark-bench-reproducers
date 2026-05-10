@@ -1,0 +1,31 @@
+--- patches/fused_fwd_noovn128_20260510_0238.py	2026-05-09 18:19:34.890622093 -0700
++++ patches/fused_fwd_noovn_nopg128_20260510_0300.py	2026-05-09 19:43:03.448497813 -0700
+@@ -129,7 +129,6 @@
+ 
+             h_shared = T.alloc_shared((DK, block_DV), dtype=qkva_dtype)
+             vd_shared = T.alloc_shared((block_S, block_DV), dtype=qkva_dtype)
+-            p_shared = T.alloc_shared((block_S, block_S), dtype=qkva_dtype)
+             g_exp_shared = T.alloc_shared((block_S), dtype=accum_dtype, scope="shared")
+             g_rev_exp_shared = T.alloc_shared(
+                 (block_S), dtype=accum_dtype, scope="shared"
+@@ -342,8 +341,7 @@
+                     # Pg = s * G * P
+                     for j_s, j_t in T.Parallel(block_S, block_S):
+                         p_fragment[j_s, j_t] *= scale * g_fragment[j_s, j_t]
+-                    # S1[1] Pg
+-                    T.copy(p_fragment, p_shared)
++                    # p_shared-free resource probe: do not materialize Pg.
+                     T.barrier_arrive(bar_3)
+                     # O = s * g * O
+                     for j_s, j_v in T.Parallel(block_S, block_DV):
+@@ -351,8 +349,8 @@
+ 
+                     # [STAGE 0] 4
+                     T.barrier_wait(bar_4, i_s % 2)
+-                    # O += Pg @ Vd
+-                    T.gemm_v1(p_shared, vd_shared, o_fragment, clear_accum=False)
++                    # Resource-only probe: omit Pg @ Vd after removing p_shared.
++                    # This is mathematically incomplete and must never be benchmark-promoted.
+                     T.barrier_arrive(bar_5)
+ 
+                     # [STAGE 0] 5

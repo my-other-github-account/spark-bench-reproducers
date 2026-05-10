@@ -1,0 +1,32 @@
+--- patches/fused_fwd_metanosync_20260509_1218.py
++++ patches/fused_fwd_pfragvd32_20260509_2014.py
+@@ -129,9 +129,8 @@
+ 
+             o_shared = T.alloc_shared((block_S, block_DV), dtype=o_dtype)
+             h_shared = T.alloc_shared((DK, block_DV), dtype=qkva_dtype)
+-            vd_shared = T.alloc_shared((block_S, block_DV), dtype=qkva_dtype)
++            vd_shared = T.alloc_shared((block_S, block_DV), dtype=accum_dtype)
+             vn_shared = T.alloc_shared((block_S, block_DV), dtype=qkva_dtype)
+-            p_shared = T.alloc_shared((block_S, block_S), dtype=qkva_dtype)
+             g_exp_shared = T.alloc_shared((block_S), dtype=accum_dtype, scope="shared")
+             g_rev_exp_shared = T.alloc_shared(
+                 (block_S), dtype=accum_dtype, scope="shared"
+@@ -344,8 +343,7 @@
+                     # Pg = s * G * P
+                     for j_s, j_t in T.Parallel(block_S, block_S):
+                         p_fragment[j_s, j_t] *= scale * g_fragment[j_s, j_t]
+-                    # S1[1] Pg
+-                    T.copy(p_fragment, p_shared)
++                    # Pg stays in fp32 registers; Vd is kept in fp32 shared memory.
+                     T.barrier_arrive(bar_3)
+                     # O = s * g * O
+                     for j_s, j_v in T.Parallel(block_S, block_DV):
+@@ -354,7 +352,7 @@
+                     # [STAGE 0] 4
+                     T.barrier_wait(bar_4, i_s % 2)
+                     # O += Pg @ Vd
+-                    T.gemm_v1(p_shared, vd_shared, o_fragment, clear_accum=False)
++                    T.gemm(p_fragment, vd_shared, o_fragment, clear_accum=False)
+                     T.barrier_arrive(bar_5)
+ 
+                     # [STAGE 0] 5

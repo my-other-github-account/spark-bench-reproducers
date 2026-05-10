@@ -1,0 +1,90 @@
+llama-benchy not found in PATH; trying uvx llama-benchy
+[warmup] explicit same-shape warmup: pp=2048 tg=32 c=1 runs=10
+Downloading cpython-3.14.4-linux-aarch64-gnu (download) (29.2MiB)
+ Downloaded cpython-3.14.4-linux-aarch64-gnu (download)
+Downloading transformers (10.1MiB)
+Downloading pygments (1.2MiB)
+Downloading openai (1.2MiB)
+Downloading tokenizers (3.1MiB)
+Downloading pydantic-core (1.9MiB)
+Downloading numpy (15.0MiB)
+Downloading hf-xet (4.1MiB)
+Downloading aiohttp (1.6MiB)
+ Downloaded pygments
+ Downloaded openai
+ Downloaded aiohttp
+ Downloaded pydantic-core
+ Downloaded tokenizers
+ Downloaded hf-xet
+ Downloaded transformers
+ Downloaded numpy
+Installed 49 packages in 242ms
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+llama-benchy (0.3.7)
+Date: 2026-05-09 01:13:35
+Benchmarking model: qwen35-27b-axionml-nvfp4 at http://127.0.0.1:8000/v1
+Concurrency levels: [1]
+Downloading book from https://www.gutenberg.org/files/1661/1661-0.txt...
+Saved text to cache: /root/.cache/llama-benchy/cc6a0b5782734ee3b9069aa3b64cc62c.txt
+Total tokens available in text corpus: 144494
+Warming up...
+Warmup (User only) complete. Delta: 9 tokens (Server: 30, Local: 21)
+Warmup (System+Empty) complete. Delta: 14 tokens (Server: 35, Local: 21)
+
+Skipping coherence test (--skip-coherence specified)
+Measuring latency using mode: api...
+Average latency (api): 1.67 ms
+Running test: pp=2048, tg=32, depth=0, concurrency=1
+  Run 1/10 (batch size 1)...
+  Run 2/10 (batch size 1)...
+  Run 3/10 (batch size 1)...
+  Run 4/10 (batch size 1)...
+  Run 5/10 (batch size 1)...
+  Run 6/10 (batch size 1)...
+  Run 7/10 (batch size 1)...
+  Run 8/10 (batch size 1)...
+  Run 9/10 (batch size 1)...
+  Run 10/10 (batch size 1)...
+Saving results to /tmp/warm-20260508-182800-current-warm10-n5.json in JSON format...
+
+
+
+llama-benchy (0.3.7)
+date: 2026-05-09 01:13:35 | latency mode: api
+[measure] post-warm run: pp=2048 tg=32 c=1 runs=5 out=/out/results/result-20260508-182800-current-warm10-n5.json
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+llama-benchy (0.3.7)
+Date: 2026-05-09 01:15:45
+Benchmarking model: qwen35-27b-axionml-nvfp4 at http://127.0.0.1:8000/v1
+Concurrency levels: [1]
+Loading text from cache: /root/.cache/llama-benchy/cc6a0b5782734ee3b9069aa3b64cc62c.txt
+Total tokens available in text corpus: 144480
+Warming up...
+Warmup (User only) complete. Delta: 9 tokens (Server: 30, Local: 21)
+Warmup (System+Empty) complete. Delta: 14 tokens (Server: 35, Local: 21)
+
+Skipping coherence test (--skip-coherence specified)
+Measuring latency using mode: api...
+Average latency (api): 2.37 ms
+Running test: pp=2048, tg=32, depth=0, concurrency=1
+  Run 1/5 (batch size 1)...
+  Run 2/5 (batch size 1)...
+  Run 3/5 (batch size 1)...
+  Run 4/5 (batch size 1)...
+  Run 5/5 (batch size 1)...
+Saving results to /out/results/result-20260508-182800-current-warm10-n5.json in JSON format...
+
+
+
+llama-benchy (0.3.7)
+date: 2026-05-09 01:15:45 | latency mode: api
+
+[bench] Saved measured result to /out/results/result-20260508-182800-current-warm10-n5.json
+INFO 05-09 01:16:17 [nixl_utils.py:20] Setting UCX_RCACHE_MAX_UNRELEASED to '1024' to avoid a rare memory leak in UCX when using NIXL.
+WARNING 05-09 01:16:17 [nixl_utils.py:34] NIXL is not available
+WARNING 05-09 01:16:17 [nixl_utils.py:44] NIXL agent config is not available
+[flashqla-v2] active: HKV-output FlashQLA packed-single prefill with tunable HKV output kernel and short-decode fallback; original FLA fallback for unsupported paths
+pp tok/s  : mean 1914.02 median 2714.50 std 1149.15 values=[3101.11194958346, 2720.2490090046954, 2714.498099917808, 517.0491431468953, 517.1692249227575]
+tg tok/s  : mean 11.52 median 11.52 std 0.05 values=[11.44385941643331, 11.594660930470031, 11.506981152032118, 11.517192323588654, 11.549452464571225]
+ttfr ms   : mean 2029.90 median 760.52 std 1594.41 values=[665.677681001398, 758.9156059984816, 760.5184220010415, 3982.6465160003863, 3981.7223329991975]
+latency_ms : 2.367

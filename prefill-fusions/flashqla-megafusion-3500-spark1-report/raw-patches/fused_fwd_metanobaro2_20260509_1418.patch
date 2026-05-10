@@ -1,0 +1,92 @@
+--- patches/fused_fwd_metanosync_20260509_1218.py	2026-05-09 12:09:46.560131090 -0700
++++ patches/fused_fwd_metanobaro2_20260509_1418.py	2026-05-09 13:14:18.208372174 -0700
+@@ -127,7 +127,6 @@
+             g_shared = T.alloc_shared((block_S,), dtype=accum_dtype, scope="shared")
+             b_shared = T.alloc_shared((block_S,), dtype=accum_dtype, scope="shared")
+ 
+-            o_shared = T.alloc_shared((block_S, block_DV), dtype=o_dtype)
+             h_shared = T.alloc_shared((DK, block_DV), dtype=qkva_dtype)
+             vd_shared = T.alloc_shared((block_S, block_DV), dtype=qkva_dtype)
+             vn_shared = T.alloc_shared((block_S, block_DV), dtype=qkva_dtype)
+@@ -149,7 +148,6 @@
+             data_is_ready = T.alloc_barrier(arrive_count=[96])
+             data_is_free = T.alloc_barrier(arrive_count=[384])
+ 
+-            bar_o = T.alloc_barrier(arrive_count=128)
+             bar_0 = T.alloc_barrier(arrive_count=416)
+             bar_1 = T.alloc_barrier(arrive_count=256)
+             _bar_2 = T.alloc_barrier(arrive_count=128)
+@@ -360,7 +358,7 @@
+                     # [STAGE 0] 5
+                     T.barrier_wait(bar_5, i_s % 2)
+                     # Store final output directly from the consumer branch.
+-                    # This avoids the Blackwell shared-layout path through o_shared.
++                    # This avoids the Blackwell shared-layout path.
+                     if store_o:
+                         for j_s, j_v in T.Parallel(block_S, block_DV):
+                             with T.If(seq_start_idx + i_s * block_S + j_s < seq_end_idx):
+@@ -374,8 +372,6 @@
+ 
+                     T.barrier_arrive(data_is_free[0])
+ 
+-                T.barrier_arrive(bar_o)
+-
+             else:
+                 T.set_max_nreg(PRODUCER_NREG, 0)
+ 
+@@ -463,17 +459,7 @@
+                         T.barrier_arrive(bar_0)
+ 
+                         T.barrier_wait(bar_0, i_s % 2)
+-                        # Store O
+-                        if False and i_s > 0 and store_o:
+-                            T.copy(
+-                                o_shared,
+-                                o[
+-                                    batch_idx,
+-                                    left:right,
+-                                    bh,
+-                                    bv * block_DV : (bv + 1) * block_DV,
+-                                ],
+-                            )
++                        # Store O already handled directly by consumer branch.
+                         T.barrier_arrive(bar_5)
+ 
+                         T.barrier_wait(bar_1, i_s % 2)
+@@ -497,17 +483,7 @@
+                         T.barrier_arrive(bar_0)
+ 
+                         T.barrier_wait(bar_0, num_unmasked_iters % 2)
+-                        # Store O
+-                        if False and num_unmasked_iters > 0 and store_o:
+-                            T.copy(
+-                                o_shared,
+-                                o[
+-                                    batch_idx,
+-                                    seq_split_idx - block_S : seq_split_idx,
+-                                    bh,
+-                                    bv * block_DV : (bv + 1) * block_DV,
+-                                ],
+-                            )
++                        # Store O already handled directly by consumer branch.
+                         T.barrier_arrive(bar_5)
+ 
+                         T.barrier_wait(bar_1, num_unmasked_iters % 2)
+@@ -527,17 +503,6 @@
+                     seq_split_idx = seq_start_idx + (num_iters - 1) * block_S
+ 
+                     # Store O already handled directly by consumer branch.
+-                    T.barrier_wait(bar_o, 0)
+-                    if False and store_o:
+-                        for j_s, j_v in T.Parallel(block_S, block_DV):
+-                            with T.If(seq_split_idx + j_s < seq_end_idx):
+-                                with T.Then():
+-                                    o[
+-                                        batch_idx,
+-                                        seq_split_idx + j_s,
+-                                        bh,
+-                                        bv * block_DV + j_v,
+-                                    ] = o_shared[j_s, j_v]
+ 
+     return tilelang_fused_chunk_gdr_fwd_kernel
+ 

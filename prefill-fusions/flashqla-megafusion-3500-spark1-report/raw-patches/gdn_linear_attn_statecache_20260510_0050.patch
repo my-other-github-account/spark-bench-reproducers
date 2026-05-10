@@ -1,0 +1,72 @@
+--- patches/gdn_linear_attn_emptyout_20260509_2132.py
++++ patches/gdn_linear_attn_statecache_20260510_0050.py
+@@ -949,26 +949,49 @@
+             initial_state = ssm_state[non_spec_state_indices_tensor].contiguous()  # type: ignore[index]
+             assert has_initial_state is not None
+             initial_state[~has_initial_state, ...] = 0  # type: ignore[operator]
+-            (
+-                core_attn_out_non_spec,
+-                last_recurrent_state,
+-            ) = self.chunk_gated_delta_rule(
+-                q=query_non_spec,
+-                k=key_non_spec,
+-                v=value_non_spec,
+-                g=g_non_spec,
+-                beta=beta_non_spec,
+-                initial_state=initial_state,
+-                output_final_state=True,
+-                cu_seqlens=non_spec_query_start_loc,
+-                chunk_indices=attn_metadata.chunk_indices,
+-                chunk_offsets=attn_metadata.chunk_offsets,
+-                use_qk_l2norm_in_kernel=False,
+-            )
+-            # Init cache
+-            ssm_state[non_spec_state_indices_tensor] = last_recurrent_state.to(
+-                ssm_state.dtype
+-            )
++            if spec_sequence_masks is None:
++                from flash_qla.ops.gated_delta_rule.chunk import (
++                    chunk_gated_delta_rule_fwd as flashqla_fwd,
++                )
++
++                fq_initial_state = initial_state.transpose(-1, -2).contiguous()
++                _, _, core_attn_out_non_spec, _, _ = flashqla_fwd(
++                    q=query_non_spec,
++                    k=key_non_spec,
++                    v=value_non_spec,
++                    g=g_non_spec,
++                    beta=beta_non_spec,
++                    scale=self.head_k_dim**-0.5,
++                    initial_state=fq_initial_state,
++                    cu_seqlens=non_spec_query_start_loc,
++                    output_final_state=True,
++                    output_h=False,
++                    auto_cp=False,
++                    state_cache=ssm_state,
++                    state_indices=non_spec_state_indices_tensor,
++                )
++                last_recurrent_state = None
++            else:
++                (
++                    core_attn_out_non_spec,
++                    last_recurrent_state,
++                ) = self.chunk_gated_delta_rule(
++                    q=query_non_spec,
++                    k=key_non_spec,
++                    v=value_non_spec,
++                    g=g_non_spec,
++                    beta=beta_non_spec,
++                    initial_state=initial_state,
++                    output_final_state=True,
++                    cu_seqlens=non_spec_query_start_loc,
++                    chunk_indices=attn_metadata.chunk_indices,
++                    chunk_offsets=attn_metadata.chunk_offsets,
++                    use_qk_l2norm_in_kernel=False,
++                )
++                # Init cache
++                ssm_state[non_spec_state_indices_tensor] = last_recurrent_state.to(
++                    ssm_state.dtype
++                )
+         elif attn_metadata.num_decodes > 0:
+             core_attn_out_non_spec, last_recurrent_state = (
+                 fused_sigmoid_gating_delta_rule_update(

@@ -1,0 +1,28 @@
+--- sitecustomize_fastpack_20260509_1210.py
++++ sitecustomize_oonly_20260509_1952.py
+@@ -25,7 +25,7 @@
+             _calls=[0]; _fallbacks=[0]; _large_logged=[False]; _lazy={"fq":None,"o":None}
+             def _ensure_lazy():
+                 if _lazy["fq"] is None:
+-                    from flash_qla.ops.gated_delta_rule.chunk import chunk_gated_delta_rule_fwd as _flashqla_fwd
++                    from flash_qla.ops.gated_delta_rule.chunk import chunk_gated_delta_rule_fwd_o_only as _flashqla_fwd
+                     from flashqla_hkv_o import chunk_fwd_o_hkv as _vllm_chunk_fwd_o
+                     _lazy["fq"]=_flashqla_fwd; _lazy["o"]=_vllm_chunk_fwd_o
+                 return _lazy["fq"], _lazy["o"]
+@@ -95,13 +95,13 @@
+                         sys.stderr.write("[flashqla-meta] "+_meta(name,x)+"\n")
+                     sys.stderr.flush()
+                 fq_initial_state = initial_state.transpose(-1,-2).contiguous() if initial_state is not None else None
+-                g_cum, A, v_new, h_fq, final_state_fq = _flashqla_fwd(
++                v_new, final_state_fq = _flashqla_fwd(
+                     q=q,k=k,v=v,g=g,beta=beta,scale=scale,initial_state=fq_initial_state,
+-                    cu_seqlens=cu_seqlens,output_final_state=output_final_state,output_h=False,auto_cp=False)
++                    cu_seqlens=cu_seqlens,output_final_state=output_final_state,auto_cp=False)
+                 out = v_new
+                 final_state = final_state_fq.transpose(-1,-2).contiguous() if final_state_fq is not None else None
+                 if os.environ.get("FLASHQLA_VERBOSE_META", "0") == "1" and _calls[0] in (1,2,10,20):
+-                    for name,x in [("v_new",v_new),("h_fq",h_fq),("out",out),("final_state",final_state)]:
++                    for name,x in [("v_new",v_new),("out",out),("final_state",final_state)]:
+                         sys.stderr.write("[flashqla-meta] "+_meta(name,x)+"\n")
+                     sys.stderr.flush()
+                 return out, final_state

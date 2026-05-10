@@ -1,0 +1,37 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.statekpack2-20260509
+#1 transferring dockerfile: 614B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-nobaro
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/5] FROM docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-nobaro
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 27.77kB done
+#5 DONE 0.0s
+
+#6 [2/5] COPY patches/sitecustomize_fastpack_20260509_1210.py /usr/lib/python3.12/sitecustomize.py
+#6 CACHED
+
+#7 [3/5] COPY patches/fused_fwd_statekpack2_20260509_1846.py /opt/flashqla/flash_qla/ops/gated_delta_rule/chunk/blackwell/fused_fwd.py
+#7 DONE 0.1s
+
+#8 [4/5] COPY patches/sitecustomize_fastpack_20260509_1210.patch /repro/patches/sitecustomize_fastpack_20260509_1210.patch
+#8 DONE 0.1s
+
+#9 [5/5] COPY patches/fused_fwd_statekpack2_20260509_1846.patch /repro/patches/fused_fwd_statekpack2_20260509_1846.patch
+#9 DONE 0.1s
+
+#10 exporting to image
+#10 exporting layers 0.1s done
+#10 writing image sha256:685379362f557ebdfbea36de6b1bf73e7682a929a9eb17a3755a1a054634fd0f done
+#10 naming to docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-statekpack2 done
+#10 DONE 0.1s

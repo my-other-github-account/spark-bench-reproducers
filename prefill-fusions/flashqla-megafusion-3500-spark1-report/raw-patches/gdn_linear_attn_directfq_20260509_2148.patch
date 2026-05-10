@@ -1,0 +1,54 @@
+--- gdn_linear_attn_emptyout_20260509_2132.py
++++ gdn_linear_attn_directfq_20260509_2148.py
+@@ -196,6 +196,51 @@
+         chunk_offsets: torch.Tensor | None = None,
+         use_qk_l2norm_in_kernel: bool = True,
+     ):
++        packed_single = False
++        if (chunk_indices is not None or chunk_offsets is not None):
++            packed_single = (
++                cu_seqlens is not None
++                and int(cu_seqlens.numel()) == 2
++                and int(q.shape[0]) == 1
++                and (chunk_offsets is None or int(chunk_offsets.numel()) == 2)
++            )
++
++        if (
++            current_platform.is_cuda()
++            and torch.cuda.get_device_capability(0) in ((12, 0), (12, 1))
++            and packed_single
++            and not use_qk_l2norm_in_kernel
++            and q.shape[1] >= 64
++        ):
++            from flash_qla.ops.gated_delta_rule.chunk import (
++                chunk_gated_delta_rule_fwd as flashqla_fwd,
++            )
++
++            fq_initial_state = (
++                initial_state.transpose(-1, -2).contiguous()
++                if initial_state is not None
++                else None
++            )
++            _, _, out, _, final_state_fq = flashqla_fwd(
++                q=q,
++                k=k,
++                v=v,
++                g=g,
++                beta=beta,
++                scale=q.shape[-1] ** -0.5,
++                initial_state=fq_initial_state,
++                cu_seqlens=cu_seqlens,
++                output_final_state=output_final_state,
++                output_h=False,
++                auto_cp=False,
++            )
++            final_state = (
++                final_state_fq.transpose(-1, -2).contiguous()
++                if final_state_fq is not None
++                else None
++            )
++            return out, final_state
++
+         return fla_chunk_gated_delta_rule(
+             q=q,
+             k=k,

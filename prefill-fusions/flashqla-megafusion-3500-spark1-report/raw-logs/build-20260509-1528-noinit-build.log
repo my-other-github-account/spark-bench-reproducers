@@ -1,0 +1,37 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.noinit-20260509
+#1 transferring dockerfile: 600B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-nobaro
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/5] FROM docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-nobaro
+#4 CACHED
+
+#5 [internal] load build context
+#5 transferring context: 36.80kB done
+#5 DONE 0.0s
+
+#6 [2/5] COPY patches/sitecustomize_noinit_20260509_1528.py /usr/lib/python3.12/sitecustomize.py
+#6 DONE 0.0s
+
+#7 [3/5] COPY patches/fused_fwd_metanosync_20260509_1218.py /opt/flashqla/flash_qla/ops/gated_delta_rule/chunk/blackwell/fused_fwd.py
+#7 DONE 0.1s
+
+#8 [4/5] COPY patches/sitecustomize_noinit_20260509_1528.patch /repro/patches/sitecustomize_noinit_20260509_1528.patch
+#8 DONE 0.1s
+
+#9 [5/5] COPY patches/fused_fwd_metanosync_20260509_1218.patch /repro/patches/fused_fwd_metanosync_20260509_1218.patch
+#9 DONE 0.1s
+
+#10 exporting to image
+#10 exporting layers 0.1s done
+#10 writing image sha256:12bb6e4f74bed38a714be8e6dd0287cf95c23a8b1b4e925c136cfc1f67e0ab96 done
+#10 naming to docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-noinit done
+#10 DONE 0.2s

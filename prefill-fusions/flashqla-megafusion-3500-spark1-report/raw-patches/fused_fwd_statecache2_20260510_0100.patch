@@ -1,0 +1,19 @@
+--- patches/fused_fwd_statecache_20260510_0050.py
++++ patches/fused_fwd_statecache2_20260510_0100.py
+@@ -50,6 +50,7 @@
+     num_chunks = T.dynamic("num_chunks")
+     raw_batch_size = T.dynamic("raw_batch_size")
+     state_batch_size = T.dynamic("state_batch_size")
++    state_heads = T.dynamic("state_heads")
+     block_S = chunk_size
+ 
+     if is_varlen:
+@@ -72,7 +73,7 @@
+         h_shape = (batch_size, num_chunks, H, DK, DV)
+     h0_shape = (batch_size, H, DK, DV)
+     ht_shape = (raw_batch_size, H, DK, DV)
+-    state_cache_shape = (state_batch_size, H, DV, DK)
++    state_cache_shape = (state_batch_size, state_heads, DV, DK)
+ 
+     @T.prim_func
+     def tilelang_fused_chunk_gdr_fwd_kernel(

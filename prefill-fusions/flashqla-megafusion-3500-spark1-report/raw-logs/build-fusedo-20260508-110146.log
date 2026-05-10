@@ -1,0 +1,74 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.24kB done
+#1 DONE 0.0s
+
+#2 resolve image config for docker-image://docker.io/docker/dockerfile:1.6
+#2 DONE 8.5s
+
+#3 docker-image://docker.io/docker/dockerfile:1.6@sha256:ac85f380a63b13dfcefa89046420e1781752bab202122f8f50032edf31be0021
+#3 CACHED
+
+#4 [internal] load metadata for ghcr.io/spark-arena/dgx-vllm-eugr-nightly:latest
+#4 DONE 1.0s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 2B done
+#5 DONE 0.0s
+
+#6 [1/9] FROM ghcr.io/spark-arena/dgx-vllm-eugr-nightly:latest@sha256:8d389a3c20139c618f186311c1ae80516003c471f02c405bedb7f5caa3c4e864
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 44.36kB done
+#7 DONE 0.0s
+
+#8 [2/9] WORKDIR /repro
+#8 CACHED
+
+#9 [3/9] COPY scripts /repro/scripts
+#9 CACHED
+
+#10 [4/9] COPY patches /repro/patches
+#10 DONE 0.0s
+
+#11 [5/9] RUN chmod +x /repro/scripts/*.sh
+#11 DONE 0.3s
+
+#12 [6/9] RUN git clone https://github.com/my-other-github-account/FlashQLA.git /opt/flashqla &&     cd /opt/flashqla &&     git checkout 827fdd88e0829646e3c90be0c76158a9be62ab37 &&     git apply /repro/patches/flashqla-source-diff-827fdd88-hkv.patch
+#12 0.164 Cloning into '/opt/flashqla'...
+#12 0.923 Note: switching to '827fdd88e0829646e3c90be0c76158a9be62ab37'.
+#12 0.923 
+#12 0.923 You are in 'detached HEAD' state. You can look around, make experimental
+#12 0.923 changes and commit them, and you can discard any commits you make in this
+#12 0.923 state without impacting any branches by switching back to a branch.
+#12 0.923 
+#12 0.923 If you want to create a new branch to retain commits you create, you may
+#12 0.923 do so (now or later) by using -c with the switch command. Example:
+#12 0.923 
+#12 0.923   git switch -c <new-branch-name>
+#12 0.923 
+#12 0.923 Or undo this operation with:
+#12 0.923 
+#12 0.923   git switch -
+#12 0.923 
+#12 0.923 Turn off this advice by setting config variable advice.detachedHead to false
+#12 0.923 
+#12 0.923 HEAD is now at 827fdd8 Initial Blackwell (sm_120a/sm_121a) port scaffold
+#12 0.924 error: corrupt patch at line 233
+#12 ERROR: process "/bin/sh -c git clone https://github.com/my-other-github-account/FlashQLA.git /opt/flashqla &&     cd /opt/flashqla &&     git checkout 827fdd88e0829646e3c90be0c76158a9be62ab37 &&     git apply /repro/patches/flashqla-source-diff-827fdd88-hkv.patch" did not complete successfully: exit code: 128
+------
+ > [6/9] RUN git clone https://github.com/my-other-github-account/FlashQLA.git /opt/flashqla &&     cd /opt/flashqla &&     git checkout 827fdd88e0829646e3c90be0c76158a9be62ab37 &&     git apply /repro/patches/flashqla-source-diff-827fdd88-hkv.patch:
+0.923   git switch -c <new-branch-name>
+0.923 
+0.923 Or undo this operation with:
+0.923 
+0.923   git switch -
+0.923 
+0.923 Turn off this advice by setting config variable advice.detachedHead to false
+0.923 
+0.923 HEAD is now at 827fdd8 Initial Blackwell (sm_120a/sm_121a) port scaffold
+0.924 error: corrupt patch at line 233
+------
+ERROR: failed to build: failed to solve: process "/bin/sh -c git clone https://github.com/my-other-github-account/FlashQLA.git /opt/flashqla &&     cd /opt/flashqla &&     git checkout 827fdd88e0829646e3c90be0c76158a9be62ab37 &&     git apply /repro/patches/flashqla-source-diff-827fdd88-hkv.patch" did not complete successfully: exit code: 128

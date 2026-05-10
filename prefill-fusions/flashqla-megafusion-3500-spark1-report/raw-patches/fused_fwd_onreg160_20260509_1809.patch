@@ -1,0 +1,11 @@
+--- fused_fwd_metanosync_20260509_1218.py
++++ fused_fwd_onreg160_20260509_1809.py
+@@ -164,7 +164,7 @@
+             PRODUCER_NREG = 32
+             CONSUMER_V_NREG = 128
+             CONSUMER_S_NREG = 160
+-            CONSUMER_O_NREG = 128
++            CONSUMER_O_NREG = 160
+ 
+             if tx < 128:
+                 T.set_max_nreg(CONSUMER_S_NREG, 1)

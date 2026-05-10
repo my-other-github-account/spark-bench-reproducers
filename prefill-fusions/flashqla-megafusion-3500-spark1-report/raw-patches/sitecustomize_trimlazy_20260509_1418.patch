@@ -1,0 +1,28 @@
+--- patches/sitecustomize_fastpack_20260509_1210.py	2026-05-09 12:03:19.271210557 -0700
++++ patches/sitecustomize_trimlazy_20260509_1418.py	2026-05-09 13:14:18.217083314 -0700
+@@ -22,13 +22,12 @@
+         _orig = getattr(_gdn, "fla_chunk_gated_delta_rule", None) or getattr(_chunk, "chunk_gated_delta_rule", None)
+         cap = torch.cuda.get_device_capability(0) if torch.cuda.is_available() else (0, 0)
+         if cap in ((12, 0), (12, 1)):
+-            _calls=[0]; _fallbacks=[0]; _large_logged=[False]; _lazy={"fq":None,"o":None}
++            _calls=[0]; _fallbacks=[0]; _large_logged=[False]; _lazy={"fq":None}
+             def _ensure_lazy():
+                 if _lazy["fq"] is None:
+                     from flash_qla.ops.gated_delta_rule.chunk import chunk_gated_delta_rule_fwd as _flashqla_fwd
+-                    from flashqla_hkv_o import chunk_fwd_o_hkv as _vllm_chunk_fwd_o
+-                    _lazy["fq"]=_flashqla_fwd; _lazy["o"]=_vllm_chunk_fwd_o
+-                return _lazy["fq"], _lazy["o"]
++                    _lazy["fq"]=_flashqla_fwd
++                return _lazy["fq"] 
+             def _meta(name,x):
+                 if x is None: return name+"=None"
+                 try:
+@@ -88,7 +87,7 @@
+                     return _fallback("short-decode-preserve-coherence",q,k,v,g,beta,scale,initial_state,output_final_state,cu_seqlens,chunk_indices,chunk_offsets,use_qk_l2norm_in_kernel,head_first,kw)
+                 if scale is None:
+                     scale = q.shape[-1] ** -0.5
+-                _flashqla_fwd, _vllm_chunk_fwd_o = _ensure_lazy()
++                _flashqla_fwd = _ensure_lazy()
+                 if os.environ.get("FLASHQLA_VERBOSE_META", "0") == "1" and _calls[0] in (1,2,10,20):
+                     sys.stderr.write(f"[flashqla-patch] hybrid call #{_calls[0]} output_final_state={output_final_state} scale={scale}\n")
+                     for name,x in [("q",q),("k",k),("v",v),("g",g),("beta",beta),("initial_state",initial_state),("cu_seqlens",cu_seqlens)]:

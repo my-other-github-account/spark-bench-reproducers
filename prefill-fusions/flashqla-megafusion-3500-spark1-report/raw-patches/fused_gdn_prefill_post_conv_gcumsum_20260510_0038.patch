@@ -1,0 +1,45 @@
+--- patches/fused_gdn_prefill_post_conv_installed_20260510_0032.py
++++ patches/fused_gdn_prefill_post_conv_gcumsum_20260510_0038.py
+@@ -47,6 +47,7 @@
+     APPLY_L2NORM: tl.constexpr,
+     L2NORM_EPS: tl.constexpr,
+     OUTPUT_G_EXP: tl.constexpr,
++    OUTPUT_G_CUMSUM: tl.constexpr,
+     SOFTPLUS_THRESHOLD: tl.constexpr,
+     BLOCK_T: tl.constexpr,
+     BK: tl.constexpr,
+@@ -139,6 +140,8 @@
+         sp = tl.where(x <= SOFTPLUS_THRESHOLD, sp, x)
+         g_vals = -tl.exp(A_log_val) * sp
+ 
++        if OUTPUT_G_CUMSUM:
++            g_vals = tl.cumsum(g_vals, 0)
+         if OUTPUT_G_EXP:
+             g_vals = tl.exp(g_vals)
+ 
+@@ -160,6 +163,7 @@
+     head_v_dim: int,
+     apply_l2norm: bool = True,
+     output_g_exp: bool = False,
++    output_g_cumsum: bool = True,
+ ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
+     """Fused post-conv1d prep: split + l2norm + gating in one kernel.
+ 
+@@ -208,7 +212,8 @@
+     # ---- Kernel config ----
+     BK = triton.next_power_of_2(K)
+     BV = triton.next_power_of_2(V)
+-    BLOCK_T = 16  # tokens per block
++    # Use one program per FlashQLA chunk so the gating branch can emit local cumsum.
++    BLOCK_T = 64  # tokens per block
+ 
+     # Single kernel: blocks [0,H) do Q/K, blocks [H, H+HV) do V+gating
+     grid = (triton.cdiv(L, BLOCK_T), H + HV)
+@@ -237,6 +242,7 @@
+         APPLY_L2NORM=apply_l2norm,
+         L2NORM_EPS=1e-6,
+         OUTPUT_G_EXP=output_g_exp,
++        OUTPUT_G_CUMSUM=output_g_cumsum,
+         SOFTPLUS_THRESHOLD=20.0,
+         BLOCK_T=BLOCK_T,
+         BK=BK,
