@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-RECIPE=/home/user/flashqla-v2-3100/spark-bench-reproducers/qwen36-flashqla-dflash-longctx-spark
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+RECIPE="$SCRIPT_DIR"
 ROOT=$RECIPE/results/golden-depth-grid-20260510
 ROW=server-mbt2048-dflash_on-fqla_on-nousage-threshold0-nspec15-temp06-mlen132000-shifted_suffix_block_table_fullgraph_compact_delta_nosync_direct_attention_kvupdate_query_qkv_fused_qk_rope-grid-pp2048-16384-32768-65536-131072-warm1-n3
 ART=$ROOT/$ROW
 NAME=golden-depth-grid-dflash-fqla-on-nspec15-temp06-n3
 IMAGE=qwen36-fqla-baseline-dflash-spark:combined-20260507-threshold10
+HOST_MODELS_DIR="${HOST_MODELS_DIR:?set HOST_MODELS_DIR to the host model directory}"
 
 mkdir -p "$ART"
 cd "$RECIPE"
@@ -966,7 +968,7 @@ PY
 docker run -d --gpus all --network host --ipc host \
   --name "$NAME" \
   -v "$RECIPE:/repro" \
-  -v /home/user/models:/models:ro \
+  -v "$HOST_MODELS_DIR:/models:ro" \
   -v "$ART:/out" \
   "$IMAGE" bash -lc '
     set -euo pipefail
@@ -993,7 +995,7 @@ PY
     python3 /out/patch_compact_delta_rejection_v2_nosync.py > /tmp/patch-compact-delta-rejection-v2-nosync.log 2>&1
     python3 /out/patch_proposer_full_cudagraph.py > /tmp/patch-proposer-full-cudagraph.log 2>&1
     python3 /out/patch_longctx_feature_metadata.py > /tmp/patch-longctx-feature-metadata.log 2>&1
-    python3 /repro/patch_shifted_suffix_block_table.py > /tmp/patch-shifted-suffix-block-table.log 2>&1
+    python3 /repro/patches/patch_shifted_suffix_block_table.py > /tmp/patch-shifted-suffix-block-table.log 2>&1
     python3 -m py_compile /usr/local/lib/python3.12/dist-packages/vllm/model_executor/models/qwen3_dflash.py /usr/local/lib/python3.12/dist-packages/vllm/v1/spec_decode/dflash.py /usr/local/lib/python3.12/dist-packages/vllm/v1/spec_decode/llm_base_proposer.py /usr/local/lib/python3.12/dist-packages/vllm/v1/sample/rejection_sampler.py /usr/local/lib/python3.12/dist-packages/vllm/v1/worker/gpu_model_runner.py > /tmp/patch-fused-qk-rope-pycompile.log 2>&1
     grep -R "DFlash direct draft-query attention v2 path active\|kv_cache_update_preserved=True\|DFlash query QKV workspace v3 path active\|DFlash local argmax proposer path active\|DFlash compact delta rejection v2 no-sync plus DFlash proposer FULL cudagraph path active\|DFlash proposer full-cudagraph path active\|DFlash longctx feature metadata\|DFlash shifted suffix block-table path active\|avoided_full_vocab_target_softmax=True\|avoided_full_vocab_recovered_scan=True\|avoided_hot_path_cpu_sync=True" /usr/local/lib/python3.12/dist-packages/vllm/model_executor/models/qwen3_dflash.py /usr/local/lib/python3.12/dist-packages/vllm/v1/spec_decode/dflash.py /usr/local/lib/python3.12/dist-packages/vllm/v1/spec_decode/llm_base_proposer.py /usr/local/lib/python3.12/dist-packages/vllm/v1/sample/rejection_sampler.py /usr/local/lib/python3.12/dist-packages/vllm/v1/worker/gpu_model_runner.py > /tmp/patch-direct-attention-kvupdate-grep.log 2>&1
     env | sort > /tmp/env-after-flashqla-on.txt
@@ -1013,7 +1015,6 @@ PY
       --trust-remote-code \
       --load-format fastsafetensors \
       --attention-backend flash_attn \
-      --enable-prefix-caching \
       --default-chat-template-kwargs '"'"'{"enable_thinking": true}'"'"' \
       --speculative-config '"'"'{"method":"dflash","num_speculative_tokens":15,"model":"/models/Qwen3.6-27B-DFlash"}'"'"' \
       --seed 0
@@ -1074,7 +1075,7 @@ META
   docker run --rm --network host \
     -e PYTHONPATH=/out \
     -v "$RECIPE:/repro" \
-    -v /home/user/models:/models:ro \
+    -v "$HOST_MODELS_DIR:/models:ro" \
     -v "$ART:/out" \
     "$IMAGE" bash -lc "
       set -euo pipefail
