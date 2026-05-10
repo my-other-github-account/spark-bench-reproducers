@@ -1,0 +1,20 @@
+--- patches/chunk_init_installed_20260510_0032.py
++++ patches/chunk_init_statecache_20260510_0050.py
+@@ -34,6 +34,8 @@
+     output_final_state: bool = True,
+     output_h: bool = False,
+     auto_cp: bool = True,
++    state_cache: torch.Tensor | None = None,
++    state_indices: torch.Tensor | None = None,
+ ):
+     chunk_size = 64
+     g = chunk_local_cumsum(g, chunk_size=chunk_size, cu_seqlens=cu_seqlens)
+@@ -77,6 +79,8 @@
+         cp_seq_map=cp_seq_map,
+         raw_cu_seqlens=raw_cu_seqlens,
+         chunk_size=chunk_size,
++        state_cache=state_cache,
++        state_indices=state_indices,
+     )
+     return g, A, o, h, final_state
+ 

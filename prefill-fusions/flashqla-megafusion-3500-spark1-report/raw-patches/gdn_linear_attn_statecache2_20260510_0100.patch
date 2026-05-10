@@ -1,0 +1,30 @@
+--- patches/gdn_linear_attn_statecache_20260510_0050.py
++++ patches/gdn_linear_attn_statecache2_20260510_0100.py
+@@ -955,6 +955,18 @@
+                 )
+ 
+                 fq_initial_state = initial_state.transpose(-1, -2).contiguous()
++                state_head_stride = ssm_state.stride(0) // (
++                    ssm_state.shape[2] * ssm_state.shape[3]
++                )
++                state_cache = ssm_state.as_strided(
++                    (
++                        ssm_state.shape[0],
++                        state_head_stride,
++                        ssm_state.shape[2],
++                        ssm_state.shape[3],
++                    ),
++                    ssm_state.stride(),
++                )
+                 _, _, core_attn_out_non_spec, _, _ = flashqla_fwd(
+                     q=query_non_spec,
+                     k=key_non_spec,
+@@ -967,7 +979,7 @@
+                     output_final_state=True,
+                     output_h=False,
+                     auto_cp=False,
+-                    state_cache=ssm_state,
++                    state_cache=state_cache,
+                     state_indices=non_spec_state_indices_tensor,
+                 )
+                 last_recurrent_state = None

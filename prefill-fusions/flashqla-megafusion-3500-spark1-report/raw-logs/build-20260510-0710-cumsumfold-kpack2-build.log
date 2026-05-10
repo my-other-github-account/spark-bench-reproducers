@@ -1,0 +1,37 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.cumsumfold-kpack2-20260510
+#1 transferring dockerfile: 687B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-nooshared64
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/5] FROM docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-nooshared64
+#4 CACHED
+
+#5 [internal] load build context
+#5 transferring context: 25.23kB done
+#5 DONE 0.0s
+
+#6 [2/5] COPY patches/kkt_solve_cumsumfold_kpack2_20260510_0710.py /opt/flashqla/flash_qla/ops/gated_delta_rule/chunk/blackwell/kkt_solve.py
+#6 DONE 0.1s
+
+#7 [3/5] COPY patches/chunk_init_cumsumfold_kpack2_20260510_0710.py /opt/flashqla/flash_qla/ops/gated_delta_rule/chunk/__init__.py
+#7 DONE 0.1s
+
+#8 [4/5] COPY patches/kkt_solve_cumsumfold_kpack2_20260510_0710.patch /repro/patches/kkt_solve_cumsumfold_kpack2_20260510_0710.patch
+#8 DONE 0.1s
+
+#9 [5/5] COPY patches/chunk_init_cumsumfold_kpack2_20260510_0710.patch /repro/patches/chunk_init_cumsumfold_kpack2_20260510_0710.patch
+#9 DONE 0.1s
+
+#10 exporting to image
+#10 exporting layers 0.1s done
+#10 writing image sha256:372f154fbb2c818c49c7f72a73e35419f2096a39eedacafbc5f3fb1cf497bb49 done
+#10 naming to docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-cumsumfold-kpack2 done
+#10 DONE 0.2s

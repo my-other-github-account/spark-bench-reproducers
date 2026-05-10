@@ -1,0 +1,19 @@
+--- chunk_init_nobaro.py
++++ chunk_init_preopsdense.py
+@@ -36,12 +36,14 @@
+     auto_cp: bool = True,
+ ):
+     chunk_size = 64
+-    g = chunk_local_cumsum(g, chunk_size=chunk_size, cu_seqlens=cu_seqlens)
++    dense_single = cu_seqlens is not None and len(cu_seqlens) == 2 and q.shape[0] == 1
++    preop_cu_seqlens = None if dense_single else cu_seqlens
++    g = chunk_local_cumsum(g, chunk_size=chunk_size, cu_seqlens=preop_cu_seqlens)
+     A = kkt_solve(
+         k=k,
+         g=g,
+         b=beta,
+-        cu_seqlens=cu_seqlens,
++        cu_seqlens=preop_cu_seqlens,
+         chunk_size=chunk_size,
+     )
+     if auto_cp:

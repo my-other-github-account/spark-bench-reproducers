@@ -1,0 +1,44 @@
+--- patches/fused_fwd_nooshared64_20260510_0230.py	2026-05-09 18:13:15.225184954 -0700
++++ patches/fused_fwd_nooshared_nopg128_20260510_0255.py	2026-05-09 19:41:54.737254330 -0700
+@@ -130,7 +130,6 @@
+             h_shared = T.alloc_shared((DK, block_DV), dtype=qkva_dtype)
+             vd_shared = T.alloc_shared((block_S, block_DV), dtype=qkva_dtype)
+             vn_shared = T.alloc_shared((block_S, block_DV), dtype=qkva_dtype)
+-            p_shared = T.alloc_shared((block_S, block_S), dtype=qkva_dtype)
+             g_exp_shared = T.alloc_shared((block_S), dtype=accum_dtype, scope="shared")
+             g_rev_exp_shared = T.alloc_shared(
+                 (block_S), dtype=accum_dtype, scope="shared"
+@@ -343,8 +342,7 @@
+                     # Pg = s * G * P
+                     for j_s, j_t in T.Parallel(block_S, block_S):
+                         p_fragment[j_s, j_t] *= scale * g_fragment[j_s, j_t]
+-                    # S1[1] Pg
+-                    T.copy(p_fragment, p_shared)
++                    # p_shared-free resource probe: do not materialize Pg.
+                     T.barrier_arrive(bar_3)
+                     # O = s * g * O
+                     for j_s, j_v in T.Parallel(block_S, block_DV):
+@@ -352,8 +350,8 @@
+ 
+                     # [STAGE 0] 4
+                     T.barrier_wait(bar_4, i_s % 2)
+-                    # O += Pg @ Vd
+-                    T.gemm_v1(p_shared, vd_shared, o_fragment, clear_accum=False)
++                    # Resource-only probe: omit Pg @ Vd after removing p_shared.
++                    # This is mathematically incomplete and must never be benchmark-promoted.
+                     T.barrier_arrive(bar_5)
+ 
+                     # [STAGE 0] 5
+@@ -622,11 +620,7 @@
+     else:
+         block_DV = 32
+ 
+-    # Blackwell consumer (sm_120a / sm_121a) caps dynamic SMEM at ~99 KB,
+-    # so block_DV=128 doesn't fit (kernel SMEM is ~116 KB at that tile).
+-    # Cap to 64 here.  This doubles the grid_size but each block fits.
+-    if tilelang.contrib.nvcc.get_target_compute_version() in ("12.1", "12.0"):
+-        block_DV = min(block_DV, 64)
++    # p_shared-free resource probe: allow the natural 128-wide V tile.
+ 
+     tilelang_fused_chunk_gdr_fwd_kernel = tilelang_fused_chunk_gdr_fwd(
+         H,

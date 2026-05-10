@@ -1,0 +1,87 @@
+llama-benchy not found in PATH; trying uvx llama-benchy
+[warmup] explicit same-shape warmup: pp=2048 tg=32 c=1 runs=2
+Downloading cpython-3.14.4-linux-aarch64-gnu (download) (29.2MiB)
+ Downloaded cpython-3.14.4-linux-aarch64-gnu (download)
+Downloading openai (1.2MiB)
+Downloading tokenizers (3.1MiB)
+Downloading numpy (15.0MiB)
+Downloading pygments (1.2MiB)
+Downloading pydantic-core (1.9MiB)
+Downloading transformers (10.1MiB)
+Downloading aiohttp (1.6MiB)
+Downloading hf-xet (4.1MiB)
+ Downloaded pygments
+ Downloaded openai
+ Downloaded aiohttp
+ Downloaded pydantic-core
+ Downloaded tokenizers
+ Downloaded hf-xet
+ Downloaded transformers
+ Downloaded numpy
+Installed 49 packages in 199ms
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+llama-benchy (0.3.7)
+Date: 2026-05-08 21:30:12
+Benchmarking model: qwen35-27b-axionml-nvfp4 at http://127.0.0.1:8000/v1
+Concurrency levels: [1]
+Downloading book from https://www.gutenberg.org/files/1661/1661-0.txt...
+Saved text to cache: /root/.cache/llama-benchy/cc6a0b5782734ee3b9069aa3b64cc62c.txt
+Total tokens available in text corpus: 144494
+Warming up...
+Warmup (User only) complete. Delta: 9 tokens (Server: 30, Local: 21)
+Warmup (System+Empty) complete. Delta: 14 tokens (Server: 35, Local: 21)
+
+Skipping coherence test (--skip-coherence specified)
+Measuring latency using mode: api...
+Average latency (api): 1.52 ms
+Running test: pp=2048, tg=32, depth=0, concurrency=1
+  Run 1/2 (batch size 1)...
+  Run 2/2 (batch size 1)...
+Saving results to /tmp/warmup-20260508-143200-fusedo-directstore-mbt4096-n10.json in JSON format...
+
+
+
+llama-benchy (0.3.7)
+date: 2026-05-08 21:30:12 | latency mode: api
+[measure] post-warm run: pp=2048 tg=32 c=1 runs=10 out=/out/results/result-20260508-143200-fusedo-directstore-mbt4096-n10.json
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+llama-benchy (0.3.7)
+Date: 2026-05-08 21:31:21
+Benchmarking model: qwen35-27b-axionml-nvfp4 at http://127.0.0.1:8000/v1
+Concurrency levels: [1]
+Loading text from cache: /root/.cache/llama-benchy/cc6a0b5782734ee3b9069aa3b64cc62c.txt
+Total tokens available in text corpus: 144480
+Warming up...
+Warmup (User only) complete. Delta: 9 tokens (Server: 30, Local: 21)
+Warmup (System+Empty) complete. Delta: 14 tokens (Server: 35, Local: 21)
+
+Skipping coherence test (--skip-coherence specified)
+Measuring latency using mode: api...
+Average latency (api): 1.84 ms
+Running test: pp=2048, tg=32, depth=0, concurrency=1
+  Run 1/10 (batch size 1)...
+  Run 2/10 (batch size 1)...
+  Run 3/10 (batch size 1)...
+  Run 4/10 (batch size 1)...
+  Run 5/10 (batch size 1)...
+  Run 6/10 (batch size 1)...
+  Run 7/10 (batch size 1)...
+  Run 8/10 (batch size 1)...
+  Run 9/10 (batch size 1)...
+  Run 10/10 (batch size 1)...
+Saving results to /out/results/result-20260508-143200-fusedo-directstore-mbt4096-n10.json in JSON format...
+
+
+
+llama-benchy (0.3.7)
+date: 2026-05-08 21:31:21 | latency mode: api
+
+[bench] Saved measured result to /out/results/result-20260508-143200-fusedo-directstore-mbt4096-n10.json
+INFO 05-08 21:31:53 [nixl_utils.py:20] Setting UCX_RCACHE_MAX_UNRELEASED to '1024' to avoid a rare memory leak in UCX when using NIXL.
+WARNING 05-08 21:31:53 [nixl_utils.py:34] NIXL is not available
+WARNING 05-08 21:31:53 [nixl_utils.py:44] NIXL agent config is not available
+[flashqla-v2] active: HKV-output FlashQLA packed-single prefill with tunable HKV output kernel and short-decode fallback; original FLA fallback for unsupported paths
+pp tok/s  : mean 3021.46 median 3030.54 std 138.88 values=[2971.1584938410424, 2713.1921564719514, 3046.5603975269114, 3030.5353085783327, 2970.7160167443512, 2976.0558886777944, 3101.7987672159093, 3247.958062610738, 3135.15694653497]
+tg tok/s  : mean 11.33 median 11.51 std 0.56 values=[11.575922280027719, 11.505655669441268, 11.539570834829192, 9.734187396157184, 11.532793069074149, 11.503678152286163, 11.500722454252257, 11.507959984641989, 11.543247780028231]
+ttfr ms   : mean 683.68 median 679.14 std 30.98 values=[694.5017140023992, 760.3587279991189, 677.3585069968249, 680.9305499991751, 694.6048829995561, 675.9936430025846, 693.6978900012036, 665.3285850006796, 635.779360000015, 658.269071001996]
+latency_ms : 1.843

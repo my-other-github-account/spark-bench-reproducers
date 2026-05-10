@@ -1,0 +1,11 @@
+--- patches/fused_fwd_pannot_20260509_2052.py
++++ patches/fused_fwd_pannot2_20260509_2059.py
+@@ -149,7 +149,7 @@
+                 (block_S, block_S),
+                 lambda i, j, rep: (
+                     rep * 64 + i // 32 * 32 + i % 8 * 4 + j % 4,
+-                    [j // 8 * 8 + i % 32 // 16 * 4 + j % 8 // 4 * 2 + i % 16 // 8],
++                    j // 8 * 8 + i % 32 // 16 * 4 + j % 8 // 4 * 2 + i % 16 // 8,
+                 ),
+                 replicate=2,
+             )

@@ -1,0 +1,46 @@
+llama-benchy not found in PATH; trying uvx llama-benchy
+[warmup] explicit same-shape warmup: pp=2048 tg=32 c=1 runs=2
+Downloading cpython-3.14.4-linux-aarch64-gnu (download) (29.2MiB)
+ Downloaded cpython-3.14.4-linux-aarch64-gnu (download)
+Downloading numpy (15.0MiB)
+Downloading hf-xet (4.1MiB)
+Downloading pygments (1.2MiB)
+Downloading openai (1.2MiB)
+Downloading transformers (10.1MiB)
+Downloading tokenizers (3.1MiB)
+Downloading aiohttp (1.6MiB)
+Downloading pydantic-core (1.9MiB)
+ Downloaded pygments
+ Downloaded openai
+ Downloaded aiohttp
+ Downloaded pydantic-core
+ Downloaded tokenizers
+ Downloaded hf-xet
+ Downloaded transformers
+ Downloaded numpy
+Installed 49 packages in 219ms
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+llama-benchy (0.3.7)
+Date: 2026-05-09 01:30:52
+Benchmarking model: qwen35-27b-axionml-nvfp4 at http://127.0.0.1:8000/v1
+Concurrency levels: [1]
+Loading text from cache: /root/.cache/llama-benchy/cc6a0b5782734ee3b9069aa3b64cc62c.txt
+Total tokens available in text corpus: 144480
+Warming up...
+Warmup (User only) complete. Delta: 9 tokens (Server: 30, Local: 21)
+Warmup (System+Empty) complete. Delta: 14 tokens (Server: 35, Local: 21)
+
+Skipping coherence test (--skip-coherence specified)
+Measuring latency using mode: api...
+Average latency (api): 1.74 ms
+Running test: pp=2048, tg=32, depth=0, concurrency=1
+  Run 1/2 (batch size 1)...
+  Run 2/2 (batch size 1)...
+Saving results to /tmp/warm-20260508-182300-hkvo-gqa3-n3.json in JSON format...
+
+
+
+llama-benchy (0.3.7)
+date: 2026-05-09 01:30:52 | latency mode: api
+[measure] post-warm run: pp=2048 tg=32 c=1 runs=3 out=/out/results/result-20260508-182300-hkvo-gqa3-n3.json
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.

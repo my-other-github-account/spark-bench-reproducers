@@ -1,0 +1,7 @@
+INFO 05-09 04:29:23 [nixl_utils.py:20] Setting UCX_RCACHE_MAX_UNRELEASED to '1024' to avoid a rare memory leak in UCX when using NIXL.
+WARNING 05-09 04:29:23 [nixl_utils.py:34] NIXL is not available
+WARNING 05-09 04:29:23 [nixl_utils.py:44] NIXL agent config is not available
+[flashqla-v2] active: HKV-output FlashQLA packed-single prefill with tunable HKV output kernel and short-decode fallback; original FLA fallback for unsupported paths
+usage: vllm [-h] [-v]
+            {chat,complete,serve,launch,bench,collect-env,run-batch} ...
+vllm: error: unrecognized arguments: --disable-log-requests

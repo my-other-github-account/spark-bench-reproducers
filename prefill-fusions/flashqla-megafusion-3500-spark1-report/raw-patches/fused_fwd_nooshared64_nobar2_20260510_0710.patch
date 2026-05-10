@@ -1,0 +1,10 @@
+--- patches/fused_fwd_nooshared64_20260510_0230.py	2026-05-09 18:13:15.225184954 -0700
++++ patches/fused_fwd_nooshared64_nobar2_20260510_0710.py	2026-05-09 21:07:55.792620471 -0700
+@@ -151,7 +151,6 @@
+             bar_o = T.alloc_barrier(arrive_count=128)
+             bar_0 = T.alloc_barrier(arrive_count=416)
+             bar_1 = T.alloc_barrier(arrive_count=256)
+-            _bar_2 = T.alloc_barrier(arrive_count=128)
+             bar_3 = T.alloc_barrier(arrive_count=128)
+             bar_4 = T.alloc_barrier(arrive_count=128)
+             bar_5 = T.alloc_barrier(arrive_count=416)

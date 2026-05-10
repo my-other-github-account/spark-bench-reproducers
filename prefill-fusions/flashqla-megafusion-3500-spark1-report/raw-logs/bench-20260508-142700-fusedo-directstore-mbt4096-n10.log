@@ -1,0 +1,3 @@
+llama-benchy not found in PATH; trying uvx llama-benchy
+[warmup] explicit same-shape warmup: pp=2048 tg=32 c=1 runs=2
+scripts/bench.sh: line 39: uvx: command not found

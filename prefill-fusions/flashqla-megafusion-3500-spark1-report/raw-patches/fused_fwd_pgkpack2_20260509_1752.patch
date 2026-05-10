@@ -1,0 +1,11 @@
+--- fused_fwd_abeta_20260509_1510.py
++++ fused_fwd_pgkpack2_20260509_1752.py
+@@ -345,7 +345,7 @@
+                     # [STAGE 0] 4
+                     T.barrier_wait(bar_4, i_s % 2)
+                     # O += Pg @ Vd
+-                    T.gemm_v1(p_shared, vd_shared, o_fragment, clear_accum=False)
++                    T.gemm_v1(p_shared, vd_shared, o_fragment, clear_accum=False, k_pack=2)
+                     T.barrier_arrive(bar_5)
+ 
+                     # [STAGE 0] 5

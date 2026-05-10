@@ -1,0 +1,29 @@
+--- patches/fused_fwd_metanosync_20260509_1218.py	2026-05-09 12:09:46.560131090 -0700
++++ patches/fused_fwd_pfrag_20260509_1603.py	2026-05-09 13:56:14.098262513 -0700
+@@ -131,7 +131,6 @@
+             h_shared = T.alloc_shared((DK, block_DV), dtype=qkva_dtype)
+             vd_shared = T.alloc_shared((block_S, block_DV), dtype=qkva_dtype)
+             vn_shared = T.alloc_shared((block_S, block_DV), dtype=qkva_dtype)
+-            p_shared = T.alloc_shared((block_S, block_S), dtype=qkva_dtype)
+             g_exp_shared = T.alloc_shared((block_S), dtype=accum_dtype, scope="shared")
+             g_rev_exp_shared = T.alloc_shared(
+                 (block_S), dtype=accum_dtype, scope="shared"
+@@ -344,8 +343,7 @@
+                     # Pg = s * G * P
+                     for j_s, j_t in T.Parallel(block_S, block_S):
+                         p_fragment[j_s, j_t] *= scale * g_fragment[j_s, j_t]
+-                    # S1[1] Pg
+-                    T.copy(p_fragment, p_shared)
++                    # Pg remains in fragment; avoid p_shared staging.
+                     T.barrier_arrive(bar_3)
+                     # O = s * g * O
+                     for j_s, j_v in T.Parallel(block_S, block_DV):
+@@ -354,7 +352,7 @@
+                     # [STAGE 0] 4
+                     T.barrier_wait(bar_4, i_s % 2)
+                     # O += Pg @ Vd
+-                    T.gemm_v1(p_shared, vd_shared, o_fragment, clear_accum=False)
++                    T.gemm_v1(p_fragment, vd_shared, o_fragment, clear_accum=False)
+                     T.barrier_arrive(bar_5)
+ 
+                     # [STAGE 0] 5

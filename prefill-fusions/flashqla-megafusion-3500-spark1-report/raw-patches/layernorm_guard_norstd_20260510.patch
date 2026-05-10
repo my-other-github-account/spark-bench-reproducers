@@ -1,0 +1,43 @@
+--- patches/layernorm_guard_installed_nooshared64_20260510.py	2026-05-09 19:56:59.727559064 -0700
++++ patches/layernorm_guard_norstd_20260510.py	2026-05-09 20:16:03.819449107 -0700
+@@ -61,6 +61,7 @@
+     {
+         "HAS_BIAS": lambda args: args["B"] is not None,
+         "HAS_Z": lambda args: args["Z"] is not None,
++        "STORE_RSTD": lambda args: args["Rstd"] is not None,
+     }
+ )
+ @triton.jit
+@@ -85,6 +86,7 @@
+     NORM_BEFORE_GATE: tl.constexpr,
+     IS_RMS_NORM: tl.constexpr,
+     ACTIVATION: tl.constexpr,
++    STORE_RSTD: tl.constexpr,
+ ):
+     # Map the program id to the starting row of X and Y it should compute.
+     row_start = tl.program_id(0) * ROWS_PER_BLOCK
+@@ -135,10 +137,11 @@
+ 
+     rstd = tl.rsqrt(var + eps)  # Shape: [ROWS_PER_BLOCK]
+ 
+-    # Store rstd for each row
+-    rstd_offsets = group * M + rows
+-    rstd_mask = rows < M
+-    tl.store(Rstd + rstd_offsets, rstd, mask=rstd_mask)
++    # Store rstd only for callers that need saved stats.
++    if STORE_RSTD:
++        rstd_offsets = group * M + rows
++        rstd_mask = rows < M
++        tl.store(Rstd + rstd_offsets, rstd, mask=rstd_mask)
+ 
+     # Load weights and biases (broadcast across rows)
+     w_offsets = cols + group * N
+@@ -212,7 +215,7 @@
+         if not is_rms_norm
+         else None
+     )
+-    rstd = torch.empty((ngroups * M,), dtype=torch.float32, device=x.device)
++    rstd = None if is_rms_norm else torch.empty((ngroups * M,), dtype=torch.float32, device=x.device)
+     # Less than 64KB per feature: enqueue fused kernel
+     MAX_FUSED_SIZE = 65536 // x.element_size()
+     BLOCK_N = min(MAX_FUSED_SIZE, triton.next_power_of_2(group_size))

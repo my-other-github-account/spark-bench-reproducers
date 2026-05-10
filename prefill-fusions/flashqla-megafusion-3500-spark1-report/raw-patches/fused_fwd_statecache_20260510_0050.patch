@@ -1,0 +1,107 @@
+--- patches/fused_fwd_metanosync_20260509_1218.py
++++ patches/fused_fwd_statecache_20260510_0050.py
+@@ -41,12 +41,15 @@
+     store_o,
+     is_varlen,
+     is_cp,
++    store_state_cache,
++    state_idx_dtype,
+     block_DV=128,
+ ):
+     batch_size = T.dynamic("batch_size")
+     num_tokens = T.dynamic("num_tokens")
+     num_chunks = T.dynamic("num_chunks")
+     raw_batch_size = T.dynamic("raw_batch_size")
++    state_batch_size = T.dynamic("state_batch_size")
+     block_S = chunk_size
+ 
+     if is_varlen:
+@@ -69,6 +72,7 @@
+         h_shape = (batch_size, num_chunks, H, DK, DV)
+     h0_shape = (batch_size, H, DK, DV)
+     ht_shape = (raw_batch_size, H, DK, DV)
++    state_cache_shape = (state_batch_size, H, DV, DK)
+ 
+     @T.prim_func
+     def tilelang_fused_chunk_gdr_fwd_kernel(
+@@ -86,6 +90,8 @@
+         o: T.Tensor(o_shape, dtype=o_dtype),
+         h: T.Tensor(h_shape, dtype=h_dtype),
+         ht: T.Tensor(ht_shape, dtype=ht_dtype),
++        state_cache: T.Tensor(state_cache_shape, dtype=ht_dtype),
++        state_indices: T.Tensor([batch_size], dtype=state_idx_dtype),
+     ):
+         with T.Kernel(T.ceildiv(DV, block_DV) * batch_size * H, threads=512) as (bbhv,):
+             bbh, bv = bbhv // T.ceildiv(DV, block_DV), bbhv % T.ceildiv(DV, block_DV)
+@@ -213,12 +219,22 @@
+ 
+                 # Store final S
+                 if need_store_final_state:
+-                    T.copy(
+-                        h_fragment,
+-                        ht[
+-                            raw_batch_idx, bh, 0:DK, bv * block_DV : (bv + 1) * block_DV
+-                        ],
+-                    )
++                    if store_state_cache:
++                        state_idx = state_indices[bb]
++                        for j_k, j_v in T.Parallel(DK, block_DV):
++                            state_cache[
++                                state_idx,
++                                bh,
++                                bv * block_DV + j_v,
++                                j_k,
++                            ] = h_fragment[j_k, j_v]
++                    else:
++                        T.copy(
++                            h_fragment,
++                            ht[
++                                raw_batch_idx, bh, 0:DK, bv * block_DV : (bv + 1) * block_DV
++                            ],
++                        )
+ 
+             elif tx < 256:
+                 T.set_max_nreg(CONSUMER_V_NREG, 1)
+@@ -558,6 +574,8 @@
+     cp_seq_map: torch.LongTensor | None = None,
+     raw_cu_seqlens: torch.LongTensor | None = None,
+     chunk_size: int = 64,
++    state_cache: torch.Tensor | None = None,
++    state_indices: torch.Tensor | None = None,
+ ):
+     batch_size, num_tokens, Hg, K = k.shape
+     _, _, H, V = v.shape
+@@ -614,6 +632,11 @@
+             (raw_cu_seqlens.shape[0] - 1, H, K, V), dtype=torch.float32, device=k.device
+         )
+     o = torch.empty_like(v)
++    store_state_cache = state_cache is not None and state_indices is not None
++    if state_cache is None:
++        state_cache = torch.empty((1, H, V, K), dtype=final_state.dtype, device=k.device)
++    if state_indices is None:
++        state_indices = torch.empty((batch_size,), dtype=torch.int32, device=k.device)
+ 
+     grid_size = real_batch_size * H
+     if grid_size >= TARGET_NUM_CTAS:
+@@ -651,6 +674,8 @@
+         store_o=output_o,
+         is_varlen=is_varlen,
+         is_cp=is_cp,
++        store_state_cache=store_state_cache,
++        state_idx_dtype=state_indices.dtype,
+         block_DV=block_DV,
+     )
+     tilelang_fused_chunk_gdr_fwd_kernel(
+@@ -668,9 +693,11 @@
+         o,
+         h,
+         final_state,
++        state_cache,
++        state_indices,
+     )
+ 
+-    if not output_final_state:
++    if store_state_cache or not output_final_state:
+         final_state = None
+     if not output_h:
+         h = None

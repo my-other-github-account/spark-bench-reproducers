@@ -1,0 +1,77 @@
+INFO 05-09 22:48:51 [nixl_utils.py:20] Setting UCX_RCACHE_MAX_UNRELEASED to '1024' to avoid a rare memory leak in UCX when using NIXL.
+WARNING 05-09 22:48:51 [nixl_utils.py:34] NIXL is not available
+WARNING 05-09 22:48:51 [nixl_utils.py:44] NIXL agent config is not available
+[flashqla-v2] active: HKV-output FlashQLA packed-single prefill with tunable HKV output kernel and short-decode fallback; original FLA fallback for unsupported paths
+(APIServer pid=1) INFO 05-09 22:48:52 [utils.py:299] 
+(APIServer pid=1) INFO 05-09 22:48:52 [utils.py:299]        █     █     █▄   ▄█
+(APIServer pid=1) INFO 05-09 22:48:52 [utils.py:299]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.20.2rc1.dev1+g54dc64d5d.d20260503
+(APIServer pid=1) INFO 05-09 22:48:52 [utils.py:299]   █▄█▀ █     █     █     █  model   /models/AxionML-Qwen3.5-27B-NVFP4
+(APIServer pid=1) INFO 05-09 22:48:52 [utils.py:299]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
+(APIServer pid=1) INFO 05-09 22:48:52 [utils.py:299] 
+(APIServer pid=1) INFO 05-09 22:48:52 [utils.py:233] non-default args: {'model_tag': '/models/AxionML-Qwen3.5-27B-NVFP4', 'host': '127.0.0.1', 'model': '/models/AxionML-Qwen3.5-27B-NVFP4', 'trust_remote_code': True, 'max_model_len': 4096, 'served_model_name': ['qwen35-27b-axionml-nvfp4'], 'generation_config': 'vllm', 'load_format': 'fastsafetensors', 'attention_backend': 'FLASH_ATTN', 'gpu_memory_utilization': 0.9, 'max_num_batched_tokens': 8192, 'max_num_seqs': 1, 'enable_chunked_prefill': True}
+(APIServer pid=1) WARNING 05-09 22:48:52 [envs.py:1855] Unknown vLLM environment variable detected: VLLM_BASE_DIR
+(APIServer pid=1) WARNING 05-09 22:48:52 [envs.py:1855] Unknown vLLM environment variable detected: VLLM_USE_V1
+(APIServer pid=1) Traceback (most recent call last):
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/transformers/utils/hub.py", line 422, in cached_files
+(APIServer pid=1)     hf_hub_download(
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_validators.py", line 84, in _inner_fn
+(APIServer pid=1)     validate_repo_id(arg_value)
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_validators.py", line 132, in validate_repo_id
+(APIServer pid=1)     raise HFValidationError(
+(APIServer pid=1) huggingface_hub.errors.HFValidationError: Repo id must be in the form 'repo_name' or 'namespace/repo_name': '/models/AxionML-Qwen3.5-27B-NVFP4'. Use `repo_type` argument if needed.
+(APIServer pid=1) 
+(APIServer pid=1) The above exception was the direct cause of the following exception:
+(APIServer pid=1) 
+(APIServer pid=1) Traceback (most recent call last):
+(APIServer pid=1)   File "/usr/local/bin/vllm", line 10, in <module>
+(APIServer pid=1)     sys.exit(main())
+(APIServer pid=1)              ^^^^^^
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/vllm/entrypoints/cli/main.py", line 92, in main
+(APIServer pid=1)     args.dispatch_function(args)
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/vllm/entrypoints/cli/serve.py", line 122, in cmd
+(APIServer pid=1)     uvloop.run(run_server(args))
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/uvloop/__init__.py", line 96, in run
+(APIServer pid=1)     return __asyncio.run(
+(APIServer pid=1)            ^^^^^^^^^^^^^^
+(APIServer pid=1)   File "/usr/lib/python3.12/asyncio/runners.py", line 194, in run
+(APIServer pid=1)     return runner.run(main)
+(APIServer pid=1)            ^^^^^^^^^^^^^^^^
+(APIServer pid=1)   File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+(APIServer pid=1)     return self._loop.run_until_complete(task)
+(APIServer pid=1)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1)   File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/uvloop/__init__.py", line 48, in wrapper
+(APIServer pid=1)     return await main
+(APIServer pid=1)            ^^^^^^^^^^
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/vllm/entrypoints/openai/api_server.py", line 678, in run_server
+(APIServer pid=1)     await run_server_worker(listen_address, sock, args, **uvicorn_kwargs)
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/vllm/entrypoints/openai/api_server.py", line 692, in run_server_worker
+(APIServer pid=1)     async with build_async_engine_client(
+(APIServer pid=1)   File "/usr/lib/python3.12/contextlib.py", line 210, in __aenter__
+(APIServer pid=1)     return await anext(self.gen)
+(APIServer pid=1)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/vllm/entrypoints/openai/api_server.py", line 100, in build_async_engine_client
+(APIServer pid=1)     async with build_async_engine_client_from_engine_args(
+(APIServer pid=1)   File "/usr/lib/python3.12/contextlib.py", line 210, in __aenter__
+(APIServer pid=1)     return await anext(self.gen)
+(APIServer pid=1)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/vllm/entrypoints/openai/api_server.py", line 124, in build_async_engine_client_from_engine_args
+(APIServer pid=1)     vllm_config = engine_args.create_engine_config(usage_context=usage_context)
+(APIServer pid=1)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/vllm/engine/arg_utils.py", line 1645, in create_engine_config
+(APIServer pid=1)     maybe_override_with_speculators(
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/vllm/transformers_utils/config.py", line 618, in maybe_override_with_speculators
+(APIServer pid=1)     config_dict, _ = PretrainedConfig.get_config_dict(
+(APIServer pid=1)                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/transformers/configuration_utils.py", line 682, in get_config_dict
+(APIServer pid=1)     config_dict, kwargs = cls._get_config_dict(pretrained_model_name_or_path, **kwargs)
+(APIServer pid=1)                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/transformers/configuration_utils.py", line 737, in _get_config_dict
+(APIServer pid=1)     resolved_config_file = cached_file(
+(APIServer pid=1)                            ^^^^^^^^^^^^
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/transformers/utils/hub.py", line 278, in cached_file
+(APIServer pid=1)     file = cached_files(path_or_repo_id=path_or_repo_id, filenames=[filename], **kwargs)
+(APIServer pid=1)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/transformers/utils/hub.py", line 473, in cached_files
+(APIServer pid=1)     raise OSError(f"{e}") from e
+(APIServer pid=1) OSError: Repo id must be in the form 'repo_name' or 'namespace/repo_name': '/models/AxionML-Qwen3.5-27B-NVFP4'. Use `repo_type` argument if needed.

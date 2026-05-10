@@ -1,0 +1,28 @@
+--- fused_fwd_metanosync_20260509_1218.py
++++ fused_fwd_statekpack2_20260509_1846.py
+@@ -207,6 +207,7 @@
+                         h_fragment,
+                         transpose_A=True,
+                         clear_accum=False,
++                        k_pack=2,
+                     )
+ 
+                     T.barrier_arrive(data_is_free[0])
+@@ -252,7 +253,7 @@
+                     T.barrier_wait(bar_1, i_s % 2)
+                     # U = K @ S
+                     T.gemm_v1(
+-                        k_shared[:, :], h_shared, u_fragment, clear_accum=True
++                        k_shared[:, :], h_shared, u_fragment, clear_accum=True, k_pack=2
+                     )
+ 
+                     # [STAGE 0] 2
+@@ -337,7 +338,7 @@
+                     T.barrier_wait(bar_1, i_s % 2)
+                     # O = Q @ S
+                     T.gemm_v1(
+-                        q_shared[:, :], h_shared, o_fragment, clear_accum=True
++                        q_shared[:, :], h_shared, o_fragment, clear_accum=True, k_pack=2
+                     )
+ 
+                     # [STAGE 0] 3

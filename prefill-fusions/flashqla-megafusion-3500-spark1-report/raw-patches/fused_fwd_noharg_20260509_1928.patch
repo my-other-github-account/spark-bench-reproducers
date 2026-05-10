@@ -1,0 +1,74 @@
+--- fused_fwd_metanosync_20260509_1218.py
++++ fused_fwd_noharg_20260509_1928.py
+@@ -84,7 +84,6 @@
+         cp_seq_map: T.Tensor([batch_size], dtype=seqlen_dtype),
+         raw_cu_seqlens: T.Tensor([raw_batch_size + 1], dtype=seqlen_dtype),
+         o: T.Tensor(o_shape, dtype=o_dtype),
+-        h: T.Tensor(h_shape, dtype=h_dtype),
+         ht: T.Tensor(ht_shape, dtype=ht_dtype),
+     ):
+         with T.Kernel(T.ceildiv(DV, block_DV) * batch_size * H, threads=512) as (bbhv,):
+@@ -477,18 +476,7 @@
+                         T.barrier_arrive(bar_5)
+ 
+                         T.barrier_wait(bar_1, i_s % 2)
+-                        # Store S
+-                        if store_h:
+-                            T.copy(
+-                                h_shared,
+-                                h[
+-                                    batch_idx,
+-                                    chunk_start_idx + i_s,
+-                                    bh,
+-                                    0:DK,
+-                                    bv * block_DV : (bv + 1) * block_DV,
+-                                ],
+-                            )
++                        # output_h=False specialization: no h materialization.
+ 
+                     if num_unmasked_iters < num_iters:
+                         seq_split_idx = seq_start_idx + num_unmasked_iters * block_S
+@@ -511,18 +499,7 @@
+                         T.barrier_arrive(bar_5)
+ 
+                         T.barrier_wait(bar_1, num_unmasked_iters % 2)
+-                        # Store S
+-                        if store_h:
+-                            T.copy(
+-                                h_shared,
+-                                h[
+-                                    batch_idx,
+-                                    chunk_split_idx,
+-                                    bh,
+-                                    0:DK,
+-                                    bv * block_DV : (bv + 1) * block_DV,
+-                                ],
+-                            )
++                        # output_h=False specialization: no h materialization.
+ 
+                     seq_split_idx = seq_start_idx + (num_iters - 1) * block_S
+ 
+@@ -601,7 +578,7 @@
+         initial_state = torch.empty(
+             (real_batch_size, H, K, V), dtype=torch.float32, device=k.device
+         )
+-    h = torch.empty((batch_size, num_chunks, H, K, V), dtype=k.dtype, device=k.device)
++    h = None
+     if raw_cu_seqlens is None:
+         raw_cu_seqlens = torch.empty(
+             (real_batch_size + 1,), dtype=seqlen_dtype, device=k.device
+@@ -666,14 +643,11 @@
+         cp_seq_map,
+         raw_cu_seqlens,
+         o,
+-        h,
+         final_state,
+     )
+ 
+     if not output_final_state:
+         final_state = None
+-    if not output_h:
+-        h = None
+     if not output_o:
+         o = None
+ 

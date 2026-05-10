@@ -1,0 +1,48 @@
+--- patches/mamba_layernorm_gated_installed_nooshared64_20260510.py	2026-05-09 20:09:04.059218459 -0700
++++ patches/mamba_layernorm_gated_nocontext_20260510.py	2026-05-09 20:09:04.210174275 -0700
+@@ -119,26 +119,25 @@
+     # heuristics for number of warps
+     num_warps = min(max(BLOCK_N // 256, 1), 8)
+     grid = (M, ngroups)
+-    with torch.accelerator.device_index(x.device.index):
+-        _layer_norm_fwd_1pass_kernel[grid](
+-            x,
+-            out,
+-            weight,
+-            bias,
+-            z,
+-            mean,
+-            rstd,
+-            x.stride(0),
+-            out.stride(0),
+-            z.stride(0) if z is not None else 0,
+-            M,
+-            group_size,
+-            eps,
+-            BLOCK_N=BLOCK_N,
+-            NORM_BEFORE_GATE=norm_before_gate,
+-            IS_RMS_NORM=is_rms_norm,
+-            num_warps=num_warps,
+-        )
++    _layer_norm_fwd_1pass_kernel[grid](
++        x,
++        out,
++        weight,
++        bias,
++        z,
++        mean,
++        rstd,
++        x.stride(0),
++        out.stride(0),
++        z.stride(0) if z is not None else 0,
++        M,
++        group_size,
++        eps,
++        BLOCK_N=BLOCK_N,
++        NORM_BEFORE_GATE=norm_before_gate,
++        IS_RMS_NORM=is_rms_norm,
++        num_warps=num_warps,
++    )
+     return out, mean, rstd
+ 
+ 

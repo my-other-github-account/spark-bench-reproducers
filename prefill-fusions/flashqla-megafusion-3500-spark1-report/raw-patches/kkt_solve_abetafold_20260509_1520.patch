@@ -1,0 +1,22 @@
+--- patches/kkt_solve_nobaro_20260509_1328.py	2026-05-09 12:53:07.216132796 -0700
++++ patches/kkt_solve_abetafold_20260509_1520.py	2026-05-09 13:39:50.528122322 -0700
+@@ -192,13 +192,14 @@
+             T.copy(a32o_fragment, a32o_shared)
+             T.gemm_v1(a32o_shared, a32i0_shared, a32o_fragment, clear_accum=True)
+ 
+-            # Combine inversion output
++            # Combine inversion output and pre-apply beta_j to A columns.
++            # This replaces the fused_fwd per-value-tile A *= beta_j pass.
+             for j_s, k_s, k_t in T.Parallel(2, 32, 32):
+-                a64_shared[j_s * 32 + k_s, j_s * 32 + k_t] = a32i_fragment[
+-                    j_s, k_s, k_t
+-                ]
++                a64_shared[j_s * 32 + k_s, j_s * 32 + k_t] = (
++                    a32i_fragment[j_s, k_s, k_t] * b_shared[j_s * 32 + k_t]
++                )
+             for k_s, k_t in T.Parallel(32, 32):
+-                a64_shared[32 + k_s, k_t] = a32o_fragment[k_s, k_t]
++                a64_shared[32 + k_s, k_t] = a32o_fragment[k_s, k_t] * b_shared[k_t]
+             for k_s, k_t in T.Parallel(32, 32):
+                 a64_shared[k_s, 32 + k_t] = 0
+ 

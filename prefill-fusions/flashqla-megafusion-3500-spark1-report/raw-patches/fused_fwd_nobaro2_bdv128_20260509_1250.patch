@@ -1,0 +1,17 @@
+--- fused_fwd_nobaro2.py
++++ fused_fwd_nobaro2_bdv128.py
+@@ -584,11 +584,10 @@
+     else:
+         block_DV = 32
+ 
+-    # Blackwell consumer (sm_120a / sm_121a) caps dynamic SMEM at ~99 KB,
+-    # so block_DV=128 doesn't fit (kernel SMEM is ~116 KB at that tile).
+-    # Cap to 64 here.  This doubles the grid_size but each block fits.
++    # Re-test block_DV=128 after removing the dead o_shared/bar_o path.
++    # If it fits, this halves value-tile CTAs and avoids duplicated QK/h work.
+     if tilelang.contrib.nvcc.get_target_compute_version() in ("12.1", "12.0"):
+-        block_DV = min(block_DV, 64)
++        block_DV = 128
+ 
+     tilelang_fused_chunk_gdr_fwd_kernel = tilelang_fused_chunk_gdr_fwd(
+         H,

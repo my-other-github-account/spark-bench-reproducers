@@ -1,0 +1,48 @@
+INFO 05-10 02:40:13 [nixl_utils.py:20] Setting UCX_RCACHE_MAX_UNRELEASED to '1024' to avoid a rare memory leak in UCX when using NIXL.
+WARNING 05-10 02:40:13 [nixl_utils.py:34] NIXL is not available
+WARNING 05-10 02:40:13 [nixl_utils.py:44] NIXL agent config is not available
+[flashqla-v2] active: HKV-output FlashQLA packed-single prefill with tunable HKV output kernel and short-decode fallback; original FLA fallback for unsupported paths
+calling
+2026-05-10 02:40:17  [TileLang:tilelang.jit.kernel:INFO]: TileLang begins to compile kernel `tilelang_prepare_chunk_offsets_kernel` with `out_idx=None`
+2026-05-10 02:40:19  [TileLang:tilelang.jit.kernel:INFO]: TileLang completes to compile kernel `tilelang_prepare_chunk_offsets_kernel`
+2026-05-10 02:40:19  [TileLang:tilelang.jit.kernel:INFO]: TileLang begins to compile kernel `tilelang_fused_chunk_gdr_fwd_kernel` with `out_idx=None`
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+  File "/opt/flashqla/flash_qla/ops/gated_delta_rule/chunk/blackwell/fused_fwd.py", line 633, in fused_gdr_fwd
+    tilelang_fused_chunk_gdr_fwd_kernel = tilelang_fused_chunk_gdr_fwd(
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/jit/__init__.py", line 440, in __call__
+    kernel = self.compile(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/jit/__init__.py", line 375, in compile
+    kernel_result = compile(
+                    ^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/jit/__init__.py", line 98, in compile
+    return cached(
+           ^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/cache/__init__.py", line 74, in cached
+    return _dispatch_map[execution_backend].cached(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/cache/kernel_cache.py", line 264, in cached
+    kernel = JITKernel(
+             ^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/jit/kernel.py", line 137, in __init__
+    adapter = self._compile_and_create_adapter(func, out_idx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/jit/kernel.py", line 241, in _compile_and_create_adapter
+    artifact = tilelang.lower(
+               ^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/engine/lower.py", line 249, in lower
+    mod = LowerAndLegalize(mod, target)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/engine/phase.py", line 178, in LowerAndLegalize
+    mod = tilelang.transform.LayoutInference()(mod)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/3rdparty/tvm/python/tvm/ir/transform.py", line 167, in __call__
+    return _ffi_transform_api.RunPass(self, mod)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "python/tvm_ffi/cython/function.pxi", line 929, in tvm_ffi.core.Function.__call__
+tvm.error.InternalError: Layout infer conflict between p_fragment and o_fragment in T.Parallel loop:
+    loop Fragment([64, 128] -> [64], replicate: 1, thread: 128, forward_thread: _j % 16 // 8 * 64 + _i % 32 // 16 * 32 + _i % 8 * 4 + _j % 8 // 2, forward_index: [_j // 16 * 8 + _i // 32 * 4 + _i % 16 // 8 * 2 + _j % 2], thread_range: I.Range(256, 384))
+    fragment Fragment([64, 64] -> [32], replicate: 1, thread: 128, forward_thread: _j // 32 * 64 + _i // 32 * 32 + _i % 8 * 4 + _j % 8 // 2, forward_index: [_i % 32 // 16 * 16 + _j % 32 // 8 * 4 + _i % 16 // 8 * 2 + _j % 2], thread_range: I.Range(256, 384))
+

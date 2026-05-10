@@ -1,0 +1,11 @@
+--- patches/chunk_init_installed_20260510_0032.py	2026-05-09 17:18:04.172824863 -0700
++++ patches/chunk_init_notocast_20260510_0725.py	2026-05-09 21:16:04.265155253 -0700
+@@ -163,7 +163,7 @@
+ 
+         ctx.save_for_backward(q_orig, k_orig, v, g, beta, A, initial_state, cu_seqlens)
+         ctx.scale = scale
+-        return o.to(q.dtype), final_state
++        return o, final_state
+ 
+     @staticmethod
+     @torch.amp.custom_bwd(device_type="cuda")

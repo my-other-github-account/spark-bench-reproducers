@@ -1,0 +1,43 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.noprefillstate2-20260509
+#1 transferring dockerfile: 913B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-nobaro
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/7] FROM docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-nobaro
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 45.43kB done
+#5 DONE 0.0s
+
+#6 [2/7] COPY patches/sitecustomize_fastpack_20260509_1210.py /usr/lib/python3.12/sitecustomize.py
+#6 CACHED
+
+#7 [3/7] COPY patches/fused_fwd_metanosync_20260509_1218.py /opt/flashqla/flash_qla/ops/gated_delta_rule/chunk/blackwell/fused_fwd.py
+#7 CACHED
+
+#8 [4/7] COPY patches/gdn_linear_attn_noprefillstate_full_20260509_1635.py /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/mamba/gdn_linear_attn.py
+#8 DONE 0.1s
+
+#9 [5/7] COPY patches/sitecustomize_fastpack_20260509_1210.patch /repro/patches/sitecustomize_fastpack_20260509_1210.patch
+#9 DONE 0.1s
+
+#10 [6/7] COPY patches/fused_fwd_metanosync_20260509_1218.patch /repro/patches/fused_fwd_metanosync_20260509_1218.patch
+#10 DONE 0.1s
+
+#11 [7/7] COPY patches/gdn_linear_attn_noprefillstate_full_20260509_1635.patch /repro/patches/gdn_linear_attn_noprefillstate_full_20260509_1635.patch
+#11 DONE 0.1s
+
+#12 exporting to image
+#12 exporting layers 0.1s done
+#12 writing image sha256:f46e59b63ab61a4b43280864e99558bbc7cca5581ea063b272264c3174f30219 done
+#12 naming to docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-noprefillstate2 done
+#12 DONE 0.2s

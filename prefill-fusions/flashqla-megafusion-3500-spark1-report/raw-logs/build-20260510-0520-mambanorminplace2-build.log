@@ -1,0 +1,37 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.mambanorminplace2-20260510
+#1 transferring dockerfile: 732B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-nooshared64
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/5] FROM docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-nooshared64
+#4 CACHED
+
+#5 [internal] load build context
+#5 transferring context: 6.79kB done
+#5 DONE 0.0s
+
+#6 [2/5] COPY patches/mamba_layernorm_gated_nocontext_20260510.py /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/mamba/ops/layernorm_gated.py
+#6 DONE 0.1s
+
+#7 [3/5] COPY patches/mamba_layernorm_gated_nocontext_20260510.patch /repro/patches/mamba_layernorm_gated_nocontext_20260510.patch
+#7 DONE 0.1s
+
+#8 [4/5] COPY patches/gdn_linear_attn_mambanorminplace_20260510.py /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/mamba/gdn_linear_attn.py
+#8 DONE 0.1s
+
+#9 [5/5] COPY patches/gdn_linear_attn_mambanorminplace_20260510.patch /repro/patches/gdn_linear_attn_mambanorminplace_20260510.patch
+#9 DONE 0.1s
+
+#10 exporting to image
+#10 exporting layers 0.1s done
+#10 writing image sha256:0cb55e2ce0cd81d006b595b86e0092a2f4d692fdd9cb0de3d7aa8f94f0a4eee5 done
+#10 naming to docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-mambanorminplace2 done
+#10 DONE 0.1s

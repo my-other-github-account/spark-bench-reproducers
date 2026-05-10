@@ -1,0 +1,30 @@
+--- patches/gdn_linear_attn_emptyout_20260509_2132.py	2026-05-09 16:23:31.119826205 -0700
++++ patches/gdn_linear_attn_norminplace_20260510.py	2026-05-09 19:57:35.335224531 -0700
+@@ -31,6 +31,7 @@
+ from vllm.model_executor.layers.fla.ops.chunk import l2norm_fwd
+ from vllm.model_executor.layers.fla.ops.utils import FLA_CHUNK_SIZE
+ from vllm.model_executor.layers.layernorm import RMSNormGated
++from vllm.model_executor.layers.fla.ops.layernorm_guard import layer_norm_fwd
+ from vllm.model_executor.layers.linear import (
+     ColumnParallelLinear,
+     MergedColumnParallelLinear,
+@@ -588,7 +589,18 @@
+         # Reshape input data into 2D tensor
+         core_attn_out = core_attn_out.reshape(-1, core_attn_out.shape[-1])
+         z = z.reshape(-1, z.shape[-1])
+-        core_attn_out = self.norm(core_attn_out, z)
++        core_attn_out, _, _ = layer_norm_fwd(
++            core_attn_out,
++            self.norm.weight,
++            self.norm.bias,
++            self.norm.eps,
++            z=z,
++            out=core_attn_out,
++            group_size=self.norm.group_size,
++            norm_before_gate=self.norm.norm_before_gate,
++            is_rms_norm=True,
++            activation=self.norm.activation,
++        )
+         core_attn_out = core_attn_out.reshape(z_shape_og)
+         core_attn_out = rearrange(core_attn_out, "... h d -> ... (h d)")
+         output[:num_tokens], _ = self.out_proj(core_attn_out)

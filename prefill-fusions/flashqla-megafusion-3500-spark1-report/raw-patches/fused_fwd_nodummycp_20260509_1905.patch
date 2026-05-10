@@ -1,0 +1,28 @@
+--- fused_fwd_metanosync_20260509_1218.py
++++ fused_fwd_nodummycp_20260509_1905.py
+@@ -589,9 +589,9 @@
+         is_varlen = True
+ 
+     if cp_seq_map is None:
+-        cp_seq_map = torch.empty(
+-            (real_batch_size,), dtype=seqlen_dtype, device=k.device
+-        )
++        # auto_cp=False path: the kernel never reads cp_seq_map when is_cp=False.
++        # Reuse existing metadata to avoid a per-layer dummy GPU allocation.
++        cp_seq_map = cu_seqlens
+         is_cp = False
+     else:
+         is_cp = True
+@@ -603,9 +603,9 @@
+         )
+     h = torch.empty((batch_size, num_chunks, H, K, V), dtype=k.dtype, device=k.device)
+     if raw_cu_seqlens is None:
+-        raw_cu_seqlens = torch.empty(
+-            (real_batch_size + 1,), dtype=seqlen_dtype, device=k.device
+-        )
++        # raw_cu_seqlens is only used under is_cp=True.  Alias cu_seqlens in the
++        # common no-CP API prefill path instead of allocating another metadata tensor.
++        raw_cu_seqlens = cu_seqlens
+         final_state = torch.empty(
+             (real_batch_size, H, K, V), dtype=torch.float32, device=k.device
+         )

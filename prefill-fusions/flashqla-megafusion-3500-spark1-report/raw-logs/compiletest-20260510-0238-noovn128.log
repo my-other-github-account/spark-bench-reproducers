@@ -1,0 +1,23 @@
+INFO 05-10 01:19:52 [nixl_utils.py:20] Setting UCX_RCACHE_MAX_UNRELEASED to '1024' to avoid a rare memory leak in UCX when using NIXL.
+WARNING 05-10 01:19:52 [nixl_utils.py:34] NIXL is not available
+WARNING 05-10 01:19:52 [nixl_utils.py:44] NIXL agent config is not available
+[flashqla-v2] active: HKV-output FlashQLA packed-single prefill with tunable HKV output kernel and short-decode fallback; original FLA fallback for unsupported paths
+[01:19:56] /project/src/transform/warp_specialized_rewriter.h:43: Warning: Auto warp specialization will be disabled because TMA and mbarrier are both present
+2026-05-10 01:19:55  [TileLang:tilelang.jit.kernel:INFO]: TileLang begins to compile kernel `tilelang_fused_chunk_gdr_fwd_kernel` with `out_idx=None`
+2026-05-10 01:20:08  [TileLang:tilelang.jit.kernel:INFO]: TileLang completes to compile kernel `tilelang_fused_chunk_gdr_fwd_kernel`
+InternalError Failed to set the allowed dynamic shared memory size to 114688
+Traceback (most recent call last):
+  File "<stdin>", line 10, in <module>
+  File "/repro/patches/fused_fwd_noovn128_20260510_0238.py", line 654, in fused_gdr_fwd
+    tilelang_fused_chunk_gdr_fwd_kernel(
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/jit/kernel.py", line 207, in __call__
+    return self.torch_function(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/jit/adapter/tvm_ffi.py", line 244, in func
+    executable(*tensor_list)
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/3rdparty/tvm/python/tvm/runtime/executable.py", line 42, in __call__
+    return self.jit().main(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "python/tvm_ffi/cython/function.pxi", line 929, in tvm_ffi.core.Function.__call__
+  File "<unknown>", line 0, in tvm::runtime::detail::LogFatal::Entry::Finalize()
+tvm.error.InternalError: Failed to set the allowed dynamic shared memory size to 114688

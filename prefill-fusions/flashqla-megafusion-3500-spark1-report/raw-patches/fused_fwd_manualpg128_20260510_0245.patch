@@ -1,0 +1,40 @@
+--- patches/fused_fwd_pfragvd32_20260509_2014.py	2026-05-09 15:57:05.649657802 -0700
++++ patches/fused_fwd_manualpg128_20260510_0245.py	2026-05-09 19:39:23.302613614 -0700
+@@ -144,6 +144,7 @@
+             a_fragment = T.alloc_fragment((block_S, block_S), dtype=accum_dtype)
+             g_fragment = T.alloc_fragment((block_S, block_S), dtype=accum_dtype)
+             g_last_local = T.alloc_local((1), dtype=accum_dtype)
++            pg_acc_local = T.alloc_local((1), dtype=accum_dtype)
+ 
+             data_is_ready = T.alloc_barrier(arrive_count=[96])
+             data_is_free = T.alloc_barrier(arrive_count=[384])
+@@ -351,8 +352,14 @@
+ 
+                     # [STAGE 0] 4
+                     T.barrier_wait(bar_4, i_s % 2)
+-                    # O += Pg @ Vd
+-                    T.gemm(p_fragment, vd_shared, o_fragment, clear_accum=False)
++                    # O += Pg @ Vd without materializing Pg in shared memory.
++                    # This compile probe trades tensor-core GEMM for scalar accumulation
++                    # to test whether the p_shared-free block_DV=128 resource path can launch.
++                    for j_s, j_v in T.Parallel(block_S, block_DV):
++                        pg_acc_local[0] = 0.0
++                        for j_t in T.serial(block_S):
++                            pg_acc_local[0] += p_fragment[j_s, j_t] * vd_shared[j_t, j_v]
++                        o_fragment[j_s, j_v] += pg_acc_local[0]
+                     T.barrier_arrive(bar_5)
+ 
+                     # [STAGE 0] 5
+@@ -621,11 +628,7 @@
+     else:
+         block_DV = 32
+ 
+-    # Blackwell consumer (sm_120a / sm_121a) caps dynamic SMEM at ~99 KB,
+-    # so block_DV=128 doesn't fit (kernel SMEM is ~116 KB at that tile).
+-    # Cap to 64 here.  This doubles the grid_size but each block fits.
+-    if tilelang.contrib.nvcc.get_target_compute_version() in ("12.1", "12.0"):
+-        block_DV = min(block_DV, 64)
++    # p_shared-free manual Pg@Vd probe: allow the natural 128-wide V tile.
+ 
+     tilelang_fused_chunk_gdr_fwd_kernel = tilelang_fused_chunk_gdr_fwd(
+         H,

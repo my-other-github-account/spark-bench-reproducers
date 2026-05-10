@@ -1,0 +1,12 @@
+--- patches/chunk_init_nobaro_20260509_1320.py	2026-05-09 12:46:10.619898545 -0700
++++ patches/chunk_init_cumsumfold_20260509_1431.py	2026-05-09 13:22:41.416723899 -0700
+@@ -36,8 +36,7 @@
+     auto_cp: bool = True,
+ ):
+     chunk_size = 64
+-    g = chunk_local_cumsum(g, chunk_size=chunk_size, cu_seqlens=cu_seqlens)
+-    A = kkt_solve(
++    A, g = kkt_solve(
+         k=k,
+         g=g,
+         b=beta,

@@ -1,0 +1,12 @@
+--- patches/fused_fwd_metanosync_20260509_1218.py	2026-05-09 12:09:46.560131090 -0700
++++ patches/fused_fwd_bdv32_20260509_1613.py	2026-05-09 14:02:54.755262775 -0700
+@@ -627,7 +627,8 @@
+     # so block_DV=128 doesn't fit (kernel SMEM is ~116 KB at that tile).
+     # Cap to 64 here.  This doubles the grid_size but each block fits.
+     if tilelang.contrib.nvcc.get_target_compute_version() in ("12.1", "12.0"):
+-        block_DV = min(block_DV, 64)
++        # Occupancy/control screen: force smaller value tiles on GB10.
++        block_DV = 32
+ 
+     tilelang_fused_chunk_gdr_fwd_kernel = tilelang_fused_chunk_gdr_fwd(
+         H,

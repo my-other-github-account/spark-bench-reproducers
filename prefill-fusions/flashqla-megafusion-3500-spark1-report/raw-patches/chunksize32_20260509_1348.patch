@@ -1,0 +1,22 @@
+--- chunk_init_nobaro.py
++++ chunk_init_chunksize32.py
+@@ -35,7 +35,7 @@
+     output_h: bool = False,
+     auto_cp: bool = True,
+ ):
+-    chunk_size = 64
++    chunk_size = 32
+     g = chunk_local_cumsum(g, chunk_size=chunk_size, cu_seqlens=cu_seqlens)
+     A = kkt_solve(
+         k=k,
+--- fused_fwd_nobaro.py
++++ fused_fwd_chunksize32.py
+@@ -563,7 +563,7 @@
+     _, _, H, V = v.shape
+     scale = scale or K ** (-0.5)
+     assert K == V == 128
+-    assert chunk_size == 64
++    assert chunk_size in (32, 64)
+ 
+     if cu_seqlens is None:
+         real_batch_size = batch_size

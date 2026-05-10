@@ -1,0 +1,66 @@
+--- chunk/__init__.py
++++ chunk_init_oonly_20260509_1952.py
+@@ -79,6 +79,63 @@
+         chunk_size=chunk_size,
+     )
+     return g, A, o, h, final_state
++
++
++def chunk_gated_delta_rule_fwd_o_only(
++    q: torch.Tensor,
++    k: torch.Tensor,
++    v: torch.Tensor,
++    g: torch.Tensor,
++    beta: torch.Tensor,
++    scale: float | None = None,
++    initial_state: torch.Tensor | None = None,
++    cu_seqlens: torch.LongTensor | None = None,
++    output_final_state: bool = True,
++    auto_cp: bool = True,
++):
++    # Inference-only packed prefill caller consumes only output and final_state.
++    chunk_size = 64
++    g = chunk_local_cumsum(g, chunk_size=chunk_size, cu_seqlens=cu_seqlens)
++    A = kkt_solve(
++        k=k,
++        g=g,
++        b=beta,
++        cu_seqlens=cu_seqlens,
++        chunk_size=chunk_size,
++    )
++    if auto_cp:
++        initial_state, cu_seqlens, cp_seq_map, raw_cu_seqlens = (
++            intra_card_cp_preprocess(
++                k=k,
++                v=v,
++                a=A,
++                g=g,
++                b=beta,
++                raw_h0=initial_state,
++                raw_cu_seqlens=cu_seqlens,
++            )
++        )
++    else:
++        cp_seq_map = None
++        raw_cu_seqlens = None
++    o, _, final_state = fused_gdr_fwd(
++        q=q,
++        k=k,
++        v=v,
++        a=A,
++        g=g,
++        b=beta,
++        scale=scale,
++        initial_state=initial_state,
++        output_final_state=output_final_state,
++        output_h=False,
++        output_o=True,
++        cu_seqlens=cu_seqlens,
++        cp_seq_map=cp_seq_map,
++        raw_cu_seqlens=raw_cu_seqlens,
++        chunk_size=chunk_size,
++    )
++    return o, final_state
+ 
+ 
+ def chunk_gated_delta_rule_bwd(

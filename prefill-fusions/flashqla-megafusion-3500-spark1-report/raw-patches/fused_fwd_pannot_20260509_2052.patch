@@ -1,0 +1,49 @@
+--- patches/fused_fwd_metanosync_20260509_1218.py
++++ patches/fused_fwd_pannot_20260509_2052.py
+@@ -129,9 +129,8 @@
+ 
+             o_shared = T.alloc_shared((block_S, block_DV), dtype=o_dtype)
+             h_shared = T.alloc_shared((DK, block_DV), dtype=qkva_dtype)
+-            vd_shared = T.alloc_shared((block_S, block_DV), dtype=qkva_dtype)
++            vd_shared = T.alloc_shared((block_S, block_DV), dtype=accum_dtype)
+             vn_shared = T.alloc_shared((block_S, block_DV), dtype=qkva_dtype)
+-            p_shared = T.alloc_shared((block_S, block_S), dtype=qkva_dtype)
+             g_exp_shared = T.alloc_shared((block_S), dtype=accum_dtype, scope="shared")
+             g_rev_exp_shared = T.alloc_shared(
+                 (block_S), dtype=accum_dtype, scope="shared"
+@@ -145,6 +144,16 @@
+             a_fragment = T.alloc_fragment((block_S, block_S), dtype=accum_dtype)
+             g_fragment = T.alloc_fragment((block_S, block_S), dtype=accum_dtype)
+             g_last_local = T.alloc_local((1), dtype=accum_dtype)
++
++            pg_input_layout = T.Fragment(
++                (block_S, block_S),
++                lambda i, j, rep: (
++                    rep * 64 + i // 32 * 32 + i % 8 * 4 + j % 4,
++                    [j // 8 * 8 + i % 32 // 16 * 4 + j % 8 // 4 * 2 + i % 16 // 8],
++                ),
++                replicate=2,
++            )
++            T.annotate_layout({p_fragment: pg_input_layout})
+ 
+             data_is_ready = T.alloc_barrier(arrive_count=[96])
+             data_is_free = T.alloc_barrier(arrive_count=[384])
+@@ -344,8 +353,7 @@
+                     # Pg = s * G * P
+                     for j_s, j_t in T.Parallel(block_S, block_S):
+                         p_fragment[j_s, j_t] *= scale * g_fragment[j_s, j_t]
+-                    # S1[1] Pg
+-                    T.copy(p_fragment, p_shared)
++                    # Pg stays in p_fragment, explicitly annotated for Pg@Vd input layout.
+                     T.barrier_arrive(bar_3)
+                     # O = s * g * O
+                     for j_s, j_v in T.Parallel(block_S, block_DV):
+@@ -354,7 +362,7 @@
+                     # [STAGE 0] 4
+                     T.barrier_wait(bar_4, i_s % 2)
+                     # O += Pg @ Vd
+-                    T.gemm_v1(p_shared, vd_shared, o_fragment, clear_accum=False)
++                    T.gemm(p_fragment, vd_shared, o_fragment, clear_accum=False)
+                     T.barrier_arrive(bar_5)
+ 
+                     # [STAGE 0] 5

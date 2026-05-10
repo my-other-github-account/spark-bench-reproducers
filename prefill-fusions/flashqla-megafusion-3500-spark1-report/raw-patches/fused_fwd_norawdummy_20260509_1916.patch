@@ -1,0 +1,16 @@
+--- fused_fwd_metanosync_20260509_1218.py
++++ fused_fwd_norawdummy_20260509_1916.py
+@@ -603,9 +603,10 @@
+         )
+     h = torch.empty((batch_size, num_chunks, H, K, V), dtype=k.dtype, device=k.device)
+     if raw_cu_seqlens is None:
+-        raw_cu_seqlens = torch.empty(
+-            (real_batch_size + 1,), dtype=seqlen_dtype, device=k.device
+-        )
++        # raw_cu_seqlens is only read under is_cp=True.  In the API prefill path
++        # auto_cp=False and cu_seqlens already has the required [real_batch+1]
++        # shape, so avoid an otherwise dummy GPU metadata allocation.
++        raw_cu_seqlens = cu_seqlens
+         final_state = torch.empty(
+             (real_batch_size, H, K, V), dtype=torch.float32, device=k.device
+         )

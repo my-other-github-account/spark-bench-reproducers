@@ -1,0 +1,44 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.statevh-20260510
+#1 transferring dockerfile: 900B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-metanosync
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/7] FROM docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-metanosync
+#4 CACHED
+
+#5 [internal] load build context
+#5 transferring context: 37.69kB done
+#5 DONE 0.0s
+
+#6 [2/7] COPY patches/sitecustomize_statevh_20260510_0350.py /usr/lib/python3.12/sitecustomize.py
+#6 DONE 0.1s
+
+#7 [3/7] COPY patches/gdn_linear_attn_emptyout_20260509_2132.py /usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/mamba/gdn_linear_attn.py
+#7 DONE 0.1s
+
+#8 [4/7] COPY patches/fused_fwd_statevh_nooshared64_20260510_0350.py /opt/flashqla/flash_qla/ops/gated_delta_rule/chunk/blackwell/fused_fwd.py
+#8 DONE 0.1s
+
+#9 [5/7] COPY patches/sitecustomize_statevh_20260510_0350.patch /repro/patches/sitecustomize_statevh_20260510_0350.patch
+#9 DONE 0.1s
+
+#10 [6/7] COPY patches/gdn_linear_attn_emptyout_20260509_2132.patch /repro/patches/gdn_linear_attn_emptyout_20260509_2132.patch
+#10 DONE 0.1s
+
+#11 [7/7] COPY patches/fused_fwd_statevh_nooshared64_20260510_0350.patch /repro/patches/fused_fwd_statevh_nooshared64_20260510_0350.patch
+#11 DONE 0.1s
+
+#12 exporting to image
+#12 exporting layers
+#12 exporting layers 0.2s done
+#12 writing image sha256:57dde767e259ba5a8b5a1ca712559d97aa340b1a460304c30c760ae24a60388a done
+#12 naming to docker.io/library/vllm-prefill-flashqla-hkv-spark:spark1-alias-kpack2-statevh done
+#12 DONE 0.2s

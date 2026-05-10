@@ -1,0 +1,25 @@
+--- sitecustomize_fastpack.py
++++ sitecustomize_fastfallback.py
+@@ -22,7 +22,7 @@
+         _orig = getattr(_gdn, "fla_chunk_gated_delta_rule", None) or getattr(_chunk, "chunk_gated_delta_rule", None)
+         cap = torch.cuda.get_device_capability(0) if torch.cuda.is_available() else (0, 0)
+         if cap in ((12, 0), (12, 1)):
+-            _calls=[0]; _fallbacks=[0]; _large_logged=[False]; _lazy={"fq":None,"o":None}
++            _calls=[0]; _fallbacks=[0]; _large_logged=[False]; _lazy={"fq":None,"o":None}; _orig_allowed=[None]
+             def _ensure_lazy():
+                 if _lazy["fq"] is None:
+                     from flash_qla.ops.gated_delta_rule.chunk import chunk_gated_delta_rule_fwd as _flashqla_fwd
+@@ -46,8 +46,11 @@
+                             use_qk_l2norm_in_kernel=use_qk_l2norm_in_kernel)
+                 args.update(kw)
+                 try:
+-                    import inspect
+-                    allowed = set(inspect.signature(_orig).parameters.keys())
++                    allowed = _orig_allowed[0]
++                    if allowed is None:
++                        import inspect
++                        allowed = set(inspect.signature(_orig).parameters.keys())
++                        _orig_allowed[0] = allowed
+                     args = {kk: vv for kk, vv in args.items() if kk in allowed}
+                 except Exception:
+                     args.pop('head_first', None)

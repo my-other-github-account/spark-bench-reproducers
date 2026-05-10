@@ -1,0 +1,11 @@
+--- patches/gdn_linear_attn_statecache2_20260510_0100.py
++++ patches/gdn_linear_attn_statecache3_20260510_0110.py
+@@ -960,7 +960,7 @@
+                 )
+                 state_cache = ssm_state.as_strided(
+                     (
+-                        ssm_state.shape[0],
++                        ssm_state.shape[0] - 1,
+                         state_head_stride,
+                         ssm_state.shape[2],
+                         ssm_state.shape[3],

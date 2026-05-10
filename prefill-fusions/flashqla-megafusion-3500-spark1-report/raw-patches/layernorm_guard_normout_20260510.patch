@@ -1,0 +1,61 @@
+--- patches/layernorm_guard_installed_nooshared64_20260510.py	2026-05-09 19:56:59.727559064 -0700
++++ patches/layernorm_guard_normout_20260510.py	2026-05-09 19:57:35.334831043 -0700
+@@ -260,6 +260,7 @@
+     norm_before_gate=True,
+     is_rms_norm=False,
+     activation: str = "swish",
++    out=None,
+ ):
+     """Triton layer/RMS norm with optional gating.
+ 
+@@ -284,18 +285,25 @@
+     weight = weight.contiguous()
+     if bias is not None:
+         bias = bias.contiguous()
++    out_shape_og = None
++    if out is not None:
++        out_shape_og = out.shape
++        assert out_shape_og == x_shape_og
++        out = out.reshape(-1, out.shape[-1])
++        assert out.stride(-1) == 1
+     y, _, _ = layer_norm_fwd(
+         x,
+         weight,
+         bias,
+         eps,
+         z=z,
++        out=out,
+         group_size=group_size,
+         norm_before_gate=norm_before_gate,
+         is_rms_norm=is_rms_norm,
+         activation=activation,
+     )
+-    return y.reshape(x_shape_og)
++    return y.reshape(out_shape_og or x_shape_og)
+ 
+ 
+ @input_guard
+@@ -309,9 +317,10 @@
+     norm_before_gate=True,
+     is_rms_norm=False,
+     activation: str = "swish",
++    out=None,
+ ):
+     return _layer_norm_fn_impl(
+-        x, weight, bias, z, eps, group_size, norm_before_gate, is_rms_norm, activation
++        x, weight, bias, z, eps, group_size, norm_before_gate, is_rms_norm, activation, out
+     )
+ 
+ 
+@@ -325,9 +334,10 @@
+     group_size=None,
+     norm_before_gate=True,
+     activation: str = "swish",
++    out=None,
+ ):
+     return _layer_norm_fn_impl(
+-        x, weight, bias, z, eps, group_size, norm_before_gate, True, activation
++        x, weight, bias, z, eps, group_size, norm_before_gate, True, activation, out
+     )
+ 
+ 

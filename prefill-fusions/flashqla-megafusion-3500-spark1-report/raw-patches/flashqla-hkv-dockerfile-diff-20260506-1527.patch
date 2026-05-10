@@ -1,0 +1,11 @@
+diff --git a/flashqla-clean-build/Dockerfile b/flashqla-hkv-build/Dockerfile
+index ba3593a..1555eca 100644
+--- a/flashqla-clean-build/Dockerfile
++++ b/flashqla-hkv-build/Dockerfile
+@@ -2,4 +2,6 @@ FROM vllm-prefill-optimized-spark:clean-github-ad0e691
+ RUN pip install --no-cache-dir tilelang==0.1.8 apache-tvm-ffi==0.1.9 flash_linear_attention==0.5.0
+ COPY flashqla-src /opt/flashqla
+ RUN cd /opt/flashqla && pip install --no-cache-dir -e . --no-build-isolation
++COPY flashqla_hkv_o.py /opt/flashqla_hkv_o.py
++ENV PYTHONPATH=/opt:${PYTHONPATH}
+ COPY sitecustomize.py /usr/lib/python3.12/sitecustomize.py

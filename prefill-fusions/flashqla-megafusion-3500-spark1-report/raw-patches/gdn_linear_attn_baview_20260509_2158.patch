@@ -1,0 +1,26 @@
+--- gdn_linear_attn_emptyout_20260509_2132.py
++++ gdn_linear_attn_baview_20260509_2158.py
+@@ -538,8 +538,9 @@
+             z, _ = self.in_proj_z(hidden_states)
+             z = z.reshape(z.size(0), -1, self.head_v_dim)
+             b, a = ba.chunk(2, dim=-1)
+-            b = b.contiguous()
+-            a = a.contiguous()
++            if num_tokens < 64:
++                b = b.contiguous()
++                a = a.contiguous()
+         else:
+             mixed_qkvz, _ = self.in_proj_qkvz(hidden_states)
+             ba, _ = self.in_proj_ba(hidden_states)
+@@ -560,8 +561,9 @@
+                 mixed_qkv, z = mixed_qkvz.split([qkv_size, z_size], dim=-1)
+                 z = z.reshape(z.size(0), -1, self.head_v_dim)
+                 b, a = ba.chunk(2, dim=-1)
+-                b = b.contiguous()
+-                a = a.contiguous()
++                if num_tokens < 64:
++                    b = b.contiguous()
++                    a = a.contiguous()
+ 
+         # ============================================================
+         # Part 2: Core Attention (Custom Op)

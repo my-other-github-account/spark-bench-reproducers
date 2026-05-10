@@ -1,0 +1,29 @@
+--- patches/fused_gdn_prefill_post_conv_base_nooshared64.py	2026-05-09 19:22:27.360551017 -0700
++++ patches/fused_gdn_prefill_post_conv_g16_20260510_0740.py	2026-05-09 21:24:08.937945713 -0700
+@@ -29,7 +29,7 @@
+     q_ptr,  # [L, H, K] contiguous
+     k_ptr,  # [L, H, K] contiguous
+     v_ptr,  # [L, HV, V] contiguous
+-    g_ptr,  # [L, HV] float32
++    g_ptr,  # [L, HV] model dtype
+     beta_ptr,  # [L, HV] float32
+     # ---- strides ----
+     stride_x_tok,  # qkv_dim
+@@ -179,7 +179,7 @@
+         q: [L, H, K] contiguous, optionally l2-normalized
+         k: [L, H, K] contiguous, optionally l2-normalized
+         v: [L, HV, V] contiguous
+-        g: [L, HV] float32
++        g: [L, HV] model dtype
+         beta: [L, HV] float32
+     """
+     L = conv_output.shape[0]
+@@ -199,7 +199,7 @@
+     q = torch.empty(L, H, K, dtype=dtype, device=device)
+     k = torch.empty(L, H, K, dtype=dtype, device=device)
+     v = torch.empty(L, HV, V, dtype=dtype, device=device)
+-    g = torch.empty(L, HV, dtype=torch.float32, device=device)
++    g = torch.empty(L, HV, dtype=dtype, device=device)
+     beta = torch.empty(L, HV, dtype=torch.float32, device=device)
+ 
+     if L == 0:

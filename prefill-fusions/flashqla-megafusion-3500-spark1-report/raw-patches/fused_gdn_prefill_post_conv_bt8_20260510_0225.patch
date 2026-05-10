@@ -1,0 +1,11 @@
+--- patches/fused_gdn_prefill_post_conv_base_nooshared64.py	2026-05-09 19:22:27.360551017 -0700
++++ patches/fused_gdn_prefill_post_conv_bt8_20260510_0225.py	2026-05-09 19:22:27.360868506 -0700
+@@ -208,7 +208,7 @@
+     # ---- Kernel config ----
+     BK = triton.next_power_of_2(K)
+     BV = triton.next_power_of_2(V)
+-    BLOCK_T = 16  # tokens per block
++    BLOCK_T = 8  # tokens per block
+ 
+     # Single kernel: blocks [0,H) do Q/K, blocks [H, H+HV) do V+gating
+     grid = (triton.cdiv(L, BLOCK_T), H + HV)

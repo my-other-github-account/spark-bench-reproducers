@@ -1,0 +1,52 @@
+INFO 05-10 02:06:23 [nixl_utils.py:20] Setting UCX_RCACHE_MAX_UNRELEASED to '1024' to avoid a rare memory leak in UCX when using NIXL.
+WARNING 05-10 02:06:23 [nixl_utils.py:34] NIXL is not available
+WARNING 05-10 02:06:23 [nixl_utils.py:44] NIXL agent config is not available
+[flashqla-v2] active: HKV-output FlashQLA packed-single prefill with tunable HKV output kernel and short-decode fallback; original FLA fallback for unsupported paths
+2026-05-10 02:06:25  [TileLang:tilelang.jit.kernel:INFO]: TileLang begins to compile kernel `tilelang_fused_chunk_gdr_fwd_kernel` with `out_idx=None`
+InternalError Check failed: (warp_m % 16 == 0) is false: warp_m=40
+Traceback (most recent call last):
+  File "<stdin>", line 12, in <module>
+  File "/repro/patches/fused_fwd_nooshared_s80probe_20260510_0430.py", line 631, in fused_gdr_fwd
+    tilelang_fused_chunk_gdr_fwd_kernel = tilelang_fused_chunk_gdr_fwd(
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/jit/__init__.py", line 440, in __call__
+    kernel = self.compile(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/jit/__init__.py", line 375, in compile
+    kernel_result = compile(
+                    ^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/jit/__init__.py", line 98, in compile
+    return cached(
+           ^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/cache/__init__.py", line 74, in cached
+    return _dispatch_map[execution_backend].cached(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/cache/kernel_cache.py", line 264, in cached
+    kernel = JITKernel(
+             ^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/jit/kernel.py", line 137, in __init__
+    adapter = self._compile_and_create_adapter(func, out_idx)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/jit/kernel.py", line 241, in _compile_and_create_adapter
+    artifact = tilelang.lower(
+               ^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/engine/lower.py", line 249, in lower
+    mod = LowerAndLegalize(mod, target)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/engine/phase.py", line 178, in LowerAndLegalize
+    mod = tilelang.transform.LayoutInference()(mod)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/tilelang/3rdparty/tvm/python/tvm/ir/transform.py", line 167, in __call__
+    return _ffi_transform_api.RunPass(self, mod)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "python/tvm_ffi/cython/function.pxi", line 929, in tvm_ffi.core.Function.__call__
+  File "<unknown>", line 0, in tvm::transform::Pass::operator()(tvm::IRModule) const
+  File "<unknown>", line 0, in tvm::transform::Pass::operator()(tvm::IRModule, tvm::transform::PassContext const&) const
+  File "<unknown>", line 0, in tvm::tir::transform::PrimFuncPassNode::operator()(tvm::IRModule, tvm::transform::PassContext const&) const
+  File "<unknown>", line 0, in tvm::tl::LayoutInferencer::Substitute(tvm::tir::PrimFunc, bool)
+  File "<unknown>", line 0, in tvm::tl::BufferUseDefCollector::Run()
+  File "<unknown>", line 0, in tvm::tl::BufferUseDefCollector::RunInferStep(int, tvm::tl::InferLevel, bool, tvm::ffi::Map<tvm::tir::Buffer, tvm::tl::Layout, void>&, tvm::ffi::Map<tvm::tir::Buffer, tvm::tl::Layout, void> const&, std::deque<int, std::allocator<int> >&, std::vector<bool, std::allocator<bool> >&)
+  File "<unknown>", line 0, in tvm::tl::GemmNode::InferLayout(tvm::tl::LayoutInferArgs const&, tvm::tl::InferLevel) const
+  File "<unknown>", line 0, in tvm::tl::makeGemmFragmentC(int, int, int, int, int)
+  File "<unknown>", line 0, in tvm::runtime::detail::LogFatal::Entry::Finalize()
+tvm.error.InternalError: Check failed: (warp_m % 16 == 0) is false: warp_m=40

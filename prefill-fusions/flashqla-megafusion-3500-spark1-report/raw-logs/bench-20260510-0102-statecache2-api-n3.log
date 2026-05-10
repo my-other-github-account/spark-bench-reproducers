@@ -1,0 +1,31 @@
+llama-benchy not found in PATH; trying uvx llama-benchy
+[warmup] explicit same-shape warmup: pp=2048 tg=32 c=1 runs=2
+Downloading cpython-3.14.4-linux-aarch64-gnu (download) (29.2MiB)
+ Downloaded cpython-3.14.4-linux-aarch64-gnu (download)
+Downloading hf-xet (4.1MiB)
+Downloading transformers (10.1MiB)
+Downloading openai (1.2MiB)
+Downloading pygments (1.2MiB)
+Downloading numpy (15.0MiB)
+Downloading pydantic-core (1.9MiB)
+Downloading aiohttp (1.6MiB)
+Downloading tokenizers (3.1MiB)
+ Downloaded pygments
+ Downloaded openai
+ Downloaded aiohttp
+ Downloaded pydantic-core
+ Downloaded tokenizers
+ Downloaded hf-xet
+ Downloaded transformers
+ Downloaded numpy
+Installed 49 packages in 238ms
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+llama-benchy (0.3.7)
+Date: 2026-05-10 00:40:34
+Benchmarking model: qwen35-27b-axionml-nvfp4 at http://127.0.0.1:8000/v1
+Concurrency levels: [1]
+Downloading book from https://www.gutenberg.org/files/1661/1661-0.txt...
+Saved text to cache: /root/.cache/llama-benchy/cc6a0b5782734ee3b9069aa3b64cc62c.txt
+Total tokens available in text corpus: 144494
+Warming up...
+Warmup failed: HTTP 500: {"error":{"message":"EngineCore encountered an issue. See stack trace (above) for the root cause.","type":"InternalServerError","param":null,"code":500}}

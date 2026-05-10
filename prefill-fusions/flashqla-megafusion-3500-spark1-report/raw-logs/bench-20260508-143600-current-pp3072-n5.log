@@ -1,0 +1,82 @@
+[warmup] explicit same-shape warmup: pp=3072 tg=32 c=1 runs=2
+llama-benchy not found in PATH; trying uvx llama-benchy
+Downloading cpython-3.14.4-linux-aarch64-gnu (download) (29.2MiB)
+ Downloaded cpython-3.14.4-linux-aarch64-gnu (download)
+Downloading tokenizers (3.1MiB)
+Downloading openai (1.2MiB)
+Downloading pygments (1.2MiB)
+Downloading pydantic-core (1.9MiB)
+Downloading transformers (10.1MiB)
+Downloading aiohttp (1.6MiB)
+Downloading hf-xet (4.1MiB)
+Downloading numpy (15.0MiB)
+ Downloaded pygments
+ Downloaded openai
+ Downloaded aiohttp
+ Downloaded pydantic-core
+ Downloaded tokenizers
+ Downloaded hf-xet
+ Downloaded transformers
+ Downloaded numpy
+Installed 49 packages in 217ms
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+llama-benchy (0.3.7)
+Date: 2026-05-08 21:37:33
+Benchmarking model: qwen35-27b-axionml-nvfp4 at http://127.0.0.1:8000/v1
+Concurrency levels: [1]
+Downloading book from https://www.gutenberg.org/files/1661/1661-0.txt...
+Saved text to cache: /root/.cache/llama-benchy/cc6a0b5782734ee3b9069aa3b64cc62c.txt
+Total tokens available in text corpus: 144494
+Warming up...
+Warmup (User only) complete. Delta: 9 tokens (Server: 30, Local: 21)
+Warmup (System+Empty) complete. Delta: 14 tokens (Server: 35, Local: 21)
+
+Skipping coherence test (--skip-coherence specified)
+Measuring latency using mode: api...
+Average latency (api): 2.30 ms
+Running test: pp=3072, tg=32, depth=0, concurrency=1
+  Run 1/2 (batch size 1)...
+  Run 2/2 (batch size 1)...
+Saving results to /tmp/warmup-20260508-143600-current-pp3072-n5.json in JSON format...
+
+
+
+llama-benchy (0.3.7)
+date: 2026-05-08 21:37:33 | latency mode: api
+[measure] post-warm run: pp=3072 tg=32 c=1 runs=5 out=/out/results/result-20260508-143600-current-pp3072-n5.json
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+llama-benchy (0.3.7)
+Date: 2026-05-08 21:38:42
+Benchmarking model: qwen35-27b-axionml-nvfp4 at http://127.0.0.1:8000/v1
+Concurrency levels: [1]
+Loading text from cache: /root/.cache/llama-benchy/cc6a0b5782734ee3b9069aa3b64cc62c.txt
+Total tokens available in text corpus: 144480
+Warming up...
+Warmup (User only) complete. Delta: 9 tokens (Server: 30, Local: 21)
+Warmup (System+Empty) complete. Delta: 14 tokens (Server: 35, Local: 21)
+
+Skipping coherence test (--skip-coherence specified)
+Measuring latency using mode: api...
+Average latency (api): 1.50 ms
+Running test: pp=3072, tg=32, depth=0, concurrency=1
+  Run 1/5 (batch size 1)...
+  Run 2/5 (batch size 1)...
+  Run 3/5 (batch size 1)...
+  Run 4/5 (batch size 1)...
+  Run 5/5 (batch size 1)...
+Saving results to /out/results/result-20260508-143600-current-pp3072-n5.json in JSON format...
+
+
+
+llama-benchy (0.3.7)
+date: 2026-05-08 21:38:42 | latency mode: api
+
+[bench] Saved measured result to /out/results/result-20260508-143600-current-pp3072-n5.json
+INFO 05-08 21:39:05 [nixl_utils.py:20] Setting UCX_RCACHE_MAX_UNRELEASED to '1024' to avoid a rare memory leak in UCX when using NIXL.
+WARNING 05-08 21:39:05 [nixl_utils.py:34] NIXL is not available
+WARNING 05-08 21:39:05 [nixl_utils.py:44] NIXL agent config is not available
+[flashqla-v2] active: HKV-output FlashQLA packed-single prefill with tunable HKV output kernel and short-decode fallback; original FLA fallback for unsupported paths
+pp tok/s  : mean 2848.69 median 2822.52 std 90.15 values=[2723.2908398985783, 2822.515471376821, 2799.528451733373, 2920.298998846497, 2977.838570764947]
+tg tok/s  : mean 11.52 median 11.52 std 0.02 values=[11.52859218961126, 11.540165028612059, 11.519305654899679, 11.470738871123949, 11.519104352448945]
+ttfr ms   : mean 1084.41 median 1093.44 std 34.08 values=[1132.8563440001744, 1093.4383259991591, 1102.4042300014116, 1056.875926999055, 1036.4834119973239]
+latency_ms : 1.505

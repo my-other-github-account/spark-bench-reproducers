@@ -1,0 +1,17 @@
+--- patches/sitecustomize_fastpack_20260509_1210.py	2026-05-09 12:03:19.271210557 -0700
++++ patches/sitecustomize_statevh_20260510_0350.py	2026-05-09 18:45:59.562551111 -0700
+@@ -94,12 +94,12 @@
+                     for name,x in [("q",q),("k",k),("v",v),("g",g),("beta",beta),("initial_state",initial_state),("cu_seqlens",cu_seqlens)]:
+                         sys.stderr.write("[flashqla-meta] "+_meta(name,x)+"\n")
+                     sys.stderr.flush()
+-                fq_initial_state = initial_state.transpose(-1,-2).contiguous() if initial_state is not None else None
++                fq_initial_state = initial_state
+                 g_cum, A, v_new, h_fq, final_state_fq = _flashqla_fwd(
+                     q=q,k=k,v=v,g=g,beta=beta,scale=scale,initial_state=fq_initial_state,
+                     cu_seqlens=cu_seqlens,output_final_state=output_final_state,output_h=False,auto_cp=False)
+                 out = v_new
+-                final_state = final_state_fq.transpose(-1,-2).contiguous() if final_state_fq is not None else None
++                final_state = final_state_fq
+                 if os.environ.get("FLASHQLA_VERBOSE_META", "0") == "1" and _calls[0] in (1,2,10,20):
+                     for name,x in [("v_new",v_new),("h_fq",h_fq),("out",out),("final_state",final_state)]:
+                         sys.stderr.write("[flashqla-meta] "+_meta(name,x)+"\n")

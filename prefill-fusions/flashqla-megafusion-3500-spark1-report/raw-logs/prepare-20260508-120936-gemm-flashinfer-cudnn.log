@@ -1,0 +1,6 @@
+               total        used        free      shared  buff/cache   available
+Mem:           119Gi       4.9Gi       115Gi       2.3Mi       205Mi       114Gi
+Swap:           15Gi          0B        15Gi
+NAME      TYPE SIZE USED PRIO
+/swap.img file  16G   0B   -2
+50, P0, 208, 0
