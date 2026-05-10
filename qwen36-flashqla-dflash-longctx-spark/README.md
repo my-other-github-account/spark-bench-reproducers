@@ -27,19 +27,17 @@ Notes:
 - PP128K DFlash ON improves TG mean from `8.2617` to `13.7570` tok/s vs the DFlash-OFF FlashQLA-ON PP128K baseline, while PP mean is lower (`1468.12` vs `1535.39`) because DFlash decode is active at full depth.
 - The hard PP32K DFlash ON success floor was `>15.749112456536343 tok/s`; the FlashQLA-ON final PP32K mean clears it by `+8.6920 tok/s`.
 
-## Golden DFlash+FlashQLA depth grid (2026-05-10)
+## Golden DFlash+FlashQLA depth grid
 
-These N3 rows characterize the verified golden runtime path across prompt depths. All rows use DFlash ON, FlashQLA ON, `nspec=15`, shifted suffix block-table, `tg=128`, `c=1`, `MBT=2048`, max model length `132000`, temp `0.6`/default sampling, no forced `top_p`, no forced `min_tokens`, no `ignore_eos`, one same-shape warmup excluded, and one normal long-lived server.
+Depth-grid results are intentionally withheld until rerun/validated. A previous N3 grid artifact was retracted because PP2048/PP16384 decode throughput was inconsistent with the proven DFlash path and short-prompt prefill did not match the expected optimized result. Do not use the retracted grid numbers.
 
-| PP | TG | Runs | PP mean tok/s | PP median tok/s | TG mean tok/s | TG median tok/s | TG min/max tok/s | Raw JSON |
-|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| 2048 | 128 | 3 | 2122.6832 | 2138.7912 | 7.7189 | 7.7327 | 7.6913 / 7.7327 | [`results/golden-depth-grid-20260510/mbt2048-dflash_on-fqla_on-nousage-threshold0-nspec15-temp06-mlen132000-shifted_suffix_block_table_fullgraph_compact_delta_nosync_direct_attention_kvupdate_query_qkv_fused_qk_rope-warm1-n3-pp2048/measured-pp2048-tg128-c1-n3.json`](results/golden-depth-grid-20260510/mbt2048-dflash_on-fqla_on-nousage-threshold0-nspec15-temp06-mlen132000-shifted_suffix_block_table_fullgraph_compact_delta_nosync_direct_attention_kvupdate_query_qkv_fused_qk_rope-warm1-n3-pp2048/measured-pp2048-tg128-c1-n3.json) |
-| 16384 | 128 | 3 | 2619.6403 | 2619.3142 | 7.1326 | 7.1375 | 7.1170 / 7.1434 | [`results/golden-depth-grid-20260510/mbt2048-dflash_on-fqla_on-nousage-threshold0-nspec15-temp06-mlen132000-shifted_suffix_block_table_fullgraph_compact_delta_nosync_direct_attention_kvupdate_query_qkv_fused_qk_rope-warm1-n3-pp16384/measured-pp16384-tg128-c1-n3.json`](results/golden-depth-grid-20260510/mbt2048-dflash_on-fqla_on-nousage-threshold0-nspec15-temp06-mlen132000-shifted_suffix_block_table_fullgraph_compact_delta_nosync_direct_attention_kvupdate_query_qkv_fused_qk_rope-warm1-n3-pp16384/measured-pp16384-tg128-c1-n3.json) |
-| 32768 | 128 | 3 | 2385.2537 | 2381.3699 | 25.2981 | 26.0753 | 22.0071 / 27.8119 | [`results/golden-depth-grid-20260510/mbt2048-dflash_on-fqla_on-nousage-threshold0-nspec15-temp06-mlen132000-shifted_suffix_block_table_fullgraph_compact_delta_nosync_direct_attention_kvupdate_query_qkv_fused_qk_rope-warm1-n3-pp32768/measured-pp32768-tg128-c1-n3.json`](results/golden-depth-grid-20260510/mbt2048-dflash_on-fqla_on-nousage-threshold0-nspec15-temp06-mlen132000-shifted_suffix_block_table_fullgraph_compact_delta_nosync_direct_attention_kvupdate_query_qkv_fused_qk_rope-warm1-n3-pp32768/measured-pp32768-tg128-c1-n3.json) |
-| 65536 | 128 | 3 | 1973.5704 | 1972.1992 | 19.1099 | 19.9298 | 17.4642 / 19.9356 | [`results/golden-depth-grid-20260510/mbt2048-dflash_on-fqla_on-nousage-threshold0-nspec15-temp06-mlen132000-shifted_suffix_block_table_fullgraph_compact_delta_nosync_direct_attention_kvupdate_query_qkv_fused_qk_rope-warm1-n3-pp65536/measured-pp65536-tg128-c1-n3.json`](results/golden-depth-grid-20260510/mbt2048-dflash_on-fqla_on-nousage-threshold0-nspec15-temp06-mlen132000-shifted_suffix_block_table_fullgraph_compact_delta_nosync_direct_attention_kvupdate_query_qkv_fused_qk_rope-warm1-n3-pp65536/measured-pp65536-tg128-c1-n3.json) |
-| 131072 | 128 | 3 | 1468.0064 | 1467.7360 | 14.3425 | 14.1873 | 12.9721 / 15.8681 | [`results/golden-depth-grid-20260510/mbt2048-dflash_on-fqla_on-nousage-threshold0-nspec15-temp06-mlen132000-shifted_suffix_block_table_fullgraph_compact_delta_nosync_direct_attention_kvupdate_query_qkv_fused_qk_rope-warm1-n3-pp131072/measured-pp131072-tg128-c1-n3.json`](results/golden-depth-grid-20260510/mbt2048-dflash_on-fqla_on-nousage-threshold0-nspec15-temp06-mlen132000-shifted_suffix_block_table_fullgraph_compact_delta_nosync_direct_attention_kvupdate_query_qkv_fused_qk_rope-warm1-n3-pp131072/measured-pp131072-tg128-c1-n3.json) |
+Publication gate for the replacement grid:
+- DFlash ON + FlashQLA ON, `nspec=15`, shifted suffix block-table active.
+- Normal sampling: temp `0.6`; no forced `top_p`, `min_tokens`, or `ignore_eos`.
+- Exact rows: PP2048/16384/32768/65536/131072, TG128, C1, MBT2048.
+- Per-row raw JSON plus per-row log/proof markers for DFlash activity.
+- PP2048 must be rerun until it matches the expected fast prefill path (historically >3k tok/s for the optimized short-prompt configuration) or the regression is root-caused.
 
-Proof audit is recorded in `results/golden-depth-grid-20260510/.../summary.txt`: shifted-suffix markers (`DFlash shifted suffix block-table path active` 72; `block_table_shifted=True`/`seq_lens_adjusted=True`/`slot_mapping_preserved=True` 25 each), `SpecDecoding metrics` 34, `spec_counts={...: 15}` present, `[flashqla-v2] active` 3, FLA/GDN prefill marker present, `Traceback=0`, `EngineDeadError=0`, and each row client audit had `temperature=0.6` 8 times with `top_p_present=False`, `min_tokens_present=False`, and `ignore_eos_present=False` 8 times.
 
 ## What made the combined result work
 
