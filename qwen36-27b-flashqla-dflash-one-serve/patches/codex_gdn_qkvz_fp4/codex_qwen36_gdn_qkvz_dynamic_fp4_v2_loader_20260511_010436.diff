@@ -1,0 +1,17 @@
+--- /home/user/work/spark-bench-reproducers-codex-goal-spark3/vllm-prefill-optimized-spark/codex_b12x_nvfp4_goal/patches/model_loader_utils.py.before_codex_gdn_qkvz_fp4_v2_20260511_010436	2026-05-11 01:04:36.403223299 -0700
++++ /home/user/venvs/vllm/lib/python3.12/site-packages/vllm/model_executor/model_loader/utils.py	2026-05-11 01:04:37.370855815 -0700
+@@ -121,6 +121,14 @@
+             with device_loading_context(module, target_device):
+                 module.process_weights_after_loading(model_config.dtype)
+ 
++    # Codex PP probe hook: allow selected non-quantized modules to prepack
++    # auxiliary weights after checkpoint load and before Dynamo compilation.
++    for _, module in model.named_modules():
++        codex_post_load = getattr(module, "codex_process_weights_after_loading", None)
++        if codex_post_load is not None:
++            with device_loading_context(module, target_device):
++                codex_post_load(model_config.dtype)
++
+     # Needed for torchao model reloading via model.reload_weights
+     # @kylesayrs @jerryzh168 this can be removed if callers move to `reload_weights`
+     if model_config.quantization == "torchao":

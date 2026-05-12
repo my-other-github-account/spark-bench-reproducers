@@ -1,0 +1,2 @@
+prompt_class,concurrency,n_requests,wallclock_s,total_output_tokens,output_tps_aggregate,median_tokens_per_req_tps,ttft_ms_p50,ttft_ms_p95,tpot_ms_p50,tpot_ms_p95
+prose,1,16,326.59,8192,25.08,25.09,149.7,151.5,39.65,39.72

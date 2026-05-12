@@ -1,0 +1,80 @@
+--- /home/user/work/spark-bench-reproducers-codex-goal-spark3/vllm-prefill-optimized-spark/codex_b12x_nvfp4_goal/patches/gdn_linear_attn.py.before_codex_gdn_qkvz_fp4_20260511_010144	2026-05-11 01:01:44.219275965 -0700
++++ /home/user/venvs/vllm/lib/python3.12/site-packages/vllm/model_executor/layers/mamba/gdn_linear_attn.py	2026-05-11 01:01:45.180383124 -0700
+@@ -390,6 +390,58 @@
+             raise ValueError(f"Duplicate layer name: {prefix}")
+         compilation_config.static_forward_context[prefix] = self
+ 
++    def _codex_qwen36_gdn_qkvz_dynamic_fp4_20260511(
++        self, hidden_states: torch.Tensor
++    ) -> torch.Tensor:
++        # Env-gated PP probe: prepack the unquantized GDN qkv/z bf16 weight
++        # once, then use the same CUTLASS NVFP4 path as compressed-tensors.
++        from vllm._custom_ops import cutlass_scaled_fp4_mm, scaled_fp4_quant
++
++        proj = self.in_proj_qkvz
++        if not hasattr(proj, "_codex_qkvz_fp4_weight"):
++            scale = torch.ones(1, device=proj.weight.device, dtype=torch.float32)
++            weight_fp4, weight_scale = scaled_fp4_quant(
++                proj.weight.detach().contiguous(),
++                scale,
++                is_sf_swizzled_layout=True,
++                backend="cutlass",
++            )
++            proj.register_buffer(
++                "_codex_qkvz_fp4_weight", weight_fp4, persistent=False
++            )
++            proj.register_buffer(
++                "_codex_qkvz_fp4_weight_scale", weight_scale, persistent=False
++            )
++            proj.register_buffer(
++                "_codex_qkvz_fp4_input_inv", scale, persistent=False
++            )
++            proj.register_buffer(
++                "_codex_qkvz_fp4_alpha",
++                torch.ones(1, device=proj.weight.device, dtype=torch.float32),
++                persistent=False,
++            )
++            logger.info_once(
++                "[codex-gdn-qkvz-fp4] active: dynamic activation NVFP4 + "
++                "prepacked bf16 checkpoint qkv/z weight for GDN input projection"
++            )
++
++        x_shape = hidden_states.shape[:-1]
++        x_fp4, x_scale = scaled_fp4_quant(
++            hidden_states.contiguous(),
++            proj._codex_qkvz_fp4_input_inv,
++            is_sf_swizzled_layout=True,
++            backend="cutlass",
++        )
++        out = cutlass_scaled_fp4_mm(
++            x_fp4,
++            proj._codex_qkvz_fp4_weight,
++            x_scale,
++            proj._codex_qkvz_fp4_weight_scale,
++            proj._codex_qkvz_fp4_alpha,
++            hidden_states.dtype,
++        )
++        return out.view(*x_shape, proj.output_size_per_partition)
++
+     def create_qkvz_proj(
+         self,
+         hidden_size: int,
+@@ -541,7 +593,17 @@
+             b = b.contiguous()
+             a = a.contiguous()
+         else:
+-            mixed_qkvz, _ = self.in_proj_qkvz(hidden_states)
++            if (
++                __import__("os").environ.get(
++                    "CODEX_QWEN36_GDN_QKVZ_DYNAMIC_FP4", "0"
++                )
++                == "1"
++            ):
++                mixed_qkvz = self._codex_qwen36_gdn_qkvz_dynamic_fp4_20260511(
++                    hidden_states
++                )
++            else:
++                mixed_qkvz, _ = self.in_proj_qkvz(hidden_states)
+             ba, _ = self.in_proj_ba(hidden_states)
+ 
+             if self.gqa_interleaved_layout:

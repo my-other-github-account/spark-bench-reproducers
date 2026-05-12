@@ -1,0 +1,73 @@
+{
+  "body_model": "/home/user/models/Qwen3.6-27B-NVFP4-unsloth",
+  "boot_markers": {
+    "auxiliary_layers": true,
+    "dflash_arch_resolved": true,
+    "flashqla_patch_active": true,
+    "gdn_qkvz_fp4_active": true,
+    "nvfp4_backend_cutlass": true,
+    "prefix_disabled": true
+  },
+  "drafter": "/home/user/models/Qwen3.6-27B-DFlash",
+  "gates": {
+    "both": true,
+    "pp_ge_3000": true,
+    "same_server": true,
+    "tg_avg_ge_30": true
+  },
+  "per_prompt": {
+    "code": {
+      "csv": "/home/user/work/spark-bench-reproducers-codex-goal-spark3/vllm-prefill-optimized-spark/codex_b12x_nvfp4_goal/results/codex_qwen36_one_serve_flashqla_dflash_s1_mbt32768_cutlass_sync_ppnospec_w16_full_code_20260511_122540.csv",
+      "median_tokens_per_req_tps": 28.99,
+      "n_requests": 16,
+      "output_tps_aggregate": 29.0,
+      "total_output_tokens": 8192,
+      "tpot_ms_p50": 34.27,
+      "tpot_ms_p95": 34.3,
+      "ttft_ms_p50": 153.0,
+      "ttft_ms_p95": 156.7
+    },
+    "dialogue": {
+      "csv": "/home/user/work/spark-bench-reproducers-codex-goal-spark3/vllm-prefill-optimized-spark/codex_b12x_nvfp4_goal/results/codex_qwen36_one_serve_flashqla_dflash_s1_mbt32768_cutlass_sync_ppnospec_w16_full_dialogue_20260511_122540.csv",
+      "median_tokens_per_req_tps": 38.17,
+      "n_requests": 16,
+      "output_tps_aggregate": 38.18,
+      "total_output_tokens": 8192,
+      "tpot_ms_p50": 25.93,
+      "tpot_ms_p95": 25.97,
+      "ttft_ms_p50": 162.0,
+      "ttft_ms_p95": 164.9
+    },
+    "prose": {
+      "csv": "/home/user/work/spark-bench-reproducers-codex-goal-spark3/vllm-prefill-optimized-spark/codex_b12x_nvfp4_goal/results/codex_qwen36_one_serve_flashqla_dflash_s1_mbt32768_cutlass_sync_ppnospec_w16_full_prose_20260511_122540.csv",
+      "median_tokens_per_req_tps": 25.09,
+      "n_requests": 16,
+      "output_tps_aggregate": 25.08,
+      "total_output_tokens": 8192,
+      "tpot_ms_p50": 39.65,
+      "tpot_ms_p95": 39.72,
+      "ttft_ms_p50": 149.7,
+      "ttft_ms_p95": 151.5
+    },
+    "reasoning": {
+      "csv": "/home/user/work/spark-bench-reproducers-codex-goal-spark3/vllm-prefill-optimized-spark/codex_b12x_nvfp4_goal/results/codex_qwen36_one_serve_flashqla_dflash_s1_mbt32768_cutlass_sync_ppnospec_w16_full_reasoning_20260511_122540.csv",
+      "median_tokens_per_req_tps": 58.3,
+      "n_requests": 16,
+      "output_tps_aggregate": 58.3,
+      "total_output_tokens": 8192,
+      "tpot_ms_p50": 16.87,
+      "tpot_ms_p95": 16.93,
+      "ttft_ms_p50": 157.1,
+      "ttft_ms_p95": 159.4
+    }
+  },
+  "pp_mean": 3007.300054129362,
+  "pp_receipt": "/home/user/work/spark-bench-reproducers-codex-goal-spark3/vllm-prefill-optimized-spark/codex_b12x_nvfp4_goal/results/codex_qwen36_one_serve_flashqla_dflash_s1_mbt32768_cutlass_sync_ppnospec_w16_full_pp_N10_20260511_122540.json",
+  "same_server_log_sha256": true,
+  "schema": "codex_qwen36_one_serve_composed_summary_v1",
+  "server_log": "/home/user/work/spark-bench-reproducers-codex-goal-spark3/vllm-prefill-optimized-spark/logs/codex_qwen36_one_serve_flashqla_dflash_s1_mbt32768_cutlass_sync_ppnospec_w16_full_20260511_122540_server.log",
+  "server_log_sha256": "91e72611e63a5184235e770b89ab1937fe87524f26d79c6a9f2501ba1b235296",
+  "tg_avg_output_tps_aggregate": 37.64,
+  "tg_receipt": "/home/user/work/spark-bench-reproducers-codex-goal-spark3/vllm-prefill-optimized-spark/codex_b12x_nvfp4_goal/results/codex_qwen36_one_serve_flashqla_dflash_s1_mbt32768_cutlass_sync_ppnospec_w16_full_tg_4prompt_20260511_122540.json",
+  "timestamp": "20260511_122540"
+}
