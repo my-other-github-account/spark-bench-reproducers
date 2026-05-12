@@ -1,0 +1,10 @@
+--- /home/user/work/spark-bench-reproducers-codex-goal-spark3/vllm-prefill-optimized-spark/codex_b12x_nvfp4_goal/patches/gdn_linear_attn.py.before_codex_gdn_qkvz_fp4_importfix_20260511_010628	2026-05-11 01:06:28.488359462 -0700
++++ /home/user/venvs/vllm/lib/python3.12/site-packages/vllm/model_executor/layers/mamba/gdn_linear_attn.py	2026-05-11 01:06:29.509615264 -0700
+@@ -8,6 +8,7 @@
+ from transformers.activations import ACT2FN
+ 
+ from vllm import envs
++from vllm._custom_ops import cutlass_scaled_fp4_mm, scaled_fp4_quant
+ from vllm.config import (
+     VllmConfig,
+     get_current_vllm_config,

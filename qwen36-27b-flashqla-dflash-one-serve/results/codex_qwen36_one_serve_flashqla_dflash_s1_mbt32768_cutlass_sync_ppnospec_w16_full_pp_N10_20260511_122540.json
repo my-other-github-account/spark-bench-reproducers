@@ -1,0 +1,104 @@
+{
+  "bench_script": "token_id_stream_bench.py",
+  "body_model": "/home/user/models/Qwen3.6-27B-NVFP4-unsloth",
+  "boot_markers": {
+    "auxiliary_layers": true,
+    "dflash_arch_resolved": true,
+    "flashqla_patch_active": true,
+    "gdn_qkvz_fp4_active": true,
+    "nvfp4_backend_cutlass": true,
+    "prefix_disabled": true
+  },
+  "drafter": "/home/user/models/Qwen3.6-27B-DFlash",
+  "env": {
+    "CODEX_QWEN36_GDN_QKVZ_DYNAMIC_FP4": "1",
+    "CUDA_DEVICE_MAX_CONNECTIONS": "1",
+    "FLASHQLA_HKV_O_BK": "128",
+    "FLASHQLA_HKV_O_BV": "128",
+    "PYTHONPATH": "/opt:/opt:",
+    "VLLM_NVFP4_GEMM_BACKEND": "cutlass"
+  },
+  "gate": {
+    "pp_ge_3000": true,
+    "runs": 10
+  },
+  "pp_disable_spec_decode": true,
+  "pp_throughput": {
+    "mean": 3007.300054129362,
+    "std": 13.843819499480949,
+    "values": [
+      3025.9678245581413,
+      3013.643588568865,
+      2979.428690272968,
+      2999.5583252906385,
+      2996.408131832373,
+      3021.5260167291453,
+      3022.589568132817,
+      2998.9350368742307,
+      3001.717273950812,
+      3013.226085083628
+    ]
+  },
+  "raw_bench_json": "/home/user/work/spark-bench-reproducers-codex-goal-spark3/vllm-prefill-optimized-spark/results/codex_qwen36_one_serve_flashqla_dflash_s1_mbt32768_cutlass_sync_ppnospec_w16_full_pp2048_tg32_c1_N10_20260511_122540.json",
+  "schema": "codex_qwen36_one_serve_composed_pp_v1",
+  "serve_flags": {
+    "attention_backend": "FLASH_ATTN",
+    "compilation_config": {
+      "inductor_compile_config": {
+        "benchmark_combo_kernel": false,
+        "combo_kernels": false
+      }
+    },
+    "gpu_memory_utilization": 0.9,
+    "load_format": "fastsafetensors",
+    "max_num_batched_tokens": 32768,
+    "max_num_seqs": 1,
+    "nvfp4_backend": "cutlass",
+    "prefix_caching": false,
+    "speculative_config": {
+      "attention_backend": "FLASH_ATTN",
+      "method": "dflash",
+      "model": "/home/user/models/Qwen3.6-27B-DFlash",
+      "num_speculative_tokens": 15
+    }
+  },
+  "server_log": "/home/user/work/spark-bench-reproducers-codex-goal-spark3/vllm-prefill-optimized-spark/logs/codex_qwen36_one_serve_flashqla_dflash_s1_mbt32768_cutlass_sync_ppnospec_w16_full_20260511_122540_server.log",
+  "server_log_sha256": "91e72611e63a5184235e770b89ab1937fe87524f26d79c6a9f2501ba1b235296",
+  "sha256": {
+    "raw_bench_json": "2889819e63d8f1fd4bfbf4da4e50d980d3e161b0b1af5e63a6d4dce485451fd1",
+    "server_log": "91e72611e63a5184235e770b89ab1937fe87524f26d79c6a9f2501ba1b235296"
+  },
+  "tg_throughput": {
+    "mean": 11.373477673232772,
+    "std": 0.014922868206165575,
+    "values": [
+      11.376456191547746,
+      11.356567057925865,
+      11.398821615539655,
+      11.395896787704215,
+      11.37950999207605,
+      11.37896200304272,
+      11.353552244166176,
+      11.36772277739697,
+      11.356674883248276,
+      11.370613179680053
+    ]
+  },
+  "timestamp": "20260511_122540",
+  "ttfr": {
+    "mean": 681.0239902999456,
+    "std": 3.1409989090471773,
+    "values": [
+      676.808254000207,
+      679.5760479999444,
+      687.3801029996685,
+      682.7671869996266,
+      683.4849960000611,
+      677.8031989997544,
+      677.5647019999269,
+      682.9090910000559,
+      682.2761150001497,
+      679.6702080000614
+    ]
+  }
+}

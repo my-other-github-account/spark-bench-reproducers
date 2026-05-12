@@ -1,0 +1,105 @@
+--- /home/user/work/spark-bench-reproducers-codex-goal-spark3/vllm-prefill-optimized-spark/codex_b12x_nvfp4_goal/patches/gdn_linear_attn.py.before_codex_gdn_qkvz_fp4_v2_20260511_010436	2026-05-11 01:04:36.402472382 -0700
++++ /home/user/venvs/vllm/lib/python3.12/site-packages/vllm/model_executor/layers/mamba/gdn_linear_attn.py	2026-05-11 01:04:37.360949177 -0700
+@@ -261,6 +261,12 @@
+         self.layer_norm_epsilon = config.rms_norm_eps
+         self.prefix = prefix
+         self.config = config
++        self.codex_qwen36_gdn_qkvz_dynamic_fp4_enabled = (
++            __import__("os").environ.get(
++                "CODEX_QWEN36_GDN_QKVZ_DYNAMIC_FP4", "0"
++            )
++            == "1"
++        )
+         self.model_config = vllm_config.model_config
+         self.cache_config = vllm_config.cache_config
+         quant_config = vllm_config.quant_config
+@@ -390,41 +396,45 @@
+             raise ValueError(f"Duplicate layer name: {prefix}")
+         compilation_config.static_forward_context[prefix] = self
+ 
++    def codex_process_weights_after_loading(self, dtype: torch.dtype) -> None:
++        if (
++            not self.codex_qwen36_gdn_qkvz_dynamic_fp4_enabled
++            or not hasattr(self, "in_proj_qkvz")
++        ):
++            return
++        proj = self.in_proj_qkvz
++        if hasattr(proj, "_codex_qkvz_fp4_weight"):
++            return
++        scale = torch.ones(1, device=proj.weight.device, dtype=torch.float32)
++        weight_fp4, weight_scale = scaled_fp4_quant(
++            proj.weight.detach().contiguous(),
++            scale,
++            is_sf_swizzled_layout=True,
++            backend="cutlass",
++        )
++        proj.register_buffer(
++            "_codex_qkvz_fp4_weight", weight_fp4, persistent=False
++        )
++        proj.register_buffer(
++            "_codex_qkvz_fp4_weight_scale", weight_scale, persistent=False
++        )
++        proj.register_buffer(
++            "_codex_qkvz_fp4_input_inv", scale, persistent=False
++        )
++        proj.register_buffer(
++            "_codex_qkvz_fp4_alpha",
++            torch.ones(1, device=proj.weight.device, dtype=torch.float32),
++            persistent=False,
++        )
++        logger.info_once(
++            "[codex-gdn-qkvz-fp4] active: dynamic activation NVFP4 + "
++            "prepacked bf16 checkpoint qkv/z weight for GDN input projection"
++        )
++
+     def _codex_qwen36_gdn_qkvz_dynamic_fp4_20260511(
+         self, hidden_states: torch.Tensor
+     ) -> torch.Tensor:
+-        # Env-gated PP probe: prepack the unquantized GDN qkv/z bf16 weight
+-        # once, then use the same CUTLASS NVFP4 path as compressed-tensors.
+-        from vllm._custom_ops import cutlass_scaled_fp4_mm, scaled_fp4_quant
+-
+         proj = self.in_proj_qkvz
+-        if not hasattr(proj, "_codex_qkvz_fp4_weight"):
+-            scale = torch.ones(1, device=proj.weight.device, dtype=torch.float32)
+-            weight_fp4, weight_scale = scaled_fp4_quant(
+-                proj.weight.detach().contiguous(),
+-                scale,
+-                is_sf_swizzled_layout=True,
+-                backend="cutlass",
+-            )
+-            proj.register_buffer(
+-                "_codex_qkvz_fp4_weight", weight_fp4, persistent=False
+-            )
+-            proj.register_buffer(
+-                "_codex_qkvz_fp4_weight_scale", weight_scale, persistent=False
+-            )
+-            proj.register_buffer(
+-                "_codex_qkvz_fp4_input_inv", scale, persistent=False
+-            )
+-            proj.register_buffer(
+-                "_codex_qkvz_fp4_alpha",
+-                torch.ones(1, device=proj.weight.device, dtype=torch.float32),
+-                persistent=False,
+-            )
+-            logger.info_once(
+-                "[codex-gdn-qkvz-fp4] active: dynamic activation NVFP4 + "
+-                "prepacked bf16 checkpoint qkv/z weight for GDN input projection"
+-            )
+-
+         x_shape = hidden_states.shape[:-1]
+         x_fp4, x_scale = scaled_fp4_quant(
+             hidden_states.contiguous(),
+@@ -594,10 +604,8 @@
+             a = a.contiguous()
+         else:
+             if (
+-                __import__("os").environ.get(
+-                    "CODEX_QWEN36_GDN_QKVZ_DYNAMIC_FP4", "0"
+-                )
+-                == "1"
++                self.codex_qwen36_gdn_qkvz_dynamic_fp4_enabled
++                and hasattr(self.in_proj_qkvz, "_codex_qkvz_fp4_weight")
+             ):
+                 mixed_qkvz = self._codex_qwen36_gdn_qkvz_dynamic_fp4_20260511(
+                     hidden_states

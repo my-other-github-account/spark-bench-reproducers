@@ -1,0 +1,109 @@
+--- /home/user/work/spark-bench-reproducers-codex-goal-spark3/vllm-prefill-optimized-spark/codex_b12x_nvfp4_goal/patches/gdn_linear_attn.py.before_codex_gdn_qkvzba_fp4_20260511_011706	2026-05-11 01:17:06.972046685 -0700
++++ /home/user/venvs/vllm/lib/python3.12/site-packages/vllm/model_executor/layers/mamba/gdn_linear_attn.py	2026-05-11 01:17:08.006772588 -0700
+@@ -403,33 +403,41 @@
+             or not hasattr(self, "in_proj_qkvz")
+         ):
+             return
+-        proj = self.in_proj_qkvz
+-        if hasattr(proj, "_codex_qkvz_fp4_weight"):
++        if hasattr(self, "_codex_qkvzba_fp4_weight"):
+             return
+-        scale = torch.ones(1, device=proj.weight.device, dtype=torch.float32)
++        scale = torch.ones(1, device=self.in_proj_qkvz.weight.device, dtype=torch.float32)
++        combined_weight = torch.cat(
++            (
++                self.in_proj_qkvz.weight.detach().contiguous(),
++                self.in_proj_ba.weight.detach().contiguous(),
++            ),
++            dim=0,
++        )
+         weight_fp4, weight_scale = scaled_fp4_quant(
+-            proj.weight.detach().contiguous(),
++            combined_weight,
+             scale,
+             is_sf_swizzled_layout=True,
+             backend="cutlass",
+         )
+-        proj.register_buffer(
+-            "_codex_qkvz_fp4_weight", weight_fp4, persistent=False
++        self.register_buffer(
++            "_codex_qkvzba_fp4_weight", weight_fp4, persistent=False
+         )
+-        proj.register_buffer(
+-            "_codex_qkvz_fp4_weight_scale", weight_scale, persistent=False
++        self.register_buffer(
++            "_codex_qkvzba_fp4_weight_scale", weight_scale, persistent=False
+         )
+-        proj.register_buffer(
+-            "_codex_qkvz_fp4_input_inv", scale, persistent=False
++        self.register_buffer(
++            "_codex_qkvzba_fp4_input_inv", scale, persistent=False
+         )
+-        proj.register_buffer(
+-            "_codex_qkvz_fp4_alpha",
+-            torch.ones(1, device=proj.weight.device, dtype=torch.float32),
++        self.register_buffer(
++            "_codex_qkvzba_fp4_alpha",
++            torch.ones(1, device=self.in_proj_qkvz.weight.device, dtype=torch.float32),
+             persistent=False,
+         )
++        self._codex_qkvzba_qkvz_width = self.in_proj_qkvz.output_size_per_partition
++        self._codex_qkvzba_ba_width = self.in_proj_ba.output_size_per_partition
+         logger.info_once(
+-            "[codex-gdn-qkvz-fp4] active: dynamic activation NVFP4 + "
+-            "prepacked bf16 checkpoint qkv/z weight for GDN input projection"
++            "[codex-gdn-qkvzba-fp4] active: dynamic activation NVFP4 + "
++            "prepacked combined bf16 checkpoint qkv/z+b/a weights for GDN input projections"
+         )
+ 
+     def _codex_qwen36_gdn_qkvz_dynamic_fp4_20260511(
+@@ -453,6 +461,31 @@
+         )
+         return out.view(*x_shape, proj.output_size_per_partition)
+ 
++    def _codex_qwen36_gdn_qkvzba_dynamic_fp4_20260511(
++        self, hidden_states: torch.Tensor
++    ) -> tuple[torch.Tensor, torch.Tensor]:
++        x_shape = hidden_states.shape[:-1]
++        x_fp4, x_scale = scaled_fp4_quant(
++            hidden_states.contiguous(),
++            self._codex_qkvzba_fp4_input_inv,
++            is_sf_swizzled_layout=True,
++            backend="cutlass",
++        )
++        out = cutlass_scaled_fp4_mm(
++            x_fp4,
++            self._codex_qkvzba_fp4_weight,
++            x_scale,
++            self._codex_qkvzba_fp4_weight_scale,
++            self._codex_qkvzba_fp4_alpha,
++            hidden_states.dtype,
++        )
++        out = out.view(
++            *x_shape, self._codex_qkvzba_qkvz_width + self._codex_qkvzba_ba_width
++        )
++        return out.split(
++            [self._codex_qkvzba_qkvz_width, self._codex_qkvzba_ba_width], dim=-1
++        )
++
+     def create_qkvz_proj(
+         self,
+         hidden_size: int,
+@@ -606,14 +639,14 @@
+         else:
+             if (
+                 self.codex_qwen36_gdn_qkvz_dynamic_fp4_enabled
+-                and hasattr(self.in_proj_qkvz, "_codex_qkvz_fp4_weight")
++                and hasattr(self, "_codex_qkvzba_fp4_weight")
+             ):
+-                mixed_qkvz = self._codex_qwen36_gdn_qkvz_dynamic_fp4_20260511(
++                mixed_qkvz, ba = self._codex_qwen36_gdn_qkvzba_dynamic_fp4_20260511(
+                     hidden_states
+                 )
+             else:
+                 mixed_qkvz, _ = self.in_proj_qkvz(hidden_states)
+-            ba, _ = self.in_proj_ba(hidden_states)
++                ba, _ = self.in_proj_ba(hidden_states)
+ 
+             if self.gqa_interleaved_layout:
+                 # Qwen3-Next: unpack the interleaved GQA layout
