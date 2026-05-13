@@ -1,0 +1,372 @@
+{
+  "artifact": "replacement golden-depth-grid 20260510",
+  "status": "valid_debug_promoted",
+  "rows": [
+    {
+      "pp": 2048,
+      "tg": 128,
+      "concurrency": 1,
+      "mbt": 2048,
+      "max_model_len": 132000,
+      "dflash": "on",
+      "flashqla": "on",
+      "nspec": 15,
+      "temperature": 0.6,
+      "forced_top_p": false,
+      "forced_min_tokens": false,
+      "forced_ignore_eos": false,
+      "depth": "warm5n10",
+      "debug_source": "results/golden-depth-grid-20260510-debug/mbt2048-dfon-fqon-th1024n66-ns15-arn66_v34-raw-ml132000-w5n10-t06-pathproof-pp2048",
+      "raw_json": "results/golden-depth-grid-20260510/pp2048/measured-pp2048-tg128-c1-n10.json",
+      "proof_log": "results/golden-depth-grid-20260510/pp2048/proof-pp2048.log",
+      "proof_counts": {
+        "DFlash AR prompt threshold request-nsteps v34": 1995,
+        "SpecDecoding metrics": 16,
+        "spec_counts=": 6,
+        "DFlash proposer full-cudagraph path active": 50,
+        "DFlash direct draft-query attention v2 path active": 28,
+        "DFlash longctx feature metadata gpu path active": 6,
+        "DFlash shifted suffix block-table path active": 0,
+        "block_table_shifted=True": 0,
+        "seq_lens_adjusted=True": 0,
+        "slot_mapping_preserved=True": 0,
+        "[flashqla-v2] active": 3,
+        "Using Triton/FLA GDN prefill kernel": 1,
+        "[flashqla-large-shape] optimized": 1,
+        "temperature=0.6": 0,
+        "top_p_present=False": 0,
+        "min_tokens_present=False": 0,
+        "ignore_eos_present=False": 0,
+        "Traceback": 0,
+        "EngineDeadError": 0
+      },
+      "prompt_size": 2048,
+      "response_size": 128,
+      "server_prompt_tokens": 2048,
+      "completion_token_counts": [
+        128,
+        103,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128
+      ],
+      "pp_throughput": {
+        "mean": 3198.7064274888426,
+        "median": 3204.3331014079813,
+        "min": 3168.6821026220487,
+        "max": 3219.0558601792827,
+        "values": [
+          3169.372903570037,
+          3219.0558601792827,
+          3218.556572657088,
+          3218.4852542634862,
+          3206.229588858325,
+          3217.0884297029606,
+          3191.401317609344,
+          3168.6821026220487,
+          3175.755631468218,
+          3202.4366139576373
+        ]
+      },
+      "tg_throughput": {
+        "mean": 12.597977331146195,
+        "median": 13.070838275012294,
+        "min": 9.977502637999066,
+        "max": 13.84832244095195,
+        "values": [
+          13.84832244095195,
+          9.977502637999066,
+          13.808219023331928,
+          13.829188391517711,
+          11.633761585781098,
+          13.764421710714473,
+          12.377254839310115,
+          13.780247403133027,
+          11.749953100547561,
+          11.210902178175026
+        ]
+      }
+    },
+    {
+      "pp": 16384,
+      "tg": 128,
+      "concurrency": 1,
+      "mbt": 2048,
+      "max_model_len": 132000,
+      "dflash": "on",
+      "flashqla": "on",
+      "nspec": 15,
+      "temperature": 0.6,
+      "forced_top_p": false,
+      "forced_min_tokens": false,
+      "forced_ignore_eos": false,
+      "depth": "warm1n3",
+      "debug_source": "results/golden-depth-grid-20260510-debug/mbt2048-dfon-fqon-th1024n66-ns15-arn66_v34-raw-ml132000-w1n3-t06-pathproof-pp16384",
+      "raw_json": "results/golden-depth-grid-20260510/pp16384/measured-pp16384-tg128-c1-n3.json",
+      "proof_log": "results/golden-depth-grid-20260510/pp16384/proof-pp16384.log",
+      "proof_counts": {
+        "DFlash AR prompt threshold request-nsteps v34": 1092,
+        "SpecDecoding metrics": 9,
+        "spec_counts=": 5,
+        "DFlash proposer full-cudagraph path active": 46,
+        "DFlash direct draft-query attention v2 path active": 25,
+        "DFlash longctx feature metadata gpu path active": 5,
+        "DFlash shifted suffix block-table path active": 3,
+        "block_table_shifted=True": 3,
+        "seq_lens_adjusted=True": 3,
+        "slot_mapping_preserved=True": 3,
+        "[flashqla-v2] active": 3,
+        "Using Triton/FLA GDN prefill kernel": 1,
+        "[flashqla-large-shape] optimized": 1,
+        "temperature=0.6": 0,
+        "top_p_present=False": 0,
+        "min_tokens_present=False": 0,
+        "ignore_eos_present=False": 0,
+        "Traceback": 0,
+        "EngineDeadError": 0
+      },
+      "prompt_size": 16384,
+      "response_size": 128,
+      "server_prompt_tokens": 16384,
+      "completion_token_counts": [
+        128,
+        128,
+        128
+      ],
+      "pp_throughput": {
+        "mean": 2907.6041065507707,
+        "median": 2905.5956632499688,
+        "min": 2902.5648239890725,
+        "max": 2914.6518324132703,
+        "values": [
+          2914.6518324132703,
+          2905.5956632499688,
+          2902.5648239890725
+        ]
+      },
+      "tg_throughput": {
+        "mean": 12.588327091011251,
+        "median": 13.407419239820106,
+        "min": 10.923029207570975,
+        "max": 13.434532825642671,
+        "values": [
+          13.407419239820106,
+          13.434532825642671,
+          10.923029207570975
+        ]
+      }
+    },
+    {
+      "pp": 32768,
+      "tg": 128,
+      "concurrency": 1,
+      "mbt": 2048,
+      "max_model_len": 132000,
+      "dflash": "on",
+      "flashqla": "on",
+      "nspec": 15,
+      "temperature": 0.6,
+      "forced_top_p": false,
+      "forced_min_tokens": false,
+      "forced_ignore_eos": false,
+      "depth": "warm1n3",
+      "debug_source": "results/golden-depth-grid-20260510-debug/mbt2048-dfon-fqon-th1024n66-ns15-arn66_v34-raw-ml132000-w1n3-t06-pathproof-pp32768",
+      "raw_json": "results/golden-depth-grid-20260510/pp32768/measured-pp32768-tg128-c1-n3.json",
+      "proof_log": "results/golden-depth-grid-20260510/pp32768/proof-pp32768.log",
+      "proof_counts": {
+        "DFlash AR prompt threshold request-nsteps v34": 1684,
+        "SpecDecoding metrics": 14,
+        "spec_counts=": 6,
+        "DFlash proposer full-cudagraph path active": 48,
+        "DFlash direct draft-query attention v2 path active": 27,
+        "DFlash longctx feature metadata gpu path active": 6,
+        "DFlash shifted suffix block-table path active": 5,
+        "block_table_shifted=True": 5,
+        "seq_lens_adjusted=True": 5,
+        "slot_mapping_preserved=True": 5,
+        "[flashqla-v2] active": 3,
+        "Using Triton/FLA GDN prefill kernel": 1,
+        "[flashqla-large-shape] optimized": 1,
+        "temperature=0.6": 0,
+        "top_p_present=False": 0,
+        "min_tokens_present=False": 0,
+        "ignore_eos_present=False": 0,
+        "Traceback": 0,
+        "EngineDeadError": 0
+      },
+      "prompt_size": 32768,
+      "response_size": 128,
+      "server_prompt_tokens": 32768,
+      "completion_token_counts": [
+        128,
+        128,
+        128
+      ],
+      "pp_throughput": {
+        "mean": 2593.559271447001,
+        "median": 2595.4394486285114,
+        "min": 2589.3089143625693,
+        "max": 2595.9294513499217,
+        "values": [
+          2595.4394486285114,
+          2589.3089143625693,
+          2595.9294513499217
+        ]
+      },
+      "tg_throughput": {
+        "mean": 13.088697642987798,
+        "median": 13.09086387031642,
+        "min": 13.081934407494002,
+        "max": 13.093294651152972,
+        "values": [
+          13.09086387031642,
+          13.081934407494002,
+          13.093294651152972
+        ]
+      }
+    },
+    {
+      "pp": 65536,
+      "tg": 128,
+      "concurrency": 1,
+      "mbt": 2048,
+      "max_model_len": 132000,
+      "dflash": "on",
+      "flashqla": "on",
+      "nspec": 15,
+      "temperature": 0.6,
+      "forced_top_p": false,
+      "forced_min_tokens": false,
+      "forced_ignore_eos": false,
+      "depth": "warm1n3",
+      "debug_source": "results/golden-depth-grid-20260510-debug/mbt2048-dfon-fqon-th1024n66-ns15-arn66_v34-raw-ml132000-w1n3-t06-pathproof-pp65536",
+      "raw_json": "results/golden-depth-grid-20260510/pp65536/measured-pp65536-tg128-c1-n3.json",
+      "proof_log": "results/golden-depth-grid-20260510/pp65536/proof-pp65536.log",
+      "proof_counts": {
+        "DFlash AR prompt threshold request-nsteps v34": 2340,
+        "SpecDecoding metrics": 19,
+        "spec_counts=": 7,
+        "DFlash proposer full-cudagraph path active": 51,
+        "DFlash direct draft-query attention v2 path active": 30,
+        "DFlash longctx feature metadata gpu path active": 7,
+        "DFlash shifted suffix block-table path active": 8,
+        "block_table_shifted=True": 8,
+        "seq_lens_adjusted=True": 8,
+        "slot_mapping_preserved=True": 8,
+        "[flashqla-v2] active": 3,
+        "Using Triton/FLA GDN prefill kernel": 1,
+        "[flashqla-large-shape] optimized": 1,
+        "temperature=0.6": 0,
+        "top_p_present=False": 0,
+        "min_tokens_present=False": 0,
+        "ignore_eos_present=False": 0,
+        "Traceback": 0,
+        "EngineDeadError": 0
+      },
+      "prompt_size": 65536,
+      "response_size": 128,
+      "server_prompt_tokens": 65536,
+      "completion_token_counts": [
+        128,
+        128,
+        128
+      ],
+      "pp_throughput": {
+        "mean": 2117.571146551044,
+        "median": 2119.8226881436412,
+        "min": 2109.8140613764986,
+        "max": 2123.0766901329926,
+        "values": [
+          2119.8226881436412,
+          2123.0766901329926,
+          2109.8140613764986
+        ]
+      },
+      "tg_throughput": {
+        "mean": 10.8827939386631,
+        "median": 10.910522557087734,
+        "min": 10.825001207448238,
+        "max": 10.912858051453329,
+        "values": [
+          10.912858051453329,
+          10.825001207448238,
+          10.910522557087734
+        ]
+      }
+    },
+    {
+      "pp": 131072,
+      "tg": 128,
+      "concurrency": 1,
+      "mbt": 2048,
+      "max_model_len": 262144,
+      "dflash": "on",
+      "flashqla": "on",
+      "nspec": 15,
+      "temperature": 0.6,
+      "forced_top_p": false,
+      "forced_min_tokens": false,
+      "forced_ignore_eos": false,
+      "depth": "warm1n3",
+      "debug_source": "results/golden-depth-grid-20260510-debug/mbt2048-dfon-fqon-th1024n66-ns15-arn66_v34-raw-ml262144-w1n3-t06-pathproof-pp131072",
+      "raw_json": "results/golden-depth-grid-20260510/pp131072/measured-pp131072-tg128-c1-n3.json",
+      "proof_log": "results/golden-depth-grid-20260510/pp131072/proof-pp131072.log",
+      "proof_counts": {
+        "DFlash AR prompt threshold request-nsteps v34": 784,
+        "SpecDecoding metrics": 5,
+        "spec_counts=": 5,
+        "DFlash proposer full-cudagraph path active": 47,
+        "DFlash direct draft-query attention v2 path active": 26,
+        "DFlash longctx feature metadata gpu path active": 5,
+        "DFlash shifted suffix block-table path active": 84,
+        "block_table_shifted=True": 84,
+        "seq_lens_adjusted=True": 84,
+        "slot_mapping_preserved=True": 84,
+        "[flashqla-v2] active": 3,
+        "Using Triton/FLA GDN prefill kernel": 1,
+        "[flashqla-large-shape] optimized": 1,
+        "temperature=0.6": 0,
+        "top_p_present=False": 0,
+        "min_tokens_present=False": 0,
+        "ignore_eos_present=False": 0,
+        "Traceback": 0,
+        "EngineDeadError": 0
+      },
+      "prompt_size": 131072,
+      "response_size": 128,
+      "server_prompt_tokens": 131072,
+      "completion_token_counts": [
+        128,
+        128,
+        128
+      ],
+      "pp_throughput": {
+        "mean": 1569.1738144873177,
+        "median": 1569.3449844029285,
+        "min": 1563.9191841439151,
+        "max": 1574.2572749151097,
+        "values": [
+          1574.2572749151097,
+          1569.3449844029285,
+          1563.9191841439151
+        ]
+      },
+      "tg_throughput": {
+        "mean": 8.02654997675157,
+        "median": 8.028946310240318,
+        "min": 8.013449218917044,
+        "max": 8.037254401097348,
+        "values": [
+          8.037254401097348,
+          8.028946310240318,
+          8.013449218917044
+        ]
+      }
+    }
+  ]
+}
