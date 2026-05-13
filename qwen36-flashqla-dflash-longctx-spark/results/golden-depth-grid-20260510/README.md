@@ -1,12 +1,13 @@
-# Replacement golden depth grid 20260510
+# Corrected Qwen3.6 replacement depth grid
 
-Valid replacement artifact set generated from Spark-6 correction worktree. Previous golden-depth-grid-20260510 rows remain retracted and are not reused.
+This artifact set supersedes the packaging-only public set at 147b7b2. Final validity includes TG speedup versus paired or proven baselines.
 
 Common shape: TG128, C1, MBT2048, DFlash ON, FlashQLA ON, nspec15, temp0.6/default sampling, no forced top_p/min_tokens/ignore_eos.
 
-- PP2048: pp.mean=3198.7064274888426, tg.mean=12.597977331146195, runs=10, max_model_len=132000, raw=results/golden-depth-grid-20260510/pp2048/measured-pp2048-tg128-c1-n10.json
-- PP16384: pp.mean=2907.6041065507707, tg.mean=12.588327091011251, runs=3, max_model_len=132000, raw=results/golden-depth-grid-20260510/pp16384/measured-pp16384-tg128-c1-n3.json
-- PP32768: pp.mean=2593.559271447001, tg.mean=13.088697642987798, runs=3, max_model_len=132000, raw=results/golden-depth-grid-20260510/pp32768/measured-pp32768-tg128-c1-n3.json
-- PP65536: pp.mean=2117.571146551044, tg.mean=10.8827939386631, runs=3, max_model_len=132000, raw=results/golden-depth-grid-20260510/pp65536/measured-pp65536-tg128-c1-n3.json
-- PP131072: pp.mean=1569.1738144873177, tg.mean=8.02654997675157, runs=3, max_model_len=262144, raw=results/golden-depth-grid-20260510/pp131072/measured-pp131072-tg128-c1-n3.json
-
+| PP | max-model-len | runs | pp mean | tg mean | baseline TG | TG speedup |
+|---:|---:|---:|---:|---:|---:|---:|
+| 2048 | 132000 | 3 | 3206.275855798878 | 23.042069823049957 | 11.595354421166252 | 1.9871811577392389 |
+| 16384 | 132000 | 3 | 2864.3660874440193 | 31.35508473051363 | 11.082975193390853 | 2.829121619726417 |
+| 32768 | 132000 | 3 | 2582.687578720192 | 33.59585002186518 | 24.441134415430362 | 1.3745618125096188 |
+| 65536 | 132000 | 3 | 2113.8311627521884 | 30.018358788011078 | 9.664465567931334 | 3.1060547090796318 |
+| 131072 | 262144 | 3 | 1553.4603319303994 | 24.150411746982485 | 8.232280473473045 | 2.933623535398555 |

@@ -11,31 +11,9 @@
   "forced_top_p": false,
   "forced_min_tokens": false,
   "forced_ignore_eos": false,
-  "depth": "warm1n3",
-  "debug_source": "results/golden-depth-grid-20260510-debug/mbt2048-dfon-fqon-th1024n66-ns15-arn66_v34-raw-ml132000-w1n3-t06-pathproof-pp65536",
+  "ar_prompt_request_skip_steps": 2,
   "raw_json": "results/golden-depth-grid-20260510/pp65536/measured-pp65536-tg128-c1-n3.json",
   "proof_log": "results/golden-depth-grid-20260510/pp65536/proof-pp65536.log",
-  "proof_counts": {
-    "DFlash AR prompt threshold request-nsteps v34": 2340,
-    "SpecDecoding metrics": 19,
-    "spec_counts=": 7,
-    "DFlash proposer full-cudagraph path active": 51,
-    "DFlash direct draft-query attention v2 path active": 30,
-    "DFlash longctx feature metadata gpu path active": 7,
-    "DFlash shifted suffix block-table path active": 8,
-    "block_table_shifted=True": 8,
-    "seq_lens_adjusted=True": 8,
-    "slot_mapping_preserved=True": 8,
-    "[flashqla-v2] active": 3,
-    "Using Triton/FLA GDN prefill kernel": 1,
-    "[flashqla-large-shape] optimized": 1,
-    "temperature=0.6": 0,
-    "top_p_present=False": 0,
-    "min_tokens_present=False": 0,
-    "ignore_eos_present=False": 0,
-    "Traceback": 0,
-    "EngineDeadError": 0
-  },
   "prompt_size": 65536,
   "response_size": 128,
   "server_prompt_tokens": 65536,
@@ -44,26 +22,50 @@
     128,
     128
   ],
+  "runs": 3,
   "pp_throughput": {
-    "mean": 2117.571146551044,
-    "median": 2119.8226881436412,
-    "min": 2109.8140613764986,
-    "max": 2123.0766901329926,
+    "mean": 2113.8311627521884,
+    "median": 2114.3528165955104,
+    "min": 2111.8979329180993,
+    "max": 2115.2427387429557,
     "values": [
-      2119.8226881436412,
-      2123.0766901329926,
-      2109.8140613764986
+      2111.8979329180993,
+      2115.2427387429557,
+      2114.3528165955104
     ]
   },
   "tg_throughput": {
-    "mean": 10.8827939386631,
-    "median": 10.910522557087734,
-    "min": 10.825001207448238,
-    "max": 10.912858051453329,
+    "mean": 30.018358788011078,
+    "median": 30.02209217513472,
+    "min": 29.842564123957732,
+    "max": 30.190420064940778,
     "values": [
-      10.912858051453329,
-      10.825001207448238,
-      10.910522557087734
+      30.190420064940778,
+      30.02209217513472,
+      29.842564123957732
     ]
-  }
+  },
+  "proof_counts": {
+    "DFlash AR prompt threshold request-nsteps v34": 68,
+    "SpecDecoding metrics": 13,
+    "spec_counts=": 6,
+    "DFlash proposer full-cudagraph path active": 50,
+    "DFlash direct draft-query attention v2 path active": 28,
+    "DFlash longctx feature metadata gpu path active": 6,
+    "DFlash shifted suffix block-table path active": 4,
+    "block_table_shifted=True": 4,
+    "seq_lens_adjusted=True": 4,
+    "slot_mapping_preserved=True": 4,
+    "[flashqla-v2] active": 3,
+    "Using Triton/FLA GDN prefill kernel": 1,
+    "[flashqla-large-shape] optimized": 1,
+    "Traceback": 0,
+    "EngineDeadError": 0
+  },
+  "baseline_type": "paired_dflash_off_fqla_on_raw",
+  "baseline_tg_mean": 9.664465567931334,
+  "baseline_pp_mean": 2113.867643917378,
+  "baseline_raw_json": "results/golden-depth-grid-20260510/baselines/pp65536/measured-pp65536-tg128-c1-n3.json",
+  "tg_speedup_ratio": 3.1060547090796318,
+  "tg_speedup_pass": true
 }
