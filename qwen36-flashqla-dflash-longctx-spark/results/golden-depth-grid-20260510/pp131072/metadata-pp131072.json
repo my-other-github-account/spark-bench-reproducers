@@ -1,0 +1,69 @@
+{
+  "pp": 131072,
+  "tg": 128,
+  "concurrency": 1,
+  "mbt": 2048,
+  "max_model_len": 262144,
+  "dflash": "on",
+  "flashqla": "on",
+  "nspec": 15,
+  "temperature": 0.6,
+  "forced_top_p": false,
+  "forced_min_tokens": false,
+  "forced_ignore_eos": false,
+  "depth": "warm1n3",
+  "debug_source": "results/golden-depth-grid-20260510-debug/mbt2048-dfon-fqon-th1024n66-ns15-arn66_v34-raw-ml262144-w1n3-t06-pathproof-pp131072",
+  "raw_json": "results/golden-depth-grid-20260510/pp131072/measured-pp131072-tg128-c1-n3.json",
+  "proof_log": "results/golden-depth-grid-20260510/pp131072/proof-pp131072.log",
+  "proof_counts": {
+    "DFlash AR prompt threshold request-nsteps v34": 784,
+    "SpecDecoding metrics": 5,
+    "spec_counts=": 5,
+    "DFlash proposer full-cudagraph path active": 47,
+    "DFlash direct draft-query attention v2 path active": 26,
+    "DFlash longctx feature metadata gpu path active": 5,
+    "DFlash shifted suffix block-table path active": 84,
+    "block_table_shifted=True": 84,
+    "seq_lens_adjusted=True": 84,
+    "slot_mapping_preserved=True": 84,
+    "[flashqla-v2] active": 3,
+    "Using Triton/FLA GDN prefill kernel": 1,
+    "[flashqla-large-shape] optimized": 1,
+    "temperature=0.6": 0,
+    "top_p_present=False": 0,
+    "min_tokens_present=False": 0,
+    "ignore_eos_present=False": 0,
+    "Traceback": 0,
+    "EngineDeadError": 0
+  },
+  "prompt_size": 131072,
+  "response_size": 128,
+  "server_prompt_tokens": 131072,
+  "completion_token_counts": [
+    128,
+    128,
+    128
+  ],
+  "pp_throughput": {
+    "mean": 1569.1738144873177,
+    "median": 1569.3449844029285,
+    "min": 1563.9191841439151,
+    "max": 1574.2572749151097,
+    "values": [
+      1574.2572749151097,
+      1569.3449844029285,
+      1563.9191841439151
+    ]
+  },
+  "tg_throughput": {
+    "mean": 8.02654997675157,
+    "median": 8.028946310240318,
+    "min": 8.013449218917044,
+    "max": 8.037254401097348,
+    "values": [
+      8.037254401097348,
+      8.028946310240318,
+      8.013449218917044
+    ]
+  }
+}

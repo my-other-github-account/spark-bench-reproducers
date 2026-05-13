@@ -1,0 +1,69 @@
+{
+  "pp": 16384,
+  "tg": 128,
+  "concurrency": 1,
+  "mbt": 2048,
+  "max_model_len": 132000,
+  "dflash": "on",
+  "flashqla": "on",
+  "nspec": 15,
+  "temperature": 0.6,
+  "forced_top_p": false,
+  "forced_min_tokens": false,
+  "forced_ignore_eos": false,
+  "depth": "warm1n3",
+  "debug_source": "results/golden-depth-grid-20260510-debug/mbt2048-dfon-fqon-th1024n66-ns15-arn66_v34-raw-ml132000-w1n3-t06-pathproof-pp16384",
+  "raw_json": "results/golden-depth-grid-20260510/pp16384/measured-pp16384-tg128-c1-n3.json",
+  "proof_log": "results/golden-depth-grid-20260510/pp16384/proof-pp16384.log",
+  "proof_counts": {
+    "DFlash AR prompt threshold request-nsteps v34": 1092,
+    "SpecDecoding metrics": 9,
+    "spec_counts=": 5,
+    "DFlash proposer full-cudagraph path active": 46,
+    "DFlash direct draft-query attention v2 path active": 25,
+    "DFlash longctx feature metadata gpu path active": 5,
+    "DFlash shifted suffix block-table path active": 3,
+    "block_table_shifted=True": 3,
+    "seq_lens_adjusted=True": 3,
+    "slot_mapping_preserved=True": 3,
+    "[flashqla-v2] active": 3,
+    "Using Triton/FLA GDN prefill kernel": 1,
+    "[flashqla-large-shape] optimized": 1,
+    "temperature=0.6": 0,
+    "top_p_present=False": 0,
+    "min_tokens_present=False": 0,
+    "ignore_eos_present=False": 0,
+    "Traceback": 0,
+    "EngineDeadError": 0
+  },
+  "prompt_size": 16384,
+  "response_size": 128,
+  "server_prompt_tokens": 16384,
+  "completion_token_counts": [
+    128,
+    128,
+    128
+  ],
+  "pp_throughput": {
+    "mean": 2907.6041065507707,
+    "median": 2905.5956632499688,
+    "min": 2902.5648239890725,
+    "max": 2914.6518324132703,
+    "values": [
+      2914.6518324132703,
+      2905.5956632499688,
+      2902.5648239890725
+    ]
+  },
+  "tg_throughput": {
+    "mean": 12.588327091011251,
+    "median": 13.407419239820106,
+    "min": 10.923029207570975,
+    "max": 13.434532825642671,
+    "values": [
+      13.407419239820106,
+      13.434532825642671,
+      10.923029207570975
+    ]
+  }
+}

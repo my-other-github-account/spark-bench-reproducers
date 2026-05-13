@@ -1,0 +1,69 @@
+{
+  "pp": 32768,
+  "tg": 128,
+  "concurrency": 1,
+  "mbt": 2048,
+  "max_model_len": 132000,
+  "dflash": "on",
+  "flashqla": "on",
+  "nspec": 15,
+  "temperature": 0.6,
+  "forced_top_p": false,
+  "forced_min_tokens": false,
+  "forced_ignore_eos": false,
+  "depth": "warm1n3",
+  "debug_source": "results/golden-depth-grid-20260510-debug/mbt2048-dfon-fqon-th1024n66-ns15-arn66_v34-raw-ml132000-w1n3-t06-pathproof-pp32768",
+  "raw_json": "results/golden-depth-grid-20260510/pp32768/measured-pp32768-tg128-c1-n3.json",
+  "proof_log": "results/golden-depth-grid-20260510/pp32768/proof-pp32768.log",
+  "proof_counts": {
+    "DFlash AR prompt threshold request-nsteps v34": 1684,
+    "SpecDecoding metrics": 14,
+    "spec_counts=": 6,
+    "DFlash proposer full-cudagraph path active": 48,
+    "DFlash direct draft-query attention v2 path active": 27,
+    "DFlash longctx feature metadata gpu path active": 6,
+    "DFlash shifted suffix block-table path active": 5,
+    "block_table_shifted=True": 5,
+    "seq_lens_adjusted=True": 5,
+    "slot_mapping_preserved=True": 5,
+    "[flashqla-v2] active": 3,
+    "Using Triton/FLA GDN prefill kernel": 1,
+    "[flashqla-large-shape] optimized": 1,
+    "temperature=0.6": 0,
+    "top_p_present=False": 0,
+    "min_tokens_present=False": 0,
+    "ignore_eos_present=False": 0,
+    "Traceback": 0,
+    "EngineDeadError": 0
+  },
+  "prompt_size": 32768,
+  "response_size": 128,
+  "server_prompt_tokens": 32768,
+  "completion_token_counts": [
+    128,
+    128,
+    128
+  ],
+  "pp_throughput": {
+    "mean": 2593.559271447001,
+    "median": 2595.4394486285114,
+    "min": 2589.3089143625693,
+    "max": 2595.9294513499217,
+    "values": [
+      2595.4394486285114,
+      2589.3089143625693,
+      2595.9294513499217
+    ]
+  },
+  "tg_throughput": {
+    "mean": 13.088697642987798,
+    "median": 13.09086387031642,
+    "min": 13.081934407494002,
+    "max": 13.093294651152972,
+    "values": [
+      13.09086387031642,
+      13.081934407494002,
+      13.093294651152972
+    ]
+  }
+}
