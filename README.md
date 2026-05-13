@@ -18,6 +18,7 @@ prefill recipes target PP-heavy throughput instead.
 | [prefill-fusions/flashqla-megafusion-3300-spark](prefill-fusions/flashqla-megafusion-3300-spark) | Qwen3.5-27B | NVFP4 | FlashQLA fused-output alias+kpack2 | **3315.97 pp tok/s** at pp2048/tg32/c1, n=30 API | ✅ audit bundle |
 | [prefill-fusions/flashqla-megafusion-3500-spark1-report](prefill-fusions/flashqla-megafusion-3500-spark1-report) | Qwen3.5-27B | NVFP4 | FlashQLA fusion follow-up | no PASS; best valid remains **3315.97**, best 2026-05-10 attempt **3309.44** | ✅ report |
 | [qwen36-flashqla-dflash-longctx-spark](qwen36-flashqla-dflash-longctx-spark) | Qwen3.6-27B | NVFP4 | FlashQLA prefill + DFlash shifted-suffix decode | **24.44 TG tok/s @32K; 13.76 TG tok/s @128K + DFlash golden config** | ✅ recipe bundle |
+| [qwen36-aeon-combined-flashqla-dflash-spark](qwen36-aeon-combined-flashqla-dflash-spark) | Qwen3.6-27B | NVFP4 | Aeon combined FlashQLA prefill + DFlash/nspec15 decode | **N=30 fullctx grid: 4/5 TG wins; PP32768 regresses (17.87 vs 24.44)** | ✅ N=30 measured |
 | _(planned)_ qwen36-27b-ddtree-spark | Qwen3.6-27B | NVFP4 | DDTree | TBD vs 32.83 | 🔬 research |
 | _(planned)_ minimax-m27-llamacpp-spark | MiniMax-M2.7 (UD-IQ4_XS) | Q8_0-KV | ngram-* | TBD | 🔬 research |
 

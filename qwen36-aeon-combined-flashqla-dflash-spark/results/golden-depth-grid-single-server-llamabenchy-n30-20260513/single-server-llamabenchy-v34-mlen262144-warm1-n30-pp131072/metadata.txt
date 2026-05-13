@@ -1,0 +1,16 @@
+row=single-server-llamabenchy-v34-mlen262144-warm1-n30-pp131072
+host=spark-6
+start=2026-05-13T12:41:25-07:00
+pp=131072
+tg=128
+concurrency=1
+max_num_batched_tokens=2048
+max_model_len=262144
+dflash=on
+flashqla=on
+nspec=15
+sampling=temperature 0.6, llama-benchy defaults, no explicit top_p/min_tokens/ignore_eos overrides by this script
+serving=ONE normal long-lived shared server candidate-llamabenchy-single-server-allpp-v34-mlen262144-n2-n30 for all rows in order: 2048 16384 32768 65536 131072
+warmup=1 same-shape warmup excluded from measured JSON
+runs=30 measured
+client=uvx llama-benchy inside qwen36-fqla-baseline-dflash-spark:combined-20260507-threshold10 client container

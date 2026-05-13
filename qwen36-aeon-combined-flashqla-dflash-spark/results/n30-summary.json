@@ -1,0 +1,218 @@
+{
+  "artifact": "Qwen3.6 Aeon combined FlashQLA+DFlash long-context N=30 grid",
+  "status": "published_n30_corrected_truthful_4_of_5_tg_wins",
+  "rows": [
+    {
+      "pp": 2048,
+      "tg": 128,
+      "c": 1,
+      "mbt": 2048,
+      "max_model_len": 262144,
+      "runs": 30,
+      "raw_json": "results/golden-depth-grid-single-server-llamabenchy-n30-20260513/single-server-llamabenchy-v34-mlen262144-warm1-n30-pp2048/measured-pp2048-tg128-c1-n30.json",
+      "pp_throughput": {
+        "n": 30,
+        "mean": 2371.620505208661,
+        "median": 2338.6018721404753,
+        "min": 2139.8281512687813,
+        "max": 3091.240166365534,
+        "stdev": 179.34247903662236,
+        "cv_pct": 7.562022618827179
+      },
+      "tg_throughput": {
+        "n": 30,
+        "mean": 20.393344248702395,
+        "median": 20.06747799749584,
+        "min": 16.766315070993578,
+        "max": 27.36790802013806,
+        "stdev": 2.5943735197418203,
+        "cv_pct": 12.721667854485894
+      },
+      "ttfr_ms": {
+        "n": 30,
+        "mean": 869.5861730627561,
+        "median": 877.7680394996423,
+        "min": 664.1206169733778,
+        "max": 959.6242029801942,
+        "stdev": 53.82542994124577,
+        "cv_pct": 6.18977527571167
+      },
+      "baseline_tg_mean": 11.595354421166252,
+      "tg_speedup_ratio": 1.7587512643405037,
+      "tg_speedup_pct": 75.87512643405037,
+      "tg_speedup_pass": true
+    },
+    {
+      "pp": 16384,
+      "tg": 128,
+      "c": 1,
+      "mbt": 2048,
+      "max_model_len": 262144,
+      "runs": 30,
+      "raw_json": "results/golden-depth-grid-single-server-llamabenchy-n30-20260513/single-server-llamabenchy-v34-mlen262144-warm1-n30-pp16384/measured-pp16384-tg128-c1-n30.json",
+      "pp_throughput": {
+        "n": 30,
+        "mean": 2781.076337435535,
+        "median": 2781.9333206366173,
+        "min": 2722.035627232845,
+        "max": 2825.6857534876754,
+        "stdev": 23.213056912034805,
+        "cv_pct": 0.8346788831204774
+      },
+      "tg_throughput": {
+        "n": 30,
+        "mean": 18.974975488429084,
+        "median": 18.487596032923378,
+        "min": 15.841959603128517,
+        "max": 23.77761236373851,
+        "stdev": 2.254686550426894,
+        "cv_pct": 11.882421412358603
+      },
+      "ttfr_ms": {
+        "n": 30,
+        "mean": 5893.786317804673,
+        "median": 5891.247991006821,
+        "min": 5800.057021959219,
+        "max": 6021.210687002167,
+        "stdev": 49.573404677654594,
+        "cv_pct": 0.8411130299701768
+      },
+      "baseline_tg_mean": 11.082975193390853,
+      "tg_speedup_ratio": 1.712083186809305,
+      "tg_speedup_pct": 71.20831868093049,
+      "tg_speedup_pass": true
+    },
+    {
+      "pp": 32768,
+      "tg": 128,
+      "c": 1,
+      "mbt": 2048,
+      "max_model_len": 262144,
+      "runs": 30,
+      "raw_json": "results/golden-depth-grid-single-server-llamabenchy-n30-20260513/single-server-llamabenchy-v34-mlen262144-warm1-n30-pp32768/measured-pp32768-tg128-c1-n30.json",
+      "pp_throughput": {
+        "n": 30,
+        "mean": 2521.2863491432095,
+        "median": 2524.2420685625407,
+        "min": 2505.295722820963,
+        "max": 2547.2744506102085,
+        "stdev": 9.96239324392661,
+        "cv_pct": 0.39513136805393234
+      },
+      "tg_throughput": {
+        "n": 30,
+        "mean": 17.867467336722413,
+        "median": 17.638837376882012,
+        "min": 13.690614265311433,
+        "max": 23.314961723096555,
+        "stdev": 2.159444213818024,
+        "cv_pct": 12.085899882294957
+      },
+      "ttfr_ms": {
+        "n": 30,
+        "mean": 12998.864833098682,
+        "median": 12983.437335002236,
+        "min": 12865.663953998592,
+        "max": 13082.010497979354,
+        "stdev": 51.36978498165374,
+        "cv_pct": 0.39518670007901113
+      },
+      "baseline_tg_mean": 24.441134415430362,
+      "tg_speedup_ratio": 0.7310408360359161,
+      "tg_speedup_pct": -26.895916396408392,
+      "tg_speedup_pass": false
+    },
+    {
+      "pp": 65536,
+      "tg": 128,
+      "c": 1,
+      "mbt": 2048,
+      "max_model_len": 262144,
+      "runs": 30,
+      "raw_json": "results/golden-depth-grid-single-server-llamabenchy-n30-20260513/single-server-llamabenchy-v34-mlen262144-warm1-n30-pp65536/measured-pp65536-tg128-c1-n30.json",
+      "pp_throughput": {
+        "n": 30,
+        "mean": 2086.808406603802,
+        "median": 2087.6436161381057,
+        "min": 2069.938902317624,
+        "max": 2096.057026026781,
+        "stdev": 6.07075660782963,
+        "cv_pct": 0.2909110672843007
+      },
+      "tg_throughput": {
+        "n": 30,
+        "mean": 17.096573504226196,
+        "median": 16.68336804713229,
+        "min": 12.771876101947699,
+        "max": 34.63057081107547,
+        "stdev": 3.7129387284790543,
+        "cv_pct": 21.717443717954552
+      },
+      "ttfr_ms": {
+        "n": 30,
+        "mean": 31407.76800493283,
+        "median": 31395.153071469394,
+        "min": 31268.428165989462,
+        "max": 31663.907347014174,
+        "stdev": 91.7703201231931,
+        "cv_pct": 0.2921898815247867
+      },
+      "baseline_tg_mean": 9.664465567931334,
+      "tg_speedup_ratio": 1.7690138563849935,
+      "tg_speedup_pct": 76.90138563849935,
+      "tg_speedup_pass": true
+    },
+    {
+      "pp": 131072,
+      "tg": 128,
+      "c": 1,
+      "mbt": 2048,
+      "max_model_len": 262144,
+      "runs": 30,
+      "raw_json": "results/golden-depth-grid-single-server-llamabenchy-n30-20260513/single-server-llamabenchy-v34-mlen262144-warm1-n30-pp131072/measured-pp131072-tg128-c1-n30.json",
+      "pp_throughput": {
+        "n": 30,
+        "mean": 1543.341835143296,
+        "median": 1543.332916945647,
+        "min": 1539.005985091782,
+        "max": 1547.6042721616575,
+        "stdev": 2.457857167885127,
+        "cv_pct": 0.1592555266705979
+      },
+      "tg_throughput": {
+        "n": 30,
+        "mean": 12.618906317828257,
+        "median": 12.5413126435622,
+        "min": 10.052595143745902,
+        "max": 15.768957460808588,
+        "stdev": 1.5691930885542824,
+        "cv_pct": 12.435254284575306
+      },
+      "ttfr_ms": {
+        "n": 30,
+        "mean": 84930.23762080702,
+        "median": 84930.67142751534,
+        "min": 84696.59229600802,
+        "max": 85170.42412003502,
+        "stdev": 135.4351522696249,
+        "cv_pct": 0.15946635269562076
+      },
+      "baseline_tg_mean": 8.232280473473045,
+      "tg_speedup_ratio": 1.5328567045899708,
+      "tg_speedup_pct": 53.28567045899708,
+      "tg_speedup_pass": true
+    }
+  ],
+  "proof": {
+    "server_log": "results/golden-depth-grid-single-server-llamabenchy-n30-20260513/server-candidate-llamabenchy-single-server-allpp-v34-mlen262144-n2-warm1-n30/server-proof-excerpt.log",
+    "server_startup_count": 1,
+    "max_seq_len_262144": true,
+    "gpu_kv_cache_tokens": 288576,
+    "max_concurrency_line": "Maximum concurrency for 262,144 tokens per request: 2.99x\n(E",
+    "dflash_marker": true,
+    "flashqla_marker": true,
+    "traceback_count": 0,
+    "engine_dead_count": 0,
+    "full_server_log_note": "Full raw server-final.log was omitted from git to avoid bulky raw terminal whitespace; proof excerpt contains startup/config/marker lines."
+  }
+}

@@ -1,0 +1,79 @@
+diff --git a/vllm-prefill-flashqla-hkv-spark/patches/flashqla_hkv_o.py b/vllm-prefill-flashqla-hkv-spark/patches/flashqla_hkv_o.py
+index 1e919c3..b6702af 100644
+--- a/vllm-prefill-flashqla-hkv-spark/patches/flashqla_hkv_o.py
++++ b/vllm-prefill-flashqla-hkv-spark/patches/flashqla_hkv_o.py
+@@ -1,4 +1,4 @@
+-
++import os
+ import torch
+ from vllm.triton_utils import tl, triton
+ from vllm.model_executor.layers.fla.ops.index import prepare_chunk_indices
+@@ -69,9 +69,13 @@ def chunk_fwd_o_hkv(q, k, v, h, g=None, scale=None, cu_seqlens=None, chunk_indic
+     NT = triton.cdiv(T, chunk_size) if cu_seqlens is None else len(chunk_indices)
+     if scale is None:
+         scale = K ** -0.5
++    bk = int(os.environ.get("FLASHQLA_HKV_O_BK", "64"))
++    bv = int(os.environ.get("FLASHQLA_HKV_O_BV", "64"))
++    warps = int(os.environ.get("FLASHQLA_HKV_O_WARPS", "4"))
++    stages = int(os.environ.get("FLASHQLA_HKV_O_STAGES", "3"))
+     o = torch.empty_like(v)
+-    grid = (triton.cdiv(V, 64), NT, B * H)
++    grid = (triton.cdiv(V, bv), NT, B * H)
+     _chunk_fwd_kernel_o_hkv[grid](q, k, v, h, g, o, cu_seqlens, chunk_indices, scale,
+-                                  T=T, H=H, Hg=Hg, K=K, V=V, BT=chunk_size, BK=64, BV=64,
+-                                  num_warps=4, num_stages=3)
++                                  T=T, H=H, Hg=Hg, K=K, V=V, BT=chunk_size, BK=bk, BV=bv,
++                                  num_warps=warps, num_stages=stages)
+     return o
+diff --git a/vllm-prefill-flashqla-hkv-spark/patches/sitecustomize.py b/vllm-prefill-flashqla-hkv-spark/patches/sitecustomize.py
+index b487159..28a41d5 100644
+--- a/vllm-prefill-flashqla-hkv-spark/patches/sitecustomize.py
++++ b/vllm-prefill-flashqla-hkv-spark/patches/sitecustomize.py
+@@ -87,7 +87,7 @@ else:
+                 if scale is None:
+                     scale = q.shape[-1] ** -0.5
+                 _flashqla_fwd, _vllm_chunk_fwd_o = _ensure_lazy()
+-                if _calls[0] in (1,2,10,20):
++                if os.environ.get("FLASHQLA_VERBOSE_META", "0") == "1" and _calls[0] in (1,2,10,20):
+                     sys.stderr.write(f"[flashqla-patch] hybrid call #{_calls[0]} output_final_state={output_final_state} scale={scale}\n")
+                     for name,x in [("q",q),("k",k),("v",v),("g",g),("beta",beta),("initial_state",initial_state),("cu_seqlens",cu_seqlens)]:
+                         sys.stderr.write("[flashqla-meta] "+_meta(name,x)+"\n")
+@@ -98,7 +98,7 @@ else:
+                     cu_seqlens=cu_seqlens,output_final_state=output_final_state,output_h=True,auto_cp=False)
+                 out = _vllm_chunk_fwd_o(q,k,v_new,h_fq,g_cum,scale,cu_seqlens=cu_seqlens,chunk_indices=chunk_indices)
+                 final_state = final_state_fq.transpose(-1,-2).contiguous() if final_state_fq is not None else None
+-                if _calls[0] in (1,2,10,20):
++                if os.environ.get("FLASHQLA_VERBOSE_META", "0") == "1" and _calls[0] in (1,2,10,20):
+                     for name,x in [("v_new",v_new),("h_fq",h_fq),("out",out),("final_state",final_state)]:
+                         sys.stderr.write("[flashqla-meta] "+_meta(name,x)+"\n")
+                     sys.stderr.flush()
+@@ -108,7 +108,7 @@ else:
+                 _ops.chunk_gated_delta_rule = _patched
+             if _gdn is not None:
+                 _gdn.fla_chunk_gated_delta_rule = _patched
+-            sys.stderr.write("[flashqla-patch] active: HKV-output FlashQLA packed-single prefill with first-large-shape logging and short-decode fallback; original FLA fallback for unsupported paths\n"); sys.stderr.flush()
++            sys.stderr.write("[flashqla-v2] active: HKV-output FlashQLA packed-single prefill with tunable HKV output kernel and short-decode fallback; original FLA fallback for unsupported paths\n"); sys.stderr.flush()
+         else:
+             sys.stderr.write(f"[flashqla-patch] cap={cap}; not patching\n"); sys.stderr.flush()
+     except Exception as e:
+diff --git a/vllm-prefill-flashqla-hkv-spark/scripts/launch_server.sh b/vllm-prefill-flashqla-hkv-spark/scripts/launch_server.sh
+index 23e9e6c..987a9c4 100755
+--- a/vllm-prefill-flashqla-hkv-spark/scripts/launch_server.sh
++++ b/vllm-prefill-flashqla-hkv-spark/scripts/launch_server.sh
+@@ -12,6 +12,8 @@ export VLLM_NVFP4_GEMM_BACKEND="${VLLM_NVFP4_GEMM_BACKEND:-cutlass}"
+ export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
+ export FLASHINFER_CUDA_ARCH_LIST="${FLASHINFER_CUDA_ARCH_LIST:-12.1a}"
+ export TORCH_CUDA_ARCH_LIST="${TORCH_CUDA_ARCH_LIST:-12.1a}"
++export FLASHQLA_HKV_O_BK="${FLASHQLA_HKV_O_BK:-128}"
++export FLASHQLA_HKV_O_BV="${FLASHQLA_HKV_O_BV:-128}"
+
+ exec vllm serve "$MODEL_DIR" \
+   --host "$HOST" \
+@@ -23,7 +25,6 @@ exec vllm serve "$MODEL_DIR" \
+   --load-format fastsafetensors \
+   --attention-backend FLASH_ATTN \
+   --gpu-memory-utilization 0.90 \
+-  --enable-prefix-caching \
+   --max-num-batched-tokens 8192 \
+   --max-num-seqs 1 \
+   --enable-chunked-prefill
