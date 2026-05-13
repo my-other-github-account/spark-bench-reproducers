@@ -1,6 +1,6 @@
 {
   "artifact": "replacement golden-depth-grid 20260510 corrected TG-speedup set",
-  "status": "valid_pending_public_readback",
+  "status": "valid_public_readback",
   "correction": "Supersedes 147b7b2 packaging-only set; final validity requires TG speedup vs baseline/proven path, not just public readback.",
   "rows": [
     {
