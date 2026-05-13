@@ -1,0 +1,11 @@
+INFO 05-13 18:50:35 [nixl_utils.py:20] Setting UCX_RCACHE_MAX_UNRELEASED to '1024' to avoid a rare memory leak in UCX when using NIXL.
+WARNING 05-13 18:50:35 [nixl_utils.py:34] NIXL is not available
+WARNING 05-13 18:50:35 [nixl_utils.py:44] NIXL agent config is not available
+[flashqla-v2] active: HKV-output FlashQLA packed-single prefill with tunable HKV output kernel and short-decode fallback; original FLA fallback for unsupported paths
+flash_qla present True origin /opt/flashqla/flash_qla/__init__.py
+fla present True origin /usr/local/lib/python3.12/dist-packages/fla/__init__.py
+/usr/lib/python3.12/sitecustomize.py exists True
+/usr/local/lib/python3.12/dist-packages/__editable__.flash_qla-0.1.0+827fdd8.pth exists True
+/usr/local/lib/python3.12/dist-packages/__editable___flash_qla_0_1_0_827fdd8_finder.py exists True
+/usr/local/lib/python3.12/dist-packages/fla exists True
+/usr/local/lib/python3.12/dist-packages/flash_linear_attention-0.5.0.dist-info exists True

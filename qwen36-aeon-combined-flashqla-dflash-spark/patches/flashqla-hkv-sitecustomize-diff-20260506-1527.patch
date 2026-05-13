@@ -1,0 +1,36 @@
+diff --git a/flashqla-clean-build/sitecustomize.py b/flashqla-hkv-build/sitecustomize.py
+index b7dc699..666a11a 100644
+--- a/flashqla-clean-build/sitecustomize.py
++++ b/flashqla-hkv-build/sitecustomize.py
+@@ -26,7 +26,7 @@ else:
+             def _ensure_lazy():
+                 if _lazy["fq"] is None:
+                     from flash_qla.ops.gated_delta_rule.chunk import chunk_gated_delta_rule_fwd as _flashqla_fwd
+-                    from vllm.model_executor.layers.fla.ops.chunk_o import chunk_fwd_o as _vllm_chunk_fwd_o
++                    from flashqla_hkv_o import chunk_fwd_o_hkv as _vllm_chunk_fwd_o
+                     _lazy["fq"]=_flashqla_fwd; _lazy["o"]=_vllm_chunk_fwd_o
+                 return _lazy["fq"], _lazy["o"]
+             def _meta(name,x):
+@@ -93,11 +93,10 @@ else:
+                 g_cum, A, v_new, h_fq, final_state_fq = _flashqla_fwd(
+                     q=q,k=k,v=v,g=g,beta=beta,scale=scale,initial_state=fq_initial_state,
+                     cu_seqlens=cu_seqlens,output_final_state=output_final_state,output_h=True,auto_cp=False)
+-                h_ref = h_fq.transpose(-1,-2).contiguous()
+-                out = _vllm_chunk_fwd_o(q,k,v_new,h_ref,g_cum,scale,cu_seqlens=cu_seqlens,chunk_indices=chunk_indices)
++                out = _vllm_chunk_fwd_o(q,k,v_new,h_fq,g_cum,scale,cu_seqlens=cu_seqlens,chunk_indices=chunk_indices)
+                 final_state = final_state_fq.transpose(-1,-2).contiguous() if final_state_fq is not None else None
+                 if _calls[0] in (1,2,10,20):
+-                    for name,x in [("v_new",v_new),("h_ref",h_ref),("out",out),("final_state",final_state)]:
++                    for name,x in [("v_new",v_new),("h_fq",h_fq),("out",out),("final_state",final_state)]:
+                         sys.stderr.write("[flashqla-meta] "+_meta(name,x)+"\n")
+                     sys.stderr.flush()
+                 return out, final_state
+@@ -106,7 +105,7 @@ else:
+                 _ops.chunk_gated_delta_rule = _patched
+             if _gdn is not None:
+                 _gdn.fla_chunk_gated_delta_rule = _patched
+-            sys.stderr.write("[flashqla-patch] active: lazy hybrid FlashQLA packed-single prefill with short-decode fallback; original FLA fallback for unsupported paths\n"); sys.stderr.flush()
++            sys.stderr.write("[flashqla-patch] active: HKV-output FlashQLA packed-single prefill with short-decode fallback; original FLA fallback for unsupported paths\n"); sys.stderr.flush()
+         else:
+             sys.stderr.write(f"[flashqla-patch] cap={cap}; not patching\n"); sys.stderr.flush()
+     except Exception as e:

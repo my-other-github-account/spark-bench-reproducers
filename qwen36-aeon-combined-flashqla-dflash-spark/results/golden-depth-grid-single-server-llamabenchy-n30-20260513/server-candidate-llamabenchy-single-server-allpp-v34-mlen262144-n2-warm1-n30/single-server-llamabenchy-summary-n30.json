@@ -1,0 +1,112 @@
+[
+  {
+    "exists": true,
+    "exit_code": "0",
+    "path": "results/golden-depth-grid-single-server-llamabenchy-n30-20260513/single-server-llamabenchy-v34-mlen262144-warm1-n30-pp2048/measured-pp2048-tg128-c1-n30.json",
+    "pp": 2048,
+    "pp_mean_candidate": 0.0,
+    "pp_values_candidates": [
+      0.0
+    ],
+    "raw_keys": [
+      "version",
+      "timestamp",
+      "latency_mode",
+      "latency_ms",
+      "model",
+      "prefix_caching_enabled",
+      "max_concurrency",
+      "benchmarks"
+    ],
+    "raw_type": "dict",
+    "tg_values_candidates": []
+  },
+  {
+    "exists": true,
+    "exit_code": "0",
+    "path": "results/golden-depth-grid-single-server-llamabenchy-n30-20260513/single-server-llamabenchy-v34-mlen262144-warm1-n30-pp16384/measured-pp16384-tg128-c1-n30.json",
+    "pp": 16384,
+    "pp_mean_candidate": 0.0,
+    "pp_values_candidates": [
+      0.0
+    ],
+    "raw_keys": [
+      "version",
+      "timestamp",
+      "latency_mode",
+      "latency_ms",
+      "model",
+      "prefix_caching_enabled",
+      "max_concurrency",
+      "benchmarks"
+    ],
+    "raw_type": "dict",
+    "tg_values_candidates": []
+  },
+  {
+    "exists": true,
+    "exit_code": "0",
+    "path": "results/golden-depth-grid-single-server-llamabenchy-n30-20260513/single-server-llamabenchy-v34-mlen262144-warm1-n30-pp32768/measured-pp32768-tg128-c1-n30.json",
+    "pp": 32768,
+    "pp_mean_candidate": 0.0,
+    "pp_values_candidates": [
+      0.0
+    ],
+    "raw_keys": [
+      "version",
+      "timestamp",
+      "latency_mode",
+      "latency_ms",
+      "model",
+      "prefix_caching_enabled",
+      "max_concurrency",
+      "benchmarks"
+    ],
+    "raw_type": "dict",
+    "tg_values_candidates": []
+  },
+  {
+    "exists": true,
+    "exit_code": "0",
+    "path": "results/golden-depth-grid-single-server-llamabenchy-n30-20260513/single-server-llamabenchy-v34-mlen262144-warm1-n30-pp65536/measured-pp65536-tg128-c1-n30.json",
+    "pp": 65536,
+    "pp_mean_candidate": 0.0,
+    "pp_values_candidates": [
+      0.0
+    ],
+    "raw_keys": [
+      "version",
+      "timestamp",
+      "latency_mode",
+      "latency_ms",
+      "model",
+      "prefix_caching_enabled",
+      "max_concurrency",
+      "benchmarks"
+    ],
+    "raw_type": "dict",
+    "tg_values_candidates": []
+  },
+  {
+    "exists": true,
+    "exit_code": "0",
+    "path": "results/golden-depth-grid-single-server-llamabenchy-n30-20260513/single-server-llamabenchy-v34-mlen262144-warm1-n30-pp131072/measured-pp131072-tg128-c1-n30.json",
+    "pp": 131072,
+    "pp_mean_candidate": 0.0,
+    "pp_values_candidates": [
+      0.0
+    ],
+    "raw_keys": [
+      "version",
+      "timestamp",
+      "latency_mode",
+      "latency_ms",
+      "model",
+      "prefix_caching_enabled",
+      "max_concurrency",
+      "benchmarks"
+    ],
+    "raw_type": "dict",
+    "tg_values_candidates": []
+  }
+]

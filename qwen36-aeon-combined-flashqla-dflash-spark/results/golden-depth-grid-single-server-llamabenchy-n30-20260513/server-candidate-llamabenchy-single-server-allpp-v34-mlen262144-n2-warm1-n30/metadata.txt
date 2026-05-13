@@ -1,0 +1,5 @@
+row=server-candidate-llamabenchy-single-server-allpp-v34-mlen262144-n2-warm1-n30
+host=spark-6
+start=2026-05-13T11:50:23-07:00
+method=STRICT USER REQUEST rerun: one single long-lived vLLM server launch and one fixed config for all PP rows 2048,16384,32768,65536,131072; max-model-len=262144 for every row; llama-benchy client only; PP/TG=128/C1/MBT2048/nspec15/temp0.6/vLLM-default sampling; one explicit same-shape warmup per row excluded; N=30 measured per row; no server restart/reconfig between rows. Patches VLLM_DFLASH_AR_PROMPT_THRESHOLD=1024 to disable aux capture/sampler trim/proposal for first two request-local iterations, then re-enable DFlash/nspec15.
+image=qwen36-fqla-baseline-dflash-spark:combined-20260507-threshold10
