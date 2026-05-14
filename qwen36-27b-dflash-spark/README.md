@@ -153,6 +153,23 @@ fluctuates with prompt content. The bench uses `--runs 30` to get a stable
 median. Don't trust shorter runs: `n=5` produces individual-run draws ranging
 across a wide band for the same configuration.
 
+
+## Lucebox DFlash/DDTree fixed-serving N=30 grid (2026-05-14)
+
+A Lucebox GGUF/DFlash-DDTree OpenAI-wrapper rerun is archived under
+[`results/lucebox-ddtree-fixed-serving-n30-20260514`](results/lucebox-ddtree-fixed-serving-n30-20260514).
+
+This rerun fixes the server side, not `llama-benchy`: every streamed content chunk now carries exact `choices[0].token_ids`, preventing the standard `llama-benchy` fallback that over-counted BPE tokens by tokenizing arbitrary SSE deltas.
+
+Warm-pass N=29 medians from standard unpatched `llama-benchy --pp 128 --tg 128 --depth 0 --concurrency 1 --runs 30`:
+
+- Sherlock / think ON: **55.173 tok/s**
+- Sherlock / think OFF: **25.109 tok/s**
+- Codegen / think ON: **46.587 tok/s**
+- Codegen / think OFF: **32.021 tok/s**
+
+All four rows passed the fixed-serving gates: 30 TG samples, `response_size=128`, `concurrency=1`, no `No token_ids...` fallback line, and direct stream smoke `noids=0`.
+
 ## What this repo does NOT include (intentionally minimal)
 
 - No bundled wheels — the spark-arena base image already ships the right
