@@ -1,0 +1,1985 @@
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+/home/user/work/dflash-lucebox-gb10-spark3/llama-benchy-fixed-serving-grid-20260514_164136/server_dflash-codegen-thinkON.py:737: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+INFO:     Started server process [1139447]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8182 (Press CTRL+C to quit)
+ggml_cuda_init: found 1 CUDA devices (Total VRAM: 122543 MiB):
+  Device 0: NVIDIA GB10, compute capability 12.1, VMM: yes, VRAM: 122543 MiB
+Luce DFlash OpenAI server on http://127.0.0.1:8182
+  arch      = unknown
+  target    = /home/user/work/dflash-lucebox-gb10-spark3/lucebox-hub/dflash/models/Qwen3.6-27B-Q4_K_M.gguf
+  draft     = /home/user/work/dflash-lucebox-gb10-spark3/lucebox-hub/dflash/models/draft/model.safetensors
+  bin       = /home/user/work/dflash-lucebox-gb10-spark3/lucebox-hub/dflash/build/test_dflash
+  budget    = 18
+  ddtree_temp = 1.05
+  max_ctx   = 1024
+  tokenizer = Qwen/Qwen3.6-27B
+  verbose_daemon = ON
+  pflash    = off
+INFO:     127.0.0.1:59924 - "GET /v1/models HTTP/1.1" 200 OK
+16:44:39 INFO dflash.server: chat chatcmpl-1bf1757eb5884b9ebe5ad627  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=19  max_tokens=16  max_completion_tokens=None  effective_max_tokens=16  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42108 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [cfg] seq_verify=0 fast_rollback=1 ddtree=1 budget=18 temp=1.05 chain_seed=0 fa_window=2048 draft_swa=0 draft_ctx_max=4096 draft_feature_mirror=0 peer_access=0 target_gpu=0 draft_gpu=0
+  [daemon] [loader] eos_id=248046 eos_chat_id=-1
+  [daemon] [target] target loaded: layers [0,64) output=1, 850 tensors on GPU 14.99 GiB, tok_embd 682 MiB CPU-only (q4_K)
+  [daemon] [draft]  loaded
+  [daemon] [daemon] ready
+  [daemon] [prompt] 19 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 19 tokens in 0.29 s, last_tok=8160
+  [daemon] [migrate] 87.73 ms
+16:44:45 INFO dflash.server: chat DONE chatcmpl-1bf1757eb5884b9ebe5ad627  in=19 out=16  5.9s  2.7 tok/s  finish=stop  compress=0.0s  prefill=5.9s  decode=0.0s(1975.7tok/s)
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=19 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [timing] per-step averages over 1 steps (ms):
+  [daemon]   draft_build    0.84
+  [daemon]   draft_copyfeat 0.96
+  [daemon]   draft_set      0.03
+  [daemon]   draft_compute  203.95
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   3.14
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   3.98
+  [daemon]   verify_set     3.03
+  [daemon]   verify_compute 121.80
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.04
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     337.77
+  [daemon] [dflash] generated 16 tokens in 0.338 s  ->  47.33 tok/s
+  [daemon] [dflash] 1 draft steps, accepted=16/16 (100.0% per step), avg commit/step=16.00
+  [daemon] [dflash] output tail: 74455 198 248068 198 8160 579 264 7047 1817 25 271 16 13 220 2972 2014 53983 2570 5396 64700
+16:44:49 INFO dflash.server: chat chatcmpl-bd84d9472b394a1b8e29288a  stream=False  msgs=1 {'user': 1}  tools=0  prompt_tokens=30  max_tokens=1  max_completion_tokens=None  effective_max_tokens=1  max_ctx=1024  model=luce-dflash
+16:44:49 INFO dflash.server: chat DONE chatcmpl-bd84d9472b394a1b8e29288a  in=30 out=1  0.4s  2.8 tok/s  finish=stop  compress=0.0s  prefill=0.4s
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [prompt] 30 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 30 tokens in 0.15 s, last_tok=8160
+  [daemon] [migrate] 1.49 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=30 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [timing] per-step averages over 1 steps (ms):
+  [daemon]   draft_build    0.20
+  [daemon]   draft_copyfeat 0.06
+  [daemon]   draft_set      0.03
+  [daemon]   draft_compute  23.09
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.76
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   3.76
+  [daemon]   verify_set     0.10
+16:44:49 INFO dflash.server: chat chatcmpl-e41605cc1c3d40bcb6f95db2  stream=False  msgs=2 {'system': 1, 'user': 1}  tools=0  prompt_tokens=35  max_tokens=1  max_completion_tokens=None  effective_max_tokens=1  max_ctx=1024  model=luce-dflash
+  [daemon]   verify_compute 121.75
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.04
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     151.80
+  [daemon] [dflash] generated 1 tokens in 0.152 s  ->  6.58 tok/s
+  [daemon] [dflash] 1 draft steps, accepted=1/16 (6.2% per step), avg commit/step=1.00
+  [daemon] [dflash] output tail: 44239 446 44239 446 44239 446 44239 446 44239 446 44239 446 248046 198 248045 74455 198 248068 198 8160
+16:44:49 INFO dflash.server: chat DONE chatcmpl-e41605cc1c3d40bcb6f95db2  in=35 out=1  0.4s  2.8 tok/s  finish=stop  compress=0.0s  prefill=0.4s
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [prompt] 35 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 35 tokens in 0.15 s, last_tok=8160
+  [daemon] [migrate] 1.67 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=35 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [timing] per-step averages over 1 steps (ms):
+  [daemon]   draft_build    0.19
+  [daemon]   draft_copyfeat 0.06
+  [daemon]   draft_set      0.04
+  [daemon]   draft_compute  24.10
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.55
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   3.89
+16:44:49 INFO dflash.server: chat chatcmpl-81f67aa277c54ff9ae0c942f  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon]   verify_set     0.10
+  [daemon]   verify_compute 122.06
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.04
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     153.03
+  [daemon] [dflash] generated 1 tokens in 0.153 s  ->  6.52 tok/s
+  [daemon] [dflash] 1 draft steps, accepted=1/16 (6.2% per step), avg commit/step=1.00
+  [daemon] [dflash] output tail: 446 44239 446 44239 446 44239 446 248046 198 248045 846 198 248046 198 248045 74455 198 248068 198 8160
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+16:44:53 INFO dflash.server: chat DONE chatcmpl-81f67aa277c54ff9ae0c942f  in=138 out=128  3.6s  35.3 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=3.1s(41.6tok/s)
+  [daemon] [migrate] 5.06 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=9 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=9 next=12654
+16:44:53 INFO dflash.server: chat chatcmpl-e93b76a5e1c04b07ae3568d8  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 2] committed=163 last_tok=12654 tree_N=19 accept=3 next=4222
+  [daemon] [step 3] committed=166 last_tok=4222 tree_N=19 accept=3 next=5484
+  [daemon] [step 4] committed=169 last_tok=5484 tree_N=19 accept=2 next=17458
+  [daemon] [step 5] committed=171 last_tok=17458 tree_N=19 accept=4 next=91020
+  [daemon] [step 6] committed=175 last_tok=91020 tree_N=19 accept=4 next=44
+  [daemon] [step 7] committed=179 last_tok=44 tree_N=19 accept=4 next=2574
+  [daemon] [step 8] committed=183 last_tok=2574 tree_N=19 accept=4 next=7561
+  [daemon] [step 9] committed=187 last_tok=7561 tree_N=19 accept=3 next=2291
+  [daemon] [step 10] committed=190 last_tok=2291 tree_N=19 accept=6 next=11198
+  [daemon] [step 11] committed=196 last_tok=11198 tree_N=19 accept=8 next=471
+  [daemon] [step 12] committed=204 last_tok=471 tree_N=19 accept=3 next=10029
+  [daemon] [step 13] committed=207 last_tok=10029 tree_N=19 accept=4 next=22956
+  [daemon] [dbg sib step 14] N=19 accept=6 walked_sib=1
+  [daemon]   walk: 0 1 2 5 10 18
+  [daemon]   sibling info: [16:d2:p3:25] [17:d2:p4:25] [18:d5:p10:21]
+  [daemon] [step 14] committed=211 last_tok=22956 tree_N=19 accept=6 next=20
+  [daemon] [step 15] committed=217 last_tok=20 tree_N=19 accept=15 next=22
+  [daemon] [step 16] committed=232 last_tok=22 tree_N=19 accept=12 next=24
+  [daemon] [step 17] committed=244 last_tok=24 tree_N=19 accept=7 next=579
+  [daemon] [step 18] committed=251 last_tok=579 tree_N=19 accept=8 next=579
+  [daemon] [step 19] committed=259 last_tok=579 tree_N=19 accept=4 next=264
+  [daemon] [step 20] committed=263 last_tok=264 tree_N=19 accept=12 next=64700
+  [daemon] [timing] per-step averages over 21 steps (ms):
+  [daemon]   draft_build    3.74
+  [daemon]   draft_copyfeat 0.06
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.58
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.38
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.26
+  [daemon]   verify_set     0.10
+  [daemon]   verify_compute 120.63
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.03
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     151.91
+  [daemon] [dflash] generated 128 tokens in 3.205 s  ->  39.94 tok/s
+  [daemon] [dflash] 21 draft steps, accepted=128/336 (38.1% per step), avg commit/step=6.10
+  [daemon] [dflash] output tail: 63 198 256 471 2532 579 874 11135 3296 466 9640 13 1049 579 1066 1970 478 264 22956 13
+  [daemon] [prompt] 138 tokens
+16:44:56 INFO dflash.server: chat DONE chatcmpl-e93b76a5e1c04b07ae3568d8  in=138 out=128  3.6s  35.7 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=3.0s(42.0tok/s)
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.06 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=9 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 8 13
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=9 next=12654
+  [daemon] [step 2] committed=163 last_tok=12654 tree_N=19 accept=3 next=11352
+  [daemon] [step 3] committed=166 last_tok=11352 tree_N=19 accept=2 next=4479
+  [daemon] [step 4] committed=168 last_tok=4479 tree_N=19 accept=2 next=460
+  [daemon] [step 5] committed=170 last_tok=460 tree_N=19 accept=3 next=279
+16:44:57 INFO dflash.server: chat chatcmpl-54e150281553408bad3b9b61  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [dbg sib step 6] N=19 accept=7 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 7 18
+  [daemon]   sibling info: [16:d2:p1:919] [17:d4:p10:709] [18:d6:p7:13]
+  [daemon] [step 6] committed=173 last_tok=279 tree_N=19 accept=7 next=198
+  [daemon] [step 7] committed=180 last_tok=198 tree_N=19 accept=5 next=369
+  [daemon] [step 8] committed=185 last_tok=369 tree_N=19 accept=2 next=13
+  [daemon] [step 9] committed=187 last_tok=13 tree_N=19 accept=3 next=57728
+  [daemon] [step 10] committed=190 last_tok=57728 tree_N=19 accept=3 next=1891
+  [daemon] [dbg sib step 11] N=19 accept=10 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 16
+  [daemon]   sibling info: [16:d9:p8:220] [17:d14:p13:22] [18:d11:p14:17]
+  [daemon] [step 11] committed=193 last_tok=1891 tree_N=19 accept=10 next=17
+  [daemon] [step 12] committed=203 last_tok=17 tree_N=19 accept=2 next=20
+  [daemon] [step 13] committed=205 last_tok=20 tree_N=19 accept=6 next=1402
+  [daemon] [step 14] committed=211 last_tok=1402 tree_N=19 accept=16 next=18
+  [daemon] [dbg sib step 15] N=19 accept=11 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 11 15 17
+  [daemon]   sibling info: [16:d11:p10:471] [17:d10:p15:256] [18:d11:p10:1040]
+  [daemon] [step 15] committed=227 last_tok=18 tree_N=19 accept=11 next=471
+  [daemon] [step 16] committed=238 last_tok=471 tree_N=19 accept=3 next=12317
+  [daemon] [step 17] committed=241 last_tok=12317 tree_N=19 accept=4 next=20
+  [daemon] [step 18] committed=245 last_tok=20 tree_N=19 accept=9 next=21
+  [daemon] [step 19] committed=254 last_tok=21 tree_N=19 accept=10 next=5478
+  [daemon] [step 20] committed=264 last_tok=5478 tree_N=19 accept=13 next=506
+  [daemon] [timing] per-step averages over 21 steps (ms):
+  [daemon]   draft_build    0.38
+  [daemon]   draft_copyfeat 1.90
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.42
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.41
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.14
+  [daemon]   verify_set     0.10
+  [daemon]   verify_compute 120.97
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.02
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     150.49
+  [daemon] [dflash] generated 128 tokens in 3.173 s  ->  40.33 tok/s
+  [daemon] [dflash] 21 draft steps, accepted=128/336 (38.1% per step), avg commit/step=6.10
+  [daemon] [dflash] output tail: 20 18 22 19 18 21 1402 65 21 68 12 19 68 20 18 7174 15 8670 5478 20
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  [daemon] [prompt] 138 tokens
+16:45:00 INFO dflash.server: chat DONE chatcmpl-54e150281553408bad3b9b61  in=138 out=128  3.2s  40.6 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=2.6s(49.3tok/s)
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 4.81 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=8 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 9
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=8 next=314
+  [daemon] [step 2] committed=162 last_tok=314 tree_N=19 accept=3 next=25
+  [daemon] [dbg sib step 3] N=19 accept=3 walked_sib=1
+16:45:00 INFO dflash.server: chat chatcmpl-5fc9d2271c194433b310849b  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon]   walk: 0 2 17
+  [daemon]   sibling info: [16:d2:p1:1654] [17:d2:p2:23] [18:d2:p7:727]
+  [daemon] [step 3] committed=165 last_tok=25 tree_N=19 accept=3 next=93720
+  [daemon] [step 4] committed=168 last_tok=93720 tree_N=19 accept=12 next=682
+  [daemon] [step 5] committed=180 last_tok=682 tree_N=19 accept=5 next=279
+  [daemon] [step 6] committed=185 last_tok=279 tree_N=19 accept=2 next=579
+  [daemon] [step 7] committed=187 last_tok=579 tree_N=19 accept=5 next=537
+  [daemon] [step 8] committed=192 last_tok=537 tree_N=19 accept=11 next=13
+  [daemon] [step 9] committed=203 last_tok=13 tree_N=19 accept=5 next=9444
+  [daemon] [dbg sib step 10] N=19 accept=6 walked_sib=1
+  [daemon]   walk: 0 1 2 3 7 16
+  [daemon]   sibling info: [16:d5:p7:16] [17:d3:p2:680] [18:d4:p3:13]
+  [daemon] [step 10] committed=208 last_tok=9444 tree_N=19 accept=6 next=13
+  [daemon] [step 11] committed=214 last_tok=13 tree_N=19 accept=9 next=795
+  [daemon] [dbg sib step 12] N=19 accept=12 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 11 14 18
+  [daemon]   sibling info: [16:d6:p15:198] [17:d7:p16:257] [18:d11:p14:16435]
+  [daemon] [step 12] committed=223 last_tok=795 tree_N=19 accept=12 next=59930
+  [daemon] [step 13] committed=235 last_tok=59930 tree_N=19 accept=6 next=74
+  [daemon] [step 14] committed=241 last_tok=74 tree_N=19 accept=14 next=257
+  [daemon] [dbg sib step 15] N=19 accept=5 walked_sib=1
+  [daemon]   walk: 0 1 2 3 18
+  [daemon]   sibling info: [16:d3:p14:13] [17:d5:p4:25] [18:d4:p3:25997]
+  [daemon] [step 15] committed=255 last_tok=257 tree_N=19 accept=5 next=14
+  [daemon] [step 16] committed=260 last_tok=14 tree_N=19 accept=5 next=506
+  [daemon] [dbg sib step 17] N=19 accept=10 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 16
+  [daemon]   sibling info: [16:d9:p8:7980] [17:d8:p14:14714] [18:d10:p9:86827]
+  [daemon] [step 17] committed=265 last_tok=506 tree_N=19 accept=10 next=681
+  [daemon] [timing] per-step averages over 18 steps (ms):
+  [daemon]   draft_build    0.32
+  [daemon]   draft_copyfeat 2.13
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.47
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.35
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   0.87
+  [daemon]   verify_set     0.09
+  [daemon]   verify_compute 121.31
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.02
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     150.70
+  [daemon] [dflash] generated 128 tokens in 2.726 s  ->  46.96 tok/s
+  [daemon] [dflash] 18 draft steps, accepted=128/288 (44.4% per step), avg commit/step=7.11
+  [daemon] [dflash] output tail: 16236 31789 310 220 16 13 15 13 198 257 220 18 13 25997 14 8839 25 1368 2047 506
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+16:45:03 INFO dflash.server: chat DONE chatcmpl-5fc9d2271c194433b310849b  in=138 out=128  3.5s  37.1 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=2.9s(44.0tok/s)
+  [daemon] [migrate] 4.98 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=9 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 10
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=9 next=12654
+  [daemon] [step 2] committed=163 last_tok=12654 tree_N=19 accept=3 next=4222
+  [daemon] [dbg sib step 3] N=19 accept=4 walked_sib=1
+16:45:03 INFO dflash.server: chat chatcmpl-ca3380ba80714ddc8321fec6  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=137  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon]   walk: 0 1 2 16
+  [daemon]   sibling info: [16:d3:p2:3349] [17:d4:p3:318] [18:d3:p2:7875]
+  [daemon] [step 3] committed=166 last_tok=4222 tree_N=19 accept=4 next=3992
+  [daemon] [step 4] committed=170 last_tok=3992 tree_N=19 accept=3 next=12263
+  [daemon] [step 5] committed=173 last_tok=12263 tree_N=19 accept=2 next=91020
+  [daemon] [step 6] committed=175 last_tok=91020 tree_N=19 accept=4 next=44
+  [daemon] [step 7] committed=179 last_tok=44 tree_N=19 accept=4 next=5759
+  [daemon] [step 8] committed=183 last_tok=5759 tree_N=19 accept=3 next=4874
+  [daemon] [step 9] committed=186 last_tok=4874 tree_N=19 accept=5 next=7561
+  [daemon] [dbg sib step 10] N=19 accept=7 walked_sib=1
+  [daemon]   walk: 0 1 2 8 10 16 18
+  [daemon]   sibling info: [16:d5:p10:7561] [17:d2:p1:67] [18:d6:p16:1510]
+  [daemon] [step 10] committed=191 last_tok=7561 tree_N=19 accept=7 next=447
+  [daemon] [step 11] committed=198 last_tok=447 tree_N=19 accept=6 next=2448
+  [daemon] [step 12] committed=204 last_tok=2448 tree_N=19 accept=5 next=5560
+  [daemon] [step 13] committed=209 last_tok=5560 tree_N=19 accept=9 next=1510
+  [daemon] [dbg sib step 14] N=19 accept=11 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 10 17
+  [daemon]   sibling info: [16:d10:p12:264] [17:d10:p10:10029] [18:d10:p14:264]
+  [daemon] [step 14] committed=218 last_tok=1510 tree_N=19 accept=11 next=57728
+  [daemon] [step 15] committed=229 last_tok=57728 tree_N=19 accept=4 next=12317
+  [daemon] [step 16] committed=233 last_tok=12317 tree_N=19 accept=5 next=19
+  [daemon] [dbg sib step 17] N=19 accept=10 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 16 17
+  [daemon]   sibling info: [16:d8:p7:19] [17:d9:p16:19] [18:d8:p12:18]
+  [daemon] [step 17] committed=238 last_tok=19 tree_N=19 accept=10 next=21
+  [daemon] [step 18] committed=248 last_tok=21 tree_N=19 accept=14 next=65
+  [daemon] [dbg sib step 19] N=19 accept=9 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 18
+  [daemon]   sibling info: [16:d8:p10:63] [17:d8:p7:198] [18:d8:p7:49465]
+  [daemon] [step 19] committed=262 last_tok=65 tree_N=19 accept=9 next=310
+  [daemon] [timing] per-step averages over 20 steps (ms):
+  [daemon]   draft_build    0.19
+  [daemon]   draft_copyfeat 2.31
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.23
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.41
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.23
+  [daemon]   verify_set     0.10
+  [daemon]   verify_compute 121.42
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.03
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     151.07
+  [daemon] [dflash] generated 128 tokens in 3.038 s  ->  42.13 tok/s
+  [daemon] [dflash] 20 draft steps, accepted=128/320 (40.0% per step), avg commit/step=6.40
+  [daemon] [dflash] output tail: 19 19 21 12 19 16 67 23 7174 24 67 17 5478 21 17 2846 65 16 67 17
+  [daemon] [prompt] 137 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 137 tokens in 0.35 s, last_tok=8160
+  [daemon] [migrate] 5.34 ms
+16:45:06 INFO dflash.server: chat DONE chatcmpl-ca3380ba80714ddc8321fec6  in=137 out=128  2.8s  45.3 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=2.3s(56.0tok/s)
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=137 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=9 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 10 12
+  [daemon] [step 1] committed=153 last_tok=198 tree_N=19 accept=9 next=12654
+  [daemon] [step 2] committed=162 last_tok=12654 tree_N=19 accept=3 next=11352
+  [daemon] [step 3] committed=165 last_tok=11352 tree_N=19 accept=2 next=5686
+16:45:06 INFO dflash.server: chat chatcmpl-501a873c6d604148a847f238  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 4] committed=167 last_tok=5686 tree_N=19 accept=5 next=318
+  [daemon] [step 5] committed=172 last_tok=318 tree_N=19 accept=3 next=548
+  [daemon] [step 6] committed=175 last_tok=548 tree_N=19 accept=6 next=4283
+  [daemon] [step 7] committed=181 last_tok=4283 tree_N=19 accept=2 next=88670
+  [daemon] [step 8] committed=183 last_tok=88670 tree_N=19 accept=2 next=440
+  [daemon] [step 9] committed=185 last_tok=440 tree_N=19 accept=2 next=25
+  [daemon] [dbg sib step 10] N=19 accept=13 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 11 13 16
+  [daemon]   sibling info: [16:d12:p13:27896] [17:d7:p15:198] [18:d9:p14:471]
+  [daemon] [step 10] committed=187 last_tok=25 tree_N=19 accept=13 next=25
+  [daemon] [step 11] committed=200 last_tok=25 tree_N=19 accept=16 next=1510
+  [daemon] [step 12] committed=216 last_tok=1510 tree_N=19 accept=16 next=514
+  [daemon] [step 13] committed=232 last_tok=514 tree_N=19 accept=16 next=514
+  [daemon] [step 14] committed=248 last_tok=514 tree_N=19 accept=11 next=730
+  [daemon] [step 15] committed=259 last_tok=730 tree_N=19 accept=16 next=813
+  [daemon] [timing] per-step averages over 16 steps (ms):
+  [daemon]   draft_build    0.24
+  [daemon]   draft_copyfeat 1.85
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.32
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.37
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.20
+  [daemon]   verify_set     0.09
+  [daemon]   verify_compute 121.05
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.03
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     150.30
+  [daemon] [dflash] generated 128 tokens in 2.414 s  ->  53.03 tok/s
+  [daemon] [dflash] 16 draft steps, accepted=128/256 (50.0% per step), avg commit/step=8.00
+  [daemon] [dflash] output tail: 605 16336 25 514 735 2168 283 2168 63 198 257 471 1510 386 730 84277 25 533 20428 50
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 4.97 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=8 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=8 next=41643
+  [daemon] [step 2] committed=162 last_tok=41643 tree_N=19 accept=2 next=13873
+  [daemon] [step 3] committed=164 last_tok=13873 tree_N=19 accept=2 next=11
+  [daemon] [step 4] committed=166 last_tok=11 tree_N=19 accept=2 next=5187
+  [daemon] [step 5] committed=168 last_tok=5187 tree_N=19 accept=4 next=30263
+16:45:09 INFO dflash.server: chat DONE chatcmpl-501a873c6d604148a847f238  in=138 out=128  2.8s  45.3 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=2.3s(56.1tok/s)
+  [daemon] [step 6] committed=172 last_tok=30263 tree_N=19 accept=2 next=2574
+  [daemon] [step 7] committed=174 last_tok=2574 tree_N=19 accept=3 next=553
+  [daemon] [step 8] committed=177 last_tok=553 tree_N=19 accept=5 next=41643
+  [daemon] [step 9] committed=182 last_tok=41643 tree_N=19 accept=6 next=12305
+  [daemon] [step 10] committed=188 last_tok=12305 tree_N=19 accept=9 next=88194
+  [daemon] [step 11] committed=197 last_tok=88194 tree_N=19 accept=16 next=13201
+  [daemon] [step 12] committed=213 last_tok=13201 tree_N=19 accept=8 next=638
+  [daemon] [step 13] committed=221 last_tok=638 tree_N=19 accept=16 next=34451
+  [daemon] [dbg sib step 14] N=19 accept=13 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 18
+  [daemon]   sibling info: [16:d11:p13:257] [17:d13:p12:271] [18:d12:p11:847]
+16:45:09 INFO dflash.server: chat chatcmpl-cdd19458132041e2935ce774  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 14] committed=237 last_tok=34451 tree_N=19 accept=13 next=271
+  [daemon] [step 15] committed=250 last_tok=271 tree_N=19 accept=16 next=2334
+  [daemon] [timing] per-step averages over 16 steps (ms):
+  [daemon]   draft_build    0.21
+  [daemon]   draft_copyfeat 1.76
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.35
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.22
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.06
+  [daemon]   verify_set     0.09
+  [daemon]   verify_compute 121.23
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.02
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     150.08
+  [daemon] [dflash] generated 128 tokens in 2.408 s  ->  53.15 tok/s
+  [daemon] [dflash] 16 draft steps, accepted=128/256 (50.0% per step), avg commit/step=8.00
+  [daemon] [dflash] output tail: 11 198 257 847 271 257 653 18887 2610 9665 14159 364 27867 23314 79062 13 198 257 638 1385
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+16:45:12 INFO dflash.server: chat DONE chatcmpl-cdd19458132041e2935ce774  in=138 out=128  3.5s  37.1 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=2.9s(44.0tok/s)
+  [daemon] [prefill] 138 tokens in 0.35 s, last_tok=8160
+  [daemon] [migrate] 4.45 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=9 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 9
+16:45:12 INFO dflash.server: chat chatcmpl-99bbff35fcf149aea39f9a07  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=9 next=12654
+  [daemon] [step 2] committed=163 last_tok=12654 tree_N=19 accept=3 next=198
+  [daemon] [step 3] committed=166 last_tok=198 tree_N=19 accept=6 next=919
+  [daemon] [step 4] committed=172 last_tok=919 tree_N=19 accept=4 next=303
+  [daemon] [step 5] committed=176 last_tok=303 tree_N=19 accept=4 next=13873
+  [daemon] [step 6] committed=180 last_tok=13873 tree_N=19 accept=3 next=63520
+  [daemon] [step 7] committed=183 last_tok=63520 tree_N=19 accept=4 next=1558
+  [daemon] [step 8] committed=187 last_tok=1558 tree_N=19 accept=3 next=436
+  [daemon] [step 9] committed=190 last_tok=436 tree_N=19 accept=5 next=256
+  [daemon] [step 10] committed=195 last_tok=256 tree_N=19 accept=5 next=264
+  [daemon] [step 11] committed=200 last_tok=264 tree_N=19 accept=5 next=524
+  [daemon] [step 12] committed=205 last_tok=524 tree_N=19 accept=16 next=471
+  [daemon] [step 13] committed=221 last_tok=471 tree_N=19 accept=6 next=264
+  [daemon] [dbg sib step 14] N=19 accept=8 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 6 10 17
+  [daemon]   sibling info: [16:d6:p8:264] [17:d7:p10:471] [18:d6:p9:264]
+  [daemon] [step 14] committed=227 last_tok=264 tree_N=19 accept=8 next=4844
+  [daemon] [step 15] committed=235 last_tok=4844 tree_N=19 accept=3 next=1510
+  [daemon] [dbg sib step 16] N=19 accept=7 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 7 17
+  [daemon]   sibling info: [16:d6:p9:5480] [17:d6:p7:1510] [18:d7:p11:25885]
+  [daemon] [step 16] committed=238 last_tok=1510 tree_N=19 accept=7 next=2334
+  [daemon] [step 17] committed=245 last_tok=2334 tree_N=19 accept=9 next=424
+  [daemon] [step 18] committed=254 last_tok=424 tree_N=19 accept=9 next=52434
+  [daemon] [step 19] committed=263 last_tok=52434 tree_N=19 accept=4 next=67
+  [daemon] [timing] per-step averages over 20 steps (ms):
+  [daemon]   draft_build    0.20
+  [daemon]   draft_copyfeat 2.23
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.38
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.44
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.14
+  [daemon]   verify_set     0.10
+  [daemon]   verify_compute 121.46
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.03
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     151.13
+  [daemon] [dflash] generated 128 tokens in 3.038 s  ->  42.13 tok/s
+  [daemon] [dflash] 20 draft steps, accepted=128/320 (40.0% per step), avg commit/step=6.40
+  [daemon] [dflash] output tail: 625 25792 27896 27653 198 256 471 4844 424 6526 1510 701 920 926 1011 17868 930 52434 440 1510
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.35 s, last_tok=8160
+  [daemon] [migrate] 4.85 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=10 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 13
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=10 next=1970
+  [daemon] [step 2] committed=164 last_tok=1970 tree_N=19 accept=2 next=198
+  [daemon] [step 3] committed=166 last_tok=198 tree_N=19 accept=6 next=919
+  [daemon] [step 4] committed=172 last_tok=919 tree_N=19 accept=4 next=16947
+16:45:16 INFO dflash.server: chat DONE chatcmpl-99bbff35fcf149aea39f9a07  in=138 out=128  3.9s  32.8 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=3.3s(37.9tok/s)
+  [daemon] [step 5] committed=176 last_tok=16947 tree_N=19 accept=2 next=6302
+  [daemon] [step 6] committed=178 last_tok=6302 tree_N=19 accept=6 next=63520
+  [daemon] [step 7] committed=184 last_tok=63520 tree_N=19 accept=4 next=343
+  [daemon] [step 8] committed=188 last_tok=343 tree_N=19 accept=3 next=12317
+  [daemon] [step 9] committed=191 last_tok=12317 tree_N=19 accept=1 next=12263
+  [daemon] [step 10] committed=192 last_tok=12263 tree_N=19 accept=6 next=1970
+  [daemon] [step 11] committed=198 last_tok=1970 tree_N=19 accept=3 next=63520
+16:45:16 INFO dflash.server: chat chatcmpl-80681d0dda1840d9988511c5  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [dbg sib step 12] N=19 accept=6 walked_sib=1
+  [daemon]   walk: 0 1 2 3 7 17
+  [daemon]   sibling info: [16:d4:p6:383] [17:d5:p7:257] [18:d2:p1:1654]
+  [daemon] [step 12] committed=201 last_tok=63520 tree_N=19 accept=6 next=471
+  [daemon] [step 13] committed=207 last_tok=471 tree_N=19 accept=2 next=8602
+  [daemon] [step 14] committed=209 last_tok=8602 tree_N=19 accept=3 next=3330
+  [daemon] [step 15] committed=212 last_tok=3330 tree_N=19 accept=2 next=3799
+  [daemon] [step 16] committed=214 last_tok=3799 tree_N=19 accept=3 next=7062
+  [daemon] [step 17] committed=217 last_tok=7062 tree_N=19 accept=3 next=42634
+  [daemon] [dbg sib step 18] N=19 accept=5 walked_sib=1
+  [daemon]   walk: 0 1 2 5 16
+  [daemon]   sibling info: [16:d4:p5:257] [17:d3:p7:198] [18:d3:p8:198]
+  [daemon] [step 18] committed=220 last_tok=42634 tree_N=19 accept=5 next=471
+  [daemon] [dbg sib step 19] N=19 accept=4 walked_sib=1
+  [daemon]   walk: 0 1 2 16
+  [daemon]   sibling info: [16:d3:p2:638] [17:d5:p7:701] [18:d3:p2:1510]
+  [daemon] [step 19] committed=225 last_tok=471 tree_N=19 accept=4 next=27406
+  [daemon] [step 20] committed=229 last_tok=27406 tree_N=19 accept=13 next=1510
+  [daemon] [step 21] committed=242 last_tok=1510 tree_N=19 accept=10 next=701
+  [daemon] [dbg sib step 22] N=19 accept=16 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 16 18
+  [daemon]   sibling info: [16:d14:p13:18173] [17:d14:p13:63] [18:d15:p16:24096]
+  [daemon] [step 22] committed=252 last_tok=701 tree_N=19 accept=16 next=264
+  [daemon] [timing] per-step averages over 23 steps (ms):
+  [daemon]   draft_build    0.19
+  [daemon]   draft_copyfeat 2.08
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.37
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.39
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.11
+  [daemon]   verify_set     0.09
+  [daemon]   verify_compute 121.77
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.03
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     151.19
+  [daemon] [dflash] generated 128 tokens in 3.492 s  ->  36.65 tok/s
+  [daemon] [dflash] 23 draft steps, accepted=128/368 (34.8% per step), avg commit/step=5.57
+  [daemon] [dflash] output tail: 1941 22707 63 321 7062 1510 701 7162 29474 25885 4244 34024 283 2912 27653 198 257 471 1510 1449
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.35 s, last_tok=8160
+  [daemon] [migrate] 4.87 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=9 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 9 12
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=9 next=12654
+  [daemon] [step 2] committed=163 last_tok=12654 tree_N=19 accept=3 next=198
+  [daemon] [step 3] committed=166 last_tok=198 tree_N=19 accept=12 next=1734
+  [daemon] [dbg sib step 4] N=19 accept=14 walked_sib=1
+16:45:18 INFO dflash.server: chat DONE chatcmpl-80681d0dda1840d9988511c5  in=138 out=128  1.9s  66.4 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=1.4s(92.9tok/s)
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 14 18
+  [daemon]   sibling info: [16:d12:p11:328] [17:d13:p12:35821] [18:d13:p14:35821]
+  [daemon] [step 4] committed=178 last_tok=1734 tree_N=19 accept=14 next=198
+  [daemon] [step 5] committed=192 last_tok=198 tree_N=19 accept=11 next=88194
+  [daemon] [step 6] committed=203 last_tok=88194 tree_N=19 accept=16 next=3696
+  [daemon] [step 7] committed=219 last_tok=3696 tree_N=19 accept=16 next=25885
+  [daemon] [step 8] committed=235 last_tok=25885 tree_N=19 accept=16 next=3696
+16:45:18 INFO dflash.server: chat chatcmpl-df05215098cb4ef5add8da1a  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [dbg sib step 9] N=19 accept=16 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 16 17
+  [daemon]   sibling info: [16:d14:p13:336] [17:d15:p16:847] [18:d15:p14:16026]
+  [daemon] [step 9] committed=251 last_tok=3696 tree_N=19 accept=16 next=198
+  [daemon] [timing] per-step averages over 10 steps (ms):
+  [daemon]   draft_build    0.21
+  [daemon]   draft_copyfeat 1.68
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.35
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.32
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.29
+  [daemon]   verify_set     0.09
+  [daemon]   verify_compute 121.54
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.03
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     150.67
+  [daemon] [dflash] generated 128 tokens in 1.512 s  ->  84.67 tok/s
+  [daemon] [dflash] 10 draft steps, accepted=128/160 (80.0% per step), avg commit/step=12.80
+  [daemon] [dflash] output tail: 1350 14783 21532 11 198 3696 1350 14783 20460 3625 1463 21532 11 198 3696 9167 81250 11 198 336
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+16:45:21 INFO dflash.server: chat DONE chatcmpl-df05215098cb4ef5add8da1a  in=138 out=128  3.3s  39.0 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=2.7s(46.6tok/s)
+  [daemon] [prefill] 138 tokens in 0.35 s, last_tok=8160
+  [daemon] [migrate] 5.02 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=9 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 10 12
+16:45:21 INFO dflash.server: chat chatcmpl-bd373f318764497985075d9f  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=137  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=9 next=12654
+  [daemon] [dbg sib step 2] N=19 accept=4 walked_sib=1
+  [daemon]   walk: 0 1 3 18
+  [daemon]   sibling info: [16:d3:p3:7701] [17:d2:p5:318] [18:d3:p3:198]
+  [daemon] [step 2] committed=163 last_tok=12654 tree_N=19 accept=4 next=256
+  [daemon] [step 3] committed=167 last_tok=256 tree_N=19 accept=4 next=7701
+  [daemon] [step 4] committed=171 last_tok=7701 tree_N=19 accept=5 next=36602
+  [daemon] [step 5] committed=176 last_tok=36602 tree_N=19 accept=2 next=51319
+  [daemon] [step 6] committed=178 last_tok=51319 tree_N=19 accept=2 next=303
+  [daemon] [step 7] committed=180 last_tok=303 tree_N=19 accept=3 next=3992
+  [daemon] [step 8] committed=183 last_tok=3992 tree_N=19 accept=4 next=44
+  [daemon] [step 9] committed=187 last_tok=44 tree_N=19 accept=4 next=11
+  [daemon] [step 10] committed=191 last_tok=11 tree_N=19 accept=3 next=3950
+  [daemon] [step 11] committed=194 last_tok=3950 tree_N=19 accept=4 next=4283
+  [daemon] [dbg sib step 12] N=19 accept=4 walked_sib=1
+  [daemon]   walk: 0 2 6 18
+  [daemon]   sibling info: [16:d1:p0:1970] [17:d3:p3:13] [18:d3:p6:198]
+  [daemon] [step 12] committed=198 last_tok=4283 tree_N=19 accept=4 next=256
+  [daemon] [step 13] committed=202 last_tok=256 tree_N=19 accept=5 next=198
+  [daemon] [step 14] committed=207 last_tok=198 tree_N=19 accept=12 next=257
+  [daemon] [step 15] committed=219 last_tok=257 tree_N=19 accept=16 next=331
+  [daemon] [step 16] committed=235 last_tok=331 tree_N=19 accept=13 next=1385
+  [daemon] [step 17] committed=248 last_tok=1385 tree_N=19 accept=16 next=298
+  [daemon] [step 18] committed=264 last_tok=298 tree_N=19 accept=16 next=331
+  [daemon] [timing] per-step averages over 19 steps (ms):
+  [daemon]   draft_build    0.19
+  [daemon]   draft_copyfeat 2.07
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.24
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.38
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.11
+  [daemon]   verify_set     0.10
+  [daemon]   verify_compute 121.31
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.03
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     150.57
+  [daemon] [dflash] generated 128 tokens in 2.874 s  ->  44.54 tok/s
+  [daemon] [dflash] 19 draft steps, accepted=128/304 (42.1% per step), avg commit/step=6.74
+  [daemon] [dflash] output tail: 1510 701 1385 25736 697 298 370 35988 1104 14779 7402 44646 198 257 471 1510 701 721 298 370
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 137 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 137 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.20 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+16:45:26 INFO dflash.server: chat DONE chatcmpl-bd373f318764497985075d9f  in=137 out=128  4.4s  29.3 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=3.8s(33.4tok/s)
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=137 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=10 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 17
+  [daemon]   sibling info: [16:d10:p9:1970] [17:d9:p8:12654] [18:d10:p14:1970]
+  [daemon] [step 1] committed=153 last_tok=198 tree_N=19 accept=10 next=1970
+16:45:26 INFO dflash.server: chat chatcmpl-c8b4823d5a934829b634961a  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=136  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 2] committed=163 last_tok=1970 tree_N=19 accept=3 next=256
+  [daemon] [step 3] committed=166 last_tok=256 tree_N=19 accept=3 next=1970
+  [daemon] [step 4] committed=169 last_tok=1970 tree_N=19 accept=4 next=494
+  [daemon] [step 5] committed=173 last_tok=494 tree_N=19 accept=3 next=1654
+  [daemon] [step 6] committed=176 last_tok=1654 tree_N=19 accept=4 next=310
+  [daemon] [step 7] committed=180 last_tok=310 tree_N=19 accept=2 next=10442
+  [daemon] [step 8] committed=182 last_tok=10442 tree_N=19 accept=5 next=3992
+  [daemon] [step 9] committed=187 last_tok=3992 tree_N=19 accept=3 next=4283
+  [daemon] [step 10] committed=190 last_tok=4283 tree_N=19 accept=2 next=13
+  [daemon] [step 11] committed=192 last_tok=13 tree_N=19 accept=5 next=41643
+  [daemon] [step 12] committed=197 last_tok=41643 tree_N=19 accept=2 next=57728
+  [daemon] [step 13] committed=199 last_tok=57728 tree_N=19 accept=3 next=701
+  [daemon] [step 14] committed=202 last_tok=701 tree_N=19 accept=7 next=24
+  [daemon] [step 15] committed=209 last_tok=24 tree_N=19 accept=3 next=21
+  [daemon] [step 16] committed=212 last_tok=21 tree_N=19 accept=16 next=69
+  [daemon] [step 17] committed=228 last_tok=69 tree_N=19 accept=7 next=27653
+  [daemon] [step 18] committed=235 last_tok=27653 tree_N=19 accept=4 next=264
+  [daemon] [step 19] committed=239 last_tok=264 tree_N=19 accept=3 next=1010
+  [daemon] [step 20] committed=242 last_tok=1010 tree_N=19 accept=3 next=49465
+  [daemon] [step 21] committed=245 last_tok=49465 tree_N=19 accept=3 next=701
+  [daemon] [step 22] committed=248 last_tok=701 tree_N=19 accept=5 next=9077
+  [daemon] [step 23] committed=253 last_tok=9077 tree_N=19 accept=3 next=1412
+  [daemon] [step 24] committed=256 last_tok=1412 tree_N=19 accept=3 next=2880
+  [daemon] [step 25] committed=259 last_tok=2880 tree_N=19 accept=9 next=1970
+  [daemon] [timing] per-step averages over 26 steps (ms):
+  [daemon]   draft_build    0.19
+  [daemon]   draft_copyfeat 2.19
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.46
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.33
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.10
+  [daemon]   verify_set     0.10
+  [daemon]   verify_compute 121.69
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.02
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     151.23
+  [daemon] [dflash] generated 128 tokens in 3.951 s  ->  32.40 tok/s
+  [daemon] [dflash] 26 draft steps, accepted=128/416 (30.8% per step), avg commit/step=4.92
+  [daemon] [dflash] output tail: 49465 310 1510 701 74808 7561 864 369 9077 264 18890 1412 466 264 2880 2195 5352 35426 13 198
+  [daemon] [prompt] 136 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 136 tokens in 0.35 s, last_tok=8160
+16:45:30 INFO dflash.server: chat DONE chatcmpl-c8b4823d5a934829b634961a  in=136 out=128  3.9s  32.9 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=3.3s(38.1tok/s)
+  [daemon] [migrate] 5.16 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=136 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=10 walked_sib=1
+16:45:30 INFO dflash.server: chat chatcmpl-bb142c35e7c04264a77d9b17  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon]   walk: 0 1 2 3 4 5 6 8 10 17
+  [daemon]   sibling info: [16:d9:p9:12654] [17:d9:p10:12654] [18:d10:p13:1970]
+  [daemon] [step 1] committed=152 last_tok=198 tree_N=19 accept=10 next=1970
+  [daemon] [step 2] committed=162 last_tok=1970 tree_N=19 accept=3 next=494
+  [daemon] [step 3] committed=165 last_tok=494 tree_N=19 accept=3 next=6618
+  [daemon] [step 4] committed=168 last_tok=6618 tree_N=19 accept=2 next=318
+  [daemon] [step 5] committed=170 last_tok=318 tree_N=19 accept=1 next=13432
+  [daemon] [step 6] committed=171 last_tok=13432 tree_N=19 accept=3 next=5792
+  [daemon] [step 7] committed=174 last_tok=5792 tree_N=19 accept=4 next=26527
+  [daemon] [step 8] committed=178 last_tok=26527 tree_N=19 accept=5 next=52434
+  [daemon] [dbg sib step 9] N=19 accept=11 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 9 11 18
+  [daemon]   sibling info: [16:d7:p14:3009] [17:d6:p5:198] [18:d10:p11:198]
+  [daemon] [step 9] committed=183 last_tok=52434 tree_N=19 accept=11 next=256
+  [daemon] [step 10] committed=194 last_tok=256 tree_N=19 accept=5 next=25
+  [daemon] [step 11] committed=199 last_tok=25 tree_N=19 accept=6 next=701
+  [daemon] [step 12] committed=205 last_tok=701 tree_N=19 accept=8 next=44646
+  [daemon] [step 13] committed=213 last_tok=44646 tree_N=19 accept=3 next=45933
+  [daemon] [step 14] committed=216 last_tok=45933 tree_N=19 accept=8 next=326
+  [daemon] [step 15] committed=224 last_tok=326 tree_N=19 accept=4 next=62183
+  [daemon] [step 16] committed=228 last_tok=62183 tree_N=19 accept=5 next=14738
+  [daemon] [dbg sib step 17] N=19 accept=4 walked_sib=1
+  [daemon]   walk: 0 1 2 16
+  [daemon]   sibling info: [16:d3:p2:22927] [17:d4:p6:701] [18:d3:p3:22927]
+  [daemon] [step 17] committed=233 last_tok=14738 tree_N=19 accept=4 next=52965
+  [daemon] [step 18] committed=237 last_tok=52965 tree_N=19 accept=4 next=6436
+  [daemon] [step 19] committed=241 last_tok=6436 tree_N=19 accept=8 next=4694
+  [daemon] [step 20] committed=249 last_tok=4694 tree_N=19 accept=8 next=21966
+  [daemon] [step 21] committed=257 last_tok=21966 tree_N=19 accept=3 next=198
+  [daemon] [dbg sib step 22] N=19 accept=4 walked_sib=1
+  [daemon]   walk: 0 1 2 17
+  [daemon]   sibling info: [16:d6:p10:264] [17:d3:p2:357] [18:d6:p9:22956]
+  [daemon] [step 22] committed=260 last_tok=198 tree_N=19 accept=4 next=22956
+  [daemon] [timing] per-step averages over 23 steps (ms):
+  [daemon]   draft_build    0.14
+  [daemon]   draft_copyfeat 2.36
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.24
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.18
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   0.96
+  [daemon]   verify_set     0.09
+  [daemon]   verify_compute 121.44
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.02
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     150.59
+  [daemon] [dflash] generated 128 tokens in 3.481 s  ->  36.77 tok/s
+  [daemon] [dflash] 23 draft steps, accepted=128/368 (34.8% per step), avg commit/step=5.57
+  [daemon] [dflash] output tail: 198 257 471 326 13708 4694 1495 13 198 257 471 23740 1845 21966 4779 13 198 257 471 357
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+16:45:33 INFO dflash.server: chat DONE chatcmpl-bb142c35e7c04264a77d9b17  in=138 out=128  3.0s  42.8 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=2.4s(52.4tok/s)
+  [daemon] [migrate] 5.80 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=9 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 9 10
+16:45:33 INFO dflash.server: chat chatcmpl-a3fb4181a5e84f5ebcb8e08e  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=136  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=9 next=12654
+  [daemon] [step 2] committed=163 last_tok=12654 tree_N=19 accept=3 next=198
+  [daemon] [step 3] committed=166 last_tok=198 tree_N=19 accept=7 next=9494
+  [daemon] [dbg sib step 4] N=19 accept=6 walked_sib=1
+  [daemon]   walk: 0 1 2 3 12 18
+  [daemon]   sibling info: [16:d4:p4:1562] [17:d5:p10:440] [18:d5:p12:440]
+  [daemon] [step 4] committed=173 last_tok=9494 tree_N=19 accept=6 next=264
+  [daemon] [step 5] committed=179 last_tok=264 tree_N=19 accept=6 next=471
+  [daemon] [step 6] committed=185 last_tok=471 tree_N=19 accept=3 next=264
+  [daemon] [dbg sib step 7] N=19 accept=4 walked_sib=1
+  [daemon]   walk: 0 1 6 17
+  [daemon]   sibling info: [16:d3:p5:1510] [17:d3:p6:1510] [18:d1:p0:1562]
+  [daemon] [step 7] committed=188 last_tok=264 tree_N=19 accept=4 next=2
+  [daemon] [dbg sib step 8] N=19 accept=14 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 17
+  [daemon]   sibling info: [16:d13:p12:4774] [17:d13:p12:6526] [18:d13:p13:579]
+  [daemon] [step 8] committed=192 last_tok=2 tree_N=19 accept=14 next=264
+  [daemon] [step 9] committed=206 last_tok=264 tree_N=19 accept=7 next=34422
+  [daemon] [step 10] committed=213 last_tok=34422 tree_N=19 accept=5 next=256
+  [daemon] [step 11] committed=218 last_tok=256 tree_N=19 accept=5 next=22956
+  [daemon] [step 12] committed=223 last_tok=22956 tree_N=19 accept=2 next=886
+  [daemon] [step 13] committed=225 last_tok=886 tree_N=19 accept=7 next=24
+  [daemon] [step 14] committed=232 last_tok=24 tree_N=19 accept=16 next=12
+  [daemon] [dbg sib step 15] N=19 accept=16 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 16
+  [daemon]   sibling info: [16:d15:p14:17] [17:d10:p9:23] [18:d11:p17:16]
+  [daemon] [step 15] committed=248 last_tok=12 tree_N=19 accept=16 next=63
+  [daemon] [step 16] committed=264 last_tok=63 tree_N=19 accept=5 next=1879
+  [daemon] [timing] per-step averages over 17 steps (ms):
+  [daemon]   draft_build    0.14
+  [daemon]   draft_copyfeat 2.38
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.33
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.18
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   0.96
+  [daemon]   verify_set     0.09
+  [daemon]   verify_compute 121.40
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.02
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     150.64
+  [daemon] [dflash] generated 128 tokens in 2.573 s  ->  49.74 tok/s
+  [daemon] [dflash] 17 draft steps, accepted=128/272 (47.1% per step), avg commit/step=7.53
+  [daemon] [dflash] output tail: 15 21 12 23 20 69 20 12 18 67 15 23 82800 16 64 24 24 17 63 198
+  [daemon] [prompt] 136 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 136 tokens in 0.35 s, last_tok=8160
+  [daemon] [migrate] 4.85 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=136 last_tok=8160 tree_N=19 accept=16 next=198
+16:45:36 INFO dflash.server: chat DONE chatcmpl-a3fb4181a5e84f5ebcb8e08e  in=136 out=128  3.3s  38.9 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=2.7s(46.5tok/s)
+  [daemon] [dbg sib step 1] N=19 accept=9 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 11 17
+  [daemon]   sibling info: [16:d6:p5:310] [17:d8:p11:314] [18:d7:p6:381]
+  [daemon] [step 1] committed=152 last_tok=198 tree_N=19 accept=9 next=12654
+  [daemon] [step 2] committed=161 last_tok=12654 tree_N=19 accept=3 next=4222
+  [daemon] [step 3] committed=164 last_tok=4222 tree_N=19 accept=3 next=5484
+  [daemon] [step 4] committed=167 last_tok=5484 tree_N=19 accept=2 next=17458
+  [daemon] [step 5] committed=169 last_tok=17458 tree_N=19 accept=4 next=91020
+  [daemon] [step 6] committed=173 last_tok=91020 tree_N=19 accept=4 next=44
+  [daemon] [dbg sib step 7] N=19 accept=4 walked_sib=1
+  [daemon]   walk: 0 1 3 16
+  [daemon]   sibling info: [16:d3:p3:4283] [17:d3:p3:11] [18:d1:p0:3018]
+  [daemon] [step 7] committed=177 last_tok=44 tree_N=19 accept=4 next=436
+  [daemon] [step 8] committed=181 last_tok=436 tree_N=19 accept=3 next=4560
+16:45:36 INFO dflash.server: chat chatcmpl-ae30affbae8841d69eb605eb  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [dbg sib step 9] N=19 accept=6 walked_sib=1
+  [daemon]   walk: 0 1 2 3 6 17
+  [daemon]   sibling info: [16:d3:p2:1510] [17:d5:p6:561] [18:d4:p12:471]
+  [daemon] [step 9] committed=184 last_tok=4560 tree_N=19 accept=6 next=1970
+  [daemon] [step 10] committed=190 last_tok=1970 tree_N=19 accept=4 next=257
+  [daemon] [step 11] committed=194 last_tok=257 tree_N=19 accept=4 next=257
+  [daemon] [step 12] committed=198 last_tok=257 tree_N=19 accept=2 next=198
+  [daemon] [dbg sib step 13] N=19 accept=4 walked_sib=1
+  [daemon]   walk: 0 16 17 18
+  [daemon]   sibling info: [16:d1:p0:3696] [17:d2:p16:638] [18:d3:p17:4633]
+  [daemon] [step 13] committed=200 last_tok=198 tree_N=19 accept=4 next=4747
+  [daemon] [step 14] committed=204 last_tok=4747 tree_N=19 accept=16 next=4133
+  [daemon] [dbg sib step 15] N=19 accept=16 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 16
+  [daemon]   sibling info: [16:d15:p14:27995] [17:d12:p11:198] [18:d13:p17:3696]
+  [daemon] [step 15] committed=220 last_tok=4133 tree_N=19 accept=16 next=2424
+  [daemon] [dbg sib step 16] N=19 accept=11 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 16 17
+  [daemon]   sibling info: [16:d9:p8:198] [17:d10:p16:3696] [18:d13:p15:7644]
+  [daemon] [step 16] committed=236 last_tok=2424 tree_N=19 accept=11 next=653
+  [daemon] [dbg sib step 17] N=19 accept=10 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 13 17
+  [daemon]   sibling info: [16:d8:p7:653] [17:d9:p13:10836] [18:d8:p7:3696]
+  [daemon] [step 17] committed=247 last_tok=653 tree_N=19 accept=10 next=198
+  [daemon] [step 18] committed=257 last_tok=198 tree_N=19 accept=9 next=2424
+  [daemon] [timing] per-step averages over 19 steps (ms):
+  [daemon]   draft_build    0.16
+  [daemon]   draft_copyfeat 2.26
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.23
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.28
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.07
+  [daemon]   verify_set     0.09
+  [daemon]   verify_compute 121.23
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.02
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     150.48
+  [daemon] [dflash] generated 128 tokens in 2.872 s  ->  44.56 tok/s
+  [daemon] [dflash] 19 draft steps, accepted=128/304 (42.1% per step), avg commit/step=6.74
+  [daemon] [dflash] output tail: 494 198 3696 653 3921 7644 363 513 9155 310 279 6326 10836 198 3696 653 7131 13 16643 411
+  [daemon] [prompt] 138 tokens
+16:45:38 INFO dflash.server: chat DONE chatcmpl-ae30affbae8841d69eb605eb  in=138 out=128  2.1s  61.5 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=1.5s(83.9tok/s)
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 4.98 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=9 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 8 12
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=9 next=1970
+  [daemon] [step 2] committed=163 last_tok=1970 tree_N=19 accept=3 next=198
+  [daemon] [step 3] committed=166 last_tok=198 tree_N=19 accept=9 next=1734
+16:45:38 INFO dflash.server: chat chatcmpl-ad8349c17e8748b1bb6659eb  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [dbg sib step 4] N=19 accept=15 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 15 16
+  [daemon]   sibling info: [16:d14:p15:653] [17:d15:p14:653] [18:d15:p16:653]
+  [daemon] [step 4] committed=175 last_tok=1734 tree_N=19 accept=15 next=14392
+  [daemon] [step 5] committed=190 last_tok=14392 tree_N=19 accept=16 next=220
+  [daemon] [step 6] committed=206 last_tok=220 tree_N=19 accept=16 next=696
+  [daemon] [step 7] committed=222 last_tok=696 tree_N=19 accept=16 next=17
+  [daemon] [step 8] committed=238 last_tok=17 tree_N=19 accept=16 next=11
+  [daemon] [dbg sib step 9] N=19 accept=11 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 16
+  [daemon]   sibling info: [16:d10:p9:220] [17:d12:p11:23] [18:d12:p11:22]
+  [daemon] [step 9] committed=254 last_tok=11 tree_N=19 accept=11 next=23
+  [daemon] [step 10] committed=265 last_tok=23 tree_N=19 accept=11 next=21
+  [daemon] [timing] per-step averages over 11 steps (ms):
+  [daemon]   draft_build    0.21
+  [daemon]   draft_copyfeat 1.76
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.45
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.40
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.26
+  [daemon]   verify_set     0.10
+  [daemon]   verify_compute 121.56
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.03
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     150.92
+  [daemon] [dflash] generated 128 tokens in 1.666 s  ->  76.84 tok/s
+  [daemon] [dflash] 11 draft steps, accepted=128/176 (72.7% per step), avg commit/step=11.64
+  [daemon] [dflash] output tail: 220 15 11 220 16 11 220 17 11 220 15 11 220 15 11 220 16 60 220 23
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 4.44 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+16:45:40 INFO dflash.server: chat DONE chatcmpl-ad8349c17e8748b1bb6659eb  in=138 out=128  2.1s  61.4 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=1.5s(83.7tok/s)
+  [daemon] [dbg sib step 1] N=19 accept=8 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 10
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=8 next=314
+  [daemon] [step 2] committed=162 last_tok=314 tree_N=19 accept=4 next=25
+  [daemon] [step 3] committed=166 last_tok=25 tree_N=19 accept=5 next=257
+  [daemon] [step 4] committed=171 last_tok=257 tree_N=19 accept=12 next=6297
+  [daemon] [step 5] committed=183 last_tok=6297 tree_N=19 accept=13 next=283
+16:45:40 INFO dflash.server: chat chatcmpl-d3eb68cf46d64febb2f0eac4  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 6] committed=196 last_tok=283 tree_N=19 accept=16 next=5164
+  [daemon] [step 7] committed=212 last_tok=5164 tree_N=19 accept=14 next=638
+  [daemon] [step 8] committed=226 last_tok=638 tree_N=19 accept=16 next=48116
+  [daemon] [step 9] committed=242 last_tok=48116 tree_N=19 accept=16 next=638
+  [daemon] [step 10] committed=258 last_tok=638 tree_N=19 accept=13 next=16
+  [daemon] [timing] per-step averages over 11 steps (ms):
+  [daemon]   draft_build    0.18
+  [daemon]   draft_copyfeat 1.92
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.31
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.40
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.23
+  [daemon]   verify_set     0.10
+  [daemon]   verify_compute 121.15
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.03
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     150.46
+  [daemon] [dflash] generated 128 tokens in 1.662 s  ->  77.02 tok/s
+  [daemon] [dflash] 11 draft steps, accepted=128/176 (72.7% per step), avg commit/step=11.64
+  [daemon] [dflash] output tail: 3144 25257 2270 93720 11198 20499 87160 11198 5164 8 198 260 638 25140 3625 1463 38681 87160 11198 5164
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.35 s, last_tok=8160
+  [daemon] [migrate] 4.97 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=10 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 18
+  [daemon]   sibling info: [16:d7:p6:12654] [17:d8:p15:314] [18:d9:p8:12654]
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=10 next=1970
+16:45:43 INFO dflash.server: chat DONE chatcmpl-d3eb68cf46d64febb2f0eac4  in=138 out=128  3.2s  40.5 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=2.6s(48.9tok/s)
+  [daemon] [step 2] committed=164 last_tok=1970 tree_N=19 accept=3 next=256
+  [daemon] [step 3] committed=167 last_tok=256 tree_N=19 accept=4 next=45838
+  [daemon] [step 4] committed=171 last_tok=45838 tree_N=19 accept=3 next=7561
+  [daemon] [step 5] committed=174 last_tok=7561 tree_N=19 accept=3 next=33539
+  [daemon] [step 6] committed=177 last_tok=33539 tree_N=19 accept=2 next=1510
+16:45:43 INFO dflash.server: chat chatcmpl-8946d03e83894afeb77efe43  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 7] committed=179 last_tok=1510 tree_N=19 accept=7 next=1510
+  [daemon] [dbg sib step 8] N=19 accept=8 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 16
+  [daemon]   sibling info: [16:d7:p6:63] [17:d6:p8:2291] [18:d7:p6:1510]
+  [daemon] [step 8] committed=186 last_tok=1510 tree_N=19 accept=8 next=5972
+  [daemon] [dbg sib step 9] N=19 accept=4 walked_sib=1
+  [daemon]   walk: 0 1 2 16
+  [daemon]   sibling info: [16:d3:p2:11198] [17:d5:p15:15236] [18:d6:p17:2291]
+  [daemon] [step 9] committed=194 last_tok=5972 tree_N=19 accept=4 next=13201
+  [daemon] [step 10] committed=198 last_tok=13201 tree_N=19 accept=7 next=1510
+  [daemon] [step 11] committed=205 last_tok=1510 tree_N=19 accept=10 next=1510
+  [daemon] [step 12] committed=215 last_tok=1510 tree_N=19 accept=13 next=11198
+  [daemon] [step 13] committed=228 last_tok=11198 tree_N=19 accept=9 next=4055
+  [daemon] [step 14] committed=237 last_tok=4055 tree_N=19 accept=3 next=886
+  [daemon] [step 15] committed=240 last_tok=886 tree_N=19 accept=6 next=17
+  [daemon] [step 16] committed=246 last_tok=17 tree_N=19 accept=9 next=19
+  [daemon] [step 17] committed=255 last_tok=19 tree_N=19 accept=16 next=5137
+  [daemon] [timing] per-step averages over 18 steps (ms):
+  [daemon]   draft_build    0.23
+  [daemon]   draft_copyfeat 2.17
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.38
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.48
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.17
+  [daemon]   verify_set     0.10
+  [daemon]   verify_compute 121.77
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.03
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     151.47
+  [daemon] [dflash] generated 128 tokens in 2.739 s  ->  46.73 tok/s
+  [daemon] [dflash] 18 draft steps, accepted=128/288 (44.4% per step), avg commit/step=7.11
+  [daemon] [dflash] output tail: 17 65 18 64 21 21 19 16 12 19 68 18 64 12 19 18 69 15 7174 20
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.35 s, last_tok=8160
+  [daemon] [migrate] 5.02 ms
+16:45:47 INFO dflash.server: chat DONE chatcmpl-8946d03e83894afeb77efe43  in=138 out=128  3.6s  35.4 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=3.1s(41.6tok/s)
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=10 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 15
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=10 next=1970
+  [daemon] [step 2] committed=164 last_tok=1970 tree_N=19 accept=3 next=494
+  [daemon] [step 3] committed=167 last_tok=494 tree_N=19 accept=4 next=20923
+  [daemon] [step 4] committed=171 last_tok=20923 tree_N=19 accept=4 next=51343
+  [daemon] [step 5] committed=175 last_tok=51343 tree_N=19 accept=3 next=436
+16:45:47 INFO dflash.server: chat chatcmpl-26b50ece844243418b51a0ac  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 6] committed=178 last_tok=436 tree_N=19 accept=4 next=63520
+  [daemon] [step 7] committed=182 last_tok=63520 tree_N=19 accept=4 next=343
+  [daemon] [step 8] committed=186 last_tok=343 tree_N=19 accept=3 next=12317
+  [daemon] [step 9] committed=189 last_tok=12317 tree_N=19 accept=1 next=46423
+  [daemon] [dbg sib step 10] N=19 accept=7 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 17
+  [daemon]   sibling info: [16:d4:p12:471] [17:d6:p5:1970] [18:d4:p3:1510]
+  [daemon] [step 10] committed=190 last_tok=46423 tree_N=19 accept=7 next=55917
+  [daemon] [step 11] committed=197 last_tok=55917 tree_N=19 accept=2 next=7944
+  [daemon] [dbg sib step 12] N=19 accept=7 walked_sib=1
+  [daemon]   walk: 0 1 2 3 6 11 17
+  [daemon]   sibling info: [16:d2:p4:1510] [17:d6:p11:701] [18:d1:p0:14]
+  [daemon] [step 12] committed=199 last_tok=7944 tree_N=19 accept=7 next=10209
+  [daemon] [step 13] committed=206 last_tok=10209 tree_N=19 accept=11 next=1510
+  [daemon] [step 14] committed=217 last_tok=1510 tree_N=19 accept=16 next=1510
+  [daemon] [step 15] committed=233 last_tok=1510 tree_N=19 accept=7 next=283
+  [daemon] [step 16] committed=240 last_tok=283 tree_N=19 accept=6 next=3050
+  [daemon] [step 17] committed=246 last_tok=3050 tree_N=19 accept=3 next=12847
+  [daemon] [step 18] committed=249 last_tok=12847 tree_N=19 accept=6 next=18615
+  [daemon] [dbg sib step 19] N=19 accept=7 walked_sib=1
+  [daemon]   walk: 0 1 2 3 5 6 18
+  [daemon]   sibling info: [16:d5:p14:471] [17:d1:p0:13] [18:d6:p6:1510]
+  [daemon] [step 19] committed=255 last_tok=18615 tree_N=19 accept=7 next=331
+  [daemon] [step 20] committed=262 last_tok=331 tree_N=19 accept=7 next=2424
+  [daemon] [timing] per-step averages over 21 steps (ms):
+  [daemon]   draft_build    0.22
+  [daemon]   draft_copyfeat 2.30
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.33
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.43
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.16
+  [daemon]   verify_set     0.10
+  [daemon]   verify_compute 121.90
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.03
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     151.61
+  [daemon] [dflash] generated 128 tokens in 3.200 s  ->  40.00 tok/s
+  [daemon] [dflash] 21 draft steps, accepted=128/336 (38.1% per step), avg commit/step=6.10
+  [daemon] [dflash] output tail: 3050 5893 11 12847 11 3545 11 321 8712 18615 6047 13 198 257 471 1510 331 638 7162 27424
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+16:45:51 INFO dflash.server: chat DONE chatcmpl-26b50ece844243418b51a0ac  in=138 out=128  4.2s  30.4 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=3.6s(34.8tok/s)
+  [daemon] [prefill] 138 tokens in 0.35 s, last_tok=8160
+  [daemon] [migrate] 4.83 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=9 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 13
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=9 next=12654
+16:45:51 INFO dflash.server: chat chatcmpl-c47e85bbfa6544ecaf3aaee8  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=137  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 2] committed=163 last_tok=12654 tree_N=19 accept=3 next=11352
+  [daemon] [step 3] committed=166 last_tok=11352 tree_N=19 accept=2 next=1654
+  [daemon] [step 4] committed=168 last_tok=1654 tree_N=19 accept=3 next=4479
+  [daemon] [step 5] committed=171 last_tok=4479 tree_N=19 accept=5 next=93720
+  [daemon] [step 6] committed=176 last_tok=93720 tree_N=19 accept=7 next=561
+  [daemon] [step 7] committed=183 last_tok=561 tree_N=19 accept=3 next=57728
+  [daemon] [step 8] committed=186 last_tok=57728 tree_N=19 accept=4 next=12317
+  [daemon] [step 9] committed=190 last_tok=12317 tree_N=19 accept=5 next=620
+  [daemon] [step 10] committed=195 last_tok=620 tree_N=19 accept=4 next=24
+  [daemon] [step 11] committed=199 last_tok=24 tree_N=19 accept=16 next=16
+  [daemon] [step 12] committed=215 last_tok=16 tree_N=19 accept=11 next=15
+  [daemon] [step 13] committed=226 last_tok=15 tree_N=19 accept=5 next=561
+  [daemon] [dbg sib step 14] N=19 accept=3 walked_sib=1
+  [daemon]   walk: 0 1 16
+  [daemon]   sibling info: [16:d2:p1:7701] [17:d3:p4:1040] [18:d2:p1:8211]
+  [daemon] [step 14] committed=231 last_tok=561 tree_N=19 accept=3 next=310
+  [daemon] [step 15] committed=234 last_tok=310 tree_N=19 accept=4 next=5365
+  [daemon] [step 16] committed=238 last_tok=5365 tree_N=19 accept=3 next=11
+  [daemon] [step 17] committed=241 last_tok=11 tree_N=19 accept=5 next=10673
+  [daemon] [step 18] committed=246 last_tok=10673 tree_N=19 accept=3 next=11352
+  [daemon] [step 19] committed=249 last_tok=11352 tree_N=19 accept=2 next=6297
+  [daemon] [step 20] committed=251 last_tok=6297 tree_N=19 accept=4 next=303
+  [daemon] [dbg sib step 21] N=19 accept=4 walked_sib=1
+  [daemon]   walk: 0 1 2 16
+  [daemon]   sibling info: [16:d3:p2:44] [17:d5:p10:3950] [18:d1:p0:83871]
+  [daemon] [step 21] committed=255 last_tok=303 tree_N=19 accept=4 next=11
+  [daemon] [step 22] committed=259 last_tok=11 tree_N=19 accept=2 next=27127
+  [daemon] [step 23] committed=261 last_tok=27127 tree_N=19 accept=3 next=4283
+  [daemon] [dbg sib step 24] N=19 accept=4 walked_sib=1
+  [daemon]   walk: 0 1 4 17
+  [daemon]   sibling info: [16:d2:p1:198] [17:d3:p4:198] [18:d2:p3:19573]
+  [daemon] [step 24] committed=264 last_tok=4283 tree_N=19 accept=4 next=256
+  [daemon] [timing] per-step averages over 25 steps (ms):
+  [daemon]   draft_build    0.22
+  [daemon]   draft_copyfeat 2.02
+  [daemon]   draft_set      0.16
+  [daemon]   draft_compute  23.40
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.37
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.17
+  [daemon]   verify_set     0.09
+  [daemon]   verify_compute 121.79
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.02
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     151.27
+  [daemon] [dflash] generated 128 tokens in 3.797 s  ->  33.71 tok/s
+  [daemon] [dflash] 25 draft steps, accepted=128/400 (32.0% per step), avg commit/step=5.12
+  [daemon] [dflash] output tail: 10673 42903 11 11352 81726 6297 6044 318 5292 303 343 3950 44 11 345 27127 11 466 4283 19573
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 137 tokens
+  [daemon] [prefill] token-seg ubatch=256
+16:45:54 INFO dflash.server: chat DONE chatcmpl-c47e85bbfa6544ecaf3aaee8  in=137 out=128  3.1s  40.6 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=2.6s(49.1tok/s)
+  [daemon] [prefill] 137 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 4.91 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=137 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=9 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 9
+  [daemon] [step 1] committed=153 last_tok=198 tree_N=19 accept=9 next=12654
+16:45:54 INFO dflash.server: chat chatcmpl-c1c0e5015ecb4db896595926  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 2] committed=162 last_tok=12654 tree_N=19 accept=3 next=4222
+  [daemon] [step 3] committed=165 last_tok=4222 tree_N=19 accept=3 next=523
+  [daemon] [step 4] committed=168 last_tok=523 tree_N=19 accept=2 next=466
+  [daemon] [step 5] committed=170 last_tok=466 tree_N=19 accept=3 next=198
+  [daemon] [step 6] committed=173 last_tok=198 tree_N=19 accept=6 next=25
+  [daemon] [step 7] committed=179 last_tok=25 tree_N=19 accept=14 next=11469
+  [daemon] [step 8] committed=193 last_tok=11469 tree_N=19 accept=16 next=471
+  [daemon] [step 9] committed=209 last_tok=471 tree_N=19 accept=4 next=30152
+  [daemon] [step 10] committed=213 last_tok=30152 tree_N=19 accept=8 next=283
+  [daemon] [dbg sib step 11] N=19 accept=16 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 15 18
+  [daemon]   sibling info: [16:d14:p14:17788] [17:d13:p12:17788] [18:d15:p15:27653]
+  [daemon] [step 11] committed=221 last_tok=283 tree_N=19 accept=16 next=198
+  [daemon] [step 12] committed=237 last_tok=198 tree_N=19 accept=4 next=10029
+  [daemon] [step 13] committed=241 last_tok=10029 tree_N=19 accept=4 next=321
+  [daemon] [step 14] committed=245 last_tok=321 tree_N=19 accept=3 next=1500
+  [daemon] [step 15] committed=248 last_tok=1500 tree_N=19 accept=4 next=23966
+  [daemon] [step 16] committed=252 last_tok=23966 tree_N=19 accept=10 next=14708
+  [daemon] [dbg sib step 17] N=19 accept=15 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 16
+  [daemon]   sibling info: [16:d14:p13:67] [17:d15:p15:67] [18:d15:p16:67]
+  [daemon] [step 17] committed=262 last_tok=14708 tree_N=19 accept=15 next=23
+  [daemon] [timing] per-step averages over 18 steps (ms):
+  [daemon]   draft_build    0.24
+  [daemon]   draft_copyfeat 1.97
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.27
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.34
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.17
+  [daemon]   verify_set     0.10
+  [daemon]   verify_compute 121.97
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.03
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     151.24
+  [daemon] [dflash] generated 128 tokens in 2.734 s  ->  46.82 tok/s
+  [daemon] [dflash] 18 draft steps, accepted=128/288 (44.4% per step), avg commit/step=7.11
+  [daemon] [dflash] output tail: 321 449 31084 1500 25 1510 701 23966 15622 378 21 65 21 16 24 18 19 14708 20 67
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+16:45:57 INFO dflash.server: chat DONE chatcmpl-c1c0e5015ecb4db896595926  in=138 out=128  3.0s  42.7 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=2.4s(52.1tok/s)
+  [daemon] [migrate] 5.04 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=9 walked_sib=1
+16:45:57 INFO dflash.server: chat chatcmpl-a53982ec33a1408996eed675  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon]   walk: 0 1 2 3 4 5 6 10 17
+  [daemon]   sibling info: [16:d6:p5:1040] [17:d8:p10:314] [18:d6:p5:290]
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=9 next=12654
+  [daemon] [step 2] committed=163 last_tok=12654 tree_N=19 accept=3 next=11352
+  [daemon] [step 3] committed=166 last_tok=11352 tree_N=19 accept=5 next=4479
+  [daemon] [step 4] committed=171 last_tok=4479 tree_N=19 accept=6 next=561
+  [daemon] [dbg sib step 5] N=19 accept=3 walked_sib=1
+  [daemon]   walk: 0 7 17
+  [daemon]   sibling info: [16:d3:p2:25] [17:d2:p7:10029] [18:d2:p1:25]
+  [daemon] [step 5] committed=177 last_tok=561 tree_N=19 accept=3 next=57728
+  [daemon] [step 6] committed=180 last_tok=57728 tree_N=19 accept=3 next=22956
+  [daemon] [step 7] committed=183 last_tok=22956 tree_N=19 accept=6 next=64
+  [daemon] [step 8] committed=189 last_tok=64 tree_N=19 accept=16 next=18
+  [daemon] [dbg sib step 9] N=19 accept=11 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 17
+  [daemon]   sibling info: [16:d9:p8:15] [17:d10:p9:23] [18:d11:p17:23]
+  [daemon] [step 9] committed=205 last_tok=18 tree_N=19 accept=11 next=18
+  [daemon] [step 10] committed=216 last_tok=18 tree_N=19 accept=8 next=709
+  [daemon] [step 11] committed=224 last_tok=709 tree_N=19 accept=3 next=25
+  [daemon] [step 12] committed=227 last_tok=25 tree_N=19 accept=7 next=1116
+  [daemon] [step 13] committed=234 last_tok=1116 tree_N=19 accept=3 next=847
+  [daemon] [dbg sib step 14] N=19 accept=10 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 14 15 16 17 18
+  [daemon]   sibling info: [16:d7:p15:16793] [17:d8:p16:1089] [18:d9:p17:198]
+  [daemon] [step 14] committed=237 last_tok=847 tree_N=19 accept=10 next=1734
+  [daemon] [step 15] committed=247 last_tok=1734 tree_N=19 accept=16 next=5871
+  [daemon] [step 16] committed=263 last_tok=5871 tree_N=19 accept=7 next=260
+  [daemon] [timing] per-step averages over 17 steps (ms):
+  [daemon]   draft_build    0.19
+  [daemon]   draft_copyfeat 2.22
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.56
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.34
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.04
+  [daemon]   verify_set     0.09
+  [daemon]   verify_compute 121.79
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.02
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     151.41
+  [daemon] [dflash] generated 128 tokens in 2.586 s  ->  49.50 tok/s
+  [daemon] [dflash] 17 draft steps, accepted=128/272 (47.1% per step), avg commit/step=7.53
+  [daemon] [dflash] output tail: 198 1734 1103 13787 5871 16793 11 16923 7826 42 6465 1192 19867 198 1734 1103 13787 5871 16793 11
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.10 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=9 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 10 11
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=9 next=12654
+  [daemon] [step 2] committed=163 last_tok=12654 tree_N=19 accept=3 next=198
+16:46:00 INFO dflash.server: chat DONE chatcmpl-a53982ec33a1408996eed675  in=138 out=128  3.0s  42.5 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=2.4s(51.9tok/s)
+  [daemon] [step 3] committed=166 last_tok=198 tree_N=19 accept=5 next=264
+  [daemon] [step 4] committed=171 last_tok=264 tree_N=19 accept=5 next=41973
+  [daemon] [step 5] committed=176 last_tok=41973 tree_N=19 accept=15 next=4844
+  [daemon] [step 6] committed=191 last_tok=4844 tree_N=19 accept=2 next=3759
+  [daemon] [dbg sib step 7] N=19 accept=7 walked_sib=1
+16:46:00 INFO dflash.server: chat chatcmpl-e8769906261944d685da741f  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon]   walk: 0 2 4 6 9 13 17
+  [daemon]   sibling info: [16:d4:p12:2334] [17:d6:p13:25792] [18:d4:p14:2334]
+  [daemon] [step 7] committed=193 last_tok=3759 tree_N=19 accept=7 next=27896
+  [daemon] [step 8] committed=200 last_tok=27896 tree_N=19 accept=13 next=357
+  [daemon] [dbg sib step 9] N=19 accept=4 walked_sib=1
+  [daemon]   walk: 0 1 2 16
+  [daemon]   sibling info: [16:d3:p2:2424] [17:d3:p2:4952] [18:d3:p4:440]
+  [daemon] [step 9] committed=213 last_tok=357 tree_N=19 accept=4 next=25
+  [daemon] [step 10] committed=217 last_tok=25 tree_N=19 accept=5 next=8901
+  [daemon] [step 11] committed=222 last_tok=8901 tree_N=19 accept=9 next=51673
+  [daemon] [step 12] committed=231 last_tok=51673 tree_N=19 accept=7 next=75458
+  [daemon] [step 13] committed=238 last_tok=75458 tree_N=19 accept=6 next=279
+  [daemon] [step 14] committed=244 last_tok=279 tree_N=19 accept=4 next=60003
+  [daemon] [step 15] committed=248 last_tok=60003 tree_N=19 accept=7 next=638
+  [daemon] [step 16] committed=255 last_tok=638 tree_N=19 accept=11 next=357
+  [daemon] [timing] per-step averages over 17 steps (ms):
+  [daemon]   draft_build    0.24
+  [daemon]   draft_copyfeat 1.95
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.41
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.54
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.29
+  [daemon]   verify_set     0.10
+  [daemon]   verify_compute 121.88
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.03
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     151.58
+  [daemon] [dflash] generated 128 tokens in 2.588 s  ->  49.46 tok/s
+  [daemon] [dflash] 17 draft steps, accepted=128/272 (47.1% per step), avg commit/step=7.53
+  [daemon] [dflash] output tail: 25 1510 60003 1114 4244 14308 65070 14802 283 638 1385 2309 22257 1104 14779 7402 44646 198 256 471
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.35 s, last_tok=8160
+  [daemon] [migrate] 4.76 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=9 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 17
+  [daemon]   sibling info: [16:d7:p6:1500] [17:d8:p7:314] [18:d7:p6:381]
+16:46:04 INFO dflash.server: chat DONE chatcmpl-e8769906261944d685da741f  in=138 out=128  4.1s  31.6 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=3.5s(36.3tok/s)
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=9 next=12654
+  [daemon] [dbg sib step 2] N=19 accept=4 walked_sib=1
+  [daemon]   walk: 0 1 4 18
+  [daemon]   sibling info: [16:d3:p2:1092] [17:d2:p1:25] [18:d3:p4:198]
+  [daemon] [step 2] committed=163 last_tok=12654 tree_N=19 accept=4 next=256
+  [daemon] [step 3] committed=167 last_tok=256 tree_N=19 accept=3 next=1970
+  [daemon] [step 4] committed=170 last_tok=1970 tree_N=19 accept=4 next=494
+  [daemon] [step 5] committed=174 last_tok=494 tree_N=19 accept=3 next=6618
+  [daemon] [step 6] committed=177 last_tok=6618 tree_N=19 accept=2 next=2133
+  [daemon] [step 7] committed=179 last_tok=2133 tree_N=19 accept=3 next=4222
+  [daemon] [step 8] committed=182 last_tok=4222 tree_N=19 accept=3 next=343
+16:46:04 INFO dflash.server: chat chatcmpl-a2e5fe9066794cbda0d8a216  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 9] committed=185 last_tok=343 tree_N=19 accept=4 next=264
+  [daemon] [step 10] committed=189 last_tok=264 tree_N=19 accept=3 next=10673
+  [daemon] [step 11] committed=192 last_tok=10673 tree_N=19 accept=4 next=40581
+  [daemon] [step 12] committed=196 last_tok=40581 tree_N=19 accept=3 next=1510
+  [daemon] [step 13] committed=199 last_tok=1510 tree_N=19 accept=5 next=95215
+  [daemon] [step 14] committed=204 last_tok=95215 tree_N=19 accept=4 next=3499
+  [daemon] [step 15] committed=208 last_tok=3499 tree_N=19 accept=6 next=14866
+  [daemon] [step 16] committed=214 last_tok=14866 tree_N=19 accept=5 next=6533
+  [daemon] [step 17] committed=219 last_tok=6533 tree_N=19 accept=5 next=286
+  [daemon] [step 18] committed=224 last_tok=286 tree_N=19 accept=6 next=561
+  [daemon] [step 19] committed=230 last_tok=561 tree_N=19 accept=3 next=57728
+  [daemon] [step 20] committed=233 last_tok=57728 tree_N=19 accept=4 next=1412
+  [daemon] [step 21] committed=237 last_tok=1412 tree_N=19 accept=2 next=25
+  [daemon] [dbg sib step 22] N=19 accept=14 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 17
+  [daemon]   sibling info: [16:d7:p15:11] [17:d13:p12:220] [18:d8:p16:328]
+  [daemon] [step 22] committed=239 last_tok=25 tree_N=19 accept=14 next=20
+  [daemon] [dbg sib step 23] N=19 accept=16 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 16 17
+  [daemon]   sibling info: [16:d14:p13:5137] [17:d15:p16:12] [18:d14:p13:21]
+  [daemon] [step 23] committed=253 last_tok=20 tree_N=19 accept=16 next=24
+  [daemon] [timing] per-step averages over 24 steps (ms):
+  [daemon]   draft_build    0.19
+  [daemon]   draft_copyfeat 2.32
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.39
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.24
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   0.98
+  [daemon]   verify_set     0.09
+  [daemon]   verify_compute 121.72
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.02
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     151.09
+  [daemon] [dflash] generated 128 tokens in 3.643 s  ->  35.13 tok/s
+  [daemon] [dflash] 24 draft steps, accepted=128/384 (33.3% per step), avg commit/step=5.33
+  [daemon] [dflash] output tail: 11 328 2523 1467 524 716 220 20 15 18 68 24 15 69 23 2149 5734 20 12 19
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.35 s, last_tok=8160
+16:46:07 INFO dflash.server: chat DONE chatcmpl-a2e5fe9066794cbda0d8a216  in=138 out=128  2.8s  45.1 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=2.3s(55.7tok/s)
+  [daemon] [migrate] 4.88 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=9 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=9 next=12654
+  [daemon] [step 2] committed=163 last_tok=12654 tree_N=19 accept=3 next=4222
+  [daemon] [step 3] committed=166 last_tok=4222 tree_N=19 accept=4 next=51
+  [daemon] [step 4] committed=170 last_tok=51 tree_N=19 accept=4 next=10673
+  [daemon] [step 5] committed=174 last_tok=10673 tree_N=19 accept=4 next=4650
+16:46:07 INFO dflash.server: chat chatcmpl-9f20591991684450b5cbfe4c  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=136  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 6] committed=178 last_tok=4650 tree_N=19 accept=5 next=326
+  [daemon] [step 7] committed=183 last_tok=326 tree_N=19 accept=2 next=512
+  [daemon] [step 8] committed=185 last_tok=512 tree_N=19 accept=6 next=256
+  [daemon] [step 9] committed=191 last_tok=256 tree_N=19 accept=5 next=25
+  [daemon] [step 10] committed=196 last_tok=25 tree_N=19 accept=7 next=696
+  [daemon] [step 11] committed=203 last_tok=696 tree_N=19 accept=12 next=271
+  [daemon] [dbg sib step 12] N=19 accept=16 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 16 17
+  [daemon]   sibling info: [16:d14:p13:17118] [17:d15:p16:82] [18:d12:p11:198]
+  [daemon] [step 12] committed=215 last_tok=271 tree_N=19 accept=16 next=11
+  [daemon] [step 13] committed=231 last_tok=11 tree_N=19 accept=16 next=220
+  [daemon] [dbg sib step 14] N=19 accept=16 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 16
+  [daemon]   sibling info: [16:d15:p14:7530] [17:d12:p11:1385] [18:d13:p17:1385]
+  [daemon] [step 14] committed=247 last_tok=220 tree_N=19 accept=16 next=7
+  [daemon] [dbg sib step 15] N=19 accept=15 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 16
+  [daemon]   sibling info: [16:d14:p13:198] [17:d15:p16:198] [18:d15:p14:1734]
+  [daemon] [step 15] committed=263 last_tok=7 tree_N=19 accept=15 next=1734
+  [daemon] [timing] per-step averages over 16 steps (ms):
+  [daemon]   draft_build    0.19
+  [daemon]   draft_copyfeat 2.29
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.36
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.28
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.07
+  [daemon]   verify_set     0.09
+  [daemon]   verify_compute 121.58
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.02
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     151.03
+  [daemon] [dflash] generated 128 tokens in 2.429 s  ->  52.70 tok/s
+  [daemon] [dflash] 16 draft steps, accepted=128/256 (50.0% per step), avg commit/step=8.00
+  [daemon] [dflash] output tail: 835 220 16 25 198 1734 638 920 4520 13171 14071 78827 283 638 1385 6711 7530 7 198 336
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 136 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 136 tokens in 0.35 s, last_tok=8160
+  [daemon] [migrate] 4.82 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=136 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=10 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 13
+  [daemon] [step 1] committed=152 last_tok=198 tree_N=19 accept=10 next=1970
+  [daemon] [step 2] committed=162 last_tok=1970 tree_N=19 accept=3 next=256
+  [daemon] [dbg sib step 3] N=19 accept=6 walked_sib=1
+16:46:10 INFO dflash.server: chat DONE chatcmpl-9f20591991684450b5cbfe4c  in=136 out=128  3.3s  38.6 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=2.8s(46.1tok/s)
+  [daemon]   walk: 0 1 2 3 6 16
+  [daemon]   sibling info: [16:d5:p6:264] [17:d4:p3:264] [18:d3:p2:579]
+  [daemon] [step 3] committed=165 last_tok=256 tree_N=19 accept=6 next=33539
+  [daemon] [step 4] committed=171 last_tok=33539 tree_N=19 accept=3 next=1510
+  [daemon] [step 5] committed=174 last_tok=1510 tree_N=19 accept=6 next=198
+  [daemon] [step 6] committed=180 last_tok=198 tree_N=19 accept=4 next=10672
+  [daemon] [step 7] committed=184 last_tok=10672 tree_N=19 accept=2 next=7944
+  [daemon] [step 8] committed=186 last_tok=7944 tree_N=19 accept=6 next=198
+  [daemon] [step 9] committed=192 last_tok=198 tree_N=19 accept=7 next=52434
+  [daemon] [step 10] committed=199 last_tok=52434 tree_N=19 accept=4 next=491
+16:46:10 INFO dflash.server: chat chatcmpl-e75cf3d764b849c9b938f248  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=136  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 11] committed=203 last_tok=491 tree_N=19 accept=2 next=60991
+  [daemon] [step 12] committed=205 last_tok=60991 tree_N=19 accept=5 next=10490
+  [daemon] [step 13] committed=210 last_tok=10490 tree_N=19 accept=7 next=1483
+  [daemon] [step 14] committed=217 last_tok=1483 tree_N=19 accept=3 next=3799
+  [daemon] [step 15] committed=220 last_tok=3799 tree_N=19 accept=4 next=90363
+  [daemon] [dbg sib step 16] N=19 accept=12 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 10 13 15 17
+  [daemon]   sibling info: [16:d9:p14:15] [17:d11:p15:22] [18:d10:p16:64]
+  [daemon] [step 16] committed=224 last_tok=90363 tree_N=19 accept=12 next=17
+  [daemon] [step 17] committed=236 last_tok=17 tree_N=19 accept=16 next=12
+  [daemon] [step 18] committed=252 last_tok=12 tree_N=19 accept=15 next=471
+  [daemon] [timing] per-step averages over 19 steps (ms):
+  [daemon]   draft_build    0.23
+  [daemon]   draft_copyfeat 2.17
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.38
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.40
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.19
+  [daemon]   verify_set     0.10
+  [daemon]   verify_compute 121.89
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.03
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     151.54
+  [daemon] [dflash] generated 128 tokens in 2.894 s  ->  44.23 tok/s
+  [daemon] [dflash] 19 draft steps, accepted=128/304 (42.1% per step), avg commit/step=6.74
+  [daemon] [dflash] output tail: 19 23 68 15 7174 16 23 69 12 18 16 21 65 19 69 20 22 22 16 10481
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  [daemon] [prompt] 136 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 136 tokens in 0.35 s, last_tok=8160
+  [daemon] [migrate] 4.97 ms
+16:46:15 INFO dflash.server: chat DONE chatcmpl-e75cf3d764b849c9b938f248  in=136 out=128  4.7s  27.3 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=4.1s(30.8tok/s)
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=136 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=9 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 9
+  [daemon] [step 1] committed=152 last_tok=198 tree_N=19 accept=9 next=12654
+16:46:15 INFO dflash.server: chat chatcmpl-95aecb1792a34ed593c5e40f  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 2] committed=161 last_tok=12654 tree_N=19 accept=2 next=11
+  [daemon] [step 3] committed=163 last_tok=11 tree_N=19 accept=3 next=310
+  [daemon] [step 4] committed=166 last_tok=310 tree_N=19 accept=4 next=27718
+  [daemon] [step 5] committed=170 last_tok=27718 tree_N=19 accept=4 next=1510
+  [daemon] [step 6] committed=174 last_tok=1510 tree_N=19 accept=5 next=78913
+  [daemon] [step 7] committed=179 last_tok=78913 tree_N=19 accept=4 next=4696
+  [daemon] [step 8] committed=183 last_tok=4696 tree_N=19 accept=7 next=7701
+  [daemon] [step 9] committed=190 last_tok=7701 tree_N=19 accept=4 next=314
+  [daemon] [step 10] committed=194 last_tok=314 tree_N=19 accept=4 next=421
+  [daemon] [step 11] committed=198 last_tok=421 tree_N=19 accept=4 next=53
+  [daemon] [step 12] committed=202 last_tok=53 tree_N=19 accept=3 next=6816
+  [daemon] [step 13] committed=205 last_tok=6816 tree_N=19 accept=1 next=3808
+  [daemon] [step 14] committed=206 last_tok=3808 tree_N=19 accept=1 next=4536
+  [daemon] [dbg sib step 15] N=19 accept=8 walked_sib=1
+  [daemon]   walk: 0 1 2 3 5 7 9 16
+  [daemon]   sibling info: [16:d7:p9:579] [17:d2:p13:13] [18:d6:p12:2532]
+  [daemon] [step 15] committed=207 last_tok=4536 tree_N=19 accept=8 next=264
+  [daemon] [step 16] committed=215 last_tok=264 tree_N=19 accept=2 next=1654
+  [daemon] [step 17] committed=217 last_tok=1654 tree_N=19 accept=4 next=63
+  [daemon] [step 18] committed=221 last_tok=63 tree_N=19 accept=3 next=2234
+  [daemon] [step 19] committed=224 last_tok=2234 tree_N=19 accept=3 next=440
+  [daemon] [step 20] committed=227 last_tok=440 tree_N=19 accept=2 next=33539
+  [daemon] [step 21] committed=229 last_tok=33539 tree_N=19 accept=3 next=1510
+  [daemon] [step 22] committed=232 last_tok=1510 tree_N=19 accept=2 next=13
+  [daemon] [dbg sib step 23] N=19 accept=9 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 7 12 17
+  [daemon]   sibling info: [16:d5:p4:7561] [17:d8:p12:471] [18:d7:p10:256]
+  [daemon] [step 23] committed=234 last_tok=13 tree_N=19 accept=9 next=561
+  [daemon] [step 24] committed=243 last_tok=561 tree_N=19 accept=3 next=974
+  [daemon] [step 25] committed=246 last_tok=974 tree_N=19 accept=4 next=671
+  [daemon] [step 26] committed=250 last_tok=671 tree_N=19 accept=10 next=27896
+  [daemon] [step 27] committed=260 last_tok=27896 tree_N=19 accept=9 next=2149
+  [daemon] [timing] per-step averages over 28 steps (ms):
+  [daemon]   draft_build    0.23
+  [daemon]   draft_copyfeat 2.14
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.38
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.55
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.20
+  [daemon]   verify_set     0.10
+  [daemon]   verify_compute 122.00
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.02
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     151.77
+  [daemon] [dflash] generated 128 tokens in 4.270 s  ->  29.98 tok/s
+  [daemon] [dflash] 28 draft steps, accepted=128/448 (28.6% per step), avg commit/step=4.57
+  [daemon] [dflash] output tail: 41643 14663 974 57728 506 1510 671 638 721 298 370 35988 81189 9337 535 2334 27896 220 22 20
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 4.93 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+16:46:19 INFO dflash.server: chat DONE chatcmpl-95aecb1792a34ed593c5e40f  in=138 out=128  3.6s  35.7 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=3.0s(42.0tok/s)
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=9 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=9 next=12654
+  [daemon] [step 2] committed=163 last_tok=12654 tree_N=19 accept=3 next=198
+  [daemon] [step 3] committed=166 last_tok=198 tree_N=19 accept=5 next=1010
+  [daemon] [step 4] committed=171 last_tok=1010 tree_N=19 accept=3 next=1654
+  [daemon] [step 5] committed=174 last_tok=1654 tree_N=19 accept=4 next=264
+  [daemon] [step 6] committed=178 last_tok=264 tree_N=19 accept=2 next=12317
+  [daemon] [step 7] committed=180 last_tok=12317 tree_N=19 accept=6 next=1510
+  [daemon] [step 8] committed=186 last_tok=1510 tree_N=19 accept=5 next=24
+  [daemon] [step 9] committed=191 last_tok=24 tree_N=19 accept=6 next=22
+  [daemon] [dbg sib step 10] N=19 accept=16 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 15 17
+  [daemon]   sibling info: [16:d15:p14:24] [17:d15:p15:24] [18:d15:p14:1795]
+16:46:19 INFO dflash.server: chat chatcmpl-5aab94ed50534d4d883ab235  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 10] committed=197 last_tok=22 tree_N=19 accept=16 next=69
+  [daemon] [step 11] committed=213 last_tok=69 tree_N=19 accept=11 next=4816
+  [daemon] [step 12] committed=224 last_tok=4816 tree_N=19 accept=5 next=21966
+  [daemon] [step 13] committed=229 last_tok=21966 tree_N=19 accept=4 next=10451
+  [daemon] [step 14] committed=233 last_tok=10451 tree_N=19 accept=4 next=3950
+  [daemon] [step 15] committed=237 last_tok=3950 tree_N=19 accept=4 next=4283
+  [daemon] [step 16] committed=241 last_tok=4283 tree_N=19 accept=4 next=12263
+  [daemon] [step 17] committed=245 last_tok=12263 tree_N=19 accept=3 next=3665
+  [daemon] [step 18] committed=248 last_tok=3665 tree_N=19 accept=5 next=7561
+  [daemon] [step 19] committed=253 last_tok=7561 tree_N=19 accept=5 next=11607
+  [daemon] [step 20] committed=258 last_tok=11607 tree_N=19 accept=8 next=8286
+  [daemon] [timing] per-step averages over 21 steps (ms):
+  [daemon]   draft_build    0.19
+  [daemon]   draft_copyfeat 2.06
+  [daemon]   draft_set      0.16
+  [daemon]   draft_compute  23.29
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.31
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   1.02
+  [daemon]   verify_set     0.09
+  [daemon]   verify_compute 121.32
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.02
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     150.46
+  [daemon] [dflash] generated 128 tokens in 3.173 s  ->  40.34 tok/s
+  [daemon] [dflash] 21 draft steps, accepted=128/336 (38.1% per step), avg commit/step=6.10
+  [daemon] [dflash] output tail: 318 40581 3665 1040 1510 41973 73779 7561 1510 68 490 65 11607 7561 1510 1652 18894 4935 7561 1510
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+16:46:23 INFO dflash.server: chat DONE chatcmpl-5aab94ed50534d4d883ab235  in=138 out=128  4.0s  31.7 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=3.5s(36.5tok/s)
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.34 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=9 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 11 14
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=9 next=12654
+  [daemon] [step 2] committed=163 last_tok=12654 tree_N=19 accept=2 next=11
+  [daemon] [step 3] committed=165 last_tok=11 tree_N=19 accept=4 next=5484
+  [daemon] [step 4] committed=169 last_tok=5484 tree_N=19 accept=4 next=51343
+16:46:23 INFO dflash.server: chat chatcmpl-7da18e75864641bea0d05c99  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 5] committed=173 last_tok=51343 tree_N=19 accept=1 next=343
+  [daemon] [dbg sib step 6] N=19 accept=5 walked_sib=1
+  [daemon]   walk: 0 1 2 3 18
+  [daemon]   sibling info: [16:d1:p0:3864] [17:d4:p3:77754] [18:d4:p3:2574]
+  [daemon] [step 6] committed=174 last_tok=343 tree_N=19 accept=5 next=279
+  [daemon] [step 7] committed=179 last_tok=279 tree_N=19 accept=2 next=43015
+  [daemon] [step 8] committed=181 last_tok=43015 tree_N=19 accept=6 next=1349
+  [daemon] [step 9] committed=187 last_tok=1349 tree_N=19 accept=7 next=34310
+  [daemon] [step 10] committed=194 last_tok=34310 tree_N=19 accept=6 next=2334
+  [daemon] [step 11] committed=200 last_tok=2334 tree_N=19 accept=11 next=4774
+  [daemon] [step 12] committed=211 last_tok=4774 tree_N=19 accept=2 next=1654
+  [daemon] [step 13] committed=213 last_tok=1654 tree_N=19 accept=2 next=76
+  [daemon] [step 14] committed=215 last_tok=76 tree_N=19 accept=7 next=318
+  [daemon] [step 15] committed=222 last_tok=318 tree_N=19 accept=2 next=4283
+  [daemon] [dbg sib step 16] N=19 accept=3 walked_sib=1
+  [daemon]   walk: 0 2 16
+  [daemon]   sibling info: [16:d2:p2:421] [17:d2:p6:321] [18:d1:p0:11618]
+  [daemon] [step 16] committed=224 last_tok=4283 tree_N=19 accept=3 next=55917
+  [daemon] [step 17] committed=227 last_tok=55917 tree_N=19 accept=6 next=4244
+  [daemon] [step 18] committed=233 last_tok=4244 tree_N=19 accept=4 next=36
+  [daemon] [step 19] committed=237 last_tok=36 tree_N=19 accept=11 next=4844
+  [daemon] [step 20] committed=248 last_tok=4844 tree_N=19 accept=3 next=279
+  [daemon] [dbg sib step 21] N=19 accept=5 walked_sib=1
+  [daemon]   walk: 0 1 2 7 16
+  [daemon]   sibling info: [16:d4:p7:1654] [17:d5:p12:88461] [18:d4:p7:88461]
+  [daemon] [step 21] committed=251 last_tok=279 tree_N=19 accept=5 next=25
+  [daemon] [step 22] committed=256 last_tok=25 tree_N=19 accept=9 next=25
+  [daemon] [step 23] committed=265 last_tok=25 tree_N=19 accept=8 next=24
+  [daemon] [timing] per-step averages over 24 steps (ms):
+  [daemon]   draft_build    0.19
+  [daemon]   draft_copyfeat 2.05
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.34
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.25
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   0.98
+  [daemon]   verify_set     0.09
+  [daemon]   verify_compute 121.34
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.02
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     150.43
+  [daemon] [dflash] generated 128 tokens in 3.625 s  ->  35.31 tok/s
+  [daemon] [dflash] 24 draft steps, accepted=128/384 (33.3% per step), avg commit/step=5.33
+  [daemon] [dflash] output tail: 256 471 4844 424 4774 279 1151 314 2361 1654 25 1510 727 696 9979 1153 11 7920 22257 25
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.35 s, last_tok=8160
+  [daemon] [migrate] 4.79 ms
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+16:46:26 INFO dflash.server: chat DONE chatcmpl-7da18e75864641bea0d05c99  in=138 out=128  3.0s  43.0 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=2.4s(52.4tok/s)
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=9 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 9
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=9 next=12654
+  [daemon] [step 2] committed=163 last_tok=12654 tree_N=19 accept=4 next=256
+  [daemon] [step 3] committed=167 last_tok=256 tree_N=19 accept=4 next=25
+  [daemon] [step 4] committed=171 last_tok=25 tree_N=19 accept=6 next=1716
+  [daemon] [dbg sib step 5] N=19 accept=5 walked_sib=1
+  [daemon]   walk: 0 1 3 5 17
+  [daemon]   sibling info: [16:d3:p11:331] [17:d4:p5:2343] [18:d4:p5:701]
+  [daemon] [step 5] committed=177 last_tok=1716 tree_N=19 accept=5 next=1153
+  [daemon] [dbg sib step 6] N=19 accept=15 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 15 17
+  [daemon]   sibling info: [16:d15:p14:257] [17:d14:p15:460] [18:d14:p13:198]
+16:46:26 INFO dflash.server: chat chatcmpl-6a1b3da2011d43ba98cfe90d  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:42112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 6] committed=182 last_tok=1153 tree_N=19 accept=15 next=63
+  [daemon] [step 7] committed=197 last_tok=63 tree_N=19 accept=6 next=25
+  [daemon] [step 8] committed=203 last_tok=25 tree_N=19 accept=12 next=198
+  [daemon] [step 9] committed=215 last_tok=198 tree_N=19 accept=4 next=709
+  [daemon] [step 10] committed=219 last_tok=709 tree_N=19 accept=10 next=2458
+  [daemon] [step 11] committed=229 last_tok=2458 tree_N=19 accept=4 next=1153
+  [daemon] [step 12] committed=233 last_tok=1153 tree_N=19 accept=8 next=21186
+  [daemon] [step 13] committed=241 last_tok=21186 tree_N=19 accept=6 next=44484
+  [daemon] [step 14] committed=247 last_tok=44484 tree_N=19 accept=7 next=7044
+  [daemon] [step 15] committed=254 last_tok=7044 tree_N=19 accept=7 next=18772
+  [daemon] [step 16] committed=261 last_tok=18772 tree_N=19 accept=8 next=257
+  [daemon] [timing] per-step averages over 17 steps (ms):
+  [daemon]   draft_build    0.18
+  [daemon]   draft_copyfeat 2.17
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.37
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.36
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   0.94
+  [daemon]   verify_set     0.09
+  [daemon]   verify_compute 121.40
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.02
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     150.68
+  [daemon] [dflash] generated 128 tokens in 2.572 s  ->  49.76 tok/s
+  [daemon] [dflash] 17 draft steps, accepted=128/272 (47.1% per step), avg commit/step=7.53
+  [daemon] [dflash] output tail: 21186 44484 63 198 257 471 357 1654 7044 25 1510 727 696 2251 93720 18772 12994 1153 8 1411
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.35 s, last_tok=8160
+  [daemon] [migrate] 4.79 ms
+16:46:29 INFO dflash.server: chat DONE chatcmpl-6a1b3da2011d43ba98cfe90d  in=138 out=128  3.7s  34.2 tok/s  finish=stop  compress=0.0s  prefill=0.6s  decode=3.2s(39.8tok/s)
+  [daemon] [dbg sib step 0] N=19 accept=16 walked_sib=0
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+  [daemon] [step 0] committed=138 last_tok=8160 tree_N=19 accept=16 next=198
+  [daemon] [dbg sib step 1] N=19 accept=10 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 18
+  [daemon]   sibling info: [16:d6:p15:264] [17:d8:p11:314] [18:d9:p8:12654]
+  [daemon] [step 1] committed=154 last_tok=198 tree_N=19 accept=10 next=1970
+  [daemon] [step 2] committed=164 last_tok=1970 tree_N=19 accept=3 next=256
+  [daemon] [dbg sib step 3] N=19 accept=4 walked_sib=1
+  [daemon]   walk: 0 1 4 18
+  [daemon]   sibling info: [16:d3:p4:10029] [17:d4:p5:1040] [18:d3:p4:1970]
+  [daemon] [step 3] committed=167 last_tok=256 tree_N=19 accept=4 next=7701
+  [daemon] [step 4] committed=171 last_tok=7701 tree_N=19 accept=4 next=314
+  [daemon] [step 5] committed=175 last_tok=314 tree_N=19 accept=4 next=88670
+  [daemon] [dbg sib step 6] N=19 accept=4 walked_sib=1
+  [daemon]   walk: 0 1 2 17
+  [daemon]   sibling info: [16:d3:p2:264] [17:d3:p2:5265] [18:d4:p4:264]
+  [daemon] [step 6] committed=179 last_tok=88670 tree_N=19 accept=4 next=310
+  [daemon] [step 7] committed=183 last_tok=310 tree_N=19 accept=3 next=55665
+  [daemon] [dbg sib step 8] N=19 accept=3 walked_sib=1
+  [daemon]   walk: 0 1 18
+  [daemon]   sibling info: [16:d2:p2:318] [17:d2:p2:15796] [18:d2:p1:1472]
+  [daemon] [step 8] committed=186 last_tok=55665 tree_N=19 accept=3 next=264
+  [daemon] [step 9] committed=189 last_tok=264 tree_N=19 accept=5 next=471
+  [daemon] [step 10] committed=194 last_tok=471 tree_N=19 accept=7 next=1510
+  [daemon] [step 11] committed=201 last_tok=1510 tree_N=19 accept=2 next=7402
+  [daemon] [step 12] committed=203 last_tok=7402 tree_N=19 accept=3 next=323
+  [daemon] [dbg sib step 13] N=19 accept=5 walked_sib=1
+  [daemon]   walk: 0 1 2 3 16
+  [daemon]   sibling info: [16:d4:p3:3759] [17:d2:p1:3799] [18:d2:p1:57739]
+  [daemon] [step 13] committed=206 last_tok=323 tree_N=19 accept=5 next=803
+  [daemon] [step 14] committed=211 last_tok=803 tree_N=19 accept=3 next=31084
+  [daemon] [step 15] committed=214 last_tok=31084 tree_N=19 accept=3 next=82170
+  [daemon] [step 16] committed=217 last_tok=82170 tree_N=19 accept=6 next=1449
+  [daemon] [step 17] committed=223 last_tok=1449 tree_N=19 accept=3 next=440
+  [daemon] [dbg sib step 18] N=19 accept=11 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 15 17
+  [daemon]   sibling info: [16:d4:p12:283] [17:d10:p15:21126] [18:d5:p16:1558]
+  [daemon] [step 18] committed=226 last_tok=440 tree_N=19 accept=11 next=3693
+  [daemon] [dbg sib step 19] N=19 accept=11 walked_sib=1
+  [daemon]   walk: 0 1 2 3 4 5 6 7 8 14 16
+  [daemon]   sibling info: [16:d10:p14:6974] [17:d7:p6:357] [18:d8:p17:31986]
+  [daemon] [step 19] committed=237 last_tok=3693 tree_N=19 accept=11 next=34422
+  [daemon] [step 20] committed=248 last_tok=34422 tree_N=19 accept=10 next=11789
+  [daemon] [step 21] committed=258 last_tok=11789 tree_N=19 accept=16 next=3127
+  [daemon] [timing] per-step averages over 22 steps (ms):
+  [daemon]   draft_build    0.18
+  [daemon]   draft_copyfeat 2.25
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.37
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   2.44
+  [daemon]   snapshot_ssm   0.00
+  [daemon]   verify_build   0.98
+  [daemon]   verify_set     0.09
+  [daemon]   verify_compute 121.56
+  [daemon]   verify_logits  0.00
+  [daemon]   accept         0.02
+  [daemon]   restore_ssm    0.00
+  [daemon]   replay_build   0.00
+  [daemon]   replay_set     0.00
+  [daemon]   replay_compute 0.00
+  [daemon]   replay_logits  0.00
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     151.03
+  [daemon] [dflash] generated 128 tokens in 3.338 s  ->  38.34 tok/s
+  [daemon] [dflash] 22 draft steps, accepted=128/352 (36.4% per step), avg commit/step=5.82
+  [daemon] [dflash] output tail: 477 6974 34422 37775 34024 29155 34024 11 3481 4133 11789 45334 11789 44646 198 257 471 1510 26141 34024
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [1139447]

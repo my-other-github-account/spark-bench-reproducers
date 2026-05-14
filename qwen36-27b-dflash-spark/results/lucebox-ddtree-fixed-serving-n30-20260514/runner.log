@@ -1,0 +1,38 @@
+[runner] start 2026-05-14T16:41:43-07:00 dir=/home/user/work/dflash-lucebox-gb10-spark3/llama-benchy-fixed-serving-grid-20260514_164136 host=spark-3
+[runner] unpatched llama-benchy path: /home/user/venvs/vllm/bin/llama-benchy
+[runner] llama_benchy.client /home/user/venvs/vllm/lib/python3.12/site-packages/llama_benchy/client.py
+[runner] === cell dflash-sherlock-thinkON port=8180 start 2026-05-14T16:41:48-07:00 ===
+[runner] server died for dflash-sherlock-thinkON
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+Traceback (most recent call last):
+  File "/home/user/work/dflash-lucebox-gb10-spark3/llama-benchy-fixed-serving-grid-20260514_164136/server_dflash-sherlock-thinkON.py", line 39, in <module>
+    from _prefill_hook import (
+ModuleNotFoundError: No module named '_prefill_hook'
+[runner] start 2026-05-14T16:42:23-07:00 dir=/home/user/work/dflash-lucebox-gb10-spark3/llama-benchy-fixed-serving-grid-20260514_164136 host=spark-3
+[runner] unpatched llama-benchy path: /home/user/venvs/vllm/bin/llama-benchy
+[runner] llama_benchy.client /home/user/venvs/vllm/lib/python3.12/site-packages/llama_benchy/client.py
+[runner] === cell dflash-sherlock-thinkON port=8180 start 2026-05-14T16:42:26-07:00 ===
+[runner] server ready dflash-sherlock-thinkON 2026-05-14T16:42:28-07:00
+[smoke] {"content_chunks": 13, "noids": 0, "total_ids": 16, "usage": {"prompt_tokens": 19, "completion_tokens": 16, "total_tokens": 35}, "examples_missing": []}
+[runner] bench dflash-sherlock-thinkON 2026-05-14T16:42:36-07:00
+[runner] === cell dflash-sherlock-thinkON done 2026-05-14T16:44:17-07:00 ===
+[runner] === cell dflash-sherlock-thinkOFF port=8181 start 2026-05-14T16:44:17-07:00 ===
+[runner] server ready dflash-sherlock-thinkOFF 2026-05-14T16:44:19-07:00
+[smoke] {"content_chunks": 11, "noids": 0, "total_ids": 15, "usage": {"prompt_tokens": 21, "completion_tokens": 15, "total_tokens": 36}, "examples_missing": []}
+[runner] bench dflash-sherlock-thinkOFF 2026-05-14T16:44:28-07:00
+[runner] === cell dflash-sherlock-thinkOFF done 2026-05-14T16:44:36-07:00 ===
+[runner] === cell dflash-codegen-thinkON port=8182 start 2026-05-14T16:44:36-07:00 ===
+[runner] server ready dflash-codegen-thinkON 2026-05-14T16:44:38-07:00
+[smoke] {"content_chunks": 13, "noids": 0, "total_ids": 16, "usage": {"prompt_tokens": 19, "completion_tokens": 16, "total_tokens": 35}, "examples_missing": []}
+[runner] bench dflash-codegen-thinkON 2026-05-14T16:44:46-07:00
+[runner] === cell dflash-codegen-thinkON done 2026-05-14T16:46:33-07:00 ===
+[runner] === cell dflash-codegen-thinkOFF port=8183 start 2026-05-14T16:46:33-07:00 ===
+[runner] server ready dflash-codegen-thinkOFF 2026-05-14T16:46:35-07:00
+[smoke] {"content_chunks": 11, "noids": 0, "total_ids": 15, "usage": {"prompt_tokens": 21, "completion_tokens": 15, "total_tokens": 36}, "examples_missing": []}
+[runner] bench dflash-codegen-thinkOFF 2026-05-14T16:46:45-07:00
+[runner] === cell dflash-codegen-thinkOFF done 2026-05-14T16:46:54-07:00 ===
+Traceback (most recent call last):
+  File "/home/user/work/dflash-lucebox-gb10-spark3/llama-benchy-fixed-serving-grid-20260514_164136/summarize_fixed_grid.py", line 11, in <module>
+    vals=b['tg_throughput']['values']
+         ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+TypeError: 'NoneType' object is not subscriptable
