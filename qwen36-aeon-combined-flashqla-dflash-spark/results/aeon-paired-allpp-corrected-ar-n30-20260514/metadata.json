@@ -1,0 +1,23 @@
+{
+  "created_utc": "2026-05-14T05:27:09Z",
+  "image": "ghcr.io/aeon-7/vllm-aeon-ultimate-dflash:qwen36-v4",
+  "model": "aeon-ultimate",
+  "host_model_dir": "/home/user/flashqla-v2-3100/spark-bench-reproducers-main-correction/qwen36-flashqla-dflash-longctx-spark/aeon-public-repro-20260513/Qwen3.6-27B-AEON-Ultimate-Uncensored-DFlash/models/aeon-ultimate-multimodal-nvfp4-mtp-xs",
+  "host_draft_model_dir": "/home/user/flashqla-v2-3100/spark-bench-reproducers-main-correction/qwen36-flashqla-dflash-longctx-spark/aeon-public-repro-20260513/Qwen3.6-27B-AEON-Ultimate-Uncensored-DFlash/models/dflash-drafter",
+  "container_model_dir": "/models/aeon-xs",
+  "container_draft_model_dir": "/models/dflash-drafter",
+  "client_tokenizer": "/workspace/models/aeon-ultimate-multimodal-nvfp4-mtp-xs",
+  "llama_benchy": "llama-benchy==0.3.7",
+  "max_model_len": 262144,
+  "max_num_batched_tokens": 32768,
+  "max_num_seqs": 64,
+  "gpu_memory_utilization": 0.85,
+  "prefix_caching": false,
+  "chunked_prefill": true,
+  "pp": [2048,16384,32768,65536,131072],
+  "tg": 128,
+  "concurrency": 1,
+  "depth": 0,
+  "warmup_runs": 1,
+  "measured_runs": 30
+}

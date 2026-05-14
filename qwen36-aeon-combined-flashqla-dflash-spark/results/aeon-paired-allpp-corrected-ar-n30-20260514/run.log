@@ -1,0 +1,26 @@
+[2026-05-14T05:25:23Z] starting dflash server: aeon-paired-allpp-corrected-ar-n30-dflash
+[2026-05-14T05:27:09Z] starting dflash server: aeon-paired-allpp-corrected-ar-n30-dflash
+[2026-05-14T05:33:50Z] dflash server is healthy
+[2026-05-14T05:33:50Z] dflash pp=2048 warmup N=1
+[2026-05-14T05:35:01Z] dflash pp=2048 measured N=30
+[2026-05-14T05:37:42Z] dflash pp=16384 warmup N=1
+[2026-05-14T05:38:10Z] dflash pp=16384 measured N=30
+[2026-05-14T05:45:23Z] dflash pp=32768 warmup N=1
+[2026-05-14T05:46:01Z] dflash pp=32768 measured N=30
+[2026-05-14T05:59:03Z] dflash pp=65536 warmup N=1
+[2026-05-14T06:01:14Z] dflash pp=65536 measured N=30
+[2026-05-14T06:27:47Z] dflash pp=131072 warmup N=1
+[2026-05-14T06:29:56Z] dflash pp=131072 measured N=30
+[2026-05-14T07:32:46Z] starting ar-reference server: aeon-paired-allpp-corrected-ar-n30-ar-reference
+[2026-05-14T07:38:47Z] ar-reference server is healthy
+[2026-05-14T07:38:47Z] ar-reference pp=2048 warmup N=1
+[2026-05-14T07:39:27Z] ar-reference pp=2048 measured N=30
+[2026-05-14T07:45:14Z] ar-reference pp=16384 warmup N=1
+[2026-05-14T07:47:29Z] ar-reference pp=16384 measured N=30
+[2026-05-14T07:57:49Z] ar-reference pp=32768 warmup N=1
+[2026-05-14T07:58:41Z] ar-reference pp=32768 measured N=30
+[2026-05-14T08:15:08Z] ar-reference pp=65536 warmup N=1
+[2026-05-14T08:16:40Z] ar-reference pp=65536 measured N=30
+[2026-05-14T08:46:52Z] ar-reference pp=131072 warmup N=1
+[2026-05-14T08:50:19Z] ar-reference pp=131072 measured N=30
+[2026-05-14T09:58:17Z] complete: /home/user/flashqla-v2-3100/spark-bench-reproducers-main-correction/qwen36-flashqla-dflash-longctx-spark/aeon-public-repro-20260513/Qwen3.6-27B-AEON-Ultimate-Uncensored-DFlash/results/aeon-paired-allpp-corrected-ar-n30-20260514
