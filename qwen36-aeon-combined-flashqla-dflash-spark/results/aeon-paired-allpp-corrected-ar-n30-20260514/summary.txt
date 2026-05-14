@@ -1,0 +1,42 @@
+{
+  "summary": "/home/user/flashqla-v2-3100/spark-bench-reproducers-main-correction/qwen36-flashqla-dflash-longctx-spark/aeon-public-repro-20260513/Qwen3.6-27B-AEON-Ultimate-Uncensored-DFlash/results/aeon-paired-allpp-corrected-ar-n30-20260514/summary.json",
+  "passed": true,
+  "rows": [
+    {
+      "pp": 2048,
+      "dflash_tg_mean": 32.12296040711513,
+      "ar_tg_mean": 12.044983558576044,
+      "ratio": 2.6669160859288628,
+      "pass": true
+    },
+    {
+      "pp": 16384,
+      "dflash_tg_mean": 29.348764200557888,
+      "ar_tg_mean": 11.503766672735143,
+      "ratio": 2.5512308303433198,
+      "pass": true
+    },
+    {
+      "pp": 32768,
+      "dflash_tg_mean": 25.370477804935895,
+      "ar_tg_mean": 10.931832379810377,
+      "ratio": 2.320789134289303,
+      "pass": true
+    },
+    {
+      "pp": 65536,
+      "dflash_tg_mean": 20.344828455984924,
+      "ar_tg_mean": 9.977160279340579,
+      "ratio": 2.0391401848191593,
+      "pass": true
+    },
+    {
+      "pp": 131072,
+      "dflash_tg_mean": 15.945768315683377,
+      "ar_tg_mean": 8.510099688606047,
+      "ratio": 1.8737463601081847,
+      "pass": true
+    }
+  ],
+  "errors": []
+}

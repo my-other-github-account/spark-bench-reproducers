@@ -1,0 +1,18 @@
+Downloading pygments (1.2MiB)
+Downloading aiohttp (1.7MiB)
+Downloading hf-xet (4.1MiB)
+Downloading numpy (14.9MiB)
+Downloading transformers (10.1MiB)
+Downloading openai (1.2MiB)
+Downloading pydantic-core (1.9MiB)
+Downloading tokenizers (3.1MiB)
+ Downloaded pygments
+ Downloaded aiohttp
+ Downloaded pydantic-core
+ Downloaded openai
+ Downloaded tokenizers
+ Downloaded hf-xet
+ Downloaded numpy
+ Downloaded transformers
+Installed 49 packages in 231ms
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.

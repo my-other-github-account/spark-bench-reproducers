@@ -1,0 +1,22 @@
+llama-benchy (0.3.7)
+Date: 2026-05-14 05:45:27
+Benchmarking model: aeon-ultimate at http://127.0.0.1:8000/v1
+Concurrency levels: [1]
+Downloading book from https://www.gutenberg.org/files/1661/1661-0.txt...
+Saved text to cache: /root/.cache/llama-benchy/cc6a0b5782734ee3b9069aa3b64cc62c.txt
+Total tokens available in text corpus: 144494
+Warming up...
+Warmup (User only) complete. Delta: 9 tokens (Server: 30, Local: 21)
+Warmup (System+Empty) complete. Delta: 14 tokens (Server: 35, Local: 21)
+
+Skipping coherence test (--skip-coherence specified)
+Measuring latency using mode: api...
+Average latency (api): 1.91 ms
+Running test: pp=32768, tg=128, depth=0, concurrency=1
+  Run 1/1 (batch size 1)...
+Saving results to /workspace/results/aeon-paired-allpp-corrected-ar-n30-20260514/dflash/pp32768/warmup-pp32768-tg128-c1-n1.json in JSON format...
+
+
+
+llama-benchy (0.3.7)
+date: 2026-05-14 05:45:27 | latency mode: api
