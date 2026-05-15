@@ -1,0 +1,2155 @@
+[transformers] PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+/home/user/work/dflash-lucebox-gb10-spark3/llama-benchy-ar-baseline-fixed-serving-20260514_223706/server_true-ar-codegen-thinkON.py:729: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+INFO:     Started server process [1157397]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8192 (Press CTRL+C to quit)
+ggml_cuda_init: found 1 CUDA devices (Total VRAM: 122543 MiB):
+  Device 0: NVIDIA GB10, compute capability 12.1, VMM: yes, VRAM: 122543 MiB
+Luce DFlash OpenAI server on http://127.0.0.1:8192
+  arch      = unknown
+  target    = /home/user/work/dflash-lucebox-gb10-spark3/lucebox-hub/dflash/models/Qwen3.6-27B-Q4_K_M.gguf
+  draft     = /home/user/work/dflash-lucebox-gb10-spark3/lucebox-hub/dflash/models/draft/model.safetensors
+  bin       = /home/user/work/dflash-lucebox-gb10-spark3/lucebox-hub/dflash/build/test_dflash
+  budget    = 18
+  ddtree_temp = 1.05
+  max_ctx   = 1024
+  tokenizer = Qwen/Qwen3.6-27B
+  verbose_daemon = ON
+  pflash    = off
+INFO:     127.0.0.1:40914 - "GET /v1/models HTTP/1.1" 200 OK
+22:44:37 INFO dflash.server: chat chatcmpl-feb5d430aeae45b39971e935  stream=False  msgs=1 {'user': 1}  tools=0  prompt_tokens=30  max_tokens=1  max_completion_tokens=None  effective_max_tokens=1  max_ctx=1024  model=luce-dflash
+  [daemon] [cfg] seq_verify=0 fast_rollback=0 ddtree=0 budget=64 temp=1.00 chain_seed=0 fa_window=2048 draft_swa=0 draft_ctx_max=4096 draft_feature_mirror=0 peer_access=0 target_gpu=0 draft_gpu=0
+  [daemon] [loader] eos_id=248046 eos_chat_id=-1
+  [daemon] [target] target loaded: layers [0,64) output=1, 850 tensors on GPU 14.99 GiB, tok_embd 682 MiB CPU-only (q4_K)
+  [daemon] [draft]  loaded
+  [daemon] [daemon] ready
+22:44:42 INFO dflash.server: chat DONE chatcmpl-feb5d430aeae45b39971e935  in=30 out=1  5.5s  0.2 tok/s  finish=stop  compress=0.0s  prefill=5.5s
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+22:44:42 INFO dflash.server: chat chatcmpl-b9615536e03441d09f3fac22  stream=False  msgs=2 {'system': 1, 'user': 1}  tools=0  prompt_tokens=35  max_tokens=1  max_completion_tokens=None  effective_max_tokens=1  max_ctx=1024  model=luce-dflash
+  [daemon] [prompt] 30 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 30 tokens in 0.33 s, last_tok=8160
+  [daemon] [migrate] 82.42 ms
+  [daemon] [step 0] committed=30 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [timing] per-step averages over 1 steps (ms):
+  [daemon]   draft_build    0.92
+  [daemon]   draft_copyfeat 0.99
+  [daemon]   draft_set      0.03
+  [daemon]   draft_compute  221.32
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.03
+  [daemon]   snapshot_ssm   2.11
+  [daemon]   verify_build   3.58
+  [daemon]   verify_set     0.19
+  [daemon]   verify_compute 127.73
+  [daemon]   verify_logits  0.02
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.09
+  [daemon]   replay_build   1.26
+  [daemon]   replay_set     0.02
+  [daemon]   replay_compute 107.93
+  [daemon]   replay_logits  0.45
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     468.66
+  [daemon] [dflash] generated 1 tokens in 0.469 s  ->  2.13 tok/s
+  [daemon] [dflash] 1 draft steps, accepted=16/16 (100.0% per step), avg commit/step=1.00
+  [daemon] [dflash] output tail: 44239 446 44239 446 44239 446 44239 446 44239 446 44239 446 248046 198 248045 74455 198 248068 198 8160
+  [daemon] [prompt] 35 tokens
+22:44:43 INFO dflash.server: chat DONE chatcmpl-b9615536e03441d09f3fac22  in=35 out=1  0.5s  2.1 tok/s  finish=stop  compress=0.0s  prefill=0.5s
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 35 tokens in 0.16 s, last_tok=8160
+  [daemon] [migrate] 1.61 ms
+  [daemon] [step 0] committed=35 last_tok=8160
+22:44:43 INFO dflash.server: chat chatcmpl-8cc3fa5accfd4045bd492db3  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=137  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [timing] per-step averages over 1 steps (ms):
+  [daemon]   draft_build    0.22
+  [daemon]   draft_copyfeat 0.06
+  [daemon]   draft_set      0.04
+  [daemon]   draft_compute  24.16
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.02
+  [daemon]   snapshot_ssm   2.41
+  [daemon]   verify_build   3.47
+  [daemon]   verify_set     0.08
+  [daemon]   verify_compute 125.15
+  [daemon]   verify_logits  0.02
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.09
+  [daemon]   replay_build   1.26
+  [daemon]   replay_set     0.02
+  [daemon]   replay_compute 95.56
+  [daemon]   replay_logits  0.40
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     254.95
+  [daemon] [dflash] generated 1 tokens in 0.255 s  ->  3.92 tok/s
+  [daemon] [dflash] 1 draft steps, accepted=16/16 (100.0% per step), avg commit/step=1.00
+  [daemon] [dflash] output tail: 446 44239 446 44239 446 44239 446 248046 198 248045 846 198 248046 198 248045 74455 198 248068 198 8160
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 137 tokens
+22:44:50 INFO dflash.server: chat DONE chatcmpl-8cc3fa5accfd4045bd492db3  in=137 out=128  7.1s  18.2 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=6.3s(20.1tok/s)
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 137 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.11 ms
+  [daemon] [step 0] committed=137 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=153 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=163 last_tok=1970
+  [daemon] [step 2] accept_n=2 bonus=21957 commit_n=3
+  [daemon] [step 3] committed=166 last_tok=494
+  [daemon] [step 3] accept_n=2 bonus=343 commit_n=3
+  [daemon] [step 4] committed=169 last_tok=3950
+  [daemon] [step 4] accept_n=3 bonus=16275 commit_n=4
+  [daemon] [step 5] committed=173 last_tok=3992
+  [daemon] [step 5] accept_n=2 bonus=42903 commit_n=3
+  [daemon] [step 6] committed=176 last_tok=12263
+  [daemon] [step 6] accept_n=3 bonus=3051 commit_n=4
+  [daemon] [step 7] committed=180 last_tok=13
+  [daemon] [step 7] accept_n=6 bonus=4774 commit_n=7
+  [daemon] [step 8] committed=187 last_tok=264
+  [daemon] [step 8] accept_n=2 bonus=318 commit_n=3
+22:44:50 INFO dflash.server: chat chatcmpl-cfc47b964718471ebdae0442  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 9] committed=190 last_tok=13873
+  [daemon] [step 9] accept_n=1 bonus=1510 commit_n=2
+  [daemon] [step 10] committed=192 last_tok=548
+  [daemon] [step 10] accept_n=1 bonus=9302 commit_n=2
+  [daemon] [step 11] committed=194 last_tok=548
+  [daemon] [step 11] accept_n=4 bonus=20635 commit_n=5
+  [daemon] [step 12] committed=199 last_tok=1654
+  [daemon] [step 12] accept_n=3 bonus=6526 commit_n=4
+  [daemon] [step 13] committed=203 last_tok=1510
+  [daemon] [step 13] accept_n=4 bonus=363 commit_n=5
+  [daemon] [step 14] committed=208 last_tok=7561
+  [daemon] [step 14] accept_n=2 bonus=1010 commit_n=3
+  [daemon] [step 15] committed=211 last_tok=5138
+  [daemon] [step 15] accept_n=2 bonus=27718 commit_n=3
+  [daemon] [step 16] committed=214 last_tok=62
+  [daemon] [step 16] accept_n=1 bonus=53380 commit_n=2
+  [daemon] [step 17] committed=216 last_tok=32497
+  [daemon] [step 17] accept_n=4 bonus=363 commit_n=5
+  [daemon] [step 18] committed=221 last_tok=7561
+  [daemon] [step 18] accept_n=3 bonus=31062 commit_n=4
+  [daemon] [step 19] committed=225 last_tok=8207
+  [daemon] [step 19] accept_n=5 bonus=701 commit_n=6
+  [daemon] [step 20] committed=231 last_tok=3090
+  [daemon] [step 20] accept_n=10 bonus=553 commit_n=11
+  [daemon] [step 21] committed=242 last_tok=198
+  [daemon] [step 21] accept_n=6 bonus=3847 commit_n=7
+  [daemon] [step 22] committed=249 last_tok=25
+  [daemon] [step 22] accept_n=10 bonus=198 commit_n=11
+  [daemon] [step 23] committed=260 last_tok=256
+  [daemon] [step 23] accept_n=3 bonus=1017 commit_n=4
+  [daemon] [step 24] committed=264 last_tok=579
+  [daemon] [step 24] accept_n=3 bonus=7044 commit_n=4
+  [daemon] [timing] per-step averages over 25 steps (ms):
+  [daemon]   draft_build    1.69
+  [daemon]   draft_copyfeat 0.05
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.89
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.02
+  [daemon]   snapshot_ssm   2.20
+  [daemon]   verify_build   1.62
+  [daemon]   verify_set     0.07
+  [daemon]   verify_compute 126.21
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.12
+  [daemon]   replay_build   0.94
+  [daemon]   replay_set     0.04
+  [daemon]   replay_compute 106.18
+  [daemon]   replay_logits  0.16
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     265.35
+  [daemon] [dflash] generated 128 tokens in 6.634 s  ->  19.29 tok/s
+  [daemon] [dflash] 25 draft steps, accepted=107/400 (26.8% per step), avg commit/step=5.12
+  [daemon] [dflash] output tail: 2532 579 264 3847 25 1510 2 38795 7586 75320 38214 503 51012 52434 198 256 471 4844 1017 579
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+22:44:55 INFO dflash.server: chat DONE chatcmpl-cfc47b964718471ebdae0442  in=138 out=128  5.0s  25.7 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=4.3s(29.7tok/s)
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.27 ms
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=154 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=164 last_tok=1970
+22:44:55 INFO dflash.server: chat chatcmpl-118da34045ef4908b51932d1  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=136  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 2] accept_n=1 bonus=440 commit_n=2
+  [daemon] [step 3] committed=166 last_tok=5853
+  [daemon] [step 3] accept_n=7 bonus=41643 commit_n=8
+  [daemon] [step 4] committed=174 last_tok=10029
+  [daemon] [step 4] accept_n=2 bonus=440 commit_n=3
+  [daemon] [step 5] committed=177 last_tok=25
+  [daemon] [step 5] accept_n=6 bonus=697 commit_n=7
+  [daemon] [step 6] committed=184 last_tok=298
+  [daemon] [step 6] accept_n=5 bonus=2846 commit_n=6
+  [daemon] [step 7] committed=190 last_tok=21
+  [daemon] [step 7] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 8] committed=206 last_tok=15
+  [daemon] [step 8] accept_n=8 bonus=1323 commit_n=9
+  [daemon] [step 9] committed=215 last_tok=19
+  [daemon] [step 9] accept_n=6 bonus=22956 commit_n=7
+  [daemon] [step 10] committed=222 last_tok=12317
+  [daemon] [step 10] accept_n=2 bonus=1510 commit_n=3
+  [daemon] [step 11] committed=225 last_tok=68
+  [daemon] [step 11] accept_n=14 bonus=22 commit_n=15
+  [daemon] [step 12] committed=240 last_tok=21
+  [daemon] [step 12] accept_n=10 bonus=21 commit_n=11
+  [daemon] [step 13] committed=251 last_tok=22
+  [daemon] [step 13] accept_n=6 bonus=4816 commit_n=7
+  [daemon] [step 14] committed=258 last_tok=680
+  [daemon] [step 14] accept_n=3 bonus=13 commit_n=4
+  [daemon] [step 15] committed=262 last_tok=1049
+  [daemon] [step 15] accept_n=2 bonus=1040 commit_n=3
+  [daemon] [step 16] committed=265 last_tok=264
+  [daemon] [step 16] accept_n=1 bonus=2880 commit_n=2
+  [daemon] [timing] per-step averages over 17 steps (ms):
+  [daemon]   draft_build    0.28
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.66
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.15
+  [daemon]   verify_build   1.79
+  [daemon]   verify_set     0.07
+  [daemon]   verify_compute 126.24
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.12
+  [daemon]   replay_build   0.96
+  [daemon]   replay_set     0.04
+  [daemon]   replay_compute 110.85
+  [daemon]   replay_logits  0.17
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     268.55
+  [daemon] [dflash] generated 128 tokens in 4.565 s  ->  28.04 tok/s
+  [daemon] [dflash] 17 draft steps, accepted=114/272 (41.9% per step), avg commit/step=7.53
+  [daemon] [dflash] output tail: 15 66 16 22 21 22 23 15 1323 19 63 4816 680 314 1925 13 1049 5686 1040 264
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 136 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 136 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.03 ms
+  [daemon] [step 0] committed=136 last_tok=8160
+22:45:00 INFO dflash.server: chat DONE chatcmpl-118da34045ef4908b51932d1  in=136 out=128  5.7s  22.4 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=5.0s(25.2tok/s)
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=152 last_tok=198
+  [daemon] [step 1] accept_n=8 bonus=41643 commit_n=9
+  [daemon] [step 2] committed=161 last_tok=440
+  [daemon] [step 2] accept_n=1 bonus=264 commit_n=2
+  [daemon] [step 3] committed=163 last_tok=3847
+  [daemon] [step 3] accept_n=1 bonus=321 commit_n=2
+  [daemon] [step 4] committed=165 last_tok=264
+  [daemon] [step 4] accept_n=1 bonus=22956 commit_n=2
+22:45:00 INFO dflash.server: chat chatcmpl-2c545809d6604656a2d5422b  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=137  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 5] committed=167 last_tok=506
+  [daemon] [step 5] accept_n=5 bonus=797 commit_n=6
+  [daemon] [step 6] committed=173 last_tok=17
+  [daemon] [step 6] accept_n=14 bonus=24 commit_n=15
+  [daemon] [step 7] committed=188 last_tok=65
+  [daemon] [step 7] accept_n=11 bonus=73859 commit_n=12
+  [daemon] [step 8] committed=200 last_tok=20
+  [daemon] [step 8] accept_n=8 bonus=41643 commit_n=9
+  [daemon] [step 9] committed=209 last_tok=7701
+  [daemon] [step 9] accept_n=5 bonus=12654 commit_n=6
+  [daemon] [step 10] committed=215 last_tok=999
+  [daemon] [step 10] accept_n=5 bonus=264 commit_n=6
+  [daemon] [step 11] committed=221 last_tok=4098
+  [daemon] [step 11] accept_n=1 bonus=42903 commit_n=2
+  [daemon] [step 12] committed=223 last_tok=2600
+  [daemon] [step 12] accept_n=2 bonus=1785 commit_n=3
+  [daemon] [step 13] committed=226 last_tok=318
+  [daemon] [step 13] accept_n=1 bonus=93996 commit_n=2
+  [daemon] [step 14] committed=228 last_tok=328
+  [daemon] [step 14] accept_n=2 bonus=13145 commit_n=3
+  [daemon] [step 15] committed=231 last_tok=28873
+  [daemon] [step 15] accept_n=6 bonus=82115 commit_n=7
+  [daemon] [step 16] committed=238 last_tok=4417
+  [daemon] [step 16] accept_n=8 bonus=36602 commit_n=9
+  [daemon] [step 17] committed=247 last_tok=440
+  [daemon] [step 17] accept_n=5 bonus=20653 commit_n=6
+  [daemon] [step 18] committed=253 last_tok=47241
+  [daemon] [step 18] accept_n=5 bonus=328 commit_n=6
+  [daemon] [step 19] committed=259 last_tok=3765
+  [daemon] [step 19] accept_n=5 bonus=1483 commit_n=6
+  [daemon] [timing] per-step averages over 20 steps (ms):
+  [daemon]   draft_build    0.16
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.69
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.12
+  [daemon]   verify_build   1.65
+  [daemon]   verify_set     0.07
+  [daemon]   verify_compute 126.11
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.09
+  [daemon]   replay_build   0.90
+  [daemon]   replay_set     0.04
+  [daemon]   replay_compute 108.23
+  [daemon]   replay_logits  0.15
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     265.42
+  [daemon] [dflash] generated 128 tokens in 5.309 s  ->  24.11 tok/s
+  [daemon] [dflash] 20 draft steps, accepted=110/320 (34.4% per step), avg commit/step=6.40
+  [daemon] [dflash] output tail: 12 7449 36602 440 28873 487 328 60991 20653 47241 3817 13746 1142 487 328 3765 48470 11525 321 279
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 137 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 137 tokens in 0.35 s, last_tok=8160
+  [daemon] [migrate] 4.95 ms
+  [daemon] [step 0] committed=137 last_tok=8160
+22:45:05 INFO dflash.server: chat DONE chatcmpl-2c545809d6604656a2d5422b  in=137 out=128  4.4s  28.9 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=3.8s(33.9tok/s)
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=153 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=163 last_tok=1970
+  [daemon] [step 2] accept_n=1 bonus=13 commit_n=2
+  [daemon] [step 3] committed=165 last_tok=198
+  [daemon] [step 3] accept_n=4 bonus=5435 commit_n=5
+  [daemon] [step 4] committed=170 last_tok=25
+  [daemon] [step 4] accept_n=7 bonus=2801 commit_n=8
+  [daemon] [step 5] committed=178 last_tok=7424
+22:45:05 INFO dflash.server: chat chatcmpl-7c6468d5fb5d4e8c97804c1a  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 5] accept_n=10 bonus=357 commit_n=11
+  [daemon] [step 6] committed=189 last_tok=3847
+  [daemon] [step 6] accept_n=4 bonus=10474 commit_n=5
+  [daemon] [step 7] committed=194 last_tok=43143
+  [daemon] [step 7] accept_n=1 bonus=1510 commit_n=2
+  [daemon] [step 8] committed=196 last_tok=2
+  [daemon] [step 8] accept_n=13 bonus=11 commit_n=14
+  [daemon] [step 9] committed=210 last_tok=2423
+  [daemon] [step 9] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 10] committed=226 last_tok=471
+  [daemon] [step 10] accept_n=1 bonus=357 commit_n=2
+  [daemon] [step 11] committed=228 last_tok=33539
+  [daemon] [step 11] accept_n=2 bonus=1510 commit_n=3
+  [daemon] [step 12] committed=231 last_tok=331
+  [daemon] [step 12] accept_n=12 bonus=1473 commit_n=13
+  [daemon] [step 13] committed=244 last_tok=26532
+  [daemon] [step 13] accept_n=15 bonus=25 commit_n=16
+  [daemon] [step 14] committed=260 last_tok=1510
+  [daemon] [step 14] accept_n=12 bonus=12051 commit_n=13
+  [daemon] [timing] per-step averages over 15 steps (ms):
+  [daemon]   draft_build    0.14
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.83
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.11
+  [daemon]   verify_build   1.72
+  [daemon]   verify_set     0.06
+  [daemon]   verify_compute 125.77
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.08
+  [daemon]   replay_build   0.86
+  [daemon]   replay_set     0.04
+  [daemon]   replay_compute 111.67
+  [daemon]   replay_logits  0.14
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     268.63
+  [daemon] [dflash] generated 128 tokens in 4.030 s  ->  31.76 tok/s
+  [daemon] [dflash] 15 draft steps, accepted=123/240 (51.2% per step), avg commit/step=8.53
+  [daemon] [dflash] output tail: 25 1510 2138 2424 10474 606 220 16 63 198 257 471 357 6136 25 1510 1891 6000 1224 303
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+22:45:10 INFO dflash.server: chat DONE chatcmpl-7c6468d5fb5d4e8c97804c1a  in=138 out=128  5.7s  22.4 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=5.0s(25.3tok/s)
+  [daemon] [migrate] 5.33 ms
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=154 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=164 last_tok=1970
+  [daemon] [step 2] accept_n=1 bonus=13 commit_n=2
+22:45:10 INFO dflash.server: chat chatcmpl-df9fecdc2e314be59c8008d2  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 3] committed=166 last_tok=198
+  [daemon] [step 3] accept_n=4 bonus=5435 commit_n=5
+  [daemon] [step 4] committed=171 last_tok=25
+  [daemon] [step 4] accept_n=6 bonus=11198 commit_n=7
+  [daemon] [step 5] committed=178 last_tok=13201
+  [daemon] [step 5] accept_n=4 bonus=264 commit_n=5
+  [daemon] [step 6] committed=183 last_tok=3759
+  [daemon] [step 6] accept_n=2 bonus=5555 commit_n=3
+  [daemon] [step 7] committed=186 last_tok=803
+  [daemon] [step 7] accept_n=2 bonus=3799 commit_n=3
+  [daemon] [step 8] committed=189 last_tok=974
+  [daemon] [step 8] accept_n=13 bonus=31509 commit_n=14
+  [daemon] [step 9] committed=203 last_tok=1224
+  [daemon] [step 9] accept_n=5 bonus=357 commit_n=6
+  [daemon] [step 10] committed=209 last_tok=460
+  [daemon] [step 10] accept_n=2 bonus=13064 commit_n=3
+  [daemon] [step 11] committed=212 last_tok=264
+  [daemon] [step 11] accept_n=2 bonus=59036 commit_n=3
+  [daemon] [step 12] committed=215 last_tok=321
+  [daemon] [step 12] accept_n=3 bonus=59036 commit_n=4
+  [daemon] [step 13] committed=219 last_tok=13
+  [daemon] [step 13] accept_n=4 bonus=357 commit_n=5
+  [daemon] [step 14] committed=224 last_tok=709
+  [daemon] [step 14] accept_n=6 bonus=3625 commit_n=7
+  [daemon] [step 15] committed=231 last_tok=1463
+  [daemon] [step 15] accept_n=10 bonus=66983 commit_n=11
+  [daemon] [step 16] committed=242 last_tok=2719
+  [daemon] [step 16] accept_n=12 bonus=11 commit_n=13
+  [daemon] [step 17] committed=255 last_tok=63
+  [daemon] [step 17] accept_n=4 bonus=357 commit_n=5
+  [daemon] [step 18] committed=260 last_tok=22956
+  [daemon] [step 18] accept_n=1 bonus=12317 commit_n=2
+  [daemon] [step 19] committed=262 last_tok=886
+  [daemon] [step 19] accept_n=9 bonus=69 commit_n=10
+  [daemon] [timing] per-step averages over 20 steps (ms):
+  [daemon]   draft_build    0.13
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.79
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.16
+  [daemon]   verify_build   1.49
+  [daemon]   verify_set     0.06
+  [daemon]   verify_compute 126.20
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.07
+  [daemon]   replay_build   0.82
+  [daemon]   replay_set     0.04
+  [daemon]   replay_compute 108.10
+  [daemon]   replay_logits  0.14
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     265.19
+  [daemon] [dflash] generated 128 tokens in 5.304 s  ->  24.13 tok/s
+  [daemon] [dflash] 20 draft steps, accepted=115/320 (35.9% per step), avg commit/step=6.40
+  [daemon] [dflash] output tail: 16793 19867 15702 11198 6090 816 25 514 11 63 198 257 471 357 22956 12317 886 506 279 809
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.37 s, last_tok=8160
+  [daemon] [migrate] 5.69 ms
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=154 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=164 last_tok=1970
+22:45:16 INFO dflash.server: chat DONE chatcmpl-df9fecdc2e314be59c8008d2  in=138 out=128  5.5s  23.3 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=4.8s(26.5tok/s)
+  [daemon] [step 2] accept_n=2 bonus=4222 commit_n=3
+  [daemon] [step 3] committed=167 last_tok=494
+  [daemon] [step 3] accept_n=3 bonus=3992 commit_n=4
+  [daemon] [step 4] committed=171 last_tok=1558
+  [daemon] [step 4] accept_n=6 bonus=12263 commit_n=7
+  [daemon] [step 5] committed=178 last_tok=318
+  [daemon] [step 5] accept_n=1 bonus=91020 commit_n=2
+  [daemon] [step 6] committed=180 last_tok=1040
+  [daemon] [step 6] accept_n=1 bonus=343 commit_n=2
+  [daemon] [step 7] committed=182 last_tok=3950
+  [daemon] [step 7] accept_n=2 bonus=466 commit_n=3
+  [daemon] [step 8] committed=185 last_tok=264
+  [daemon] [step 8] accept_n=2 bonus=12263 commit_n=3
+  [daemon] [step 9] committed=188 last_tok=2574
+  [daemon] [step 9] accept_n=1 bonus=3665 commit_n=2
+22:45:16 INFO dflash.server: chat chatcmpl-b0fa7f4a6f454cf0a36efd26  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=136  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 10] committed=190 last_tok=1040
+  [daemon] [step 10] accept_n=3 bonus=58581 commit_n=4
+  [daemon] [step 11] committed=194 last_tok=2291
+  [daemon] [step 11] accept_n=8 bonus=2721 commit_n=9
+  [daemon] [step 12] committed=203 last_tok=4133
+  [daemon] [step 12] accept_n=5 bonus=66 commit_n=6
+  [daemon] [step 13] committed=209 last_tok=643
+  [daemon] [step 13] accept_n=5 bonus=37079 commit_n=6
+  [daemon] [step 14] committed=215 last_tok=14783
+  [daemon] [step 14] accept_n=8 bonus=198 commit_n=9
+  [daemon] [step 15] committed=224 last_tok=256
+  [daemon] [step 15] accept_n=3 bonus=41643 commit_n=4
+  [daemon] [step 16] committed=228 last_tok=10029
+  [daemon] [step 16] accept_n=6 bonus=2 commit_n=7
+  [daemon] [step 17] committed=235 last_tok=8736
+  [daemon] [step 17] accept_n=15 bonus=66 commit_n=16
+  [daemon] [step 18] committed=251 last_tok=12
+  [daemon] [step 18] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [timing] per-step averages over 19 steps (ms):
+  [daemon]   draft_build    0.17
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.65
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.16
+  [daemon]   verify_build   1.76
+  [daemon]   verify_set     0.07
+  [daemon]   verify_compute 126.26
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.11
+  [daemon]   replay_build   0.98
+  [daemon]   replay_set     0.04
+  [daemon]   replay_compute 108.93
+  [daemon]   replay_logits  0.14
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     266.48
+  [daemon] [dflash] generated 128 tokens in 5.063 s  ->  25.28 tok/s
+  [daemon] [dflash] 19 draft steps, accepted=112/304 (36.8% per step), avg commit/step=6.74
+  [daemon] [dflash] output tail: 22 24 16 21 66 12 23 68 17 20 12 19 15 22 15 12 23 22 69 16
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 136 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 136 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.02 ms
+  [daemon] [step 0] committed=136 last_tok=8160
+22:45:19 INFO dflash.server: chat DONE chatcmpl-b0fa7f4a6f454cf0a36efd26  in=136 out=128  3.4s  37.3 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=2.7s(46.3tok/s)
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=152 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=162 last_tok=1970
+  [daemon] [step 2] accept_n=1 bonus=25 commit_n=2
+  [daemon] [step 3] committed=164 last_tok=198
+  [daemon] [step 3] accept_n=11 bonus=11222 commit_n=12
+  [daemon] [step 4] committed=176 last_tok=6464
+  [daemon] [step 4] accept_n=10 bonus=260 commit_n=11
+  [daemon] [step 5] committed=187 last_tok=1716
+  [daemon] [step 5] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 6] committed=203 last_tok=94441
+22:45:19 INFO dflash.server: chat chatcmpl-6dda10b745e0486fa374e6fc  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=136  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 6] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 7] committed=219 last_tok=1989
+  [daemon] [step 7] accept_n=11 bonus=578 commit_n=12
+  [daemon] [step 8] committed=231 last_tok=271
+  [daemon] [step 8] accept_n=11 bonus=11 commit_n=12
+  [daemon] [step 9] committed=243 last_tok=15702
+  [daemon] [step 9] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 10] committed=259 last_tok=257
+  [daemon] [step 10] accept_n=9 bonus=21 commit_n=10
+  [daemon] [timing] per-step averages over 11 steps (ms):
+  [daemon]   draft_build    0.17
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.79
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.11
+  [daemon]   verify_build   2.24
+  [daemon]   verify_set     0.07
+  [daemon]   verify_compute 125.41
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.09
+  [daemon]   replay_build   0.98
+  [daemon]   replay_set     0.05
+  [daemon]   replay_compute 117.47
+  [daemon]   replay_logits  0.15
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     274.73
+  [daemon] [dflash] generated 128 tokens in 3.022 s  ->  42.35 tok/s
+  [daemon] [dflash] 11 draft steps, accepted=126/176 (71.6% per step), avg commit/step=11.64
+  [daemon] [dflash] output tail: 11198 5164 25 81726 7976 2561 11 9705 6892 31100 25 1103 18078 60 198 257 847 1411 2168 220
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 136 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 136 tokens in 0.36 s, last_tok=8160
+22:45:24 INFO dflash.server: chat DONE chatcmpl-6dda10b745e0486fa374e6fc  in=136 out=128  4.7s  27.2 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=4.0s(31.6tok/s)
+  [daemon] [migrate] 5.09 ms
+  [daemon] [step 0] committed=136 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=152 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=162 last_tok=1970
+  [daemon] [step 2] accept_n=2 bonus=13873 commit_n=3
+  [daemon] [step 3] committed=165 last_tok=494
+  [daemon] [step 3] accept_n=2 bonus=5365 commit_n=3
+  [daemon] [step 4] committed=168 last_tok=6618
+  [daemon] [step 4] accept_n=1 bonus=14 commit_n=2
+  [daemon] [step 5] committed=170 last_tok=3950
+  [daemon] [step 5] accept_n=3 bonus=12263 commit_n=4
+  [daemon] [step 6] committed=174 last_tok=11
+  [daemon] [step 6] accept_n=4 bonus=44 commit_n=5
+22:45:24 INFO dflash.server: chat chatcmpl-c80483c89736463e9a927b33  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=137  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 7] committed=179 last_tok=466
+  [daemon] [step 7] accept_n=7 bonus=1970 commit_n=8
+  [daemon] [step 8] committed=187 last_tok=4774
+  [daemon] [step 8] accept_n=4 bonus=52451 commit_n=5
+  [daemon] [step 9] committed=192 last_tok=12305
+  [daemon] [step 9] accept_n=11 bonus=625 commit_n=12
+  [daemon] [step 10] committed=204 last_tok=25792
+  [daemon] [step 10] accept_n=4 bonus=257 commit_n=5
+  [daemon] [step 11] committed=209 last_tok=413
+  [daemon] [step 11] accept_n=8 bonus=260 commit_n=9
+  [daemon] [step 12] committed=218 last_tok=638
+  [daemon] [step 12] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 13] committed=234 last_tok=2011
+  [daemon] [step 13] accept_n=10 bonus=27896 commit_n=11
+  [daemon] [step 14] committed=245 last_tok=8
+  [daemon] [step 14] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 15] committed=261 last_tok=279
+  [daemon] [step 15] accept_n=6 bonus=2677 commit_n=7
+  [daemon] [timing] per-step averages over 16 steps (ms):
+  [daemon]   draft_build    0.17
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.85
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.17
+  [daemon]   verify_build   1.86
+  [daemon]   verify_set     0.07
+  [daemon]   verify_compute 125.72
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.09
+  [daemon]   replay_build   0.97
+  [daemon]   replay_set     0.05
+  [daemon]   replay_compute 111.39
+  [daemon]   replay_logits  0.15
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     268.70
+  [daemon] [dflash] generated 128 tokens in 4.299 s  ->  29.77 tok/s
+  [daemon] [dflash] 16 draft steps, accepted=119/256 (46.5% per step), avg commit/step=8.00
+  [daemon] [dflash] output tail: 27896 8 198 257 460 271 257 653 20776 36602 1105 11 1332 1010 16401 7154 494 279 3555 198
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  [daemon] [prompt] 137 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 137 tokens in 0.35 s, last_tok=8160
+  [daemon] [migrate] 4.94 ms
+  [daemon] [step 0] committed=137 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=153 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=163 last_tok=1970
+  [daemon] [step 2] accept_n=1 bonus=13 commit_n=2
+  [daemon] [step 3] committed=165 last_tok=198
+  [daemon] [step 3] accept_n=5 bonus=1040 commit_n=6
+  [daemon] [step 4] committed=171 last_tok=424
+  [daemon] [step 4] accept_n=4 bonus=5365 commit_n=5
+  [daemon] [step 5] committed=176 last_tok=6618
+  [daemon] [step 5] accept_n=1 bonus=12263 commit_n=2
+22:45:29 INFO dflash.server: chat DONE chatcmpl-c80483c89736463e9a927b33  in=137 out=128  5.0s  25.8 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=4.3s(29.7tok/s)
+  [daemon] [step 6] committed=178 last_tok=11
+  [daemon] [step 6] accept_n=3 bonus=310 commit_n=4
+  [daemon] [step 7] committed=182 last_tok=380
+  [daemon] [step 7] accept_n=2 bonus=314 commit_n=3
+  [daemon] [step 8] committed=185 last_tok=49051
+  [daemon] [step 8] accept_n=7 bonus=2574 commit_n=8
+  [daemon] [step 9] committed=193 last_tok=1510
+  [daemon] [step 9] accept_n=7 bonus=3845 commit_n=8
+22:45:29 INFO dflash.server: chat chatcmpl-8cf10fa93ebe4a24a7bbcf48  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 10] committed=201 last_tok=9242
+  [daemon] [step 10] accept_n=7 bonus=1510 commit_n=8
+  [daemon] [step 11] committed=209 last_tok=10027
+  [daemon] [step 11] accept_n=3 bonus=321 commit_n=4
+  [daemon] [step 12] committed=213 last_tok=1510
+  [daemon] [step 12] accept_n=9 bonus=41643 commit_n=10
+  [daemon] [step 13] committed=223 last_tok=369
+  [daemon] [step 13] accept_n=3 bonus=330 commit_n=4
+  [daemon] [step 14] committed=227 last_tok=974
+  [daemon] [step 14] accept_n=8 bonus=949 commit_n=9
+  [daemon] [step 15] committed=236 last_tok=53294
+  [daemon] [step 15] accept_n=12 bonus=16 commit_n=13
+  [daemon] [step 16] committed=249 last_tok=7174
+  [daemon] [step 16] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [timing] per-step averages over 17 steps (ms):
+  [daemon]   draft_build    0.13
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.83
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.12
+  [daemon]   verify_build   1.61
+  [daemon]   verify_set     0.06
+  [daemon]   verify_compute 126.21
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.08
+  [daemon]   replay_build   0.86
+  [daemon]   replay_set     0.04
+  [daemon]   replay_compute 110.58
+  [daemon]   replay_logits  0.14
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     267.85
+  [daemon] [dflash] generated 128 tokens in 4.554 s  ->  28.11 tok/s
+  [daemon] [dflash] 17 draft steps, accepted=113/272 (41.5% per step), avg commit/step=7.53
+  [daemon] [dflash] output tail: 15 24 18 16 7174 19 290 12 19 65 21 69 12 24 20 565 7174 17 15 18
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.61 ms
+22:45:35 INFO dflash.server: chat DONE chatcmpl-8cf10fa93ebe4a24a7bbcf48  in=138 out=128  5.7s  22.5 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=5.0s(25.4tok/s)
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=154 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=164 last_tok=1970
+  [daemon] [step 2] accept_n=3 bonus=256 commit_n=4
+  [daemon] [step 3] committed=168 last_tok=471
+  [daemon] [step 3] accept_n=3 bonus=1040 commit_n=4
+22:45:35 INFO dflash.server: chat chatcmpl-ed173a75eed448fd84f2a95c  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 4] committed=172 last_tok=919
+  [daemon] [step 4] accept_n=3 bonus=523 commit_n=4
+  [daemon] [step 5] committed=176 last_tok=1654
+  [daemon] [step 5] accept_n=1 bonus=14131 commit_n=2
+  [daemon] [step 6] committed=178 last_tok=440
+  [daemon] [step 6] accept_n=3 bonus=61643 commit_n=4
+  [daemon] [step 7] committed=182 last_tok=6044
+  [daemon] [step 7] accept_n=1 bonus=11 commit_n=2
+  [daemon] [step 8] committed=184 last_tok=4222
+  [daemon] [step 8] accept_n=3 bonus=343 commit_n=4
+  [daemon] [step 9] committed=188 last_tok=3950
+  [daemon] [step 9] accept_n=2 bonus=466 commit_n=3
+  [daemon] [step 10] committed=191 last_tok=4283
+  [daemon] [step 10] accept_n=3 bonus=42903 commit_n=4
+  [daemon] [step 11] committed=195 last_tok=4560
+  [daemon] [step 11] accept_n=7 bonus=1970 commit_n=8
+  [daemon] [step 12] committed=203 last_tok=682
+  [daemon] [step 12] accept_n=1 bonus=25 commit_n=2
+  [daemon] [step 13] committed=205 last_tok=198
+  [daemon] [step 13] accept_n=3 bonus=88461 commit_n=4
+  [daemon] [step 14] committed=209 last_tok=41179
+  [daemon] [step 14] accept_n=7 bonus=3726 commit_n=8
+  [daemon] [step 15] committed=217 last_tok=1835
+  [daemon] [step 15] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 16] committed=233 last_tok=42065
+  [daemon] [step 16] accept_n=13 bonus=1114 commit_n=14
+  [daemon] [step 17] committed=247 last_tok=13201
+  [daemon] [step 17] accept_n=10 bonus=357 commit_n=11
+  [daemon] [step 18] committed=258 last_tok=6136
+  [daemon] [step 18] accept_n=3 bonus=60991 commit_n=4
+  [daemon] [step 19] committed=262 last_tok=7402
+  [daemon] [step 19] accept_n=10 bonus=26482 commit_n=11
+  [daemon] [timing] per-step averages over 20 steps (ms):
+  [daemon]   draft_build    0.14
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.83
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.14
+  [daemon]   verify_build   1.50
+  [daemon]   verify_set     0.06
+  [daemon]   verify_compute 126.07
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.08
+  [daemon]   replay_build   0.87
+  [daemon]   replay_set     0.04
+  [daemon]   replay_compute 106.90
+  [daemon]   replay_logits  0.14
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     263.95
+  [daemon] [dflash] generated 128 tokens in 5.279 s  ->  24.25 tok/s
+  [daemon] [dflash] 20 draft steps, accepted=117/320 (36.6% per step), avg commit/step=6.40
+  [daemon] [dflash] output tail: 1114 13201 14783 14308 65070 283 2958 63 198 257 471 357 6136 888 1510 60991 7402 503 25792 5737
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+  [daemon] [prompt] 138 tokens
+22:45:40 INFO dflash.server: chat DONE chatcmpl-ed173a75eed448fd84f2a95c  in=138 out=128  5.7s  22.4 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=5.0s(25.2tok/s)
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.31 ms
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=154 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=164 last_tok=1970
+  [daemon] [step 2] accept_n=1 bonus=11 commit_n=2
+22:45:40 INFO dflash.server: chat chatcmpl-a8626d20e7304e6ab31f0463  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=139  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 3] committed=166 last_tok=4222
+  [daemon] [step 3] accept_n=3 bonus=5484 commit_n=4
+  [daemon] [step 4] committed=170 last_tok=6618
+  [daemon] [step 4] accept_n=1 bonus=17458 commit_n=2
+  [daemon] [step 5] committed=172 last_tok=2133
+  [daemon] [step 5] accept_n=2 bonus=318 commit_n=3
+  [daemon] [step 6] committed=175 last_tok=91020
+  [daemon] [step 6] accept_n=2 bonus=343 commit_n=3
+  [daemon] [step 7] committed=178 last_tok=3950
+  [daemon] [step 7] accept_n=4 bonus=11 commit_n=5
+  [daemon] [step 8] committed=183 last_tok=2574
+  [daemon] [step 8] accept_n=1 bonus=3665 commit_n=2
+  [daemon] [step 9] committed=185 last_tok=1040
+  [daemon] [step 9] accept_n=2 bonus=8298 commit_n=3
+  [daemon] [step 10] committed=188 last_tok=2270
+  [daemon] [step 10] accept_n=9 bonus=1510 commit_n=10
+  [daemon] [step 11] committed=198 last_tok=2334
+  [daemon] [step 11] accept_n=5 bonus=1307 commit_n=6
+  [daemon] [step 12] committed=204 last_tok=14116
+  [daemon] [step 12] accept_n=3 bonus=9590 commit_n=4
+  [daemon] [step 13] committed=208 last_tok=35988
+  [daemon] [step 13] accept_n=3 bonus=9590 commit_n=4
+  [daemon] [step 14] committed=212 last_tok=4133
+  [daemon] [step 14] accept_n=8 bonus=41643 commit_n=9
+  [daemon] [step 15] committed=221 last_tok=10029
+  [daemon] [step 15] accept_n=4 bonus=22956 commit_n=5
+  [daemon] [step 16] committed=226 last_tok=12317
+  [daemon] [step 16] accept_n=14 bonus=20 commit_n=15
+  [daemon] [step 17] committed=241 last_tok=22
+  [daemon] [step 17] accept_n=15 bonus=21 commit_n=16
+  [daemon] [step 18] committed=257 last_tok=74724
+  [daemon] [step 18] accept_n=7 bonus=198 commit_n=8
+  [daemon] [step 19] committed=265 last_tok=256
+  [daemon] [step 19] accept_n=2 bonus=561 commit_n=3
+  [daemon] [timing] per-step averages over 20 steps (ms):
+  [daemon]   draft_build    0.17
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.69
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.17
+  [daemon]   verify_build   1.71
+  [daemon]   verify_set     0.07
+  [daemon]   verify_compute 126.25
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.08
+  [daemon]   replay_build   1.02
+  [daemon]   replay_set     0.04
+  [daemon]   replay_compute 108.32
+  [daemon]   replay_logits  0.16
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     265.88
+  [daemon] [dflash] generated 128 tokens in 5.318 s  ->  24.07 tok/s
+  [daemon] [dflash] 20 draft steps, accepted=111/320 (34.7% per step), avg commit/step=6.40
+  [daemon] [dflash] output tail: 20 68 7174 18 64 23 12 21 15 65 21 74724 15 21 68 21 24 63 198 256
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 139 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 139 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.23 ms
+  [daemon] [step 0] committed=139 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=155 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=165 last_tok=1970
+  [daemon] [step 2] accept_n=2 bonus=4222 commit_n=3
+22:45:45 INFO dflash.server: chat DONE chatcmpl-a8626d20e7304e6ab31f0463  in=139 out=128  5.0s  25.8 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=4.3s(29.7tok/s)
+  [daemon] [step 3] committed=168 last_tok=494
+  [daemon] [step 3] accept_n=2 bonus=5365 commit_n=3
+  [daemon] [step 4] committed=171 last_tok=6618
+  [daemon] [step 4] accept_n=1 bonus=12263 commit_n=2
+  [daemon] [step 5] committed=173 last_tok=318
+  [daemon] [step 5] accept_n=1 bonus=91020 commit_n=2
+  [daemon] [step 6] committed=175 last_tok=1040
+  [daemon] [step 6] accept_n=4 bonus=466 commit_n=5
+  [daemon] [step 7] committed=180 last_tok=4283
+  [daemon] [step 7] accept_n=3 bonus=1510 commit_n=4
+  [daemon] [step 8] committed=184 last_tok=34
+  [daemon] [step 8] accept_n=7 bonus=2721 commit_n=8
+  [daemon] [step 9] committed=192 last_tok=4885
+  [daemon] [step 9] accept_n=9 bonus=26527 commit_n=10
+  [daemon] [step 10] committed=202 last_tok=75320
+  [daemon] [step 10] accept_n=6 bonus=1510 commit_n=7
+  [daemon] [step 11] committed=209 last_tok=26527
+  [daemon] [step 11] accept_n=12 bonus=41643 commit_n=13
+  [daemon] [step 12] committed=222 last_tok=10029
+  [daemon] [step 12] accept_n=3 bonus=264 commit_n=4
+  [daemon] [step 13] committed=226 last_tok=22956
+22:45:45 INFO dflash.server: chat chatcmpl-3943883052b74ebea1d490aa  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 13] accept_n=1 bonus=12317 commit_n=2
+  [daemon] [step 14] committed=228 last_tok=886
+  [daemon] [step 14] accept_n=10 bonus=12 commit_n=11
+  [daemon] [step 15] committed=239 last_tok=16
+  [daemon] [step 15] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 16] committed=255 last_tok=17
+  [daemon] [step 16] accept_n=13 bonus=579 commit_n=14
+  [daemon] [timing] per-step averages over 17 steps (ms):
+  [daemon]   draft_build    0.17
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.88
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.12
+  [daemon]   verify_build   1.81
+  [daemon]   verify_set     0.06
+  [daemon]   verify_compute 125.83
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.09
+  [daemon]   replay_build   1.04
+  [daemon]   replay_set     0.04
+  [daemon]   replay_compute 110.60
+  [daemon]   replay_logits  0.16
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     268.02
+  [daemon] [dflash] generated 128 tokens in 4.557 s  ->  28.09 tok/s
+  [daemon] [dflash] 17 draft steps, accepted=115/272 (42.3% per step), avg commit/step=7.53
+  [daemon] [dflash] output tail: 19 1402 19 22 19 12 18 18 17 797 565 21 23 17 23 24 63 198 256 471
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.37 s, last_tok=8160
+  [daemon] [migrate] 5.28 ms
+22:45:50 INFO dflash.server: chat DONE chatcmpl-3943883052b74ebea1d490aa  in=138 out=128  5.0s  25.6 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=4.3s(29.6tok/s)
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=154 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=164 last_tok=1970
+  [daemon] [step 2] accept_n=1 bonus=13 commit_n=2
+  [daemon] [step 3] committed=166 last_tok=198
+  [daemon] [step 3] accept_n=5 bonus=264 commit_n=6
+  [daemon] [step 4] committed=172 last_tok=5741
+  [daemon] [step 4] accept_n=9 bonus=17978 commit_n=10
+  [daemon] [step 5] committed=182 last_tok=83167
+  [daemon] [step 5] accept_n=10 bonus=1049 commit_n=11
+  [daemon] [step 6] committed=193 last_tok=682
+  [daemon] [step 6] accept_n=3 bonus=883 commit_n=4
+  [daemon] [step 7] committed=197 last_tok=1510
+  [daemon] [step 7] accept_n=6 bonus=30021 commit_n=7
+  [daemon] [step 8] committed=204 last_tok=1510
+22:45:50 INFO dflash.server: chat chatcmpl-82040b767c934e5dbec28c73  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 8] accept_n=6 bonus=27840 commit_n=7
+  [daemon] [step 9] committed=211 last_tok=26982
+  [daemon] [step 9] accept_n=2 bonus=4560 commit_n=3
+  [daemon] [step 10] committed=214 last_tok=6007
+  [daemon] [step 10] accept_n=8 bonus=1510 commit_n=9
+  [daemon] [step 11] committed=223 last_tok=701
+  [daemon] [step 11] accept_n=5 bonus=321 commit_n=6
+  [daemon] [step 12] committed=229 last_tok=1510
+  [daemon] [step 12] accept_n=13 bonus=471 commit_n=14
+  [daemon] [step 13] committed=243 last_tok=561
+  [daemon] [step 13] accept_n=2 bonus=14663 commit_n=3
+  [daemon] [step 14] committed=246 last_tok=974
+  [daemon] [step 14] accept_n=2 bonus=506 commit_n=3
+  [daemon] [step 15] committed=249 last_tok=25
+  [daemon] [step 15] accept_n=12 bonus=18 commit_n=13
+  [daemon] [step 16] committed=262 last_tok=16
+  [daemon] [step 16] accept_n=15 bonus=15 commit_n=16
+  [daemon] [timing] per-step averages over 17 steps (ms):
+  [daemon]   draft_build    0.17
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.65
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.09
+  [daemon]   verify_build   1.87
+  [daemon]   verify_set     0.07
+  [daemon]   verify_compute 126.40
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.08
+  [daemon]   replay_build   1.00
+  [daemon]   replay_set     0.05
+  [daemon]   replay_compute 110.94
+  [daemon]   replay_logits  0.14
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     268.67
+  [daemon] [dflash] generated 128 tokens in 4.568 s  ->  28.02 tok/s
+  [daemon] [dflash] 17 draft steps, accepted=124/272 (45.6% per step), avg commit/step=7.53
+  [daemon] [dflash] output tail: 974 57728 506 25 1510 2334 625 25792 220 16 68 19 18 18 68 18 16 12 17 65
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.23 ms
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=154 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=164 last_tok=1970
+  [daemon] [step 2] accept_n=1 bonus=11 commit_n=2
+  [daemon] [step 3] committed=166 last_tok=4222
+  [daemon] [step 3] accept_n=3 bonus=343 commit_n=4
+  [daemon] [step 4] committed=170 last_tok=3950
+22:45:55 INFO dflash.server: chat DONE chatcmpl-82040b767c934e5dbec28c73  in=138 out=128  5.0s  25.8 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=4.3s(29.7tok/s)
+  [daemon] [step 4] accept_n=2 bonus=13505 commit_n=3
+  [daemon] [step 5] committed=173 last_tok=2313
+  [daemon] [step 5] accept_n=4 bonus=85 commit_n=5
+  [daemon] [step 6] committed=178 last_tok=636
+  [daemon] [step 6] accept_n=7 bonus=5164 commit_n=8
+  [daemon] [step 7] committed=186 last_tok=7561
+  [daemon] [step 7] accept_n=3 bonus=34451 commit_n=4
+  [daemon] [step 8] committed=190 last_tok=24401
+  [daemon] [step 8] accept_n=9 bonus=41643 commit_n=10
+  [daemon] [step 9] committed=200 last_tok=10029
+  [daemon] [step 9] accept_n=5 bonus=19474 commit_n=6
+  [daemon] [step 10] committed=206 last_tok=5164
+  [daemon] [step 10] accept_n=11 bonus=12 commit_n=12
+  [daemon] [step 11] committed=218 last_tok=22
+  [daemon] [step 11] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 12] committed=234 last_tok=64
+  [daemon] [step 12] accept_n=3 bonus=20 commit_n=4
+  [daemon] [step 13] committed=238 last_tok=8670
+  [daemon] [step 13] accept_n=4 bonus=27653 commit_n=5
+22:45:55 INFO dflash.server: chat chatcmpl-e3e510928830454e8e890498  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 14] committed=243 last_tok=198
+  [daemon] [step 14] accept_n=5 bonus=12317 commit_n=6
+  [daemon] [step 15] committed=249 last_tok=886
+  [daemon] [step 15] accept_n=1 bonus=1510 commit_n=2
+  [daemon] [step 16] committed=251 last_tok=23
+  [daemon] [step 16] accept_n=14 bonus=17 commit_n=15
+  [daemon] [timing] per-step averages over 17 steps (ms):
+  [daemon]   draft_build    0.17
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.87
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.13
+  [daemon]   verify_build   1.85
+  [daemon]   verify_set     0.06
+  [daemon]   verify_compute 126.13
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.12
+  [daemon]   replay_build   1.01
+  [daemon]   replay_set     0.05
+  [daemon]   replay_compute 110.23
+  [daemon]   replay_logits  0.14
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     267.98
+  [daemon] [dflash] generated 128 tokens in 4.556 s  ->  28.10 tok/s
+  [daemon] [dflash] 17 draft steps, accepted=113/272 (41.5% per step), avg commit/step=7.53
+  [daemon] [dflash] output tail: 561 22956 12317 886 1510 23 21 22 22 341 20 68 12 22 64 22 22 12 19 17
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+22:46:01 INFO dflash.server: chat DONE chatcmpl-e3e510928830454e8e890498  in=138 out=128  6.0s  21.4 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=5.3s(23.9tok/s)
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.27 ms
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=154 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=164 last_tok=1970
+  [daemon] [step 2] accept_n=1 bonus=318 commit_n=2
+  [daemon] [step 3] committed=166 last_tok=13873
+  [daemon] [step 3] accept_n=3 bonus=5365 commit_n=4
+  [daemon] [step 4] committed=170 last_tok=6618
+  [daemon] [step 4] accept_n=1 bonus=14 commit_n=2
+22:46:01 INFO dflash.server: chat chatcmpl-027d06c551ae42008fef65a5  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 5] committed=172 last_tok=3950
+  [daemon] [step 5] accept_n=2 bonus=42903 commit_n=3
+  [daemon] [step 6] committed=175 last_tok=12263
+  [daemon] [step 6] accept_n=3 bonus=343 commit_n=4
+  [daemon] [step 7] committed=179 last_tok=3950
+  [daemon] [step 7] accept_n=3 bonus=326 commit_n=4
+  [daemon] [step 8] committed=183 last_tok=3697
+  [daemon] [step 8] accept_n=1 bonus=512 commit_n=2
+  [daemon] [step 9] committed=185 last_tok=11
+  [daemon] [step 9] accept_n=7 bonus=561 commit_n=8
+  [daemon] [step 10] committed=193 last_tok=41643
+  [daemon] [step 10] accept_n=3 bonus=5789 commit_n=4
+  [daemon] [step 11] committed=197 last_tok=1602
+  [daemon] [step 11] accept_n=2 bonus=25 commit_n=3
+  [daemon] [step 12] committed=200 last_tok=88461
+  [daemon] [step 12] accept_n=5 bonus=413 commit_n=6
+  [daemon] [step 13] committed=206 last_tok=10694
+  [daemon] [step 13] accept_n=5 bonus=7561 commit_n=6
+  [daemon] [step 14] committed=212 last_tok=1510
+  [daemon] [step 14] accept_n=4 bonus=28 commit_n=5
+  [daemon] [step 15] committed=217 last_tok=1076
+  [daemon] [step 15] accept_n=4 bonus=730 commit_n=5
+  [daemon] [step 16] committed=222 last_tok=84277
+  [daemon] [step 16] accept_n=6 bonus=1159 commit_n=7
+  [daemon] [step 17] committed=229 last_tok=17788
+  [daemon] [step 17] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 18] committed=245 last_tok=28
+  [daemon] [step 18] accept_n=9 bonus=28 commit_n=10
+  [daemon] [step 19] committed=255 last_tok=1076
+  [daemon] [step 19] accept_n=7 bonus=27653 commit_n=8
+  [daemon] [step 20] committed=263 last_tok=198
+  [daemon] [step 20] accept_n=9 bonus=264 commit_n=10
+  [daemon] [timing] per-step averages over 21 steps (ms):
+  [daemon]   draft_build    0.17
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.87
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.18
+  [daemon]   verify_build   1.67
+  [daemon]   verify_set     0.06
+  [daemon]   verify_compute 126.31
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.12
+  [daemon]   replay_build   1.01
+  [daemon]   replay_set     0.04
+  [daemon]   replay_compute 107.68
+  [daemon]   replay_logits  0.14
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     265.45
+  [daemon] [dflash] generated 128 tokens in 5.575 s  ->  22.96 tok/s
+  [daemon] [dflash] 21 draft steps, accepted=116/336 (34.5% per step), avg commit/step=6.10
+  [daemon] [dflash] output tail: 1076 7561 1510 48221 3625 1463 13573 78827 28 1076 7561 1510 20877 81250 28 1076 27653 198 256 471
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.15 ms
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=154 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=164 last_tok=1970
+  [daemon] [step 2] accept_n=1 bonus=13 commit_n=2
+  [daemon] [step 3] committed=166 last_tok=198
+  [daemon] [step 3] accept_n=5 bonus=449 commit_n=6
+  [daemon] [step 4] committed=172 last_tok=26532
+  [daemon] [step 4] accept_n=1 bonus=45061 commit_n=2
+  [daemon] [step 5] committed=174 last_tok=25
+22:46:06 INFO dflash.server: chat DONE chatcmpl-027d06c551ae42008fef65a5  in=138 out=128  4.7s  27.1 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=4.0s(31.5tok/s)
+  [daemon] [step 5] accept_n=5 bonus=11 commit_n=6
+  [daemon] [step 6] committed=180 last_tok=318
+  [daemon] [step 6] accept_n=6 bonus=3728 commit_n=7
+  [daemon] [step 7] committed=187 last_tok=34131
+  [daemon] [step 7] accept_n=6 bonus=46997 commit_n=7
+  [daemon] [step 8] committed=194 last_tok=66
+  [daemon] [step 8] accept_n=10 bonus=8943 commit_n=11
+  [daemon] [step 9] committed=205 last_tok=32129
+  [daemon] [step 9] accept_n=2 bonus=7563 commit_n=3
+  [daemon] [step 10] committed=208 last_tok=871
+  [daemon] [step 10] accept_n=5 bonus=1049 commit_n=6
+  [daemon] [step 11] committed=214 last_tok=45838
+  [daemon] [step 11] accept_n=4 bonus=605 commit_n=5
+  [daemon] [step 12] committed=219 last_tok=16336
+  [daemon] [step 12] accept_n=13 bonus=1049 commit_n=14
+  [daemon] [step 13] committed=233 last_tok=10029
+  [daemon] [step 13] accept_n=4 bonus=730 commit_n=5
+22:46:06 INFO dflash.server: chat chatcmpl-484b42b47c4b464990860a07  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 14] committed=238 last_tok=84277
+  [daemon] [step 14] accept_n=13 bonus=24 commit_n=14
+  [daemon] [step 15] committed=252 last_tok=17
+  [daemon] [step 15] accept_n=14 bonus=24 commit_n=15
+  [daemon] [timing] per-step averages over 16 steps (ms):
+  [daemon]   draft_build    0.14
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.71
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.14
+  [daemon]   verify_build   1.71
+  [daemon]   verify_set     0.06
+  [daemon]   verify_compute 125.96
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.08
+  [daemon]   replay_build   0.91
+  [daemon]   replay_set     0.04
+  [daemon]   replay_compute 112.15
+  [daemon]   replay_logits  0.14
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     269.24
+  [daemon] [dflash] generated 128 tokens in 4.308 s  ->  29.71 tok/s
+  [daemon] [dflash] 16 draft steps, accepted=114/256 (44.5% per step), avg commit/step=8.00
+  [daemon] [dflash] output tail: 19 23 12 15 17 24 17 12 19 22 68 15 12 23 16 22 18 12 16 18
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.15 ms
+22:46:12 INFO dflash.server: chat DONE chatcmpl-484b42b47c4b464990860a07  in=138 out=128  5.5s  23.4 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=4.8s(26.6tok/s)
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=154 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=164 last_tok=1970
+  [daemon] [step 2] accept_n=4 bonus=424 commit_n=5
+  [daemon] [step 3] committed=169 last_tok=579
+  [daemon] [step 3] accept_n=4 bonus=16947 commit_n=5
+  [daemon] [step 4] committed=174 last_tok=1654
+  [daemon] [step 4] accept_n=4 bonus=548 commit_n=5
+  [daemon] [step 5] committed=179 last_tok=2251
+  [daemon] [step 5] accept_n=2 bonus=31789 commit_n=3
+  [daemon] [step 6] committed=182 last_tok=303
+22:46:12 INFO dflash.server: chat chatcmpl-7ac500c86029422c84f848e8  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 6] accept_n=4 bonus=44 commit_n=5
+  [daemon] [step 7] committed=187 last_tok=13505
+  [daemon] [step 7] accept_n=3 bonus=13 commit_n=4
+  [daemon] [step 8] committed=191 last_tok=198
+  [daemon] [step 8] accept_n=3 bonus=561 commit_n=4
+  [daemon] [step 9] committed=195 last_tok=1970
+  [daemon] [step 9] accept_n=3 bonus=6343 commit_n=4
+  [daemon] [step 10] committed=199 last_tok=5978
+  [daemon] [step 10] accept_n=5 bonus=76 commit_n=6
+  [daemon] [step 11] committed=205 last_tok=5164
+  [daemon] [step 11] accept_n=3 bonus=1510 commit_n=4
+  [daemon] [step 12] committed=209 last_tok=701
+  [daemon] [step 12] accept_n=9 bonus=264 commit_n=10
+  [daemon] [step 13] committed=219 last_tok=14457
+  [daemon] [step 13] accept_n=1 bonus=886 commit_n=2
+  [daemon] [step 14] committed=221 last_tok=506
+  [daemon] [step 14] accept_n=5 bonus=64 commit_n=6
+  [daemon] [step 15] committed=227 last_tok=21
+  [daemon] [step 15] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 16] committed=243 last_tok=24
+  [daemon] [step 16] accept_n=11 bonus=24 commit_n=12
+  [daemon] [step 17] committed=255 last_tok=21
+  [daemon] [step 17] accept_n=6 bonus=864 commit_n=7
+  [daemon] [step 18] committed=262 last_tok=5686
+  [daemon] [step 18] accept_n=5 bonus=198 commit_n=6
+  [daemon] [timing] per-step averages over 19 steps (ms):
+  [daemon]   draft_build    0.14
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.94
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.12
+  [daemon]   verify_build   1.54
+  [daemon]   verify_set     0.06
+  [daemon]   verify_compute 126.47
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.08
+  [daemon]   replay_build   0.83
+  [daemon]   replay_set     0.04
+  [daemon]   replay_compute 108.59
+  [daemon]   replay_logits  0.14
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     266.14
+  [daemon] [dflash] generated 128 tokens in 5.057 s  ->  25.31 tok/s
+  [daemon] [dflash] 19 draft steps, accepted=113/304 (37.2% per step), avg commit/step=6.74
+  [daemon] [dflash] output tail: 24 12 24 18 15 23 21 21 24 21 24 67 20 16 63 864 5686 1040 264 22956
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+22:46:17 INFO dflash.server: chat DONE chatcmpl-7ac500c86029422c84f848e8  in=138 out=128  5.2s  24.5 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=4.5s(28.0tok/s)
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.10 ms
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=154 last_tok=198
+  [daemon] [step 1] accept_n=7 bonus=41643 commit_n=8
+  [daemon] [step 2] committed=162 last_tok=314
+  [daemon] [step 2] accept_n=2 bonus=321 commit_n=3
+  [daemon] [step 3] committed=165 last_tok=264
+  [daemon] [step 3] accept_n=1 bonus=31038 commit_n=2
+  [daemon] [step 4] committed=167 last_tok=4125
+  [daemon] [step 4] accept_n=1 bonus=2569 commit_n=2
+  [daemon] [step 5] committed=169 last_tok=25
+22:46:17 INFO dflash.server: chat chatcmpl-f5d9e59b682d4984aee47a71  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 5] accept_n=11 bonus=318 commit_n=12
+  [daemon] [step 6] committed=181 last_tok=13873
+  [daemon] [step 6] accept_n=2 bonus=11 commit_n=3
+  [daemon] [step 7] committed=184 last_tok=4507
+  [daemon] [step 7] accept_n=2 bonus=85 commit_n=3
+  [daemon] [step 8] committed=187 last_tok=636
+  [daemon] [step 8] accept_n=2 bonus=32579 commit_n=3
+  [daemon] [step 9] committed=190 last_tok=5285
+  [daemon] [step 9] accept_n=9 bonus=19 commit_n=10
+  [daemon] [step 10] committed=200 last_tok=63
+  [daemon] [step 10] accept_n=9 bonus=41643 commit_n=10
+  [daemon] [step 11] committed=210 last_tok=4774
+  [daemon] [step 11] accept_n=1 bonus=264 commit_n=2
+  [daemon] [step 12] committed=212 last_tok=33539
+  [daemon] [step 12] accept_n=3 bonus=198 commit_n=4
+  [daemon] [step 13] committed=216 last_tok=257
+  [daemon] [step 13] accept_n=9 bonus=638 commit_n=10
+  [daemon] [step 14] committed=226 last_tok=38387
+  [daemon] [step 14] accept_n=14 bonus=12559 commit_n=15
+  [daemon] [step 15] committed=241 last_tok=879
+  [daemon] [step 15] accept_n=13 bonus=8943 commit_n=14
+  [daemon] [step 16] committed=255 last_tok=82
+  [daemon] [step 16] accept_n=8 bonus=1011 commit_n=9
+  [daemon] [step 17] committed=264 last_tok=920
+  [daemon] [step 17] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [timing] per-step averages over 18 steps (ms):
+  [daemon]   draft_build    0.17
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.83
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.19
+  [daemon]   verify_build   1.79
+  [daemon]   verify_set     0.07
+  [daemon]   verify_compute 126.19
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.09
+  [daemon]   replay_build   1.01
+  [daemon]   replay_set     0.04
+  [daemon]   replay_compute 109.81
+  [daemon]   replay_logits  0.14
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     267.52
+  [daemon] [dflash] generated 128 tokens in 4.816 s  ->  26.58 tok/s
+  [daemon] [dflash] 18 draft steps, accepted=126/288 (43.8% per step), avg commit/step=7.11
+  [daemon] [dflash] output tail: 198 257 16026 198 260 958 648 643 8943 82 283 3439 271 257 638 920 926 1011 920 8312
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+22:46:22 INFO dflash.server: chat DONE chatcmpl-f5d9e59b682d4984aee47a71  in=138 out=128  5.5s  23.3 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=4.8s(26.5tok/s)
+  [daemon] [migrate] 4.95 ms
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=154 last_tok=198
+  [daemon] [step 1] accept_n=10 bonus=318 commit_n=11
+  [daemon] [step 2] committed=165 last_tok=13873
+  [daemon] [step 2] accept_n=3 bonus=10451 commit_n=4
+  [daemon] [step 3] committed=169 last_tok=5265
+  [daemon] [step 3] accept_n=3 bonus=5484 commit_n=4
+  [daemon] [step 4] committed=173 last_tok=6618
+  [daemon] [step 4] accept_n=1 bonus=17458 commit_n=2
+  [daemon] [step 5] committed=175 last_tok=2133
+  [daemon] [step 5] accept_n=2 bonus=1040 commit_n=3
+  [daemon] [step 6] committed=178 last_tok=343
+22:46:22 INFO dflash.server: chat chatcmpl-22556248ecf34ecfb066800d  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 6] accept_n=4 bonus=2574 commit_n=5
+  [daemon] [step 7] committed=183 last_tok=279
+  [daemon] [step 7] accept_n=2 bonus=314 commit_n=3
+  [daemon] [step 8] committed=186 last_tok=1510
+  [daemon] [step 8] accept_n=1 bonus=9415 commit_n=2
+  [daemon] [step 9] committed=188 last_tok=298
+  [daemon] [step 9] accept_n=5 bonus=39242 commit_n=6
+  [daemon] [step 10] committed=194 last_tok=10182
+  [daemon] [step 10] accept_n=9 bonus=2864 commit_n=10
+  [daemon] [step 11] committed=204 last_tok=7561
+  [daemon] [step 11] accept_n=7 bonus=41643 commit_n=8
+  [daemon] [step 12] committed=212 last_tok=10029
+  [daemon] [step 12] accept_n=4 bonus=15199 commit_n=5
+  [daemon] [step 13] committed=217 last_tok=6018
+  [daemon] [step 13] accept_n=9 bonus=1676 commit_n=10
+  [daemon] [step 14] committed=227 last_tok=2562
+  [daemon] [step 14] accept_n=15 bonus=21 commit_n=16
+  [daemon] [step 15] committed=243 last_tok=69
+  [daemon] [step 15] accept_n=7 bonus=27653 commit_n=8
+  [daemon] [step 16] committed=251 last_tok=1061
+  [daemon] [step 16] accept_n=6 bonus=264 commit_n=7
+  [daemon] [step 17] committed=258 last_tok=4055
+  [daemon] [step 17] accept_n=4 bonus=31315 commit_n=5
+  [daemon] [step 18] committed=263 last_tok=3162
+  [daemon] [step 18] accept_n=2 bonus=466 commit_n=3
+  [daemon] [timing] per-step averages over 19 steps (ms):
+  [daemon]   draft_build    0.17
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.81
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.22
+  [daemon]   verify_build   1.76
+  [daemon]   verify_set     0.07
+  [daemon]   verify_compute 126.59
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.08
+  [daemon]   replay_build   0.99
+  [daemon]   replay_set     0.04
+  [daemon]   replay_compute 109.32
+  [daemon]   replay_logits  0.14
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     267.41
+  [daemon] [dflash] generated 128 tokens in 5.081 s  ->  25.19 tok/s
+  [daemon] [dflash] 19 draft steps, accepted=110/304 (36.2% per step), avg commit/step=6.74
+  [daemon] [dflash] output tail: 18 19 21 67 27653 1061 5686 1040 264 22956 466 264 4055 886 421 2597 31315 3162 290 466
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.35 s, last_tok=8160
+  [daemon] [migrate] 5.23 ms
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=154 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=164 last_tok=1970
+  [daemon] [step 2] accept_n=1 bonus=13 commit_n=2
+22:46:28 INFO dflash.server: chat DONE chatcmpl-22556248ecf34ecfb066800d  in=138 out=128  5.5s  23.3 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=4.8s(26.5tok/s)
+  [daemon] [step 3] committed=166 last_tok=198
+  [daemon] [step 3] accept_n=3 bonus=561 commit_n=4
+  [daemon] [step 4] committed=170 last_tok=1970
+  [daemon] [step 4] accept_n=6 bonus=5484 commit_n=7
+  [daemon] [step 5] committed=177 last_tok=6618
+  [daemon] [step 5] accept_n=1 bonus=17458 commit_n=2
+  [daemon] [step 6] committed=179 last_tok=2133
+  [daemon] [step 6] accept_n=2 bonus=11 commit_n=3
+  [daemon] [step 7] committed=182 last_tok=4222
+  [daemon] [step 7] accept_n=3 bonus=11256 commit_n=4
+  [daemon] [step 8] committed=186 last_tok=76342
+  [daemon] [step 8] accept_n=4 bonus=3519 commit_n=5
+  [daemon] [step 9] committed=191 last_tok=478
+  [daemon] [step 9] accept_n=5 bonus=6937 commit_n=6
+22:46:28 INFO dflash.server: chat chatcmpl-a5a2680be22548289ba24d26  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 10] committed=197 last_tok=290
+  [daemon] [step 10] accept_n=2 bonus=8427 commit_n=3
+  [daemon] [step 11] committed=200 last_tok=1785
+  [daemon] [step 11] accept_n=6 bonus=5255 commit_n=7
+  [daemon] [step 12] committed=207 last_tok=25
+  [daemon] [step 12] accept_n=7 bonus=69 commit_n=8
+  [daemon] [step 13] committed=215 last_tok=4185
+  [daemon] [step 13] accept_n=7 bonus=65 commit_n=8
+  [daemon] [step 14] committed=223 last_tok=11927
+  [daemon] [step 14] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 15] committed=239 last_tok=198
+  [daemon] [step 15] accept_n=3 bonus=20703 commit_n=4
+  [daemon] [step 16] committed=243 last_tok=888
+  [daemon] [step 16] accept_n=2 bonus=701 commit_n=3
+  [daemon] [step 17] committed=246 last_tok=9749
+  [daemon] [step 17] accept_n=8 bonus=1510 commit_n=9
+  [daemon] [step 18] committed=255 last_tok=2864
+  [daemon] [step 18] accept_n=13 bonus=20703 commit_n=14
+  [daemon] [timing] per-step averages over 19 steps (ms):
+  [daemon]   draft_build    0.18
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.78
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.15
+  [daemon]   verify_build   1.78
+  [daemon]   verify_set     0.07
+  [daemon]   verify_compute 126.35
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.10
+  [daemon]   replay_build   0.99
+  [daemon]   replay_set     0.04
+  [daemon]   replay_compute 109.36
+  [daemon]   replay_logits  0.14
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     267.14
+  [daemon] [dflash] generated 128 tokens in 5.076 s  ->  25.22 tok/s
+  [daemon] [dflash] 19 draft steps, accepted=114/304 (37.5% per step), avg commit/step=6.74
+  [daemon] [dflash] output tail: 9749 14116 46757 7824 63 198 257 471 1510 2864 4244 283 638 65389 58 2864 816 60 63 198
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.37 s, last_tok=8160
+  [daemon] [migrate] 5.24 ms
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=154 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=164 last_tok=1970
+22:46:31 INFO dflash.server: chat DONE chatcmpl-a5a2680be22548289ba24d26  in=138 out=128  3.4s  37.1 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=2.8s(46.2tok/s)
+  [daemon] [step 2] accept_n=1 bonus=25 commit_n=2
+  [daemon] [step 3] committed=166 last_tok=198
+  [daemon] [step 3] accept_n=6 bonus=34461 commit_n=7
+  [daemon] [step 4] committed=173 last_tok=266
+  [daemon] [step 4] accept_n=12 bonus=27600 commit_n=13
+  [daemon] [step 5] committed=186 last_tok=7
+  [daemon] [step 5] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 6] committed=202 last_tok=6521
+  [daemon] [step 6] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 7] committed=218 last_tok=46290
+22:46:31 INFO dflash.server: chat chatcmpl-9ac05aeb147f4d29a827b770  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 7] accept_n=10 bonus=11198 commit_n=11
+  [daemon] [step 8] committed=229 last_tok=13201
+  [daemon] [step 8] accept_n=11 bonus=6090 commit_n=12
+  [daemon] [step 9] committed=241 last_tok=14281
+  [daemon] [step 9] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 10] committed=257 last_tok=29745
+  [daemon] [step 10] accept_n=9 bonus=283 commit_n=10
+  [daemon] [timing] per-step averages over 11 steps (ms):
+  [daemon]   draft_build    0.18
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.62
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.10
+  [daemon]   verify_build   2.40
+  [daemon]   verify_set     0.07
+  [daemon]   verify_compute 125.34
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.14
+  [daemon]   replay_build   1.01
+  [daemon]   replay_set     0.05
+  [daemon]   replay_compute 118.04
+  [daemon]   replay_logits  0.15
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     275.33
+  [daemon] [dflash] generated 128 tokens in 3.029 s  ->  42.26 tok/s
+  [daemon] [dflash] 11 draft steps, accepted=122/176 (69.3% per step), avg commit/step=11.64
+  [daemon] [dflash] output tail: 198 1734 6297 2997 283 318 41973 11198 13201 11 913 29745 578 271 1734 40628 3625 1463 13573 5854
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.34 ms
+22:46:37 INFO dflash.server: chat DONE chatcmpl-9ac05aeb147f4d29a827b770  in=138 out=128  6.0s  21.4 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=5.3s(24.0tok/s)
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=154 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=164 last_tok=1970
+  [daemon] [step 2] accept_n=1 bonus=318 commit_n=2
+  [daemon] [step 3] committed=166 last_tok=13873
+  [daemon] [step 3] accept_n=3 bonus=5187 commit_n=4
+  [daemon] [step 4] committed=170 last_tok=51
+  [daemon] [step 4] accept_n=2 bonus=5285 commit_n=3
+22:46:37 INFO dflash.server: chat chatcmpl-282290722de144e7a1ed79fa  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 5] committed=173 last_tok=3950
+  [daemon] [step 5] accept_n=2 bonus=9964 commit_n=3
+  [daemon] [step 6] committed=176 last_tok=40527
+  [daemon] [step 6] accept_n=3 bonus=3051 commit_n=4
+  [daemon] [step 7] committed=180 last_tok=553
+  [daemon] [step 7] accept_n=5 bonus=41643 commit_n=6
+  [daemon] [step 8] committed=186 last_tok=10029
+  [daemon] [step 8] accept_n=3 bonus=264 commit_n=4
+  [daemon] [step 9] committed=190 last_tok=22956
+  [daemon] [step 9] accept_n=1 bonus=12317 commit_n=2
+  [daemon] [step 10] committed=192 last_tok=886
+  [daemon] [step 10] accept_n=3 bonus=15 commit_n=4
+  [daemon] [step 11] committed=196 last_tok=68
+  [daemon] [step 11] accept_n=7 bonus=12 commit_n=8
+  [daemon] [step 12] committed=204 last_tok=23
+  [daemon] [step 12] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 13] committed=220 last_tok=18
+  [daemon] [step 13] accept_n=14 bonus=561 commit_n=15
+  [daemon] [step 14] committed=235 last_tok=1970
+  [daemon] [step 14] accept_n=1 bonus=4816 commit_n=2
+  [daemon] [step 15] committed=237 last_tok=310
+  [daemon] [step 15] accept_n=3 bonus=279 commit_n=4
+  [daemon] [step 16] committed=241 last_tok=1324
+  [daemon] [step 16] accept_n=6 bonus=3018 commit_n=7
+  [daemon] [step 17] committed=248 last_tok=383
+  [daemon] [step 17] accept_n=5 bonus=7561 commit_n=6
+  [daemon] [step 18] committed=254 last_tok=1332
+  [daemon] [step 18] accept_n=4 bonus=14378 commit_n=5
+  [daemon] [step 19] committed=259 last_tok=5132
+  [daemon] [step 19] accept_n=2 bonus=27384 commit_n=3
+  [daemon] [step 20] committed=262 last_tok=10885
+  [daemon] [step 20] accept_n=6 bonus=1179 commit_n=7
+  [daemon] [timing] per-step averages over 21 steps (ms):
+  [daemon]   draft_build    0.17
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.83
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.18
+  [daemon]   verify_build   1.69
+  [daemon]   verify_set     0.06
+  [daemon]   verify_compute 126.51
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.09
+  [daemon]   replay_build   0.99
+  [daemon]   replay_set     0.04
+  [daemon]   replay_compute 107.17
+  [daemon]   replay_logits  0.14
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     265.08
+  [daemon] [dflash] generated 128 tokens in 5.567 s  ->  22.99 tok/s
+  [daemon] [dflash] 21 draft steps, accepted=112/336 (33.3% per step), avg commit/step=6.10
+  [daemon] [dflash] output tail: 1622 3018 383 1510 2911 6256 7824 7561 1332 90563 16 63 14378 5132 10442 27384 10885 13 198 256
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.27 ms
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=154 last_tok=198
+  [daemon] [step 1] accept_n=7 bonus=41643 commit_n=8
+  [daemon] [step 2] committed=162 last_tok=314
+22:46:41 INFO dflash.server: chat DONE chatcmpl-282290722de144e7a1ed79fa  in=138 out=128  4.0s  32.1 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=3.3s(38.5tok/s)
+  [daemon] [step 2] accept_n=2 bonus=47192 commit_n=3
+  [daemon] [step 3] committed=165 last_tok=25
+  [daemon] [step 3] accept_n=6 bonus=850 commit_n=7
+  [daemon] [step 4] committed=172 last_tok=290
+  [daemon] [step 4] accept_n=8 bonus=198 commit_n=9
+  [daemon] [step 5] committed=181 last_tok=4946
+  [daemon] [step 5] accept_n=7 bonus=198 commit_n=8
+  [daemon] [step 6] committed=189 last_tok=4946
+  [daemon] [step 6] accept_n=15 bonus=16252 commit_n=16
+  [daemon] [step 7] committed=205 last_tok=25
+22:46:41 INFO dflash.server: chat chatcmpl-aa22cb10edd142ada7ad65f7  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 7] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 8] committed=221 last_tok=72
+  [daemon] [step 8] accept_n=9 bonus=2424 commit_n=10
+  [daemon] [step 9] committed=231 last_tok=198
+  [daemon] [step 9] accept_n=5 bonus=864 commit_n=6
+  [daemon] [step 10] committed=237 last_tok=9687
+  [daemon] [step 10] accept_n=12 bonus=6326 commit_n=13
+  [daemon] [step 11] committed=250 last_tok=1142
+  [daemon] [step 11] accept_n=6 bonus=198 commit_n=7
+  [daemon] [step 12] committed=257 last_tok=4946
+  [daemon] [step 12] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [timing] per-step averages over 13 steps (ms):
+  [daemon]   draft_build    0.18
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.69
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.16
+  [daemon]   verify_build   2.18
+  [daemon]   verify_set     0.07
+  [daemon]   verify_compute 126.98
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.08
+  [daemon]   replay_build   1.01
+  [daemon]   replay_set     0.05
+  [daemon]   replay_compute 116.39
+  [daemon]   replay_logits  0.14
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     275.15
+  [daemon] [dflash] generated 128 tokens in 3.577 s  ->  35.78 tok/s
+  [daemon] [dflash] 13 draft steps, accepted=125/208 (60.1% per step), avg commit/step=9.85
+  [daemon] [dflash] output tail: 4946 653 5129 6326 1142 1364 6483 5893 8211 440 198 4946 653 264 710 26355 12502 314 1331 220
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.32 ms
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=154 last_tok=198
+22:46:45 INFO dflash.server: chat DONE chatcmpl-aa22cb10edd142ada7ad65f7  in=138 out=128  3.7s  34.6 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=3.0s(42.2tok/s)
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=164 last_tok=1970
+  [daemon] [step 2] accept_n=1 bonus=25 commit_n=2
+  [daemon] [step 3] committed=166 last_tok=198
+  [daemon] [step 3] accept_n=11 bonus=260 commit_n=12
+  [daemon] [step 4] committed=178 last_tok=494
+  [daemon] [step 4] accept_n=6 bonus=27406 commit_n=7
+  [daemon] [step 5] committed=185 last_tok=14783
+  [daemon] [step 5] accept_n=15 bonus=76 commit_n=16
+  [daemon] [step 6] committed=201 last_tok=3033
+  [daemon] [step 6] accept_n=4 bonus=648 commit_n=5
+22:46:45 INFO dflash.server: chat chatcmpl-c4e773fda7e24265922ac228  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 7] committed=206 last_tok=643
+  [daemon] [step 7] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 8] committed=222 last_tok=18562
+  [daemon] [step 8] accept_n=4 bonus=1463 commit_n=5
+  [daemon] [step 9] committed=227 last_tok=14189
+  [daemon] [step 9] accept_n=15 bonus=1103 commit_n=16
+  [daemon] [step 10] committed=243 last_tok=948
+  [daemon] [step 10] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 11] committed=259 last_tok=1103
+  [daemon] [step 11] accept_n=12 bonus=1358 commit_n=13
+  [daemon] [timing] per-step averages over 12 steps (ms):
+  [daemon]   draft_build    0.19
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.76
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.10
+  [daemon]   verify_build   2.26
+  [daemon]   verify_set     0.07
+  [daemon]   verify_compute 126.38
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.11
+  [daemon]   replay_build   1.01
+  [daemon]   replay_set     0.05
+  [daemon]   replay_compute 115.67
+  [daemon]   replay_logits  0.15
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     273.95
+  [daemon] [dflash] generated 128 tokens in 3.288 s  ->  38.93 tok/s
+  [daemon] [dflash] 12 draft steps, accepted=125/192 (65.1% per step), avg commit/step=10.67
+  [daemon] [dflash] output tail: 369 8699 198 257 3495 8915 1597 1463 14189 25 3856 22013 283 1103 58 1597 1463 14189 13061 60
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 4.93 ms
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+22:46:48 INFO dflash.server: chat DONE chatcmpl-c4e773fda7e24265922ac228  in=138 out=128  3.4s  37.3 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=2.7s(46.2tok/s)
+  [daemon] [step 1] committed=154 last_tok=198
+  [daemon] [step 1] accept_n=10 bonus=71463 commit_n=11
+  [daemon] [step 2] committed=165 last_tok=25
+  [daemon] [step 2] accept_n=4 bonus=198 commit_n=5
+  [daemon] [step 3] committed=170 last_tok=257
+  [daemon] [step 3] accept_n=12 bonus=1734 commit_n=13
+  [daemon] [step 4] committed=183 last_tok=653
+  [daemon] [step 4] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 5] committed=199 last_tok=1734
+  [daemon] [step 5] accept_n=13 bonus=1220 commit_n=14
+  [daemon] [step 6] committed=213 last_tok=524
+22:46:48 INFO dflash.server: chat chatcmpl-1267ee5f96764b9f8bb7515f  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=137  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 6] accept_n=5 bonus=11421 commit_n=6
+  [daemon] [step 7] committed=219 last_tok=430
+  [daemon] [step 7] accept_n=13 bonus=26067 commit_n=14
+  [daemon] [step 8] committed=233 last_tok=283
+  [daemon] [step 8] accept_n=10 bonus=220 commit_n=11
+  [daemon] [step 9] committed=244 last_tok=653
+  [daemon] [step 9] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 10] committed=260 last_tok=34422
+  [daemon] [step 10] accept_n=11 bonus=17 commit_n=12
+  [daemon] [timing] per-step averages over 11 steps (ms):
+  [daemon]   draft_build    0.15
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.91
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.08
+  [daemon]   verify_build   2.05
+  [daemon]   verify_set     0.07
+  [daemon]   verify_compute 125.63
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.08
+  [daemon]   replay_build   0.92
+  [daemon]   replay_set     0.05
+  [daemon]   replay_compute 118.02
+  [daemon]   replay_logits  0.14
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     275.29
+  [daemon] [dflash] generated 128 tokens in 3.028 s  ->  42.27 tok/s
+  [daemon] [dflash] 11 draft steps, accepted=126/176 (71.6% per step), avg commit/step=11.64
+  [daemon] [dflash] output tail: 25 9738 64219 37435 60 198 336 413 30038 1153 3090 11 328 447 34422 26067 871 198 336 220
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 137 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 137 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.64 ms
+  [daemon] [step 0] committed=137 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=153 last_tok=198
+  [daemon] [step 1] accept_n=8 bonus=889 commit_n=9
+  [daemon] [step 2] committed=162 last_tok=41643
+  [daemon] [step 2] accept_n=4 bonus=88670 commit_n=5
+  [daemon] [step 3] committed=167 last_tok=13
+  [daemon] [step 3] accept_n=6 bonus=4162 commit_n=7
+  [daemon] [step 4] committed=174 last_tok=264
+  [daemon] [step 4] accept_n=5 bonus=7948 commit_n=6
+  [daemon] [step 5] committed=180 last_tok=685
+  [daemon] [step 5] accept_n=4 bonus=264 commit_n=5
+22:46:53 INFO dflash.server: chat DONE chatcmpl-1267ee5f96764b9f8bb7515f  in=137 out=128  4.2s  30.2 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=3.6s(35.8tok/s)
+  [daemon] [step 6] committed=185 last_tok=52965
+  [daemon] [step 6] accept_n=5 bonus=471 commit_n=6
+  [daemon] [step 7] committed=191 last_tok=17167
+  [daemon] [step 7] accept_n=6 bonus=1510 commit_n=7
+  [daemon] [step 8] committed=198 last_tok=66
+  [daemon] [step 8] accept_n=9 bonus=561 commit_n=10
+  [daemon] [step 9] committed=208 last_tok=4479
+  [daemon] [step 9] accept_n=2 bonus=369 commit_n=3
+  [daemon] [step 10] committed=211 last_tok=3799
+  [daemon] [step 10] accept_n=7 bonus=34 commit_n=8
+  [daemon] [step 11] committed=219 last_tok=4505
+22:46:53 INFO dflash.server: chat chatcmpl-31504c53004d4257b4341083  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 11] accept_n=14 bonus=68 commit_n=15
+  [daemon] [step 12] committed=234 last_tok=20
+  [daemon] [step 12] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 13] committed=250 last_tok=15
+  [daemon] [step 13] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [timing] per-step averages over 14 steps (ms):
+  [daemon]   draft_build    0.18
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.70
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.13
+  [daemon]   verify_build   2.02
+  [daemon]   verify_set     0.07
+  [daemon]   verify_compute 126.67
+  [daemon]   verify_logits  0.02
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.11
+  [daemon]   replay_build   1.03
+  [daemon]   replay_set     0.05
+  [daemon]   replay_compute 114.49
+  [daemon]   replay_logits  0.14
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     272.77
+  [daemon] [dflash] generated 128 tokens in 3.819 s  ->  33.52 tok/s
+  [daemon] [dflash] 14 draft steps, accepted=118/224 (52.7% per step), avg commit/step=9.14
+  [daemon] [dflash] output tail: 65 12 23 18 22 15 2149 21 19 69 16 16 23 65 24 6995 21 63 198 256
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.31 ms
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=154 last_tok=198
+  [daemon] [step 1] accept_n=10 bonus=71463 commit_n=11
+  [daemon] [step 2] committed=165 last_tok=25
+  [daemon] [step 2] accept_n=4 bonus=198 commit_n=5
+  [daemon] [step 3] committed=170 last_tok=257
+  [daemon] [step 3] accept_n=11 bonus=25 commit_n=12
+  [daemon] [step 4] committed=182 last_tok=198
+22:46:56 INFO dflash.server: chat DONE chatcmpl-31504c53004d4257b4341083  in=138 out=128  3.5s  37.1 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=2.8s(46.0tok/s)
+  [daemon] [step 4] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 5] committed=198 last_tok=13
+  [daemon] [step 5] accept_n=15 bonus=264 commit_n=16
+  [daemon] [step 6] committed=214 last_tok=2612
+  [daemon] [step 6] accept_n=6 bonus=1521 commit_n=7
+  [daemon] [step 7] committed=221 last_tok=279
+  [daemon] [step 7] accept_n=15 bonus=3604 commit_n=16
+  [daemon] [step 8] committed=237 last_tok=866
+  [daemon] [step 8] accept_n=8 bonus=198 commit_n=9
+  [daemon] [step 9] committed=246 last_tok=1734
+22:46:56 INFO dflash.server: chat chatcmpl-32a30d5253f841768cf118e5  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 9] accept_n=4 bonus=264 commit_n=5
+  [daemon] [step 10] committed=251 last_tok=3074
+  [daemon] [step 10] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [timing] per-step averages over 11 steps (ms):
+  [daemon]   draft_build    0.19
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.63
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.11
+  [daemon]   verify_build   2.40
+  [daemon]   verify_set     0.07
+  [daemon]   verify_compute 126.07
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.12
+  [daemon]   replay_build   1.05
+  [daemon]   replay_set     0.05
+  [daemon]   replay_compute 118.30
+  [daemon]   replay_logits  0.15
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     276.34
+  [daemon] [dflash] generated 128 tokens in 3.040 s  ->  42.11 tok/s
+  [daemon] [dflash] 11 draft steps, accepted=121/176 (68.8% per step), avg commit/step=11.64
+  [daemon] [dflash] output tail: 1734 653 3397 599 264 3074 22927 1879 13 198 1734 22927 34024 283 638 1385 9951 34422 37775 220
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+  [daemon] [migrate] 5.36 ms
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=154 last_tok=198
+22:47:02 INFO dflash.server: chat DONE chatcmpl-32a30d5253f841768cf118e5  in=138 out=128  5.7s  22.3 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=5.0s(25.2tok/s)
+  [daemon] [step 1] accept_n=10 bonus=25 commit_n=11
+  [daemon] [step 2] committed=165 last_tok=88461
+  [daemon] [step 2] accept_n=9 bonus=539 commit_n=10
+  [daemon] [step 3] committed=175 last_tok=264
+  [daemon] [step 3] accept_n=3 bonus=264 commit_n=4
+  [daemon] [step 4] committed=179 last_tok=1510
+  [daemon] [step 4] accept_n=9 bonus=561 commit_n=10
+  [daemon] [step 5] committed=189 last_tok=1970
+  [daemon] [step 5] accept_n=1 bonus=4816 commit_n=2
+  [daemon] [step 6] committed=191 last_tok=310
+  [daemon] [step 6] accept_n=4 bonus=12654 commit_n=5
+22:47:02 INFO dflash.server: chat chatcmpl-923a887a25b641b68c1de35c  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=137  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 7] committed=196 last_tok=999
+  [daemon] [step 7] accept_n=4 bonus=310 commit_n=5
+  [daemon] [step 8] committed=201 last_tok=264
+  [daemon] [step 8] accept_n=1 bonus=5484 commit_n=2
+  [daemon] [step 9] committed=203 last_tok=6618
+  [daemon] [step 9] accept_n=1 bonus=17458 commit_n=2
+  [daemon] [step 10] committed=205 last_tok=2133
+  [daemon] [step 10] accept_n=2 bonus=318 commit_n=3
+  [daemon] [step 11] committed=208 last_tok=93996
+  [daemon] [step 11] accept_n=2 bonus=12877 commit_n=3
+  [daemon] [step 12] committed=211 last_tok=78827
+  [daemon] [step 12] accept_n=3 bonus=43494 commit_n=4
+  [daemon] [step 13] committed=215 last_tok=10885
+  [daemon] [step 13] accept_n=3 bonus=51319 commit_n=4
+  [daemon] [step 14] committed=219 last_tok=10836
+  [daemon] [step 14] accept_n=4 bonus=7561 commit_n=5
+  [daemon] [step 15] committed=224 last_tok=1510
+  [daemon] [step 15] accept_n=3 bonus=1510 commit_n=4
+  [daemon] [step 16] committed=228 last_tok=26527
+  [daemon] [step 16] accept_n=9 bonus=22956 commit_n=10
+  [daemon] [step 17] committed=238 last_tok=12317
+  [daemon] [step 17] accept_n=7 bonus=22 commit_n=8
+  [daemon] [step 18] committed=246 last_tok=21
+  [daemon] [step 18] accept_n=11 bonus=4243 commit_n=12
+  [daemon] [step 19] committed=258 last_tok=7174
+  [daemon] [step 19] accept_n=14 bonus=15 commit_n=15
+  [daemon] [timing] per-step averages over 20 steps (ms):
+  [daemon]   draft_build    0.17
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.15
+  [daemon]   draft_compute  23.81
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.15
+  [daemon]   verify_build   1.70
+  [daemon]   verify_set     0.06
+  [daemon]   verify_compute 126.30
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.08
+  [daemon]   replay_build   0.99
+  [daemon]   replay_set     0.04
+  [daemon]   replay_compute 108.49
+  [daemon]   replay_logits  0.14
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     266.15
+  [daemon] [dflash] generated 128 tokens in 5.323 s  ->  24.05 tok/s
+  [daemon] [dflash] 20 draft steps, accepted=116/320 (36.2% per step), avg commit/step=6.40
+  [daemon] [dflash] output tail: 21 24 49403 19 65 1676 8635 21 12 19 21 4243 7174 20 24 20 12 24 18 67
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 137 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 137 tokens in 0.37 s, last_tok=8160
+  [daemon] [migrate] 5.24 ms
+  [daemon] [step 0] committed=137 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+22:47:06 INFO dflash.server: chat DONE chatcmpl-923a887a25b641b68c1de35c  in=137 out=128  4.0s  32.4 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=3.3s(39.0tok/s)
+  [daemon] [step 1] committed=153 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=163 last_tok=1970
+  [daemon] [step 2] accept_n=2 bonus=264 commit_n=3
+  [daemon] [step 3] committed=166 last_tok=4479
+  [daemon] [step 3] accept_n=2 bonus=71463 commit_n=3
+  [daemon] [step 4] committed=169 last_tok=11937
+  [daemon] [step 4] accept_n=1 bonus=25 commit_n=2
+  [daemon] [step 5] committed=171 last_tok=198
+  [daemon] [step 5] accept_n=8 bonus=49314 commit_n=9
+  [daemon] [step 6] committed=180 last_tok=52965
+22:47:06 INFO dflash.server: chat chatcmpl-13b57d998cc34736a740e02d  stream=True  msgs=1 {'user': 1}  tools=0  prompt_tokens=138  max_tokens=128  max_completion_tokens=None  effective_max_tokens=128  max_ctx=1024  model=luce-dflash
+INFO:     127.0.0.1:40924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+  [daemon] [step 6] accept_n=5 bonus=1734 commit_n=6
+  [daemon] [step 7] committed=186 last_tok=4844
+  [daemon] [step 7] accept_n=11 bonus=1734 commit_n=12
+  [daemon] [step 8] committed=198 last_tok=75897
+  [daemon] [step 8] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 9] committed=214 last_tok=39707
+  [daemon] [step 9] accept_n=15 bonus=38681 commit_n=16
+  [daemon] [step 10] committed=230 last_tok=2516
+  [daemon] [step 10] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 11] committed=246 last_tok=20499
+  [daemon] [step 11] accept_n=12 bonus=2516 commit_n=13
+  [daemon] [step 12] committed=259 last_tok=25
+  [daemon] [step 12] accept_n=12 bonus=271 commit_n=13
+  [daemon] [timing] per-step averages over 13 steps (ms):
+  [daemon]   draft_build    0.18
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.62
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.12
+  [daemon]   verify_build   2.17
+  [daemon]   verify_set     0.07
+  [daemon]   verify_compute 126.07
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.09
+  [daemon]   replay_build   1.02
+  [daemon]   replay_set     0.05
+  [daemon]   replay_compute 114.34
+  [daemon]   replay_logits  0.15
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     272.07
+  [daemon] [dflash] generated 128 tokens in 3.537 s  ->  36.19 tok/s
+  [daemon] [dflash] 13 draft steps, accepted=125/208 (60.1% per step), avg commit/step=9.85
+  [daemon] [dflash] output tail: 11198 20499 198 1734 16026 198 336 364 94441 38681 303 94441 38681 2516 25 198 3696 7131 37374 283
+ggml_backend_cuda_graph_compute: CUDA graph warmup complete
+ggml_backend_cuda_graph_compute: CUDA graph warmup reset
+  [daemon] [prompt] 138 tokens
+  [daemon] [prefill] token-seg ubatch=256
+  [daemon] [prefill] 138 tokens in 0.36 s, last_tok=8160
+22:47:12 INFO dflash.server: chat DONE chatcmpl-13b57d998cc34736a740e02d  in=138 out=128  6.0s  21.4 tok/s  finish=stop  compress=0.0s  prefill=0.7s  decode=5.3s(24.0tok/s)
+  [daemon] [migrate] 5.29 ms
+  [daemon] [step 0] committed=138 last_tok=8160
+  [daemon] [step 0] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [step 1] committed=154 last_tok=198
+  [daemon] [step 1] accept_n=9 bonus=12654 commit_n=10
+  [daemon] [step 2] committed=164 last_tok=1970
+  [daemon] [step 2] accept_n=1 bonus=11 commit_n=2
+  [daemon] [step 3] committed=166 last_tok=4222
+  [daemon] [step 3] accept_n=3 bonus=343 commit_n=4
+  [daemon] [step 4] committed=170 last_tok=3950
+  [daemon] [step 4] accept_n=4 bonus=436 commit_n=5
+  [daemon] [step 5] committed=175 last_tok=10673
+  [daemon] [step 5] accept_n=3 bonus=13 commit_n=4
+  [daemon] [step 6] committed=179 last_tok=198
+  [daemon] [step 6] accept_n=5 bonus=12148 commit_n=6
+  [daemon] [step 7] committed=185 last_tok=440
+  [daemon] [step 7] accept_n=4 bonus=370 commit_n=5
+  [daemon] [step 8] committed=190 last_tok=35988
+  [daemon] [step 8] accept_n=4 bonus=24324 commit_n=5
+  [daemon] [step 9] committed=195 last_tok=72308
+  [daemon] [step 9] accept_n=2 bonus=35838 commit_n=3
+  [daemon] [step 10] committed=198 last_tok=23826
+  [daemon] [step 10] accept_n=3 bonus=3431 commit_n=4
+  [daemon] [step 11] committed=202 last_tok=4747
+  [daemon] [step 11] accept_n=1 bonus=7561 commit_n=2
+  [daemon] [step 12] committed=204 last_tok=1510
+  [daemon] [step 12] accept_n=6 bonus=298 commit_n=7
+  [daemon] [step 13] committed=211 last_tok=370
+  [daemon] [step 13] accept_n=5 bonus=39242 commit_n=6
+  [daemon] [step 14] committed=217 last_tok=10182
+  [daemon] [step 14] accept_n=10 bonus=4747 commit_n=11
+  [daemon] [step 15] committed=228 last_tok=7561
+  [daemon] [step 15] accept_n=9 bonus=370 commit_n=10
+  [daemon] [step 16] committed=238 last_tok=9373
+  [daemon] [step 16] accept_n=4 bonus=6526 commit_n=5
+  [daemon] [step 17] committed=243 last_tok=1510
+  [daemon] [step 17] accept_n=12 bonus=561 commit_n=13
+  [daemon] [step 18] committed=256 last_tok=41643
+  [daemon] [step 18] accept_n=3 bonus=440 commit_n=4
+  [daemon] [step 19] committed=260 last_tok=264
+  [daemon] [step 19] accept_n=2 bonus=12317 commit_n=3
+  [daemon] [step 20] committed=263 last_tok=886
+  [daemon] [step 20] accept_n=16 bonus=-1 commit_n=16
+  [daemon] [timing] per-step averages over 21 steps (ms):
+  [daemon]   draft_build    0.17
+  [daemon]   draft_copyfeat 0.03
+  [daemon]   draft_set      0.14
+  [daemon]   draft_compute  23.79
+  [daemon]   draft_bridge   0.00
+  [daemon]   draft_logits   0.01
+  [daemon]   snapshot_ssm   2.19
+  [daemon]   verify_build   1.66
+  [daemon]   verify_set     0.07
+  [daemon]   verify_compute 126.63
+  [daemon]   verify_logits  0.01
+  [daemon]   accept         0.00
+  [daemon]   restore_ssm    2.10
+  [daemon]   replay_build   0.99
+  [daemon]   replay_set     0.04
+  [daemon]   replay_compute 107.92
+  [daemon]   replay_logits  0.14
+  [daemon]   mirror_sync    0.00
+  [daemon]   ----- sum     265.92
+  [daemon] [dflash] generated 128 tokens in 5.585 s  ->  22.92 tok/s
+  [daemon] [dflash] 21 draft steps, accepted=122/336 (36.3% per step), avg commit/step=6.10
+  [daemon] [dflash] output tail: 640 24676 6751 652 10930 27653 198 256 471 561 41643 10029 57728 440 264 22956 12317 886 25 1510
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [1157397]
