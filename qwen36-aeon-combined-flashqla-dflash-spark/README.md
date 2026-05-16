@@ -107,6 +107,17 @@ uvx --from 'llama-benchy==0.3.7' llama-benchy \
   --runs 30 --save-result measured.json
 ```
 
+## Balanced TG128 / PP2048 code-prose thinking grid
+
+A follow-up balanced run on `spark-3` reproduces the `think-on/prose` point quickly and then runs an N=30 `TG=128`, `PP=2048`, `C=1` grid across DFlash vs AR/reference, thinking on/off, and code/prose corpora.
+
+- Package: [`submission-tg128-pp2048-balanced-20260516`](submission-tg128-pp2048-balanced-20260516)
+- Raw receipts: [`results/tg128-pp2048-code-prose-think-grid-20260516_054837`](results/tg128-pp2048-code-prose-think-grid-20260516_054837)
+- Runner: [`scripts/run_tg128_pp2048_code_prose_think_grid.sh`](scripts/run_tg128_pp2048_code_prose_think_grid.sh)
+- Headline balanced DFlash cell: `think-on/code`, prefill `2286.10 tok/s`, decode `34.94 tok/s`, TTFT `900.22 ms`, total `477.29 tok/s`.
+- Matched AR baseline for the same cell: prefill `2790.38 tok/s`, decode `12.04 tok/s`, TTFT `737.53 ms`, total `191.50 tok/s`.
+- Decode lift over matched AR: `2.90x`.
+
 ## Follow-Up PP Restoration Targets
 
 The corrected upload records the old published DFlash PP means as floors for the next optimization pass. That follow-up must restore PP mean to at least these old values while keeping TG mean at least 90% of the corrected DFlash TG mean from this upload.

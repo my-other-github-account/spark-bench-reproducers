@@ -1,0 +1,422 @@
+{
+  "headline": {
+    "side": "dflash",
+    "think": "on",
+    "corpus": "code",
+    "label": "measured",
+    "path": "dflash/think-on/code/measured/pp2048-tg128-c1-n30.json",
+    "pp": 2048,
+    "tg": 128,
+    "concurrency": 1,
+    "pp_throughput": {
+      "mean": 2331.042855877537,
+      "median": 2286.096590327174,
+      "std": 124.05657030472044,
+      "n": 29,
+      "raw_mean": 2339.511325286987
+    },
+    "tg_throughput": {
+      "mean": 36.540087507543745,
+      "median": 34.9416543116784,
+      "std": 5.0193621808907185,
+      "n": 29,
+      "raw_mean": 36.73017164938718
+    },
+    "ttfr": {
+      "mean": 885.0756546598859,
+      "median": 900.2244300208986,
+      "std": 44.03055914769971,
+      "n": 29,
+      "raw_mean": 882.1098553055588
+    },
+    "e2e_ttft": {
+      "mean": 885.0756546598859,
+      "median": 900.2244300208986,
+      "std": 44.03055914769971,
+      "n": 29,
+      "raw_mean": 882.1098553055588
+    }
+  },
+  "matched_ar": {
+    "side": "ar-reference",
+    "think": "on",
+    "corpus": "code",
+    "label": "measured",
+    "path": "ar-reference/think-on/code/measured/pp2048-tg128-c1-n30.json",
+    "pp": 2048,
+    "tg": 128,
+    "concurrency": 1,
+    "pp_throughput": {
+      "mean": 2761.3911932078113,
+      "median": 2790.3830566804463,
+      "std": 54.011364834346026,
+      "n": 29,
+      "raw_mean": 2759.806592892011
+    },
+    "tg_throughput": {
+      "mean": 12.042240064414335,
+      "median": 12.042464424061809,
+      "std": 0.006987482925945135,
+      "n": 29,
+      "raw_mean": 12.042071280582116
+    },
+    "ttfr": {
+      "mean": 745.5171037922967,
+      "median": 737.5331480288878,
+      "std": 14.856694709044424,
+      "n": 29,
+      "raw_mean": 745.944245964832
+    },
+    "e2e_ttft": {
+      "mean": 745.5171037922967,
+      "median": 737.5331480288878,
+      "std": 14.856694709044424,
+      "n": 29,
+      "raw_mean": 745.944245964832
+    }
+  },
+  "best_dflash_pp_cell": {
+    "side": "dflash",
+    "think": "on",
+    "corpus": "prose",
+    "label": "measured",
+    "path": "dflash/think-on/prose/measured/pp2048-tg128-c1-n30.json",
+    "pp": 2048,
+    "tg": 128,
+    "concurrency": 1,
+    "pp_throughput": {
+      "mean": 2343.989188434553,
+      "median": 2289.616506766423,
+      "std": 122.08507391973421,
+      "n": 29,
+      "raw_mean": 2352.9003879141806
+    },
+    "tg_throughput": {
+      "mean": 32.28989628094045,
+      "median": 31.610963318956813,
+      "std": 6.988659577319656,
+      "n": 29,
+      "raw_mean": 32.06266512432398
+    },
+    "ttfr": {
+      "mean": 880.248866993372,
+      "median": 898.8404800184071,
+      "std": 42.80758630927325,
+      "n": 29,
+      "raw_mean": 877.1774248608077
+    },
+    "e2e_ttft": {
+      "mean": 880.248866993372,
+      "median": 898.8404800184071,
+      "std": 42.80758630927325,
+      "n": 29,
+      "raw_mean": 877.1774248608077
+    }
+  },
+  "all_measured": [
+    {
+      "side": "ar-reference",
+      "think": "off",
+      "corpus": "code",
+      "label": "measured",
+      "path": "ar-reference/think-off/code/measured/pp2048-tg128-c1-n30.json",
+      "pp": 2048,
+      "tg": 128,
+      "concurrency": 1,
+      "pp_throughput": {
+        "mean": 2674.642172663575,
+        "median": 2679.6844129759543,
+        "std": 29.30227432722025,
+        "n": 29,
+        "raw_mean": 2671.951814002558
+      },
+      "tg_throughput": {
+        "mean": 12.036283689502572,
+        "median": 12.035302294391027,
+        "std": 0.0084440537910407,
+        "n": 29,
+        "raw_mean": 12.035999811603169
+      },
+      "ttfr": {
+        "mean": 770.134974108479,
+        "median": 768.3740630163811,
+        "std": 8.508759922461113,
+        "n": 29,
+        "raw_mean": 770.9358523716219
+      },
+      "e2e_ttft": {
+        "mean": 770.134974108479,
+        "median": 768.3740630163811,
+        "std": 8.508759922461113,
+        "n": 29,
+        "raw_mean": 770.9358523716219
+      }
+    },
+    {
+      "side": "ar-reference",
+      "think": "off",
+      "corpus": "prose",
+      "label": "measured",
+      "path": "ar-reference/think-off/prose/measured/pp2048-tg128-c1-n30.json",
+      "pp": 2048,
+      "tg": 128,
+      "concurrency": 1,
+      "pp_throughput": {
+        "mean": 2537.1714046470793,
+        "median": 2575.8300514742646,
+        "std": 105.85065488970197,
+        "n": 29,
+        "raw_mean": 2518.7789724032214
+      },
+      "tg_throughput": {
+        "mean": 11.975161215242103,
+        "median": 12.03369573981241,
+        "std": 0.19238483563045192,
+        "n": 29,
+        "raw_mean": 11.97750929989217
+      },
+      "ttfr": {
+        "mean": 813.4784156231788,
+        "median": 799.7422030312009,
+        "std": 36.60149398621276,
+        "n": 29,
+        "raw_mean": 820.9483054020287
+      },
+      "e2e_ttft": {
+        "mean": 813.4784156231788,
+        "median": 799.7422030312009,
+        "std": 36.60149398621276,
+        "n": 29,
+        "raw_mean": 820.9483054020287
+      }
+    },
+    {
+      "side": "ar-reference",
+      "think": "on",
+      "corpus": "code",
+      "label": "measured",
+      "path": "ar-reference/think-on/code/measured/pp2048-tg128-c1-n30.json",
+      "pp": 2048,
+      "tg": 128,
+      "concurrency": 1,
+      "pp_throughput": {
+        "mean": 2761.3911932078113,
+        "median": 2790.3830566804463,
+        "std": 54.011364834346026,
+        "n": 29,
+        "raw_mean": 2759.806592892011
+      },
+      "tg_throughput": {
+        "mean": 12.042240064414335,
+        "median": 12.042464424061809,
+        "std": 0.006987482925945135,
+        "n": 29,
+        "raw_mean": 12.042071280582116
+      },
+      "ttfr": {
+        "mean": 745.5171037922967,
+        "median": 737.5331480288878,
+        "std": 14.856694709044424,
+        "n": 29,
+        "raw_mean": 745.944245964832
+      },
+      "e2e_ttft": {
+        "mean": 745.5171037922967,
+        "median": 737.5331480288878,
+        "std": 14.856694709044424,
+        "n": 29,
+        "raw_mean": 745.944245964832
+      }
+    },
+    {
+      "side": "ar-reference",
+      "think": "on",
+      "corpus": "prose",
+      "label": "measured",
+      "path": "ar-reference/think-on/prose/measured/pp2048-tg128-c1-n30.json",
+      "pp": 2048,
+      "tg": 128,
+      "concurrency": 1,
+      "pp_throughput": {
+        "mean": 2672.415019240206,
+        "median": 2689.473369534678,
+        "std": 70.21203446691182,
+        "n": 29,
+        "raw_mean": 2648.6334737312573
+      },
+      "tg_throughput": {
+        "mean": 12.038298691361117,
+        "median": 12.037265559292806,
+        "std": 0.010459701356329142,
+        "n": 29,
+        "raw_mean": 12.0390667412863
+      },
+      "ttfr": {
+        "mean": 770.6390021746207,
+        "median": 765.2055689832196,
+        "std": 20.912084556027743,
+        "n": 29,
+        "raw_mean": 779.9524462684834
+      },
+      "e2e_ttft": {
+        "mean": 770.6390021746207,
+        "median": 765.2055689832196,
+        "std": 20.912084556027743,
+        "n": 29,
+        "raw_mean": 779.9524462684834
+      }
+    },
+    {
+      "side": "dflash",
+      "think": "off",
+      "corpus": "code",
+      "label": "measured",
+      "path": "dflash/think-off/code/measured/pp2048-tg128-c1-n30.json",
+      "pp": 2048,
+      "tg": 128,
+      "concurrency": 1,
+      "pp_throughput": {
+        "mean": 2293.9370673098115,
+        "median": 2227.8965931494668,
+        "std": 136.50489885641102,
+        "n": 29,
+        "raw_mean": 2298.4974457397598
+      },
+      "tg_throughput": {
+        "mean": 23.170863759564135,
+        "median": 22.906749701808568,
+        "std": 3.0428112861700076,
+        "n": 29,
+        "raw_mean": 23.308477653372435
+      },
+      "ttfr": {
+        "mean": 901.0524459680992,
+        "median": 924.6389649924822,
+        "std": 52.097766456019855,
+        "n": 29,
+        "raw_mean": 899.2528382358918
+      },
+      "e2e_ttft": {
+        "mean": 901.0524459680992,
+        "median": 924.6389649924822,
+        "std": 52.097766456019855,
+        "n": 29,
+        "raw_mean": 899.2528382358918
+      }
+    },
+    {
+      "side": "dflash",
+      "think": "off",
+      "corpus": "prose",
+      "label": "measured",
+      "path": "dflash/think-off/prose/measured/pp2048-tg128-c1-n30.json",
+      "pp": 2048,
+      "tg": 128,
+      "concurrency": 1,
+      "pp_throughput": {
+        "mean": 2291.170349898429,
+        "median": 2237.742798327275,
+        "std": 105.00544755968059,
+        "n": 29,
+        "raw_mean": 2266.6766771882367
+      },
+      "tg_throughput": {
+        "mean": 19.291853885219897,
+        "median": 18.949160567746045,
+        "std": 5.775912356972929,
+        "n": 29,
+        "raw_mean": 19.455127674312553
+      },
+      "ttfr": {
+        "mean": 900.991088931513,
+        "median": 920.570496993605,
+        "std": 40.89356562939453,
+        "n": 29,
+        "raw_mean": 915.0780886334056
+      },
+      "e2e_ttft": {
+        "mean": 900.991088931513,
+        "median": 920.570496993605,
+        "std": 40.89356562939453,
+        "n": 29,
+        "raw_mean": 915.0780886334056
+      }
+    },
+    {
+      "side": "dflash",
+      "think": "on",
+      "corpus": "code",
+      "label": "measured",
+      "path": "dflash/think-on/code/measured/pp2048-tg128-c1-n30.json",
+      "pp": 2048,
+      "tg": 128,
+      "concurrency": 1,
+      "pp_throughput": {
+        "mean": 2331.042855877537,
+        "median": 2286.096590327174,
+        "std": 124.05657030472044,
+        "n": 29,
+        "raw_mean": 2339.511325286987
+      },
+      "tg_throughput": {
+        "mean": 36.540087507543745,
+        "median": 34.9416543116784,
+        "std": 5.0193621808907185,
+        "n": 29,
+        "raw_mean": 36.73017164938718
+      },
+      "ttfr": {
+        "mean": 885.0756546598859,
+        "median": 900.2244300208986,
+        "std": 44.03055914769971,
+        "n": 29,
+        "raw_mean": 882.1098553055588
+      },
+      "e2e_ttft": {
+        "mean": 885.0756546598859,
+        "median": 900.2244300208986,
+        "std": 44.03055914769971,
+        "n": 29,
+        "raw_mean": 882.1098553055588
+      }
+    },
+    {
+      "side": "dflash",
+      "think": "on",
+      "corpus": "prose",
+      "label": "measured",
+      "path": "dflash/think-on/prose/measured/pp2048-tg128-c1-n30.json",
+      "pp": 2048,
+      "tg": 128,
+      "concurrency": 1,
+      "pp_throughput": {
+        "mean": 2343.989188434553,
+        "median": 2289.616506766423,
+        "std": 122.08507391973421,
+        "n": 29,
+        "raw_mean": 2352.9003879141806
+      },
+      "tg_throughput": {
+        "mean": 32.28989628094045,
+        "median": 31.610963318956813,
+        "std": 6.988659577319656,
+        "n": 29,
+        "raw_mean": 32.06266512432398
+      },
+      "ttfr": {
+        "mean": 880.248866993372,
+        "median": 898.8404800184071,
+        "std": 42.80758630927325,
+        "n": 29,
+        "raw_mean": 877.1774248608077
+      },
+      "e2e_ttft": {
+        "mean": 880.248866993372,
+        "median": 898.8404800184071,
+        "std": 42.80758630927325,
+        "n": 29,
+        "raw_mean": 877.1774248608077
+      }
+    }
+  ]
+}

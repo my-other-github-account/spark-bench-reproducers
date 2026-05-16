@@ -1,0 +1,273 @@
+[
+    {
+        "Id": "108684ac9dfde5ea4a8ef929078041e356b6576e0e2e138de6caced102726488",
+        "Created": "2026-05-16T06:05:06.049157996Z",
+        "Path": "/opt/qwen36-aeon-dflash-spark-vllm/docker/entrypoint.sh",
+        "Args": [
+            "bash",
+            "-lc",
+            "exec vllm serve /models/aeon-xs --served-model-name aeon-ultimate qwen36-ultimate aeon-fast aeon-deep qwen36-ultimate-xs --host 0.0.0.0 --port 8000 --tensor-parallel-size 1 --dtype auto --quantization modelopt --kv-cache-dtype auto --max-model-len 262144 --max-num-seqs 64 --max-num-batched-tokens 32768 --gpu-memory-utilization 0.85 --enable-chunked-prefill --no-enable-prefix-caching --generation-config vllm --load-format safetensors --trust-remote-code --enable-auto-tool-choice --tool-call-parser qwen3_coder --reasoning-parser qwen3 --attention-backend flash_attn --compilation-config \\{\\\"inductor_compile_config\\\":\\{\\\"combo_kernels\\\":false\\,\\\"benchmark_combo_kernel\\\":false\\}\\} --limit-mm-per-prompt \\{\\\"image\\\":4\\,\\\"video\\\":2\\} --mm-encoder-tp-mode data --mm-processor-cache-type shm --mm-shm-cache-max-object-size-mb 256 --speculative-config \\{\\\"method\\\":\\\"dflash\\\"\\,\\\"model\\\":\\\"/models/dflash-drafter\\\"\\,\\\"num_speculative_tokens\\\":15\\,\\\"attention_backend\\\":\\\"FLASH_ATTN\\\"\\} "
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 1212837,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-05-16T06:05:06.121051715Z",
+            "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:75bd9a38be52a435ae8bdc35bf34807c3c67e3b26ae6d9fb377f5e6f5981665f",
+        "ResolvConfPath": "/var/lib/docker/containers/108684ac9dfde5ea4a8ef929078041e356b6576e0e2e138de6caced102726488/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/108684ac9dfde5ea4a8ef929078041e356b6576e0e2e138de6caced102726488/hostname",
+        "HostsPath": "/var/lib/docker/containers/108684ac9dfde5ea4a8ef929078041e356b6576e0e2e138de6caced102726488/hosts",
+        "LogPath": "/var/lib/docker/containers/108684ac9dfde5ea4a8ef929078041e356b6576e0e2e138de6caced102726488/108684ac9dfde5ea4a8ef929078041e356b6576e0e2e138de6caced102726488-json.log",
+        "Name": "/aeon-tg128-pp2048-grid-dflash-think-on",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "docker-default",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": [
+                "/home/dnola/work/spark-bench-reproducers/qwen36-aeon-combined-flashqla-dflash-spark/models/aeon-ultimate-multimodal-nvfp4-mtp-xs:/models/aeon-xs:ro",
+                "/home/dnola/work/spark-bench-reproducers/qwen36-aeon-combined-flashqla-dflash-spark/models/dflash-drafter:/models/dflash-drafter:ro"
+            ],
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "host",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "host",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": [
+                "label=disable"
+            ],
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "nvidia",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": [],
+            "BlkioDeviceWriteBps": [],
+            "BlkioDeviceReadIOps": [],
+            "BlkioDeviceWriteIOps": [],
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": [
+                {
+                    "Driver": "",
+                    "Count": -1,
+                    "DeviceIDs": null,
+                    "Capabilities": [
+                        [
+                            "gpu"
+                        ]
+                    ],
+                    "Options": {}
+                }
+            ],
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": null,
+            "Ulimits": [
+                {
+                    "Name": "memlock",
+                    "Hard": -1,
+                    "Soft": -1
+                }
+            ],
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/acpi",
+                "/proc/asound",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/sys/devices/virtual/powercap",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": {
+                "ID": "108684ac9dfde5ea4a8ef929078041e356b6576e0e2e138de6caced102726488",
+                "LowerDir": "/var/lib/docker/overlay2/7505469ded43e83adf1e459249ee3a1ee577fc6419230c96bdea22d191c75fa3-init/diff:/var/lib/docker/overlay2/f6938108733413e6d4490d3221df533c17fb79692b2f981339caf52782cec038/diff:/var/lib/docker/overlay2/949798f10b4b04d7578f71b6372bb8357d0d21cccea8ddbfcd36a862d367c35d/diff:/var/lib/docker/overlay2/697fd9a533363244b59f0a916eb1b1fa5758df8b7c0dbdfeed4e1ea33c52dbc8/diff:/var/lib/docker/overlay2/0c6e75b8112372d274d45eae5b3b1a3a1ea2dd9a3e717616f4e5ac101004f90f/diff:/var/lib/docker/overlay2/6438b873858c2344eeff5d8fe0e6de3e2ad54a76e2b16e0512ba8cfbfd7f72a0/diff:/var/lib/docker/overlay2/976f1bbd626e2c568ed604d0685d0767eb3936cb50bd2b75e35ab3b90e4839c2/diff:/var/lib/docker/overlay2/dd8685ff5aceb61f3d0d4192c699e6c24c5ddc048bea56dd11375e78278ed9ab/diff:/var/lib/docker/overlay2/7704dcc973152cbbc620bf7f6888a7956b0999b1cacdf5e4120136b870dbc507/diff:/var/lib/docker/overlay2/5baae342028564dae451d1747211cfd3674c848f966a136a2b9cc34e2ea80f80/diff:/var/lib/docker/overlay2/8ffd332761da082fd5dd0d091375d95bcc5888f639d31d23ccdada0ab294055f/diff:/var/lib/docker/overlay2/109b3bc6a88a9ce3c656ee8496f9c67dc674f235e21816f3930f86850b8cfa35/diff:/var/lib/docker/overlay2/96ca4d274aa5c2757bedd4d3eddc1d07968eab2d0b901eb939ceaf95d1770fb7/diff:/var/lib/docker/overlay2/0e623b2afb83fa002cdf4c8ed2699b2ebe0ce13fa9369fc8a37f2714d95da53d/diff:/var/lib/docker/overlay2/9a57c7bd8e3ca9666b11f1ae37a33ba7e9dac7841a727212baffa0495ade5b39/diff:/var/lib/docker/overlay2/56e3343d564daea7fc7d0dae4f2e2e7fdd084b8c43697142399732a79998ec18/diff:/var/lib/docker/overlay2/490b796af88fe592abdd67625e8d63d72d7e55f74b30143c8256eb183f806382/diff:/var/lib/docker/overlay2/da632ce36c084855d6921a6d4c08338d721be8eec5915604ca27b850e1e3389e/diff:/var/lib/docker/overlay2/a89003d6ac9bf97b17958a60bcc30c2a5ba0d7628f8db0ea2b4314af159091d8/diff:/var/lib/docker/overlay2/50755443c4314fc97a4ace10523a8eea03697a827ce2c7f6a9c4285517fe5f6f/diff:/var/lib/docker/overlay2/8fc068bc3315fe958b125459713e11f204e4a6b2745753bff1506bbf97ca3f78/diff:/var/lib/docker/overlay2/b47fcfe9228bbbffe1881f1f0d732affcaaa0d9fc97cf669c09e0a9d28e1ed8b/diff:/var/lib/docker/overlay2/d5693699d6f1be418d3c7239f8c16eb79c22f03d758b4d59087c28cd09aec221/diff:/var/lib/docker/overlay2/a9bd1aaafe135b9124b10fcd1f70a28d29b975106479c1a66b45b56d7652d7c3/diff:/var/lib/docker/overlay2/7504e4a0bbe03f6ca39575c9bc80416d925f2303632c01a62622db233d7ff61d/diff:/var/lib/docker/overlay2/52e49074100c37648850962a0ac25b99b383649c266d7ca58f1d6e818b1577fa/diff:/var/lib/docker/overlay2/2e7eddc017321db252ea8e2ffe139a3a4be715f2d86608f1ae11c5fa0a8be801/diff:/var/lib/docker/overlay2/43d8afbccfa55ce98eb824bbbd43e34c8a2c2eead0b08e1c7a8337c71a3bde7f/diff:/var/lib/docker/overlay2/8252440fef3d9e5212ef21fe1cb21fb044193e66c7b128ec1c73f0340fabe635/diff:/var/lib/docker/overlay2/d1744392b678547117aa5921e70127473cc98a99ed21e2808ea931130d860787/diff:/var/lib/docker/overlay2/fd79c8d2115718c74452322ae9b0791bbff0e9da4890dda6286769beec47d5e9/diff:/var/lib/docker/overlay2/f4e97e34b643a15cc546dd59f55240088223bdf81e7c22c405987038d65c7913/diff:/var/lib/docker/overlay2/76bb6432872773524e143a510087714c1b4b800b891aead5588e50be8058f237/diff",
+                "MergedDir": "/var/lib/docker/overlay2/7505469ded43e83adf1e459249ee3a1ee577fc6419230c96bdea22d191c75fa3/merged",
+                "UpperDir": "/var/lib/docker/overlay2/7505469ded43e83adf1e459249ee3a1ee577fc6419230c96bdea22d191c75fa3/diff",
+                "WorkDir": "/var/lib/docker/overlay2/7505469ded43e83adf1e459249ee3a1ee577fc6419230c96bdea22d191c75fa3/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [
+            {
+                "Type": "bind",
+                "Source": "/home/dnola/work/spark-bench-reproducers/qwen36-aeon-combined-flashqla-dflash-spark/models/aeon-ultimate-multimodal-nvfp4-mtp-xs",
+                "Destination": "/models/aeon-xs",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/home/dnola/work/spark-bench-reproducers/qwen36-aeon-combined-flashqla-dflash-spark/models/dflash-drafter",
+                "Destination": "/models/dflash-drafter",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            }
+        ],
+        "Config": {
+            "Hostname": "spark-3",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "TORCH_MATMUL_PRECISION=high",
+                "ENABLE_NVFP4_SM100=0",
+                "VLLM_TEST_FORCE_FP8_MARLIN=0",
+                "VLLM_USE_FLASHINFER_SAMPLER=1",
+                "VLLM_ALLOW_LONG_MAX_MODEL_LEN=1",
+                "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True",
+                "NVIDIA_FORWARD_COMPAT=1",
+                "NVIDIA_DISABLE_REQUIRE=1",
+                "VLLM_USE_FLASHINFER_MOE_FP4=0",
+                "VLLM_NVFP4_GEMM_BACKEND=flashinfer-cutlass",
+                "TORCH_CUDA_ARCH_LIST=12.1a",
+                "PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "NVARCH=sbsa",
+                "NVIDIA_REQUIRE_CUDA=cuda>=13.0 brand=unknown,driver>=535,driver<536 brand=grid,driver>=535,driver<536 brand=tesla,driver>=535,driver<536 brand=nvidia,driver>=535,driver<536 brand=quadro,driver>=535,driver<536 brand=quadrortx,driver>=535,driver<536 brand=nvidiartx,driver>=535,driver<536 brand=vapps,driver>=535,driver<536 brand=vpc,driver>=535,driver<536 brand=vcs,driver>=535,driver<536 brand=vws,driver>=535,driver<536 brand=cloudgaming,driver>=535,driver<536 brand=unknown,driver>=550,driver<551 brand=grid,driver>=550,driver<551 brand=tesla,driver>=550,driver<551 brand=nvidia,driver>=550,driver<551 brand=quadro,driver>=550,driver<551 brand=quadrortx,driver>=550,driver<551 brand=nvidiartx,driver>=550,driver<551 brand=vapps,driver>=550,driver<551 brand=vpc,driver>=550,driver<551 brand=vcs,driver>=550,driver<551 brand=vws,driver>=550,driver<551 brand=cloudgaming,driver>=550,driver<551 brand=unknown,driver>=565,driver<566 brand=grid,driver>=565,driver<566 brand=tesla,driver>=565,driver<566 brand=nvidia,driver>=565,driver<566 brand=quadro,driver>=565,driver<566 brand=quadrortx,driver>=565,driver<566 brand=nvidiartx,driver>=565,driver<566 brand=vapps,driver>=565,driver<566 brand=vpc,driver>=565,driver<566 brand=vcs,driver>=565,driver<566 brand=vws,driver>=565,driver<566 brand=cloudgaming,driver>=565,driver<566 brand=unknown,driver>=570,driver<571 brand=grid,driver>=570,driver<571 brand=tesla,driver>=570,driver<571 brand=nvidia,driver>=570,driver<571 brand=quadro,driver>=570,driver<571 brand=quadrortx,driver>=570,driver<571 brand=nvidiartx,driver>=570,driver<571 brand=vapps,driver>=570,driver<571 brand=vpc,driver>=570,driver<571 brand=vcs,driver>=570,driver<571 brand=vws,driver>=570,driver<571 brand=cloudgaming,driver>=570,driver<571 brand=unknown,driver>=575,driver<576 brand=grid,driver>=575,driver<576 brand=tesla,driver>=575,driver<576 brand=nvidia,driver>=575,driver<576 brand=quadro,driver>=575,driver<576 brand=quadrortx,driver>=575,driver<576 brand=nvidiartx,driver>=575,driver<576 brand=vapps,driver>=575,driver<576 brand=vpc,driver>=575,driver<576 brand=vcs,driver>=575,driver<576 brand=vws,driver>=575,driver<576 brand=cloudgaming,driver>=575,driver<576",
+                "NV_CUDA_CUDART_VERSION=13.0.96-1",
+                "CUDA_VERSION=13.0.2",
+                "LD_LIBRARY_PATH=/usr/local/nvidia/lib64:/usr/local/cuda/lib64:/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/usr/local/cuda/lib64",
+                "NVIDIA_VISIBLE_DEVICES=all",
+                "NVIDIA_DRIVER_CAPABILITIES=compute,utility",
+                "DEBIAN_FRONTEND=noninteractive",
+                "UV_HTTP_TIMEOUT=500",
+                "UV_INDEX_STRATEGY=unsafe-best-match",
+                "UV_LINK_MODE=copy",
+                "VLLM_ENABLE_CUDA_COMPATIBILITY=0",
+                "VLLM_USAGE_SOURCE=production-docker-image",
+                "VLLM_BUILD_COMMIT=f6490a28413526adefae8dd7af32906d060e0436",
+                "VLLM_BUILD_PIPELINE=019d130e-464e-4ff7-b84b-492992c0c06b",
+                "VLLM_BUILD_URL=https://buildkite.com/vllm/release-v2/builds/1423",
+                "VLLM_IMAGE_TAG=vllm/vllm-openai:nightly-f6490a28413526adefae8dd7af32906d060e0436"
+            ],
+            "Cmd": [
+                "bash",
+                "-lc",
+                "exec vllm serve /models/aeon-xs --served-model-name aeon-ultimate qwen36-ultimate aeon-fast aeon-deep qwen36-ultimate-xs --host 0.0.0.0 --port 8000 --tensor-parallel-size 1 --dtype auto --quantization modelopt --kv-cache-dtype auto --max-model-len 262144 --max-num-seqs 64 --max-num-batched-tokens 32768 --gpu-memory-utilization 0.85 --enable-chunked-prefill --no-enable-prefix-caching --generation-config vllm --load-format safetensors --trust-remote-code --enable-auto-tool-choice --tool-call-parser qwen3_coder --reasoning-parser qwen3 --attention-backend flash_attn --compilation-config \\{\\\"inductor_compile_config\\\":\\{\\\"combo_kernels\\\":false\\,\\\"benchmark_combo_kernel\\\":false\\}\\} --limit-mm-per-prompt \\{\\\"image\\\":4\\,\\\"video\\\":2\\} --mm-encoder-tp-mode data --mm-processor-cache-type shm --mm-shm-cache-max-object-size-mb 256 --speculative-config \\{\\\"method\\\":\\\"dflash\\\"\\,\\\"model\\\":\\\"/models/dflash-drafter\\\"\\,\\\"num_speculative_tokens\\\":15\\,\\\"attention_backend\\\":\\\"FLASH_ATTN\\\"\\} "
+            ],
+            "Image": "ghcr.io/aeon-7/vllm-aeon-ultimate-dflash:qwen36-v4",
+            "Volumes": null,
+            "WorkingDir": "/opt/qwen36-aeon-dflash-spark-vllm",
+            "Entrypoint": [
+                "/opt/qwen36-aeon-dflash-spark-vllm/docker/entrypoint.sh"
+            ],
+            "Labels": {
+                "ai.vllm.build.commit": "f6490a28413526adefae8dd7af32906d060e0436",
+                "ai.vllm.build.pipeline": "019d130e-464e-4ff7-b84b-492992c0c06b",
+                "ai.vllm.build.url": "https://buildkite.com/vllm/release-v2/builds/1423",
+                "ai.vllm.image.tag": "vllm/vllm-openai:nightly-f6490a28413526adefae8dd7af32906d060e0436",
+                "maintainer": "NVIDIA CORPORATION <cudatools@nvidia.com>",
+                "org.opencontainers.image.description": "Qwen3.6 AEON Ultimate DFlash image for DGX Spark. Based on official vLLM nightly with vLLM PR #40898 DFlash sliding-window-attention overlay and FlashInfer 0.6.11 cu130 packages.",
+                "org.opencontainers.image.ref.name": "ubuntu",
+                "org.opencontainers.image.revision": "f6490a28413526adefae8dd7af32906d060e0436",
+                "org.opencontainers.image.source": "https://github.com/AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-DFlash",
+                "org.opencontainers.image.title": "vllm-aeon-ultimate-dflash",
+                "org.opencontainers.image.url": "https://buildkite.com/vllm/release-v2/builds/1423",
+                "org.opencontainers.image.version": "qwen36-v4-nightly-pr40898-fi0611"
+            }
+        },
+        "NetworkSettings": {
+            "SandboxID": "d272d51ff13cb9d3ab22ad8f289f463f7ff9941f5f54eb6974a51a46a06091f9",
+            "SandboxKey": "/var/run/docker/netns/default",
+            "Ports": {},
+            "Networks": {
+                "host": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "DriverOpts": null,
+                    "GwPriority": 0,
+                    "NetworkID": "671a704e5fc35671b4c260bb6d845074cb3a3cf472b35e6c87c2ec6b6d679011",
+                    "EndpointID": "7568e1a6f6beb8a75591b9e360eef5127968c392e781bf60aafbf5335201e04f",
+                    "Gateway": "",
+                    "IPAddress": "",
+                    "MacAddress": "",
+                    "IPPrefixLen": 0,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": null
+                }
+            }
+        }
+    }
+]
