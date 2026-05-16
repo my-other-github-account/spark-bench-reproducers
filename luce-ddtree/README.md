@@ -1,6 +1,8 @@
 # Luce DDTree fixed-serving N=30 reproducer
 
-This folder contains the fixed-serving Luce DFlash/DDTree benchmark grid plus a matching AR-baseline grid, with raw `llama-benchy` JSON receipts, server logs, wrapper scripts, exact commands, validation summaries, and reproduction steps.
+> **Correction / invalidation (2026-05-15):** the packaged `ar-baseline-fixed-serving-n30/` rows are **not true AR baselines**. They still launch the Luce `test_dflash` daemon with a draft model, and the server logs contain `[dflash] ... draft steps, accepted=...` lines. The AR numbers and DFlash-vs-AR speedup ratios below are invalid until the baseline is rerun through a real non-speculative backend such as `llama-server`. See `AR_BASELINE_INVALIDATION.md`.
+
+This folder contains the fixed-serving Luce DFlash/DDTree benchmark grid plus an invalidated attempted AR-baseline grid, with raw `llama-benchy` JSON receipts, server logs, wrapper scripts, exact commands, validation summaries, and reproduction steps.
 
 ## Benchmark shape
 
@@ -12,10 +14,14 @@ This folder contains the fixed-serving Luce DFlash/DDTree benchmark grid plus a 
 
 ## Headline warm median TG throughput
 
-- sherlock / think ON: DFlash/DDTree **55.173 tok/s**; AR baseline **33.768 tok/s**; speedup **1.63x**; eligible dflash/ar `True/True`
-- sherlock / think OFF: DFlash/DDTree **25.109 tok/s**; AR baseline **16.771 tok/s**; speedup **1.50x**; eligible dflash/ar `True/True`
-- codegen / think ON: DFlash/DDTree **46.587 tok/s**; AR baseline **29.670 tok/s**; speedup **1.57x**; eligible dflash/ar `True/True`
-- codegen / think OFF: DFlash/DDTree **32.021 tok/s**; AR baseline **20.907 tok/s**; speedup **1.53x**; eligible dflash/ar `True/True`
+DFlash/DDTree warm medians remain raw measured wrapper receipts:
+
+- sherlock / think ON: DFlash/DDTree **55.173 tok/s**
+- sherlock / think OFF: DFlash/DDTree **25.109 tok/s**
+- codegen / think ON: DFlash/DDTree **46.587 tok/s**
+- codegen / think OFF: DFlash/DDTree **32.021 tok/s**
+
+The previously published AR baselines and speedup ratios are **invalid**. They were produced by the DFlash wrapper with draft/speculative machinery still active, not by true AR.
 
 ## Raw result locations in this folder
 
@@ -47,10 +53,12 @@ The runner copies the fixed-serving wrappers and removes the DDTree/speculative 
 
 ## Validation
 
-- sherlock / think ON: fallback dflash/ar `False/False`; eligible dflash/ar `True/True`
-- sherlock / think OFF: fallback dflash/ar `False/False`; eligible dflash/ar `True/True`
-- codegen / think ON: fallback dflash/ar `False/False`; eligible dflash/ar `True/True`
-- codegen / think OFF: fallback dflash/ar `False/False`; eligible dflash/ar `True/True`
+- DFlash/DDTree token-id streaming validation passed for the packaged DFlash rows.
+- Attempted AR rows are invalidated by server-log evidence:
+  - server command uses `--bin .../build/test_dflash` and `--draft .../models/draft`;
+  - logs contain `[daemon] [draft]  loaded`;
+  - logs contain `[daemon] [dflash] ... draft steps, accepted=...`;
+  - `ddtree=0` only disables DDTree, not the DFlash/draft path.
 
 ## Provenance
 

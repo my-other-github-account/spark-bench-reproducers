@@ -1,4 +1,7 @@
-# True-AR baseline summary
+# True-AR baseline summary — INVALIDATED
+
+> **Invalid:** these rows are not true AR. They were run through the Luce `test_dflash` wrapper with a draft model loaded. Logs contain `[dflash]` generation and draft acceptance lines. Use these only as diagnostic non-DDTree DFlash-wrapper receipts, not as AR baselines or speedup denominators. See `../AR_BASELINE_INVALIDATION.md`.
+
 
 Shape: standard llama-benchy `--pp 128 --tg 128 --depth 0 --concurrency 1 --runs 30`. Warm metrics drop first pass.
 
