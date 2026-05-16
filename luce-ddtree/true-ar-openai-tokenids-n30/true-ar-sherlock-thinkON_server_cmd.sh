@@ -1,0 +1,1 @@
+/home/user/llama.cpp/build/bin/llama-server -m /home/user/work/dflash-lucebox-gb10-spark3/lucebox-hub/dflash/models/Qwen3.6-27B-Q4_K_M.gguf --host 127.0.0.1 -c 1024 -ctk f16 -ctv f16 -np 1 --no-warmup --jinja --reasoning-format deepseek --port 8200 --reasoning-budget -1 --chat-template-kwargs \{\"enable_thinking\":true\} 

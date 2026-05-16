@@ -1,109 +1,213 @@
 {
   "benchmark_shape": {
-    "llama_benchy": "standard/unmodified",
+    "llama_benchy": "standard/unmodified llama-benchy 0.3.6",
     "pp": 128,
     "tg": 128,
     "depth": 0,
     "concurrency": 1,
     "runs": 30,
     "warm_metric": "drop first sample; report N=29 warm medians",
-    "token_accounting": "server streams choices[0].token_ids; no llama-benchy local-tokenization fallback"
+    "token_accounting": "server streams choices[0].token_ids; bench logs rejected if llama-benchy local-tokenization fallback appears"
   },
-  "dflash_ddtree_config": {
-    "target": "Qwen3.6-27B-Q4_K_M.gguf",
-    "draft": "models/draft/model.safetensors",
-    "budget": 18,
-    "ddtree_temp": 1.05,
-    "kv": "f16/f16",
-    "max_ctx": 1024,
-    "fa_window": 2048,
-    "prefix_cache_slots": 0,
-    "prefill_cache_slots": 0,
-    "ddtree_no_chain_seed": true,
-    "ignore_eos_stop": "benchmark-only to force exactly 128 generated tokens"
-  },
-  "ar_baseline_config": {
-    "wrapper_patch": "same fixed-serving wrapper with --fast-rollback/--ddtree/--ddtree-budget/--ddtree-temp removed from test_dflash daemon command",
-    "note": "Existing Luce baseline path used for AR comparison in this harness; exact logs/commands/wrappers included.",
-    "validity": "INVALID: wrapper still used test_dflash with draft model; logs contain [dflash] draft-step acceptance lines. Not true AR.",
-    "corrective_action": "Rerun through real non-speculative llama-server; do not use current AR fields for ratios."
+  "tiers": {
+    "AR": {
+      "meaning": "true non-speculative autoregressive llama.cpp llama-server",
+      "source_dir": "true-ar-openai-tokenids-n30",
+      "server": "patched llama.cpp llama-server with OpenAI chat streaming choices[0].token_ids",
+      "timings": "llama-benchy-reported timings (not llama-server log-derived)",
+      "source_host": "spark-3",
+      "source_path": "/home/user/work/dflash-lucebox-gb10-spark3/llama-benchy-true-ar-n30-20260515_182628",
+      "validity": "valid true AR baseline; no DFlash/draft path"
+    },
+    "+DF": {
+      "meaning": "DFlash-only/no-DDTree; ddtree=0 diagnostic tier",
+      "source_dir": "ar-baseline-fixed-serving-n30",
+      "note": "These are the previously invalidated attempted AR rows, now deliberately relabeled as DFlash-only/no-DDTree. They must not be called true AR.",
+      "validity": "valid as DFlash-only/no-DDTree, invalid as AR baseline"
+    },
+    "+DDT": {
+      "meaning": "DFlash with DDTree enabled",
+      "source_dir": "dflash-ddtree-fixed-serving-n30",
+      "validity": "valid DFlash/DDTree receipts"
+    }
   },
   "rows": [
     {
       "corpus": "sherlock",
       "think": "ON",
-      "dflash_median_warm_tps": 55.17347846939473,
-      "dflash_mean_warm_tps": 55.41560997289395,
-      "dflash_std_warm_tps": 16.468577980629032,
-      "ar_median_warm_tps": 33.76840352067782,
-      "ar_mean_warm_tps": 34.11887922682868,
-      "ar_std_warm_tps": 9.08243685209009,
-      "median_speedup_vs_ar": null,
-      "mean_speedup_vs_ar": null,
-      "dflash_eligible": true,
-      "ar_eligible": false,
-      "dflash_fallback": false,
-      "ar_fallback": false,
-      "dflash_raw_json": "dflash-ddtree-fixed-serving-n30/dflash-sherlock-thinkON.json",
-      "ar_raw_json": "ar-baseline-fixed-serving-n30/true-ar-sherlock-thinkON.json",
-      "ar_invalid_reason": "not true AR: test_dflash wrapper with draft model loaded; [dflash] draft-step logs present"
+      "tiers": {
+        "AR": {
+          "median_warm_tps": 10.298248086379356,
+          "mean_warm_tps": 10.239006276074953,
+          "std_warm_tps": 0.2707763666644972,
+          "runs": 30,
+          "warm_runs": 29,
+          "raw_json": "true-ar-openai-tokenids-n30/true-ar-sherlock-thinkON.json",
+          "fallback": false,
+          "label": "AR=true non-speculative llama-server/OpenAI token_ids"
+        },
+        "+DF": {
+          "median_warm_tps": 33.76840352067782,
+          "mean_warm_tps": 34.11887922682868,
+          "std_warm_tps": 9.08243685209009,
+          "runs": 30,
+          "warm_runs": 29,
+          "raw_json": "ar-baseline-fixed-serving-n30/true-ar-sherlock-thinkON.json",
+          "fallback": false,
+          "label": "+DF=DFlash-only/no-DDTree (legacy ar-baseline-fixed-serving-n30; ddtree=0)"
+        },
+        "+DDT": {
+          "median_warm_tps": 55.17347846939473,
+          "mean_warm_tps": 55.41560997289395,
+          "std_warm_tps": 16.468577980629036,
+          "runs": 30,
+          "warm_runs": 29,
+          "raw_json": "dflash-ddtree-fixed-serving-n30/dflash-sherlock-thinkON.json",
+          "fallback": false,
+          "label": "+DDT=DFlash + DDTree"
+        }
+      },
+      "ratios": {
+        "+DF_vs_AR_median": 3.279043506957315,
+        "+DDT_vs_AR_median": 5.357559655449371,
+        "+DDT_vs_+DF_median": 1.6338787954725096,
+        "+DF_vs_AR_mean": 3.332245171736324,
+        "+DDT_vs_AR_mean": 5.412205880016035,
+        "+DDT_vs_+DF_mean": 1.6241919790061279
+      }
     },
     {
       "corpus": "sherlock",
       "think": "OFF",
-      "dflash_median_warm_tps": 25.10926015304031,
-      "dflash_mean_warm_tps": 26.340510177994545,
-      "dflash_std_warm_tps": 5.438902215993467,
-      "ar_median_warm_tps": 16.771234521565898,
-      "ar_mean_warm_tps": 16.47471521759553,
-      "ar_std_warm_tps": 2.9842001785878627,
-      "median_speedup_vs_ar": null,
-      "mean_speedup_vs_ar": null,
-      "dflash_eligible": true,
-      "ar_eligible": false,
-      "dflash_fallback": false,
-      "ar_fallback": false,
-      "dflash_raw_json": "dflash-ddtree-fixed-serving-n30/dflash-sherlock-thinkOFF.json",
-      "ar_raw_json": "ar-baseline-fixed-serving-n30/true-ar-sherlock-thinkOFF.json",
-      "ar_invalid_reason": "not true AR: test_dflash wrapper with draft model loaded; [dflash] draft-step logs present"
+      "tiers": {
+        "AR": {
+          "median_warm_tps": 10.6939861538442,
+          "mean_warm_tps": 10.68575234771129,
+          "std_warm_tps": 0.13118856389452682,
+          "runs": 30,
+          "warm_runs": 29,
+          "raw_json": "true-ar-openai-tokenids-n30/true-ar-sherlock-thinkOFF.json",
+          "fallback": false,
+          "label": "AR=true non-speculative llama-server/OpenAI token_ids"
+        },
+        "+DF": {
+          "median_warm_tps": 16.771234521565898,
+          "mean_warm_tps": 16.47471521759553,
+          "std_warm_tps": 2.9842001785878627,
+          "runs": 30,
+          "warm_runs": 29,
+          "raw_json": "ar-baseline-fixed-serving-n30/true-ar-sherlock-thinkOFF.json",
+          "fallback": false,
+          "label": "+DF=DFlash-only/no-DDTree (legacy ar-baseline-fixed-serving-n30; ddtree=0)"
+        },
+        "+DDT": {
+          "median_warm_tps": 25.10926015304031,
+          "mean_warm_tps": 26.340510177994545,
+          "std_warm_tps": 5.438902215993467,
+          "runs": 30,
+          "warm_runs": 29,
+          "raw_json": "dflash-ddtree-fixed-serving-n30/dflash-sherlock-thinkOFF.json",
+          "fallback": false,
+          "label": "+DDT=DFlash + DDTree"
+        }
+      },
+      "ratios": {
+        "+DF_vs_AR_median": 1.5682865379002844,
+        "+DDT_vs_AR_median": 2.3479794897634316,
+        "+DDT_vs_+DF_median": 1.4971623061351065,
+        "+DF_vs_AR_mean": 1.541745932482156,
+        "+DDT_vs_AR_mean": 2.4650122257078366,
+        "+DDT_vs_+DF_mean": 1.5988446434486483
+      }
     },
     {
       "corpus": "codegen",
       "think": "ON",
-      "dflash_median_warm_tps": 46.58730529537005,
-      "dflash_mean_warm_tps": 49.20925612098685,
-      "dflash_std_warm_tps": 14.645972777707986,
-      "ar_median_warm_tps": 29.670421497655223,
-      "ar_mean_warm_tps": 31.662874838045386,
-      "ar_std_warm_tps": 7.433410775146577,
-      "median_speedup_vs_ar": null,
-      "mean_speedup_vs_ar": null,
-      "dflash_eligible": true,
-      "ar_eligible": false,
-      "dflash_fallback": false,
-      "ar_fallback": false,
-      "dflash_raw_json": "dflash-ddtree-fixed-serving-n30/dflash-codegen-thinkON.json",
-      "ar_raw_json": "ar-baseline-fixed-serving-n30/true-ar-codegen-thinkON.json",
-      "ar_invalid_reason": "not true AR: test_dflash wrapper with draft model loaded; [dflash] draft-step logs present"
+      "tiers": {
+        "AR": {
+          "median_warm_tps": 10.112367510217794,
+          "mean_warm_tps": 9.88620652800103,
+          "std_warm_tps": 0.5626019411224431,
+          "runs": 30,
+          "warm_runs": 29,
+          "raw_json": "true-ar-openai-tokenids-n30/true-ar-codegen-thinkON.json",
+          "fallback": false,
+          "label": "AR=true non-speculative llama-server/OpenAI token_ids"
+        },
+        "+DF": {
+          "median_warm_tps": 29.670421497655223,
+          "mean_warm_tps": 31.662874838045386,
+          "std_warm_tps": 7.433410775146577,
+          "runs": 30,
+          "warm_runs": 29,
+          "raw_json": "ar-baseline-fixed-serving-n30/true-ar-codegen-thinkON.json",
+          "fallback": false,
+          "label": "+DF=DFlash-only/no-DDTree (legacy ar-baseline-fixed-serving-n30; ddtree=0)"
+        },
+        "+DDT": {
+          "median_warm_tps": 46.58730529537005,
+          "mean_warm_tps": 49.20925612098685,
+          "std_warm_tps": 14.645972777707986,
+          "runs": 30,
+          "warm_runs": 29,
+          "raw_json": "dflash-ddtree-fixed-serving-n30/dflash-codegen-thinkON.json",
+          "fallback": false,
+          "label": "+DDT=DFlash + DDTree"
+        }
+      },
+      "ratios": {
+        "+DF_vs_AR_median": 2.934072705296309,
+        "+DDT_vs_AR_median": 4.606963230746613,
+        "+DDT_vs_+DF_median": 1.5701598745084133,
+        "+DF_vs_AR_mean": 3.2027324887827886,
+        "+DDT_vs_AR_mean": 4.9775670760680395,
+        "+DDT_vs_+DF_mean": 1.5541626075550832
+      }
     },
     {
       "corpus": "codegen",
       "think": "OFF",
-      "dflash_median_warm_tps": 32.02118773506256,
-      "dflash_mean_warm_tps": 33.104330982116025,
-      "dflash_std_warm_tps": 6.896361467752827,
-      "ar_median_warm_tps": 20.906540823569568,
-      "ar_mean_warm_tps": 21.30562515427306,
-      "ar_std_warm_tps": 4.001955321866896,
-      "median_speedup_vs_ar": null,
-      "mean_speedup_vs_ar": null,
-      "dflash_eligible": true,
-      "ar_eligible": false,
-      "dflash_fallback": false,
-      "ar_fallback": false,
-      "dflash_raw_json": "dflash-ddtree-fixed-serving-n30/dflash-codegen-thinkOFF.json",
-      "ar_raw_json": "ar-baseline-fixed-serving-n30/true-ar-codegen-thinkOFF.json",
-      "ar_invalid_reason": "not true AR: test_dflash wrapper with draft model loaded; [dflash] draft-step logs present"
+      "tiers": {
+        "AR": {
+          "median_warm_tps": 10.569203464088025,
+          "mean_warm_tps": 10.476293874283842,
+          "std_warm_tps": 0.3740085645482152,
+          "runs": 30,
+          "warm_runs": 29,
+          "raw_json": "true-ar-openai-tokenids-n30/true-ar-codegen-thinkOFF.json",
+          "fallback": false,
+          "label": "AR=true non-speculative llama-server/OpenAI token_ids"
+        },
+        "+DF": {
+          "median_warm_tps": 20.906540823569568,
+          "mean_warm_tps": 21.30562515427306,
+          "std_warm_tps": 4.0019553218668955,
+          "runs": 30,
+          "warm_runs": 29,
+          "raw_json": "ar-baseline-fixed-serving-n30/true-ar-codegen-thinkOFF.json",
+          "fallback": false,
+          "label": "+DF=DFlash-only/no-DDTree (legacy ar-baseline-fixed-serving-n30; ddtree=0)"
+        },
+        "+DDT": {
+          "median_warm_tps": 32.02118773506256,
+          "mean_warm_tps": 33.104330982116025,
+          "std_warm_tps": 6.896361467752827,
+          "runs": 30,
+          "warm_runs": 29,
+          "raw_json": "dflash-ddtree-fixed-serving-n30/dflash-codegen-thinkOFF.json",
+          "fallback": false,
+          "label": "+DDT=DFlash + DDTree"
+        }
+      },
+      "ratios": {
+        "+DF_vs_AR_median": 1.9780621022772138,
+        "+DDT_vs_AR_median": 3.029668966432897,
+        "+DDT_vs_+DF_median": 1.5316349081988059,
+        "+DF_vs_AR_mean": 2.0336986924900966,
+        "+DDT_vs_AR_mean": 3.159927678563621,
+        "+DDT_vs_+DF_mean": 1.5537836013920772
+      }
     }
-  ]
+  ],
+  "legacy_invalidation_note": "AR_BASELINE_INVALIDATION.md is preserved: ar-baseline-fixed-serving-n30 remains invalid as AR, but is now used as the +DF/no-DDTree tier."
 }

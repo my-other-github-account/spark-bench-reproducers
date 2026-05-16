@@ -1,0 +1,200 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+llama-benchy (0.3.6)
+Date: 2026-05-15 18:32:42
+Benchmarking model: Qwen/Qwen3.6-27B at http://127.0.0.1:8201/v1
+Concurrency levels: [1]
+Loading text from cache: /home/user/.cache/llama-benchy/cc6a0b5782734ee3b9069aa3b64cc62c.txt
+Total tokens available in text corpus: 144480
+Warming up...
+Warmup (User only) complete. Delta: 11 tokens (Server: 32, Local: 21)
+Warmup (System+Empty) complete. Delta: 16 tokens (Server: 37, Local: 21)
+
+Skipping coherence test (--skip-coherence specified)
+Skipping latency measurement (assuming 0 ms).
+Running test: pp=128, tg=128, depth=0, concurrency=1
+CODEX_BENCHY_TRACE generated prompt_batch run=1 concurrency=1 prompt_chars=[393] context_chars=[0]
+  Run 1/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=1 index=0 prompt_chars=393 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=393 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.345993
+CODEX_BENCHY_TRACE generated prompt_batch run=2 concurrency=1 prompt_chars=[359] context_chars=[0]
+  Run 2/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=2 index=0 prompt_chars=359 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=359 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.345578
+CODEX_BENCHY_TRACE generated prompt_batch run=3 concurrency=1 prompt_chars=[501] context_chars=[0]
+  Run 3/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=3 index=0 prompt_chars=501 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=501 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.345000
+CODEX_BENCHY_TRACE generated prompt_batch run=4 concurrency=1 prompt_chars=[421] context_chars=[0]
+  Run 4/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=4 index=0 prompt_chars=421 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=421 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.345866
+CODEX_BENCHY_TRACE generated prompt_batch run=5 concurrency=1 prompt_chars=[388] context_chars=[0]
+  Run 5/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=5 index=0 prompt_chars=388 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=388 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.345090
+CODEX_BENCHY_TRACE generated prompt_batch run=6 concurrency=1 prompt_chars=[389] context_chars=[0]
+  Run 6/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=6 index=0 prompt_chars=389 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=389 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.344393
+CODEX_BENCHY_TRACE generated prompt_batch run=7 concurrency=1 prompt_chars=[440] context_chars=[0]
+  Run 7/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=7 index=0 prompt_chars=440 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=440 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.339433
+CODEX_BENCHY_TRACE generated prompt_batch run=8 concurrency=1 prompt_chars=[402] context_chars=[0]
+  Run 8/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=8 index=0 prompt_chars=402 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=402 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.343526
+CODEX_BENCHY_TRACE generated prompt_batch run=9 concurrency=1 prompt_chars=[402] context_chars=[0]
+  Run 9/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=9 index=0 prompt_chars=402 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=402 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.342896
+CODEX_BENCHY_TRACE generated prompt_batch run=10 concurrency=1 prompt_chars=[422] context_chars=[0]
+  Run 10/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=10 index=0 prompt_chars=422 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=422 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.346152
+CODEX_BENCHY_TRACE generated prompt_batch run=11 concurrency=1 prompt_chars=[394] context_chars=[0]
+  Run 11/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=11 index=0 prompt_chars=394 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=394 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.348758
+CODEX_BENCHY_TRACE generated prompt_batch run=12 concurrency=1 prompt_chars=[465] context_chars=[0]
+  Run 12/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=12 index=0 prompt_chars=465 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=465 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.345710
+CODEX_BENCHY_TRACE generated prompt_batch run=13 concurrency=1 prompt_chars=[401] context_chars=[0]
+  Run 13/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=13 index=0 prompt_chars=401 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=401 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.345853
+CODEX_BENCHY_TRACE generated prompt_batch run=14 concurrency=1 prompt_chars=[399] context_chars=[0]
+  Run 14/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=14 index=0 prompt_chars=399 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=399 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.346421
+CODEX_BENCHY_TRACE generated prompt_batch run=15 concurrency=1 prompt_chars=[449] context_chars=[0]
+  Run 15/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=15 index=0 prompt_chars=449 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=449 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.346847
+CODEX_BENCHY_TRACE generated prompt_batch run=16 concurrency=1 prompt_chars=[417] context_chars=[0]
+  Run 16/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=16 index=0 prompt_chars=417 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=417 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.343118
+CODEX_BENCHY_TRACE generated prompt_batch run=17 concurrency=1 prompt_chars=[389] context_chars=[0]
+  Run 17/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=17 index=0 prompt_chars=389 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=389 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.343158
+CODEX_BENCHY_TRACE generated prompt_batch run=18 concurrency=1 prompt_chars=[400] context_chars=[0]
+  Run 18/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=18 index=0 prompt_chars=400 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=400 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.336501
+CODEX_BENCHY_TRACE generated prompt_batch run=19 concurrency=1 prompt_chars=[429] context_chars=[0]
+  Run 19/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=19 index=0 prompt_chars=429 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=429 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.341825
+CODEX_BENCHY_TRACE generated prompt_batch run=20 concurrency=1 prompt_chars=[409] context_chars=[0]
+  Run 20/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=20 index=0 prompt_chars=409 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=409 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.341051
+CODEX_BENCHY_TRACE generated prompt_batch run=21 concurrency=1 prompt_chars=[401] context_chars=[0]
+  Run 21/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=21 index=0 prompt_chars=401 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=401 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.346053
+CODEX_BENCHY_TRACE generated prompt_batch run=22 concurrency=1 prompt_chars=[371] context_chars=[0]
+  Run 22/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=22 index=0 prompt_chars=371 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=371 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.347745
+CODEX_BENCHY_TRACE generated prompt_batch run=23 concurrency=1 prompt_chars=[463] context_chars=[0]
+  Run 23/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=23 index=0 prompt_chars=463 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=463 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.349391
+CODEX_BENCHY_TRACE generated prompt_batch run=24 concurrency=1 prompt_chars=[492] context_chars=[0]
+  Run 24/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=24 index=0 prompt_chars=492 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=492 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.352728
+CODEX_BENCHY_TRACE generated prompt_batch run=25 concurrency=1 prompt_chars=[404] context_chars=[0]
+  Run 25/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=25 index=0 prompt_chars=404 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=404 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.351379
+CODEX_BENCHY_TRACE generated prompt_batch run=26 concurrency=1 prompt_chars=[391] context_chars=[0]
+  Run 26/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=26 index=0 prompt_chars=391 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=391 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.344092
+CODEX_BENCHY_TRACE generated prompt_batch run=27 concurrency=1 prompt_chars=[427] context_chars=[0]
+  Run 27/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=27 index=0 prompt_chars=427 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=427 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.345684
+CODEX_BENCHY_TRACE generated prompt_batch run=28 concurrency=1 prompt_chars=[397] context_chars=[0]
+  Run 28/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=28 index=0 prompt_chars=397 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=397 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.343584
+CODEX_BENCHY_TRACE generated prompt_batch run=29 concurrency=1 prompt_chars=[425] context_chars=[0]
+  Run 29/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=29 index=0 prompt_chars=425 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=425 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.346384
+CODEX_BENCHY_TRACE generated prompt_batch run=30 concurrency=1 prompt_chars=[390] context_chars=[0]
+  Run 30/30 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=30 index=0 prompt_chars=390 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=390 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.343958
+Saving results to /home/user/work/dflash-lucebox-gb10-spark3/llama-benchy-true-ar-n30-20260515_182628/true-ar-sherlock-thinkOFF.json in JSON format...
+
+
+
+llama-benchy (0.3.6)
+date: 2026-05-15 18:32:42 | latency mode: none
