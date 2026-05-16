@@ -1,0 +1,42 @@
+{
+  "hfId": "Qwen/Qwen3.6-27B",
+  "modelRevision": "main",
+  "hardware": {
+    "hwClass": "UNIFIED",
+    "chipVendor": "NVIDIA",
+    "chipFamily": "GB10 Blackwell",
+    "chipVariant": "DGX Spark",
+    "unifiedMemoryGb": 128,
+    "cpu": "aarch64 GB10 host",
+    "os": "Ubuntu 24.04"
+  },
+  "engineName": "llama.cpp",
+  "engineVersion": "llama.cpp b8214 f7db3f378 + token_ids patch",
+  "quantization": "Q4_K_M",
+  "backend": "cuda",
+  "promptTokens": 128,
+  "outputTokens": 128,
+  "contextLength": 1024,
+  "batchSize": 1,
+  "prefillTokens": 0,
+  "ttftMs": 343.96,
+  "tokSOut": 10.3,
+  "tokSPrefill": 372.13,
+  "tokSTotal": 20.04,
+  "engineFlags": {
+    "commandSnippet": "/home/user/llama.cpp/build/bin/llama-server -m /home/user/work/dflash-lucebox-gb10-spark3/lucebox-hub/dflash/models/Qwen3.6-27B-Q4_K_M.gguf --host 127.0.0.1 -c 1024 -ctk f16 -ctv f16 -np 1 --no-warmup --jinja --reasoning-format deepseek --port 8200 --reasoning-budget -1 --chat-template-kwargs \\{\\\"enable_thinking\\\":true\\}",
+    "tensorParallel": 1,
+    "numParallel": 1,
+    "concurrency": 1,
+    "maxRunningSeqs": 1,
+    "kvCacheDtype": "fp16",
+    "prefixCaching": false,
+    "flashAttn": true,
+    "contBatching": false,
+    "temperature": 0,
+    "extraFlags": "llama-benchy 0.3.6; --pp 128 --tg 128 --depth 0 --concurrency 1 --runs 30 --no-cache --no-adapt-prompt --latency-mode none --skip-coherence; first sample dropped; OpenAI stream token_ids verified/no benchy fallback.",
+    "specDecoding": false,
+    "mtpEnabled": false
+  },
+  "notes": "Qwen3.6-27B Q4_K_M GGUF on a single NVIDIA DGX Spark GB10. true non-speculative llama-server AR baseline with patched OpenAI streaming token_ids; no DFlash wrapper and no draft model. LocalMaxxing row uses Sherlock/thinkON pp=128,tg=128,c=1, N=29 warm median: tokSOut 10.3 tok/s (mean 10.24, std 0.27, range 9.51-10.60); TTFT/e2e first-token median 343.96 ms; tokSPrefill 372.13 tok/s; tokSTotal 20.04 tok/s. Variability is prompt/mode dependent: across the four N=29 cells, AR median 10.11-10.69, +DF 16.77-33.77, +DDT 25.11-55.17 tok/s; DDTree adds 1.50-1.63x over +DF. Companion true AR row; server patched only to expose token_ids for accurate llama-benchy accounting, not to change decode path. Raw JSON, commands, token_id smokes, and three-tier AR/+DF/+DDT discussion: https://github.com/my-other-github-account/spark-bench-reproducers/tree/main/luce-ddtree/submission and https://github.com/my-other-github-account/spark-bench-reproducers/tree/main/luce-ddtree. By @banana_baeee."
+}
