@@ -1,0 +1,23 @@
+{
+  "submitted_at_utc": "2026-05-16T07:21:35Z",
+  "rows": [
+    {
+      "role": "headline_dflash_think_on_code",
+      "id": "cmp80i0ga00kqo401df6kjnfq",
+      "status": "APPROVED",
+      "tokSOut": 34.94,
+      "tokSPrefill": 2286.1,
+      "tokSTotal": 477.29,
+      "ttftMs": 900.22
+    },
+    {
+      "role": "companion_ar_think_on_code",
+      "id": "cmp80pd5z00kvo401fke4tz86",
+      "status": "APPROVED",
+      "tokSOut": 12.04,
+      "tokSPrefill": 2790.38,
+      "tokSTotal": 191.5,
+      "ttftMs": 737.53
+    }
+  ]
+}

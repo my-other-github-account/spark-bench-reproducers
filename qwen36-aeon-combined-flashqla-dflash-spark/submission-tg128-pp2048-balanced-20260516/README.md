@@ -56,6 +56,13 @@ This is the balanced point the user requested: good decode from DFlash at `TG=12
 - LocalMaxxing headline payload: [`localmaxxing-headline-dflash-think-on-code.json`](localmaxxing-headline-dflash-think-on-code.json)
 - LocalMaxxing AR companion payload: [`localmaxxing-companion-ar-think-on-code.json`](localmaxxing-companion-ar-think-on-code.json)
 
+
+## LocalMaxxing accepted rows
+
+- Headline DFlash think-on/code: `cmp80i0ga00kqo401df6kjnfq` / `APPROVED` / decode `34.94` tok/s / prefill `2286.1` tok/s / total `477.29` tok/s / TTFT `900.22` ms.
+- Companion AR think-on/code: `cmp80pd5z00kvo401fke4tz86` / `APPROVED` / decode `12.04` tok/s / prefill `2790.38` tok/s / total `191.5` tok/s / TTFT `737.53` ms.
+- Receipt JSON: [`localmaxxing_accepted_receipts.json`](localmaxxing_accepted_receipts.json)
+
 ## Re-run
 
 ```bash
