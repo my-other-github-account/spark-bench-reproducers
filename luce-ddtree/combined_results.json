@@ -24,7 +24,9 @@
   },
   "ar_baseline_config": {
     "wrapper_patch": "same fixed-serving wrapper with --fast-rollback/--ddtree/--ddtree-budget/--ddtree-temp removed from test_dflash daemon command",
-    "note": "Existing Luce baseline path used for AR comparison in this harness; exact logs/commands/wrappers included."
+    "note": "Existing Luce baseline path used for AR comparison in this harness; exact logs/commands/wrappers included.",
+    "validity": "INVALID: wrapper still used test_dflash with draft model; logs contain [dflash] draft-step acceptance lines. Not true AR.",
+    "corrective_action": "Rerun through real non-speculative llama-server; do not use current AR fields for ratios."
   },
   "rows": [
     {
@@ -36,14 +38,15 @@
       "ar_median_warm_tps": 33.76840352067782,
       "ar_mean_warm_tps": 34.11887922682868,
       "ar_std_warm_tps": 9.08243685209009,
-      "median_speedup_vs_ar": 1.6338787954725096,
-      "mean_speedup_vs_ar": 1.6241919790061279,
+      "median_speedup_vs_ar": null,
+      "mean_speedup_vs_ar": null,
       "dflash_eligible": true,
-      "ar_eligible": true,
+      "ar_eligible": false,
       "dflash_fallback": false,
       "ar_fallback": false,
       "dflash_raw_json": "dflash-ddtree-fixed-serving-n30/dflash-sherlock-thinkON.json",
-      "ar_raw_json": "ar-baseline-fixed-serving-n30/true-ar-sherlock-thinkON.json"
+      "ar_raw_json": "ar-baseline-fixed-serving-n30/true-ar-sherlock-thinkON.json",
+      "ar_invalid_reason": "not true AR: test_dflash wrapper with draft model loaded; [dflash] draft-step logs present"
     },
     {
       "corpus": "sherlock",
@@ -54,14 +57,15 @@
       "ar_median_warm_tps": 16.771234521565898,
       "ar_mean_warm_tps": 16.47471521759553,
       "ar_std_warm_tps": 2.9842001785878627,
-      "median_speedup_vs_ar": 1.4971623061351065,
-      "mean_speedup_vs_ar": 1.5988446434486483,
+      "median_speedup_vs_ar": null,
+      "mean_speedup_vs_ar": null,
       "dflash_eligible": true,
-      "ar_eligible": true,
+      "ar_eligible": false,
       "dflash_fallback": false,
       "ar_fallback": false,
       "dflash_raw_json": "dflash-ddtree-fixed-serving-n30/dflash-sherlock-thinkOFF.json",
-      "ar_raw_json": "ar-baseline-fixed-serving-n30/true-ar-sherlock-thinkOFF.json"
+      "ar_raw_json": "ar-baseline-fixed-serving-n30/true-ar-sherlock-thinkOFF.json",
+      "ar_invalid_reason": "not true AR: test_dflash wrapper with draft model loaded; [dflash] draft-step logs present"
     },
     {
       "corpus": "codegen",
@@ -72,14 +76,15 @@
       "ar_median_warm_tps": 29.670421497655223,
       "ar_mean_warm_tps": 31.662874838045386,
       "ar_std_warm_tps": 7.433410775146577,
-      "median_speedup_vs_ar": 1.5701598745084133,
-      "mean_speedup_vs_ar": 1.5541626075550832,
+      "median_speedup_vs_ar": null,
+      "mean_speedup_vs_ar": null,
       "dflash_eligible": true,
-      "ar_eligible": true,
+      "ar_eligible": false,
       "dflash_fallback": false,
       "ar_fallback": false,
       "dflash_raw_json": "dflash-ddtree-fixed-serving-n30/dflash-codegen-thinkON.json",
-      "ar_raw_json": "ar-baseline-fixed-serving-n30/true-ar-codegen-thinkON.json"
+      "ar_raw_json": "ar-baseline-fixed-serving-n30/true-ar-codegen-thinkON.json",
+      "ar_invalid_reason": "not true AR: test_dflash wrapper with draft model loaded; [dflash] draft-step logs present"
     },
     {
       "corpus": "codegen",
@@ -90,14 +95,15 @@
       "ar_median_warm_tps": 20.906540823569568,
       "ar_mean_warm_tps": 21.30562515427306,
       "ar_std_warm_tps": 4.001955321866896,
-      "median_speedup_vs_ar": 1.5316349081988059,
-      "mean_speedup_vs_ar": 1.5537836013920772,
+      "median_speedup_vs_ar": null,
+      "mean_speedup_vs_ar": null,
       "dflash_eligible": true,
-      "ar_eligible": true,
+      "ar_eligible": false,
       "dflash_fallback": false,
       "ar_fallback": false,
       "dflash_raw_json": "dflash-ddtree-fixed-serving-n30/dflash-codegen-thinkOFF.json",
-      "ar_raw_json": "ar-baseline-fixed-serving-n30/true-ar-codegen-thinkOFF.json"
+      "ar_raw_json": "ar-baseline-fixed-serving-n30/true-ar-codegen-thinkOFF.json",
+      "ar_invalid_reason": "not true AR: test_dflash wrapper with draft model loaded; [dflash] draft-step logs present"
     }
   ]
 }
