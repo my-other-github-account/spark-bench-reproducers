@@ -1,0 +1,43 @@
+{
+  "hfId": "AEON-7/Qwen3.6-27B-AEON-Ultimate-Uncensored-Multimodal-NVFP4-MTP-XS",
+  "modelRevision": "main",
+  "hardware": {
+    "hwClass": "UNIFIED",
+    "chipVendor": "NVIDIA",
+    "chipFamily": "GB10 Blackwell",
+    "chipVariant": "DGX Spark",
+    "unifiedMemoryGb": 128,
+    "cpu": "DGX Spark GB10",
+    "os": "Ubuntu Linux"
+  },
+  "engineName": "vllm",
+  "engineVersion": "v0.20.2rc1.dev166+gf6490a284 / ghcr.io/aeon-7/vllm-aeon-ultimate-dflash:qwen36-v4",
+  "quantization": "NVFP4",
+  "backend": "cuda",
+  "promptTokens": 2048,
+  "outputTokens": 128,
+  "contextLength": 262144,
+  "batchSize": 1,
+  "prefillTokens": 0,
+  "ttftMs": 737.53,
+  "tokSOut": 12.04,
+  "tokSPrefill": 2790.38,
+  "tokSTotal": 191.5,
+  "engineFlags": {
+    "commandSnippet": "vllm serve /models/aeon-xs --served-model-name aeon-ultimate qwen36-ultimate aeon-fast aeon-deep qwen36-ultimate-xs --host 0.0.0.0 --port 8000 --tensor-parallel-size 1 --dtype auto --quantization modelopt --kv-cache-dtype auto --max-model-len 262144 --max-num-seqs 64 --max-num-batched-tokens 32768 --gpu-memory-utilization 0.85 --enable-chunked-prefill --no-enable-prefix-caching --generation-config vllm --load-format safetensors --trust-remote-code --enable-auto-tool-choice --tool-call-parser qwen3_coder --reasoning-parser qwen3 --attention-backend flash_attn --compilation-config \\{\\\"inductor_compile_config\\\":\\{\\\"combo_kernels\\\":false\\,\\\"benchmark_combo_kernel\\\":false\\}\\} --limit-mm-per-prompt \\{\\\"image\\\":4\\,\\\"video\\\":2\\} --mm-encoder-tp-mode data --mm-processor-cache-type shm --mm-shm-cache-max-object-size-mb 256",
+    "tensorParallel": 1,
+    "concurrency": 1,
+    "gpuMemUtil": 0.85,
+    "kvCacheDtype": "auto",
+    "prefixCaching": false,
+    "attentionBackend": "flash_attn",
+    "flashAttn": true,
+    "chunkedPrefill": true,
+    "prefillChunkSize": 32768,
+    "maxRunningSeqs": 64,
+    "engineQuant": "modelopt",
+    "specDecoding": false,
+    "extraFlags": "--max-model-len 262144 --max-num-batched-tokens 32768 --enable-chunked-prefill --no-enable-prefix-caching --trust-remote-code --reasoning-parser qwen3 --tool-call-parser qwen3_coder; code corpus uses CPython asyncio/tasks.py book-url; think-on uses base tokenizer, think-off uses chat_template overlay."
+  },
+  "notes": "Qwen3.6 AEON combined FlashQLA+DFlash balanced tg128/pp2048 grid on spark-3; cell=ar-reference/think-on/code; llama-benchy 0.3.7, --pp 2048 --tg 128 --depth 0 --concurrency 1 --runs 30, first sample dropped in summary n=29; raw receipts and commands: https://github.com/my-other-github-account/spark-bench-reproducers/tree/main/qwen36-aeon-combined-flashqla-dflash-spark/results/tg128-pp2048-code-prose-think-grid-20260516_054837/ar-reference/think-on/code/measured/pp2048-tg128-c1-n30.json; summary/package: https://github.com/my-other-github-account/spark-bench-reproducers/tree/main/qwen36-aeon-combined-flashqla-dflash-spark/submission-tg128-pp2048-balanced-20260516. Matched AR baseline for this cell: 12.04 tok/s decode, 2790.38 tok/s prefill."
+}
