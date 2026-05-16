@@ -2,3 +2,6 @@ result*.json
 *.log
 __pycache__/
 .DS_Store
+
+# Local model checkpoints are downloaded separately; never commit weights.
+**/models/
