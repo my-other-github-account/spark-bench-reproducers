@@ -31,6 +31,10 @@ The upstream Atlas work should still be split into small correctness PRs with be
 - `results/native_atlas_dflash_gate_20260522T_default_benchy_thinkon_r3/`
   - Default llama-benchy corpus / Sherlock, thinking-on receipt requested after the initial archive.
   - Exact token accounting passed and server markers passed, but DFlash was slower than AR on this cell; preserved as a required negative/neutral comparator, not a success claim.
+- `results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/`
+  - Updated default llama-benchy corpus / Sherlock, thinking-on source-fix receipt.
+  - Exact token accounting passed, server markers passed, and DFlash beat AR by more than the required 30%.
+  - Includes the launch/bench commands, proxy usage audits, server logs, source git state, and the focused source/harness patch artifacts used for this faster run.
 - `patches/atlas-working-tree-dflash-repro.patch`
   - Dirty working-tree diff from the Atlas checkout used for the successful run.
   - Base commit: `afa81c8686d692df2922ee6e201829c75939d883`.
@@ -75,6 +79,28 @@ From `results/native_atlas_dflash_gate_20260522T_default_benchy_thinkon_r3/llama
 - DFlash mean decode throughput: `12.85175781290767 tok/s`
 - Ratio: `0.9499337031792542x`
 - Completion-token usage: `[128, 128, 128]` for both AR and DFlash
+
+From `results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/llama_benchy_gate_summary.json`:
+
+- Corpus/mode: default llama-benchy corpus / Sherlock, thinking on
+- Gate: pass
+- Required ratio: `1.3x`
+- Exact token accounting: pass
+- Server markers: pass
+- AR mean decode throughput: `13.486388386231567 tok/s`
+- DFlash mean decode throughput: `29.307800158034773 tok/s`
+- Ratio: `2.173139265954664x`
+- Improvement: `117.3139265954664%`
+- Completion-token usage: `[128, 128, 128]` for both AR and DFlash
+
+## What changed for the faster default-Sherlock run
+
+The 20260522T185016Z source-fix run did not use DDTree, candidate-posterior, force-accept, or skip-verification paths. The important changes captured in its patch/log artifacts were:
+
+- Fixed-generation/min-token server handling for `tg=128`: keep the benchmark request alive while fixed generation or `min_tokens` is still pending, and suppress EOS in that fixed-generation window. This makes token accounting exact instead of ending early.
+- DFlash adaptive-bootstrap cooldown cap: the requested cooldown is capped to an effective value of `2` in the captured log, avoiding long periods where DFlash is effectively disabled after low early acceptance.
+- Native DFlash fast path active: `gamma=16`, `block_gamma=16`, `ctx_window=4096`, `target_layers=[1, 16, 31, 46, 61]`, hidden-carry verifier path active, and fast K=16 FFN/GEMM path active.
+- Source/harness artifacts are saved under `results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/patches/`, `cmds/`, `logs/`, and `receipts/`.
 
 ## Repro outline
 

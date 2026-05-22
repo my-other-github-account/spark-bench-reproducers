@@ -1,0 +1,256 @@
+diff --git a/crates/spark-server/src/scheduler/decode_logits_step.rs b/crates/spark-server/src/scheduler/decode_logits_step.rs
+index c1f6ce8..4e629ae 100644
+--- a/crates/spark-server/src/scheduler/decode_logits_step.rs
++++ b/crates/spark-server/src/scheduler/decode_logits_step.rs
+@@ -236,9 +236,13 @@ pub fn process_decode_logits(
+             // streaming an unending repetition that wedges Claude
+             // Code's display. Disabled inside grammar/tool-body
+             // because structured JSON repeats are legitimate.
++            let fixed_generation_pending = fixed_generation_ignore_stops() && a.remaining > 0;
++            let min_tokens_pending = a.output_tokens.len() < a.min_tokens;
+             if enable_loop_watchdog()
+                 && a.grammar_state.is_none()
+                 && !a.inside_tool_body
++                && !fixed_generation_pending
++                && !min_tokens_pending
+                 && a.content_tokens >= CONTENT_LOOP_MIN_TOKENS
+                 && a.content_tokens.is_multiple_of(CONTENT_LOOP_CHECK_STRIDE)
+                 && detect_content_token_loop(&a.output_tokens)
+@@ -395,11 +399,13 @@ pub fn process_decode_logits(
+             (a.output_tokens.len() as u32).saturating_sub(a.thinking_tokens);
+         let post_think_suppresses_eos =
+             a.think_ended && post_think_content_tokens < POST_THINK_MIN_CONTENT;
++        let fixed_generation_suppresses_eos = fixed_generation_ignore_stops() && a.remaining > 0;
+         let suppress_eos = grammar_suppresses_eos
+             || legacy_suppresses_eos
+             || min_tokens_suppresses
+             || thinking_suppresses_eos
+-            || post_think_suppresses_eos;
++            || post_think_suppresses_eos
++            || fixed_generation_suppresses_eos;
+ 
+         if a.eos_tokens.contains(&tok) && !suppress_eos {
+             // Stop/EOS token: do NOT stream to client (OpenAI spec: returned text
+@@ -411,7 +417,20 @@ pub fn process_decode_logits(
+         } else if a.eos_tokens.contains(&tok) && suppress_eos {
+             // EOS suppressed: grammar not terminated or legacy tool call not yet seen.
+             // Don't stop, don't stream the EOS — the model must keep generating.
+-            // Don't add to output_tokens (EOS is discarded).
++            // Fixed-generation benchmark requests need exact server-side usage
++            // accounting, so count suppressed EOS-like tokens until the target
++            // generation length is reached.
++            if fixed_generation_suppresses_eos || min_tokens_suppresses {
++                a.output_tokens.push(tok);
++            }
++            if a.remaining == 0 {
++                tracing::info!(
++                    "process_decode_logits: remaining=0 after suppressed EOS, output_tokens={}, thinking_tokens={}",
++                    a.output_tokens.len(),
++                    a.thinking_tokens
++                );
++                a.finished = true;
++            }
+         } else {
+             a.output_tokens.push(tok);
+             // OPENCODE FIX: when the model spontaneously emits `<think>` even
+@@ -494,6 +513,8 @@ pub fn process_decode_logits(
+                 && !a.finished
+                 && !a.inside_thinking
+                 && !inside_tool_call
++                && !(fixed_generation_ignore_stops() && a.remaining > 0)
++                && a.output_tokens.len() >= a.min_tokens
+                 && let Some((pattern_len, mis_a, mis_b)) = detect_fuzzy_repetition(&a.output_tokens)
+             {
+                 tracing::warn!(
+diff --git a/crates/spark-server/src/scheduler/verify_dflash_step.rs b/crates/spark-server/src/scheduler/verify_dflash_step.rs
+index bf354fc..e613d5e 100644
+--- a/crates/spark-server/src/scheduler/verify_dflash_step.rs
++++ b/crates/spark-server/src/scheduler/verify_dflash_step.rs
+@@ -27,17 +27,23 @@ use super::*;
+ ///   * Sliding-window state rollback for sliding-attention layers
+ ///     (Gemma-4-style; not used by Qwen3.6 targets).
+ pub fn step_verify_dflash(model: &dyn Model, a: &mut ActiveSeq, drafts: &[u32], num_drafts: usize) {
++    let timing = std::env::var("ATLAS_DFLASH_TIMING").ok().as_deref() == Some("1");
++    let step_t0 = Instant::now();
+     if let Err(e) = model.sync_secondary() {
+         tracing::error!("sync_secondary: {e:#}");
+         a.finished = true;
+         return;
+     }
++    let sync_us = step_t0.elapsed().as_micros();
+ 
+-    // tokens = [last_verified, draft_0, draft_1, ..., draft_{γ-1}]
++    // tokens = [last_verified, draft_0, draft_1, ..., draft_{γ-2}].
++    // z-lab DFlash block_size=16 yields 15 speculative rows, so the target
++    // verifier should execute the native K=16/gamma16 path.
+     let mut tokens = Vec::with_capacity(drafts.len() + 1);
+     tokens.push(a.last_token);
+     tokens.extend_from_slice(drafts);
+ 
++    let verify_t0 = Instant::now();
+     let verified = match model.decode_verify_dflash(&tokens, &mut a.seq, 0) {
+         Ok(v) => v,
+         Err(e) => {
+@@ -46,6 +52,7 @@ pub fn step_verify_dflash(model: &dyn Model, a: &mut ActiveSeq, drafts: &[u32],
+             return;
+         }
+     };
++    let verify_us = verify_t0.elapsed().as_micros();
+     a.last_token_time = Instant::now();
+ 
+     // `decode_verify` already advanced `seq.seq_len` by `tokens.len()` and
+@@ -69,6 +76,23 @@ pub fn step_verify_dflash(model: &dyn Model, a: &mut ActiveSeq, drafts: &[u32],
+             break;
+         }
+     }
++    if a.inside_thinking
++        && let Some(budget) = a.thinking_budget
++    {
++        let remaining_think_tokens = budget.saturating_sub(a.thinking_tokens) as usize;
++        let max_drafts_before_force_end = remaining_think_tokens.saturating_sub(1);
++        if num_accepted > max_drafts_before_force_end {
++            tracing::info!(
++                "DFLASH thinking budget accept cap: accepted_raw={} capped={} remaining_think_tokens={} budget={} thinking_tokens={}",
++                num_accepted,
++                max_drafts_before_force_end,
++                remaining_think_tokens,
++                budget,
++                a.thinking_tokens,
++            );
++            num_accepted = max_drafts_before_force_end;
++        }
++    }
+ 
+     // Roll back the over-extended `seq_len` and `seq.tokens`. The verify
+     // advanced both by `tokens.len() = γ+1` (all γ drafts + the prefix
+@@ -120,8 +144,10 @@ pub fn step_verify_dflash(model: &dyn Model, a: &mut ActiveSeq, drafts: &[u32],
+         ])
+         .inc();
+ 
++    let block_gamma = drafts.len() + 1;
+     tracing::info!(
+-        "DFLASH K=γ verify: γ={} accepted={}/{} ({:.0}%) seq_len={}",
++        "DFLASH K=gamma verify: block_gamma={} draft_count={} accepted={}/{} ({:.0}%) seq_len={}",
++        block_gamma,
+         drafts.len(),
+         num_accepted,
+         drafts.len(),
+@@ -129,7 +155,7 @@ pub fn step_verify_dflash(model: &dyn Model, a: &mut ActiveSeq, drafts: &[u32],
+         a.seq.seq_len,
+     );
+ 
+-    // SSM commit / rollback. Hybrid models (Qwen3.6-A3B has 30 GDN layers)
++    // SSM commit / rollback. Hybrid models (Qwen3.6 has GDN layers)
+     // advance recurrent SSM state per-position during verify; without this
+     // commit, the canonical h_state stays at position+γ even if only a few
+     // drafts were accepted, producing gibberish on subsequent decodes.
+@@ -139,17 +165,29 @@ pub fn step_verify_dflash(model: &dyn Model, a: &mut ActiveSeq, drafts: &[u32],
+     //  - 0 < num_accepted < k_verify (partial): canonical = intermediate[num_accepted-1]
+     //  - num_accepted == 0: canonical untouched (rollback to checkpoint)
+     //
+-    // k_verify = drafts.len() + 1 (the prefix bonus position is also verified).
+-    let k_verify = drafts.len() + 1;
++    let k_verify = tokens.len();
+     let total_accepted = num_accepted + 1; // bonus is always "accepted"
++    let commit_t0 = Instant::now();
+     if let Err(e) = model.commit_verify_state_async(&mut a.seq, total_accepted, k_verify) {
+         tracing::error!("commit_verify_state_async (dflash): {e:#}");
+         a.finished = true;
+         return;
+     }
++    let commit_us = commit_t0.elapsed().as_micros();
+ 
+-    // Save the latest hidden for the NEXT propose() call. Mirrors the
+-    // K=2 verify path's `save_hidden_for_mtp(1, 0)` after accept.
++    // Carry the K=gamma verifier's captured target hiddens into the DFlash
++    // proposer context. The proposer trims this staged block below to row0
++    // plus accepted drafts.
++    let ctx_t0 = Instant::now();
++    if let Err(e) = model.append_staged_dflash_verify_context(&mut a.seq, block_gamma, 0) {
++        tracing::error!("append_staged_dflash_verify_context (dflash): {e:#}");
++        a.finished = true;
++        return;
++    }
++
++    // Save the latest hidden for legacy MTP-compatible proposer hooks. DFlash
++    // uses the staged multi-layer context carry above for its real ctx/KV
++    // cache.
+     let bonus_token_idx = total_accepted.saturating_sub(1);
+     if let Err(e) = model.save_hidden_for_mtp(bonus_token_idx, 0) {
+         tracing::error!("save_hidden_for_mtp (dflash): {e:#}");
+@@ -158,9 +196,55 @@ pub fn step_verify_dflash(model: &dyn Model, a: &mut ActiveSeq, drafts: &[u32],
+     if let Err(e) = model.trim_proposer_state(&mut a.seq, num_accepted, 0) {
+         tracing::error!("trim_proposer_state: {e:#}");
+     }
++    let ctx_us = ctx_t0.elapsed().as_micros();
++
++    let adaptive_min_accept = std::env::var("ATLAS_DFLASH_ADAPTIVE_BOOTSTRAP_MIN_ACCEPT")
++        .ok()
++        .and_then(|s| s.parse::<usize>().ok())
++        .unwrap_or(0);
++    if adaptive_min_accept > 0 && num_accepted < adaptive_min_accept {
++        let requested_cooldown_tokens = std::env::var("ATLAS_DFLASH_ADAPTIVE_BOOTSTRAP_COOLDOWN_TOKENS")
++            .ok()
++            .and_then(|s| s.parse::<usize>().ok())
++            .unwrap_or(1)
++            .max(1);
++        let cooldown_tokens = requested_cooldown_tokens.min(2);
++        if requested_cooldown_tokens != cooldown_tokens {
++            tracing::info!(
++                "DFlash adaptive bootstrap cooldown capped: requested={} effective={}",
++                requested_cooldown_tokens,
++                cooldown_tokens,
++            );
++        }
++        a.dflash_bootstrap_cooldown = cooldown_tokens;
++        if timing {
++            tracing::info!(
++                "DFLASH timing verify_step sync_us={} verify_us={} commit_us={} ctx_us={} propose_us=0 total_us={} accepted={} drafts={} seq_len={} adaptive_bootstrap=1 min_accept={} cooldown_tokens={}",
++                sync_us,
++                verify_us,
++                commit_us,
++                ctx_us,
++                step_t0.elapsed().as_micros(),
++                num_accepted,
++                drafts.len(),
++                a.seq.seq_len,
++                adaptive_min_accept,
++                cooldown_tokens,
++            );
++        } else {
++            tracing::debug!(
++                "DFLASH adaptive bootstrap: accepted={} < min_accept={}, skipping immediate re-propose cooldown_tokens={}",
++                num_accepted,
++                adaptive_min_accept,
++                cooldown_tokens,
++            );
++        }
++        return;
++    }
+ 
+     // Re-propose for next step.
+     let _mtp_grammar_mask = mtp_grammar_mask_for(a);
++    let propose_t0 = Instant::now();
+     match model.run_mtp_propose_multi(
+         a.last_token,
+         a.seq.seq_len,
+@@ -173,4 +257,19 @@ pub fn step_verify_dflash(model: &dyn Model, a: &mut ActiveSeq, drafts: &[u32],
+         Ok(_) => {}
+         Err(e) => tracing::error!("run_mtp_propose_multi (dflash): {e:#}"),
+     }
++    let propose_us = propose_t0.elapsed().as_micros();
++    if timing {
++        tracing::info!(
++            "DFLASH timing verify_step sync_us={} verify_us={} commit_us={} ctx_us={} propose_us={} total_us={} accepted={} drafts={} seq_len={}",
++            sync_us,
++            verify_us,
++            commit_us,
++            ctx_us,
++            propose_us,
++            step_t0.elapsed().as_micros(),
++            num_accepted,
++            drafts.len(),
++            a.seq.seq_len,
++        );
++    }
+ }
