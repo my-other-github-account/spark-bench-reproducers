@@ -28,6 +28,9 @@ The upstream Atlas work should still be split into small correctness PRs with be
 - `results/native_atlas_dflash_gate_20260522T1157Z_decodefixed_benchy_codegen_cell_r3/`
   - Final canonical codegen cell receipt used as the clean llama-benchy proof.
   - Includes baseline AR command/receipt, DFlash command/receipt, proxy usage audit, logs, and server marker checks.
+- `results/native_atlas_dflash_gate_20260522T_default_benchy_thinkon_r3/`
+  - Default llama-benchy corpus / Sherlock, thinking-on receipt requested after the initial archive.
+  - Exact token accounting passed and server markers passed, but DFlash was slower than AR on this cell; preserved as a required negative/neutral comparator, not a success claim.
 - `patches/atlas-working-tree-dflash-repro.patch`
   - Dirty working-tree diff from the Atlas checkout used for the successful run.
   - Base commit: `afa81c8686d692df2922ee6e201829c75939d883`.
@@ -61,6 +64,17 @@ From `results/native_atlas_dflash_gate_20260522T1134Z_decodefixed_fullgate_r3_be
 - Ratio: `2.1868160484724806x`
 - All rows ratio OK: true
 - All usage completion tokens OK: true
+
+From `results/native_atlas_dflash_gate_20260522T_default_benchy_thinkon_r3/llama_benchy_gate_summary.json`:
+
+- Corpus/mode: default llama-benchy corpus / Sherlock, thinking on
+- Gate: fail on speed ratio, pass on token accounting and server markers
+- Exact token accounting: pass
+- Server markers: pass
+- AR mean decode throughput: `13.529110263058557 tok/s`
+- DFlash mean decode throughput: `12.85175781290767 tok/s`
+- Ratio: `0.9499337031792542x`
+- Completion-token usage: `[128, 128, 128]` for both AR and DFlash
 
 ## Repro outline
 

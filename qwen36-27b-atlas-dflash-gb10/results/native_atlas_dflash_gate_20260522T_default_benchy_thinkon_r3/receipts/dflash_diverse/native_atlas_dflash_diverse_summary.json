@@ -1,0 +1,29 @@
+{
+  "base_url": "http://127.0.0.1:18080",
+  "max_tokens": 128,
+  "mode": "native_atlas_dflash_diverse",
+  "model": "Qwen3.6-27B-NVFP4-unsloth",
+  "raw_receipt_path": "/home/banana_bae/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T_default_benchy_thinkon_r3/receipts/dflash_diverse/native_atlas_dflash_diverse_raw.jsonl",
+  "rows": {
+    "code_think_on": {
+      "class": "code",
+      "completion_tokens_max": 128,
+      "completion_tokens_min": 128,
+      "completion_tokens_total": 128,
+      "drop_first": true,
+      "errors": [],
+      "prompt_tokens_max": 49,
+      "prompt_tokens_min": 49,
+      "requests_measured": 1,
+      "requests_ok_measured": 1,
+      "requests_total": 1,
+      "server_reported_decode_tps_mean": 19.13594435601522,
+      "server_reported_decode_tps_median": 19.13594435601522,
+      "wall_tps_mean": 18.41198144765385,
+      "wall_tps_median": 18.41198144765385,
+      "wall_tps_p50": 18.41198144765385
+    }
+  },
+  "runs": 1,
+  "thinking_budget": 31
+}
