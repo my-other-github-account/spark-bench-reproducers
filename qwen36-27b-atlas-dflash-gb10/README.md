@@ -47,6 +47,10 @@ The upstream Atlas work should still be split into small correctness PRs with be
   - Tiny tokenizer proof that summing `tokenizer.encode()` over arbitrary SSE text chunks is not a valid completion-token count.
 - `results/sse_chunk_tokenization_overcount_qwen36.json`
   - Captured output from that proof using the Qwen3.6 tokenizer.
+- `scripts/mock_openai_chunk_server.py`
+  - Tiny OpenAI-compatible streaming mock server that emits arbitrary `delta.content` chunks without `choices[0].token_ids` and final `usage.completion_tokens`.
+- `results/llama_benchy_mock_openai_chunk_overcount_20260522/`
+  - Actual llama-benchy repro against the mock server showing the legacy chunk-local tokenization fallback overcounting completion tokens.
 
 ## Canonical result summary
 

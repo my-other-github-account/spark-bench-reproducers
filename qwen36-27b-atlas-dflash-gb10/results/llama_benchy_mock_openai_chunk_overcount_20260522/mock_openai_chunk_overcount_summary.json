@@ -1,0 +1,41 @@
+{
+  "mock_server": "OpenAI-compatible /v1/chat/completions SSE, no choices[0].token_ids on content chunks, final usage.completion_tokens present",
+  "chunks": [
+    "Hel",
+    "lo",
+    " world"
+  ],
+  "joined_text": "Hello world",
+  "qwen36_joint_token_ids": [
+    9419,
+    1814
+  ],
+  "qwen36_joint_token_count": 2,
+  "qwen36_per_chunk_token_ids": [
+    [
+      31628
+    ],
+    [
+      379
+    ],
+    [
+      1814
+    ]
+  ],
+  "qwen36_sum_per_chunk_token_count": 3,
+  "authoritative_usage_completion_tokens": 2,
+  "overcount_tokens": 1,
+  "legacy_llama_benchy": {
+    "client_py": "llama_benchy/client.py.bak_chunk_token_overcount_20260514_153218 copied over client.py",
+    "stdout_contains": "No token_ids in response, using local tokenization",
+    "reported_tg_throughput": 47.14584479457639,
+    "reported_peak_throughput": 141.19911566819096
+  },
+  "usage_fixed_llama_benchy": {
+    "client_py": "current patched client.py using final usage.completion_tokens as total_tokens",
+    "stdout_contains": "No token_ids in response, using local tokenization",
+    "reported_tg_throughput": 23.29621120797717,
+    "reported_peak_throughput": 141.47899599020107
+  },
+  "conclusion": "Legacy llama-benchy sees the mock OpenAI stream, falls back to local tokenization of each SSE delta.content chunk, counts 3 chunk-local tokens for a response whose joined text/final usage is 2 tokens, and inflates TG throughput versus the usage-based path."
+}
