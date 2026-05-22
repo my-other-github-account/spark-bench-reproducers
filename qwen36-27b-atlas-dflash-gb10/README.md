@@ -36,6 +36,10 @@ The upstream Atlas work should still be split into small correctness PRs with be
   - Untracked files present in the working tree at capture time.
 - `scripts/summarize_results.py`
   - Local summary helper for the saved receipts.
+- `scripts/prove_sse_chunk_tokenization_overcounts.py`
+  - Tiny tokenizer proof that summing `tokenizer.encode()` over arbitrary SSE text chunks is not a valid completion-token count.
+- `results/sse_chunk_tokenization_overcount_qwen36.json`
+  - Captured output from that proof using the Qwen3.6 tokenizer.
 
 ## Canonical result summary
 
@@ -75,6 +79,34 @@ These are the steps as captured, not a polished public benchmark harness.
 7. Run the captured llama-benchy commands under `results/*/cmds/`.
 8. For the llama-benchy commands, port `18180` was a local OpenAI-compatible proxy/audit wrapper in front of the Atlas server on `18080`; the proxy logs and usage audits are included in each result folder.
 9. Run `python3 scripts/summarize_results.py` from this folder to verify the saved summaries.
+
+## SSE chunk tokenization proof
+
+OpenAI SSE chunks are arbitrary text fragments, not tokenizer boundaries. For BPE-style tokenizers, tokenization is not additive over string concatenation:
+
+`len(tok(a + b))` is not guaranteed to equal `len(tok(a)) + len(tok(b))`.
+
+Captured proof with the Qwen3.6 tokenizer:
+
+- Chunks: `["Hel", "lo", " world"]`
+  - Joined text: `"Hello world"`
+  - Joint token count: `2`
+  - Sum of per-chunk token counts: `3`
+  - Overcount: `1`
+- Chunks: `[" multi", "-", "token", " boundary"]`
+  - Joined text: `" multi-token boundary"`
+  - Joint token count: `3`
+  - Sum of per-chunk token counts: `4`
+  - Overcount: `1`
+
+Therefore, if an OpenAI-compatible stream does not emit exact `choices[0].token_ids`, a benchmark must not compute completion length by summing local tokenization of each SSE `delta.content` chunk. For fixed-generation receipts here, the authoritative generated-token count is the server final `usage.completion_tokens` captured by the proxy/audit files, and the run is considered valid only when every measured request reports the target completion length.
+
+Run the proof:
+
+```bash
+/home/dnola/venvs/vllm/bin/python scripts/prove_sse_chunk_tokenization_overcounts.py \
+  --tokenizer /home/dnola/models/Qwen3.6-27B-NVFP4-unsloth
+```
 
 ## Important caveats
 
