@@ -1,0 +1,36 @@
+{
+  "completion_tokens_max": 128,
+  "completion_tokens_min": 128,
+  "completion_tokens_total": 384,
+  "content_chunks_missing_token_ids_total": 375,
+  "errors": [],
+  "exact_token_accounting_ok": true,
+  "http_statuses": [
+    200,
+    200,
+    200
+  ],
+  "llama_benchy_json": "/home/dnola/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T1157Z_decodefixed_benchy_codegen_cell_r3/receipts/ar-codegen-pp2048-tg128.json",
+  "proxy_jsonl": "/home/dnola/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T1157Z_decodefixed_benchy_codegen_cell_r3/receipts/ar-codegen-pp2048-tg128_proxy_usage.jsonl",
+  "requests_total": 3,
+  "requests_with_token_ids_without_usage": 0,
+  "requests_with_usage": 3,
+  "server_reported_decode_tps_mean": 13.707191527269709,
+  "server_reported_decode_tps_values": [
+    13.708878128908704,
+    13.724629381475243,
+    13.68806707142518
+  ],
+  "streamed_token_ids": [
+    0,
+    0,
+    0
+  ],
+  "tag": "ar-codegen-pp2048-tg128",
+  "target_generation_tokens": 128,
+  "usage_completion_tokens": [
+    128,
+    128,
+    128
+  ]
+}
