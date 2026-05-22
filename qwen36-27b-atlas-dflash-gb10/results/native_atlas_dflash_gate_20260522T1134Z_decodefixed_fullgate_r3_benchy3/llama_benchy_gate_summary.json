@@ -1,0 +1,91 @@
+{
+  "aggregate_ar_tps": 13.585592954695276,
+  "aggregate_dflash_tps": 22.244893972484622,
+  "aggregate_percent_improvement": 63.73885222872537,
+  "aggregate_ratio": 1.6373885222872537,
+  "all_exact_token_accounting_ok": false,
+  "all_rows_ratio_ok": false,
+  "gate_pass": false,
+  "required_dflash_tps": 16.71912,
+  "required_ratio": 1.2,
+  "rows": {
+    "dflash-codegen-pp2048-tg128": {
+      "ar_audit": "/home/banana_bae/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T1134Z_decodefixed_fullgate_r3_benchy3/receipts/ar-codegen-pp2048-tg128_usage_audit.json",
+      "ar_completion_tokens_max": 128,
+      "ar_completion_tokens_min": 128,
+      "ar_completion_tokens_total": 384,
+      "ar_exact_token_accounting_ok": true,
+      "ar_llama_benchy_json": "/home/banana_bae/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T1134Z_decodefixed_fullgate_r3_benchy3/receipts/ar-codegen-pp2048-tg128.json",
+      "ar_proxy_jsonl": "/home/banana_bae/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T1134Z_decodefixed_fullgate_r3_benchy3/receipts/ar-codegen-pp2048-tg128_proxy_usage.jsonl",
+      "ar_tps": 13.679383197628852,
+      "ar_usage_completion_tokens": [
+        128,
+        128,
+        128
+      ],
+      "dflash_audit": "/home/banana_bae/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T1134Z_decodefixed_fullgate_r3_benchy3/receipts/dflash-codegen-pp2048-tg128_usage_audit.json",
+      "dflash_completion_tokens_max": 545,
+      "dflash_completion_tokens_min": 128,
+      "dflash_completion_tokens_total": 801,
+      "dflash_exact_token_accounting_ok": false,
+      "dflash_llama_benchy_json": "/home/banana_bae/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T1134Z_decodefixed_fullgate_r3_benchy3/receipts/dflash-codegen-pp2048-tg128.json",
+      "dflash_proxy_jsonl": "/home/banana_bae/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T1134Z_decodefixed_fullgate_r3_benchy3/receipts/dflash-codegen-pp2048-tg128_proxy_usage.jsonl",
+      "dflash_tps": 30.8562929577997,
+      "dflash_usage_completion_tokens": [
+        128,
+        128,
+        545
+      ],
+      "percent_improvement": 125.56786743972674,
+      "ratio": 2.2556786743972674,
+      "same_target_generation_tokens": true,
+      "target_generation_tokens": 128
+    },
+    "dflash-sherlock-pp2048-tg128": {
+      "ar_audit": "/home/banana_bae/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T1134Z_decodefixed_fullgate_r3_benchy3/receipts/ar-sherlock-pp2048-tg128_usage_audit.json",
+      "ar_completion_tokens_max": 128,
+      "ar_completion_tokens_min": 128,
+      "ar_completion_tokens_total": 384,
+      "ar_exact_token_accounting_ok": true,
+      "ar_llama_benchy_json": "/home/banana_bae/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T1134Z_decodefixed_fullgate_r3_benchy3/receipts/ar-sherlock-pp2048-tg128.json",
+      "ar_proxy_jsonl": "/home/banana_bae/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T1134Z_decodefixed_fullgate_r3_benchy3/receipts/ar-sherlock-pp2048-tg128_proxy_usage.jsonl",
+      "ar_tps": 13.491802711761702,
+      "ar_usage_completion_tokens": [
+        128,
+        128,
+        128
+      ],
+      "dflash_audit": "/home/banana_bae/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T1134Z_decodefixed_fullgate_r3_benchy3/receipts/dflash-sherlock-pp2048-tg128_usage_audit.json",
+      "dflash_completion_tokens_max": 128,
+      "dflash_completion_tokens_min": 128,
+      "dflash_completion_tokens_total": 384,
+      "dflash_exact_token_accounting_ok": true,
+      "dflash_llama_benchy_json": "/home/banana_bae/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T1134Z_decodefixed_fullgate_r3_benchy3/receipts/dflash-sherlock-pp2048-tg128.json",
+      "dflash_proxy_jsonl": "/home/banana_bae/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T1134Z_decodefixed_fullgate_r3_benchy3/receipts/dflash-sherlock-pp2048-tg128_proxy_usage.jsonl",
+      "dflash_tps": 13.633494987169543,
+      "dflash_usage_completion_tokens": [
+        128,
+        128,
+        128
+      ],
+      "percent_improvement": 1.0502101048684764,
+      "ratio": 1.0105021010486848,
+      "same_target_generation_tokens": true,
+      "target_generation_tokens": 128
+    }
+  },
+  "server_markers": {
+    "BlockDiffusionDraftHead loaded": true,
+    "DFLASH K=gamma verify": true,
+    "DFlash K=gamma verifier hidden carry active": true,
+    "DFlash ctx_window = 4096": true,
+    "DFlash fast K=16 FFN/GEMM path active": true,
+    "DFlash speculative decoding: ENABLED": true,
+    "block_gamma=16": true,
+    "gamma=16": true,
+    "mask_token_id=248070": true,
+    "rope=plain": true,
+    "target_layers=[1, 16, 31, 46, 61]": true
+  },
+  "server_markers_ok": true
+}
