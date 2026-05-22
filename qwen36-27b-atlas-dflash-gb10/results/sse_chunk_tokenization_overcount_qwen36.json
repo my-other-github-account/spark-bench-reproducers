@@ -1,0 +1,161 @@
+{
+  "tokenizer": "/home/banana_bae/models/Qwen3.6-27B-NVFP4-unsloth",
+  "rows": [
+    {
+      "chunks": [
+        "Hel",
+        "lo",
+        " world"
+      ],
+      "joined_text": "Hello world",
+      "joint_token_count": 2,
+      "sum_chunk_token_count": 3,
+      "overcount": 1,
+      "joint_ids": [
+        9419,
+        1814
+      ],
+      "chunk_ids": [
+        [
+          31628
+        ],
+        [
+          379
+        ],
+        [
+          1814
+        ]
+      ]
+    },
+    {
+      "chunks": [
+        " multi",
+        "-",
+        "token",
+        " boundary"
+      ],
+      "joined_text": " multi-token boundary",
+      "joint_token_count": 3,
+      "sum_chunk_token_count": 4,
+      "overcount": 1,
+      "joint_ids": [
+        7072,
+        33686,
+        18169
+      ],
+      "chunk_ids": [
+        [
+          7072
+        ],
+        [
+          12
+        ],
+        [
+          5658
+        ],
+        [
+          18169
+        ]
+      ]
+    },
+    {
+      "chunks": [
+        "The quick brown",
+        " fox jumps",
+        " over the lazy dog"
+      ],
+      "joined_text": "The quick brown fox jumps over the lazy dog",
+      "joint_token_count": 9,
+      "sum_chunk_token_count": 9,
+      "overcount": 0,
+      "joint_ids": [
+        760,
+        3841,
+        13477,
+        37550,
+        33075,
+        888,
+        279,
+        15217,
+        5388
+      ],
+      "chunk_ids": [
+        [
+          760,
+          3841,
+          13477
+        ],
+        [
+          37550,
+          33075
+        ],
+        [
+          888,
+          279,
+          15217,
+          5388
+        ]
+      ]
+    },
+    {
+      "chunks": [
+        "import",
+        " torch",
+        "\n",
+        "def",
+        " foo",
+        "():",
+        "\n    return",
+        " 42"
+      ],
+      "joined_text": "import torch\ndef foo():\n    return 42",
+      "joint_token_count": 12,
+      "sum_chunk_token_count": 12,
+      "overcount": 0,
+      "joint_ids": [
+        464,
+        7586,
+        198,
+        727,
+        14785,
+        4406,
+        198,
+        262,
+        460,
+        220,
+        19,
+        17
+      ],
+      "chunk_ids": [
+        [
+          464
+        ],
+        [
+          7586
+        ],
+        [
+          198
+        ],
+        [
+          727
+        ],
+        [
+          14785
+        ],
+        [
+          4406
+        ],
+        [
+          198,
+          262,
+          460
+        ],
+        [
+          220,
+          19,
+          17
+        ]
+      ]
+    }
+  ]
+}
