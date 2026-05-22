@@ -89,6 +89,31 @@ usage-fixed reported TG throughput: 23.29621120797717
 
 The throughput values are timing-sensitive; the token-count mismatch is the bug.
 
+## Upstream behavior checked
+
+As of upstream `eugr/llama-benchy` main commit `ff162bcfc0ea59cc1c280b4b685f76e52cde363c` (`src/llama_benchy/client.py`), llama-benchy already sends:
+
+```python
+"stream_options": {"include_usage": True}
+```
+
+But the streaming parser only records:
+
+```python
+if 'usage' in chunk and chunk['usage'] is not None:
+    result.prompt_tokens = chunk['usage'].get('prompt_tokens', 0)
+```
+
+It does not use `chunk['usage']['completion_tokens']` as the authoritative generated-token count. When `choices[0].token_ids` are absent, it still executes the local per-chunk tokenizer fallback:
+
+```python
+full_content = content or reasoning_content or reasoning
+token_count = len(tokenizer.encode(full_content, add_special_tokens=False))
+result.total_tokens += token_count
+```
+
+So the issue is not that upstream fails to request usage metadata; it requests usage, but ignores the completion-token field for the final generated-token denominator.
+
 ## Why this matters for llama-benchy
 
 For streaming OpenAI-compatible APIs, chunks may split words/subwords arbitrarily. If the server does not stream exact `choices[0].token_ids`, a benchmark client cannot infer the generated-token count by tokenizing each `delta.content` independently and summing the lengths.
