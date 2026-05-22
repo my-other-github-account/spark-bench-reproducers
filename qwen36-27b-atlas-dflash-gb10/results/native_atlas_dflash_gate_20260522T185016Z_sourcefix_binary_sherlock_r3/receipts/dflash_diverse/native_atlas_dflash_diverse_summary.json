@@ -1,0 +1,29 @@
+{
+  "base_url": "http://127.0.0.1:18080",
+  "max_tokens": 128,
+  "mode": "native_atlas_dflash_diverse",
+  "model": "Qwen3.6-27B-NVFP4-unsloth",
+  "raw_receipt_path": "/home/dnola/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/receipts/dflash_diverse/native_atlas_dflash_diverse_raw.jsonl",
+  "rows": {
+    "code_think_off": {
+      "class": "code",
+      "completion_tokens_max": 128,
+      "completion_tokens_min": 128,
+      "completion_tokens_total": 128,
+      "drop_first": true,
+      "errors": [],
+      "prompt_tokens_max": 51,
+      "prompt_tokens_min": 51,
+      "requests_measured": 1,
+      "requests_ok_measured": 1,
+      "requests_total": 1,
+      "server_reported_decode_tps_mean": 26.10015043103254,
+      "server_reported_decode_tps_median": 26.10015043103254,
+      "wall_tps_mean": 24.383066239524915,
+      "wall_tps_median": 24.383066239524915,
+      "wall_tps_p50": 24.383066239524915
+    }
+  },
+  "runs": 1,
+  "thinking_budget": 31
+}

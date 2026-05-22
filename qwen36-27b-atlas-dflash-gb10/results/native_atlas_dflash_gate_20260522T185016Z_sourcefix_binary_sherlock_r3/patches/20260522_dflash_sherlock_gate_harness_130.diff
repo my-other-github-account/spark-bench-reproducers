@@ -1,0 +1,419 @@
+diff --git a/scripts/compare_native_benchy_gate.py b/scripts/run_native_atlas_dflash_gate.sh
+index 4cbde17..6c4cee4 100755
+--- a/scripts/compare_native_benchy_gate.py
++++ b/scripts/run_native_atlas_dflash_gate.sh
+@@ -1,137 +1,281 @@
+-#!/usr/bin/env python3
+-"""Compare native Atlas AR and Atlas+DFlash llama-benchy usage audits."""
+-
+-from __future__ import annotations
+-
+-import argparse
+-import json
+-import statistics
+-from pathlib import Path
+-
+-
+-REQUIRED_MARKERS = [
+-    "DFlash speculative decoding: ENABLED",
+-    "DFlash ctx_window = 4096",
+-    "BlockDiffusionDraftHead loaded",
+-    "gamma=16",
+-    "mask_token_id=248070",
+-    "target_layers=[1, 16, 31, 46, 61]",
+-    "rope=plain",
+-    "DFLASH K=gamma verify",
+-    "block_gamma=16",
+-    "DFlash K=gamma verifier hidden carry active",
+-    "DFlash fast K=16 FFN/GEMM path active",
+-]
+-
+-
+-def load(path: str) -> dict:
+-    obj = json.loads(Path(path).read_text(encoding="utf-8"))
+-    obj["_path"] = path
+-    return obj
+-
+-
+-def marker_status(log_paths: list[str]) -> dict:
+-    text = ""
+-    for item in log_paths:
+-        path = Path(item)
+-        if path.exists():
+-            text += path.read_text(encoding="utf-8", errors="replace")
+-    return {marker: marker in text for marker in REQUIRED_MARKERS}
+-
+-
+-def main() -> int:
+-    parser = argparse.ArgumentParser()
+-    parser.add_argument("--ar-audit", action="append", required=True)
+-    parser.add_argument("--dflash-audit", action="append", required=True)
+-    parser.add_argument("--out", required=True)
+-    parser.add_argument("--required-ratio", type=float, default=1.30)
+-    parser.add_argument("--required-dflash-tps", type=float, default=16.71912)
+-    parser.add_argument("--dflash-server-log", action="append", default=[])
+-    args = parser.parse_args()
+-
+-    ar = [load(p) for p in args.ar_audit]
+-    dflash = [load(p) for p in args.dflash_audit]
+-    if len(ar) != len(dflash):
+-        raise SystemExit("must pass the same number of AR and DFlash audits")
+-
+-    rows = {}
+-    ar_tps_values = []
+-    dflash_tps_values = []
+-    for idx, (a, d) in enumerate(zip(ar, dflash)):
+-        name = d.get("tag") or a.get("tag") or f"cell_{idx}"
+-        ar_tps = float(a.get("server_reported_decode_tps_mean") or 0.0)
+-        dflash_tps = float(d.get("server_reported_decode_tps_mean") or 0.0)
+-        ratio = dflash_tps / ar_tps if ar_tps > 0 else 0.0
+-        same_tg = a.get("target_generation_tokens") == d.get("target_generation_tokens")
+-        ar_tps_values.append(ar_tps)
+-        dflash_tps_values.append(dflash_tps)
+-        rows[name] = {
+-            "ar_audit": a["_path"],
+-            "dflash_audit": d["_path"],
+-            "ar_llama_benchy_json": a.get("llama_benchy_json"),
+-            "dflash_llama_benchy_json": d.get("llama_benchy_json"),
+-            "ar_proxy_jsonl": a.get("proxy_jsonl"),
+-            "dflash_proxy_jsonl": d.get("proxy_jsonl"),
+-            "target_generation_tokens": d.get("target_generation_tokens"),
+-            "same_target_generation_tokens": same_tg,
+-            "ar_tps": ar_tps,
+-            "dflash_tps": dflash_tps,
+-            "ratio": ratio,
+-            "percent_improvement": (ratio - 1.0) * 100.0,
+-            "ar_exact_token_accounting_ok": bool(
+-                a.get("exact_token_accounting_ok")
+-            ),
+-            "dflash_exact_token_accounting_ok": bool(
+-                d.get("exact_token_accounting_ok")
+-            ),
+-            "ar_usage_completion_tokens": a.get("usage_completion_tokens"),
+-            "dflash_usage_completion_tokens": d.get("usage_completion_tokens"),
+-            "ar_completion_tokens_min": a.get("completion_tokens_min"),
+-            "ar_completion_tokens_max": a.get("completion_tokens_max"),
+-            "ar_completion_tokens_total": a.get("completion_tokens_total"),
+-            "dflash_completion_tokens_min": d.get("completion_tokens_min"),
+-            "dflash_completion_tokens_max": d.get("completion_tokens_max"),
+-            "dflash_completion_tokens_total": d.get("completion_tokens_total"),
+-        }
+-
+-    aggregate_ar = statistics.mean(ar_tps_values) if ar_tps_values else 0.0
+-    aggregate_dflash = (
+-        statistics.mean(dflash_tps_values) if dflash_tps_values else 0.0
+-    )
+-    aggregate_ratio = aggregate_dflash / aggregate_ar if aggregate_ar > 0 else 0.0
+-    markers = marker_status(args.dflash_server_log)
+-    summary = {
+-        "required_ratio": args.required_ratio,
+-        "required_dflash_tps": args.required_dflash_tps,
+-        "aggregate_ar_tps": aggregate_ar,
+-        "aggregate_dflash_tps": aggregate_dflash,
+-        "aggregate_ratio": aggregate_ratio,
+-        "aggregate_percent_improvement": (aggregate_ratio - 1.0) * 100.0,
+-        "rows": rows,
+-        "all_exact_token_accounting_ok": all(
+-            r["ar_exact_token_accounting_ok"]
+-            and r["dflash_exact_token_accounting_ok"]
+-            and r["same_target_generation_tokens"]
+-            for r in rows.values()
+-        ),
+-        "all_rows_ratio_ok": all(r["ratio"] >= args.required_ratio for r in rows.values()),
+-        "server_markers": markers,
+-        "server_markers_ok": all(markers.values()) if markers else False,
+-    }
+-    summary["gate_pass"] = (
+-        bool(rows)
+-        and summary["all_exact_token_accounting_ok"]
+-        and summary["server_markers_ok"]
+-        and summary["all_rows_ratio_ok"]
+-        and aggregate_dflash >= args.required_dflash_tps
+-        and aggregate_ratio >= args.required_ratio
++#!/usr/bin/env bash
++set -euo pipefail
++
++ROOT=${ROOT:-/home/dnola/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950}
++ATLAS_DIR=${ATLAS_DIR:-$ROOT/refs/atlas}
++STAMP=${STAMP:-$(date -u +%Y%m%dT%H%M%SZ)}
++OUT=${OUT:-$ROOT/native_atlas_dflash_gate_$STAMP}
++IMAGE=${IMAGE:-atlas-gb10:qwen36-27b-dflash-gate-$STAMP}
++DOCKER_TARGET=${DOCKER_TARGET:-builder}
++SPARK_BIN=${SPARK_BIN:-/build/target/release/spark}
++
++MODEL_PATH=${MODEL_PATH:-/home/dnola/models/Qwen3.6-27B-NVFP4-unsloth}
++DRAFT_PATH=${DRAFT_PATH:-/home/dnola/models/Qwen3.6-27B-DFlash}
++MODELS_DIR=${MODELS_DIR:-/home/dnola/models}
++MODEL_NAME=${MODEL_NAME:-Qwen3.6-27B-NVFP4-unsloth}
++LLAMA_BENCHY=${LLAMA_BENCHY:-/home/dnola/venvs/vllm/bin/llama-benchy}
++
++PORT=${PORT:-18080}
++PROXY_PORT=${PROXY_PORT:-18180}
++RUNS=${RUNS:-3}
++BENCHY_RUNS=${BENCHY_RUNS:-3}
++TG=${TG:-128}
++PP=${PP:-2048}
++THINKING_BUDGET=${THINKING_BUDGET:-31}
++MAX_SEQ_LEN=${MAX_SEQ_LEN:-8192}
++GPU_UTIL=${GPU_UTIL:-0.75}
++CODE_URL=${CODE_URL:-https://raw.githubusercontent.com/vllm-project/vllm/main/vllm/v1/worker/gpu_model_runner.py}
++
++DIVERSE_ROWS=${DIVERSE_ROWS:-"code_think_on math_reasoning_think_on factual_expository_think_on planning_instruction_think_on creative_narrative_think_on long_context_think_on"}
++BENCHY_CORPORA=${BENCHY_CORPORA:-"sherlock codegen"}
++
++mkdir -p "$OUT/logs" "$OUT/receipts" "$OUT/cmds"
++ln -sfn "$OUT" "$ROOT/native_atlas_dflash_gate_latest"
++exec > >(tee -a "$OUT/runner.log") 2>&1
++
++echo "started $(date -Is) host=$(hostname) out=$OUT"
++echo "root=$ROOT atlas=$ATLAS_DIR image=$IMAGE docker_target=$DOCKER_TARGET spark_bin=$SPARK_BIN"
++
++SERVER_CONTAINER=""
++PROXY_PID=""
++
++cleanup_proxy() {
++  set +e
++  if [[ -n "${PROXY_PID:-}" ]] && kill -0 "$PROXY_PID" 2>/dev/null; then
++    kill "$PROXY_PID" 2>/dev/null
++    sleep 1
++    kill -9 "$PROXY_PID" 2>/dev/null
++  fi
++  PROXY_PID=""
++  set -e
++}
++
++cleanup_server() {
++  set +e
++  if [[ -n "${SERVER_CONTAINER:-}" ]]; then
++    docker logs "$SERVER_CONTAINER" > "$OUT/logs/${SERVER_CONTAINER}_final.log" 2>&1 || true
++    docker rm -f "$SERVER_CONTAINER" >/dev/null 2>&1 || true
++  fi
++  SERVER_CONTAINER=""
++  set -e
++}
++
++cleanup() {
++  cleanup_proxy
++  cleanup_server
++}
++trap cleanup EXIT
++
++wait_ready() {
++  local port=$1
++  for i in $(seq 1 900); do
++    if curl -fsS "http://127.0.0.1:$port/v1/models" >/dev/null 2>&1; then
++      echo "ready port=$port after ${i}s"
++      return 0
++    fi
++    sleep 1
++  done
++  echo "ERROR: port $port did not become ready" >&2
++  return 1
++}
++
++build_image() {
++  (
++    cd "$ATLAS_DIR"
++    git rev-parse HEAD > "$OUT/source_git_head.txt" 2>&1 || true
++    git status --short > "$OUT/source_git_status.txt" 2>&1 || true
++    git diff --stat > "$OUT/source_git_diff_stat.txt" 2>&1 || true
++    local build_cmd=(docker build --target "$DOCKER_TARGET" -f docker/gb10/qwen3.6-27b/nvfp4/Dockerfile -t "$IMAGE" .)
++    printf '%q ' "${build_cmd[@]}" > "$OUT/cmds/docker_build.sh"
++    echo >> "$OUT/cmds/docker_build.sh"
++    "${build_cmd[@]}" 2>&1 | tee "$OUT/logs/docker_build.log"
++  )
++}
++
++launch_server() {
++  local mode=$1
++  cleanup_server
++  SERVER_CONTAINER="native_atlas_${mode}_${STAMP}"
++  local server_log="$OUT/logs/server_${mode}.log"
++  local envs=(-e RUST_LOG=info)
++  if [[ "${ATLAS_CHATML_HARD_STOP_RESPECT_MIN_TOKENS:-0}" == "1" ]]; then
++    envs+=(-e ATLAS_CHATML_HARD_STOP_RESPECT_MIN_TOKENS=1)
++  fi
++  if [[ "${ATLAS_FIXED_GENERATION_IGNORE_STOPS:-0}" == "1" ]]; then
++    envs+=(-e ATLAS_FIXED_GENERATION_IGNORE_STOPS=1)
++  fi
++  local dflash_args=()
++  if [[ "$mode" == "dflash" ]]; then
++    envs+=(
++      -e ATLAS_DFLASH_DRAFT_CAP=16
++      -e ATLAS_DFLASH_CTX_WINDOW=4096
++      -e ATLAS_DFLASH_LM_HEAD_NVFP4=1
++      -e ATLAS_DFLASH_LM_HEAD_T=1
++      -e ATLAS_DFLASH_FFN_GEMM_N128=1
++      -e ATLAS_DFLASH_SPECULATE_THINKING=1
+     )
+-    Path(args.out).write_text(
+-        json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8"
++    if [[ "${ATLAS_DFLASH_TIMING:-0}" == "1" ]]; then
++      envs+=(-e ATLAS_DFLASH_TIMING=1)
++    fi
++    if [[ "${ATLAS_DFLASH_ROW0_AS_DRAFT:-0}" == "1" ]]; then
++      envs+=(-e ATLAS_DFLASH_ROW0_AS_DRAFT=1)
++    fi
++    if [[ -n "${ATLAS_DFLASH_ADAPTIVE_BOOTSTRAP_MIN_ACCEPT:-}" ]]; then
++      envs+=(-e "ATLAS_DFLASH_ADAPTIVE_BOOTSTRAP_MIN_ACCEPT=$ATLAS_DFLASH_ADAPTIVE_BOOTSTRAP_MIN_ACCEPT")
++    fi
++    if [[ -n "${ATLAS_DFLASH_ADAPTIVE_BOOTSTRAP_COOLDOWN_TOKENS:-}" ]]; then
++      envs+=(-e "ATLAS_DFLASH_ADAPTIVE_BOOTSTRAP_COOLDOWN_TOKENS=$ATLAS_DFLASH_ADAPTIVE_BOOTSTRAP_COOLDOWN_TOKENS")
++    fi
++    dflash_args=(
++      --dflash
++      --draft-model "$DRAFT_PATH"
++      --dflash-gamma 16
++      --dflash-window-size 4096
+     )
+-    print(json.dumps(summary, indent=2, sort_keys=True))
+-    return 0 if summary["gate_pass"] else 2
++  fi
++
++  {
++    printf '%q ' docker run -d --name "$SERVER_CONTAINER" --gpus all --ipc=host --network host \
++      --entrypoint "$SPARK_BIN" \
++      "${envs[@]}" -v "$MODELS_DIR:$MODELS_DIR:ro" -v "$ROOT:$ROOT" "$IMAGE" \
++      serve \
++      --model-from-path "$MODEL_PATH" --model-name "$MODEL_NAME" --port "$PORT" \
++      --max-seq-len "$MAX_SEQ_LEN" --kv-cache-dtype bf16 \
++      --gpu-memory-utilization "$GPU_UTIL" --max-num-seqs 1 --max-batch-size 1 \
++      --max-prefill-tokens 0 "${dflash_args[@]}"
++    echo
++  } > "$OUT/cmds/launch_${mode}.sh"
++
++  docker run -d --name "$SERVER_CONTAINER" --gpus all --ipc=host --network host \
++    --entrypoint "$SPARK_BIN" \
++    "${envs[@]}" \
++    -v "$MODELS_DIR:$MODELS_DIR:ro" \
++    -v "$ROOT:$ROOT" \
++    "$IMAGE" \
++    serve \
++    --model-from-path "$MODEL_PATH" \
++    --model-name "$MODEL_NAME" \
++    --port "$PORT" \
++    --max-seq-len "$MAX_SEQ_LEN" \
++    --kv-cache-dtype bf16 \
++    --gpu-memory-utilization "$GPU_UTIL" \
++    --max-num-seqs 1 \
++    --max-batch-size 1 \
++    --max-prefill-tokens 0 \
++    "${dflash_args[@]}" > "$OUT/${mode}_container_id.txt"
++
++  wait_ready "$PORT"
++  docker logs "$SERVER_CONTAINER" > "$server_log" 2>&1 || true
++  grep -E "DFlash|BlockDiffusionDraftHead|RoPE|ctx_window|target_layers|fast K|K=gamma" "$server_log" || true
++}
++
++run_diverse() {
++  local mode=$1
++  local out_dir="$OUT/receipts/${mode}_diverse"
++  mkdir -p "$out_dir"
++  printf '%q ' python3 "$ROOT/scripts/atlas_http_bench.py" --host 127.0.0.1 --port "$PORT" \
++    --mode "native_atlas_${mode}_diverse" --runs "$RUNS" --max-tokens "$TG" \
++    --thinking-budget "$THINKING_BUDGET" --rows $DIVERSE_ROWS --output-dir "$out_dir" \
++    > "$OUT/cmds/${mode}_diverse.sh"
++  echo >> "$OUT/cmds/${mode}_diverse.sh"
++  python3 "$ROOT/scripts/atlas_http_bench.py" --host 127.0.0.1 --port "$PORT" \
++    --mode "native_atlas_${mode}_diverse" --runs "$RUNS" --max-tokens "$TG" \
++    --thinking-budget "$THINKING_BUDGET" --rows $DIVERSE_ROWS --output-dir "$out_dir" \
++    2>&1 | tee "$OUT/logs/${mode}_diverse_bench.log"
++  docker logs "$SERVER_CONTAINER" > "$OUT/logs/server_${mode}_after_diverse.log" 2>&1 || true
++}
++
++start_proxy() {
++  local tag=$1
++  cleanup_proxy
++  python3 "$ROOT/scripts/benchy_usage_proxy.py" \
++    --listen-port "$PROXY_PORT" \
++    --upstream "http://127.0.0.1:$PORT" \
++    --log-jsonl "$OUT/receipts/${tag}_proxy_usage.jsonl" \
++    > "$OUT/logs/${tag}_proxy.log" 2>&1 &
++  PROXY_PID=$!
++  wait_ready "$PROXY_PORT"
++}
++
++run_benchy_cell() {
++  local mode=$1
++  local corpus=$2
++  local tag="${mode}-${corpus}-pp${PP}-tg${TG}"
++  local bench_json="$OUT/receipts/${tag}.json"
++  local bench_log="$OUT/logs/${tag}_bench.log"
++  start_proxy "$tag"
++  local cmd=(env PYTHONUNBUFFERED=1 "$LLAMA_BENCHY"
++    --base-url "http://127.0.0.1:$PROXY_PORT/v1"
++    --api-key [REDACTED]
++    --model "$MODEL_NAME"
++    --served-model-name "$MODEL_NAME"
++    --pp "$PP"
++    --tg "$TG"
++    --depth 0
++    --concurrency 1
++    --runs "$BENCHY_RUNS"
++    --no-cache
++    --no-adapt-prompt
++    --no-warmup
++    --latency-mode none
++    --skip-coherence
++    --save-result "$bench_json"
++    --format json)
++  if [[ "$corpus" == "codegen" ]]; then
++    cmd+=(--book-url "$CODE_URL")
++  fi
++  printf '%q ' "${cmd[@]}" > "$OUT/cmds/${tag}_benchy.sh"
++  echo >> "$OUT/cmds/${tag}_benchy.sh"
++  "${cmd[@]}" > "$bench_log" 2>&1
++  cleanup_proxy
++  python3 "$ROOT/scripts/audit_native_benchy_usage.py" \
++    --tag "$tag" --tg "$TG" \
++    --proxy-jsonl "$OUT/receipts/${tag}_proxy_usage.jsonl" \
++    --bench-json "$bench_json" \
++    --out "$OUT/receipts/${tag}_usage_audit.json" || true
++}
++
++if [[ "${SKIP_BUILD:-0}" == "1" ]]; then
++  echo "SKIP_BUILD=1: using existing image=$IMAGE"
++else
++  build_image
++fi
++
++declare -a AR_AUDITS=()
++declare -a DFLASH_AUDITS=()
++
++for mode in ar dflash; do
++  launch_server "$mode"
++  run_diverse "$mode"
++  for corpus in $BENCHY_CORPORA; do
++    run_benchy_cell "$mode" "$corpus"
++    if [[ "$mode" == "ar" ]]; then
++      AR_AUDITS+=("$OUT/receipts/${mode}-${corpus}-pp${PP}-tg${TG}_usage_audit.json")
++    else
++      DFLASH_AUDITS+=("$OUT/receipts/${mode}-${corpus}-pp${PP}-tg${TG}_usage_audit.json")
++    fi
++  done
++  docker logs "$SERVER_CONTAINER" > "$OUT/logs/server_${mode}_after_all.log" 2>&1 || true
++  cleanup_server
++done
++
++python3 "$ROOT/scripts/compare_atlas_dflash_gate.py" \
++  --ar-summary "$OUT/receipts/ar_diverse/native_atlas_ar_diverse_summary.json" \
++  --dflash-summary "$OUT/receipts/dflash_diverse/native_atlas_dflash_diverse_summary.json" \
++  --dflash-server-log "$OUT/logs/server_dflash_after_all.log" \
++  --out "$OUT/diverse_gate_summary.json" \
++  --tg "$TG" || true
+ 
++benchy_args=()
++for p in "${AR_AUDITS[@]}"; do benchy_args+=(--ar-audit "$p"); done
++for p in "${DFLASH_AUDITS[@]}"; do benchy_args+=(--dflash-audit "$p"); done
++python3 "$ROOT/scripts/compare_native_benchy_gate.py" \
++  "${benchy_args[@]}" \
++  --required-ratio "${BENCHY_REQUIRED_RATIO:-1.30}" \
++  --required-dflash-tps "${BENCHY_REQUIRED_DFLASH_TPS:-16.71912}" \
++  --dflash-server-log "$OUT/logs/server_dflash_after_all.log" \
++  --out "$OUT/llama_benchy_gate_summary.json" || true
+ 
+-if __name__ == "__main__":
+-    raise SystemExit(main())
++echo "done $(date -Is) out=$OUT"
++echo "diverse_summary=$OUT/diverse_gate_summary.json"
++echo "llama_benchy_summary=$OUT/llama_benchy_gate_summary.json"

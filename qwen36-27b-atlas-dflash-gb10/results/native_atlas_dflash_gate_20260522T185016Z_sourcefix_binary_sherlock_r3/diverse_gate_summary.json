@@ -1,0 +1,49 @@
+{
+  "aggregate_ar_tps": 13.90695266834022,
+  "aggregate_dflash_tps": 26.10015043103254,
+  "aggregate_percent_improvement": 87.67699188658824,
+  "aggregate_ratio": 1.8767699188658824,
+  "all_rows_ratio_ok": true,
+  "all_usage_completion_tokens_ok": true,
+  "ar_summary": "/home/dnola/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/receipts/ar_diverse/native_atlas_ar_diverse_summary.json",
+  "dflash_summary": "/home/dnola/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/receipts/dflash_diverse/native_atlas_dflash_diverse_summary.json",
+  "gate_pass": true,
+  "required_dflash_tps": 16.71912,
+  "required_ratio": 1.2,
+  "rows": {
+    "code_think_off": {
+      "ar_completion_tokens_max": 128,
+      "ar_completion_tokens_min": 128,
+      "ar_completion_tokens_total": 128,
+      "ar_raw_receipt_path": "/home/dnola/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/receipts/ar_diverse/native_atlas_ar_diverse_raw.jsonl",
+      "ar_requests_measured": 1,
+      "ar_tps": 13.90695266834022,
+      "ar_usage_completion_tokens_ok": true,
+      "class": "code",
+      "dflash_completion_tokens_max": 128,
+      "dflash_completion_tokens_min": 128,
+      "dflash_completion_tokens_total": 128,
+      "dflash_raw_receipt_path": "/home/dnola/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/receipts/dflash_diverse/native_atlas_dflash_diverse_raw.jsonl",
+      "dflash_requests_measured": 1,
+      "dflash_tps": 26.10015043103254,
+      "dflash_usage_completion_tokens_ok": true,
+      "percent_improvement": 87.67699188658824,
+      "ratio": 1.8767699188658824
+    }
+  },
+  "server_markers": {
+    "BlockDiffusionDraftHead loaded": true,
+    "DFLASH K=gamma verify": true,
+    "DFlash K=gamma verifier hidden carry active": true,
+    "DFlash ctx_window = 4096": true,
+    "DFlash fast K=16 FFN/GEMM path active": true,
+    "DFlash speculative decoding: ENABLED": true,
+    "block_gamma=16": true,
+    "gamma=16": true,
+    "mask_token_id=248070": true,
+    "rope=plain": true,
+    "target_layers=[1, 16, 31, 46, 61]": true
+  },
+  "server_markers_ok": true,
+  "target_generation_tokens": 128
+}
