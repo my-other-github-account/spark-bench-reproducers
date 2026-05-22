@@ -1,0 +1,42 @@
+llama-benchy (0.3.6)
+Date: 2026-05-22 11:53:18
+Benchmarking model: Qwen3.6-27B-NVFP4-unsloth at http://127.0.0.1:18180/v1
+Concurrency levels: [1]
+'[Errno -3] Temporary failure in name resolution' thrown while requesting HEAD https://huggingface.co/Qwen3.6-27B-NVFP4-unsloth/resolve/main/config.json
+Retrying in 1s [Retry 1/5].
+'[Errno -3] Temporary failure in name resolution' thrown while requesting HEAD https://huggingface.co/Qwen3.6-27B-NVFP4-unsloth/resolve/main/config.json
+Retrying in 1s [Retry 1/5].
+Error loading tokenizer: Can't load the configuration of 'Qwen3.6-27B-NVFP4-unsloth'. If you were trying to load it from 'https://huggingface.co/models', make sure you don't have a local directory with the same name. Otherwise, make sure 'Qwen3.6-27B-NVFP4-unsloth' is the correct path to a directory containing a config.json file
+Falling back to 'gpt2' tokenizer as approximation.
+Loading text from cache: /home/dnola/.cache/llama-benchy/cc6a0b5782734ee3b9069aa3b64cc62c.txt
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (159385 > 1024). Running this sequence through the model will result in indexing errors
+Total tokens available in text corpus: 159385
+
+Skipping coherence test (--skip-coherence specified)
+Skipping latency measurement (assuming 0 ms).
+Running test: pp=2048, tg=128, depth=0, concurrency=1
+CODEX_BENCHY_TRACE generated prompt_batch run=1 concurrency=1 prompt_chars=[8122] context_chars=[0]
+  Run 1/3 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=1 index=0 prompt_chars=8122 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=8122 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.022043
+  No token_ids in response, using local tokenization
+CODEX_BENCHY_TRACE generated prompt_batch run=2 concurrency=1 prompt_chars=[7854] context_chars=[0]
+  Run 2/3 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=2 index=0 prompt_chars=7854 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=7854 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.006388
+CODEX_BENCHY_TRACE generated prompt_batch run=3 concurrency=1 prompt_chars=[6282] context_chars=[0]
+  Run 3/3 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=3 index=0 prompt_chars=6282 context_chars=0 max_tokens=128
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=6282 max_tokens=128 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=273 dt=0.005447
+Saving results to /home/dnola/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/receipts/dflash-sherlock-pp2048-tg128.json in JSON format...
+
+
+
+llama-benchy (0.3.6)
+date: 2026-05-22 11:53:18 | latency mode: none

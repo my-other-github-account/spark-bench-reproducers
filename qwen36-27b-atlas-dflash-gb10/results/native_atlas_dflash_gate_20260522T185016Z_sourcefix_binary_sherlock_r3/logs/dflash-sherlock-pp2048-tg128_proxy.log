@@ -1,0 +1,5 @@
+proxy_ready port=18180 upstream=http://127.0.0.1:18080 log=/home/dnola/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/receipts/dflash-sherlock-pp2048-tg128_proxy_usage.jsonl
+[proxy] 127.0.0.1 "GET /v1/models HTTP/1.1" 200 -
+[proxy] 127.0.0.1 "POST /v1/chat/completions HTTP/1.1" 200 -
+[proxy] 127.0.0.1 "POST /v1/chat/completions HTTP/1.1" 200 -
+[proxy] 127.0.0.1 "POST /v1/chat/completions HTTP/1.1" 200 -

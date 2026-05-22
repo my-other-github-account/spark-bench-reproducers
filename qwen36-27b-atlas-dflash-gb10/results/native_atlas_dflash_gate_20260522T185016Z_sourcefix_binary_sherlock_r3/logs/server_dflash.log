@@ -1,0 +1,186 @@
+[2m2026-05-22T18:52:15.039705Z[0m [32m INFO[0m [2mspark::main_modules::serve[0m[2m:[0m Atlas Spark starting...
+[2m2026-05-22T18:52:15.039725Z[0m [32m INFO[0m [2mspark::main_modules::serve[0m[2m:[0m Licensed under AGPL-3.0-only — see /LICENSE in this container
+[2m2026-05-22T18:52:15.039762Z[0m [32m INFO[0m [2mspark::model_resolver[0m[2m:[0m Model path: /home/dnola/models/Qwen3.6-27B-NVFP4-unsloth (local directory)
+[2m2026-05-22T18:52:15.039765Z[0m [32m INFO[0m [2mspark::main_modules::serve[0m[2m:[0m Port: 18080
+[2m2026-05-22T18:52:15.039767Z[0m [32m INFO[0m [2mspark::main_modules::serve[0m[2m:[0m SSM decode dtype: f32 (full precision)
+[2m2026-05-22T18:52:15.039927Z[0m [32m INFO[0m [2mspark::main_modules::serve[0m[2m:[0m Quantization config: method="compressed-tensors", algo="NVFP4", format="nvfp4-pack-quantized", 303 module(s) in ignore list
+[2m2026-05-22T18:52:15.039936Z[0m [32m INFO[0m [2mspark::main_modules::serve[0m[2m:[0m Model config: 64 layers, 16 attention, 48 SSM, 0 experts, rope_theta=10000000, head_dim=256, rotary_dim=64
+[2m2026-05-22T18:52:15.039954Z[0m [32m INFO[0m [2mspark::main_modules::serve[0m[2m:[0m Selected kernel target: (sm_121, qwen3.6-27b, nvfp4) (91 modules)
+[2m2026-05-22T18:52:25.057418Z[0m [32m INFO[0m [2mspark_runtime::cuda_backend[0m[2m:[0m AtlasCudaBackend initialized on GPU 0 with 91 PTX modules
+[2m2026-05-22T18:52:25.057528Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::preflight[0m[2m:[0m GPU 0: 119.7 GB total, 114.5 GB free
+[2m2026-05-22T18:52:25.057546Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::preflight[0m[2m:[0m Preflight reserve: inference=3442 MB, buffer_arena=2307 MB (pre-load free: 114.5 GB)
+[2m2026-05-22T18:52:25.057561Z[0m [32m INFO[0m [2mspark::main_modules::serve[0m[2m:[0m OOM watchdog started (threshold: 2 GB, interval: 2s)
+[2m2026-05-22T18:52:25.057569Z[0m [32m INFO[0m [2mspark::main_modules::serve[0m[2m:[0m OOM guard reserve: 4096 MB
+[2m2026-05-22T18:52:25.057573Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::weights[0m[2m:[0m Using fast weight loader (O_DIRECT + pipelined read/copy)
+[2m2026-05-22T18:52:25.074282Z[0m [32m INFO[0m [2mspark_runtime::fast_weights[0m[2m:[0m Fast-load pre-flight: 23.78 GB on-disk, 1.3x overhead = 30.91 GB peak, 114.49 GB free, 4.0 GB reserve (FP8: false)
+[2m2026-05-22T18:52:25.074311Z[0m [32m INFO[0m [2mspark_runtime::fast_weights[0m[2m:[0m Fast-loading shard 1/1: model.safetensors
+[2m2026-05-22T18:52:33.079775Z[0m [32m INFO[0m [2mspark_runtime::fast_weights[0m[2m:[0m   Shard 1/1 done — GPU memory: 24.30 GB used, 90.19 GB free
+[2m2026-05-22T18:52:33.079810Z[0m [32m INFO[0m [2mspark_runtime::fast_weights[0m[2m:[0m Fast-loaded 2096 weight tensors
+[2m2026-05-22T18:52:33.079813Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::weights[0m[2m:[0m Loaded 2096 weight tensors
+[2m2026-05-22T18:52:33.079816Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::weights[0m[2m:[0m Weight prefix: model.language_model
+[2m2026-05-22T18:52:33.080082Z[0m [32m INFO[0m [2mspark_model::preflight[0m[2m:[0m Pre-flight checks passed
+[2m2026-05-22T18:52:33.080112Z[0m [32m INFO[0m [2mspark_model::quant_format[0m[2m:[0m QuantFormat: compressed-tensors (format="nvfp4-pack-quantized"), 303 ignored module(s)
+[2m2026-05-22T18:52:33.080123Z[0m [32m INFO[0m [2mspark::main_modules::serve[0m[2m:[0m Quantization format: compressed-tensors (base variant CompressedTensors), ignored globs = 303
+[2m2026-05-22T18:52:33.080163Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::preflight[0m[2m:[0m GDN chunked prefill reserve: 355 MB (chunk_size=8192, max_seq_len=8192)
+[2m2026-05-22T18:52:33.080165Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::preflight[0m[2m:[0m Weights: 23.78 GB, estimated free: 90.7 GB, actual free: 90.2 GB (reserve: 3442 MB)
+[2m2026-05-22T18:52:33.080170Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::kv_cache[0m[2m:[0m Prefill config: ssm_prefill_chunk=8192, args.max_prefill_tokens=0, prefill_budget=8192, max_batch_tokens=8193
+[2m2026-05-22T18:52:33.080172Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::build[0m[2m:[0m Prefix caching: disabled
+[2m2026-05-22T18:52:33.537120Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::config[0m[2m:[0m Capping vocab_size from 248320 to 248077 (tokenizer)
+[2m2026-05-22T18:52:33.574861Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::weights[0m[2m:[0m DFlash: resolving drafter '/home/dnola/models/Qwen3.6-27B-DFlash'
+[2m2026-05-22T18:52:33.574896Z[0m [32m INFO[0m [2mspark::model_resolver[0m[2m:[0m Model path: /home/dnola/models/Qwen3.6-27B-DFlash (local directory)
+[2m2026-05-22T18:52:33.575859Z[0m [32m INFO[0m [2mspark_runtime::weights::loader[0m[2m:[0m Pre-flight estimate: 3.22 GB on-disk weights, 1.3x overhead = 4.19 GB peak, 90.10 GB free, 0.0 GB reserve (FP8: false)
+[2m2026-05-22T18:52:45.527477Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::weights[0m[2m:[0m DFlash drafter store: 58 tensors, 3460426240 bytes
+[2m2026-05-22T18:52:45.527538Z[0m [32m INFO[0m [2mspark_model::factory::build[0m[2m:[0m DFlash: target layer capture indices = [1, 16, 31, 46, 61] (offset=0 from raw [1, 16, 31, 46, 61])
+[2m2026-05-22T18:52:45.527600Z[0m [32m INFO[0m [2mspark_model::weight_loader::qwen35_dense[0m[2m:[0m Weight format: Nvfp4, NVFP4 variant: CompressedTensors
+[2m2026-05-22T18:52:45.761862Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.0.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:45.761914Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.0.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:45.770495Z[0m [32m INFO[0m [2mspark_model::weight_map::loaders_fp8[0m[2m:[0m quantize_to_nvfp4: n=16384 k=5120 total=83886080 global_max=0.451172 scale2=0.00016785 grid1=1024
+[2m2026-05-22T18:52:45.848567Z[0m [32m INFO[0m [2mspark_model::weight_map::loaders_fp8[0m[2m:[0m quantize_to_nvfp4: n=5120 k=6144 total=31457280 global_max=1.242188 scale2=0.00046212 grid1=1024
+[2m2026-05-22T18:52:46.103056Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.1.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:46.103112Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.1.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:46.111420Z[0m [32m INFO[0m [2mspark_model::weight_map::loaders_fp8[0m[2m:[0m quantize_to_nvfp4: n=16384 k=5120 total=83886080 global_max=0.347656 scale2=0.00012934 grid1=1024
+[2m2026-05-22T18:52:46.190027Z[0m [32m INFO[0m [2mspark_model::weight_map::loaders_fp8[0m[2m:[0m quantize_to_nvfp4: n=5120 k=6144 total=31457280 global_max=1.429688 scale2=0.00053188 grid1=1024
+[2m2026-05-22T18:52:46.444032Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.2.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:46.444087Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.2.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:46.452638Z[0m [32m INFO[0m [2mspark_model::weight_map::loaders_fp8[0m[2m:[0m quantize_to_nvfp4: n=16384 k=5120 total=83886080 global_max=0.247070 scale2=0.00009192 grid1=1024
+[2m2026-05-22T18:52:46.995727Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.4.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:46.995786Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.4.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:47.335927Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.5.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:47.335980Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.5.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:47.676857Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.6.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:47.676913Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.6.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:48.225981Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.8.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:48.226037Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.8.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:48.566856Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.9.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:48.566912Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.9.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:48.675060Z[0m [32m INFO[0m [2mspark_model::weight_loader::qwen35_dense[0m[2m:[0m Loaded layers 0..10
+[2m2026-05-22T18:52:48.907148Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.10.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:48.907200Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.10.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:49.457299Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.12.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:49.457355Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.12.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:49.798398Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.13.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:49.798450Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.13.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:50.137724Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.14.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:50.137779Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.14.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:50.687734Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.16.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:50.687787Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.16.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:51.028002Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.17.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:51.028055Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.17.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:51.368411Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.18.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:51.368466Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.18.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:51.686927Z[0m [32m INFO[0m [2mspark_model::weight_loader::qwen35_dense[0m[2m:[0m Loaded layers 0..20
+[2m2026-05-22T18:52:51.919245Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.20.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:51.919299Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.20.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:52.259365Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.21.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:52.259418Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.21.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:52.598478Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.22.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:52.598533Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.22.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:53.148444Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.24.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:53.148501Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.24.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:53.487968Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.25.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:53.488023Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.25.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:53.826853Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.26.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:53.826910Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.26.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:54.376311Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.28.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:54.376366Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.28.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:54.716812Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.29.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:54.716867Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.29.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:54.824965Z[0m [32m INFO[0m [2mspark_model::weight_loader::qwen35_dense[0m[2m:[0m Loaded layers 0..30
+[2m2026-05-22T18:52:55.057040Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.30.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:55.057097Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.30.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:55.606690Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.32.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:55.606747Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.32.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:55.946178Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.33.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:55.946234Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.33.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:56.286637Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.34.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:56.286695Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.34.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:56.836979Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.36.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:56.837033Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.36.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:57.177436Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.37.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:57.177489Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.37.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:57.517848Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.38.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:57.517903Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.38.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:57.835599Z[0m [32m INFO[0m [2mspark_model::weight_loader::qwen35_dense[0m[2m:[0m Loaded layers 0..40
+[2m2026-05-22T18:52:58.068118Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.40.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:58.068176Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.40.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:58.407622Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.41.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:58.407679Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.41.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:58.747725Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.42.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:58.747782Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.42.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:59.298455Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.44.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:59.298513Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.44.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:59.638400Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.45.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:59.638458Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.45.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:59.977467Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.46.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:52:59.977523Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.46.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:00.527438Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.48.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:00.527495Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.48.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:00.867639Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.49.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:00.867699Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.49.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:00.975334Z[0m [32m INFO[0m [2mspark_model::weight_loader::qwen35_dense[0m[2m:[0m Loaded layers 0..50
+[2m2026-05-22T18:53:01.207383Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.50.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:01.207442Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.50.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:01.758250Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.52.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:01.758307Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.52.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:02.098990Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.53.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:02.099048Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.53.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:02.438947Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.54.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:02.439004Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.54.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:02.989190Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.56.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:02.989245Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.56.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:03.329625Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.57.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:03.329683Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.57.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:03.669342Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.58.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:03.669401Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.58.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:03.987539Z[0m [32m INFO[0m [2mspark_model::weight_loader::qwen35_dense[0m[2m:[0m Loaded layers 0..60
+[2m2026-05-22T18:53:04.219771Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.60.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:04.219829Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.60.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:04.559684Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.61.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:04.559743Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.61.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:04.899569Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.62.linear_attn.A_log from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:04.899628Z[0m [32m INFO[0m [2mspark_model::weight_map::model_a[0m[2m:[0m dense_keep_f32: promoting model.language_model.layers.62.linear_attn.dt_bias from BF16 to FP32 ([48])
+[2m2026-05-22T18:53:05.217385Z[0m [32m INFO[0m [2mspark_model::weight_loader::qwen35_dense[0m[2m:[0m Qwen3.5 dense weight loader: 64 layers (16 attention, 48 SSM, dense FFN)
+[2m2026-05-22T18:53:05.217402Z[0m [33m WARN[0m [2mspark_model::factory::build[0m[2m:[0m `--speculative` was requested but no MTP weights were loaded for this model — speculative decoding will be disabled. Either drop `--speculative` or use a checkpoint that ships an MTP head (e.g. `mtp.safetensors`).
+[2m2026-05-22T18:53:05.268783Z[0m [32m INFO[0m [2mspark_model::factory::build[0m[2m:[0m LM head quantized to NVFP4 (vocab=248077)
+[2m2026-05-22T18:53:05.348402Z[0m [32m INFO[0m [2mspark_runtime::buffers[0m[2m:[0m Buffer arena: 8193 tokens × 2308.2 MB total (attn_out=96.0MB, ssm_deint=256.0MB, kv_lora_rank=0)
+[2m2026-05-22T18:53:05.348496Z[0m [32m INFO[0m [2mspark_model::factory::build[0m[2m:[0m KV cache (post-construction): 56.9 GB free, 53.6 GB allocatable, 41134 blocks × 16 tok/block = 658144 max tokens
+[2m2026-05-22T18:53:06.723500Z[0m [32m INFO[0m [2mspark_runtime::kv_cache::paged_impl[0m[2m:[0m KV cache: 41134 blocks × 16 layers × 65536 bytes/block = 40.2 GB total
+[2m2026-05-22T18:53:06.723617Z[0m [32m INFO[0m [2mspark_model::model::impl_a1[0m[2m:[0m TransformerModel: 64 layers, vocab=248077, hidden=5120
+[2m2026-05-22T18:53:06.969714Z[0m [32m INFO[0m [2mspark_model::model::ssm_pool[0m[2m:[0m SSM MTP pools (17 intermediates + checkpoints): 5454 MB
+[2m2026-05-22T18:53:06.969728Z[0m [32m INFO[0m [2mspark_model::model::ssm_pool[0m[2m:[0m SSM state pool: 1 slots × 48 layers = 151 MB
+[2m2026-05-22T18:53:07.060070Z[0m [32m INFO[0m [2mspark_model::model::ssm_snapshot[0m[2m:[0m SSM snapshot pool (Marconi): 16 slots × 48 layers = 2424 MB
+[2m2026-05-22T18:53:07.060081Z[0m [32m INFO[0m [2mspark_model::model::impl_a1[0m[2m:[0m Marconi intermediate checkpoints: every 256 blocks (4096 tokens at block_size=16)
+[2m2026-05-22T18:53:07.061587Z[0m [32m INFO[0m [2mspark_model::model::impl_a1[0m[2m:[0m Pinned metadata staging: 226 KB
+[2m2026-05-22T18:53:07.074160Z[0m [32m INFO[0m [2mspark_model::model::impl_a1[0m[2m:[0m GDN prefill buffers: 355 MB for 8192 tokens (chunked SSM prefill)
+[2m2026-05-22T18:53:07.074192Z[0m [32m INFO[0m [2mspark_model::weight_loader::dflash_loader[0m[2m:[0m DFlash drafter loaded: 5 layers, hidden=5120, vocab=248320, γ=16, target_layers=[1, 16, 31, 46, 61]
+[2m2026-05-22T18:53:07.077927Z[0m [32m INFO[0m [2mspark_runtime::kv_cache::paged_impl[0m[2m:[0m KV cache: 514 blocks × 5 layers × 32768 bytes/block = 0.1 GB total
+[2m2026-05-22T18:53:07.078016Z[0m [32m INFO[0m [2mspark_model::layers::dflash_head::from_weights[0m[2m:[0m DFlash proposer transposed lm_head enabled: building padded coalesced NVFP4 copy for w4a16_gemm_t_strided (vocab=248077 stride=248192)
+[2m2026-05-22T18:53:08.725381Z[0m [32m INFO[0m [2mspark_model::layers::dflash_head::from_weights[0m[2m:[0m DFlash ctx_window = 4096 (configured window_size=4096; ATLAS_DFLASH_CTX_WINDOW overrides for diagnostics)
+[2m2026-05-22T18:53:08.837006Z[0m [32m INFO[0m [2mspark_model::layers::dflash_head::from_weights[0m[2m:[0m DFlash RoPE = plain from drafter config (rope_scaling=null), theta=10000000, pairs=64
+[2m2026-05-22T18:53:08.837057Z[0m [32m INFO[0m [2mspark_model::layers::dflash_head::from_weights[0m[2m:[0m BlockDiffusionDraftHead loaded: 5 layers, hidden=5120, intermediate=17408, GQA 32/8, head_dim=128, gamma=16, ctx_window=4096, window_size=Some(4096), vocab=248077, mask_token_id=248070, target_layers=[1, 16, 31, 46, 61], rope=plain, sliding_window_layers=4/5, sliding_window=Some(2048), lm_head_projection=nvfp4
+[2m2026-05-22T18:53:08.837065Z[0m [32m INFO[0m [2mspark_model::factory::build[0m[2m:[0m DFlash drafter installed as the active proposer
+[2m2026-05-22T18:53:08.837125Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::runtime[0m[2m:[0m EOS tokens (from generation_config.json): [248046, 248044]
+[2m2026-05-22T18:53:08.837135Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::runtime[0m[2m:[0m Default sampling: temperature=1, top_k=20, top_p=0.95, top_n_sigma=1, min_p=0
+[2m2026-05-22T18:53:09.246204Z[0m [32m INFO[0m [2mspark::tokenizer::jinja_helpers[0m[2m:[0m Loaded standalone chat_template.jinja (7772 chars)
+[2m2026-05-22T18:53:09.246399Z[0m [32m INFO[0m [2mspark::tokenizer::chat_impl[0m[2m:[0m Loaded tokenizer from /home/dnola/models/Qwen3.6-27B-NVFP4-unsloth/tokenizer.json
+[2m2026-05-22T18:53:09.313248Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::tokenizer_runtime[0m[2m:[0m Reasoning parser: qwen (auto-detected from model_type 'qwen3_5')
+[2m2026-05-22T18:53:09.313338Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::tokenizer_runtime[0m[2m:[0m Thinking end token: 248069 (</think>)
+[2m2026-05-22T18:53:09.313340Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::tokenizer_runtime[0m[2m:[0m Thinking start token: 248068 (<think>)
+[2m2026-05-22T18:53:09.313343Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::tokenizer_runtime[0m[2m:[0m ChatML role-boundary hard stop: <|im_start|> (id 248045) registered
+[2m2026-05-22T18:53:09.313422Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::tokenizer_runtime[0m[2m:[0m Reflection suppression tokens: 7 IDs resolved
+[2m2026-05-22T18:53:09.313439Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::tokenizer_runtime[0m[2m:[0m Tool call start token: 248058 (<tool_call>)
+[2m2026-05-22T18:53:09.313442Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::tokenizer_runtime[0m[2m:[0m Tool call end token: 248059 (</tool_call>)
+[2m2026-05-22T18:53:09.628552Z[0m [32m INFO[0m [2mspark::grammar::engine[0m[2m:[0m Grammar: detected tokenizer vocab_type=byte_level, add_prefix_space=false
+[2m2026-05-22T18:53:09.769391Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::tokenizer_runtime[0m[2m:[0m Grammar engine initialized (vocab_size=248077, vocab_type=auto-detected from tokenizer)
+[2m2026-05-22T18:53:09.769851Z[0m [32m INFO[0m [2mspark::main_modules::serve[0m[2m:[0m DFlash speculative decoding: ENABLED (γ=16, window=4096, drafter installed)
+[2m2026-05-22T18:53:09.769857Z[0m [32m INFO[0m [2mspark::main_modules::serve[0m[2m:[0m Scheduling policy: FIFO
+[2m2026-05-22T18:53:09.770468Z[0m [32m INFO[0m [2mspark::scheduler[0m[2m:[0m Scheduler started (batched mode, max_batch=1, mtp=true, ngram=false, num_drafts=15, policy=fifo, chunked_prefill=true, max_prefill_tokens=8192)
+[2m2026-05-22T18:53:09.772460Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::runtime[0m[2m:[0m Tool call parser: qwen3_coder (auto-detected from model_type 'qwen3_5')
+[2m2026-05-22T18:53:09.772471Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::runtime[0m[2m:[0m Tool call parser: 'qwen3_coder' has registered XGrammar grammar — constrained decoding ENABLED for tool requests
+[2m2026-05-22T18:53:09.772480Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::runtime[0m[2m:[0m Response store: max_entries=10000, ttl=86400s, persist=memory-only
+[2m2026-05-22T18:53:09.772484Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::runtime[0m[2m:[0m Model behavior: thinking disabled when tools active (MODEL.toml)
+[2m2026-05-22T18:53:09.772485Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::runtime[0m[2m:[0m Model behavior: max_thinking_budget=512, thinking_default=false
+[2m2026-05-22T18:53:09.772487Z[0m [32m INFO[0m [2mspark::main_modules::serve_phases::runtime[0m[2m:[0m Model behavior: content-loop watchdog ENABLED (period-8…64 repetition detector)
+[2m2026-05-22T18:53:09.772708Z[0m [32m INFO[0m [2mspark::main_modules::serve_router[0m[2m:[0m API reachable only from this machine (loopback). To expose on the LAN pass --bind 0.0.0.0; combine with --require-auth and --auth-tokens-file for non-trusted networks.
+[2m2026-05-22T18:53:09.772711Z[0m [32m INFO[0m [2mspark::main_modules::serve_router[0m[2m:[0m Listening on 127.0.0.1:18080
+[2m2026-05-22T18:53:09.784041Z[0m [32m INFO[0m [2mspark::scheduler[0m[2m:[0m Swap space: 3 GB at /tmp/atlas-swap/

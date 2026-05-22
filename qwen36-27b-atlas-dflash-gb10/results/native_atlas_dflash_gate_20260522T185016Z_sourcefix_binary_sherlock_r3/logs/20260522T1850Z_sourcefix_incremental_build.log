@@ -1,0 +1,11 @@
+   Compiling atlas-core v0.1.0 (/build/crates/atlas-core)
+   Compiling atlas-kernels v0.1.1 (/build/crates/atlas-kernels)
+   Compiling spark-storage v0.1.0 (/build/crates/spark-storage)
+   Compiling xgrammar-rs v0.1.32 (/build/vendor/xgrammar-rs)
+warning: xgrammar-rs@0.1.32: xgrammar-rs: fetching XGrammar https://github.com/mlc-ai/xgrammar.git@v0.1.32 into /root/.cargo/xgrammar-rs-cache
+warning: xgrammar-rs@0.1.32: xgrammar-rs: dlpack submodule missing; fetching into cache at /root/.cargo/xgrammar-rs-cache
+warning: atlas-kernels@0.1.1: atlas-kernels: compiled 91 kernels for target 0 (gb10, qwen3.6-27b, nvfp4) (5 model-specific overrides)
+   Compiling spark-runtime v0.1.0 (/build/crates/spark-runtime)
+   Compiling spark-model v0.1.0 (/build/crates/spark-model)
+   Compiling spark-server v0.1.0 (/build/crates/spark-server)
+    Finished `release` profile [optimized] target(s) in 52.96s
