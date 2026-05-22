@@ -1,0 +1,6 @@
+{"event": "start", "host": "127.0.0.1", "port": 18091, "model": "mock-qwen36", "chunks": ["Hel", "lo", " world"], "completion_tokens": 2}
+"GET /v1/models HTTP/1.1" 200 -
+{"request_id": "mockcmpl-1", "path": "/v1/chat/completions", "request": {"model": "mock-qwen36", "messages": [{"role": "user", "content": " 0d1fc539-4a98-4ac3-a62f-9eb98c9b8e2c"}], "max_tokens": 2, "min_tokens": 2, "ignore_eos": true, "temperature": 0, "stream": true, "stream_options": {"include_usage": true}, "cache_prompt": false}}
+"POST /v1/chat/completions HTTP/1.1" 200 -
+{"request_id": "mockcmpl-2", "path": "/v1/chat/completions", "request": {"model": "mock-qwen36", "messages": [{"role": "user", "content": " bbfcb3fb-7efb-41a2-9108-8c3efa1d1e5e"}], "max_tokens": 2, "stream": true, "stream_options": {"include_usage": true}, "cache_prompt": false}}
+"POST /v1/chat/completions HTTP/1.1" 200 -
