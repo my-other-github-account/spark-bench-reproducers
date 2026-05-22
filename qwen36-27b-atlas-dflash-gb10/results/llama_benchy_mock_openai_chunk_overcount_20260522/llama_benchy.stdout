@@ -1,0 +1,23 @@
+llama-benchy (0.3.6)
+Date: 2026-05-22 13:12:53
+Benchmarking model: mock-qwen36 at http://127.0.0.1:18091/v1
+Concurrency levels: [1]
+Loading text from cache: /home/dnola/.cache/llama-benchy/cc6a0b5782734ee3b9069aa3b64cc62c.txt
+Total tokens available in text corpus: 144480
+
+Skipping coherence test (--skip-coherence specified)
+Skipping latency measurement (assuming 0 ms).
+Running test: pp=16, tg=2, depth=0, concurrency=1
+CODEX_BENCHY_TRACE generated prompt_batch run=1 concurrency=1 prompt_chars=[37] context_chars=[0]
+  Run 1/1 (batch size 1)...
+CODEX_BENCHY_TRACE enqueue generation run=1 index=0 prompt_chars=37 context_chars=0 max_tokens=2
+CODEX_BENCHY_TRACE before post context_chars=0 prompt_chars=37 max_tokens=2 no_cache=True
+CODEX_BENCHY_TRACE response status status=200
+CODEX_BENCHY_TRACE first response bytes len=191 dt=0.003198
+  No token_ids in response, using local tokenization
+Saving results to llama_benchy_mock_result.json in JSON format...
+
+
+
+llama-benchy (0.3.6)
+date: 2026-05-22 13:12:53 | latency mode: none

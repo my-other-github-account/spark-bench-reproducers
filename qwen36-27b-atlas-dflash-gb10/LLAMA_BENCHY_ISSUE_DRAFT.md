@@ -13,47 +13,81 @@ len(tokenizer.encode("".join(chunks), add_special_tokens=False)) != \
 
 Since SSE chunk boundaries are transport/application boundaries, not tokenizer boundaries, summing per-chunk tokenization can overcount generated tokens. For fixed-generation benchmarks this can inflate throughput versus the server's final `usage.completion_tokens` metadata.
 
-## Minimal repro
+## Minimal repro with a mock OpenAI-compatible server
 
-This uses the Qwen tokenizer only as an example; the bug is generic to BPE-style tokenizers and arbitrary text chunking.
+This repro is intentionally an actual llama-benchy run, not just a standalone tokenizer example.
 
-```python
-from transformers import AutoTokenizer
+Mock server behavior:
 
-tok = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-0.5B-Instruct")
+1. Serve `GET /v1/models`.
+2. Accept `POST /v1/chat/completions` with `stream=true`.
+3. Stream `delta.content` chunks with no `choices[0].token_ids`:
+   - `"Hel"`
+   - `"lo"`
+   - `" world"`
+4. Finish the stream with authoritative usage metadata:
+   - `usage.completion_tokens = 2`
 
-examples = [
-    ["Hel", "lo", " world"],
-    [" multi", "-", "token", " boundary"],
-]
-
-for chunks in examples:
-    text = "".join(chunks)
-    joint_ids = tok.encode(text, add_special_tokens=False)
-    chunk_ids = [tok.encode(c, add_special_tokens=False) for c in chunks]
-    print("chunks:", chunks)
-    print("text:", repr(text))
-    print("joint token count:", len(joint_ids), joint_ids)
-    print("sum chunk token count:", sum(len(x) for x in chunk_ids), chunk_ids)
-    print("overcount:", sum(len(x) for x in chunk_ids) - len(joint_ids))
-    print()
-```
-
-Expected/observed shape with Qwen-family tokenizer:
+For the Qwen3.6 tokenizer, the joined completion is two tokens:
 
 ```text
 chunks: ['Hel', 'lo', ' world']
-text: 'Hello world'
-joint token count: 2
-sum chunk token count: 3
-overcount: 1
-
-chunks: [' multi', '-', 'token', ' boundary']
-text: ' multi-token boundary'
-joint token count: 3
-sum chunk token count: 4
+joined text: 'Hello world'
+joined token IDs: [9419, 1814]
+joined token count: 2
+per-chunk token IDs: [[31628], [379], [1814]]
+sum per-chunk token count: 3
 overcount: 1
 ```
+
+Run shape:
+
+```bash
+python scripts/mock_openai_chunk_server.py \
+  --port 18091 \
+  --completion-tokens 2 \
+  --log server.log
+
+llama-benchy \
+  --base-url http://127.0.0.1:18091/v1 \
+  --api-key [REDACTED] \
+  --model mock-qwen36 \
+  --served-model-name mock-qwen36 \
+  --tokenizer /path/to/Qwen3.6-tokenizer \
+  --pp 16 --tg 2 --depth 0 --concurrency 1 --runs 1 \
+  --no-cache --no-adapt-prompt --no-warmup \
+  --latency-mode none --skip-coherence \
+  --format json
+```
+
+Observed llama-benchy legacy output includes:
+
+```text
+No token_ids in response, using local tokenization
+```
+
+Saved repro receipts from this exact mock-server run are in:
+
+`results/llama_benchy_mock_openai_chunk_overcount_20260522/`
+
+Key saved artifacts:
+
+- `server.log` — mock OpenAI request log
+- `llama_benchy_legacy.stdout` — llama-benchy fallback warning
+- `llama_benchy_legacy_mock_result.json` — legacy overcounting result
+- `mock_openai_chunk_overcount_summary.json` — token IDs/counts and comparison summary
+
+Observed comparison in the saved summary:
+
+```text
+authoritative usage.completion_tokens: 2
+chunk-local fallback token count: 3
+overcount: 1
+legacy reported TG throughput: 47.14584479457639
+usage-fixed reported TG throughput: 23.29621120797717
+```
+
+The throughput values are timing-sensitive; the token-count mismatch is the bug.
 
 ## Why this matters for llama-benchy
 
