@@ -1,0 +1,59 @@
+{
+  "aggregate_ar_tps": 13.529110263058557,
+  "aggregate_dflash_tps": 12.85175781290767,
+  "aggregate_percent_improvement": -5.006629682074582,
+  "aggregate_ratio": 0.9499337031792542,
+  "all_exact_token_accounting_ok": true,
+  "all_rows_ratio_ok": false,
+  "gate_pass": false,
+  "required_dflash_tps": 16.71912,
+  "required_ratio": 1.2,
+  "rows": {
+    "dflash-sherlock-pp2048-tg128": {
+      "ar_audit": "/home/dnola/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T_default_benchy_thinkon_r3/receipts/ar-sherlock-pp2048-tg128_usage_audit.json",
+      "ar_completion_tokens_max": 128,
+      "ar_completion_tokens_min": 128,
+      "ar_completion_tokens_total": 384,
+      "ar_exact_token_accounting_ok": true,
+      "ar_llama_benchy_json": "/home/dnola/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T_default_benchy_thinkon_r3/receipts/ar-sherlock-pp2048-tg128.json",
+      "ar_proxy_jsonl": "/home/dnola/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T_default_benchy_thinkon_r3/receipts/ar-sherlock-pp2048-tg128_proxy_usage.jsonl",
+      "ar_tps": 13.529110263058557,
+      "ar_usage_completion_tokens": [
+        128,
+        128,
+        128
+      ],
+      "dflash_audit": "/home/dnola/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T_default_benchy_thinkon_r3/receipts/dflash-sherlock-pp2048-tg128_usage_audit.json",
+      "dflash_completion_tokens_max": 128,
+      "dflash_completion_tokens_min": 128,
+      "dflash_completion_tokens_total": 384,
+      "dflash_exact_token_accounting_ok": true,
+      "dflash_llama_benchy_json": "/home/dnola/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T_default_benchy_thinkon_r3/receipts/dflash-sherlock-pp2048-tg128.json",
+      "dflash_proxy_jsonl": "/home/dnola/qwen36_genuine_ddtree_dflash_30pct_goal_20260519_130950/native_atlas_dflash_gate_20260522T_default_benchy_thinkon_r3/receipts/dflash-sherlock-pp2048-tg128_proxy_usage.jsonl",
+      "dflash_tps": 12.85175781290767,
+      "dflash_usage_completion_tokens": [
+        128,
+        128,
+        128
+      ],
+      "percent_improvement": -5.006629682074582,
+      "ratio": 0.9499337031792542,
+      "same_target_generation_tokens": true,
+      "target_generation_tokens": 128
+    }
+  },
+  "server_markers": {
+    "BlockDiffusionDraftHead loaded": true,
+    "DFLASH K=gamma verify": true,
+    "DFlash K=gamma verifier hidden carry active": true,
+    "DFlash ctx_window = 4096": true,
+    "DFlash fast K=16 FFN/GEMM path active": true,
+    "DFlash speculative decoding: ENABLED": true,
+    "block_gamma=16": true,
+    "gamma=16": true,
+    "mask_token_id=248070": true,
+    "rope=plain": true,
+    "target_layers=[1, 16, 31, 46, 61]": true
+  },
+  "server_markers_ok": true
+}

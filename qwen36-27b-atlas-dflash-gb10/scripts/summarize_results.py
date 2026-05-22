@@ -3,10 +3,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-RUNS = [
-    ROOT / "results/native_atlas_dflash_gate_20260522T1134Z_decodefixed_fullgate_r3_benchy3",
-    ROOT / "results/native_atlas_dflash_gate_20260522T1157Z_decodefixed_benchy_codegen_cell_r3",
-]
+RUNS = sorted((ROOT / "results").glob("native_atlas_dflash_gate_*"))
 
 def load(path):
     with open(path) as f:
