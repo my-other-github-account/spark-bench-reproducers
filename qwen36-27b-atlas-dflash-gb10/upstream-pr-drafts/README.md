@@ -4,6 +4,10 @@ This folder is a reviewer-facing draft stack for turning the local Atlas DFlash 
 
 The important constraint: these are **not blind patch dumps**. Each PR is framed around an end-user-visible behavior change with a realistic OpenAI-compatible repro and before/after acceptance criteria.
 
+## Execution checklist
+
+- `TODO_CHECKLIST.md` is the active queue for sorting the draft PR TODOs into clean branches, before/after receipts, and draft PRs.
+
 ## Draft PRs
 
 1. `pr1-fixed-length-generation.md`
