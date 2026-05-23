@@ -1,15 +1,17 @@
-# Add verified DFlash speculative decoding
+# Fix verified state handling in DFlash decoding
 
 ## Summary
 
-This adds the correctness plumbing needed for DFlash speculative decoding.
+This fixes the existing DFlash decode path so its committed state stays consistent with the target model verifier.
 
-DFlash is a draft head: it proposes several future tokens at once, then the main model verifies those tokens before anything is committed to the response. The user-visible contract should be the same as normal autoregressive decoding: DFlash may make generation faster, but it must not change which tokens are accepted by the target model.
+Atlas already has DFlash support. This PR does not replace that implementation and does not introduce a separate speculative decoding system. It tightens the existing DFlash path so a draft block is only committed after target-model verification, and any rejected suffix is removed before generation continues.
+
+DFlash is a draft head: it proposes several future tokens at once, then the main model verifies those tokens before they become part of the response. The user-visible contract is the same as normal autoregressive decoding: DFlash may make generation faster, but it should not change the target model's accepted token stream.
 
 ## What changed
 
-- Add the DFlash proposer state needed across decode steps.
-- Run draft blocks through the target-model verifier before committing them.
+- Preserve the proposer state needed across existing DFlash decode steps.
+- Run DFlash draft blocks through the target-model verifier before committing them.
 - Commit only the verifier-accepted prefix.
 - Roll back rejected draft tokens from sequence state, recurrent/GDN state, and proposer context.
 - Keep the target-model projection available for verified scoring with quantized weights.
@@ -50,5 +52,5 @@ git diff --check
 
 ## Notes
 
-This PR is about making DFlash a genuine verified speculative decode path. It intentionally leaves the later proposer/cache/kernel speedups for the next PR.
+This PR is a correction to the existing DFlash implementation. It intentionally leaves the later proposer/cache/kernel speedups for the next PR.
 
