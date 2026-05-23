@@ -8,11 +8,21 @@ Atlas already has DFlash support. This PR does not replace that implementation a
 
 DFlash is a draft head: it proposes several future tokens at once, then the main model verifies those tokens before they become part of the response. The user-visible contract is the same as normal autoregressive decoding: DFlash may make generation faster, but it should not change the target model's accepted token stream.
 
+## What was missing before
+
+The existing code had the DFlash files and scheduler path, but it was still incomplete in a few important places:
+
+- The K=gamma path was effectively guarded by a safe draft cap, so it was not running the intended full DFlash block by default.
+- After verifier acceptance, the proposer did not carry forward the target hidden-state context for the whole verified block.
+- Rejected draft rows could remain in the proposer context, so the next draft could be conditioned on tokens that were not actually accepted.
+- The DFlash block row layout was not aligned with the reference convention where row 0 is the already-emitted token and the following rows are speculative drafts.
+- Quantized verifier scoring did not have the target-model projection wired through the DFlash path.
+
 ## What changed
 
-- Preserve the proposer state needed across existing DFlash decode steps.
-- Run DFlash draft blocks through the target-model verifier before committing them.
-- Commit only the verifier-accepted prefix.
+- Use the existing DFlash proposer and verifier path for the full draft block instead of the one-token safety cap.
+- Stage capture-layer hidden states for every row in the verifier block.
+- Append those staged verifier rows into the DFlash proposer context, then trim them to row 0 plus the accepted draft prefix.
 - Roll back rejected draft tokens from sequence state, recurrent/GDN state, and proposer context.
 - Keep the target-model projection available for verified scoring with quantized weights.
 
