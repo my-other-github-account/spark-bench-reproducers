@@ -1,25 +1,51 @@
 ## Summary
 
-Makes the DFlash decode path preserve the same committed-token state as normal autoregressive decoding.
+This adds the correctness plumbing needed for DFlash speculative decoding.
 
-DFlash can draft a block of tokens, but only the verifier-accepted prefix is committed. Any rejected suffix is removed from the sequence and from the recurrent/proposer state before decoding continues.
+DFlash is a draft head: it proposes several future tokens at once, then the main model verifies those tokens before anything is committed to the response. The user-visible contract should be the same as normal autoregressive decoding: DFlash may make generation faster, but it must not change which tokens are accepted by the target model.
 
 ## What changed
 
-- Keep target-model hidden state available for the DFlash proposer.
-- Commit only the verifier-accepted prefix after each draft block.
-- Roll back rejected draft tokens from sequence state and recurrent/GDN state.
-- Trim proposer context so the next draft starts from the verified prefix.
-- Use the target model's output projection for verifier-equivalent draft scoring on quantized models.
+- Add the DFlash proposer state needed across decode steps.
+- Run draft blocks through the target-model verifier before committing them.
+- Commit only the verifier-accepted prefix.
+- Roll back rejected draft tokens from sequence state, recurrent/GDN state, and proposer context.
+- Keep the target-model projection available for verified scoring with quantized weights.
 
-## Validation
+## How I verified it
 
-- Ran the deterministic Sherlock fixed-token benchmark with DFlash enabled.
-- The DFlash verifier path is active during generation.
-- Logs show mixed acceptance lengths, including zero, partial, and full-block accepts, which confirms the verifier is deciding per block rather than blindly accepting drafts.
-- Completion-token accounting matches the AR run: `[128, 128, 128]`.
-- `git diff --check` passes.
+I ran a deterministic 128-token completion with DFlash enabled and checked that the verifier was actually participating in generation rather than blindly accepting draft tokens.
+
+Request used:
+
+```bash
+qwen36-27b-atlas-dflash-gb10/upstream-pr-drafts/requests/ar-vs-dflash-sherlock-128.json
+```
+
+Benchmark/client command shape:
+
+```bash
+python3 qwen36-27b-atlas-dflash-gb10/upstream-pr-drafts/scripts/repro_client.py \
+  --url http://127.0.0.1:8000/v1/chat/completions \
+  --request qwen36-27b-atlas-dflash-gb10/upstream-pr-drafts/requests/ar-vs-dflash-sherlock-128.json \
+  --runs 3
+```
+
+The run produced exact 128-token completions in both modes:
+
+```text
+AR:     [128, 128, 128]
+DFlash: [128, 128, 128]
+```
+
+The DFlash server logs contained verifier lines with mixed accept lengths, including zero-token, partial, and full-block accepts. That shows the verifier is deciding per block; the draft path is not force-accepting everything.
+
+I also ran:
+
+```bash
+git diff --check
+```
 
 ## Notes
 
-This PR is about correctness of the verified decode state. It does not include the later fast-path kernel/cache optimizations.
+This PR is about making DFlash a genuine verified speculative decode path. It intentionally leaves the later proposer/cache/kernel speedups for the next PR.
