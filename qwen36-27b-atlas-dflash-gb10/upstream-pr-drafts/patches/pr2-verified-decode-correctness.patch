@@ -1,0 +1,3210 @@
+From bb4953cfae0e628fef87da8b545e7514a2a1e539 Mon Sep 17 00:00:00 2001
+From: my-other-github-account
+ <82987814+my-other-github-account@users.noreply.github.com>
+Date: Fri, 22 May 2026 21:11:57 -0700
+Subject: [PATCH] Preserve DFlash verified decode state
+
+---
+ crates/spark-model/src/factory/build.rs       |  20 +-
+ crates/spark-model/src/layers/dflash_head.rs  | 168 ++++++++-
+ .../src/layers/dflash_head/forward_block.rs   | 244 ++++++++-----
+ .../layers/dflash_head/forward_block_layer.rs | 344 +++++++++---------
+ .../src/layers/dflash_head/from_weights.rs    | 232 ++++++++----
+ .../src/layers/dflash_head/propose.rs         | 327 ++++++++++++++---
+ crates/spark-model/src/layers/mtp_head.rs     |   2 +-
+ crates/spark-model/src/layers/mtp_multi.rs    |   2 +-
+ .../spark-model/src/layers/ops/ssm_gdn_b.rs   |  55 +++
+ .../spark-model/src/layers/ops/ssm_mamba.rs   |  46 +++
+ .../spark-model/src/layers/qwen3_ssm/init.rs  |  10 +
+ .../spark-model/src/layers/qwen3_ssm/mod.rs   |   4 +
+ .../layers/qwen3_ssm/trait_decode_batched.rs  |  31 +-
+ .../trait_decode_batched_conv_gdn.rs          |  79 ++++
+ crates/spark-model/src/model/impl_a1.rs       |  15 +
+ crates/spark-model/src/model/impl_a3.rs       |  50 ++-
+ crates/spark-model/src/model/impl_b3.rs       | 247 +++++++++++++
+ .../spark-model/src/model/trait_impl/meta.rs  |  50 ++-
+ .../spark-model/src/model/trait_impl/mod.rs   |   8 +
+ .../src/model/trait_impl/sequence.rs          |   2 +-
+ .../src/model/trait_impl/verify_d.rs          |  30 +-
+ crates/spark-model/src/model/types.rs         |   7 +
+ crates/spark-model/src/speculative.rs         |   4 +-
+ crates/spark-model/src/traits/model.rs        |  17 +
+ .../src/weight_loader/dflash_loader.rs        |  34 ++
+ .../src/weight_loader/gemma4/loader_a.rs      |   1 +
+ .../src/weight_loader/qwen35_dense.rs         |  90 +++--
+ crates/spark-server/src/main_modules/serve.rs |   5 +-
+ .../src/scheduler/verify_dflash_step.rs       |  53 ++-
+ 29 files changed, 1670 insertions(+), 507 deletions(-)
+
+diff --git a/crates/spark-model/src/factory/build.rs b/crates/spark-model/src/factory/build.rs
+index 0284033..2e82164 100644
+--- a/crates/spark-model/src/factory/build.rs
++++ b/crates/spark-model/src/factory/build.rs
+@@ -56,21 +56,19 @@ pub fn build_model(
+     // capture-layer indices from the drafter's `dflash_config.target_layer_ids`
+     // so `TransformerModel::new` allocates the 5×hidden_size capture buffer.
+     //
+-    // HF `output_hidden_states[i]` semantics: index 0 = post-embedding,
+-    // index k>=1 = post-layer-(k-1). The drafter's `target_layer_ids`
+-    // are interpreted as HF `output_hidden_states` indices (so layer_id=1
+-    // means post-layer-0). Atlas captures AFTER `layer.decode()` for the
+-    // listed `dflash_capture_layers` index — to match HF semantics we
+-    // subtract 1 from each id (clamped at 0). Set
+-    // ATLAS_DFLASH_CAPTURE_LAYER_OFFSET=0 to disable this adjustment for
+-    // a back-to-back A/B test.
++    // The z-lab DFlash reference selects
++    // `output_hidden_states[layer_id + 1]`: HF index 0 is embeddings and
++    // index `layer_id + 1` is the post-output of target layer `layer_id`.
++    // Atlas captures immediately after `layer.decode()` for the listed
++    // zero-based layer index, so the drafter's raw target_layer_ids map
++    // directly to Atlas layer indices.
+     if let Some(ref args) = dflash_args
+         && let Some(ref sub) = args.drafter_config.dflash_config
+     {
+         let offset: i64 = std::env::var("ATLAS_DFLASH_CAPTURE_LAYER_OFFSET")
+             .ok()
+             .and_then(|s| s.parse().ok())
+-            .unwrap_or(-1);
++            .unwrap_or(0);
+         config.dflash_capture_layers = sub
+             .target_layer_ids
+             .iter()
+@@ -347,7 +345,9 @@ pub fn build_model(
+     // so this clones the device pointer cheaply.
+     let target_embed_for_dflash = embed.weight;
+     let target_lm_head_for_dflash = lm_head.weight;
++    let target_lm_head_nvfp4_for_dflash = lm_head_nvfp4;
+     let target_hidden_for_dflash = config.hidden_size;
++    let target_vocab_for_dflash = config.vocab_size;
+ 
+     let mut model = TransformerModel::new(
+         config,
+@@ -391,7 +391,9 @@ pub fn build_model(
+                 weights,
+                 target_embed_for_dflash,
+                 target_lm_head_for_dflash,
++                target_lm_head_nvfp4_for_dflash,
+                 target_hidden_for_dflash,
++                target_vocab_for_dflash,
+                 args.gamma,
+                 args.window_size,
+                 model.gpu_backend(),
+diff --git a/crates/spark-model/src/layers/dflash_head.rs b/crates/spark-model/src/layers/dflash_head.rs
+index f2f06b9..a60787f 100644
+--- a/crates/spark-model/src/layers/dflash_head.rs
++++ b/crates/spark-model/src/layers/dflash_head.rs
+@@ -24,7 +24,7 @@ use spark_runtime::gpu::{DevicePtr, GpuBackend, KernelHandle};
+ use spark_runtime::kv_cache::PagedKvCache;
+ 
+ use crate::speculative::{DraftProposer, ProposerState};
+-use crate::weight_map::DenseWeight;
++use crate::weight_map::{DenseWeight, QuantizedWeight};
+ 
+ /// Kernel handles for the DFlash γ-block forward chain. All resolved once
+ /// at `BlockDiffusionDraftHead::from_weights` against the active GPU backend
+@@ -35,6 +35,10 @@ pub struct DflashKernels {
+     pub residual_rms_norm: KernelHandle,
+     pub dense_gemv: KernelHandle,
+     pub dense_gemm: KernelHandle,
++    pub w4a16_gemm: KernelHandle,
++    pub w4a16_gemm_t: KernelHandle,
++    pub w4a16_gemv_batch2: KernelHandle,
++    pub w4a16_gemv_batch3: KernelHandle,
+     pub rope_qwen3: KernelHandle,
+     pub reshape_cache_fp8: KernelHandle,
+     pub prefill_attn_dflash_fp8: KernelHandle,
+@@ -45,6 +49,8 @@ pub struct DflashKernels {
+     /// Non-paged prefill attention (used for the γ-block self-attention
+     /// when there's no persistent K/V cache to walk).
+     pub prefill_attn: KernelHandle,
++    /// Non-paged DFlash attention: γ query rows over ctx+γ K/V rows.
++    pub prefill_attn_qkv: KernelHandle,
+ }
+ 
+ /// Per-step scratch buffers for the γ-block forward.
+@@ -90,6 +96,9 @@ pub enum DflashQuantization {
+ /// drafter quantization is deferred (see `DflashQuantization`).
+ #[allow(dead_code)]
+ pub struct DflashLayer {
++    /// Drafter-side sliding-window size for layers whose checkpoint
++    /// `layer_types` entry is `sliding_attention`.
++    pub sliding_window: Option<usize>,
+     // Norms
+     pub input_layernorm: DenseWeight,
+     pub post_attention_layernorm: DenseWeight,
+@@ -135,14 +144,41 @@ pub struct DflashProposerState {
+     /// circular — fail-fast if exceeded (drafter can't handle longer
+     /// context than allocated).
+     pub ctx_hidden_acc: DevicePtr,
++    /// Cached output of `hidden_norm(fc(ctx_hidden_acc[row]))`. Layout:
++    /// `[max_ctx_len, draft_hidden]` BF16. `propose()` appends projections
++    /// lazily for newly committed rows so the drafter no longer reprojects
++    /// the full context prefix every step.
++    pub ctx_proj_acc: DevicePtr,
++    /// Cached per-layer ctx K/V after k_proj/v_proj, k_norm, and RoPE.
++    /// Layout per layer: `K[max_ctx_len, kv_dim]` then
++    /// `V[max_ctx_len, kv_dim]`, BF16. This mirrors the reference
++    /// precompute-context-KV path and avoids per-step ctx K/V reprojection.
++    pub ctx_kv_acc: DevicePtr,
+     /// Number of populated slots in `ctx_hidden_acc`. Capped at `max_ctx_len`.
+     pub ctx_len: usize,
++    /// Number of populated projected slots in `ctx_proj_acc`.
++    pub ctx_proj_len: usize,
++    /// Number of populated per-layer K/V slots in `ctx_kv_acc`.
++    pub ctx_kv_len: usize,
++    /// Start slot for the latest verifier-staged context rows. These rows are
++    /// tentatively appended before accept-prefix resolution, then trimmed in
++    /// `after_verify` to match the accepted prefix.
++    pub pending_ctx_start: usize,
++    /// Number of verifier-staged rows tentatively present after
++    /// `pending_ctx_start`.
++    pub pending_ctx_rows: usize,
+     /// Allocation cap for `ctx_hidden_acc` (in slot count). Mirrors the
+     /// `max_seq_len` build arg so we can clamp without re-fetching it.
+     pub max_ctx_len: usize,
+     /// Width (bytes) of one `ctx_hidden_acc` slot — `5 * target_hidden * bf16`.
+     /// Stored to avoid re-deriving on every append.
+     pub ctx_slot_bytes: usize,
++    /// Width (bytes) of one `ctx_proj_acc` slot — `draft_hidden * bf16`.
++    pub ctx_proj_slot_bytes: usize,
++    /// Width (bytes) of one K or V slot in `ctx_kv_acc`.
++    pub ctx_kv_slot_bytes: usize,
++    /// Width (bytes) of one layer in `ctx_kv_acc`: K table + V table.
++    pub ctx_kv_layer_stride_bytes: usize,
+ }
+ 
+ impl ProposerState for DflashProposerState {
+@@ -192,6 +228,10 @@ pub struct BlockDiffusionDraftHead {
+     /// Target's lm_head GPU pointer. Used for the drafter's per-position
+     /// argmax over `[γ, vocab]` logits.
+     pub lm_head_shared: DevicePtr,
++    /// Target's NVFP4 lm_head when the verifier uses it. DFlash must score
++    /// candidates through the same projection as the verifier, otherwise
++    /// acceptance compares BF16-drafter argmaxes against NVFP4-target argmaxes.
++    pub lm_head_nvfp4: Option<QuantizedWeight>,
+ 
+     // === Weights from the drafter checkpoint ===
+     /// Hidden-norm applied to the projected target context before mixing
+@@ -231,13 +271,14 @@ pub struct BlockDiffusionDraftHead {
+     /// Used by `alloc_state` to size each new sequence's `ctx_hidden_acc`.
+     pub max_seq_len: usize,
+ 
+-    /// Pre-computed yarn inv_freq table (`[head_dim/2]` f32 on GPU).
+-    /// Drafter rope_scaling: factor=64, beta_fast=32, beta_slow=1,
+-    /// original_max_position_embeddings=4096 (per drafter config.json).
++    /// Pre-computed inv_freq table (`[head_dim/2]` f32 on GPU). Used when
++    /// the drafter checkpoint requests YaRN RoPE; plain RoPE uses theta
++    /// directly through `rope_forward`.
+     pub yarn_inv_freq: DevicePtr,
++    /// True when the drafter checkpoint config requests YaRN RoPE.
++    pub rope_uses_yarn: bool,
+ 
+-    /// rope_theta (10000000 for Qwen3.6-DFlash). Stored to pass into the
+-    /// rope_yarn kernel each step.
++    /// Drafter RoPE theta, read from the drafter checkpoint config.
+     pub rope_theta: f32,
+ 
+     /// rotary_dim. Drafter uses full-rotation (rotary_dim = head_dim = 128).
+@@ -271,18 +312,68 @@ impl DraftProposer for BlockDiffusionDraftHead {
+         let bf16 = 2usize;
+         let ctx_slot_bytes = self.target_layer_ids.len() * self.target_hidden_size * bf16;
+         let total = self.max_seq_len * ctx_slot_bytes;
++        let cleanup = |ctx_hidden_acc: Option<spark_runtime::gpu::DevicePtr>,
++                       ctx_proj_acc: Option<spark_runtime::gpu::DevicePtr>,
++                       ctx_kv_acc: Option<spark_runtime::gpu::DevicePtr>| {
++            for ptr in [ctx_hidden_acc, ctx_proj_acc, ctx_kv_acc].into_iter().flatten() {
++                if let Err(e) = gpu.free(ptr) {
++                    tracing::error!("DFlash alloc_state cleanup: gpu.free({:?}): {e:#}", ptr);
++                }
++            }
++        };
++
+         let ctx_hidden_acc = gpu.alloc(total)?;
++        let ctx_proj_slot_bytes = self.hidden_size * bf16;
++        let ctx_proj_total = self.max_seq_len * ctx_proj_slot_bytes;
++        let ctx_proj_acc = match gpu.alloc(ctx_proj_total) {
++            Ok(ptr) => ptr,
++            Err(e) => {
++                cleanup(Some(ctx_hidden_acc), None, None);
++                return Err(e);
++            }
++        };
++        let kv_dim = self.num_kv_heads * self.head_dim;
++        let ctx_kv_slot_bytes = kv_dim * bf16;
++        let ctx_kv_layer_stride_bytes = self.max_seq_len * ctx_kv_slot_bytes * 2;
++        let ctx_kv_total = self.num_layers * ctx_kv_layer_stride_bytes;
++        let ctx_kv_acc = match gpu.alloc(ctx_kv_total) {
++            Ok(ptr) => ptr,
++            Err(e) => {
++                cleanup(Some(ctx_hidden_acc), Some(ctx_proj_acc), None);
++                return Err(e);
++            }
++        };
+         // Initialize to zero so stale data doesn't leak between sequences.
+-        gpu.memset(ctx_hidden_acc, 0, total)?;
++        if let Err(e) = gpu.memset(ctx_hidden_acc, 0, total) {
++            cleanup(Some(ctx_hidden_acc), Some(ctx_proj_acc), Some(ctx_kv_acc));
++            return Err(e);
++        }
++        if let Err(e) = gpu.memset(ctx_proj_acc, 0, ctx_proj_total) {
++            cleanup(Some(ctx_hidden_acc), Some(ctx_proj_acc), Some(ctx_kv_acc));
++            return Err(e);
++        }
++        if let Err(e) = gpu.memset(ctx_kv_acc, 0, ctx_kv_total) {
++            cleanup(Some(ctx_hidden_acc), Some(ctx_proj_acc), Some(ctx_kv_acc));
++            return Err(e);
++        }
+         Ok(Box::new(DflashProposerState {
+             block_table: Vec::with_capacity(64),
+             seq_len: 0,
+             last_num_drafted: 0,
+             prefill_done: false,
+             ctx_hidden_acc,
++            ctx_proj_acc,
++            ctx_kv_acc,
+             ctx_len: 0,
++            ctx_proj_len: 0,
++            ctx_kv_len: 0,
++            pending_ctx_start: 0,
++            pending_ctx_rows: 0,
+             max_ctx_len: self.max_seq_len,
+             ctx_slot_bytes,
++            ctx_proj_slot_bytes,
++            ctx_kv_slot_bytes,
++            ctx_kv_layer_stride_bytes,
+         }))
+     }
+ 
+@@ -323,17 +414,66 @@ impl DraftProposer for BlockDiffusionDraftHead {
+             .as_any_mut()
+             .downcast_mut::<DflashProposerState>()
+             .ok_or_else(|| anyhow::anyhow!("Invalid DFlash proposer state"))?;
+-        // Phase 1: no real KV trim because `propose()` is a stub. Phase 2
+-        // adds the rollback that drops `(last_num_drafted - num_accepted)`
+-        // tokens from each layer's paged cache.
+-        let _ = num_accepted;
++        if dstate.pending_ctx_rows > 0 {
++            // Reference DFlash keeps target-hidden context for the current
++            // block's row 0 plus accepted draft rows, then crops away the
++            // rejected/future rows. The bonus token is only the next row-0
++            // embedding, so its hidden is not appended yet.
++            let keep_rows = (num_accepted + 1).min(dstate.pending_ctx_rows);
++            let new_len = dstate
++                .pending_ctx_start
++                .saturating_add(keep_rows)
++                .min(dstate.max_ctx_len);
++            dstate.ctx_len = new_len;
++            if dstate.ctx_proj_len > dstate.ctx_len {
++                dstate.ctx_proj_len = dstate.ctx_len;
++            }
++            if dstate.ctx_kv_len > dstate.ctx_len {
++                dstate.ctx_kv_len = dstate.ctx_len;
++            }
++            dstate.pending_ctx_start = 0;
++            dstate.pending_ctx_rows = 0;
++        }
+         dstate.last_num_drafted = 0;
+         Ok(())
+     }
+ 
+-    fn free_state(&self, _state: &mut dyn ProposerState) -> Result<()> {
+-        // Phase 1: nothing to free (no allocated KV blocks yet). Phase 2
+-        // reclaims paged blocks across all drafter layers.
++    fn free_state(
++        &self,
++        state: &mut dyn ProposerState,
++        gpu: &dyn spark_runtime::gpu::GpuBackend,
++    ) -> Result<()> {
++        let dstate = state
++            .as_any_mut()
++            .downcast_mut::<DflashProposerState>()
++            .ok_or_else(|| anyhow::anyhow!("Invalid DFlash proposer state"))?;
++        let mut first_error = None;
++        let mut free_owned = |name: &str, ptr: &mut DevicePtr| {
++            if ptr.0 == 0 {
++                return;
++            }
++            let owned = *ptr;
++            if let Err(e) = gpu.free(owned) {
++                tracing::error!("DFlash free_state: gpu.free({name}={owned:?}): {e:#}");
++                if first_error.is_none() {
++                    first_error = Some(e);
++                }
++            }
++            *ptr = DevicePtr(0);
++        };
++        free_owned("ctx_hidden_acc", &mut dstate.ctx_hidden_acc);
++        free_owned("ctx_proj_acc", &mut dstate.ctx_proj_acc);
++        free_owned("ctx_kv_acc", &mut dstate.ctx_kv_acc);
++        dstate.block_table.clear();
++        dstate.seq_len = 0;
++        dstate.ctx_len = 0;
++        dstate.ctx_proj_len = 0;
++        dstate.ctx_kv_len = 0;
++        dstate.pending_ctx_start = 0;
++        dstate.pending_ctx_rows = 0;
++        if let Some(e) = first_error {
++            return Err(e);
++        }
+         Ok(())
+     }
+ }
+diff --git a/crates/spark-model/src/layers/dflash_head/forward_block.rs b/crates/spark-model/src/layers/dflash_head/forward_block.rs
+index e32829f..214e87c 100644
+--- a/crates/spark-model/src/layers/dflash_head/forward_block.rs
++++ b/crates/spark-model/src/layers/dflash_head/forward_block.rs
+@@ -20,6 +20,7 @@ impl BlockDiffusionDraftHead {
+         ctx: &ForwardContext,
+         stream: u64,
+         ctx_buffer: Option<(DevicePtr, usize)>,
++        ctx_kv_buffer: Option<(DevicePtr, usize, usize, usize)>,
+     ) -> Result<Vec<u32>> {
+         use crate::layers::ops;
+ 
+@@ -31,6 +32,9 @@ impl BlockDiffusionDraftHead {
+         let bf16 = 2usize;
+         let inv_sqrt_d = 1.0f32 / (self.head_dim as f32).sqrt();
+         let gpu = ctx.gpu;
++        let timing = std::env::var("ATLAS_DFLASH_TIMING").ok().as_deref() == Some("1");
++        let total_t0 = std::time::Instant::now();
++        let mut stage_t0 = total_t0;
+ 
+         // Determine effective ctx_len: capped by the configured ctx_window
+         // and the accumulator's actual fill. Use the LAST `eff_ctx` ctx
+@@ -53,9 +57,13 @@ impl BlockDiffusionDraftHead {
+             }
+             None => (None, 0, 0),
+         };
++        let (ctx_kv_base_ptr, ctx_kv_total, ctx_kv_slot_bytes, ctx_kv_layer_stride_bytes) =
++            match ctx_kv_buffer {
++                Some((p, n, slot, stride)) => (Some(p), n, slot, stride),
++                None => (None, 0, 0, 0),
++            };
+         let n_attn = (eff_ctx + self.gamma) as u32;
+-        let target_hidden_dim = self.target_layer_ids.len() * self.target_hidden_size;
+-        let ctx_slot_bytes = target_hidden_dim * bf16;
++        let ctx_slot_bytes = self.hidden_size * bf16;
+ 
+         // Debug dump gated by env var: prints first 10 BF16 floats of key
+         // intermediates so a Python reference run on the same checkpoint
+@@ -79,53 +87,21 @@ impl BlockDiffusionDraftHead {
+             Ok(())
+         };
+ 
+-        // ── Step 0: fc projection of captured target hiddens ──
+-        // For each of the `eff_ctx` most-recent ctx positions, run a GEMV
+-        // through `self.fc` (input: 10240 BF16 → output: 2048 BF16) and
+-        // then per-row RMSNorm through `self.hidden_norm`. Results land
+-        // contiguously in `scratch.fc_proj` shaped `[eff_ctx, hidden]`.
++        // ── Step 0: stage cached projected ctx ──
++        // `propose()` lazily fills the per-sequence cache with
++        // hidden_norm(fc(target_hidden_stack[row])) and per-layer K/V.
++        // The hot path no longer needs to stage projected rows here.
+         if let Some(base) = ctx_base_ptr {
+-            // Walk the LAST `eff_ctx` slots of the accumulator.
+             let start_slot = ctx_total.saturating_sub(eff_ctx);
+-            // ATLAS_DFLASH_DEBUG_FORCE_PATTERN=1 overwrites the captured
+-            // target_hidden_stack with a deterministic test pattern so a
+-            // PyTorch reference run on the same input produces directly
+-            // comparable intermediates. Pattern: row i, col j contains
+-            // `0.01 * (i+1) * (j+1) / target_hidden` BF16. Mirrors
+-            // `dflash_pytorch_reference.py:make_input_target_hidden_stack`.
+-            let force_pattern = std::env::var("ATLAS_DFLASH_DEBUG_FORCE_PATTERN")
+-                .ok()
+-                .as_deref()
+-                == Some("1");
+-            if force_pattern && eff_ctx > 0 {
+-                let n_rows = self.target_layer_ids.len();
+-                let n_cols = self.target_hidden_size;
+-                let mut bytes = Vec::with_capacity(n_rows * n_cols * 2);
+-                for i in 0..n_rows {
+-                    for j in 0..n_cols {
+-                        let v = 0.01_f32 * ((i + 1) as f32) * ((j + 1) as f32) / (n_cols as f32);
+-                        // f32 → bf16 (truncate-to-zero of low 16 bits).
+-                        let bits = v.to_bits();
+-                        let bf16_bits = (bits >> 16) as u16;
+-                        bytes.extend_from_slice(&bf16_bits.to_le_bytes());
+-                    }
+-                }
+-                gpu.copy_h2d(&bytes, base.offset(start_slot * ctx_slot_bytes))?;
+-            }
+-            // Dump the FIRST ctx slot's input target_hidden_stack (first 10 floats).
+             if eff_ctx > 0 {
+                 dump_bf16(
+-                    "step0.input.target_hidden_stack[0]",
++                    "step0.fc_proj.cached[0]",
+                     base.offset(start_slot * ctx_slot_bytes),
+                     10,
+                 )?;
+             }
+-            // ATLAS_DFLASH_DEBUG_DUMP_FULL=1: write the full 10240-element
+-            // target_hidden_stack (one ctx slot) to /tmp/atlas_target_hidden.bin
+-            // so a Python reference can run dflash.py forward on the same
+-            // input and compare predicted draft tokens vs Atlas drafts.
+-            // Also dumps last_token + drafter outputs separately for the
+-            // bisect script. ONE-SHOT: writes only the first propose() call.
++            // ATLAS_DFLASH_DEBUG_DUMP_FULL=1: write the projected ctx window
++            // used by the drafter for parity/debug scripts.
+             static FULL_DUMP_DONE: std::sync::atomic::AtomicBool =
+                 std::sync::atomic::AtomicBool::new(false);
+             if eff_ctx > 0
+@@ -142,11 +118,11 @@ impl BlockDiffusionDraftHead {
+                 let mut buf = vec![0u8; n_bytes];
+                 gpu.synchronize(stream)?;
+                 gpu.copy_d2h(base.offset(start_slot * ctx_slot_bytes), &mut buf)?;
+-                if let Err(e) = std::fs::write("/tmp/atlas_target_hidden.bin", &buf) {
+-                    tracing::warn!("DFLASH DUMP_FULL: target_hidden write failed: {e}");
++                if let Err(e) = std::fs::write("/tmp/atlas_projected_ctx.bin", &buf) {
++                    tracing::warn!("DFLASH DUMP_FULL: projected ctx write failed: {e}");
+                 } else {
+                     tracing::info!(
+-                        "DFLASH DUMP_FULL: wrote {} bytes ({} ctx slots × {} BF16 elements) to /tmp/atlas_target_hidden.bin (last_token={}, position={}, eff_ctx={})",
++                        "DFLASH DUMP_FULL: wrote {} bytes ({} ctx slots × {} BF16 elements) to /tmp/atlas_projected_ctx.bin (last_token={}, position={}, eff_ctx={})",
+                         n_bytes,
+                         eff_ctx,
+                         ctx_slot_bytes / 2,
+@@ -157,39 +133,16 @@ impl BlockDiffusionDraftHead {
+                 }
+                 FULL_DUMP_DONE.store(true, std::sync::atomic::Ordering::Relaxed);
+             }
+-            for i in 0..eff_ctx {
+-                let src_slot = base.offset((start_slot + i) * ctx_slot_bytes);
+-                let dst_slot = self.scratch.fc_proj.offset(i * self.hidden_size * bf16);
+-                ops::dense_gemv(
+-                    gpu,
+-                    self.kernels.dense_gemv,
+-                    src_slot,
+-                    &self.fc,
+-                    dst_slot,
+-                    h,
+-                    target_hidden_dim as u32,
+-                    stream,
+-                )?;
+-            }
+-            if eff_ctx > 0 {
+-                dump_bf16("step0.fc_proj.pre_norm[0]", self.scratch.fc_proj, 10)?;
+-                ops::rms_norm(
+-                    gpu,
+-                    self.kernels.rms_norm,
+-                    self.scratch.fc_proj,
+-                    &self.hidden_norm,
+-                    self.scratch.fc_proj,
+-                    eff_ctx as u32,
+-                    h,
+-                    self.rms_norm_eps,
+-                    stream,
+-                )?;
+-                dump_bf16(
+-                    "step0.fc_proj.post_hidden_norm[0]",
+-                    self.scratch.fc_proj,
+-                    10,
+-                )?;
+-            }
++        }
++        if timing {
++            gpu.synchronize(stream)?;
++            tracing::info!(
++                "DFLASH timing forward_block.ctx_cache_us={} eff_ctx={} ctx_total={}",
++                stage_t0.elapsed().as_micros(),
++                eff_ctx,
++                ctx_total
++            );
++            stage_t0 = std::time::Instant::now();
+         }
+ 
+         // ── Step 1: build position ids ──
+@@ -289,6 +242,15 @@ impl BlockDiffusionDraftHead {
+                     .offset(eff_ctx * self.hidden_size * bf16),
+             )?;
+         }
++        if timing {
++            gpu.synchronize(stream)?;
++            tracing::info!(
++                "DFLASH timing forward_block.embed_pos_us={} n_attn={}",
++                stage_t0.elapsed().as_micros(),
++                n_attn
++            );
++            stage_t0 = std::time::Instant::now();
++        }
+ 
+         // ── Step 3: 8 drafter layers ──
+         //
+@@ -309,9 +271,23 @@ impl BlockDiffusionDraftHead {
+                 bf16,
+                 inv_sqrt_d,
+                 stream,
++                ctx_kv_base: ctx_kv_base_ptr,
++                ctx_kv_total,
++                ctx_kv_slot_bytes,
++                ctx_kv_layer_stride_bytes,
+             };
+             self.forward_block_layer(layer, &args, ctx, debug_dump)?;
+         }
++        if timing {
++            gpu.synchronize(stream)?;
++            tracing::info!(
++                "DFLASH timing forward_block.layers_us={} layers={} n_attn={}",
++                stage_t0.elapsed().as_micros(),
++                self.layers.len(),
++                n_attn
++            );
++            stage_t0 = std::time::Instant::now();
++        }
+         // Drop the original inline loop body — extracted to helper.
+ 
+         // ── Step 4: final RMSNorm + LM head on noise rows only ──
+@@ -331,19 +307,80 @@ impl BlockDiffusionDraftHead {
+             self.rms_norm_eps,
+             stream,
+         )?;
+-        ops::dense_gemm(
+-            gpu,
+-            self.kernels.dense_gemm,
+-            norm_noise,
+-            &crate::weight_map::DenseWeight {
+-                weight: self.lm_head_shared,
+-            },
+-            self.scratch.logits,
+-            self.gamma as u32,
+-            self.vocab_size as u32,
+-            h,
+-            stream,
+-        )?;
++        // z-lab DFlash block semantics normally treat row 0 as the
++        // already-emitted token and rows 1..gamma-1 as speculative drafts.
++        // Keep a diagnostic switch for row-layout parity checks.
++        let row0_as_draft =
++            std::env::var("ATLAS_DFLASH_ROW0_AS_DRAFT").ok().as_deref() == Some("1");
++        let candidate_rows = if row0_as_draft {
++            self.gamma
++        } else {
++            self.gamma.saturating_sub(1)
++        };
++        if candidate_rows == 0 {
++            return Ok(Vec::new());
++        }
++        let norm_candidates = if row0_as_draft {
++            static LOGGED: std::sync::atomic::AtomicBool =
++                std::sync::atomic::AtomicBool::new(false);
++            if !LOGGED.swap(true, std::sync::atomic::Ordering::Relaxed) {
++                tracing::info!("DFlash row0-as-draft diagnostic active");
++            }
++            norm_noise
++        } else {
++            norm_noise.offset(self.hidden_size * bf16)
++        };
++        if let Some(ref lm_head_nvfp4) = self.lm_head_nvfp4 {
++            match candidate_rows {
++                2 => ops::w4a16_gemv_batch2(
++                    gpu,
++                    self.kernels.w4a16_gemv_batch2,
++                    norm_candidates,
++                    lm_head_nvfp4,
++                    self.scratch.logits,
++                    self.vocab_size as u32,
++                    h,
++                    stream,
++                )?,
++                3 => ops::w4a16_gemv_batch3(
++                    gpu,
++                    self.kernels.w4a16_gemv_batch3,
++                    norm_candidates,
++                    lm_head_nvfp4,
++                    self.scratch.logits,
++                    self.vocab_size as u32,
++                    h,
++                    stream,
++                )?,
++                _ => {
++                    ops::w4a16_gemm(
++                        gpu,
++                        self.kernels.w4a16_gemm,
++                        norm_candidates,
++                        lm_head_nvfp4,
++                        self.scratch.logits,
++                        candidate_rows as u32,
++                        self.vocab_size as u32,
++                        h,
++                        stream,
++                    )?
++                }
++            }
++        } else {
++            ops::dense_gemm(
++                gpu,
++                self.kernels.dense_gemm,
++                norm_candidates,
++                &crate::weight_map::DenseWeight {
++                    weight: self.lm_head_shared,
++                },
++                self.scratch.logits,
++                candidate_rows as u32,
++                self.vocab_size as u32,
++                h,
++                stream,
++            )?;
++        }
+ 
+         // Optional full-stream dump after final norm (debug; before lm_head).
+         if debug_dump {
+@@ -354,8 +391,8 @@ impl BlockDiffusionDraftHead {
+             dump_bf16("final.lm_head_shared[0..10]", self.lm_head_shared, 10)?;
+         }
+ 
+-        // ── Step 5: argmax per row → γ token ids ──
+-        for i in 0..self.gamma {
++        // ── Step 5: argmax per candidate row → draft token ids ──
++        for i in 0..candidate_rows {
+             let logits_row = self.scratch.logits.offset(i * self.vocab_size * bf16);
+             let token_slot = self.scratch.draft_tokens_dev.offset(i * 4);
+             ops::argmax_bf16(
+@@ -367,14 +404,31 @@ impl BlockDiffusionDraftHead {
+                 stream,
+             )?;
+         }
++        if timing {
++            gpu.synchronize(stream)?;
++            tracing::info!(
++                "DFLASH timing forward_block.head_argmax_us={} candidate_rows={} vocab={}",
++                stage_t0.elapsed().as_micros(),
++                candidate_rows,
++                self.vocab_size
++            );
++            stage_t0 = std::time::Instant::now();
++        }
+         if debug_dump {
+             dump_bf16("final.logits[noise0]", self.scratch.logits, 10)?;
+         }
+ 
+-        // ── Step 6: D2H γ × 4 bytes ──
+-        let mut host_buf = vec![0u8; self.gamma * 4];
++        // ── Step 6: D2H candidate_rows × 4 bytes ──
++        let mut host_buf = vec![0u8; candidate_rows * 4];
+         gpu.synchronize(stream)?;
+         gpu.copy_d2h(self.scratch.draft_tokens_dev, &mut host_buf)?;
++        if timing {
++            tracing::info!(
++                "DFLASH timing forward_block.d2h_us={} total_us={}",
++                stage_t0.elapsed().as_micros(),
++                total_t0.elapsed().as_micros()
++            );
++        }
+         let drafts: Vec<u32> = host_buf
+             .chunks_exact(4)
+             .map(|c| u32::from_le_bytes([c[0], c[1], c[2], c[3]]))
+@@ -391,7 +445,7 @@ impl BlockDiffusionDraftHead {
+                 == Some("1")
+         {
+             tracing::info!(
+-                "DFLASH DUMP_FULL drafts (γ={}, last_token={}, position={}, eff_ctx={}): {:?}",
++                "DFLASH DUMP_FULL candidate drafts (γ={}, last_token={}, position={}, eff_ctx={}): {:?}",
+                 self.gamma,
+                 last_token,
+                 position,
+diff --git a/crates/spark-model/src/layers/dflash_head/forward_block_layer.rs b/crates/spark-model/src/layers/dflash_head/forward_block_layer.rs
+index 782dfd8..3f8e676 100644
+--- a/crates/spark-model/src/layers/dflash_head/forward_block_layer.rs
++++ b/crates/spark-model/src/layers/dflash_head/forward_block_layer.rs
+@@ -8,7 +8,7 @@
+ //! down_proj → residual). Called once per drafter layer from
+ //! `forward_block`'s Step 3 loop.
+ 
+-use anyhow::Result;
++use anyhow::{Result, bail};
+ 
+ use super::{BlockDiffusionDraftHead, DflashLayer};
+ use crate::layer::ForwardContext;
+@@ -28,6 +28,10 @@ pub(super) struct LayerArgs {
+     pub bf16: usize,
+     pub inv_sqrt_d: f32,
+     pub stream: u64,
++    pub ctx_kv_base: Option<spark_runtime::gpu::DevicePtr>,
++    pub ctx_kv_total: usize,
++    pub ctx_kv_slot_bytes: usize,
++    pub ctx_kv_layer_stride_bytes: usize,
+ }
+ 
+ impl BlockDiffusionDraftHead {
+@@ -53,8 +57,23 @@ impl BlockDiffusionDraftHead {
+             bf16,
+             inv_sqrt_d,
+             stream,
++            ctx_kv_base,
++            ctx_kv_total,
++            ctx_kv_slot_bytes,
++            ctx_kv_layer_stride_bytes,
+         } = *args;
+         let gpu = ctx.gpu;
++        let gamma = self.gamma as u32;
++        let noise_h_offset = eff_ctx * self.hidden_size * bf16;
++        let noise_q_offset = eff_ctx * q_dim as usize * bf16;
++        let noise_kv_offset = eff_ctx * kv_dim as usize * bf16;
++        let stream_noise = self.scratch.stream_buf.offset(noise_h_offset);
++        let norm_noise = self.scratch.norm_buf.offset(noise_h_offset);
++        let q_noise = self.scratch.q_buf.offset(noise_q_offset);
++        let k_noise = self.scratch.k_buf.offset(noise_kv_offset);
++        let v_noise = self.scratch.v_buf.offset(noise_kv_offset);
++        let attn_noise = self.scratch.attn_out.offset(noise_q_offset);
++        let stream_acc_noise = self.scratch.stream_acc.offset(noise_h_offset);
+ 
+         let dump_bf16 = |label: &str, ptr: spark_runtime::gpu::DevicePtr, n: usize| -> Result<()> {
+             if !debug_dump {
+@@ -73,28 +92,36 @@ impl BlockDiffusionDraftHead {
+             tracing::info!("DFLASH DUMP {label} [{n}]: {:?}", &vals);
+             Ok(())
+         };
++        let dump_this_layer = layer_idx == 0
++            || (debug_dump
++                && std::env::var("ATLAS_DFLASH_DEBUG_DUMP_LAYERS")
++                    .ok()
++                    .as_deref()
++                    == Some("1"));
+ 
+-        // 3a. input_layernorm.
++        // 3a. input_layernorm for the γ noise/query rows. Ctx rows only
++        // supply K/V from fc_proj below; their transformer outputs are not
++        // consumed by later layers in this implementation.
+         ops::rms_norm(
+             gpu,
+             self.kernels.rms_norm,
+-            self.scratch.stream_buf,
++            stream_noise,
+             &layer.input_layernorm,
+-            self.scratch.norm_buf,
+-            n_attn,
++            norm_noise,
++            gamma,
+             h,
+             self.rms_norm_eps,
+             stream,
+         )?;
+ 
+-        // 3b. q/k/v projections from norm_buf (n_attn rows).
++        // 3b. q/k/v projections for the γ noise/query rows.
+         ops::dense_gemm(
+             gpu,
+             self.kernels.dense_gemm,
+-            self.scratch.norm_buf,
++            norm_noise,
+             &layer.q_proj,
+-            self.scratch.q_buf,
+-            n_attn,
++            q_noise,
++            gamma,
+             q_dim,
+             h,
+             stream,
+@@ -102,10 +129,10 @@ impl BlockDiffusionDraftHead {
+         ops::dense_gemm(
+             gpu,
+             self.kernels.dense_gemm,
+-            self.scratch.norm_buf,
++            norm_noise,
+             &layer.k_proj,
+-            self.scratch.k_buf,
+-            n_attn,
++            k_noise,
++            gamma,
+             kv_dim,
+             h,
+             stream,
+@@ -113,70 +140,47 @@ impl BlockDiffusionDraftHead {
+         ops::dense_gemm(
+             gpu,
+             self.kernels.dense_gemm,
+-            self.scratch.norm_buf,
++            norm_noise,
+             &layer.v_proj,
+-            self.scratch.v_buf,
+-            n_attn,
++            v_noise,
++            gamma,
+             kv_dim,
+             h,
+             stream,
+         )?;
+ 
+-        // 3b'. Ctx K/V override (skip input_layernorm; project fc_proj
+-        // directly through layer.k_proj/v_proj for ctx slots).
++        // 3b'. Ctx K/V override from the per-sequence precomputed cache.
+         if eff_ctx > 0 {
+-            ops::dense_gemm(
+-                gpu,
+-                self.kernels.dense_gemm,
+-                self.scratch.fc_proj,
+-                &layer.k_proj,
+-                self.scratch.k_buf,
+-                eff_ctx as u32,
+-                kv_dim,
+-                h,
+-                stream,
+-            )?;
+-            ops::dense_gemm(
+-                gpu,
+-                self.kernels.dense_gemm,
+-                self.scratch.fc_proj,
+-                &layer.v_proj,
+-                self.scratch.v_buf,
+-                eff_ctx as u32,
+-                kv_dim,
+-                h,
+-                stream,
+-            )?;
+-            // Force ctx-slot Q to zeros — Q-side ctx contributes nothing
+-            // meaningful (gets discarded at lm_head extraction).
+-            gpu.memset(self.scratch.q_buf, 0, eff_ctx * q_dim as usize * bf16)?;
++            let base = ctx_kv_base
++                .ok_or_else(|| anyhow::anyhow!("DFlash ctx K/V cache missing"))?;
++            if ctx_kv_total < eff_ctx {
++                bail!("DFlash ctx K/V cache shorter than requested ctx window");
++            }
++            let start_slot = ctx_kv_total - eff_ctx;
++            let layer_base = base.offset(layer_idx * ctx_kv_layer_stride_bytes);
++            let k_src = layer_base.offset(start_slot * ctx_kv_slot_bytes);
++            let v_src = layer_base.offset(
++                self.max_seq_len * ctx_kv_slot_bytes + start_slot * ctx_kv_slot_bytes,
++            );
++            gpu.copy_d2d_async(k_src, self.scratch.k_buf, eff_ctx * ctx_kv_slot_bytes, stream)?;
++            gpu.copy_d2d_async(v_src, self.scratch.v_buf, eff_ctx * ctx_kv_slot_bytes, stream)?;
+         }
+ 
+-        if layer_idx == 0 {
+-            dump_bf16("layer0.k_buf[ctx0].pre_k_norm", self.scratch.k_buf, 10)?;
+-            dump_bf16("layer0.v_buf[ctx0]", self.scratch.v_buf, 10)?;
+-            let noise_q_offset = eff_ctx * q_dim as usize * bf16;
+-            let noise_k_offset = eff_ctx * kv_dim as usize * bf16;
+-            dump_bf16(
+-                "layer0.q_buf[noise0].pre_q_norm",
+-                self.scratch.q_buf.offset(noise_q_offset),
+-                10,
+-            )?;
+-            dump_bf16(
+-                "layer0.k_buf[noise0].pre_k_norm",
+-                self.scratch.k_buf.offset(noise_k_offset),
+-                10,
+-            )?;
++        if dump_this_layer {
++            dump_bf16(&format!("layer{layer_idx}.k_buf[ctx0].pre_k_norm"), self.scratch.k_buf, 10)?;
++            dump_bf16(&format!("layer{layer_idx}.v_buf[ctx0]"), self.scratch.v_buf, 10)?;
++            dump_bf16(&format!("layer{layer_idx}.q_buf[noise0].pre_q_norm"), q_noise, 10)?;
++            dump_bf16(&format!("layer{layer_idx}.k_buf[noise0].pre_k_norm"), k_noise, 10)?;
+         }
+ 
+         // 3c. q_norm / k_norm — per-head RMSNorm over head_dim slices.
+         ops::rms_norm(
+             gpu,
+             self.kernels.rms_norm,
+-            self.scratch.q_buf,
++            q_noise,
+             &layer.q_norm,
+-            self.scratch.q_buf,
+-            n_attn * self.num_q_heads as u32,
++            q_noise,
++            gamma * self.num_q_heads as u32,
+             self.head_dim as u32,
+             self.rms_norm_eps,
+             stream,
+@@ -184,101 +188,107 @@ impl BlockDiffusionDraftHead {
+         ops::rms_norm(
+             gpu,
+             self.kernels.rms_norm,
+-            self.scratch.k_buf,
++            k_noise,
+             &layer.k_norm,
+-            self.scratch.k_buf,
+-            n_attn * self.num_kv_heads as u32,
++            k_noise,
++            gamma * self.num_kv_heads as u32,
+             self.head_dim as u32,
+             self.rms_norm_eps,
+             stream,
+         )?;
+-        if layer_idx == 0 {
+-            dump_bf16("layer0.k_buf[ctx0].post_k_norm", self.scratch.k_buf, 10)?;
+-            let noise_q_offset = eff_ctx * q_dim as usize * bf16;
+-            let noise_k_offset = eff_ctx * kv_dim as usize * bf16;
+-            dump_bf16(
+-                "layer0.q_buf[noise0].post_q_norm",
+-                self.scratch.q_buf.offset(noise_q_offset),
+-                10,
+-            )?;
+-            dump_bf16(
+-                "layer0.k_buf[noise0].post_k_norm",
+-                self.scratch.k_buf.offset(noise_k_offset),
+-                10,
+-            )?;
++        if dump_this_layer {
++            dump_bf16(&format!("layer{layer_idx}.k_buf[ctx0].post_k_norm"), self.scratch.k_buf, 10)?;
++            dump_bf16(&format!("layer{layer_idx}.q_buf[noise0].post_q_norm"), q_noise, 10)?;
++            dump_bf16(&format!("layer{layer_idx}.k_buf[noise0].post_k_norm"), k_noise, 10)?;
+         }
+ 
+-        // 3d. yarn RoPE — n_attn positions.
+-        ops::rope_yarn(
+-            gpu,
+-            self.kernels.rope_qwen3,
+-            self.scratch.q_buf,
+-            self.scratch.k_buf,
+-            self.scratch.position_ids,
+-            n_attn,
+-            self.num_q_heads as u32,
+-            self.num_kv_heads as u32,
+-            self.head_dim as u32,
+-            self.rotary_dim as u32,
+-            self.yarn_inv_freq,
+-            self.rope_theta,
+-            stream,
+-        )?;
+-        if layer_idx == 0 {
+-            let noise_q_offset = eff_ctx * q_dim as usize * bf16;
+-            let noise_k_offset = eff_ctx * kv_dim as usize * bf16;
+-            dump_bf16(
+-                "layer0.q_buf[noise0].post_rope",
+-                self.scratch.q_buf.offset(noise_q_offset),
+-                10,
++        // 3d. RoPE for the DFlash drafter, driven by the drafter checkpoint
++        // config rather than target-model rotary settings.
++        if self.rope_uses_yarn {
++            ops::rope_yarn(
++                gpu,
++                self.kernels.rope_qwen3,
++                q_noise,
++                k_noise,
++                self.scratch.position_ids.offset(eff_ctx * 4),
++                gamma,
++                self.num_q_heads as u32,
++                self.num_kv_heads as u32,
++                self.head_dim as u32,
++                self.rotary_dim as u32,
++                self.yarn_inv_freq,
++                self.rope_theta,
++                stream,
+             )?;
+-            dump_bf16(
+-                "layer0.k_buf[noise0].post_rope",
+-                self.scratch.k_buf.offset(noise_k_offset),
+-                10,
++        } else {
++            ops::rope(
++                gpu,
++                self.kernels.rope_qwen3,
++                q_noise,
++                k_noise,
++                self.scratch.position_ids.offset(eff_ctx * 4),
++                gamma,
++                self.num_q_heads as u32,
++                self.num_kv_heads as u32,
++                self.head_dim as u32,
++                self.rotary_dim as u32,
++                self.rope_theta,
++                stream,
+             )?;
+-            dump_bf16("layer0.k_buf[ctx0].post_rope", self.scratch.k_buf, 10)?;
++        }
++        if dump_this_layer {
++            dump_bf16(&format!("layer{layer_idx}.q_buf[noise0].post_rope"), q_noise, 10)?;
++            dump_bf16(&format!("layer{layer_idx}.k_buf[noise0].post_rope"), k_noise, 10)?;
++            dump_bf16(&format!("layer{layer_idx}.k_buf[ctx0].post_rope"), self.scratch.k_buf, 10)?;
+         }
+ 
+-        // 3e. attention — non-causal, q_len = kv_len = n_attn.
+-        ops::prefill_attention(
++        // 3e. attention. DFlash is non-causal inside the gamma block even
++        // for sliding-attention drafter layers; the sliding_window argument
++        // only limits old ctx keys. This matches the z-lab Qwen3DFlash
++        // reference, where self.is_causal=false and sliding_window is passed
++        // separately.
++        let sliding_window = layer.sliding_window.unwrap_or(0) as u32;
++        let causal = false;
++        if debug_dump && sliding_window > 0 {
++            tracing::info!(
++                "DFlash SWA attention non-causal sliding-window path active: layer={layer_idx} sliding_window={sliding_window}"
++            );
++        }
++        ops::prefill_attention_qkv(
+             gpu,
+-            self.kernels.prefill_attn,
+-            self.scratch.q_buf,
++            self.kernels.prefill_attn_qkv,
++            q_noise,
+             self.scratch.k_buf,
+             self.scratch.v_buf,
+-            self.scratch.attn_out,
++            attn_noise,
++            gamma,
+             n_attn,
+-            1,
++            eff_ctx as u32,
+             self.num_q_heads as u32,
+             self.num_kv_heads as u32,
+             self.head_dim as u32,
+             inv_sqrt_d,
+-            false,
+-            0,
++            causal,
++            sliding_window,
+             stream,
+         )?;
+-        if layer_idx == 0 {
+-            let noise_q_offset = eff_ctx * q_dim as usize * bf16;
++        if dump_this_layer {
++            dump_bf16(&format!("layer{layer_idx}.attn_out[noise0]"), attn_noise, 10)?;
+             dump_bf16(
+-                "layer0.attn_out[noise0]",
+-                self.scratch.attn_out.offset(noise_q_offset),
++                &format!("layer{layer_idx}.attn_out[noise0][1000..1010]"),
++                attn_noise.offset(1000 * bf16),
+                 10,
+             )?;
+             dump_bf16(
+-                "layer0.attn_out[noise0][1000..1010]",
+-                self.scratch.attn_out.offset(noise_q_offset + 1000 * bf16),
+-                10,
+-            )?;
+-            dump_bf16(
+-                "layer0.attn_out[noise0][4086..4096]",
+-                self.scratch.attn_out.offset(noise_q_offset + 4086 * bf16),
++                &format!("layer{layer_idx}.attn_out[noise0][4086..4096]"),
++                attn_noise.offset(4086 * bf16),
+                 10,
+             )?;
+             // ATLAS_DFLASH_DEBUG_DUMP_FULL=1: write the FULL 4096-element
+             // attn_out[noise0] row to /tmp/atlas_attn_out.bin so PyTorch
+             // can run o_proj on the exact same bytes.
+-            if std::env::var("ATLAS_DFLASH_DEBUG_DUMP_FULL")
++            if layer_idx == 0
++                && std::env::var("ATLAS_DFLASH_DEBUG_DUMP_FULL")
+                 .ok()
+                 .as_deref()
+                 == Some("1")
+@@ -286,7 +296,7 @@ impl BlockDiffusionDraftHead {
+                 let n_bytes = q_dim as usize * bf16;
+                 let mut buf = vec![0u8; n_bytes];
+                 gpu.synchronize(stream)?;
+-                gpu.copy_d2h(self.scratch.attn_out.offset(noise_q_offset), &mut buf)?;
++                gpu.copy_d2h(attn_noise, &mut buf)?;
+                 std::fs::write("/tmp/atlas_attn_out.bin", &buf)
+                     .map_err(|e| anyhow::anyhow!("write attn_out dump: {e}"))?;
+                 tracing::info!(
+@@ -296,31 +306,31 @@ impl BlockDiffusionDraftHead {
+             }
+         }
+ 
+-        // 3f. o_proj.
++        // 3f. o_proj for γ noise/query rows only.
+         ops::dense_gemm(
+             gpu,
+             self.kernels.dense_gemm,
+-            self.scratch.attn_out,
++            attn_noise,
+             &layer.o_proj,
+-            self.scratch.stream_acc,
+-            n_attn,
++            stream_acc_noise,
++            gamma,
+             h,
+             q_dim,
+             stream,
+         )?;
+-        if layer_idx == 0 {
+-            let noise_offset = eff_ctx * self.hidden_size * bf16;
++        if dump_this_layer {
+             dump_bf16(
+-                "layer0.stream_acc[noise0].post_o_proj",
+-                self.scratch.stream_acc.offset(noise_offset),
++                &format!("layer{layer_idx}.stream_acc[noise0].post_o_proj"),
++                stream_acc_noise,
+                 10,
+             )?;
+             dump_bf16(
+-                "layer0.stream_buf[noise0].pre_residual",
+-                self.scratch.stream_buf.offset(noise_offset),
++                &format!("layer{layer_idx}.stream_buf[noise0].pre_residual"),
++                stream_noise,
+                 10,
+             )?;
+-            if std::env::var("ATLAS_DFLASH_DEBUG_DUMP_FULL")
++            if layer_idx == 0
++                && std::env::var("ATLAS_DFLASH_DEBUG_DUMP_FULL")
+                 .ok()
+                 .as_deref()
+                 == Some("1")
+@@ -328,51 +338,50 @@ impl BlockDiffusionDraftHead {
+                 let n_bytes = self.hidden_size * bf16;
+                 let mut buf = vec![0u8; n_bytes];
+                 gpu.synchronize(stream)?;
+-                gpu.copy_d2h(self.scratch.stream_acc.offset(noise_offset), &mut buf)?;
++                gpu.copy_d2h(stream_acc_noise, &mut buf)?;
+                 std::fs::write("/tmp/atlas_o_proj_out.bin", &buf)
+                     .map_err(|e| anyhow::anyhow!("write o_proj_out: {e}"))?;
+             }
+         }
+ 
+-        // 3g. residual: stream_buf += stream_acc (n_attn rows).
++        // 3g. residual: stream_buf += stream_acc (γ noise/query rows).
+         ops::residual_add(
+             gpu,
+             self.kernels.residual_add,
+-            self.scratch.stream_buf,
+-            self.scratch.stream_acc,
+-            n_attn * h,
++            stream_noise,
++            stream_acc_noise,
++            gamma * h,
+             stream,
+         )?;
+-        if layer_idx == 0 {
+-            let noise_offset = eff_ctx * self.hidden_size * bf16;
++        if dump_this_layer {
+             dump_bf16(
+-                "layer0.stream_buf[noise0].post_attn_residual",
+-                self.scratch.stream_buf.offset(noise_offset),
++                &format!("layer{layer_idx}.stream_buf[noise0].post_attn_residual"),
++                stream_noise,
+                 10,
+             )?;
+         }
+ 
+-        // 3h. post_attention_layernorm.
++        // 3h. post_attention_layernorm for γ noise/query rows.
+         ops::rms_norm(
+             gpu,
+             self.kernels.rms_norm,
+-            self.scratch.stream_buf,
++            stream_noise,
+             &layer.post_attention_layernorm,
+-            self.scratch.norm_buf,
+-            n_attn,
++            norm_noise,
++            gamma,
+             h,
+             self.rms_norm_eps,
+             stream,
+         )?;
+ 
+-        // 3i. MLP: gate + up.
++        // 3i. MLP: gate + up for γ noise/query rows.
+         ops::dense_gemm(
+             gpu,
+             self.kernels.dense_gemm,
+-            self.scratch.norm_buf,
++            norm_noise,
+             &layer.gate_proj,
+             self.scratch.mlp_intermediate,
+-            n_attn,
++            gamma,
+             inter,
+             h,
+             stream,
+@@ -380,10 +389,10 @@ impl BlockDiffusionDraftHead {
+         ops::dense_gemm(
+             gpu,
+             self.kernels.dense_gemm,
+-            self.scratch.norm_buf,
++            norm_noise,
+             &layer.up_proj,
+             self.scratch.mlp_up,
+-            n_attn,
++            gamma,
+             inter,
+             h,
+             stream,
+@@ -396,39 +405,34 @@ impl BlockDiffusionDraftHead {
+             self.scratch.mlp_intermediate,
+             self.scratch.mlp_up,
+             self.scratch.mlp_intermediate,
+-            n_attn * inter,
++            gamma * inter,
+             stream,
+         )?;
+ 
+-        // 3k. down_proj.
++        // 3k. down_proj for γ noise/query rows.
+         ops::dense_gemm(
+             gpu,
+             self.kernels.dense_gemm,
+             self.scratch.mlp_intermediate,
+             &layer.down_proj,
+-            self.scratch.stream_acc,
+-            n_attn,
++            stream_acc_noise,
++            gamma,
+             h,
+             inter,
+             stream,
+         )?;
+ 
+-        // 3l. residual.
++        // 3l. residual for γ noise/query rows.
+         ops::residual_add(
+             gpu,
+             self.kernels.residual_add,
+-            self.scratch.stream_buf,
+-            self.scratch.stream_acc,
+-            n_attn * h,
++            stream_noise,
++            stream_acc_noise,
++            gamma * h,
+             stream,
+         )?;
+-        if layer_idx == 0 {
+-            let noise_offset = eff_ctx * self.hidden_size * bf16;
+-            dump_bf16(
+-                "layer0.stream_buf[noise0].post_layer",
+-                self.scratch.stream_buf.offset(noise_offset),
+-                10,
+-            )?;
++        if dump_this_layer {
++            dump_bf16(&format!("layer{layer_idx}.stream_buf[noise0].post_layer"), stream_noise, 10)?;
+         }
+ 
+         Ok(())
+diff --git a/crates/spark-model/src/layers/dflash_head/from_weights.rs b/crates/spark-model/src/layers/dflash_head/from_weights.rs
+index 6daae06..ec2d6b3 100644
+--- a/crates/spark-model/src/layers/dflash_head/from_weights.rs
++++ b/crates/spark-model/src/layers/dflash_head/from_weights.rs
+@@ -15,13 +15,16 @@ use super::{
+     BlockDiffusionDraftHead, DflashKernels, DflashLayer, DflashQuantization, DflashScratch,
+ };
+ use crate::weight_loader::DflashWeights;
++use crate::weight_map::QuantizedWeight;
+ 
+ impl BlockDiffusionDraftHead {
+     pub fn from_weights(
+         weights: DflashWeights,
+         embed_tokens_shared: DevicePtr,
+         lm_head_shared: DevicePtr,
++        lm_head_nvfp4: Option<QuantizedWeight>,
+         target_hidden_size: usize,
++        target_vocab_size: usize,
+         gamma: Option<usize>,
+         window_size: Option<usize>,
+         gpu: &dyn GpuBackend,
+@@ -59,8 +62,31 @@ impl BlockDiffusionDraftHead {
+         let num_q_heads = weights.config.num_attention_heads;
+         let num_kv_heads = weights.config.num_key_value_heads;
+         let head_dim = weights.config.head_dim;
+-        let vocab_size = weights.config.vocab_size;
++        let drafter_vocab_size = weights.config.vocab_size;
++        let vocab_size = target_vocab_size;
+         let gamma_val = gamma.unwrap_or(weights.config.block_size);
++        let layer_types = weights.config.layer_types.clone();
++        let use_sliding_window = weights.config.use_sliding_window;
++        let drafter_sliding_window = weights.config.sliding_window;
++        let sliding_window_layers = (0..num_layers)
++            .filter(|&idx| {
++                use_sliding_window
++                    && layer_types.get(idx).map(|s| s.as_str()) == Some("sliding_attention")
++            })
++            .count();
++        let use_lm_head_nvfp4 =
++            std::env::var("ATLAS_DFLASH_LM_HEAD_NVFP4").ok().as_deref() == Some("1");
++        let lm_head_nvfp4 = if use_lm_head_nvfp4 {
++            lm_head_nvfp4
++        } else {
++            None
++        };
++        let rope_uses_yarn = weights
++            .config
++            .rope_scaling
++            .as_ref()
++            .and_then(|scaling| scaling.rope_type.as_deref())
++            == Some("yarn");
+ 
+         // Allocate the drafter's paged FP8 KV cache. One multi-layer cache,
+         // sized for `max_seq_len + γ + 1` positions (prompt + γ drafts +
+@@ -101,10 +127,18 @@ impl BlockDiffusionDraftHead {
+                 .or_else(|_| gpu.kernel("residual_add", "bf16_residual_add"))?,
+             dense_gemv: gpu.kernel("gemv", "dense_gemv_bf16")?,
+             dense_gemm: gpu.kernel("gemm", "dense_gemm_bf16")?,
+-            // Qwen3.6-DFlash uses yarn RoPE — confirmed in the drafter
+-            // `config.json:rope_scaling.rope_type="yarn"`. Atlas's yarn
+-            // kernel is `rope::rope_forward_yarn`.
+-            rope_qwen3: gpu.kernel("rope", "rope_forward_yarn")?,
++            w4a16_gemm: gpu.kernel("w4a16", "w4a16_gemm")?,
++            w4a16_gemm_t: crate::layers::try_kernel(gpu, "w4a16", "w4a16_gemm_t"),
++            w4a16_gemv_batch2: gpu.kernel("w4a16_gemv", "w4a16_gemv_batch2")?,
++            w4a16_gemv_batch3: gpu.kernel("w4a16_gemv", "w4a16_gemv_batch3")?,
++            // The drafter checkpoint config is the source of truth for RoPE.
++            // Qwen3.6-DFlash v2 has `rope_scaling: null` and uses plain RoPE;
++            // older YaRN drafters route through the YaRN kernel.
++            rope_qwen3: if rope_uses_yarn {
++                gpu.kernel("rope", "rope_forward_yarn")?
++            } else {
++                gpu.kernel("rope", "rope_forward")?
++            },
+             // FP8 KV cache writeback. Module name is the .cu stem
+             // `reshape_and_cache`, function is `reshape_and_cache_flash_fp8`
+             // (qwen3_attention/mod.rs:377-378 uses the same path).
+@@ -138,6 +172,16 @@ impl BlockDiffusionDraftHead {
+                          .cu file there."
+                     )
+                 })?,
++            prefill_attn_qkv: gpu
++                .kernel("inferspark_prefill_h128_qkv", "inferspark_prefill_h128_qkv")
++                .map_err(|e| {
++                    anyhow::anyhow!(
++                        "{e}\n\nDFlash needs the HDIM=128 q-only attention \
++                         kernel (`inferspark_prefill_h128_qkv`) compiled for \
++                         this target. The kernel source lives at \
++                         `kernels/<hw>/common/inferspark_prefill_h128_qkv.cu`."
++                    )
++                })?,
+         };
+ 
+         // Per-step scratch buffers. BF16 = 2 bytes/element.
+@@ -150,25 +194,23 @@ impl BlockDiffusionDraftHead {
+         let bf16 = 2usize;
+         let g = gamma_val;
+         // Phase 2.5n: ctx_window controls how many captured target positions
+-        // the drafter attends to per step. The drafter was trained over the
+-        // FULL captured prefix (paper §A.1), but capping at γ=16 cripples it
+-        // on prompts past a tiny window — Atlas's 6-10% acceptance vs the
+-        // paper's 70% is dominated by this cap. Default raised to 512;
+-        // ATLAS_DFLASH_CTX_WINDOW overrides at construction time.
++        // the drafter attends to per step. Use the configured DFlash
++        // `window_size` from MODEL.toml by default; ATLAS_DFLASH_CTX_WINDOW is
++        // retained only as an explicit diagnostic override.
+         //
+         // Memory cost: scratch buffers scale linearly with `n_attn = γ + cw`.
+-        // At cw=512: stream_buf = 528 × 2048 × 2 = 2.1 MB; mlp_intermediate
+-        // = 528 × 6144 × 2 = 6.3 MB; logits = 528 × 248320 × 2 = 257 MB
+-        // (largest). Total scratch ~280 MB per head — affordable.
++        // At cw=4096: stream_buf = 4112 x 2048 x 2 = 16.8 MB; logits is the
++        // largest allocation, about 2.0 GB for the shared Qwen3.6 vocab.
++        let configured_ctx_window = window_size.unwrap_or(4096);
+         let ctx_window: usize = std::env::var("ATLAS_DFLASH_CTX_WINDOW")
+             .ok()
+             .and_then(|s| s.parse().ok())
+-            .unwrap_or(512);
++            .unwrap_or(configured_ctx_window);
+         tracing::info!(
+-            "DFlash ctx_window = {} (set ATLAS_DFLASH_CTX_WINDOW to override; \
+-             drafter trained on full captured prefix — larger is better, \
+-             scratch grows linearly)",
+-            ctx_window
++            "DFlash ctx_window = {} (configured window_size={}; \
++             ATLAS_DFLASH_CTX_WINDOW overrides for diagnostics)",
++            ctx_window,
++            configured_ctx_window,
+         );
+         let n_attn = g + ctx_window; // total attention slots
+         let q_dim = num_q_heads * head_dim;
+@@ -189,40 +231,71 @@ impl BlockDiffusionDraftHead {
+             position_ids: gpu.alloc(n_attn * 4)?,
+         };
+ 
+-        // Pre-compute yarn inv_freq table for drafter RoPE. Mirrors the
+-        // formula in `mistral_loader.rs:518-577`. Drafter config:
+-        //   factor = 64.0, beta_fast = 32.0, beta_slow = 1.0,
+-        //   original_max_position_embeddings = 4096
+-        let rope_theta = 10_000_000.0f32; // drafter rope_theta
++        // Pre-compute the drafter RoPE inv_freq table from the drafter
++        // checkpoint config. Qwen3.6-DFlash v2 ships `rope_scaling: null`,
++        // which means plain RoPE. Do not inherit the target's long-context
++        // rotary settings here.
++        let rope_theta = weights.config.rope_theta;
+         let rotary_dim = head_dim; // Qwen3.6-DFlash applies rope to full head_dim
+-        let factor = 64.0f32;
+-        let beta_fast = 32.0f32;
+-        let beta_slow = 1.0f32;
+-        let orig_max_pos = 4096.0f32;
+         let dim_f = rotary_dim as f32;
+         let n_pairs = rotary_dim / 2;
+-        let find_correction_dim = |num_rot: f32| -> f32 {
+-            (dim_f * (orig_max_pos / (num_rot * 2.0 * std::f32::consts::PI)).ln())
+-                / (2.0 * rope_theta.ln())
+-        };
+-        let low = find_correction_dim(beta_fast).floor().max(0.0);
+-        let high = find_correction_dim(beta_slow)
+-            .ceil()
+-            .min((rotary_dim - 1) as f32);
+-        let ramp_denom = if (high - low).abs() < 1e-6 {
+-            high - low + 0.001
+-        } else {
+-            high - low
+-        };
+         let mut inv_freq_table = vec![0.0f32; n_pairs];
+         for j in 0..n_pairs {
+-            let pos_freq = rope_theta.powf((2 * j) as f32 / dim_f);
+-            let inv_freq_extrap = 1.0 / pos_freq;
+-            let inv_freq_interp = 1.0 / (factor * pos_freq);
+-            let ramp = ((j as f32 - low) / ramp_denom).clamp(0.0, 1.0);
+-            let extrap_factor = 1.0 - ramp;
+-            inv_freq_table[j] =
+-                inv_freq_interp * (1.0 - extrap_factor) + inv_freq_extrap * extrap_factor;
++            inv_freq_table[j] = 1.0 / rope_theta.powf((2 * j) as f32 / dim_f);
++        }
++        if let Some(scaling) = weights.config.rope_scaling.as_ref() {
++            match scaling.rope_type.as_deref() {
++                Some("yarn") => {
++                    let factor = scaling.factor.unwrap_or(1.0);
++                    let beta_fast = scaling.beta_fast.unwrap_or(32.0);
++                    let beta_slow = scaling.beta_slow.unwrap_or(1.0);
++                    let orig_max_pos = scaling.original_max_position_embeddings.unwrap_or(4096.0);
++                    let find_correction_dim = |num_rot: f32| -> f32 {
++                        (dim_f * (orig_max_pos / (num_rot * 2.0 * std::f32::consts::PI)).ln())
++                            / (2.0 * rope_theta.ln())
++                    };
++                    let low = find_correction_dim(beta_fast).floor().max(0.0);
++                    let high = find_correction_dim(beta_slow)
++                        .ceil()
++                        .min((rotary_dim - 1) as f32);
++                    let ramp_denom = if (high - low).abs() < 1e-6 {
++                        high - low + 0.001
++                    } else {
++                        high - low
++                    };
++                    for j in 0..n_pairs {
++                        let pos_freq = rope_theta.powf((2 * j) as f32 / dim_f);
++                        let inv_freq_extrap = 1.0 / pos_freq;
++                        let inv_freq_interp = 1.0 / (factor * pos_freq);
++                        let ramp = ((j as f32 - low) / ramp_denom).clamp(0.0, 1.0);
++                        let extrap_factor = 1.0 - ramp;
++                        inv_freq_table[j] = inv_freq_interp * (1.0 - extrap_factor)
++                            + inv_freq_extrap * extrap_factor;
++                    }
++                    tracing::info!(
++                        "DFlash RoPE = YaRN from drafter config: theta={rope_theta}, \
++                         factor={factor}, beta_fast={beta_fast}, beta_slow={beta_slow}, \
++                         max_pos={orig_max_pos}, low_dim={low:.1}, high_dim={high:.1}",
++                    );
++                }
++                Some(other) => {
++                    tracing::warn!(
++                        "DFlash drafter config has unsupported rope_scaling.rope_type={other:?}; \
++                         falling back to plain RoPE (theta={rope_theta})"
++                    );
++                }
++                None => {
++                    tracing::warn!(
++                        "DFlash drafter config has rope_scaling without rope_type; \
++                         falling back to plain RoPE (theta={rope_theta})"
++                    );
++                }
++            }
++        } else {
++            tracing::info!(
++                "DFlash RoPE = plain from drafter config (rope_scaling=null), \
++                 theta={rope_theta}, pairs={n_pairs}",
++            );
+         }
+         let inv_freq_bytes: Vec<u8> = inv_freq_table
+             .iter()
+@@ -230,11 +303,6 @@ impl BlockDiffusionDraftHead {
+             .collect();
+         let yarn_inv_freq = gpu.alloc(inv_freq_bytes.len())?;
+         gpu.copy_h2d(&inv_freq_bytes, yarn_inv_freq)?;
+-        tracing::info!(
+-            "DFlash yarn inv_freq: {} pairs, factor={factor}, beta_fast={beta_fast}, \
+-             beta_slow={beta_slow}, max_pos={orig_max_pos}, low_dim={low:.1}, high_dim={high:.1}",
+-            n_pairs,
+-        );
+ 
+         let head = Self {
+             num_layers,
+@@ -244,7 +312,10 @@ impl BlockDiffusionDraftHead {
+             num_kv_heads,
+             head_dim,
+             vocab_size,
+-            draft_vocab_size: weights.config.draft_vocab_size.unwrap_or(vocab_size),
++            draft_vocab_size: weights
++                .config
++                .draft_vocab_size
++                .unwrap_or(drafter_vocab_size),
+             gamma: gamma_val,
+             mask_token_id,
+             window_size,
+@@ -253,6 +324,7 @@ impl BlockDiffusionDraftHead {
+ 
+             embed_tokens_shared,
+             lm_head_shared,
++            lm_head_nvfp4,
+             hidden_norm: weights.hidden_norm,
+             norm: weights.norm,
+             fc: weights.fc,
+@@ -260,18 +332,32 @@ impl BlockDiffusionDraftHead {
+             layers: weights
+                 .layers
+                 .into_iter()
+-                .map(|l| DflashLayer {
+-                    input_layernorm: l.input_layernorm,
+-                    post_attention_layernorm: l.post_attention_layernorm,
+-                    q_proj: l.q_proj,
+-                    k_proj: l.k_proj,
+-                    v_proj: l.v_proj,
+-                    o_proj: l.o_proj,
+-                    q_norm: l.q_norm,
+-                    k_norm: l.k_norm,
+-                    gate_proj: l.gate_proj,
+-                    up_proj: l.up_proj,
+-                    down_proj: l.down_proj,
++                .enumerate()
++                .map(|(idx, l)| {
++                    let layer_type = layer_types
++                        .get(idx)
++                        .map(|s| s.as_str())
++                        .unwrap_or("full_attention");
++                    let has_sliding_window =
++                        use_sliding_window && layer_type == "sliding_attention";
++                    DflashLayer {
++                        sliding_window: if has_sliding_window {
++                            drafter_sliding_window
++                        } else {
++                            None
++                        },
++                        input_layernorm: l.input_layernorm,
++                        post_attention_layernorm: l.post_attention_layernorm,
++                        q_proj: l.q_proj,
++                        k_proj: l.k_proj,
++                        v_proj: l.v_proj,
++                        o_proj: l.o_proj,
++                        q_norm: l.q_norm,
++                        k_norm: l.k_norm,
++                        gate_proj: l.gate_proj,
++                        up_proj: l.up_proj,
++                        down_proj: l.down_proj,
++                    }
+                 })
+                 .collect(),
+             kv_cache: Mutex::new(kv_cache),
+@@ -279,6 +365,7 @@ impl BlockDiffusionDraftHead {
+             kernels,
+             max_seq_len,
+             yarn_inv_freq,
++            rope_uses_yarn,
+             rope_theta,
+             rotary_dim,
+             rms_norm_eps: 1e-6,
+@@ -288,7 +375,9 @@ impl BlockDiffusionDraftHead {
+ 
+         tracing::info!(
+             "BlockDiffusionDraftHead loaded: {} layers, hidden={}, intermediate={}, \
+-             GQA {}/{}, head_dim={}, γ={}, vocab={}, mask_token_id={}, target_layers={:?}",
++             GQA {}/{}, head_dim={}, gamma={}, ctx_window={}, window_size={:?}, \
++             vocab={}, mask_token_id={}, target_layers={:?}, rope={}, \
++             sliding_window_layers={}/{}, sliding_window={:?}, lm_head_projection={}",
+             head.num_layers,
+             head.hidden_size,
+             head.intermediate_size,
+@@ -296,9 +385,20 @@ impl BlockDiffusionDraftHead {
+             head.num_kv_heads,
+             head.head_dim,
+             head.gamma,
++            head.ctx_window,
++            head.window_size,
+             head.vocab_size,
+             head.mask_token_id,
+             head.target_layer_ids,
++            if head.rope_uses_yarn { "yarn" } else { "plain" },
++            sliding_window_layers,
++            head.num_layers,
++            drafter_sliding_window,
++            if head.lm_head_nvfp4.is_some() {
++                "nvfp4"
++            } else {
++                "bf16"
++            },
+         );
+ 
+         Ok(head)
+diff --git a/crates/spark-model/src/layers/dflash_head/propose.rs b/crates/spark-model/src/layers/dflash_head/propose.rs
+index bfe8d85..097194d 100644
+--- a/crates/spark-model/src/layers/dflash_head/propose.rs
++++ b/crates/spark-model/src/layers/dflash_head/propose.rs
+@@ -5,7 +5,7 @@
+ //! Split out of `dflash_head.rs` for file-size budget. Trait impl
+ //! delegates to [`BlockDiffusionDraftHead::propose_drafts`].
+ 
+-use anyhow::Result;
++use anyhow::{Result, bail};
+ use spark_runtime::gpu::DevicePtr;
+ 
+ use super::{BlockDiffusionDraftHead, DflashProposerState};
+@@ -197,51 +197,33 @@ impl BlockDiffusionDraftHead {
+         // (`ctx_len=0`) — it was trained with 5×target_hidden ctx, so
+         // first-token acceptance will be poor (<<70%). Adding ctx is the
+         // next iteration on top of `forward_block`.
+-        let _ = num_drafts;
+-
+-        // Append the model's latest single-slot ctx capture into the
+-        // per-seq accumulator. Skip when `target_hidden_stack` is None
+-        // (e.g. EP=2 worker rank or the very first call before any
+-        // capture has fired). Capping at `max_ctx_len` to keep within
+-        // allocated bounds — drafter quality plateaus past a few hundred
+-        // ctx positions anyway.
+-        //
+-        // ATLAS_DFLASH_DEBUG_NO_DECODE_APPEND=1 disables the post-decode
+-        // append. The captured target_hidden_stack is the K-1 token of
+-        // the last K=2 verify (the draft, NOT the bonus). On REJECT
+-        // (the typical case during cold-start training-distribution
+-        // mismatch) the draft was never accepted, so appending its
+-        // hiddens to the accumulator poisons the ctx for subsequent
+-        // propose() calls. Setting this flag uses ONLY prefill captures
+-        // — clean ctx isolation for diagnosing real-traffic acceptance.
+-        let skip_decode_append = std::env::var("ATLAS_DFLASH_DEBUG_NO_DECODE_APPEND")
+-            .ok()
+-            .as_deref()
+-            == Some("1");
+-        if !skip_decode_append
+-            && let Some(latest_ctx) = target_hidden_stack
+-            && dstate.ctx_len < dstate.max_ctx_len
+-        {
+-            let dst_offset = dstate.ctx_len * dstate.ctx_slot_bytes;
+-            ctx.gpu.copy_d2d_async(
+-                latest_ctx,
+-                dstate.ctx_hidden_acc.offset(dst_offset),
+-                dstate.ctx_slot_bytes,
+-                _stream,
+-            )?;
+-            dstate.ctx_len += 1;
++        append_latest_context_capture(dstate, ctx, _stream, target_hidden_stack, position)?;
++        if num_drafts == 0 {
++            dstate.last_num_drafted = 0;
++            return Ok(Vec::new());
+         }
++        self.ensure_projected_context_cache(dstate, ctx, _stream)?;
+ 
+-        let drafts = self
++        let block_tokens = self
+             .forward_block(
+                 last_token,
+                 position,
+                 ctx,
+                 _stream,
+-                // Pass the accumulator's start pointer + `ctx_len` so
+-                // forward_block knows how many ctx positions to project.
+-                if dstate.ctx_len > 0 {
+-                    Some((dstate.ctx_hidden_acc, dstate.ctx_len))
++                // Pass the projected-context accumulator; forward_block
++                // selects the most recent ctx window from it.
++                if dstate.ctx_proj_len > 0 {
++                    Some((dstate.ctx_proj_acc, dstate.ctx_proj_len))
++                } else {
++                    None
++                },
++                if dstate.ctx_kv_len > 0 {
++                    Some((
++                        dstate.ctx_kv_acc,
++                        dstate.ctx_kv_len,
++                        dstate.ctx_kv_slot_bytes,
++                        dstate.ctx_kv_layer_stride_bytes,
++                    ))
+                 } else {
+                     None
+                 },
+@@ -250,25 +232,262 @@ impl BlockDiffusionDraftHead {
+                 tracing::warn!("DFlash forward_block failed, falling back to no-spec: {e:#}");
+                 e
+             })?;
+-        // Phase 2.5e scaffolding: K=γ verify path is implemented in model.rs
+-        // (decode_verify_graphed_kgamma) and dispatched via step_verify_dflash
+-        // when drafts.len()>=4. However, per-step output corruption (output
+-        // starts correct then degenerates to gibberish at K=5) indicates an
+-        // SSM state-management mismatch between the generic K=γ path and the
+-        // hand-tuned K=2/3/4 specializations: the K=N!=2/3/4 fallback writes
+-        // intermediates differently from the WY-chunkwise kernels, causing
+-        // partial-accept rollback to land on stale state.
+-        //
+-        // Until the SSM intermediate semantics are reconciled (kernel work),
+-        // cap drafts at 1 → forces scheduler to use step_verify_k2 which
+-        // produces correct output. Set ATLAS_DFLASH_DRAFT_CAP=N to override
+-        // (N=γ to test the K=γ path; N=1 is the safe default).
++        // z-lab DFlash block_size/gamma includes the already-emitted token
++        // at row 0; rows 1..gamma-1 are speculative drafts.
+         let cap: usize = std::env::var("ATLAS_DFLASH_DRAFT_CAP")
+             .ok()
+             .and_then(|s| s.parse().ok())
+-            .unwrap_or(1);
+-        let drafts = drafts.into_iter().take(cap).collect::<Vec<_>>();
++            .unwrap_or(num_drafts);
++        let candidate_count = block_tokens.len();
++        let speculative_width = cap.min(num_drafts).min(candidate_count);
++        let drafts = block_tokens
++            .into_iter()
++            .take(speculative_width)
++            .collect::<Vec<_>>();
++        static ROW0_ALIGNMENT_LOGGED: std::sync::atomic::AtomicBool =
++            std::sync::atomic::AtomicBool::new(false);
++        if !ROW0_ALIGNMENT_LOGGED.swap(true, std::sync::atomic::Ordering::Relaxed) {
++            tracing::info!(
++                "DFlash row0 skip path active: q_len={} candidate_rows={} returned_drafts={} cap={} scheduler_num_drafts={} last_token={}",
++                self.gamma,
++                candidate_count,
++                drafts.len(),
++                cap,
++                num_drafts,
++                last_token,
++            );
++        }
+         dstate.last_num_drafted = drafts.len();
+         Ok(drafts)
+     }
++
++    fn ensure_projected_context_cache(
++        &self,
++        dstate: &mut DflashProposerState,
++        ctx: &ForwardContext,
++        stream: u64,
++    ) -> Result<()> {
++        use crate::layers::ops;
++
++        if dstate.ctx_proj_len > dstate.ctx_len {
++            dstate.ctx_proj_len = 0;
++            dstate.ctx_kv_len = 0;
++        }
++        let start = dstate.ctx_proj_len;
++        let rows = dstate.ctx_len.saturating_sub(start);
++        let bf16 = 2usize;
++        let target_hidden_dim = self.target_layer_ids.len() * self.target_hidden_size;
++        let expected_ctx_slot = target_hidden_dim * bf16;
++        let expected_proj_slot = self.hidden_size * bf16;
++        let kv_dim = self.num_kv_heads * self.head_dim;
++        let expected_kv_slot = kv_dim * bf16;
++        let expected_kv_stride = dstate.max_ctx_len * expected_kv_slot * 2;
++        if dstate.ctx_slot_bytes != expected_ctx_slot
++            || dstate.ctx_proj_slot_bytes != expected_proj_slot
++            || dstate.ctx_kv_slot_bytes != expected_kv_slot
++            || dstate.ctx_kv_layer_stride_bytes != expected_kv_stride
++        {
++            bail!("DFlash projected-context cache slot size mismatch");
++        }
++
++        if rows > 0 {
++            let dst = dstate
++                .ctx_proj_acc
++                .offset(start * dstate.ctx_proj_slot_bytes);
++            let src = dstate.ctx_hidden_acc.offset(start * dstate.ctx_slot_bytes);
++            if rows == 1 {
++                ops::dense_gemv(
++                    ctx.gpu,
++                    self.kernels.dense_gemv,
++                    src,
++                    &self.fc,
++                    dst,
++                    self.hidden_size as u32,
++                    target_hidden_dim as u32,
++                    stream,
++                )?;
++            } else {
++                ops::dense_gemm(
++                    ctx.gpu,
++                    self.kernels.dense_gemm,
++                    src,
++                    &self.fc,
++                    dst,
++                    rows as u32,
++                    self.hidden_size as u32,
++                    target_hidden_dim as u32,
++                    stream,
++                )?;
++            }
++            ops::rms_norm(
++                ctx.gpu,
++                self.kernels.rms_norm,
++                dst,
++                &self.hidden_norm,
++                dst,
++                rows as u32,
++                self.hidden_size as u32,
++                self.rms_norm_eps,
++                stream,
++            )?;
++            dstate.ctx_proj_len = dstate.ctx_len;
++        }
++
++        if dstate.ctx_kv_len > dstate.ctx_proj_len {
++            dstate.ctx_kv_len = 0;
++        }
++        let mut kv_start = dstate.ctx_kv_len;
++        while kv_start < dstate.ctx_proj_len {
++            let rows_left = dstate.ctx_proj_len - kv_start;
++            let chunk_rows = rows_left.min(self.ctx_window.max(1));
++            let pos_host: Vec<i32> = (kv_start..kv_start + chunk_rows)
++                .map(|p| p as i32)
++                .collect();
++            let pos_bytes: Vec<u8> = pos_host.iter().flat_map(|p| p.to_le_bytes()).collect();
++            ctx.gpu.copy_h2d(&pos_bytes, self.scratch.position_ids)?;
++            ctx.gpu.memset(
++                self.scratch.q_buf,
++                0,
++                chunk_rows * self.num_q_heads * self.head_dim * bf16,
++            )?;
++            let proj_src = dstate
++                .ctx_proj_acc
++                .offset(kv_start * dstate.ctx_proj_slot_bytes);
++            for (layer_idx, layer) in self.layers.iter().enumerate() {
++                let layer_base =
++                    dstate.ctx_kv_acc.offset(layer_idx * dstate.ctx_kv_layer_stride_bytes);
++                let k_dst = layer_base.offset(kv_start * dstate.ctx_kv_slot_bytes);
++                let v_dst = layer_base.offset(
++                    dstate.max_ctx_len * dstate.ctx_kv_slot_bytes
++                        + kv_start * dstate.ctx_kv_slot_bytes,
++                );
++                ops::dense_gemm(
++                    ctx.gpu,
++                    self.kernels.dense_gemm,
++                    proj_src,
++                    &layer.k_proj,
++                    k_dst,
++                    chunk_rows as u32,
++                    kv_dim as u32,
++                    self.hidden_size as u32,
++                    stream,
++                )?;
++                ops::dense_gemm(
++                    ctx.gpu,
++                    self.kernels.dense_gemm,
++                    proj_src,
++                    &layer.v_proj,
++                    v_dst,
++                    chunk_rows as u32,
++                    kv_dim as u32,
++                    self.hidden_size as u32,
++                    stream,
++                )?;
++                ops::rms_norm(
++                    ctx.gpu,
++                    self.kernels.rms_norm,
++                    k_dst,
++                    &layer.k_norm,
++                    k_dst,
++                    chunk_rows as u32 * self.num_kv_heads as u32,
++                    self.head_dim as u32,
++                    self.rms_norm_eps,
++                    stream,
++                )?;
++                if self.rope_uses_yarn {
++                    ops::rope_yarn(
++                        ctx.gpu,
++                        self.kernels.rope_qwen3,
++                        self.scratch.q_buf,
++                        k_dst,
++                        self.scratch.position_ids,
++                        chunk_rows as u32,
++                        self.num_q_heads as u32,
++                        self.num_kv_heads as u32,
++                        self.head_dim as u32,
++                        self.rotary_dim as u32,
++                        self.yarn_inv_freq,
++                        self.rope_theta,
++                        stream,
++                    )?;
++                } else {
++                    ops::rope(
++                        ctx.gpu,
++                        self.kernels.rope_qwen3,
++                        self.scratch.q_buf,
++                        k_dst,
++                        self.scratch.position_ids,
++                        chunk_rows as u32,
++                        self.num_q_heads as u32,
++                        self.num_kv_heads as u32,
++                        self.head_dim as u32,
++                        self.rotary_dim as u32,
++                        self.rope_theta,
++                        stream,
++                    )?;
++                }
++            }
++            kv_start += chunk_rows;
++            dstate.ctx_kv_len = kv_start;
++        }
++        static LOGGED: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
++        if !LOGGED.swap(true, std::sync::atomic::Ordering::Relaxed) {
++            tracing::info!(
++                "DFlash projected ctx/KV cache active: lazy fc+hidden_norm and per-layer K/V for newly committed rows"
++            );
++        }
++        Ok(())
++    }
++}
++
++fn append_latest_context_capture(
++    dstate: &mut DflashProposerState,
++    ctx: &ForwardContext,
++    stream: u64,
++    target_hidden_stack: Option<DevicePtr>,
++    position: usize,
++) -> Result<()> {
++    // The correct DFlash loop appends all committed verifier rows after
++    // verification resolves, not a single stale "latest" row immediately
++    // before proposing. Keep the old path behind an opt-in diagnostic flag
++    // so existing row-dump/debug scripts can still force it when needed.
++    let legacy_decode_append = std::env::var("ATLAS_DFLASH_LEGACY_DECODE_APPEND")
++        .ok()
++        .as_deref()
++        == Some("1");
++    let append_bootstrap_row = !legacy_decode_append
++        && target_hidden_stack.is_some()
++        && dstate.ctx_len < position
++        && dstate.ctx_len + 1 == position;
++    if !legacy_decode_append && !append_bootstrap_row {
++        static LOGGED: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
++        if !LOGGED.swap(true, std::sync::atomic::Ordering::Relaxed) {
++            tracing::info!(
++                "DFlash committed-row ctx carry active: legacy latest-row append disabled"
++            );
++        }
++        return Ok(());
++    }
++    if let Some(latest_ctx) = target_hidden_stack
++        && dstate.ctx_len < dstate.max_ctx_len
++    {
++        let dst_offset = dstate.ctx_len * dstate.ctx_slot_bytes;
++        ctx.gpu.copy_d2d_async(
++            latest_ctx,
++            dstate.ctx_hidden_acc.offset(dst_offset),
++            dstate.ctx_slot_bytes,
++            stream,
++        )?;
++        dstate.ctx_len += 1;
++        if append_bootstrap_row {
++            static LOGGED: std::sync::atomic::AtomicBool =
++                std::sync::atomic::AtomicBool::new(false);
++            if !LOGGED.swap(true, std::sync::atomic::Ordering::Relaxed) {
++                tracing::info!(
++                    "DFlash bootstrap ctx alignment active: appended committed bootstrap row before first proposal"
++                );
++            }
++        }
++    }
++    Ok(())
+ }
+diff --git a/crates/spark-model/src/layers/mtp_head.rs b/crates/spark-model/src/layers/mtp_head.rs
+index 09c93b3..51a2025 100644
+--- a/crates/spark-model/src/layers/mtp_head.rs
++++ b/crates/spark-model/src/layers/mtp_head.rs
+@@ -347,7 +347,7 @@ impl DraftProposer for MtpHead {
+         Ok(())
+     }
+ 
+-    fn free_state(&self, state: &mut dyn ProposerState) -> Result<()> {
++    fn free_state(&self, state: &mut dyn ProposerState, _gpu: &dyn GpuBackend) -> Result<()> {
+         let mtp_state = state
+             .as_any_mut()
+             .downcast_mut::<MtpProposerState>()
+diff --git a/crates/spark-model/src/layers/mtp_multi.rs b/crates/spark-model/src/layers/mtp_multi.rs
+index efe329f..eace41d 100644
+--- a/crates/spark-model/src/layers/mtp_multi.rs
++++ b/crates/spark-model/src/layers/mtp_multi.rs
+@@ -213,7 +213,7 @@ impl DraftProposer for MultiModuleMtpHead {
+         Ok(())
+     }
+ 
+-    fn free_state(&self, state: &mut dyn ProposerState) -> Result<()> {
++    fn free_state(&self, state: &mut dyn ProposerState, _gpu: &dyn GpuBackend) -> Result<()> {
+         let mm_state = state
+             .as_any_mut()
+             .downcast_mut::<MultiModuleMtpState>()
+diff --git a/crates/spark-model/src/layers/ops/ssm_gdn_b.rs b/crates/spark-model/src/layers/ops/ssm_gdn_b.rs
+index 2372e6d..9723ba5 100644
+--- a/crates/spark-model/src/layers/ops/ssm_gdn_b.rs
++++ b/crates/spark-model/src/layers/ops/ssm_gdn_b.rs
+@@ -227,6 +227,61 @@ pub fn gdn_decode_wy4(
+         .launch(stream)
+ }
+ 
++/// WY-Chunkwise Gated Delta Rule for K=16 verification (DFlash block).
++/// Computes 16 H·k dot products in 1 pass over H, applies WY algebraic
++/// correction over 16 tokens (120 inter-token k-dot products), then
++/// applies 16 state updates in a second fused pass writing
++/// Hi_0..Hi_14 + final H.
++///
++/// `h_state_inter_base` points to a contiguous pool of (K-1)=15
++/// intermediate H states per (layer, slot). Each Hi_t is at
++/// `h_state_inter_base + t * inter_stride_floats` (per (b, vh) sub-region).
++#[allow(clippy::too_many_arguments)]
++pub fn gdn_decode_wy16(
++    gpu: &dyn GpuBackend,
++    kernel: KernelHandle,
++    h_state: DevicePtr,
++    query: DevicePtr,
++    key: DevicePtr,
++    value: DevicePtr,
++    gate: DevicePtr,
++    beta: DevicePtr,
++    output: DevicePtr,
++    h_state_inter_base: DevicePtr,
++    inter_stride_floats: u32,
++    batch_size: u32,
++    num_k_heads: u32,
++    num_v_heads: u32,
++    k_dim: u32,
++    v_dim: u32,
++    qk_stride: u32,
++    v_stride: u32,
++    gb_stride: u32,
++    stream: u64,
++) -> Result<()> {
++    KernelLaunch::new(gpu, kernel)
++        .grid([num_v_heads, batch_size, 1])
++        .block([128, 1, 1])
++        .arg_ptr(h_state)
++        .arg_ptr(query)
++        .arg_ptr(key)
++        .arg_ptr(value)
++        .arg_ptr(gate)
++        .arg_ptr(beta)
++        .arg_ptr(output)
++        .arg_ptr(h_state_inter_base)
++        .arg_u32(inter_stride_floats)
++        .arg_u32(batch_size)
++        .arg_u32(num_k_heads)
++        .arg_u32(num_v_heads)
++        .arg_u32(k_dim)
++        .arg_u32(v_dim)
++        .arg_u32(qk_stride)
++        .arg_u32(v_stride)
++        .arg_u32(gb_stride)
++        .launch(stream)
++}
++
+ /// WY-Chunkwise Gated Delta Rule for K=17 verification (DFlash γ+1).
+ /// Computes 17 H·k dot products in 1 pass over H, applies WY algebraic
+ /// correction over 17 tokens (136 inter-token k-dot products), then
+diff --git a/crates/spark-model/src/layers/ops/ssm_mamba.rs b/crates/spark-model/src/layers/ops/ssm_mamba.rs
+index d06b936..59e6d36 100644
+--- a/crates/spark-model/src/layers/ops/ssm_mamba.rs
++++ b/crates/spark-model/src/layers/ops/ssm_mamba.rs
+@@ -88,6 +88,52 @@ pub fn conv1d_update_l2norm(
+         .launch(stream)
+ }
+ 
++/// K=16 fused conv1d update + SiLU + L2 normalization.
++///
++/// Saves all per-token conv_state intermediates in a contiguous pool region,
++/// matching `SsmStatePool::conv_intermediate(..., token_idx)` layout.
++#[allow(clippy::too_many_arguments)]
++pub fn conv1d_update_l2norm_k16(
++    gpu: &dyn GpuBackend,
++    kernel: KernelHandle,
++    conv_state: DevicePtr,
++    input: DevicePtr,
++    weight: &DenseWeight,
++    output: DevicePtr,
++    conv_state_intermediates: DevicePtr,
++    intermediate_stride_floats: u32,
++    d_inner: u32,
++    d_conv: u32,
++    seq_len: u32,
++    input_stride: u32,
++    output_stride: u32,
++    qk_channels: u32,
++    head_dim: u32,
++    l2_eps: f32,
++    stream: u64,
++) -> Result<()> {
++    let bias_ptr = DevicePtr::NULL;
++    KernelLaunch::new(gpu, kernel)
++        .grid([div_ceil(d_inner, 256), 1, 1])
++        .block([256, 1, 1])
++        .arg_ptr(conv_state)
++        .arg_ptr(input)
++        .arg_ptr(weight.weight)
++        .arg_ptr(bias_ptr)
++        .arg_ptr(output)
++        .arg_ptr(conv_state_intermediates)
++        .arg_u32(intermediate_stride_floats)
++        .arg_u32(d_inner)
++        .arg_u32(d_conv)
++        .arg_u32(seq_len)
++        .arg_u32(input_stride)
++        .arg_u32(output_stride)
++        .arg_u32(qk_channels)
++        .arg_u32(head_dim)
++        .arg_f32(l2_eps)
++        .launch(stream)
++}
++
+ /// Multi-token conv1d sliding window update + SiLU for prefill.
+ ///
+ /// Processes `seq_len` tokens sequentially per channel in registers.
+diff --git a/crates/spark-model/src/layers/qwen3_ssm/init.rs b/crates/spark-model/src/layers/qwen3_ssm/init.rs
+index e526f03..38b99be 100644
+--- a/crates/spark-model/src/layers/qwen3_ssm/init.rs
++++ b/crates/spark-model/src/layers/qwen3_ssm/init.rs
+@@ -50,6 +50,11 @@ impl Qwen3SsmLayer {
+             deinterleave_k: gpu.kernel("ssm_preprocess", "deinterleave_qkvz")?,
+             conv1d_k: gpu.kernel("causal_conv1d", "causal_conv1d_update")?,
+             conv1d_l2norm_k: gpu.kernel("causal_conv1d", "causal_conv1d_update_l2norm")?,
++            conv1d_l2norm_k16_k: super::super::try_kernel(
++                gpu,
++                "causal_conv1d",
++                "causal_conv1d_update_l2norm_k16",
++            ),
+             // FP32 conv1d output prevents BF16 truncation in the recurrent
+             // path from compounding past ~8k tokens. The Metal backend
+             // (kernels/metal/common/causal_conv1d_update_l2norm.metal) only
+@@ -150,6 +155,11 @@ impl Qwen3SsmLayer {
+             gdn_wy2_k: gpu.kernel("gated_delta_rule_wy", "gated_delta_rule_wy2")?,
+             gdn_wy3_k: gpu.kernel("gated_delta_rule_wy3", "gated_delta_rule_wy3")?,
+             gdn_wy4_k: gpu.kernel("gated_delta_rule_wy4", "gated_delta_rule_wy4")?,
++            gdn_wy16_k: super::super::try_kernel(
++                gpu,
++                "gated_delta_rule_wy16",
++                "gated_delta_rule_wy16",
++            ),
+             // wy17 only present in qwen3.6-35b-a3b's PTX module set; NULL on other targets.
+             // decode_batched(K=17) checks for non-NULL before dispatching the fused path.
+             gdn_wy17_k: super::super::try_kernel(
+diff --git a/crates/spark-model/src/layers/qwen3_ssm/mod.rs b/crates/spark-model/src/layers/qwen3_ssm/mod.rs
+index 1903ac9..06b63c3 100644
+--- a/crates/spark-model/src/layers/qwen3_ssm/mod.rs
++++ b/crates/spark-model/src/layers/qwen3_ssm/mod.rs
+@@ -62,6 +62,7 @@ pub struct Qwen3SsmLayer {
+     deinterleave_k: KernelHandle,
+     conv1d_k: KernelHandle,
+     conv1d_l2norm_k: KernelHandle,
++    conv1d_l2norm_k16_k: KernelHandle,
+     conv1d_l2norm_f32_k: KernelHandle,
+     gdn_k: KernelHandle,
+     gdn_f32_k: KernelHandle,
+@@ -107,6 +108,9 @@ pub struct Qwen3SsmLayer {
+     gdn_wy2_k: KernelHandle,
+     gdn_wy3_k: KernelHandle,
+     gdn_wy4_k: KernelHandle,
++    /// WY-Chunkwise K=16 GDN verify for upstream DFlash block_size=16
++    /// (last committed token + 15 speculative rows).
++    gdn_wy16_k: KernelHandle,
+     /// WY-Chunkwise K=17 GDN verify (DFlash γ+1). Only present in
+     /// qwen3.6-35b-a3b's PTX module set; NULL handle for other targets,
+     /// in which case decode_batched(K=17) falls through to the sequential
+diff --git a/crates/spark-model/src/layers/qwen3_ssm/trait_decode_batched.rs b/crates/spark-model/src/layers/qwen3_ssm/trait_decode_batched.rs
+index 71f249d..508cb6c 100644
+--- a/crates/spark-model/src/layers/qwen3_ssm/trait_decode_batched.rs
++++ b/crates/spark-model/src/layers/qwen3_ssm/trait_decode_batched.rs
+@@ -458,27 +458,16 @@ impl Qwen3SsmLayer {
+                 stream,
+             )?;
+         } else {
+-            // Per-token MoE fallback for K!=2.
+-            // CONCURRENT-DECODE BUG (sibling of decode_multi_seq fix at line 1102):
+-            // hardcoded `t * h * 4` over-strides for BF16 hidden (GB10 default).
+-            let residual_elem = if ctx.config.use_fp32_residual() {
+-                4usize
+-            } else {
+-                2usize
+-            };
+-            for t in 0..(num_tokens as u32) {
+-                let normed2 = normed2_base.offset(t as usize * h * bf16);
+-                let moe_out = self.ffn.forward(normed2, ctx, stream)?;
+-                let hidden_t = hidden.offset(t as usize * h * residual_elem);
+-                ops::residual_add(
+-                    ctx.gpu,
+-                    self.residual_add_k,
+-                    hidden_t,
+-                    moe_out,
+-                    h as u32,
+-                    stream,
+-                )?;
+-            }
++            self.ffn.forward_batched(normed2_base, num_tokens, ctx, stream)?;
++            let moe_out = ctx.buffers.moe_output();
++            ops::residual_add(
++                ctx.gpu,
++                self.residual_add_k,
++                hidden,
++                moe_out,
++                (num_tokens * h) as u32,
++                stream,
++            )?;
+         }
+ 
+         Ok(())
+diff --git a/crates/spark-model/src/layers/qwen3_ssm/trait_decode_batched_conv_gdn.rs b/crates/spark-model/src/layers/qwen3_ssm/trait_decode_batched_conv_gdn.rs
+index 927136e..f86efc0 100644
+--- a/crates/spark-model/src/layers/qwen3_ssm/trait_decode_batched_conv_gdn.rs
++++ b/crates/spark-model/src/layers/qwen3_ssm/trait_decode_batched_conv_gdn.rs
+@@ -260,6 +260,85 @@ impl Qwen3SsmLayer {
+                 (nv * 2) as u32, // gb_stride
+                 stream,
+             )?;
++        } else if num_tokens == 16 && self.gdn_wy16_k.0 != 0 {
++            // ── K=16 (DFlash block_size=16): fused WY-Chunkwise path ──
++            if self.conv1d_l2norm_k16_k.0 != 0 {
++                let conv_inter_stride_floats = (conv_bytes / 4) as u32;
++                ops::conv1d_update_l2norm_k16(
++                    ctx.gpu,
++                    self.conv1d_l2norm_k16_k,
++                    ssm_state.conv_state,
++                    deinterleaved,
++                    &self.ssm.conv1d,
++                    conv_out_buf,
++                    ssm_state.conv_state_intermediates[0],
++                    conv_inter_stride_floats,
++                    conv_dim as u32,
++                    d_conv as u32,
++                    num_tokens as u32,
++                    qkvz_size as u32,
++                    conv_dim as u32,
++                    qk_ch,
++                    kd as u32,
++                    1e-6,
++                    stream,
++                )?;
++            } else {
++                for t in 0..(num_tokens as u32) {
++                    let qkv_t = deinterleaved.offset(t as usize * qkvz_size * bf16);
++                    let conv_out_t = conv_out_buf.offset(t as usize * conv_dim * bf16);
++                    ops::conv1d_update_l2norm(
++                        ctx.gpu,
++                        self.conv1d_l2norm_k,
++                        ssm_state.conv_state,
++                        qkv_t,
++                        &self.ssm.conv1d,
++                        conv_out_t,
++                        conv_dim as u32,
++                        d_conv as u32,
++                        1,
++                        qk_ch,
++                        kd as u32,
++                        1e-6,
++                        stream,
++                    )?;
++                    ctx.gpu.copy_d2d_async(
++                        ssm_state.conv_state,
++                        ssm_state.conv_state_intermediates[t as usize],
++                        conv_bytes,
++                        stream,
++                    )?;
++                }
++            }
++
++            let q_ptr = conv_out_buf;
++            let k_ptr = conv_out_buf.offset(key_dim * bf16);
++            let v_ptr = conv_out_buf.offset(key_dim * 2 * bf16);
++            let gate_ptr = gates_buf;
++            let beta_ptr = gates_buf.offset(nv * fp32);
++            let inter_stride_floats = (h_bytes / 4) as u32;
++            ops::gdn_decode_wy16(
++                ctx.gpu,
++                self.gdn_wy16_k,
++                ssm_state.h_state,
++                q_ptr,
++                k_ptr,
++                v_ptr,
++                gate_ptr,
++                beta_ptr,
++                gdn_out_buf,
++                ssm_state.h_state_intermediates[0],
++                inter_stride_floats,
++                1, // batch_size
++                nk as u32,
++                nv as u32,
++                kd as u32,
++                vd as u32,
++                conv_dim as u32, // qk_stride
++                conv_dim as u32, // v_stride
++                (nv * 2) as u32, // gb_stride
++                stream,
++            )?;
+         } else if num_tokens == 17 && self.gdn_wy17_k.0 != 0 {
+             // ── K=17 (DFlash γ+1): fused WY-Chunkwise path ──
+             for t in 0..(num_tokens as u32) {
+diff --git a/crates/spark-model/src/model/impl_a1.rs b/crates/spark-model/src/model/impl_a1.rs
+index 1f47e92..333266a 100644
+--- a/crates/spark-model/src/model/impl_a1.rs
++++ b/crates/spark-model/src/model/impl_a1.rs
+@@ -206,6 +206,19 @@ impl TransformerModel {
+             let n = dflash_capture_layers.len();
+             Some(gpu.alloc(n * config.hidden_size * 2)?)
+         };
++        let dflash_verify_hidden_rows = if dflash_capture_layers.is_empty() {
++            0
++        } else {
++            (num_drafts + 1).max(17)
++        };
++        let dflash_verify_hidden_save = if dflash_capture_layers.is_empty() {
++            None
++        } else {
++            let n = dflash_capture_layers.len();
++            Some(gpu.alloc(
++                dflash_verify_hidden_rows * n * config.hidden_size * 2,
++            )?)
++        };
+ 
+         // EP command buffer for token broadcast (4 bytes, u32)
+         let ep_cmd_buf = gpu.alloc(4)?;
+@@ -437,6 +450,8 @@ impl TransformerModel {
+             mtp_hidden_save,
+             dflash_hidden_save,
+             dflash_capture_layers,
++            dflash_verify_hidden_save,
++            dflash_verify_hidden_rows,
+             verify2_graph: Mutex::new(std::collections::HashMap::new()),
+             verify3_graph: Mutex::new(std::collections::HashMap::new()),
+             verify4_graph: Mutex::new(std::collections::HashMap::new()),
+diff --git a/crates/spark-model/src/model/impl_a3.rs b/crates/spark-model/src/model/impl_a3.rs
+index da267c6..e340859 100644
+--- a/crates/spark-model/src/model/impl_a3.rs
++++ b/crates/spark-model/src/model/impl_a3.rs
+@@ -167,17 +167,45 @@ impl TransformerModel {
+                 )?;
+             }
+         } else if let Some(ref nvfp4) = self.lm_head_nvfp4 {
+-            ops::w4a16_gemm(
+-                self.gpu.as_ref(),
+-                self.w4a16_gemm_kernel,
+-                hidden,
+-                nvfp4,
+-                logits,
+-                num_tokens,
+-                v,
+-                h,
+-                stream,
+-            )?;
++            if std::env::var("ATLAS_DFLASH_VERIFY_LM_HEAD_GEMV")
++                .ok()
++                .as_deref()
++                == Some("1")
++                && num_tokens <= 17
++            {
++                static LOGGED: std::sync::atomic::AtomicBool =
++                    std::sync::atomic::AtomicBool::new(false);
++                if !LOGGED.swap(true, std::sync::atomic::Ordering::Relaxed) {
++                    tracing::info!(
++                        "DFlash verifier LM head diagnostic: using per-token NVFP4 GEMV for K={} instead of batched GEMM",
++                        num_tokens
++                    );
++                }
++                for t in 0..num_tokens as usize {
++                    ops::w4a16_gemv(
++                        self.gpu.as_ref(),
++                        self.w4a16_gemv_kernel,
++                        hidden.offset(t * h as usize * 2),
++                        nvfp4,
++                        logits.offset(t * v as usize * 2),
++                        v,
++                        h,
++                        stream,
++                    )?;
++                }
++            } else {
++                ops::w4a16_gemm(
++                    self.gpu.as_ref(),
++                    self.w4a16_gemm_kernel,
++                    hidden,
++                    nvfp4,
++                    logits,
++                    num_tokens,
++                    v,
++                    h,
++                    stream,
++                )?;
++            }
+         } else {
+             ops::dense_gemm(
+                 self.gpu.as_ref(),
+diff --git a/crates/spark-model/src/model/impl_b3.rs b/crates/spark-model/src/model/impl_b3.rs
+index 64bb0e7..468816f 100644
+--- a/crates/spark-model/src/model/impl_b3.rs
++++ b/crates/spark-model/src/model/impl_b3.rs
+@@ -225,6 +225,253 @@ impl TransformerModel {
+         Ok(())
+     }
+ 
++    /// Stage DFlash capture-layer hiddens for all rows in a K=gamma verify.
++    /// The destination is fixed, so this can run inside CUDA graph capture.
++    /// After verifier acceptance is known, `append_staged_dflash_verify_context`
++    /// copies only the committed prefix into the per-sequence context cache.
++    pub(super) fn try_dflash_stage_verify_capture_layer(
++        &self,
++        layer_idx: usize,
++        k: usize,
++        stream: u64,
++    ) -> Result<()> {
++        let dst = match self.dflash_verify_hidden_save {
++            Some(p) => p,
++            None => return Ok(()),
++        };
++        if let Some(ref c) = self.comm
++            && c.rank() != 0
++        {
++            return Ok(());
++        }
++        let slot = match self
++            .dflash_capture_layers
++            .iter()
++            .position(|&l| l == layer_idx)
++        {
++            Some(s) => s,
++            None => return Ok(()),
++        };
++        let rows = k.min(self.dflash_verify_hidden_rows);
++        let h = self.config.hidden_size;
++        let bf16 = 2usize;
++        let n_capture = self.dflash_capture_layers.len();
++        let src_base = self.buffers.hidden_states();
++        for t in 0..rows {
++            let src = src_base.offset(t * h * bf16);
++            let dst_offset = t * n_capture * h * bf16 + slot * h * bf16;
++            self.gpu
++                .copy_d2d_async(src, dst.offset(dst_offset), h * bf16, stream)?;
++        }
++        Ok(())
++    }
++
++    pub(super) fn try_dflash_capture_verify_rows(
++        &self,
++        layer_idx: usize,
++        k: usize,
++        stream: u64,
++    ) -> Result<()> {
++        self.try_dflash_stage_verify_capture_layer(layer_idx, k, stream)
++    }
++
++    pub(super) fn mark_dflash_verify_capture_valid(&self, _k: usize) {}
++
++    pub(super) fn save_dflash_hidden_from_verify_row(
++        &self,
++        token_idx: usize,
++        stream: u64,
++    ) -> Result<()> {
++        let dst = match self.dflash_hidden_save {
++            Some(p) => p,
++            None => return Ok(()),
++        };
++        let src = match self.dflash_verify_hidden_save {
++            Some(p) => p,
++            None => return Ok(()),
++        };
++        if let Some(ref c) = self.comm
++            && c.rank() != 0
++        {
++            return Ok(());
++        }
++        if token_idx >= self.dflash_verify_hidden_rows {
++            return Ok(());
++        }
++        let h = self.config.hidden_size;
++        let bf16 = 2usize;
++        let n_capture = self.dflash_capture_layers.len();
++        let slot_bytes = n_capture * h * bf16;
++        self.gpu.copy_d2d_async(
++            src.offset(token_idx * slot_bytes),
++            dst,
++            slot_bytes,
++            stream,
++        )?;
++        Ok(())
++    }
++
++    pub(super) fn append_dflash_latest_decode_row(
++        &self,
++        seq: &mut crate::traits::SequenceState,
++        stream: u64,
++    ) -> Result<()> {
++        let src = match self.dflash_hidden_save {
++            Some(p) => p,
++            None => return Ok(()),
++        };
++        if let Some(ref c) = self.comm
++            && c.rank() != 0
++        {
++            return Ok(());
++        }
++        let dstate = match seq.proposer_state.as_mut() {
++            Some(ps) => match ps
++                .as_any_mut()
++                .downcast_mut::<crate::layers::DflashProposerState>()
++            {
++                Some(s) => s,
++                None => return Ok(()),
++            },
++            None => return Ok(()),
++        };
++        if dstate.ctx_len >= dstate.max_ctx_len {
++            return Ok(());
++        }
++        if dstate.ctx_len + 1 != seq.seq_len {
++            return Ok(());
++        }
++        let dst = dstate
++            .ctx_hidden_acc
++            .offset(dstate.ctx_len * dstate.ctx_slot_bytes);
++        self.gpu
++            .copy_d2d_async(src, dst, dstate.ctx_slot_bytes, stream)?;
++        dstate.ctx_len += 1;
++        Ok(())
++    }
++
++    pub(super) fn append_dflash_committed_verify_rows(
++        &self,
++        seq: &mut crate::traits::SequenceState,
++        committed_rows: usize,
++        stream: u64,
++    ) -> Result<()> {
++        let src = match self.dflash_verify_hidden_save {
++            Some(p) => p,
++            None => return Ok(()),
++        };
++        if let Some(ref c) = self.comm
++            && c.rank() != 0
++        {
++            return Ok(());
++        }
++        let dstate = match seq.proposer_state.as_mut() {
++            Some(ps) => match ps
++                .as_any_mut()
++                .downcast_mut::<crate::layers::DflashProposerState>()
++            {
++                Some(s) => s,
++                None => return Ok(()),
++            },
++            None => return Ok(()),
++        };
++        let h = self.config.hidden_size;
++        let bf16 = 2usize;
++        let n_capture = self.dflash_capture_layers.len();
++        let slot_bytes = n_capture * h * bf16;
++        if dstate.ctx_slot_bytes != slot_bytes {
++            bail!("DFlash committed verifier context slot size mismatch");
++        }
++        let append_start = dstate.ctx_len;
++        let rows = committed_rows
++            .min(self.dflash_verify_hidden_rows)
++            .min(dstate.max_ctx_len.saturating_sub(append_start));
++        if rows == 0 {
++            return Ok(());
++        }
++        self.gpu.copy_d2d_async(
++            src,
++            dstate
++                .ctx_hidden_acc
++                .offset(append_start * dstate.ctx_slot_bytes),
++            rows * slot_bytes,
++            stream,
++        )?;
++        dstate.ctx_len = append_start + rows;
++        static LOGGED: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
++        if rows > 0 && !LOGGED.swap(true, std::sync::atomic::Ordering::Relaxed) {
++            tracing::info!(
++                "DFlash committed verifier ctx carry active: committed_rows={} capture_layers={}",
++                rows,
++                n_capture
++            );
++        }
++        Ok(())
++    }
++
++    /// Tentatively append all staged K=gamma verifier rows into DFlash
++    /// proposer context. `after_verify` trims this to row0 + accepted drafts.
++    pub(super) fn append_staged_dflash_verify_context(
++        &self,
++        seq: &mut crate::traits::SequenceState,
++        k: usize,
++        stream: u64,
++    ) -> Result<()> {
++        let src = match self.dflash_verify_hidden_save {
++            Some(p) => p,
++            None => return Ok(()),
++        };
++        if let Some(ref c) = self.comm
++            && c.rank() != 0
++        {
++            return Ok(());
++        }
++        let dstate = match seq.proposer_state.as_mut() {
++            Some(ps) => match ps
++                .as_any_mut()
++                .downcast_mut::<crate::layers::DflashProposerState>()
++            {
++                Some(s) => s,
++                None => return Ok(()),
++            },
++            None => return Ok(()),
++        };
++        let h = self.config.hidden_size;
++        let bf16 = 2usize;
++        let n_capture = self.dflash_capture_layers.len();
++        let slot_bytes = n_capture * h * bf16;
++        if dstate.ctx_slot_bytes != slot_bytes {
++            bail!("DFlash verifier context slot size mismatch");
++        }
++        let append_start = dstate.ctx_len;
++        let rows = k
++            .min(self.dflash_verify_hidden_rows)
++            .min(dstate.max_ctx_len.saturating_sub(append_start));
++        if rows == 0 {
++            return Ok(());
++        }
++        self.gpu.copy_d2d_async(
++            src,
++            dstate
++                .ctx_hidden_acc
++                .offset(append_start * dstate.ctx_slot_bytes),
++            rows * slot_bytes,
++            stream,
++        )?;
++        dstate.pending_ctx_start = append_start;
++        dstate.pending_ctx_rows = rows;
++        dstate.ctx_len = append_start + rows;
++        static LOGGED: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
++        if !LOGGED.swap(true, std::sync::atomic::Ordering::Relaxed) {
++            tracing::info!(
++                "DFlash K=gamma verifier hidden carry active: staged_rows={} capture_layers={}",
++                rows,
++                n_capture
++            );
++        }
++        Ok(())
++    }
++
+     /// DFlash 5-layer hidden capture. Called inside each per-layer loop after
+     /// `layer.decode(...)` returns. No-op when DFlash is disabled (the buffer
+     /// is `None`) or when `layer_idx` is not in `dflash_capture_layers`.
+diff --git a/crates/spark-model/src/model/trait_impl/meta.rs b/crates/spark-model/src/model/trait_impl/meta.rs
+index 84c4656..2757c0f 100644
+--- a/crates/spark-model/src/model/trait_impl/meta.rs
++++ b/crates/spark-model/src/model/trait_impl/meta.rs
+@@ -89,15 +89,35 @@ impl TransformerModel {
+ 
+     pub(super) fn alloc_sequence_dispatch(&self) -> Result<SequenceState> {
+         let slot = self.ssm_pool.claim_slot()?;
++        let release_claimed_slot = |stage: &str| {
++            tracing::error!("alloc_sequence: releasing SSM slot {slot} after {stage} failed");
++            let stream = self.gpu.default_stream();
++            if let Err(e) = self.ssm_pool.zero_slot(slot, self.gpu.as_ref(), stream) {
++                tracing::error!("alloc_sequence: ssm_pool.zero_slot({slot}) during cleanup: {e:#}");
++            }
++            if let Err(e) = self.gpu.synchronize(stream) {
++                tracing::error!(
++                    "alloc_sequence: gpu.synchronize after zero_slot({slot}) during cleanup: {e:#}"
++                );
++            }
++            self.ssm_pool.release_slot(slot);
++        };
++
+         // Zero SSM state to prevent stale h_state/conv_state from prior
+         // sequences corrupting the recurrent computation during prefill.
+         // CRITICAL: use Atlas's own stream (not stream 0) because Atlas's stream
+         // is CU_STREAM_NON_BLOCKING and does NOT synchronize with stream 0.
+         // Using stream 0 would race with the subsequent prefill kernel.
+         let stream = self.gpu.default_stream();
+-        self.ssm_pool.zero_slot(slot, self.gpu.as_ref(), stream)?;
++        if let Err(e) = self.ssm_pool.zero_slot(slot, self.gpu.as_ref(), stream) {
++            release_claimed_slot("initial SSM zero");
++            return Err(e);
++        }
+         // Ensure zero completes before any prefill kernels touch this slot.
+-        self.gpu.synchronize(stream)?;
++        if let Err(e) = self.gpu.synchronize(stream) {
++            release_claimed_slot("initial SSM zero synchronize");
++            return Err(e);
++        }
+         let has_mtp = self.proposer.is_some() || self.self_speculative;
+ 
+         // Build layer states: SSM layers point into the pool (fixed addresses),
+@@ -138,20 +158,38 @@ impl TransformerModel {
+                 layer_states.push(Box::new(ssm_state));
+                 ssm_layer_idx += 1;
+             } else {
+-                layer_states.push(layer.alloc_state(self.gpu.as_ref())?);
++                match layer.alloc_state(self.gpu.as_ref()) {
++                    Ok(state) => layer_states.push(state),
++                    Err(e) => {
++                        release_claimed_slot("layer state allocation");
++                        return Err(e);
++                    }
++                }
+             }
+         }
+ 
+         // Zero SSM states for the new sequence.
+         // Synchronous reset: memset + stream sync ensures zero is visible
+         // before any subsequent kernel reads the state.
+-        self.ssm_pool.reset_slot(slot, self.gpu.as_ref())?;
++        if let Err(e) = self.ssm_pool.reset_slot(slot, self.gpu.as_ref()) {
++            release_claimed_slot("SSM reset");
++            return Err(e);
++        }
+         // Double-check: explicit sync to guarantee zero is complete
+-        self.gpu.synchronize(self.gpu.default_stream())?;
++        if let Err(e) = self.gpu.synchronize(self.gpu.default_stream()) {
++            release_claimed_slot("SSM reset synchronize");
++            return Err(e);
++        }
+ 
+         // Allocate MTP proposer state (owns its own KV cache block table)
+         let proposer_state = match &self.proposer {
+-            Some(p) => Some(p.alloc_state(self.gpu.as_ref())?),
++            Some(p) => match p.alloc_state(self.gpu.as_ref()) {
++                Ok(state) => Some(state),
++                Err(e) => {
++                    release_claimed_slot("proposer state allocation");
++                    return Err(e);
++                }
++            },
+             None => None,
+         };
+ 
+diff --git a/crates/spark-model/src/model/trait_impl/mod.rs b/crates/spark-model/src/model/trait_impl/mod.rs
+index 9d783ec..79d2c2b 100644
+--- a/crates/spark-model/src/model/trait_impl/mod.rs
++++ b/crates/spark-model/src/model/trait_impl/mod.rs
+@@ -239,6 +239,14 @@ impl Model for TransformerModel {
+     ) -> Result<Vec<u32>> {
+         self.decode_verify_graphed_kgamma_dispatch(tokens, seq, _stream)
+     }
++    fn append_staged_dflash_verify_context(
++        &self,
++        seq: &mut SequenceState,
++        k: usize,
++        _stream: u64,
++    ) -> Result<()> {
++        TransformerModel::append_staged_dflash_verify_context(self, seq, k, _stream)
++    }
+     fn save_hidden_for_mtp(&self, token_idx: usize, _stream: u64) -> Result<()> {
+         self.save_hidden_for_mtp_dispatch(token_idx, _stream)
+     }
+diff --git a/crates/spark-model/src/model/trait_impl/sequence.rs b/crates/spark-model/src/model/trait_impl/sequence.rs
+index 99343ed..a68cb0d 100644
+--- a/crates/spark-model/src/model/trait_impl/sequence.rs
++++ b/crates/spark-model/src/model/trait_impl/sequence.rs
+@@ -186,7 +186,7 @@ impl TransformerModel {
+         if let Some(ref proposer) = self.proposer
+             && let Some(ref mut pstate) = seq.proposer_state
+         {
+-            proposer.free_state(pstate.as_mut())?;
++            proposer.free_state(pstate.as_mut(), self.gpu.as_ref())?;
+         }
+ 
+         self.free_chunked_prefill_meta(seq)?;
+diff --git a/crates/spark-model/src/model/trait_impl/verify_d.rs b/crates/spark-model/src/model/trait_impl/verify_d.rs
+index b76358c..accfb71 100644
+--- a/crates/spark-model/src/model/trait_impl/verify_d.rs
++++ b/crates/spark-model/src/model/trait_impl/verify_d.rs
+@@ -50,12 +50,6 @@ impl TransformerModel {
+         let stream = self.gpu.default_stream();
+         let h = self.config.hidden_size;
+         let bf16 = 2usize;
+-        let fp32 = if self.config.use_fp32_residual() {
+-            4usize
+-        } else {
+-            2usize
+-        };
+-
+         // F62 (2026-04-27): SpecMamba dual-buffer pre-verify copy.
+         self.pre_verify_copy_async(seq)?;
+ 
+@@ -66,10 +60,25 @@ impl TransformerModel {
+ 
+         // ── Phase 1: Pre-graph (varies per step, NOT captured) ──
+ 
+-        // 1a. Embed K tokens
+-        for t in 0..k {
+-            self.embed(tokens[t], hidden.offset(t * h * fp32), stream)?;
+-        }
++        // 1a. Embed K tokens in one launch. This pre-graph phase runs on
++        // every DFlash verify step, so avoid K individual D2D copies and
++        // scale launches.
++        let token_bytes =
++            unsafe { std::slice::from_raw_parts(tokens.as_ptr() as *const u8, k * 4) };
++        let token_ids_dev = self.buffers.scratch();
++        self.gpu
++            .copy_h2d_async(token_bytes, token_ids_dev, stream)?;
++        ops::batched_embed(
++            self.gpu.as_ref(),
++            self.batched_embed_kernel,
++            token_ids_dev,
++            self.embed_tokens.weight,
++            hidden,
++            k as u32,
++            h as u32,
++            stream,
++        )?;
++        self.scale_embeddings(hidden, k, stream)?;
+ 
+         // 1b. Allocate KV blocks for all K positions
+         let bs = kv_cache.block_size();
+@@ -226,6 +235,7 @@ impl TransformerModel {
+                         stream,
+                     )?;
+                 }
++                self.try_dflash_stage_verify_capture_layer(layer_idx, k, stream)?;
+             }
+ 
+             // Final norm [K, H]
+diff --git a/crates/spark-model/src/model/types.rs b/crates/spark-model/src/model/types.rs
+index 996184a..481f2ee 100644
+--- a/crates/spark-model/src/model/types.rs
++++ b/crates/spark-model/src/model/types.rs
+@@ -103,6 +103,13 @@ pub struct TransformerModel {
+     /// Layer indices to capture for DFlash. Empty when DFlash is disabled.
+     /// Sourced from drafter's `dflash_config.target_layer_ids` at model build.
+     pub(super) dflash_capture_layers: Vec<usize>,
++    /// Fixed staging buffer for K=gamma verifier hidden captures. During CUDA
++    /// graph replay the target writes capture-layer hiddens for all verified
++    /// rows here; after accept-prefix resolution the proposer state copies
++    /// only the committed rows into its variable per-sequence context cache.
++    pub(super) dflash_verify_hidden_save: Option<DevicePtr>,
++    /// Row capacity of `dflash_verify_hidden_save`.
++    pub(super) dflash_verify_hidden_rows: usize,
+     /// Cached CUDA graphs for K=2 verification, **keyed by `seq.slot_idx`**.
+     /// Same rationale as `decode_graph`: the captured graph has SSM
+     /// h_state/conv_state pointers baked in as kernel arguments, so replay for
+diff --git a/crates/spark-model/src/speculative.rs b/crates/spark-model/src/speculative.rs
+index 1596619..64afc2b 100644
+--- a/crates/spark-model/src/speculative.rs
++++ b/crates/spark-model/src/speculative.rs
+@@ -85,8 +85,8 @@ pub trait DraftProposer: Send + Sync {
+     /// Free per-sequence proposer state (KV cache blocks, etc.).
+     ///
+     /// Must be called when a sequence is finished to avoid resource leaks.
+-    fn free_state(&self, state: &mut dyn ProposerState) -> Result<()> {
+-        let _ = state;
++    fn free_state(&self, state: &mut dyn ProposerState, gpu: &dyn GpuBackend) -> Result<()> {
++        let _ = (state, gpu);
+         Ok(())
+     }
+ }
+diff --git a/crates/spark-model/src/traits/model.rs b/crates/spark-model/src/traits/model.rs
+index 58fcdeb..71b861b 100644
+--- a/crates/spark-model/src/traits/model.rs
++++ b/crates/spark-model/src/traits/model.rs
+@@ -342,6 +342,23 @@ pub trait Model: Send + Sync {
+         self.decode_verify_graphed_kgamma(tokens, seq, stream)
+     }
+ 
++    /// Append DFlash verifier-captured hidden rows into the proposer context.
++    ///
++    /// DFlash K=gamma verification captures row-wise target hiddens while
++    /// running the target model. The scheduler resolves the accept prefix
++    /// after that verifier returns, so implementations may append the staged
++    /// rows here and let `trim_proposer_state` keep only row0 plus accepted
++    /// draft rows. Non-DFlash models are a no-op.
++    fn append_staged_dflash_verify_context(
++        &self,
++        seq: &mut SequenceState,
++        k: usize,
++        stream: u64,
++    ) -> Result<()> {
++        let _ = (seq, k, stream);
++        Ok(())
++    }
++
+     /// Save the post-norm hidden state at `token_idx` (0 or 1) to a
+     /// dedicated MTP input buffer. Must precede `run_mtp_propose` — MTP
+     /// overwrites shared buffers including `norm_output`.
+diff --git a/crates/spark-model/src/weight_loader/dflash_loader.rs b/crates/spark-model/src/weight_loader/dflash_loader.rs
+index 2a5024a..bae0ec8 100644
+--- a/crates/spark-model/src/weight_loader/dflash_loader.rs
++++ b/crates/spark-model/src/weight_loader/dflash_loader.rs
+@@ -54,6 +54,40 @@ pub struct DflashConfig {
+     /// DFlash-specific nested config object.
+     #[serde(default)]
+     pub dflash_config: Option<DflashSubConfig>,
++    /// Drafter base RoPE theta. Defaults to 10M, matching Qwen3.6-DFlash.
++    #[serde(default = "default_rope_theta")]
++    pub rope_theta: f32,
++    /// HF-style `rope_scaling` block. `None` means plain RoPE; Qwen3.6-DFlash
++    /// v2 ships `rope_scaling: null`.
++    #[serde(default)]
++    pub rope_scaling: Option<DflashRopeScaling>,
++    /// Per-layer attention type from the drafter config. Qwen3 drafters can
++    /// mix `full_attention` and `sliding_attention` layers.
++    #[serde(default)]
++    pub layer_types: Vec<String>,
++    #[serde(default)]
++    pub use_sliding_window: bool,
++    #[serde(default)]
++    pub sliding_window: Option<usize>,
++}
++
++fn default_rope_theta() -> f32 {
++    10_000_000.0
++}
++
++/// Subset of HF `rope_scaling` consumed by the DFlash drafter path.
++#[derive(Debug, Clone, Deserialize)]
++pub struct DflashRopeScaling {
++    #[serde(default, alias = "type")]
++    pub rope_type: Option<String>,
++    #[serde(default)]
++    pub factor: Option<f32>,
++    #[serde(default)]
++    pub beta_fast: Option<f32>,
++    #[serde(default)]
++    pub beta_slow: Option<f32>,
++    #[serde(default)]
++    pub original_max_position_embeddings: Option<f32>,
+ }
+ 
+ fn default_block_size() -> usize {
+diff --git a/crates/spark-model/src/weight_loader/gemma4/loader_a.rs b/crates/spark-model/src/weight_loader/gemma4/loader_a.rs
+index bf8eccd..24bb478 100644
+--- a/crates/spark-model/src/weight_loader/gemma4/loader_a.rs
++++ b/crates/spark-model/src/weight_loader/gemma4/loader_a.rs
+@@ -349,6 +349,7 @@ pub(super) fn load_layers_impl(
+             gate_proj,
+             up_proj,
+             down_proj,
++            transposed: None,
+         };
+         let bf16_mlp_weights = build_bf16_mlp(store, &lp, bf16_mlp, config, gpu, h)?;
+         gpu.synchronize(stream)?;
+diff --git a/crates/spark-model/src/weight_loader/qwen35_dense.rs b/crates/spark-model/src/weight_loader/qwen35_dense.rs
+index df18921..2809e5a 100644
+--- a/crates/spark-model/src/weight_loader/qwen35_dense.rs
++++ b/crates/spark-model/src/weight_loader/qwen35_dense.rs
+@@ -12,8 +12,8 @@ use crate::layers::{DenseFfnLayer, FfnComponent, Qwen3AttentionLayer, Qwen3SsmLa
+ use crate::tp_shard::{TpShardKind, load_qkvo_tp, shard_dense_bf16, shard_quantized_nvfp4};
+ use crate::weight_map::{
+     AttentionWeights, DenseWeight, MtpWeights, Nvfp4Variant, SsmWeights, dense, dense_auto,
+-    dequant_nvfp4_to_bf16, detect_nvfp4_variant, gpu_concat_rows, interleave_ba, load_dense_ffn,
+-    load_kv_scales, load_mtp, load_ssm_qwen35, quantize_to_nvfp4, quantized_auto,
++    dense_keep_f32, dequant_nvfp4_to_bf16, detect_nvfp4_variant, gpu_concat_rows, interleave_ba,
++    load_dense_ffn, load_kv_scales, load_mtp, load_ssm_qwen35, quantize_to_nvfp4, quantized_auto,
+ };
+ 
+ pub struct Qwen35DenseWeightLoader;
+@@ -189,44 +189,64 @@ impl ModelWeightLoader for Qwen35DenseWeightLoader {
+                     let value_dim = nv * config.linear_value_head_dim;
+                     let la = format!("{lp}.linear_attn");
+ 
+-                    // SSM projections may be BF16 or NVFP4 depending on quantizer.
+-                    // If NVFP4 (weight_packed exists), dequant to BF16 for concat pipeline.
+-                    let ssm_quantized = store.contains(&format!("{la}.in_proj_qkv.weight_packed"));
+-
+-                    let (qkv_dense, z_dense, out_proj_dense) = if ssm_quantized {
+-                        let qkv = dequant_nvfp4_to_bf16(
+-                            store,
+-                            &format!("{la}.in_proj_qkv"),
+-                            qkv_rows,
+-                            h,
+-                            gpu,
+-                        )?;
+-                        let z = dequant_nvfp4_to_bf16(
+-                            store,
+-                            &format!("{la}.in_proj_z"),
+-                            z_rows,
+-                            h,
+-                            gpu,
+-                        )?;
+-                        let out = dequant_nvfp4_to_bf16(
+-                            store,
+-                            &format!("{la}.out_proj"),
+-                            h,
+-                            value_dim,
+-                            gpu,
+-                        )?;
+-                        (qkv, z, out)
+-                    } else {
+-                        let ssm35 = load_ssm_qwen35(store, &lp, gpu, variant)?;
+-                        (ssm35.in_proj_qkv, ssm35.in_proj_z, ssm35.out_proj)
+-                    };
++                    // SSM projections may be mixed BF16/NVFP4 depending on
++                    // the quantizer's ignore list. Qwen3.6-27B NVFP4 keeps
++                    // in_proj_qkv/in_proj_z BF16 but stores out_proj as
++                    // compressed-tensors NVFP4, so probe each projection
++                    // independently instead of keying the whole branch off
++                    // in_proj_qkv only.
++                    let qkv_quantized =
++                        store.contains(&format!("{la}.in_proj_qkv.weight_packed"));
++                    let z_quantized = store.contains(&format!("{la}.in_proj_z.weight_packed"));
++                    let out_quantized = store.contains(&format!("{la}.out_proj.weight_packed"));
++
++                    let (qkv_dense, z_dense, out_proj_dense) =
++                        if qkv_quantized || z_quantized || out_quantized {
++                            let qkv = if qkv_quantized {
++                                dequant_nvfp4_to_bf16(
++                                    store,
++                                    &format!("{la}.in_proj_qkv"),
++                                    qkv_rows,
++                                    h,
++                                    gpu,
++                                )?
++                            } else {
++                                dense_auto(store, &format!("{la}.in_proj_qkv.weight"), gpu)?
++                            };
++                            let z = if z_quantized {
++                                dequant_nvfp4_to_bf16(
++                                    store,
++                                    &format!("{la}.in_proj_z"),
++                                    z_rows,
++                                    h,
++                                    gpu,
++                                )?
++                            } else {
++                                dense_auto(store, &format!("{la}.in_proj_z.weight"), gpu)?
++                            };
++                            let out = if out_quantized {
++                                dequant_nvfp4_to_bf16(
++                                    store,
++                                    &format!("{la}.out_proj"),
++                                    h,
++                                    value_dim,
++                                    gpu,
++                                )?
++                            } else {
++                                dense_auto(store, &format!("{la}.out_proj.weight"), gpu)?
++                            };
++                            (qkv, z, out)
++                        } else {
++                            let ssm35 = load_ssm_qwen35(store, &lp, gpu, variant)?;
++                            (ssm35.in_proj_qkv, ssm35.in_proj_z, ssm35.out_proj)
++                        };
+ 
+                     // A, B are always BF16
+                     let in_proj_a = dense(store, &format!("{la}.in_proj_a.weight"))?;
+                     let in_proj_b = dense(store, &format!("{la}.in_proj_b.weight"))?;
+                     let conv1d = dense(store, &format!("{la}.conv1d.weight"))?;
+-                    let a_log = dense(store, &format!("{la}.A_log"))?;
+-                    let dt_bias = dense(store, &format!("{la}.dt_bias"))?;
++                    let a_log = dense_keep_f32(store, &format!("{la}.A_log"), gpu)?;
++                    let dt_bias = dense_keep_f32(store, &format!("{la}.dt_bias"), gpu)?;
+                     let norm = dense(store, &format!("{la}.norm.weight"))?;
+ 
+                     let qkvz_dense =
+diff --git a/crates/spark-server/src/main_modules/serve.rs b/crates/spark-server/src/main_modules/serve.rs
+index 8b3cdc6..bc933a2 100644
+--- a/crates/spark-server/src/main_modules/serve.rs
++++ b/crates/spark-server/src/main_modules/serve.rs
+@@ -318,9 +318,8 @@ pub(crate) async fn serve(mut args: cli::ServeArgs) -> Result<()> {
+     let use_speculative = (args.speculative || args.dflash) && scheduler_model.has_proposer();
+     let use_self_spec = args.self_speculative && scheduler_model.has_self_speculative();
+     let use_ngram_spec = args.ngram_speculative;
+-    // For DFlash, force `num_drafts = γ - 1` so the scheduler asks the
+-    // proposer for γ tokens (DraftProposer::propose semantics: "up to
+-    // num_drafts" → drafts.len() = γ → routes to step_verify_dflash).
++    // z-lab DFlash block_size/gamma includes the previous emitted token in
++    // row 0; rows 1..gamma-1 are speculative drafts.
+     let num_drafts = if args.dflash {
+         args.dflash_gamma.saturating_sub(1).max(1)
+     } else {
+diff --git a/crates/spark-server/src/scheduler/verify_dflash_step.rs b/crates/spark-server/src/scheduler/verify_dflash_step.rs
+index bf354fc..185677e 100644
+--- a/crates/spark-server/src/scheduler/verify_dflash_step.rs
++++ b/crates/spark-server/src/scheduler/verify_dflash_step.rs
+@@ -27,17 +27,23 @@ use super::*;
+ ///   * Sliding-window state rollback for sliding-attention layers
+ ///     (Gemma-4-style; not used by Qwen3.6 targets).
+ pub fn step_verify_dflash(model: &dyn Model, a: &mut ActiveSeq, drafts: &[u32], num_drafts: usize) {
++    let timing = std::env::var("ATLAS_DFLASH_TIMING").ok().as_deref() == Some("1");
++    let step_t0 = Instant::now();
+     if let Err(e) = model.sync_secondary() {
+         tracing::error!("sync_secondary: {e:#}");
+         a.finished = true;
+         return;
+     }
++    let sync_us = step_t0.elapsed().as_micros();
+ 
+-    // tokens = [last_verified, draft_0, draft_1, ..., draft_{γ-1}]
++    // tokens = [last_verified, draft_0, draft_1, ..., draft_{γ-2}].
++    // z-lab DFlash block_size=16 yields 15 speculative rows, so the target
++    // verifier should execute the native K=16/gamma16 path.
+     let mut tokens = Vec::with_capacity(drafts.len() + 1);
+     tokens.push(a.last_token);
+     tokens.extend_from_slice(drafts);
+ 
++    let verify_t0 = Instant::now();
+     let verified = match model.decode_verify_dflash(&tokens, &mut a.seq, 0) {
+         Ok(v) => v,
+         Err(e) => {
+@@ -46,6 +52,7 @@ pub fn step_verify_dflash(model: &dyn Model, a: &mut ActiveSeq, drafts: &[u32],
+             return;
+         }
+     };
++    let verify_us = verify_t0.elapsed().as_micros();
+     a.last_token_time = Instant::now();
+ 
+     // `decode_verify` already advanced `seq.seq_len` by `tokens.len()` and
+@@ -69,7 +76,6 @@ pub fn step_verify_dflash(model: &dyn Model, a: &mut ActiveSeq, drafts: &[u32],
+             break;
+         }
+     }
+-
+     // Roll back the over-extended `seq_len` and `seq.tokens`. The verify
+     // advanced both by `tokens.len() = γ+1` (all γ drafts + the prefix
+     // bonus slot). We keep the original prefix + `num_accepted` drafts +
+@@ -120,8 +126,10 @@ pub fn step_verify_dflash(model: &dyn Model, a: &mut ActiveSeq, drafts: &[u32],
+         ])
+         .inc();
+ 
++    let block_gamma = drafts.len() + 1;
+     tracing::info!(
+-        "DFLASH K=γ verify: γ={} accepted={}/{} ({:.0}%) seq_len={}",
++        "DFLASH K=gamma verify: block_gamma={} draft_count={} accepted={}/{} ({:.0}%) seq_len={}",
++        block_gamma,
+         drafts.len(),
+         num_accepted,
+         drafts.len(),
+@@ -129,7 +137,7 @@ pub fn step_verify_dflash(model: &dyn Model, a: &mut ActiveSeq, drafts: &[u32],
+         a.seq.seq_len,
+     );
+ 
+-    // SSM commit / rollback. Hybrid models (Qwen3.6-A3B has 30 GDN layers)
++    // SSM commit / rollback. Hybrid models (Qwen3.6 has GDN layers)
+     // advance recurrent SSM state per-position during verify; without this
+     // commit, the canonical h_state stays at position+γ even if only a few
+     // drafts were accepted, producing gibberish on subsequent decodes.
+@@ -139,17 +147,29 @@ pub fn step_verify_dflash(model: &dyn Model, a: &mut ActiveSeq, drafts: &[u32],
+     //  - 0 < num_accepted < k_verify (partial): canonical = intermediate[num_accepted-1]
+     //  - num_accepted == 0: canonical untouched (rollback to checkpoint)
+     //
+-    // k_verify = drafts.len() + 1 (the prefix bonus position is also verified).
+-    let k_verify = drafts.len() + 1;
++    let k_verify = tokens.len();
+     let total_accepted = num_accepted + 1; // bonus is always "accepted"
++    let commit_t0 = Instant::now();
+     if let Err(e) = model.commit_verify_state_async(&mut a.seq, total_accepted, k_verify) {
+         tracing::error!("commit_verify_state_async (dflash): {e:#}");
+         a.finished = true;
+         return;
+     }
++    let commit_us = commit_t0.elapsed().as_micros();
++
++    // Carry the K=gamma verifier's captured target hiddens into the DFlash
++    // proposer context. The proposer trims this staged block below to row0
++    // plus accepted drafts.
++    let ctx_t0 = Instant::now();
++    if let Err(e) = model.append_staged_dflash_verify_context(&mut a.seq, block_gamma, 0) {
++        tracing::error!("append_staged_dflash_verify_context (dflash): {e:#}");
++        a.finished = true;
++        return;
++    }
+ 
+-    // Save the latest hidden for the NEXT propose() call. Mirrors the
+-    // K=2 verify path's `save_hidden_for_mtp(1, 0)` after accept.
++    // Save the latest hidden for legacy MTP-compatible proposer hooks. DFlash
++    // uses the staged multi-layer context carry above for its real ctx/KV
++    // cache.
+     let bonus_token_idx = total_accepted.saturating_sub(1);
+     if let Err(e) = model.save_hidden_for_mtp(bonus_token_idx, 0) {
+         tracing::error!("save_hidden_for_mtp (dflash): {e:#}");
+@@ -158,9 +178,11 @@ pub fn step_verify_dflash(model: &dyn Model, a: &mut ActiveSeq, drafts: &[u32],
+     if let Err(e) = model.trim_proposer_state(&mut a.seq, num_accepted, 0) {
+         tracing::error!("trim_proposer_state: {e:#}");
+     }
++    let ctx_us = ctx_t0.elapsed().as_micros();
+ 
+     // Re-propose for next step.
+     let _mtp_grammar_mask = mtp_grammar_mask_for(a);
++    let propose_t0 = Instant::now();
+     match model.run_mtp_propose_multi(
+         a.last_token,
+         a.seq.seq_len,
+@@ -173,4 +195,19 @@ pub fn step_verify_dflash(model: &dyn Model, a: &mut ActiveSeq, drafts: &[u32],
+         Ok(_) => {}
+         Err(e) => tracing::error!("run_mtp_propose_multi (dflash): {e:#}"),
+     }
++    let propose_us = propose_t0.elapsed().as_micros();
++    if timing {
++        tracing::info!(
++            "DFLASH timing verify_step sync_us={} verify_us={} commit_us={} ctx_us={} propose_us={} total_us={} accepted={} drafts={} seq_len={}",
++            sync_us,
++            verify_us,
++            commit_us,
++            ctx_us,
++            propose_us,
++            step_t0.elapsed().as_micros(),
++            num_accepted,
++            drafts.len(),
++            a.seq.seq_len,
++        );
++    }
+ }
+-- 
+2.50.1 (Apple Git-155)
+

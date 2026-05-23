@@ -1,0 +1,3 @@
+$ git rev-parse HEAD
+afa81c8686d692df2922ee6e201829c75939d883
+$ command -v cargo

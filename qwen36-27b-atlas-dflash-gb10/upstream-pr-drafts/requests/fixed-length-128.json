@@ -1,0 +1,18 @@
+{
+  "model": "Qwen3.6-27B-NVFP4-unsloth",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Use the benchmark prompt from the llama-benchy Sherlock corpus; proxy receipts archive the exact prompt text per request."
+    }
+  ],
+  "temperature": 0,
+  "max_tokens": 128,
+  "min_tokens": 128,
+  "ignore_eos": true,
+  "stream": true,
+  "stream_options": {
+    "include_usage": true
+  },
+  "cache_prompt": false
+}
