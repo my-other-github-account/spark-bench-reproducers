@@ -1,0 +1,956 @@
+From 8d0a7ea7903b873fc74209c62bdbfb0175cf1bb3 Mon Sep 17 00:00:00 2001
+From: my-other-github-account
+ <82987814+my-other-github-account@users.noreply.github.com>
+Date: Fri, 22 May 2026 21:13:54 -0700
+Subject: [PATCH] Optimize DFlash proposer kernels
+
+---
+ crates/spark-model/src/layers/dense_ffn.rs    | 141 ++++++++++++----
+ crates/spark-model/src/layers/dflash_head.rs  |   7 +
+ .../src/layers/dflash_head/forward_block.rs   |  37 +++--
+ .../src/layers/dflash_head/from_weights.rs    |  46 ++++++
+ .../spark-model/src/layers/ops/gemm_dense.rs  |  33 ++++
+ .../src/layers/ops/prefill_attn_main_a.rs     |  45 ++++++
+ .../trait_impl/multi_seq/ffn.rs               |  64 +++-----
+ crates/spark-model/src/weight_map/fp8_lut.rs  |  33 +++-
+ .../spark-model/src/weight_map/quantized.rs   |  53 ++++++
+ kernels/gb10/common/causal_conv1d.cu          | 118 ++++++++++++++
+ kernels/gb10/qwen3.6-27b/nvfp4/w4a16_gemm.cu  | 153 ++++++++++++++++++
+ 11 files changed, 637 insertions(+), 93 deletions(-)
+
+diff --git a/crates/spark-model/src/layers/dense_ffn.rs b/crates/spark-model/src/layers/dense_ffn.rs
+index 034bf8c..9343bb5 100644
+--- a/crates/spark-model/src/layers/dense_ffn.rs
++++ b/crates/spark-model/src/layers/dense_ffn.rs
+@@ -12,10 +12,20 @@ use crate::layer::ForwardContext;
+ use crate::layers::ops;
+ use crate::weight_map::{DenseWeight, QuantizedWeight};
+ 
++static DFLASH_FFN_FAST_PATH_LOGGED: std::sync::atomic::AtomicBool =
++    std::sync::atomic::AtomicBool::new(false);
++
+ pub struct DenseFfnWeights {
+     pub gate_proj: QuantizedWeight,
+     pub up_proj: QuantizedWeight,
+     pub down_proj: QuantizedWeight,
++    pub transposed: Option<DenseFfnWeightsTransposed>,
++}
++
++pub struct DenseFfnWeightsTransposed {
++    pub gate_proj: QuantizedWeight,
++    pub up_proj: QuantizedWeight,
++    pub down_proj: QuantizedWeight,
+ }
+ 
+ /// BF16 dense MLP weights — alternative to NVFP4 for precision-sensitive
+@@ -48,6 +58,7 @@ pub struct DenseFfnLayer {
+     w4a16_gemv_batch2: KernelHandle,
+     w4a16_gemv_batch3: KernelHandle,
+     w4a16_gemm: KernelHandle,
++    w4a16_gemm_t: KernelHandle,
+     /// SiLU(gate)*up or GELU(gate)*up depending on activation.
+     act_mul: KernelHandle,
+     /// BF16 dense MLP weights — when `Some`, all forward paths use the
+@@ -95,6 +106,7 @@ impl DenseFfnLayer {
+             w4a16_gemv_batch2: gpu.kernel("w4a16_gemv", "w4a16_gemv_batch2")?,
+             w4a16_gemv_batch3: gpu.kernel("w4a16_gemv", "w4a16_gemv_batch3")?,
+             w4a16_gemm: gpu.kernel("w4a16", "w4a16_gemm")?,
++            w4a16_gemm_t: super::try_kernel(gpu, "w4a16", "w4a16_gemm_t"),
+             act_mul,
+             bf16_weights: None,
+             dense_gemv_bf16_k,
+@@ -392,31 +404,76 @@ impl DenseFfnLayer {
+             return Ok(());
+         }
+ 
+-        // gate_proj GEMM: [M, H] → [M, inter]
+-        ops::w4a16_gemm(
+-            ctx.gpu,
+-            self.w4a16_gemm,
+-            input,
+-            &self.weights.gate_proj,
+-            gate_out,
+-            m,
+-            inter,
+-            h,
+-            stream,
+-        )?;
++        let use_transposed =
++            self.w4a16_gemm_t.0 != 0 && self.weights.transposed.is_some();
++        if use_transposed
++            && m <= 32
++            && std::env::var("ATLAS_DFLASH_DRAFT_CAP").ok().as_deref() == Some("16")
++            && !DFLASH_FFN_FAST_PATH_LOGGED.swap(true, std::sync::atomic::Ordering::Relaxed)
++        {
++            let dflash_fast_k = std::env::var("ATLAS_DFLASH_DRAFT_CAP")
++                .ok()
++                .and_then(|s| s.parse::<u32>().ok())
++                .unwrap_or(m);
++            tracing::info!(
++                "DFlash fast K={} FFN/GEMM path active: w4a16_gemm_t N128 \
++                 transposed dense FFN (matrix_rows={}, hidden={}, intermediate={})",
++                dflash_fast_k,
++                m,
++                h,
++                inter,
++            );
++        }
++        if let (true, Some(weights_t)) = (use_transposed, self.weights.transposed.as_ref()) {
++            ops::w4a16_gemm_n128(
++                ctx.gpu,
++                self.w4a16_gemm_t,
++                input,
++                &weights_t.gate_proj,
++                gate_out,
++                m,
++                inter,
++                h,
++                stream,
++            )?;
++            ops::w4a16_gemm_n128(
++                ctx.gpu,
++                self.w4a16_gemm_t,
++                input,
++                &weights_t.up_proj,
++                up_out,
++                m,
++                inter,
++                h,
++                stream,
++            )?;
++        } else {
++            // gate_proj GEMM: [M, H] → [M, inter]
++            ops::w4a16_gemm(
++                ctx.gpu,
++                self.w4a16_gemm,
++                input,
++                &self.weights.gate_proj,
++                gate_out,
++                m,
++                inter,
++                h,
++                stream,
++            )?;
+ 
+-        // up_proj GEMM: [M, H] → [M, inter]
+-        ops::w4a16_gemm(
+-            ctx.gpu,
+-            self.w4a16_gemm,
+-            input,
+-            &self.weights.up_proj,
+-            up_out,
+-            m,
+-            inter,
+-            h,
+-            stream,
+-        )?;
++            // up_proj GEMM: [M, H] → [M, inter]
++            ops::w4a16_gemm(
++                ctx.gpu,
++                self.w4a16_gemm,
++                input,
++                &self.weights.up_proj,
++                up_out,
++                m,
++                inter,
++                h,
++                stream,
++            )?;
++        }
+ 
+         // activation(gate) * up for all M tokens (SiLU or GELU)
+         ops::silu_mul(
+@@ -431,17 +488,31 @@ impl DenseFfnLayer {
+ 
+         // down_proj GEMM: [M, inter] → [M, H]
+         let output = ctx.buffers.moe_output();
+-        ops::w4a16_gemm(
+-            ctx.gpu,
+-            self.w4a16_gemm,
+-            gate_out,
+-            &self.weights.down_proj,
+-            output,
+-            m,
+-            h,
+-            inter,
+-            stream,
+-        )?;
++        if let (true, Some(weights_t)) = (use_transposed, self.weights.transposed.as_ref()) {
++            ops::w4a16_gemm_n128(
++                ctx.gpu,
++                self.w4a16_gemm_t,
++                gate_out,
++                &weights_t.down_proj,
++                output,
++                m,
++                h,
++                inter,
++                stream,
++            )?;
++        } else {
++            ops::w4a16_gemm(
++                ctx.gpu,
++                self.w4a16_gemm,
++                gate_out,
++                &self.weights.down_proj,
++                output,
++                m,
++                h,
++                inter,
++                stream,
++            )?;
++        }
+ 
+         Ok(())
+     }
+diff --git a/crates/spark-model/src/layers/dflash_head.rs b/crates/spark-model/src/layers/dflash_head.rs
+index a60787f..94ed985 100644
+--- a/crates/spark-model/src/layers/dflash_head.rs
++++ b/crates/spark-model/src/layers/dflash_head.rs
+@@ -37,6 +37,7 @@ pub struct DflashKernels {
+     pub dense_gemm: KernelHandle,
+     pub w4a16_gemm: KernelHandle,
+     pub w4a16_gemm_t: KernelHandle,
++    pub w4a16_gemm_t_strided: KernelHandle,
+     pub w4a16_gemv_batch2: KernelHandle,
+     pub w4a16_gemv_batch3: KernelHandle,
+     pub rope_qwen3: KernelHandle,
+@@ -232,6 +233,12 @@ pub struct BlockDiffusionDraftHead {
+     /// candidates through the same projection as the verifier, otherwise
+     /// acceptance compares BF16-drafter argmaxes against NVFP4-target argmaxes.
+     pub lm_head_nvfp4: Option<QuantizedWeight>,
++    /// Optional transposed copy of the same target lm_head for coalesced
++    /// DFlash proposer vocab GEMM. The verifier keeps using the canonical
++    /// layout, so this is proposer-local only.
++    pub lm_head_nvfp4_t: Option<QuantizedWeight>,
++    /// Row stride for `lm_head_nvfp4_t`'s transposed `[K/2, N_STRIDE]` layout.
++    pub lm_head_nvfp4_t_stride: usize,
+ 
+     // === Weights from the drafter checkpoint ===
+     /// Hidden-norm applied to the projected target context before mixing
+diff --git a/crates/spark-model/src/layers/dflash_head/forward_block.rs b/crates/spark-model/src/layers/dflash_head/forward_block.rs
+index 214e87c..f62b338 100644
+--- a/crates/spark-model/src/layers/dflash_head/forward_block.rs
++++ b/crates/spark-model/src/layers/dflash_head/forward_block.rs
+@@ -353,17 +353,32 @@ impl BlockDiffusionDraftHead {
+                     stream,
+                 )?,
+                 _ => {
+-                    ops::w4a16_gemm(
+-                        gpu,
+-                        self.kernels.w4a16_gemm,
+-                        norm_candidates,
+-                        lm_head_nvfp4,
+-                        self.scratch.logits,
+-                        candidate_rows as u32,
+-                        self.vocab_size as u32,
+-                        h,
+-                        stream,
+-                    )?
++                    if let Some(ref lm_head_nvfp4_t) = self.lm_head_nvfp4_t {
++                        ops::w4a16_gemm_n128_strided(
++                            gpu,
++                            self.kernels.w4a16_gemm_t_strided,
++                            norm_candidates,
++                            lm_head_nvfp4_t,
++                            self.scratch.logits,
++                            candidate_rows as u32,
++                            self.vocab_size as u32,
++                            h,
++                            self.lm_head_nvfp4_t_stride as u32,
++                            stream,
++                        )?
++                    } else {
++                        ops::w4a16_gemm(
++                            gpu,
++                            self.kernels.w4a16_gemm,
++                            norm_candidates,
++                            lm_head_nvfp4,
++                            self.scratch.logits,
++                            candidate_rows as u32,
++                            self.vocab_size as u32,
++                            h,
++                            stream,
++                        )?
++                    }
+                 }
+             }
+         } else {
+diff --git a/crates/spark-model/src/layers/dflash_head/from_weights.rs b/crates/spark-model/src/layers/dflash_head/from_weights.rs
+index ec2d6b3..bb4597f 100644
+--- a/crates/spark-model/src/layers/dflash_head/from_weights.rs
++++ b/crates/spark-model/src/layers/dflash_head/from_weights.rs
+@@ -129,6 +129,11 @@ impl BlockDiffusionDraftHead {
+             dense_gemm: gpu.kernel("gemm", "dense_gemm_bf16")?,
+             w4a16_gemm: gpu.kernel("w4a16", "w4a16_gemm")?,
+             w4a16_gemm_t: crate::layers::try_kernel(gpu, "w4a16", "w4a16_gemm_t"),
++            w4a16_gemm_t_strided: crate::layers::try_kernel(
++                gpu,
++                "w4a16",
++                "w4a16_gemm_t_strided",
++            ),
+             w4a16_gemv_batch2: gpu.kernel("w4a16_gemv", "w4a16_gemv_batch2")?,
+             w4a16_gemv_batch3: gpu.kernel("w4a16_gemv", "w4a16_gemv_batch3")?,
+             // The drafter checkpoint config is the source of truth for RoPE.
+@@ -304,6 +309,45 @@ impl BlockDiffusionDraftHead {
+         let yarn_inv_freq = gpu.alloc(inv_freq_bytes.len())?;
+         gpu.copy_h2d(&inv_freq_bytes, yarn_inv_freq)?;
+ 
++        let use_lm_head_t =
++            std::env::var("ATLAS_DFLASH_LM_HEAD_T").ok().as_deref() == Some("1");
++        let lm_head_nvfp4_t_stride = if use_lm_head_t {
++            target_vocab_size.div_ceil(128) * 128
++        } else {
++            0
++        };
++        let lm_head_nvfp4_t = if use_lm_head_t {
++            match lm_head_nvfp4 {
++                Some(ref w) if kernels.w4a16_gemm_t_strided.0 != 0 => {
++                    tracing::info!(
++                        "DFlash proposer transposed lm_head enabled: building padded coalesced NVFP4 copy for w4a16_gemm_t_strided (vocab={} stride={})",
++                        target_vocab_size,
++                        lm_head_nvfp4_t_stride
++                    );
++                    Some(w.transpose_for_gemm_padded(
++                        gpu,
++                        target_vocab_size,
++                        target_hidden_size,
++                        lm_head_nvfp4_t_stride,
++                    )?)
++                }
++                Some(_) => {
++                    tracing::warn!(
++                        "ATLAS_DFLASH_LM_HEAD_T=1 requested but w4a16_gemm_t_strided is unavailable; using canonical lm_head layout"
++                    );
++                    None
++                }
++                None => {
++                    tracing::warn!(
++                        "ATLAS_DFLASH_LM_HEAD_T=1 requested but DFlash NVFP4 lm_head sharing is disabled; using BF16/canonical path"
++                    );
++                    None
++                }
++            }
++        } else {
++            None
++        };
++
+         let head = Self {
+             num_layers,
+             hidden_size,
+@@ -325,6 +369,8 @@ impl BlockDiffusionDraftHead {
+             embed_tokens_shared,
+             lm_head_shared,
+             lm_head_nvfp4,
++            lm_head_nvfp4_t,
++            lm_head_nvfp4_t_stride,
+             hidden_norm: weights.hidden_norm,
+             norm: weights.norm,
+             fc: weights.fc,
+diff --git a/crates/spark-model/src/layers/ops/gemm_dense.rs b/crates/spark-model/src/layers/ops/gemm_dense.rs
+index 2e8baf9..7d73fc0 100644
+--- a/crates/spark-model/src/layers/ops/gemm_dense.rs
++++ b/crates/spark-model/src/layers/ops/gemm_dense.rs
+@@ -172,6 +172,39 @@ pub fn w4a16_gemm_n128(
+         .launch(stream)
+ }
+ 
++/// W4A16 GEMM with transposed weight rows padded to `n_stride`.
++///
++/// Computes real output width `n`, but reads the transposed NVFP4 weight and
++/// scale matrices with `n_stride` as their row stride. This keeps cp.async
++/// source addresses aligned for vocab sizes that are not multiples of 16/128.
++#[allow(clippy::too_many_arguments)]
++pub fn w4a16_gemm_n128_strided(
++    gpu: &dyn GpuBackend,
++    kernel: KernelHandle,
++    input: DevicePtr,
++    weight: &QuantizedWeight,
++    output: DevicePtr,
++    m: u32,
++    n: u32,
++    k: u32,
++    n_stride: u32,
++    stream: u64,
++) -> Result<()> {
++    KernelLaunch::new(gpu, kernel)
++        .grid([div_ceil(n, 128), div_ceil(m, 64), 1])
++        .block([128, 1, 1])
++        .arg_ptr(input)
++        .arg_ptr(weight.weight)
++        .arg_ptr(weight.weight_scale)
++        .arg_f32(weight.weight_scale_2)
++        .arg_ptr(output)
++        .arg_u32(m)
++        .arg_u32(n)
++        .arg_u32(k)
++        .arg_u32(n_stride)
++        .launch(stream)
++}
++
+ /// W4A16 GEMM v3: MiniMax-only shadow with K_STEP=64 (was 32 in v2).
+ /// Halves K-iteration count; doubles per-iter MMA count. 1 CTA/SM
+ /// (was 3 for v2) due to larger SMEM footprint.
+diff --git a/crates/spark-model/src/layers/ops/prefill_attn_main_a.rs b/crates/spark-model/src/layers/ops/prefill_attn_main_a.rs
+index 9427b5f..89e541d 100644
+--- a/crates/spark-model/src/layers/ops/prefill_attn_main_a.rs
++++ b/crates/spark-model/src/layers/ops/prefill_attn_main_a.rs
+@@ -59,6 +59,51 @@ pub fn prefill_attention(
+         .launch(stream)
+ }
+ 
++/// DFlash contiguous attention: γ query rows attend over `ctx + γ` K/V rows.
++///
++/// This is the non-paged counterpart of the DFlash paged dispatcher. The
++/// query pointer is the start of the γ noise rows; K/V point at the full
++/// `[ctx, noise]` buffer. `q_offset` is the logical position of query row 0
++/// inside that K/V sequence, used for sliding-window masking.
++#[allow(clippy::too_many_arguments)]
++pub fn prefill_attention_qkv(
++    gpu: &dyn GpuBackend,
++    kernel: KernelHandle,
++    q: DevicePtr,
++    k: DevicePtr,
++    v: DevicePtr,
++    output: DevicePtr,
++    q_len: u32,
++    kv_len: u32,
++    q_offset: u32,
++    num_q_heads: u32,
++    num_kv_heads: u32,
++    head_dim: u32,
++    inv_sqrt_d: f32,
++    causal: bool,
++    sliding_window: u32,
++    stream: u64,
++) -> Result<()> {
++    let br = if head_dim > 256 { 16u32 } else { 32u32 };
++    KernelLaunch::new(gpu, kernel)
++        .grid([num_q_heads, div_ceil(q_len, br), 1])
++        .block([128, 1, 1])
++        .arg_ptr(q)
++        .arg_ptr(k)
++        .arg_ptr(v)
++        .arg_ptr(output)
++        .arg_u32(q_len)
++        .arg_u32(kv_len)
++        .arg_u32(q_offset)
++        .arg_u32(num_q_heads)
++        .arg_u32(num_kv_heads)
++        .arg_u32(head_dim)
++        .arg_f32(inv_sqrt_d)
++        .arg_u32(if causal { 1 } else { 0 })
++        .arg_u32(sliding_window)
++        .launch(stream)
++}
++
+ /// Contiguous prefill Flash Attention — BF16, BR=64 (256 threads).
+ ///
+ /// Larger tile size halves CTA count and causal KV iterations for long sequences.
+diff --git a/crates/spark-model/src/layers/qwen3_attention/trait_impl/multi_seq/ffn.rs b/crates/spark-model/src/layers/qwen3_attention/trait_impl/multi_seq/ffn.rs
+index 54a0c98..fa4339c 100644
+--- a/crates/spark-model/src/layers/qwen3_attention/trait_impl/multi_seq/ffn.rs
++++ b/crates/spark-model/src/layers/qwen3_attention/trait_impl/multi_seq/ffn.rs
+@@ -17,7 +17,6 @@ impl Qwen3AttentionLayer {
+             stream,
+             h,
+             eps,
+-            bf16,
+             hidden,
+             residual,
+             ..
+@@ -85,45 +84,30 @@ impl Qwen3AttentionLayer {
+                 stream,
+             )?;
+         } else {
+-            // CONCURRENT-DECODE BUG (sibling of qwen3_ssm.rs:1102 fix):
+-            // the per-seq hidden/residual stride must match the actual
+-            // residual element size. When `use_fp32_residual()` is false
+-            // (BF16 hidden — GB10 default via HARDWARE.toml
+-            // ATLAS_HW_FP32_RESIDUAL=false), hardcoded `i * h * 4` would
+-            // over-stride into the wrong batch slot for i>=1.
+-            let residual_elem = if fwd.config.use_fp32_residual() {
+-                4usize
+-            } else {
+-                2usize
+-            };
+-            for i in 0..n {
+-                let hidden_i = hidden.offset(i * h * residual_elem);
+-                let o_out_i = o_out.offset(i * h * bf16); // BF16 attn output
+-                let residual_i = residual.offset(i * h * residual_elem);
+-                let normed2 = fwd.buffers.norm_output().offset(i * h * bf16);
+-                ops::residual_add_rms_norm(
+-                    fwd.gpu,
+-                    self.residual_add_rms_norm_k,
+-                    hidden_i,
+-                    o_out_i,
+-                    &self.post_attn_norm,
+-                    normed2,
+-                    residual_i,
+-                    1,
+-                    h as u32,
+-                    eps,
+-                    stream,
+-                )?;
+-                let moe_out = self.ffn.forward(normed2, fwd, stream)?;
+-                ops::residual_add(
+-                    fwd.gpu,
+-                    self.residual_add_k,
+-                    hidden_i,
+-                    moe_out,
+-                    h as u32,
+-                    stream,
+-                )?;
+-            }
++            let normed2 = fwd.buffers.norm_output();
++            ops::residual_add_rms_norm(
++                fwd.gpu,
++                self.residual_add_rms_norm_k,
++                hidden,
++                o_out,
++                &self.post_attn_norm,
++                normed2,
++                residual,
++                n as u32,
++                h as u32,
++                eps,
++                stream,
++            )?;
++            self.ffn.forward_batched(normed2, n, fwd, stream)?;
++            let moe_out = fwd.buffers.moe_output();
++            ops::residual_add(
++                fwd.gpu,
++                self.residual_add_k,
++                hidden,
++                moe_out,
++                (n * h) as u32,
++                stream,
++            )?;
+         }
+         Ok(())
+     }
+diff --git a/crates/spark-model/src/weight_map/fp8_lut.rs b/crates/spark-model/src/weight_map/fp8_lut.rs
+index b3a1c46..d38ffd5 100644
+--- a/crates/spark-model/src/weight_map/fp8_lut.rs
++++ b/crates/spark-model/src/weight_map/fp8_lut.rs
+@@ -158,7 +158,30 @@ pub(crate) fn load_dense_ffn(
+     stream: u64,
+     config: &atlas_core::config::ModelConfig,
+ ) -> Result<crate::layers::dense_ffn::DenseFfnWeights> {
+-    use crate::layers::dense_ffn::DenseFfnWeights;
++    use crate::layers::dense_ffn::{DenseFfnWeights, DenseFfnWeightsTransposed};
++    let inter = if config.intermediate_size > 0 {
++        config.intermediate_size
++    } else {
++        config.moe_intermediate_size
++    };
++    let h = config.hidden_size;
++    let build_transposed = |gate: &QuantizedWeight,
++                            up: &QuantizedWeight,
++                            down: &QuantizedWeight|
++     -> Result<Option<DenseFfnWeightsTransposed>> {
++        if std::env::var("ATLAS_DFLASH_FFN_GEMM_N128")
++            .ok()
++            .as_deref()
++            != Some("1")
++        {
++            return Ok(None);
++        }
++        Ok(Some(DenseFfnWeightsTransposed {
++            gate_proj: gate.transpose_for_gemm(gpu, inter, h)?,
++            up_proj: up.transpose_for_gemm(gpu, inter, h)?,
++            down_proj: down.transpose_for_gemm(gpu, h, inter)?,
++        }))
++    };
+     match variant {
+         Nvfp4Variant::Fp8Dequanted => {
+             // Dense FFN uses `intermediate_size` (the standard SwiGLU FFN width).
+@@ -167,12 +190,6 @@ pub(crate) fn load_dense_ffn(
+             // 0-byte allocation in `quantize_to_nvfp4`. Fall back to
+             // `moe_intermediate_size` when it's set and `intermediate_size` is
+             // not, to preserve compatibility with prior MoE-style configs.
+-            let inter = if config.intermediate_size > 0 {
+-                config.intermediate_size
+-            } else {
+-                config.moe_intermediate_size
+-            };
+-            let h = config.hidden_size;
+             let gate = quantized_from_fp8(
+                 store,
+                 &format!("{prefix}.mlp.gate_proj"),
+@@ -204,6 +221,7 @@ pub(crate) fn load_dense_ffn(
+                 stream,
+             )?;
+             Ok(DenseFfnWeights {
++                transposed: build_transposed(&gate, &up, &down)?,
+                 gate_proj: gate,
+                 up_proj: up,
+                 down_proj: down,
+@@ -214,6 +232,7 @@ pub(crate) fn load_dense_ffn(
+             let up = quantized_auto(store, &format!("{prefix}.mlp.up_proj"), gpu, variant)?;
+             let down = quantized_auto(store, &format!("{prefix}.mlp.down_proj"), gpu, variant)?;
+             Ok(DenseFfnWeights {
++                transposed: build_transposed(&gate, &up, &down)?,
+                 gate_proj: gate,
+                 up_proj: up,
+                 down_proj: down,
+diff --git a/crates/spark-model/src/weight_map/quantized.rs b/crates/spark-model/src/weight_map/quantized.rs
+index f2bd23e..aaf4f50 100644
+--- a/crates/spark-model/src/weight_map/quantized.rs
++++ b/crates/spark-model/src/weight_map/quantized.rs
+@@ -88,6 +88,59 @@ impl QuantizedWeight {
+         })
+     }
+ 
++    /// Transpose weight layout from `[N, K/2]` to `[K/2, N_STRIDE]`.
++    ///
++    /// `n_stride` must be at least `n` and should be aligned for vectorized
++    /// GEMM loads. Padded columns are zero-filled so tail tiles can still use
++    /// aligned 16-byte copies while callers write only the real `n` columns.
++    pub fn transpose_for_gemm_padded(
++        &self,
++        gpu: &dyn GpuBackend,
++        n: usize,
++        k: usize,
++        n_stride: usize,
++    ) -> Result<QuantizedWeight> {
++        const GROUP_SIZE: usize = 16;
++        ensure!(n_stride >= n, "n_stride must be >= n");
++        ensure!(
++            n_stride % 16 == 0,
++            "n_stride must be 16-byte aligned for cp.async GEMM loads"
++        );
++        let half_k = k / 2;
++
++        let packed_size = n * half_k;
++        let mut buf = vec![0u8; packed_size];
++        gpu.copy_d2h(self.weight, &mut buf)?;
++        let mut t_buf = vec![0u8; n_stride * half_k];
++        for i in 0..n {
++            for j in 0..half_k {
++                t_buf[j * n_stride + i] = buf[i * half_k + j];
++            }
++        }
++        let new_weight = gpu.alloc(t_buf.len())?;
++        gpu.copy_h2d(&t_buf, new_weight)?;
++
++        let num_groups = k / GROUP_SIZE;
++        let scale_size = n * num_groups;
++        let mut sbuf = vec![0u8; scale_size];
++        gpu.copy_d2h(self.weight_scale, &mut sbuf)?;
++        let mut st_buf = vec![0u8; n_stride * num_groups];
++        for i in 0..n {
++            for j in 0..num_groups {
++                st_buf[j * n_stride + i] = sbuf[i * num_groups + j];
++            }
++        }
++        let new_scale = gpu.alloc(st_buf.len())?;
++        gpu.copy_h2d(&st_buf, new_scale)?;
++
++        Ok(QuantizedWeight {
++            weight: new_weight,
++            weight_scale: new_scale,
++            weight_scale_2: self.weight_scale_2,
++            input_scale: self.input_scale,
++        })
++    }
++
+     /// Pre-dequant NVFP4 → FP8 E4M3 for zero-overhead prefill GEMMs.
+     ///
+     /// Reads B_packed[N, K/2] + B_scale[N, K/GROUP_SIZE] + scale2 and produces
+diff --git a/kernels/gb10/common/causal_conv1d.cu b/kernels/gb10/common/causal_conv1d.cu
+index b0782bd..f5f098f 100644
+--- a/kernels/gb10/common/causal_conv1d.cu
++++ b/kernels/gb10/common/causal_conv1d.cu
+@@ -406,6 +406,124 @@ extern "C" __global__ void causal_conv1d_update_l2norm(
+     }
+ }
+ 
++// ============================================================
++// K=16 fused conv1d update + SiLU + L2 norm.
++// ============================================================
++// Processes 16 verify rows in one launch while saving the per-token
++// conv_state intermediates needed for speculative rollback.
++//
++// input:  [seq_len, input_stride] BF16
++// output: [seq_len, output_stride] BF16
++// conv_state_intermediates: [seq_len, dim, d_conv] FP32, strided by
++// intermediate_stride_floats between token rows.
++extern "C" __global__ void causal_conv1d_update_l2norm_k16(
++    float* __restrict__ conv_state,
++    const __nv_bfloat16* __restrict__ input,
++    const __nv_bfloat16* __restrict__ weight,
++    const float* __restrict__ bias,
++    __nv_bfloat16* __restrict__ output,
++    float* __restrict__ conv_state_intermediates,
++    unsigned int intermediate_stride_floats,
++    unsigned int dim,
++    unsigned int d_conv,
++    unsigned int seq_len,
++    unsigned int input_stride,
++    unsigned int output_stride,
++    unsigned int qk_channels,
++    unsigned int head_dim,
++    float l2_eps
++) {
++    const unsigned int ch = blockIdx.x * blockDim.x + threadIdx.x;
++    const unsigned int tid = threadIdx.x;
++    const unsigned int block_start = blockIdx.x * blockDim.x;
++    const bool block_needs_l2 = (block_start < qk_channels);
++    const bool valid = ch < dim;
++
++    float s[4] = {0.0f, 0.0f, 0.0f, 0.0f};
++    float w_reg[4] = {0.0f, 0.0f, 0.0f, 0.0f};
++    const float b_val = (bias != nullptr && valid) ? bias[ch] : 0.0f;
++
++    if (valid) {
++        float* state = conv_state + ch * d_conv;
++        const __nv_bfloat16* w = weight + ch * d_conv;
++        #pragma unroll
++        for (unsigned int k = 0; k < 4; k++) {
++            if (k < d_conv) {
++                s[k] = state[k];
++                w_reg[k] = (float)w[k];
++            }
++        }
++    }
++
++    for (unsigned int t = 0; t < 16; t++) {
++        const bool active_t = t < seq_len;
++        float silu = 0.0f;
++
++        if (valid && active_t) {
++            const float new_val = (float)input[(unsigned long long)t * input_stride + ch];
++            s[0] = s[1];
++            s[1] = s[2];
++            s[2] = s[3];
++            s[3] = new_val;
++
++            float* inter = conv_state_intermediates
++                + (unsigned long long)t * intermediate_stride_floats
++                + ch * d_conv;
++            #pragma unroll
++            for (unsigned int k = 0; k < 4; k++) {
++                if (k < d_conv) inter[k] = s[k];
++            }
++
++            float acc = b_val;
++            #pragma unroll
++            for (unsigned int k = 0; k < 4; k++) {
++                if (k < d_conv) acc += s[k] * w_reg[k];
++            }
++            const float sigmoid_acc = 1.0f / (1.0f + __expf(-acc));
++            silu = acc * sigmoid_acc;
++        }
++
++        if (block_needs_l2) {
++            float sq = (valid && active_t) ? (silu * silu) : 0.0f;
++            const unsigned int warp_id = tid / 32;
++            const unsigned int lane = tid % 32;
++            for (int offset = 16; offset >= 1; offset >>= 1) {
++                sq += __shfl_down_sync(0xFFFFFFFF, sq, offset);
++            }
++
++            __shared__ float warp_sums[8];
++            if (lane == 0) warp_sums[warp_id] = sq;
++            __syncthreads();
++
++            const unsigned int head_in_block = tid / head_dim;
++            const unsigned int base_warp = head_in_block * (head_dim / 32);
++            if (tid == 0 || tid == head_dim) {
++                float total = warp_sums[base_warp] + warp_sums[base_warp + 1]
++                            + warp_sums[base_warp + 2] + warp_sums[base_warp + 3];
++                warp_sums[base_warp] = rsqrtf(total + l2_eps);
++            }
++            __syncthreads();
++
++            if (valid && active_t) {
++                silu *= warp_sums[base_warp];
++            }
++        }
++
++        if (valid && active_t) {
++            output[(unsigned long long)t * output_stride + ch] = __float2bfloat16(silu);
++        }
++        __syncthreads();
++    }
++
++    if (valid) {
++        float* state = conv_state + ch * d_conv;
++        #pragma unroll
++        for (unsigned int k = 0; k < 4; k++) {
++            if (k < d_conv) state[k] = s[k];
++        }
++    }
++}
++
+ // ============================================================
+ // FP32 OUTPUT variant of fused conv1d + L2 norm.
+ // Prevents BF16 precision drift in the SSM recurrent path at 8k+ tokens.
+diff --git a/kernels/gb10/qwen3.6-27b/nvfp4/w4a16_gemm.cu b/kernels/gb10/qwen3.6-27b/nvfp4/w4a16_gemm.cu
+index c0bc557..a0b425d 100644
+--- a/kernels/gb10/qwen3.6-27b/nvfp4/w4a16_gemm.cu
++++ b/kernels/gb10/qwen3.6-27b/nvfp4/w4a16_gemm.cu
+@@ -356,6 +356,159 @@ extern "C" __global__ void w4a16_gemm_t(
+     }
+ }
+ 
++// Variant for transposed weights stored as [K/2, N_STRIDE] and
++// [K/GROUP_SIZE, N_STRIDE]. Output remains compact [M, N].
++extern "C" __global__ void w4a16_gemm_t_strided(
++    const __nv_bfloat16* __restrict__ A,
++    const unsigned char* __restrict__ B_packed,
++    const unsigned char* __restrict__ B_scale,
++    const float scale2,
++    __nv_bfloat16* __restrict__ C,
++    unsigned int M, unsigned int N, unsigned int K, unsigned int N_STRIDE
++) {
++    const unsigned int cta_n = blockIdx.x * N_TILE_LG;
++    const unsigned int cta_m = blockIdx.y * M_TILE;
++    const unsigned int warp_id = threadIdx.x / 32;
++    const unsigned int lane_id = threadIdx.x % 32;
++    const unsigned int warp_m_offset = warp_id * 16;
++    const unsigned int group_id = lane_id >> 2;
++    const unsigned int tid = lane_id & 3;
++
++    __shared__ __nv_bfloat16 smem_A[2][M_TILE][K_STEP_T + PAD_T];
++    __shared__ unsigned char smem_Bp[2][K_STEP_T / 2][N_TILE_LG + BP_PAD];
++    __shared__ unsigned char smem_Bs[2][K_STEP_T / GROUP_SIZE][N_TILE_LG + BP_PAD];
++    __shared__ unsigned char smem_B_fp8[N_TILE_LG][K_STEP_T];
++    __shared__ float smem_LUT[16];
++
++    if (threadIdx.x < 16) smem_LUT[threadIdx.x] = E2M1_LUT[threadIdx.x];
++
++    float acc[16][4];
++    #pragma unroll
++    for (int i = 0; i < 16; i++) {
++        acc[i][0] = 0.0f; acc[i][1] = 0.0f;
++        acc[i][2] = 0.0f; acc[i][3] = 0.0f;
++    }
++
++    const unsigned int a_stride = K_STEP_T + PAD_T;
++
++    #define ISSUE_LOADS_STRIDED(buf, kb) do { \
++        { \
++            unsigned int a_row_base = threadIdx.x >> 2; \
++            unsigned int a_col = (threadIdx.x & 3) << 3; \
++            unsigned int gc = (kb) + a_col; \
++            _Pragma("unroll") \
++            for (int rnd = 0; rnd < 2; rnd++) { \
++                unsigned int row = rnd * 32 + a_row_base; \
++                unsigned int gr = cta_m + row; \
++                cp_async_pred_16(&smem_A[(buf)][row][a_col], \
++                    &A[gr * K + gc], (gr < M) && (gc + 7 < K)); \
++            } \
++        } \
++        { \
++            unsigned int kp = threadIdx.x >> 3; \
++            unsigned int ns = (threadIdx.x & 7) << 4; \
++            unsigned int gke = (kb) + (kp << 1); \
++            unsigned int gns = cta_n + ns; \
++            cp_async_pred_16(&smem_Bp[(buf)][kp][ns], \
++                &B_packed[(unsigned long long)(gke >> 1) * N_STRIDE + gns], \
++                (gke + 1 <= K) && (gns + 15 < N_STRIDE)); \
++            if (kp < K_STEP_T / GROUP_SIZE) { \
++                unsigned int sg = (kb) / GROUP_SIZE + kp; \
++                cp_async_pred_16(&smem_Bs[(buf)][kp][ns], \
++                    &B_scale[(unsigned long long)sg * N_STRIDE + gns], \
++                    (gns + 15 < N_STRIDE)); \
++            } \
++        } \
++    } while(0)
++
++    #define DEQUANT_T_STRIDED(buf) do { \
++        unsigned int my_n = threadIdx.x; \
++        unsigned char sb0 = smem_Bs[(buf)][0][my_n]; \
++        unsigned char sb1 = smem_Bs[(buf)][1][my_n]; \
++        __nv_fp8_e4m3 f0, f1; \
++        *(unsigned char*)&f0 = sb0; *(unsigned char*)&f1 = sb1; \
++        float sv0 = (float)f0 * scale2, sv1 = (float)f1 * scale2; \
++        _Pragma("unroll") \
++        for (int kp = 0; kp < 8; kp++) { \
++            unsigned char packed = smem_Bp[(buf)][kp][my_n]; \
++            float lo = smem_LUT[packed & 0xF] * sv0; \
++            float hi = smem_LUT[packed >> 4] * sv0; \
++            unsigned short fp8_pair; \
++            asm volatile("cvt.rn.satfinite.e4m3x2.f32 %0, %1, %2;" \
++                         : "=h"(fp8_pair) : "f"(hi), "f"(lo)); \
++            *(unsigned short*)&smem_B_fp8[my_n][kp * 2] = fp8_pair; \
++        } \
++        _Pragma("unroll") \
++        for (int kp = 8; kp < 16; kp++) { \
++            unsigned char packed = smem_Bp[(buf)][kp][my_n]; \
++            float lo = smem_LUT[packed & 0xF] * sv1; \
++            float hi = smem_LUT[packed >> 4] * sv1; \
++            unsigned short fp8_pair; \
++            asm volatile("cvt.rn.satfinite.e4m3x2.f32 %0, %1, %2;" \
++                         : "=h"(fp8_pair) : "f"(hi), "f"(lo)); \
++            *(unsigned short*)&smem_B_fp8[my_n][kp * 2] = fp8_pair; \
++        } \
++    } while(0)
++
++    #define COMPUTE_MMA_STRIDED(a_buf) do { \
++        const unsigned short* sA = (const unsigned short*)smem_A[(a_buf)]; \
++        unsigned int fr0 = warp_m_offset + group_id, fr1 = fr0 + 8; \
++        unsigned int a0 = bf16x4_to_e4m3x4(&sA[fr0 * a_stride + tid * 4]); \
++        unsigned int a1 = bf16x4_to_e4m3x4(&sA[fr1 * a_stride + tid * 4]); \
++        unsigned int a2 = bf16x4_to_e4m3x4(&sA[fr0 * a_stride + 16 + tid * 4]); \
++        unsigned int a3 = bf16x4_to_e4m3x4(&sA[fr1 * a_stride + 16 + tid * 4]); \
++        _Pragma("unroll") \
++        for (int nt = 0; nt < 16; nt++) { \
++            unsigned int nc = nt * 8 + group_id; \
++            unsigned int b0 = *(const unsigned int*)&smem_B_fp8[nc][4 * tid]; \
++            unsigned int b1 = *(const unsigned int*)&smem_B_fp8[nc][16 + 4 * tid]; \
++            asm volatile("mma.sync.aligned.m16n8k32.row.col.f32.e4m3.e4m3.f32 " \
++                "{%0,%1,%2,%3},{%4,%5,%6,%7},{%8,%9},{%10,%11,%12,%13};" \
++                :"=f"(acc[nt][0]),"=f"(acc[nt][1]),"=f"(acc[nt][2]),"=f"(acc[nt][3]) \
++                :"r"(a0),"r"(a1),"r"(a2),"r"(a3),"r"(b0),"r"(b1), \
++                 "f"(acc[nt][0]),"f"(acc[nt][1]),"f"(acc[nt][2]),"f"(acc[nt][3])); \
++        } \
++    } while(0)
++
++    ISSUE_LOADS_STRIDED(0, 0);
++    cp_async_commit();
++    cp_async_wait_all();
++    __syncthreads();
++    DEQUANT_T_STRIDED(0);
++    __syncthreads();
++
++    int cur = 0;
++    for (unsigned int k_base = K_STEP_T; k_base < K; k_base += K_STEP_T) {
++        int nxt = 1 - cur;
++        ISSUE_LOADS_STRIDED(nxt, k_base);
++        cp_async_commit();
++        COMPUTE_MMA_STRIDED(cur);
++        cp_async_wait_all();
++        __syncthreads();
++        DEQUANT_T_STRIDED(nxt);
++        __syncthreads();
++        cur = nxt;
++    }
++
++    COMPUTE_MMA_STRIDED(cur);
++
++    #undef ISSUE_LOADS_STRIDED
++    #undef DEQUANT_T_STRIDED
++    #undef COMPUTE_MMA_STRIDED
++
++    #pragma unroll
++    for (int nt = 0; nt < 16; nt++) {
++        unsigned int c0 = cta_n + nt*8 + tid*2;
++        unsigned int c1 = c0 + 1;
++        unsigned int r0 = cta_m + warp_m_offset + group_id;
++        unsigned int r1 = r0 + 8;
++        if (r0 < M && c0 < N) C[r0*N+c0] = __float2bfloat16(acc[nt][0]);
++        if (r0 < M && c1 < N) C[r0*N+c1] = __float2bfloat16(acc[nt][1]);
++        if (r1 < M && c0 < N) C[r1*N+c0] = __float2bfloat16(acc[nt][2]);
++        if (r1 < M && c1 < N) C[r1*N+c1] = __float2bfloat16(acc[nt][3]);
++    }
++}
++
+ // ═══════════════════════════════════════════════════════════════════
+ // Pre-dequanted FP8 GEMM (prefill).
+ //
+-- 
+2.50.1 (Apple Git-155)
+

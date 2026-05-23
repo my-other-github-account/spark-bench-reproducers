@@ -6,7 +6,8 @@ The important constraint: these are **not blind patch dumps**. Each PR is framed
 
 ## Execution checklist
 
-- `TODO_CHECKLIST.md` is the active queue for sorting the draft PR TODOs into clean branches, before/after receipts, and draft PRs.
+- The checklist file is the completed execution record for the clean branches, receipts, and draft PR bodies.
+- `EVIDENCE_INDEX.md` is the source of truth for exact SHAs, commands, request bodies, receipt paths, patch bundles, and deferred evidence.
 
 ## Draft PRs
 
@@ -23,8 +24,8 @@ The important constraint: these are **not blind patch dumps**. Each PR is framed
    - Context/projection/KV cache and K=16 kernels should improve end-user decode TPS without changing output.
 
 4. `pr4-thinking-bootstrap-policy-optional.md`
-   - Optional split if reviewers want reasoning/thinking-span policy separate.
-   - DFlash speculation inside thinking spans plus bounded bootstrap cooldown.
+   - Deferred split for reasoning/thinking-span policy.
+   - No policy code is included in the three upstream candidate branches.
 
 ## Branch naming proposal
 
@@ -57,13 +58,13 @@ Headline result from the receipt:
 - Ratio: `2.173139265954664x`
 - Usage: `[128, 128, 128]`
 
-## What still needs to be generated before opening real Atlas PRs
+## Generated split artifacts
 
-Each PR body has TODO slots for clean before/after runs from the exact PR boundary. Do not submit with only the final dirty-tree receipt.
+- PR1 branch: `atlas-dflash/fixed-length-generation-semantics`, commit `06744d45a27ece98b7ddd51d9a3582991d21e018`.
+- PR2 branch: `atlas-dflash/verified-decode-correctness`, commit `bb4953cfae0e628fef87da8b545e7514a2a1e539`.
+- PR3 branch: `atlas-dflash/perf-cache-k16-kernels`, commit `8d0a7ea7903b873fc74209c62bdbfb0175cf1bb3`.
+- Draft PR stack in fork: `https://github.com/my-other-github-account/atlas/pull/1`, `https://github.com/my-other-github-account/atlas/pull/2`, `https://github.com/my-other-github-account/atlas/pull/3`.
+- Patch bundles: `patches/pr1-fixed-length-generation-semantics.patch`, `patches/pr2-verified-decode-correctness.patch`, `patches/pr3-perf-cache-k16-kernels.patch`.
+- Request bodies: `requests/fixed-length-128.json`, `requests/ar-vs-dflash-sherlock-128.json`, `requests/dflash-perf-sherlock-128.json`.
 
-Minimum additional evidence:
-
-- PR1: before/after fixed-length request where upstream stops early before patch and returns exact usage after patch.
-- PR2: deterministic AR-vs-DFlash token equivalence before/after for a realistic OpenAI-compatible request.
-- PR3: DFlash perf before/after from PR2 baseline to cache/kernel patch, with output equivalence held constant.
-- PR4: thinking-span on/off and cooldown ablation if kept separate.
+New cargo/rustfmt runs from this machine are deferred with evidence because the local and provided remote shells do not expose a usable Rust toolchain and Docker is not running. The final-stack build receipt remains archived under the primary passing receipt above.

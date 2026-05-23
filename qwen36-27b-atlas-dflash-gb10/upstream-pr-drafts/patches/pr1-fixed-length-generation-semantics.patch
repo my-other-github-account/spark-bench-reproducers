@@ -1,0 +1,209 @@
+From 06744d45a27ece98b7ddd51d9a3582991d21e018 Mon Sep 17 00:00:00 2001
+From: my-other-github-account
+ <82987814+my-other-github-account@users.noreply.github.com>
+Date: Fri, 22 May 2026 21:06:49 -0700
+Subject: [PATCH] Respect min_tokens before scheduler stops
+
+---
+ .../src/scheduler/decode_logits_step.rs       | 19 +++++++++++--
+ .../spark-server/src/scheduler/emit_step.rs   | 21 ++++++++++++++-
+ crates/spark-server/src/scheduler/helpers.rs  | 27 +++++++++++++++++++
+ .../src/scheduler/phase_promote_prefills.rs   |  6 +++--
+ .../src/scheduler/prefill_a_step.rs           |  6 ++++-
+ .../src/scheduler/prefill_b_step.rs           |  6 ++++-
+ 6 files changed, 78 insertions(+), 7 deletions(-)
+
+diff --git a/crates/spark-server/src/scheduler/decode_logits_step.rs b/crates/spark-server/src/scheduler/decode_logits_step.rs
+index c1f6ce8..4683ba8 100644
+--- a/crates/spark-server/src/scheduler/decode_logits_step.rs
++++ b/crates/spark-server/src/scheduler/decode_logits_step.rs
+@@ -239,6 +239,7 @@ pub fn process_decode_logits(
+             if enable_loop_watchdog()
+                 && a.grammar_state.is_none()
+                 && !a.inside_tool_body
++                && loop_watchdog_allowed(a.output_tokens.len(), a.min_tokens)
+                 && a.content_tokens >= CONTENT_LOOP_MIN_TOKENS
+                 && a.content_tokens.is_multiple_of(CONTENT_LOOP_CHECK_STRIDE)
+                 && detect_content_token_loop(&a.output_tokens)
+@@ -372,7 +373,7 @@ pub fn process_decode_logits(
+             .as_ref()
+             .is_some_and(|gs| !gs.is_terminated());
+         let legacy_suppresses_eos = a.require_tool_call;
+-        let min_tokens_suppresses = a.output_tokens.len() < a.min_tokens;
++        let min_tokens_suppresses = token_target_pending(a.output_tokens.len(), a.min_tokens);
+         // Suppress EOS during thinking: <|im_end|> inside <think> is spurious.
+         // Only </think> (think_end_token) should end the thinking phase.
+         let thinking_suppresses_eos = a.inside_thinking;
+@@ -411,7 +412,20 @@ pub fn process_decode_logits(
+         } else if a.eos_tokens.contains(&tok) && suppress_eos {
+             // EOS suppressed: grammar not terminated or legacy tool call not yet seen.
+             // Don't stop, don't stream the EOS — the model must keep generating.
+-            // Don't add to output_tokens (EOS is discarded).
++            // Count EOS-like tokens that arrive before min_tokens is satisfied so
++            // fixed-length requests (`min_tokens == max_tokens`) can make forward
++            // progress and report exact usage.
++            if min_tokens_suppresses {
++                a.output_tokens.push(tok);
++            }
++            if a.remaining == 0 {
++                tracing::info!(
++                    "process_decode_logits: remaining=0 after suppressed EOS, output_tokens={}, thinking_tokens={}",
++                    a.output_tokens.len(),
++                    a.thinking_tokens
++                );
++                a.finished = true;
++            }
+         } else {
+             a.output_tokens.push(tok);
+             // OPENCODE FIX: when the model spontaneously emits `<think>` even
+@@ -494,6 +508,7 @@ pub fn process_decode_logits(
+                 && !a.finished
+                 && !a.inside_thinking
+                 && !inside_tool_call
++                && loop_watchdog_allowed(a.output_tokens.len(), a.min_tokens)
+                 && let Some((pattern_len, mis_a, mis_b)) = detect_fuzzy_repetition(&a.output_tokens)
+             {
+                 tracing::warn!(
+diff --git a/crates/spark-server/src/scheduler/emit_step.rs b/crates/spark-server/src/scheduler/emit_step.rs
+index 96fbacb..00579f9 100644
+--- a/crates/spark-server/src/scheduler/emit_step.rs
++++ b/crates/spark-server/src/scheduler/emit_step.rs
+@@ -27,6 +27,22 @@ pub fn emit_token(a: &mut ActiveSeq, tok: u32, logprobs: Option<crate::api::Toke
+     if let Some(ims) = im_start_hard_stop()
+         && tok == ims
+     {
++        if token_target_pending(a.output_tokens.len(), a.min_tokens) {
++            a.output_tokens.push(tok);
++            if !a.inside_thinking {
++                a.remaining = a.remaining.saturating_sub(1);
++            }
++            tracing::debug!(
++                "<|im_start|> hard-stop suppressed until min_tokens (id={ims}, output_tokens={}, min_tokens={}, remaining={})",
++                a.output_tokens.len(),
++                a.min_tokens,
++                a.remaining
++            );
++            if a.remaining == 0 {
++                a.finished = true;
++            }
++            return;
++        }
+         // Push the hard-stop token to output_tokens so lifecycle.rs reports
+         // `finish_reason="stop"` (because `<|im_start|>` is registered in
+         // `eos_tokens` at startup — see tokenizer_runtime.rs::im_start_id).
+@@ -141,7 +157,7 @@ pub fn emit_token(a: &mut ActiveSeq, tok: u32, logprobs: Option<crate::api::Toke
+         .as_ref()
+         .is_some_and(|gs| !gs.is_terminated());
+     let legacy_suppresses_eos = a.require_tool_call;
+-    let min_tokens_suppresses = a.output_tokens.len() < a.min_tokens;
++    let min_tokens_suppresses = token_target_pending(a.output_tokens.len(), a.min_tokens);
+     let suppress_eos = grammar_suppresses_eos || legacy_suppresses_eos || min_tokens_suppresses;
+ 
+     if a.eos_tokens.contains(&tok) && !suppress_eos {
+@@ -151,6 +167,9 @@ pub fn emit_token(a: &mut ActiveSeq, tok: u32, logprobs: Option<crate::api::Toke
+     if a.eos_tokens.contains(&tok) && suppress_eos {
+         // EOS suppressed: grammar not terminated, legacy tool call not yet seen,
+         // or min_tokens not reached. Don't stop — let the model continue generating.
++        if a.remaining == 0 {
++            a.finished = true;
++        }
+         return;
+     }
+     // OPENCODE FIX: see process_decode_logits — same gate. Suppress streaming
+diff --git a/crates/spark-server/src/scheduler/helpers.rs b/crates/spark-server/src/scheduler/helpers.rs
+index c0caa80..792f81a 100644
+--- a/crates/spark-server/src/scheduler/helpers.rs
++++ b/crates/spark-server/src/scheduler/helpers.rs
+@@ -126,6 +126,19 @@ pub fn enable_loop_watchdog() -> bool {
+     *ENABLE_LOOP_WATCHDOG.get().unwrap_or(&false)
+ }
+ 
++/// True while the caller still owes the request its declared minimum
++/// completion length. Setting `min_tokens == max_tokens` is Atlas' explicit
++/// fixed-length generation contract.
++#[inline]
++pub fn token_target_pending(output_tokens: usize, min_tokens: usize) -> bool {
++    output_tokens < min_tokens
++}
++
++#[inline]
++pub fn loop_watchdog_allowed(output_tokens: usize, min_tokens: usize) -> bool {
++    !token_target_pending(output_tokens, min_tokens)
++}
++
+ /// F2 (2026-04-26): cap on free-text tokens between successive
+ /// `<tool_call>` opens when `tool_choice="auto"`. The grammar FSM
+ /// in `auto` mode (grammar.rs:461-462) sets `at_least_one=false`
+@@ -402,4 +415,18 @@ mod thinking_loop_tests {
+             "two repeats in content must not trigger (need 3)"
+         );
+     }
++
++    #[test]
++    fn token_target_is_pending_until_min_tokens() {
++        assert!(token_target_pending(0, 128));
++        assert!(token_target_pending(127, 128));
++        assert!(!token_target_pending(128, 128));
++        assert!(!token_target_pending(129, 128));
++    }
++
++    #[test]
++    fn loop_watchdog_waits_for_fixed_length_target() {
++        assert!(!loop_watchdog_allowed(64, 128));
++        assert!(loop_watchdog_allowed(128, 128));
++    }
+ }
+diff --git a/crates/spark-server/src/scheduler/phase_promote_prefills.rs b/crates/spark-server/src/scheduler/phase_promote_prefills.rs
+index e259b4a..6ce687b 100644
+--- a/crates/spark-server/src/scheduler/phase_promote_prefills.rs
++++ b/crates/spark-server/src/scheduler/phase_promote_prefills.rs
+@@ -52,8 +52,10 @@ pub(super) fn promote_completed_prefills(
+             p.require_tool_call && p.grammar_state.is_none() && tool_call_start_token.is_some();
+         let now = Instant::now();
+         let cached_prompt_tok = p.seq.cached_prefix_tokens as u32;
+-        let immediate_finish =
+-            !spontaneous_think && (p.eos_tokens.contains(&first) || p.max_tokens <= 1);
++        let first_stop_suppressed =
++            p.eos_tokens.contains(&first) && token_target_pending(1, p.min_tokens);
++        let immediate_finish = !spontaneous_think
++            && ((p.eos_tokens.contains(&first) && !first_stop_suppressed) || p.max_tokens <= 1);
+ 
+         let mut a = build_active_seq_from_prefill(
+             p,
+diff --git a/crates/spark-server/src/scheduler/prefill_a_step.rs b/crates/spark-server/src/scheduler/prefill_a_step.rs
+index 99beb37..21b6d6a 100644
+--- a/crates/spark-server/src/scheduler/prefill_a_step.rs
++++ b/crates/spark-server/src/scheduler/prefill_a_step.rs
+@@ -209,7 +209,11 @@ pub fn start_chunked_prefill(
+ 
+         let now = Instant::now();
+         let cached_prompt_tok = seq.cached_prefix_tokens as u32;
+-        if !spontaneous_think && (eos_tokens.contains(&first) || max_tokens <= 1) {
++        let first_stop_suppressed =
++            eos_tokens.contains(&first) && token_target_pending(1, req_min_tokens);
++        if !spontaneous_think
++            && ((eos_tokens.contains(&first) && !first_stop_suppressed) || max_tokens <= 1)
++        {
+             let mut a = ActiveSeq {
+                 seq,
+                 session_hash: req_session_hash,
+diff --git a/crates/spark-server/src/scheduler/prefill_b_step.rs b/crates/spark-server/src/scheduler/prefill_b_step.rs
+index 0c6ca27..46ccc46 100644
+--- a/crates/spark-server/src/scheduler/prefill_b_step.rs
++++ b/crates/spark-server/src/scheduler/prefill_b_step.rs
+@@ -167,7 +167,11 @@ pub fn prefill_request(
+     let now = Instant::now();
+     let cached_prompt_tok = seq.cached_prefix_tokens as u32;
+ 
+-    if !spontaneous_think && (eos_tokens.contains(&first) || max_tokens <= 1) {
++    let first_stop_suppressed =
++        eos_tokens.contains(&first) && token_target_pending(output_tokens.len(), req_min_tokens);
++    if !spontaneous_think
++        && ((eos_tokens.contains(&first) && !first_stop_suppressed) || max_tokens <= 1)
++    {
+         let mut a = ActiveSeq {
+             seq,
+             session_hash: req_session_hash,
+-- 
+2.50.1 (Apple Git-155)
+

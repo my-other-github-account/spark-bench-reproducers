@@ -1,0 +1,160 @@
+{
+  "accepted_count": 46,
+  "accepted_samples": [
+    {
+      "accepted": 2,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 8,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 3,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 1,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 0,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 0,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 2,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 9,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 11,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 15,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 15,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 15,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 15,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 5,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 0,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 1,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 15,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 15,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 15,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 15,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 15,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 15,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 15,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 4,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    },
+    {
+      "accepted": 1,
+      "file": "qwen36-27b-atlas-dflash-gb10/results/native_atlas_dflash_gate_20260522T185016Z_sourcefix_binary_sherlock_r3/logs/server_dflash_after_all.log",
+      "total": 15
+    }
+  ],
+  "accepted_totals": [
+    15
+  ],
+  "accepted_values": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    8,
+    9,
+    11,
+    15
+  ],
+  "files_scanned": 1,
+  "forbidden_clean": true,
+  "forbidden_marker_counts": {
+    "candidate_posterior": 0,
+    "force_accept": 0,
+    "skip_verify": 0
+  },
+  "has_full_accept": true,
+  "has_partial_accept": true,
+  "has_zero_accept": true,
+  "required_marker_counts": {
+    "DFLASH K=gamma verify": 46,
+    "DFlash K=gamma verifier hidden carry active": 1,
+    "DFlash fast K=16 FFN/GEMM path active": 1
+  }
+}
