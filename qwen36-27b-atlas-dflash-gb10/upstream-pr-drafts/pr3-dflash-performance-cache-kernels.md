@@ -1,12 +1,24 @@
-# Speed up DFlash draft block generation
+# Fix and speed up DFlash verified decoding
 
 ## Summary
 
-This speeds up the DFlash proposer after the verified decode path is in place.
+This updates Atlas's existing DFlash path so it is both correct as verified speculative decoding and fast enough to beat normal autoregressive decoding on the tested fixed-token workload.
 
-DFlash works by proposing a block of tokens and letting the main model verify the block. PR #2 adds the correctness path for that flow. This PR reduces the cost of producing each draft block so the verified path is faster than plain autoregressive decoding.
+Atlas already has DFlash support. This PR does not add a new speculative decoding system. It fixes the existing DFlash path so draft blocks are verified against the target model, rejected draft rows are discarded, and the next draft is conditioned only on verified state. It also adds the proposer/cache/kernel fast paths needed for the full gamma=16 block path to be worthwhile.
+
+DFlash is a draft head: it proposes several future tokens at once, then the main model verifies those tokens before they become part of the response. The user-visible contract is the same as normal autoregressive decoding: DFlash may make generation faster, but it should not change the target model's accepted token stream.
 
 ## What changed
+
+Correctness/state handling:
+
+- Use the existing DFlash proposer and verifier path for the full draft block instead of the one-token safety cap.
+- Stage target hidden states for every row in the verifier block.
+- Append those verifier rows into DFlash proposer context, then trim to row 0 plus the accepted draft prefix.
+- Roll back rejected draft tokens from sequence state, recurrent/GDN state, and proposer context.
+- Wire the target-model projection through the DFlash path for quantized verifier scoring.
+
+Performance:
 
 - Cache projected context rows used by the DFlash proposer.
 - Cache DFlash context K/V state instead of rebuilding it every step.
@@ -16,7 +28,7 @@ DFlash works by proposing a block of tokens and letting the main model verify th
 
 ## How I verified it
 
-I ran the same deterministic 128-token completion benchmark before and after the proposer/cache/kernel changes.
+I used a deterministic 128-token OpenAI-compatible completion request and compared normal autoregressive decoding with DFlash enabled.
 
 Request used:
 
@@ -33,21 +45,30 @@ python3 qwen36-27b-atlas-dflash-gb10/upstream-pr-drafts/scripts/repro_client.py 
   --runs 3
 ```
 
-Throughput improved from slower-than-AR to faster-than-AR:
+Before these DFlash changes, the DFlash path was slower than AR on this workload:
 
 ```text
-Before: DFlash 12.85 tok/s, 0.95x AR
-After:  DFlash 29.31 tok/s, 2.17x AR
+AR:     13.53 tok/s
+DFlash: 12.85 tok/s
+Ratio:  0.95x AR
 ```
 
-Completion lengths stayed exact in the final run:
+After these DFlash changes, the same workload was faster with DFlash enabled:
+
+```text
+AR:     13.49 tok/s
+DFlash: 29.31 tok/s
+Ratio:  2.17x AR
+```
+
+Completion-token accounting stayed exact in the final run:
 
 ```text
 AR:     [128, 128, 128]
 DFlash: [128, 128, 128]
 ```
 
-The server logs also showed the DFlash verifier path and the fast gamma=16 path active during the run.
+The DFlash server logs also showed the verifier path active with mixed acceptance lengths, including zero-token, partial, and full-block accepts. That shows the verifier is deciding per block rather than blindly accepting the draft block.
 
 I also ran:
 
@@ -57,5 +78,5 @@ git diff --check
 
 ## Notes
 
-This PR is performance-only relative to the verified DFlash decode path. It should not change the accept/reject rule or serving stop semantics.
+This PR intentionally keeps the DFlash correctness and performance changes together because the useful before/after outcome is the combined DFlash path: the previous DFlash path did not produce a reviewer-friendly standalone correctness result, while the combined change demonstrates the actual user-visible outcome: verified DFlash runs and beats AR on the tested fixed-token workload.
 
