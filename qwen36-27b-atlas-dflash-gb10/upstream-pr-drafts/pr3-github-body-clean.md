@@ -1,5 +1,3 @@
-# Speed up the DFlash block proposer
-
 ## Summary
 
 Speeds up the DFlash block proposer while keeping the verified decoding behavior from the previous PR.
@@ -26,7 +24,3 @@ The changes reduce repeated work in the DFlash path and add the fast kernels nee
 ## Notes
 
 This PR is performance-only relative to the verified DFlash decode branch. It does not change serving stop semantics or the accept/reject rule.
-
-## Receipts archive
-
-Detailed benchmark receipts, patch hashes, and internal evidence are kept in `EVIDENCE_INDEX.md`.

@@ -1,5 +1,3 @@
-# Preserve verified state in DFlash decoding
-
 ## Summary
 
 Makes the DFlash decode path preserve the same committed-token state as normal autoregressive decoding.
@@ -25,7 +23,3 @@ DFlash can draft a block of tokens, but only the verifier-accepted prefix is com
 ## Notes
 
 This PR is about correctness of the verified decode state. It does not include the later fast-path kernel/cache optimizations.
-
-## Receipts archive
-
-Detailed benchmark receipts, patch hashes, and internal evidence are kept in `EVIDENCE_INDEX.md`.

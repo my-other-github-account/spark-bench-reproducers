@@ -1,5 +1,3 @@
-# Respect min_tokens during fixed-length generation
-
 ## Summary
 
 Fixes fixed-length generation so requests that ask for a minimum number of output tokens are not ended early by EOS handling or repetition guards.
@@ -22,7 +20,3 @@ This makes `min_tokens`/fixed-token requests behave consistently across the norm
 ## Notes
 
 This is a serving semantics fix. It does not change speculative decoding or DFlash performance behavior.
-
-## Receipts archive
-
-Detailed benchmark receipts, patch hashes, and internal evidence are kept in `EVIDENCE_INDEX.md`.
