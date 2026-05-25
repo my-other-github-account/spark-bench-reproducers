@@ -83,6 +83,10 @@ All recipes are tuned for and measured on:
    `aux_hidden_state_layers=(...)` log line lists layers that exist in your target.
 4. Update the table at the top of this README.
 
+## Notes
+
+- [DFlash hybrid rollback and LuceBox standard](notes/dflash-hybrid-rollback-and-lucebox-standard.md) — Atlas/z-lab/LuceBox notes for hybrid GDN/SSM rollback safety and acceptance gates.
+
 ## License
 
 Patches under Apache-2.0 (matching vLLM upstream). READMEs and scripts under MIT.
