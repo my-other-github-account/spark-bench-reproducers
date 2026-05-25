@@ -1,0 +1,103 @@
+{
+  "targeted_audit_gaps": [
+    "verify_generic_total",
+    "verify_kgamma_total",
+    "run_mtp_propose",
+    "forward_block",
+    "ctx_cache_sync_total"
+  ],
+  "before_artifacts": [
+    "/Users/macmini/codex-goals/atlas-dflash-spark1/artifacts/nvfp4_fine_grained_dflash_speedup/20260525T0227Z/profile_gamma3_c1/atlas_function_trace.jsonl"
+  ],
+  "after_artifacts": [
+    "/Users/macmini/codex-goals/atlas-dflash-spark1/artifacts/nvfp4_fine_grained_dflash_speedup/20260525T030650Z/profile_gamma3_inline_c1/atlas_function_trace.jsonl"
+  ],
+  "function_timing_artifact": "/Users/macmini/codex-goals/atlas-dflash-spark1/artifacts/nvfp4_fine_grained_dflash_speedup/20260525T030650Z/profile_gamma3_inline_c1/atlas_function_trace.jsonl",
+  "kernel_timing_artifact": "/Users/macmini/codex-goals/atlas-dflash-spark1/artifacts/nvfp4_fine_grained_dflash_speedup/20260525T030650Z/profile_gamma3_inline_c1/atlas_cuda_gpu_kern_sum.csv",
+  "optimization_changes": [
+    "repaired scheduler keeps 2-draft DFlash sequences on step_verify_dflash instead of verify_k3 fallback",
+    "small-window DFlash defaults inline repropose for draft_count<=2",
+    "gamma3 remains the only sane NVFP4 small-window branch; larger windows regress on real prompts"
+  ],
+  "benchmark_summary": {
+    "generated_at_utc": "2026-05-25T03:22:00Z",
+    "kind": "nvfp4_optimized_candidate_benchmark_summary",
+    "prompt_count": 12,
+    "prompt_file": "/home/dnola/atlas-dflash-spark1/prompts/atlas_diverse_12.jsonl",
+    "max_tokens": 160,
+    "temperature": 0.0,
+    "concurrency": 1,
+    "ar_output_tps": 13.117351108701323,
+    "dflash_output_tps": 16.272856998670832,
+    "speedup": 1.2405596879903842,
+    "ar_artifact": "/Users/macmini/codex-goals/atlas-dflash-spark1/artifacts/ar/ar_benchmark_q35_nvfp4_subset12_c1_mn1_mb1_s512_f32_nvfp4kv_fullvocab.json",
+    "dflash_artifact": "/Users/macmini/codex-goals/atlas-dflash-spark1/artifacts/dflash/dflash_benchmark_q35_nvfp4_subset12_c1_mn1_mb1_s512_f32_nvfp4kv_fullvocab_gamma3_inline_repropose.json",
+    "model_format": "nvfp4",
+    "fair_baseline": true,
+    "quality_spotcheck_pass": true,
+    "note": "subset12 c=1 optimized-candidate benchmark context for fine-grained NVFP4 instrumentation; not a final >=64-prompt PASS summary"
+  },
+  "audit_summary": "/Users/macmini/codex-goals/atlas-dflash-spark1/artifacts/reference_timing_audit/20260524T182830Z/audit_summary.json",
+  "after_phase_totals": [
+    {
+      "phase": "step_mtp_round",
+      "count": 23,
+      "total_ms": 3112.199889
+    },
+    {
+      "phase": "mtp_verify_seq",
+      "count": 22,
+      "total_ms": 3042.6669249999995
+    },
+    {
+      "phase": "verify_generic_total",
+      "count": 21,
+      "total_ms": 2954.630763
+    },
+    {
+      "phase": "verify_kgamma_total",
+      "count": 22,
+      "total_ms": 1923.656426
+    },
+    {
+      "phase": "verify_kgamma_internal",
+      "count": 22,
+      "total_ms": 1921.622183
+    },
+    {
+      "phase": "verify_kgamma_layer",
+      "count": 1408,
+      "total_ms": 1680.289224999998
+    },
+    {
+      "phase": "run_mtp_propose",
+      "count": 22,
+      "total_ms": 1168.651335
+    },
+    {
+      "phase": "forward_block",
+      "count": 22,
+      "total_ms": 1159.7415580000002
+    },
+    {
+      "phase": "forward_block_layer",
+      "count": 110,
+      "total_ms": 876.0528259999998
+    },
+    {
+      "phase": "mtp_bootstrap_direct_dflash",
+      "count": 1,
+      "total_ms": 67.927633
+    },
+    {
+      "phase": "ctx_cache_sync_total",
+      "count": 22,
+      "total_ms": 5.752778
+    },
+    {
+      "phase": "ctx_cache_sync_chunk",
+      "count": 22,
+      "total_ms": 2.9870469999999996
+    }
+  ]
+}
