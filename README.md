@@ -12,6 +12,8 @@ prefill recipes target PP-heavy throughput instead.
 | Directory | Model | Quant | Spec method | Headline (tok/s) | Status |
 |---|---|---|---|---|---|
 | [qwen36-27b-dflash-spark](qwen36-27b-dflash-spark) | Qwen3.6-27B (dense) | NVFP4 / GGUF | DFlash / DFlash-DDTree | **32.83 median** vLLM; **55.17** Lucebox fixed-serving grid | ✅ shipped + archived |
+| [qwen36-27b-atlas-dflash-gb10](qwen36-27b-atlas-dflash-gb10) | Qwen3.6-27B | NVFP4 | native Rust Atlas DFlash archive | **29.31 tok/s** source-fix Sherlock r3 | ✅ audit bundle |
+| [qwen35-atlas-dflash-nvfp4-spark1](qwen35-atlas-dflash-nvfp4-spark1) | Qwen3.5-27B | NVFP4 | native Rust Atlas DFlash (`gamma=3`, all-quant forward-block) | **21.28 output tok/s**, **1.619x** vs AR on full72 c1; 30 tok/s retarget in progress | ✅ legal PASS repro bundle |
 | [qwen36-35b-a3b-dflash-spark](qwen36-35b-a3b-dflash-spark) | Qwen3.6-35B-A3B (MoE) | NVFP4 | DFlash (z-lab) | **TBD** | 🔄 measuring |
 | [vllm-prefill-optimized-spark](vllm-prefill-optimized-spark) | Qwen3.5-27B | NVFP4 | none (AR) | **2575 pp tok/s** at pp2048/tg32/c1 | ✅ measured |
 | [vllm-prefill-flashqla-hkv-spark](vllm-prefill-flashqla-hkv-spark) | Qwen3.5-27B | NVFP4 | FlashQLA HKV-output | **3030.63 pp tok/s** at pp2048/tg32/c1, n=30 | 🔄 staged |
