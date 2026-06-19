@@ -21,6 +21,7 @@ prefill recipes target PP-heavy throughput instead.
 | [prefill-fusions/flashqla-megafusion-3500-spark1-report](prefill-fusions/flashqla-megafusion-3500-spark1-report) | Qwen3.5-27B | NVFP4 | FlashQLA fusion follow-up | no PASS; best valid remains **3315.97**, best 2026-05-10 attempt **3309.44** | ✅ report |
 | [qwen36-flashqla-dflash-longctx-spark](qwen36-flashqla-dflash-longctx-spark) | Qwen3.6-27B | NVFP4 | FlashQLA prefill + DFlash shifted-suffix decode | **24.44 TG tok/s @32K; 13.76 TG tok/s @128K + DFlash golden config** | ✅ recipe bundle |
 | [qwen36-aeon-combined-flashqla-dflash-spark](qwen36-aeon-combined-flashqla-dflash-spark) | Qwen3.6-27B | NVFP4 | Aeon combined FlashQLA prefill + DFlash/nspec15 decode | **paired N=30 all-PP: 32.12 TG tok/s @2K, 25.37 @32K, 15.95 @128K; 1.87-2.67x vs paired AR** | ✅ corrected |
+| [glm5-nvfp4-4xspark](glm5-nvfp4-4xspark) | GLM-5.0 (744B MoE / 40B act) | NVFP4 / fp8 KV | none (dense MLA, multi-node TP=4) | **11.35 tok/s median** single-stream tg256 c=1 | ✅ reproduced + coherent |
 | _(planned)_ qwen36-27b-ddtree-spark | Qwen3.6-27B | NVFP4 | DDTree | TBD vs 32.83 | 🔬 research |
 | _(planned)_ minimax-m27-llamacpp-spark | MiniMax-M2.7 (UD-IQ4_XS) | Q8_0-KV | ngram-* | TBD | 🔬 research |
 
