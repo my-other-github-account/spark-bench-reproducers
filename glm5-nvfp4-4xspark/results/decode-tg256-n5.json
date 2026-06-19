@@ -1,0 +1,23 @@
+{
+  "model": "nvidia/GLM-5-NVFP4",
+  "served_name": "glm5",
+  "config": "TP=4, 4x DGX Spark GB10, enforce-eager, max-model-len 2048, kv fp8_e4m3, moe cutlass",
+  "metric": "single-stream tg256 c=1 end-to-end (HTTP+prefill+decode)",
+  "runs": [
+    { "run": 1, "completion_tokens": 256, "wall_s": 22.637, "tok_per_s": 11.31 },
+    { "run": 2, "completion_tokens": 256, "wall_s": 22.564, "tok_per_s": 11.35 },
+    { "run": 3, "completion_tokens": 256, "wall_s": 22.606, "tok_per_s": 11.32 },
+    { "run": 4, "completion_tokens": 256, "wall_s": 22.504, "tok_per_s": 11.38 },
+    { "run": 5, "completion_tokens": 256, "wall_s": 22.426, "tok_per_s": 11.42 }
+  ],
+  "median_tok_per_s": 11.35,
+  "mean_tok_per_s": 11.36,
+  "short_gen_8tok_wall_s": 0.761,
+  "coherence": {
+    "2+2": " - 4, What is",
+    "France": " Paris. Distance from London to"
+  },
+  "engine": "vLLM 0.23.1rc1.dev156+g08985351f (torch 2.11.0+cu130, CUDA 13.0)",
+  "model_revision": "dc54ff55a7e9e71b85db953d8bc22eca894b44c6",
+  "measured_utc": "2026-06-19T21:50:00Z"
+}
