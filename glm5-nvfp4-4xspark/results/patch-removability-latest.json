@@ -1,0 +1,27 @@
+{
+  "test": "patch/flag removability on latest vLLM (dev207+gdced29076, main HEAD) — GLM-5.0-NVFP4 TP=4",
+  "image": "glm5-repro:latest sha256:d3545921ea11",
+  "cells": {
+    "DROP_EAGER": {
+      "flag_removed": "--enforce-eager",
+      "result": "NO_BIND / WEDGE",
+      "evidence": "Load completed (Worker_TP0 'Model loading took 104.54 GiB and 748.31s'), CUDA-graph profiling OK, then 'Capturing CUDA graphs (mixed prefill-decode, PIECEWISE)' reached 1/2 (50%) and HUNG. EngineCore looped 'shm_broadcast.py:705 No available shared memory broadcast block found in 60 seconds' for >5 min. Port 8000 never bound.",
+      "verdict": "NOT REMOVABLE on latest — sm_121 CUDA-graph capture STILL hangs (same wall as dev156). KEEP --enforce-eager. No CUDA-graph decode win available on latest vLLM main HEAD.",
+      "measured_utc": "2026-06-20T18:02:00Z"
+    },
+    "KEEP_dense_mla": {
+      "result": "KEPT (not retested-removable this run; 5.0 needs dense path, anchor PRESENT @ lines 999/1237 in latest = patch applies). On latest, removing it = enabling the load-bearing-for-5.1/5.2 sparse indexer, which for 5.0 (index_topk=0) is a no-op dense path; prior ablation on dev156 showed remove->shm_broadcast wedge.",
+      "verdict": "KEEP for 5.0 (GLM-5.0-specific dense hack)."
+    },
+    "KEEP_triton_smem": {
+      "result": "KEPT. Anchor PRESENT @ line 503 in latest = patch applies. sm_121 SMEM cap (102400 req > 101376 limit) is HARDWARE, version-independent.",
+      "verdict": "KEEP on latest (hardware constraint, not a vLLM-version bug)."
+    },
+    "NEW_mem_bypass": {
+      "result": "REQUIRED on latest (new vs the baked t2 image). Fresh from-source eugr image RAISES ValueError 'Free memory < desired GPU mem util 0.99' at v1/worker/utils.py:415; the pinned t2 image bakes the bypass, the from-source build does NOT.",
+      "verdict": "ADD patch_mem_bypass on latest (3 source patches total for 5.0 on latest: mem_bypass + dense_mla + triton_smem)."
+    }
+  },
+  "summary": "On latest vLLM main HEAD, GLM-5.0-NVFP4 needs THREE source patches (mem_bypass + dense_mla + triton_smem) and STILL requires --enforce-eager (CUDA-graph capture hangs on sm_121 exactly as on dev156). NO patch became upstream-fixed; NO flag became droppable. Latest is NEUTRAL on patch-burden (one ADDED: mem_bypass, because the from-source image lacks the bake) and decode speed (11.1 vs 11.35 tok/s, parity).",
+  "measured_by": "T3.7 t_80c912a8 run #18"
+}
