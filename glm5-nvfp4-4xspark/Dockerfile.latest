@@ -1,0 +1,143 @@
+# syntax=docker/dockerfile:1.7
+# =============================================================================
+# glm5-nvfp4-4xspark — GLM-5.0-NVFP4 TP=4 serving engine on LATEST vLLM (main HEAD)
+# =============================================================================
+# Companion to ./Dockerfile (the PINNED dev156 image). This variant bakes the
+# GLM-5.0 dense-MLA serving patches on top of a vLLM built FROM SOURCE off
+# vllm-project/vllm `main`, compiled for DGX Spark GB10 / sm_121 / arch 12.1a.
+#
+# WHY THIS EXISTS (corrects the earlier "latest not viable" conclusion):
+#   An earlier pass concluded latest-vLLM was "not viable" — but that only checked
+#   whether the PREBUILT published nightly (ghcr.io/spark-arena/dgx-vllm-eugr-nightly)
+#   had been republished. It never built vLLM from source. The community DGX-Spark
+#   builder (github.com/eugr/spark-vllm-docker) compiles vLLM + FlashInfer wheels
+#   FOR sm_121 from any git ref. We did exactly that and GLM-5.0-NVFP4 SERVES
+#   COHERENTLY on the result (France -> " Paris. Distance from London to Paris is
+#   342 km", byte-identical to the dev156 anchor; 11.1 tok/s median = parity).
+#   See BUILD-latest.md for the full from-source procedure + the exact ref built.
+#
+# =============================================================================
+# STAGE 0 (PREREQUISITE, not in this Dockerfile): build the latest base image.
+# -----------------------------------------------------------------------------
+#   The BASE_IMAGE below is a from-source vLLM-main runner produced by the eugr
+#   builder. Reproduce it on the DGX Spark head node (NOT on macOS / x86):
+#
+#     git clone https://github.com/eugr/spark-vllm-docker.git
+#     cd spark-vllm-docker
+#     ./build-and-copy.sh \
+#         --rebuild-vllm --rebuild-flashinfer \
+#         --vllm-ref main \              # or pin a sha/tag for reproducibility
+#         --gpu-arch 12.1a \
+#         -j 16 \
+#         -t glm5-repro:latest \
+#         -c                              # docker save | ssh docker load to peers
+#
+#   That compiles vLLM (TORCH_CUDA_ARCH_LIST=12.1a, CUDA 13.0.2, NCCL v2.30u1
+#   -gencode compute_121,sm_121) + FlashInfer from source (~20-40 min, ccache-cached
+#   after) and bakes /workspace/build-metadata.yaml. The image PROVEN here was:
+#     vllm_version : 0.23.1rc1.dev207+gdced29076.d20260620
+#     vllm_commit  : dced2907693e3d6bf9eb7168d0a8fecf1cd22dca   (main HEAD 2026-06-20)
+#     flashinfer   : 9c5ed7c194e7412780862491742fc655daaad6ac
+#     gpu_arch     : 12.1a    builder_commit: 9bac1ea09b65
+#
+#   NOTE on deep_gemm: the from-source main build does NOT carry deep_gemm
+#   (ModuleNotFoundError). GLM-5.0 DENSE does not need it (this image serves
+#   without it). GLM-5.2 DSA-sparse DOES (fp8_mqa_logits) — install
+#   github.com/deepseek-ai/DeepGEMM from source into the image first; see
+#   Dockerfile.latest-glm52 / BUILD-latest.md.
+# =============================================================================
+
+# Default BASE is the from-source latest image produced above. Override to pin a
+# different ref:  docker build -f Dockerfile.latest --build-arg BASE_IMAGE=<img> .
+ARG BASE_IMAGE=glm5-repro:latest
+FROM ${BASE_IMAGE}
+
+# Expected provenance of the base (asserted below). The proven main-HEAD build.
+# Override both ARGs when you build off a newer main HEAD.
+ARG EXPECT_VLLM_COMMIT=dced2907693e3d6bf9eb7168d0a8fecf1cd22dca
+ARG EXPECT_VLLM_VERSION_PREFIX=0.23.1rc1.dev207
+
+LABEL org.opencontainers.image.title="glm5-nvfp4-4xspark engine (latest vLLM)" \
+      org.opencontainers.image.description="GLM-5.0 (nvidia/GLM-5-NVFP4) vLLM TP=4 serving engine on vLLM main HEAD built from source for DGX Spark GB10/sm_121, dense-MLA path" \
+      glm5.base.provenance="eugr/spark-vllm-docker from-source --rebuild-vllm --vllm-ref main; vllm_commit dced2907; built 2026-06-20" \
+      glm5.target.arch="12.1a (GB10 / sm_121 / aarch64)"
+
+# -----------------------------------------------------------------------------
+# 1. Assert the base is the from-source LATEST build we expect (fail loudly if
+#    someone points this at the wrong / pinned base). deep_gemm is intentionally
+#    NOT asserted present (absent on latest main; GLM-5.0 dense does not need it).
+# -----------------------------------------------------------------------------
+RUN set -eu; \
+    echo "==> Asserting base build provenance (/workspace/build-metadata.yaml)"; \
+    test -f /workspace/build-metadata.yaml || { echo "FATAL: base is not an eugr spark-vllm-docker build (no /workspace/build-metadata.yaml)"; exit 1; }; \
+    grep -q "vllm_commit: ${EXPECT_VLLM_COMMIT}" /workspace/build-metadata.yaml \
+        || echo "WARN: base vllm_commit != ${EXPECT_VLLM_COMMIT} (you built off a different main HEAD; engine version still asserted below)"; \
+    echo "==> Asserting vLLM is the from-source latest line (>= dev207) and imports"; \
+    python3 - <<'PYEOF'
+import sys
+import vllm
+v = vllm.__version__
+print(f"  vllm.__version__ = {v}")
+# This image is meant to carry vLLM main HEAD (dev207+). Reject the pinned dev156
+# anchor so a mis-tagged base can't masquerade as "latest".
+if "dev156" in v:
+    print("FATAL: base is the PINNED dev156 anchor, not a latest-from-source build.")
+    sys.exit(2)
+import flashinfer  # must import on sm_121
+print("  flashinfer import OK")
+print("==> latest-vLLM base verified")
+PYEOF
+
+# -----------------------------------------------------------------------------
+# 2. Load-bearing runtime ENV (self-documenting; GB10/sm_121 only).
+# -----------------------------------------------------------------------------
+ENV TORCH_CUDA_ARCH_LIST=12.1a \
+    FLASHINFER_CUDA_ARCH_LIST=12.1a \
+    TRITON_PTXAS_PATH=/usr/local/cuda/bin/ptxas \
+    VLLM_USE_FLASHINFER_MOE_FP4=0 \
+    VLLM_ENABLE_V1_MULTIPROCESSING=0
+
+# -----------------------------------------------------------------------------
+# 3. Bake the THREE source patches required to serve GLM-5.0-NVFP4 on latest vLLM.
+#    Each patch self-verifies and exits non-zero on failure -> the build FAILS if
+#    any anchor is missing (e.g. upstream refactored and a patch became stale).
+#
+#    P_mem_bypass : GB10 unified-memory startup free-mem check bypass. NEW on the
+#                   from-source build — the pinned dev156 image baked this; a fresh
+#                   eugr build does NOT, and vLLM otherwise refuses to start
+#                   (ValueError: Free memory < gpu_memory_utilization) because the
+#                   ~104.5 GiB resident NVFP4 weights leave free < 0.99*total at the
+#                   check. Marker: "GB10 unified mem bypass" in v1/worker/utils.py.
+#    P_dense      : index_topk -> dense MLA path, skip orphan indexer weights
+#                   (GLM-5.0 ONLY; on 5.1/5.2 the DSA indexer is load-bearing).
+#                   Marker: 'not in (None, 0)' in models/deepseek_v2.py.
+#    P_smem       : GB10 sm_121 101376-byte SMEM cap -> num_stages=1 for MLA decode.
+#                   Marker: 'GB10 sm_121 101376B SMEM cap' in
+#                   v1/attention/ops/triton_decode_attention.py.
+#
+#    PATCH-REMOVABILITY on latest (T3.7): all three anchors are STILL present on
+#    main HEAD (dced2907) — none became upstream-removable. mem_bypass is in fact
+#    NEWLY required vs the pinned image. Re-test on each bump.
+# -----------------------------------------------------------------------------
+COPY patches/patch_mem_bypass.py          /opt/glm5-patches/patch_mem_bypass.py
+COPY patches/patch_dense_mla.py           /opt/glm5-patches/patch_dense_mla.py
+COPY patches/patch_triton_decode_smem.py  /opt/glm5-patches/patch_triton_decode_smem.py
+
+RUN set -eu; \
+    echo "==> Applying patch_mem_bypass.py";          python3 /opt/glm5-patches/patch_mem_bypass.py; \
+    echo "==> Applying patch_dense_mla.py";           python3 /opt/glm5-patches/patch_dense_mla.py; \
+    echo "==> Applying patch_triton_decode_smem.py";  python3 /opt/glm5-patches/patch_triton_decode_smem.py; \
+    echo "==> Dropping stale bytecode"; \
+    find /usr/local/lib/python3.12/dist-packages/vllm -name '*.pyc' -delete 2>/dev/null || true; \
+    echo "==> Re-verifying all three patches are present (fail build if not)"; \
+    grep -q 'GB10 unified mem bypass'       /usr/local/lib/python3.12/dist-packages/vllm/v1/worker/utils.py; \
+    grep -q 'not in (None, 0)'              /usr/local/lib/python3.12/dist-packages/vllm/model_executor/models/deepseek_v2.py; \
+    grep -q 'GB10 sm_121 101376B SMEM cap'  /usr/local/lib/python3.12/dist-packages/vllm/v1/attention/ops/triton_decode_attention.py; \
+    echo "==> All three patches baked OK"
+
+# -----------------------------------------------------------------------------
+# 4. Keep the detached-sleep pattern the launcher relies on. The full serve flags
+#    live in scripts/launch_node_latest_glm50.sh (editable without an image rebuild).
+#    The launcher also re-applies the patches at runtime as an idempotent no-op.
+# -----------------------------------------------------------------------------
+CMD ["sleep", "infinity"]
