@@ -54,3 +54,20 @@ See the recipe [README](../README.md). Three commands per node (`download_models
   finalize wall. Raising context/batch once you have headroom will change the number.
 - Four bring-up walls (finalize OOM, `VLLM_HOST_IP` ZMQ bind, Triton SMEM, dense-path patch)
   and their fixes are documented in the recipe README.
+
+## T3 ablation (2026-06-20) — bare-minimum config
+
+A one-variable-at-a-time ablation (full table: `results/ABLATION.md`) removed every non-default
+knob to find the smallest config that still serves coherently. **9 knobs were proven unnecessary
+and dropped** (7 env vars incl. all the `VLLM_SKIP_*`/`VLLM_*` flags and `expandable_segments`,
+plus `--kv-cache-dtype fp8_e4m3` and `--trust-remote-code`). The minimal launcher is
+`scripts/launch_node_minimal.sh`; it benches **11.60 tok/s median (n=5), coherent — +2.2% vs the
+11.35 baseline** (the dropped V1-multiprocessing/etc. added small overhead).
+
+Proven **load-bearing** (kept): both source patches (`patch_dense_mla`, `patch_triton_decode_smem`),
+`--enforce-eager` (CUDA-graph hang without it), `--no-enable-flashinfer-autotune` (≈0.28 tok/s with
+autotune on — 40× slower), `--num-gpu-blocks-override 128` (auto-KV-profile wedge without it),
+`--moe-backend cutlass` (fidelity — default picks FLASHINFER_CUTLASS, byte-divergent), and the NCCL
+RoCE/IB transport (plain socket = 4.59 tok/s, 2.5× slower). The min-footprint trio is at the ceiling
+for util 0.99 — a 4× expansion wedges (ABL-14).
+
