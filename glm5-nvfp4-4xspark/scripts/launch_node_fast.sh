@@ -71,6 +71,7 @@ docker run -d --name vllm_node --runtime=nvidia --gpus all --privileged --ipc=ho
   -v "$HERE/patches/patch_triton_decode_smem.py:/tmp/patch_triton_decode_smem.py:ro" \
   -e VLLM_HOST_IP="$HOST_IP" \
   -e VLLM_FASTSAFETENSORS_QUEUE_SIZE="$QUEUE_SIZE" \
+  -e NCCL_WIN_ENABLE="${NCCL_WIN_ENABLE:-1}" \
   -e TORCH_CUDA_ARCH_LIST=12.1a -e FLASHINFER_CUDA_ARCH_LIST=12.1a \
   -e NCCL_SOCKET_IFNAME="$IFACE" -e GLOO_SOCKET_IFNAME="$IFACE" \
   -e NCCL_IB_DISABLE=0 -e NCCL_IB_HCA="$IB_HCA" -e NCCL_IB_GID_INDEX="$IB_GID_INDEX" \
@@ -89,7 +90,7 @@ docker exec vllm_node find /usr/local/lib/python3.12/dist-packages/vllm -name '*
 LOADFMT=""; [ "$LOADER" != "auto" ] && LOADFMT="--load-format $LOADER"
 docker exec -d vllm_node bash -lc "
   VLLM_HOST_IP=$HOST_IP NCCL_IB_HCA=$IB_HCA NCCL_IB_GID_INDEX=$IB_GID_INDEX NCCL_DEBUG=INFO \
-  VLLM_FASTSAFETENSORS_QUEUE_SIZE=$QUEUE_SIZE \
+  VLLM_FASTSAFETENSORS_QUEUE_SIZE=$QUEUE_SIZE NCCL_WIN_ENABLE=${NCCL_WIN_ENABLE:-1} \
   vllm serve $MODEL_SNAPSHOT \
     --quantization modelopt_fp4 --served-model-name glm5 \
     --tensor-parallel-size $NNODES --nnodes $NNODES --node-rank $NODE_RANK \
