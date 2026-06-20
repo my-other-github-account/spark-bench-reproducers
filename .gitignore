@@ -5,3 +5,12 @@ __pycache__/
 
 # Local model checkpoints are downloaded separately; never commit weights.
 **/models/
+
+# T2/T3 raw fleet result logs — contain infra identifiers; scrub before publishing
+glm5-nvfp4-4xspark/results/ablation/
+glm5-nvfp4-4xspark/results/T2-REPRODUCED.md
+glm5-nvfp4-4xspark/results/ABLATION.md
+glm5-nvfp4-4xspark/results/image-inventory.txt
+glm5-nvfp4-4xspark/results/*fromDockerfile*.json
+glm5-nvfp4-4xspark/results/sanity-anchor*.json
+glm5-nvfp4-4xspark/results/ABL-*.json
