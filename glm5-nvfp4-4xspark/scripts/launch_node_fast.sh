@@ -104,7 +104,9 @@ docker exec vllm_node find /usr/local/lib/python3.12/dist-packages/vllm -name '*
 # ---- loader selection ----
 EXTRA=""
 if [ "$LOADER" = "multithread" ]; then
-  EXTRA="--model-loader-extra-config {\"enable_multithread_load\":true,\"num_threads\":$NUM_THREADS}"
+  # NOTE: SINGLE-QUOTE the JSON. Unquoted {a,b} is brace-expanded by the inner `bash -lc`
+  # into two words ("...load:true" "num_threads:N") -> vllm arg-parse error. (T3.6 fix.)
+  EXTRA="--model-loader-extra-config '{\"enable_multithread_load\":true,\"num_threads\":$NUM_THREADS}'"
 fi
 
 # ---- serve: minimal LOAD-BEARING flags + fast multi-thread loader ----
