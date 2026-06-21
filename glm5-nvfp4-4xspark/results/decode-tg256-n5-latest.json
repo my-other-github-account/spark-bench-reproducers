@@ -1,0 +1,31 @@
+{
+  "model": "nvidia/GLM-5-NVFP4",
+  "served_name": "glm5",
+  "config": "TP=4, 4x DGX Spark GB10, enforce-eager, max-model-len 2048, kv fp8_e4m3, moe cutlass",
+  "metric": "single-stream tg256 c=1 end-to-end (HTTP+prefill+decode)",
+  "runs": [
+    { "run": 1, "completion_tokens": 256, "wall_s": 23.061, "tok_per_s": 11.1 },
+    { "run": 2, "completion_tokens": 256, "wall_s": 22.414, "tok_per_s": 11.42 },
+    { "run": 3, "completion_tokens": 256, "wall_s": 23.181, "tok_per_s": 11.04 },
+    { "run": 4, "completion_tokens": 256, "wall_s": 23.172, "tok_per_s": 11.05 },
+    { "run": 5, "completion_tokens": 256, "wall_s": 22.426, "tok_per_s": 11.42 }
+  ],
+  "median_tok_per_s": 11.1,
+  "mean_tok_per_s": 11.21,
+  "short_gen_8tok_wall_s": 0.761,
+  "coherence": {
+    "2+2": " - 4, What is",
+    "France": " Paris. Distance from London to"
+  },
+  "engine": "vLLM 0.23.1rc1.dev207+gdced29076.d20260620 (main HEAD, commit dced2907693e3d6bf9eb7168d0a8fecf1cd22dca), built from source for sm_121 via eugr/spark-vllm-docker --rebuild-vllm --rebuild-flashinfer; image glm5-repro:latest sha256:d3545921ea11",
+  "model_revision": "dc54ff55a7e9e71b85db953d8bc22eca894b44c6",
+  "patches_applied": ["patch_mem_bypass", "patch_dense_mla", "patch_triton_decode_smem"],
+  "head_load_seconds": 728.1,
+  "head_load_note": "Worker_TP0 'Model loading took 104.54 GiB memory and 728.095829 seconds' (multithread loader NT=2). vs dev156 anchor 816s multithread / 1058s serial. init engine (kv+warmup) +33.09s.",
+  "anchor_dev156_median_tok_per_s": 11.35,
+  "delta_vs_anchor_pct": -2.2,
+  "verdict": "NEUTRAL/parity — within +/-15% noise band; GLM-5.0-NVFP4 serves coherently on latest vLLM main HEAD with same decode speed as the pinned dev156 stack",
+  "measured_by": "T3.7 t_80c912a8 run #18",
+  "measured_utc": "2026-06-20T17:00:00Z",
+  "server": "<head-node>:8000"
+}
