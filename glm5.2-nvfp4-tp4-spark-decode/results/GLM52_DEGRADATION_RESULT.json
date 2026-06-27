@@ -1,0 +1,147 @@
+{
+  "reasoning": [
+    {
+      "probe": "arith_mult",
+      "expected": [
+        "391"
+      ],
+      "got": "391",
+      "pass": true,
+      "status": 200,
+      "dt": 0.6
+    },
+    {
+      "probe": "arith_word",
+      "expected": [
+        "5"
+      ],
+      "got": "5",
+      "pass": true,
+      "status": 200,
+      "dt": 0.9
+    },
+    {
+      "probe": "syllogism",
+      "expected": [
+        "no"
+      ],
+      "got": "No. The premises do not establish that the flowers that fade quickly include any",
+      "pass": true,
+      "status": 200,
+      "dt": 3.1
+    },
+    {
+      "probe": "trick_false",
+      "expected": [
+        "no"
+      ],
+      "got": "No, it is not true that 2 + 2 = 5. The correct answer is 4. In",
+      "pass": true,
+      "status": 200,
+      "dt": 2.7
+    },
+    {
+      "probe": "capital",
+      "expected": [
+        "paris"
+      ],
+      "got": "Paris",
+      "pass": true,
+      "status": 200,
+      "dt": 0.3
+    },
+    {
+      "probe": "compare_num",
+      "expected": [
+        "9.9"
+      ],
+      "got": "9.9",
+      "pass": true,
+      "status": 200,
+      "dt": 0.9
+    }
+  ],
+  "needle": [
+    {
+      "depth": "ctrl",
+      "target_tokens": 200,
+      "needle_frac": 0.5,
+      "prompt_tokens": 158,
+      "found": true,
+      "got": "MAGENTA-7431",
+      "status": 200,
+      "dt": 1.5,
+      "err": null
+    },
+    {
+      "depth": "5k_mid",
+      "target_tokens": 5000,
+      "needle_frac": 0.5,
+      "prompt_tokens": 3688,
+      "found": true,
+      "got": "MAGENTA-7431",
+      "status": 200,
+      "dt": 5.4,
+      "err": null
+    },
+    {
+      "depth": "15k_mid",
+      "target_tokens": 15000,
+      "needle_frac": 0.5,
+      "prompt_tokens": 12082,
+      "found": true,
+      "got": "MAGENTA-7431",
+      "status": 200,
+      "dt": 15.6,
+      "err": null
+    },
+    {
+      "depth": "30k_early",
+      "target_tokens": 30000,
+      "needle_frac": 0.1,
+      "prompt_tokens": 29369,
+      "found": true,
+      "got": "MAGENTA-7431",
+      "status": 200,
+      "dt": 46.3,
+      "err": null
+    },
+    {
+      "depth": "30k_mid",
+      "target_tokens": 30000,
+      "needle_frac": 0.5,
+      "prompt_tokens": 27816,
+      "found": true,
+      "got": "MAGENTA-7431",
+      "status": 200,
+      "dt": 38.1,
+      "err": null
+    },
+    {
+      "depth": "30k_late",
+      "target_tokens": 30000,
+      "needle_frac": 0.9,
+      "prompt_tokens": 29368,
+      "found": true,
+      "got": "MAGENTA-7431",
+      "status": 200,
+      "dt": 29.9,
+      "err": null
+    },
+    {
+      "depth": "50k_mid",
+      "target_tokens": 50000,
+      "needle_frac": 0.5,
+      "prompt_tokens": 49816,
+      "found": true,
+      "got": "MAGENTA-7431",
+      "status": 200,
+      "dt": 60.6,
+      "err": null
+    }
+  ],
+  "summary": {
+    "reasoning_pass": "6/6",
+    "needle_pass": "7/7"
+  }
+}

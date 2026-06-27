@@ -72,9 +72,28 @@ glm5.2-nvfp4-tp4-spark-decode/
 │   ├── run_4node.sh           # orchestrate the parallel TP=4 launch (edit NODES[])
 │   └── bench.sh               # measure decode tok/s + stamp the served checkpoint
 └── results/
-    ├── GLM52_SERVED_RESULT.json   # the measured decode
-    └── coherence-probes.md        # lucidity evidence + dense-vs-sparse note
+    ├── GLM52_SERVED_RESULT.json        # the measured decode (bare-min single-token bring-up)
+    ├── coherence-probes.md             # lucidity evidence + dense-vs-sparse note
+    ├── 64k-production-variant.md        # 64K context + prefix-caching variant (same image/patches)
+    ├── prefill-decode-sweep.md         # prefill+decode TPS vs context depth (warm/JIT-clean)
+    ├── GLM52_PREFILL_DECODE_SWEEP.json  # raw sweep numbers
+    ├── degradation-battery.md          # quality at depth: reasoning 6/6 + needle 7/7
+    └── GLM52_DEGRADATION_RESULT.json    # raw degradation-battery numbers
 ```
+
+## Performance & quality characterization
+
+Beyond the single-token bring-up, the same image/patches run a **64K production variant**
+(`results/64k-production-variant.md`) which was characterized two ways:
+
+- **Throughput** — [`results/prefill-decode-sweep.md`](results/prefill-decode-sweep.md): prefill TPS
+  peaks ~790 around 2.6K ctx and eases to ~500 at 52K (dense-MLA O(n²)); decode TPS stays flat
+  ~8.4–9.7 across 0→52K (concurrency-1 decode is MoE-weight-read bound, ~independent of depth).
+  Includes the cold-Triton-JIT TTFT-contamination pitfall and how the warm sweep removes it.
+- **Quality** — [`results/degradation-battery.md`](results/degradation-battery.md): the aggressive
+  bare-min-memory config does **not** silently degrade outputs. Discriminating reasoning probes pass
+  6/6, and needle-in-haystack retrieval is exact 7/7 across positions at 30K and at 50K depth. Scope:
+  no detectable degradation up to 50K; not a full MMLU/FP16-equivalence claim.
 
 ## Reproduce
 
