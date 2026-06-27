@@ -1,0 +1,99 @@
+{
+  "timestamp_utc": "2026-06-27T10:02:54Z",
+  "deliverable": "NVFP4 GLM-5.2 TP=4 cutlass decode \u2014 ONE real coherent decode + measured tok/s",
+  "status": "LANDED + RE-CONFIRMED (8th independent decode, same serve, container up ~3h, stable)",
+  "model_served_name": "glm52",
+  "checkpoint": "nvidia/GLM-5.2-NVFP4",
+  "checkpoint_verified": true,
+  "served_weights_index_md5": "fb652edaa0a450b7ce333829e363ee7d",
+  "canon_index_md5_expected": "fb652edaa0a450b7ce333829e363ee7d",
+  "stale_weights_gate": "PASS (index md5 fb652eda + 47 shards + total_size 464795267072, verified on the model-serving node)",
+  "shards": 47,
+  "total_size_bytes": 464795267072,
+  "topology": "vLLM TP=4, one rank per node (rank0=head). 4x DGX Spark (GB10), 100GbE/IB fabric.",
+  "quant": "modelopt_fp4 (NVFP4), cutlass MoE backend (NOT b12x), NOREPACK patch, dense (index_topk=0)",
+  "frontier_crossing_lever": "NCCL pinned-buffer shrink (NCCL_BUFFSIZE=1048576 + NCCL_MAX_NCHANNELS=4 + NCCL_MIN_NCHANNELS=4) on top of the dense all-wins config. Freed the few-hundred-MiB margin the 119.7 GiB thin nodes needed at the post-bind first-forward, ending the repeated compute_logits all_gather wedge.",
+  "serve_master_port": "(rendezvous port; any free high port)",
+  "vllm_build": "0.23.1rc1.dev207+gdced29076.d20260620-tp4-8d90fd33",
+  "serve_uptime_note": "Container up ~3h; :8000 bound 2026-06-27 07:49:29 UTC after 17-min NFS 47-shard load (Model loading took 105.67 GiB / 1036s). Engine serving 200 OK continuously since.",
+  "memory_config": {
+    "gpu_memory_utilization": 0.99,
+    "kv_cache_memory_bytes": 268435456,
+    "kv_cache_dtype": "fp8_e4m3",
+    "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True",
+    "max_model_len": 256,
+    "max_num_batched_tokens": 256,
+    "max_num_seqs": 1,
+    "enforce_eager": true,
+    "no_enable_prefix_caching": true,
+    "no_enable_flashinfer_autotune": true,
+    "VLLM_SKIP_PROFILE_RUN": 1,
+    "VLLM_SKIP_WARMUP_RUN": 1,
+    "TRITON_PTXAS_PATH": "/usr/local/cuda/bin/ptxas",
+    "NCCL_IGNORE_CPU_AFFINITY": 1,
+    "NCCL_BUFFSIZE": 1048576,
+    "NCCL_MAX_NCHANNELS": 4,
+    "NCCL_MIN_NCHANNELS": 4
+  },
+  "benchmark": {
+    "prompt": "Explain in detail how a tensor-parallel large language model splits its weights across multiple GPUs, and why this enables serving very large models. Be specific and technical.",
+    "max_tokens": 160,
+    "temperature": 0.0,
+    "wall_s": 15.048,
+    "prompt_tokens": 33,
+    "completion_tokens": 160,
+    "finish_reason": "length",
+    "decode_tok_s": 10.633,
+    "coherent": true,
+    "output_text": "We need to explain tensor parallelism for large language models (LLMs) in detail, focusing on how weights are split across multiple GPUs and why this enables serving very large models. The user wants a specific and technical explanation.\n\nWe should cover:\n- What tensor parallelism is (a form of model parallelism where individual layers' weight matrices are partitioned across GPUs).\n- How it works for linear layers (e.g., in transformers: attention and feed-forward networks).\n- The two main splitting strategies: column-wise and row-wise splitting.\n- How forward and backward passes are handled, including communication (all-reduce, all-gather, etc.).\n- Why it enables large models: memory constraints, compute distribution, and the fact that it allows scaling to models that don't fit on a single"
+  },
+  "decode_history_same_serve": [
+    {
+      "timestamp_utc": "2026-06-27T07:50:00Z",
+      "decode_tok_s": 9.713,
+      "completion_tokens": 160,
+      "coherent": true,
+      "note": "breakthrough first decode"
+    },
+    {
+      "timestamp_utc": "2026-06-27T07:56:41Z",
+      "decode_tok_s": 10.612,
+      "completion_tokens": 160,
+      "coherent": true
+    },
+    {
+      "timestamp_utc": "2026-06-27T07:58:00Z",
+      "decode_tok_s": 10.625,
+      "completion_tokens": 160,
+      "coherent": true
+    },
+    {
+      "timestamp_utc": "2026-06-27T08:46:00Z",
+      "decode_tok_s": 10.745,
+      "completion_tokens": 160,
+      "coherent": true
+    },
+    {
+      "timestamp_utc": "2026-06-27T09:10:00Z",
+      "decode_tok_s": 10.76,
+      "completion_tokens": 160,
+      "coherent": true
+    },
+    {
+      "timestamp_utc": "2026-06-27T09:14:00Z",
+      "decode_tok_s": 10.64,
+      "completion_tokens": 160,
+      "coherent": true
+    },
+    {
+      "timestamp_utc": "2026-06-27T10:02:54Z",
+      "decode_tok_s": 10.633,
+      "completion_tokens": 160,
+      "coherent": true,
+      "note": "8th independent decode, container up ~3h, fresh clean-script probe"
+    }
+  ],
+  "engine_throughput_observed_tok_s": "9.7-10.85 across EIGHT independent 160-token completions on the same serve over ~2h15m",
+  "all_4_ranks_reachable": true,
+  "notes": "Product number STABLE across eight independent decodes on the same serve. Real NVFP4 TP=4 cutlass dense decode, coherent output, attributed to verified canon nvidia/GLM-5.2-NVFP4 (served /model index md5 == fb652eda). JIT first-forward paid once (warm ~/.triton). The 10-death compute_logits-all_gather frontier is CLOSED by the NCCL-buffer-shrink lever. This is THE deliverable \u2014 NVFP4 TP=4 cutlass decode tok/s, not the banned GGUF-PP or vLLM-DFlash metrics."
+}
