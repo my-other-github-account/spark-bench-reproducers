@@ -1,0 +1,49 @@
+{
+  "benchmark": "GLM-5.2-NVFP4 TP=4 prefill+decode sweep (CORRECTED \u2014 warm/JIT-clean)",
+  "config": "64K serve: max-model-len 65536, kv 3.0GB, concurrency 1, prefix-caching on, dense index_topk=0, cutlass NVFP4 MoE, enforce-eager",
+  "method": "SSE streaming, each depth run cold THEN warm (diff salt); report warm. prefill_tps=prompt_tokens/TTFT, decode_tps=(gen-1)/(t_last-t_first). Unique prompts (no prefix-cache hit).",
+  "correction": "First sweep's prefill column was JIT-contaminated: --enforce-eager compiles kernels per-shape on first encounter, inflating that request's TTFT. The 4848-tok cell read 317 TPS cold but ~785 warm (verified 3x). This run warms each shape first; cold==warm here confirms the contamination is removed.",
+  "checkpoint_index_md5": "fb652edaa0a450b7ce333829e363ee7d",
+  "cells": [
+    {
+      "prompt_tokens": 414,
+      "ttft_s": 0.81,
+      "prefill_tps": 508.6,
+      "decode_tps": 9.69
+    },
+    {
+      "prompt_tokens": 2654,
+      "ttft_s": 3.36,
+      "prefill_tps": 790.7,
+      "decode_tps": 9.4
+    },
+    {
+      "prompt_tokens": 6719,
+      "ttft_s": 8.88,
+      "prefill_tps": 756.9,
+      "decode_tps": 9.54
+    },
+    {
+      "prompt_tokens": 13194,
+      "ttft_s": 18.39,
+      "prefill_tps": 717.3,
+      "decode_tps": 9.27
+    },
+    {
+      "prompt_tokens": 29114,
+      "ttft_s": 47.98,
+      "prefill_tps": 606.8,
+      "decode_tps": 8.85
+    },
+    {
+      "prompt_tokens": 52403,
+      "ttft_s": 104.31,
+      "prefill_tps": 502.4,
+      "decode_tps": 8.39
+    }
+  ],
+  "summary": {
+    "prefill_tps": "peaks ~790 around 2.6K ctx, eases to ~500 at 52K (dense MLA O(n^2) attention)",
+    "decode_tps": "flat ~8.4-9.7 across 0->52K depth (concurrency 1, MoE-weight-read bound, ~independent of context)"
+  }
+}
