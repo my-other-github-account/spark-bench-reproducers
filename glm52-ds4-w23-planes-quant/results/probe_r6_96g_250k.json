@@ -1,0 +1,38 @@
+{
+ "tag": "r6_96g_250k",
+ "prompt_tokens": 249856,
+ "max_new": 256,
+ "completion_tokens": 256,
+ "finish_reason": "length",
+ "ttft_s": 908.738,
+ "prefill_tok_s": 274.9,
+ "decode_tok_s_overall": 14.237,
+ "decode_tok_s_steady": 14.134,
+ "decode_tok_s_tail64": 14.186,
+ "elapsed_s": 925.95,
+ "majflt_delta": {
+  "554096": 3291,
+  "554150": 0,
+  "554151": 352,
+  "555989": 0,
+  "555990": 3
+ },
+ "mem_before": {
+  "MemTotal": 130662936576,
+  "MemFree": 2132815872,
+  "MemAvailable": 8928542720,
+  "Cached": 7589126144
+ },
+ "mem_after": {
+  "MemTotal": 130662936576,
+  "MemFree": 907812864,
+  "MemAvailable": 3452862464,
+  "Cached": 3366129664
+ },
+ "usage": {
+  "prompt_tokens": 249856,
+  "total_tokens": 250112,
+  "completion_tokens": 256
+ },
+ "text_head": " the development of Byzantine scholarship and culture.<|user|>Can you provide more information on the Byzantine education system and how it incorporated classical knowledge?<|assistant|> thinking responseThe Byzantine education system was highly structured and focused on the study of classical Greek literature, philosophy, and rhetoric. Education was primarily available to boys from wealthy families, but there were also opportunities for girls and lower-class children to receive some education.\n\nThe curriculum was divided into two main stages: the \"enkyklios paideia\" (general education) and the \"paideia\" (higher education). The general education stage focused on the study of grammar, rhetoric, and logic, using classical Greek texts as the basis for instruction. Students would read and analyze works by authors such as Homer, Plato, and Aristotle, and learn to write and speak in a style that imitated classical models.\n\nThe higher education stage was more specialized and focused on the study of philosophy, law, and medicine. Students would continue to study classical texts, but also engage in more advanced discussions and debates about philosophical and theological issues.\n\nOverall, the Byzantine education system was heavily influenced by classical Greek culture and played a significant role in preserving and transmitting classical knowledge to later generations. It also helped to shape Byzantine culture"
+}

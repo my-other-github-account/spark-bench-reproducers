@@ -55,6 +55,38 @@ SERVE CROSS-CHECK (per rung, cheap, available TODAY)
 | R5  | Calibrated Q3 (GPTQ->W3 grid) | **0.159694** (js 0.0301, top1 0.880) | —         | **0.832** offline (416/500, gold lp -0.462, margin 3.58) — Q5−Q3 = **+4.4pt** CI [+1.5,+7.2] p=0.0038 SIGNIFICANT; ref−Q5 = +1.2pt p=0.36 n.s. → **task-level parity with the source-teacher anchor** (paired gold-lp delta +0.010 nats, t=0.5) | KLD row SEALED (t_fa509f27, s8 offline rail, calibrated GPTQ planes, offline NLL 1.30497, gate PASS). **Calibration pays HUGE on W3: −57.3% KL vs R2 at identical 3.25 bpw**; −48.7% vs R4 → with calibration the extra W3 bit DOES pay (revises the R2 RTN finding: the RTN family, not bit-count, was masking the headroom). Recovers 69% of the RTN→teacher NLL gap. Same coverage/provenance as R4. MMLU (t_e5898cb2): calibration EARNS the W3 rung at task level too — R5 is the first rung indistinguishable from ref on MMLU-500 |
 | R6  | Dynamic experts @ 1-Spark budget | —           | —         | —        | CARDED t_29c4872c (atlaskernel5, parents=[t_26055bf3 R5v2]): damage map + knapsack allocator + per-expert manifest loader (tiers {W2, W3v2, native-FP4 passthrough}); spec per t_b04fc3fe comments 1318/1363 — re-run knapsack with W3 tier at 0.0877-class damage |
 
+## UD-IQ comparison ladder — llama.cpp/Unsloth-UD quants (t_91e811e8, Banana Bae Jul12, s8+s3-RPC)
+
+INSTRUMENT (mandatory caveat, all UD rows): llama.cpp native --kl-divergence.
+Teacher = UD-Q8_K_XL GGUF (NOT our fp8-source rail); corpus = OUR
+windows_ds4_eval.json (md5 1701920b) decoded to TEXT with the DS4 tokenizer
+(1,028,912 source tokens, corpus md5 b559b14a) then RE-TOKENIZED by llama.cpp;
+scoring = last 1023 positions of each 2048-token chunk over re-chunked
+concatenated text (502 chunks), vs ours = first 1024 of each aligned window.
+Same family, different instrument — do NOT subtract UD KLD from R-row KLD;
+compare LADDER SHAPES and MMLU (task column is protocol-identical: same 500
+qids sha 24d60b46, choice tokens ' A'..' D' -> [334,406,345,420], 0-shot,
+llama.cpp --multiple-choice with MC_SEQUENTIAL patch for the DSV4 kv-cache).
+BPW sealed from GGUF tensor tables via HTTP range reads (ggml block sizes
+verified vs ggml.h); UD quants are LAYER-MIX (attn/dense kept higher-bit,
+routed experts at tier bit) so "1-bit" IQ1_S is really 2.32/2.18 bpw.
+
+| variant | instrument | KLD mean | KLD p95 | bpw(model) | bpw(experts) | MMLU-500 | status |
+|---|---|---|---|---|---|---|---|
+| UD-Q8_K_XL (teacher) | llama.cpp | 0 (self) | — | 4.554 | 4.250 | **0.840** (420/500 ±1.64) | SEALED; PPL 3.2793±0.011; instrument x-check: our M-ref anchor 0.844 → llama.cpp MC harness agrees within 0.4pt |
+| UD-IQ1_S | llama.cpp | **0.2852** ±0.0010 | 1.368 | 2.322 | 2.182 | **0.818** (409/500 ±1.73) | SEALED (kld_UD-IQ1_S.log; PPL 3.8547 = 1.180x teacher; top1 83.5%; median KLD 0.042) |
+| UD-IQ2_XXS | llama.cpp | | | 2.556 | 2.422 | | MMLU running 20:23Z |
+| UD-IQ3_XXS | llama.cpp | | | 2.898 | 2.761 | | queued (download complete) |
+| UD-IQ4_XS | llama.cpp | | | 3.880 | 3.757 | | queued (download complete; runs via s3 RPC, >121G) |
+
+Early reads (IQ1 row): (1) UD-IQ1_S at 2.18 expert-bpw lands KLD 0.285 —
+BELOW our W2-GPTQ 0.312 at 2.25 expert-bpw on a coarser instrument-adjacent
+read, and MMLU 0.818 vs our 0.810: the UD layer-mix + imatrix recipe is
+competitive-to-better at the 2-bit tier. NOT the pre-registered ~0.8-1.0
+crater — that prediction assumed pure 1-bit; the UD mix spends 2.18 bits.
+(2) Teacher-instrument sanity holds (0.840 vs 0.844 anchor). Remaining
+comparisons wait on IQ3 (vs our W3v2 0.0877/0.0727 at 3.25) and IQ4.
+
 R1 serve NLL detail (R1_NLL_ROW.json): per-class nll = reasoning 0.959 /
 code 1.207 / agentic 1.392 / chat 1.500 / multilingual 1.797 / prose 2.266;
 self_top1_rate 0.6736. Serve provenance: planes dir 73G/216 files
@@ -317,3 +349,39 @@ major-fault). R3 anchor re-verified live on both rail hosts (s2+s8:
 M-ref MMLU 0.844). Artifacts: out/s7_testbed/r1v2_boot2/ (md5s:
 NLL_ROW 48f6ce8b, NLL_ROWS bbe29666, MMLU500_ROW 0e7d74b0,
 MMLU500_QROWS 3d573653, battery log 2ada2260).
+
+## GPQA-Diamond reference rows (OpenRouter, generative protocol — Jul12)
+
+Same sealed 198-question rng(0) set (sha256 adaf4b6d), temp 0, 3 samples/question,
+majority vote with sample-0 deterministic tie-break for a three-way split. INSTRUMENT
+NOTE: generative protocol ≠ loglik protocol (our serve row 0.4444 is loglik), so do not
+subtract across protocols.
+
+### Tier 1 — no-thinking sanity floor (t_d6efa01b)
+
+These calls had reasoning disabled and max_tokens=8. They were NOT truncated 4K runs;
+no unanswered sample was scored wrong. Canonical labels are REF-DS4-NOTHINK and
+REF-GLM-NOTHINK.
+
+| reference | upstream | acc | consistency |
+|---|---|---|---|
+| REF-DS4-NOTHINK | deepseek/deepseek-v4-flash | 0.4697 (93/198) | 0.9040 |
+| REF-GLM-NOTHINK | z-ai/glm-5.2 | 0.4596 (91/198) | 0.9091 |
+
+### Tier 3 — 4K thinking with forced answer extraction (t_c048049b)
+
+Reasoning budget=4096 tokens. Natural answers are parsed when present; at the cap (or
+if no natural letter is produced), a second max_tokens=8 call continues from the
+partial reasoning and forces an A-D letter. Thus all 1,188 samples have real parsed
+answers; none is treated as wrong merely for reaching the budget. AtlasCloud ignored
+DS4's server-side cap, so affected DS4 samples were rerun with the native tokenizer and
+a client-side stream stop at exactly 4096 tokens. Novita honored the GLM cap.
+
+| reference | upstream | acc | consistency | forced termination | mean think tokens |
+|---|---|---|---|---|---|
+| REF-DS4-4K | deepseek/deepseek-v4-flash (AtlasCloud/DeepInfra) | **0.7677 (152/198)** | 0.8081 | 48.82% (290/594) | 2803.3 |
+| REF-GLM-4K | z-ai/glm-5.2 (Novita) | **0.7576 (150/198)** | 0.8283 | 41.08% (244/594) | 1832.5 |
+
+Artifacts: out/gpqa_ref_4k/ (sealed ledgers, summaries, rollup, question manifest,
+reproduction runners, native DS4 tokenizer). Tier 4 full/high-budget gold remains a
+separate future instrument.

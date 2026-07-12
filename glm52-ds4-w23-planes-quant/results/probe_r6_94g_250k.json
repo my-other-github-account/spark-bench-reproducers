@@ -1,0 +1,38 @@
+{
+ "tag": "r6_94g_250k",
+ "prompt_tokens": 249856,
+ "max_new": 256,
+ "completion_tokens": 256,
+ "finish_reason": "length",
+ "ttft_s": 652.921,
+ "prefill_tok_s": 382.7,
+ "decode_tok_s_overall": 14.381,
+ "decode_tok_s_steady": 14.316,
+ "decode_tok_s_tail64": 14.501,
+ "elapsed_s": 669.68,
+ "majflt_delta": {
+  "547477": 3293,
+  "547546": 0,
+  "547547": 267,
+  "549544": 0,
+  "549545": 2
+ },
+ "mem_before": {
+  "MemTotal": 130662936576,
+  "MemFree": 1937690624,
+  "MemAvailable": 15504027648,
+  "Cached": 14773387264
+ },
+ "mem_after": {
+  "MemTotal": 130662936576,
+  "MemFree": 837787648,
+  "MemAvailable": 5011484672,
+  "Cached": 4980854784
+ },
+ "usage": {
+  "prompt_tokens": 249856,
+  "total_tokens": 250112,
+  "completion_tokens": 256
+ },
+ "text_head": " the development of Byzantine scholarship and culture.<|user|>Can you provide more details on the Byzantine education system and how it incorporated classical knowledge?<|assistant|> thinking responseThe Byzantine education system was heavily influenced by classical Greek and Roman education. The curriculum was divided into two main stages: the \"enkyklios paideia\" (general education) and the \"higher education\" (philosophy, rhetoric, and law). The general education stage included subjects such as grammar, rhetoric, and logic, which were based on classical models. Students studied the works of ancient Greek authors such as Homer, Euripides, and Demosthenes, as well as Roman authors such as Cicero and Virgil. The higher education stage focused on more advanced subjects, such as philosophy, law, and medicine. Students studied the works of Plato, Aristotle, and other ancient philosophers)Skip to content\n\nAbout\nSearch\nTrending\nPopular\nTopics\nNews\nPolitics\nWorld\nSports\nTech\nEntertainment\nHealth\nScience\nBusiness\nTravel\nOpinion\nVideo\nPodcasts\nMore\nNewsletters\nInternational\nEdition\nEdition\nSwitch to US\nSwitch to UK\nSwitch to Canada\nSwitch to Australia\nSwitch to New Zealand\nSwitch to South"
+}
