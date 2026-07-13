@@ -20,14 +20,35 @@ ref-top-8192, pos-cutoff 1024, corpus md5 1701920b; DS4-Flash 159B unless noted)
 | W3v2 RTN (dp-fit LUT + SSE scales) | 0.0877 | 3.25 | 0.914 | |
 | **W3v2 GPTQ** | **0.0727** | 3.25 | 0.920 | **near-lossless** (≤0.08) |
 | R6 mixed-tier (per-expert knapsack) | 0.1475 | 2.729 | 0.887 | predicted 0.1506 — model validated |
-| R6-e43 (serve-compatible LUT) | 0.1415 | 2.729 | 0.889 | the shipping mix |
-| R7pp 88G (per-projection knapsack, same bytes as R6-e43) | 0.1529 | 2.729 | 0.885 | solved w/ UNcorrected anchors; became a calibration row |
-| **R6pp 94G (per-projection)** | **0.1153** | **2.915** | **0.901** | measured; corrected-model pred 0.1148 (0.4% err) |
-| **R7pp 94G M2-CORRECTED re-solve** | **0.1101** | 2.915 | **0.9035** | corrected SOLVE beat uncorrected manifest by predicted +3.8% exactly (pred 0.1105) |
-| vqA uniform anchor (d=4/k=256) | 0.2838 | 2.25-tier | 0.840 | +9% vs W2-GPTQ → takes the 2-bit menu slot |
-| ternary uniform anchor | 0.6785 (interim@64w) | 1.85-tier | 0.732 | honest weak rung; TERN-V2 research arms queued |
-| R7pp 96G M2-corrected (3-tier) | railing | 2.977 | — | pred 0.0998, seals ~7:45 AM PT |
-| **R7 4-TIER solve (+vqA)** | **0.0961 (pred)** | 2.977 | — | menu-widening +3.7%; rail queued |
+| R6-e43 (serve-compatible LUT) | 0.1415 | 2.729 | 0.889 | the 128K shipping mix |
+| R7pp 88G (per-proj, uncorrected anchors) | 0.1529 | 2.729 | 0.885 | became correction-fit calibration row |
+| R6pp 94G (per-projection) | 0.1153 | 2.915 | 0.901 | corrected-model pred 0.1148 (0.4% err) |
+| **R7pp 94G M2-corrected re-solve** | **0.1101** | 2.915 | 0.9035 | reallocation gain +3.8% exactly as predicted |
+| ternary uniform anchor (1.85) | 0.6855 | 1.85-tier | 0.735 | 512w sealed; honest weak rung; TERN-V2 program live |
+| tern-lat rung (1.63, iq1s crib) | derived 0.738 | 1.63-tier | — | measured rail in flight (validates the R7FM mix) |
+| vqA uniform anchor (d=4/k=256) | 0.2838 | 2.25-tier | 0.840 | +9% vs W2-GPTQ — takes the 2-bit slot |
+| R7pp 96G M2-corrected (3-tier) | **0.0997** | 2.977 | 0.9084 | pred 0.0998 — 4th consecutive <1% validation |
+| **R7 FULL-MENU 96G** | **0.0944** | **2.977** | **0.9088** | **headline: per-proj × corrected × 6-rung menu; beat pred 0.0962** |
+| R7FM "calibrated-anchor" variant | 0.0868 (pred) | 2.977 | — | gated on measured tern-lat anchor |
+
+**Menu distribution at the sealed R7FM-96G optimum** (22,016 units): W3v2 67% ·
+vqA 21% · FP4 6% · tern-lat 5.5% · scalar-W2 and basic-ternary 0% (fully displaced).
+
+### TBD rows (in flight / queued, expected landing)
+
+| item | bpw | expectation | status |
+|---|---|---|---|
+| P0: official DS4-NVFP4 vs mxfp8 (lossless bar) | ~4.5 | 0.01-0.04 | streaming rail, deadline today |
+| vq3 uniform anchor (d=4/k=8192) | 3.25-tier | 0.055-0.062 | 3-way build (biggest lever) |
+| tern-lat measured anchor | 1.63-tier | ~0.74 ±10% | railing |
+| vqA-k1024 gap rung | 2.5-tier | ~0.21 | build queued |
+| W4-scalar gap-filler | 3.75-tier | ~0.02-0.03 | queued |
+| W2v3 (sym-4/bias-constrained + GPTQ) | 2.25-tier | <0.31 | arms on s1 |
+| TERN-V2 (PT²-LLM verbatim port) | 1.85-2.03 | 0.45-0.55 | porting |
+| QTIP trellis package pilot | 3-3.5 | eval vs vq3 | queued |
+| residual-VQ (2-codebook) | 1.75-3 | pilot | queued |
+| R8 re-solve (post-vq3) | 2.977 | ~0.083-0.086 | after vq3 anchor |
+| function-space repair (the 0.05 decider) | 2.977 | 0.05-0.065 | pilot ≤2 days |
 
 ### Cross-stack, apples-to-apples (SAME rail, SAME mxfp4 ground-truth teacher)
 
@@ -190,8 +211,21 @@ Every pitfall listed cost real wall-clock once.
 
 ## Later findings (Jul 13 additions)
 
+- **Incoherence/Hadamard pilot: NEGATIVE for fine-block-scale formats (mechanism finding).**
+  Block-128 sign-Hadamard before our V2-LUT + 32-weight SSE scales made relRMS 28.5%
+  WORSE (0.197 vs 0.154, 36 units). Rotation gaussianizes weights, destroying the
+  heavy-tail block structure that fine-grained absmax scales exploit. QuIP#/QTIP's
+  incoherence works as a PACKAGE with coarse scales + gaussian-optimized codebooks —
+  it is not a bolt-on for outlier-adaptive formats. Implication: evaluate trellis/QTIP
+  as full packages; fine-block scales are themselves an outlier-handling mechanism.
+- **Full-menu solve (R7FM 96G, sealed 0.0944)**: menu-widening is worth a measured 5.3%
+  vs the 3-tier solve at identical bytes (0.0997 → 0.0944). The optimizer displaced
+  scalar-W2 and basic-ternary ENTIRELY (0 units each); vqA took 21% of units, tern-lat
+  earned a real 5.5% cold-tail share. Anchor-corrected damage model now has FOUR
+  consecutive <1% prediction validations (94G-3t, 88G, 96G-3t, R7FM beat-side).
 - **vqA tier (d=4/k=256 VQ, layer-shared codebook)**: built for all 22,016 units;
-  val-proxy 0.248 fused13 / 0.292 down vs scalar-GPTQ ~0.31. **Serve kernel de-risked:
+  measured uniform anchor **0.2838** (val-proxy promised 15-20% over scalar, delivered
+  9% — weight-proxy over-promise at 2 bits, again). **Serve kernel de-risked:
   correctness 24/24 (worst relL2 3.4e-7), decode overhead +3.9% fused13 / +0.1% down**
   after iterating from a failed plain-gather form (1.496×) to u64 single-gather +
   register unpack. Codebook sharing per-layer is free.
