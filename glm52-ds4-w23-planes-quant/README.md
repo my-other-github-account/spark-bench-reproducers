@@ -101,6 +101,40 @@ placement barely matters; at 3 bits placement dominates.**
   (damage-per-byte), rail runner, gate, GPTAQ pilot, recipe assembler
 - `scripts/knapsack_256k.py`, `serve_256k.sh` — the 256K bind + probe rig
 
+## NEW: the end-to-end process is documented for reuse
+
+**`PLAYBOOK.md`** — the full repeatable method for running this campaign on a NEW model
+from scratch: teacher/loader gates, rail construction, tier design order, anchor
+methodology (incl. per-projection anchor corrections), knapsack allocation, pilot
+protocol (pre-registered gates, identity + capacity controls), serve gates, comparison
+methodology (true-bpw, instrument bridges, official lossless bars), and ops doctrine.
+Every pitfall listed cost real wall-clock once.
+
+## Later findings (Jul 13 additions)
+
+- **vqA tier (d=4/k=256 VQ, layer-shared codebook)**: built for all 22,016 units;
+  val-proxy 0.248 fused13 / 0.292 down vs scalar-GPTQ ~0.31. **Serve kernel de-risked:
+  correctness 24/24 (worst relL2 3.4e-7), decode overhead +3.9% fused13 / +0.1% down**
+  after iterating from a failed plain-gather form (1.496×) to u64 single-gather +
+  register unpack. Codebook sharing per-layer is free.
+- **Ternary lattice (iq1s-grid) shootout**: lattice = a 1.63bpw rung (+7.7% err,
+  −12.2% bytes vs basic ternary 1.85) — separate knapsack rungs, both in menu. The
+  iq1s grid is UNIVERSAL (our data-refit landed identical, ~43% pattern overlap);
+  curation ≠ model-specific tuning.
+- **W2v2 asymmetric-grid regression (open)**: dp-fit asym 4-level grid + SSE scales
+  improved weight relRMS 8% but REGRESSED rail KLD 21% (0.3902→0.4728) — weight-space
+  wins do not guarantee distributional wins; suspected nonzero-mean residual
+  accumulating on down-proj. GPTQ-arm adjudication + bias forensics in flight.
+- **Per-projection allocation**: predicted −11-12% at iso-bytes; first interim reads
+  ~half the predicted gain → per-projection ANCHOR corrections (a_f13, a_down per tier,
+  fit from sealed mixed rows + half-uniform validation rows) now a required stage
+  before the full-menu solve. Predictions get corrected by data, not defended.
+- **UD-IQ true-bpw column complete** (llama instrument): IQ1_S 2.32bpw/0.285,
+  IQ2_XXS 2.55/0.205, IQ3_XXS 2.90/0.151, IQ4_XS 3.88/0.093. Iso-instrument reading:
+  our planes curve dominates above ~2.7 true bpw (W3v2-GPTQ 0.073 @ 3.44 beats their
+  4-bit-class @ 3.88); their E8-lattice low-end beats scalar 2-bit — which is exactly
+  why the vqA/ternary-lattice tiers exist.
+
 ## In flight at snapshot
 
 - VQ (E8-lattice) + post-training ternary pilots for the sub-2.3bpw tier

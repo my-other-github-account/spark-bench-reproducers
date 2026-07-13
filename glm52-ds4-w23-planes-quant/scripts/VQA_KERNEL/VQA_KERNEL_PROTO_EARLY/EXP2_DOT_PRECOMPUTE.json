@@ -1,0 +1,495 @@
+{
+ "task": "t_bd0c0ac6",
+ "stage": "exp2_dot_precompute",
+ "device": "NVIDIA GB10",
+ "rel_tol": 0.001,
+ "correctness": [
+  {
+   "layer": 3,
+   "expert": 0,
+   "proj": "fused13",
+   "table": "fp32",
+   "relL2": 3.3251620834562345e-07,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 0,
+   "proj": "fused13",
+   "table": "fp16",
+   "relL2": 0.00021135486895218492,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 17,
+   "proj": "fused13",
+   "table": "fp32",
+   "relL2": 3.276301470123144e-07,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 17,
+   "proj": "fused13",
+   "table": "fp16",
+   "relL2": 0.00021000480046495795,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 128,
+   "proj": "fused13",
+   "table": "fp32",
+   "relL2": 3.291219741186069e-07,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 128,
+   "proj": "fused13",
+   "table": "fp16",
+   "relL2": 0.00021193291468080133,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 255,
+   "proj": "fused13",
+   "table": "fp32",
+   "relL2": 3.3128648624369816e-07,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 255,
+   "proj": "fused13",
+   "table": "fp16",
+   "relL2": 0.0002079346013488248,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 0,
+   "proj": "down",
+   "table": "fp32",
+   "relL2": 2.0710902504106343e-07,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 0,
+   "proj": "down",
+   "table": "fp16",
+   "relL2": 0.0002070465707220137,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 17,
+   "proj": "down",
+   "table": "fp32",
+   "relL2": 2.049461471642644e-07,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 17,
+   "proj": "down",
+   "table": "fp16",
+   "relL2": 0.00020742786000482738,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 128,
+   "proj": "down",
+   "table": "fp32",
+   "relL2": 2.0115039944812452e-07,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 128,
+   "proj": "down",
+   "table": "fp16",
+   "relL2": 0.0002009266900131479,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 255,
+   "proj": "down",
+   "table": "fp32",
+   "relL2": 2.0639711806325067e-07,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 255,
+   "proj": "down",
+   "table": "fp16",
+   "relL2": 0.00020574365044012666,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 0,
+   "proj": "fused13",
+   "table": "fp32",
+   "relL2": 3.2810953598527703e-07,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 0,
+   "proj": "fused13",
+   "table": "fp16",
+   "relL2": 0.00021382297563832253,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 17,
+   "proj": "fused13",
+   "table": "fp32",
+   "relL2": 3.216203765532555e-07,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 17,
+   "proj": "fused13",
+   "table": "fp16",
+   "relL2": 0.00020366261014714837,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 128,
+   "proj": "fused13",
+   "table": "fp32",
+   "relL2": 3.18641639296402e-07,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 128,
+   "proj": "fused13",
+   "table": "fp16",
+   "relL2": 0.00020486474386416376,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 255,
+   "proj": "fused13",
+   "table": "fp32",
+   "relL2": 3.3645235930634954e-07,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 255,
+   "proj": "fused13",
+   "table": "fp16",
+   "relL2": 0.0002094097580993548,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 0,
+   "proj": "down",
+   "table": "fp32",
+   "relL2": 2.0882245621578477e-07,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 0,
+   "proj": "down",
+   "table": "fp16",
+   "relL2": 0.00021635906887240708,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 17,
+   "proj": "down",
+   "table": "fp32",
+   "relL2": 1.9909442983134795e-07,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 17,
+   "proj": "down",
+   "table": "fp16",
+   "relL2": 0.00020839084754697978,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 128,
+   "proj": "down",
+   "table": "fp32",
+   "relL2": 2.1341845979350182e-07,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 128,
+   "proj": "down",
+   "table": "fp16",
+   "relL2": 0.00020977553504053503,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 255,
+   "proj": "down",
+   "table": "fp32",
+   "relL2": 1.9996538469513325e-07,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 255,
+   "proj": "down",
+   "table": "fp16",
+   "relL2": 0.00020208540081512183,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 0,
+   "proj": "fused13",
+   "table": "fp32",
+   "relL2": 3.3348521810694365e-07,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 0,
+   "proj": "fused13",
+   "table": "fp16",
+   "relL2": 0.00020846501865889877,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 17,
+   "proj": "fused13",
+   "table": "fp32",
+   "relL2": 3.19514555258138e-07,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 17,
+   "proj": "fused13",
+   "table": "fp16",
+   "relL2": 0.00021044706227257848,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 128,
+   "proj": "fused13",
+   "table": "fp32",
+   "relL2": 3.2454721576868906e-07,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 128,
+   "proj": "fused13",
+   "table": "fp16",
+   "relL2": 0.00020674173720180988,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 255,
+   "proj": "fused13",
+   "table": "fp32",
+   "relL2": 3.3283524203397974e-07,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 255,
+   "proj": "fused13",
+   "table": "fp16",
+   "relL2": 0.00020924650016240776,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 0,
+   "proj": "down",
+   "table": "fp32",
+   "relL2": 2.0364120700833155e-07,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 0,
+   "proj": "down",
+   "table": "fp16",
+   "relL2": 0.0002048298774752766,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 17,
+   "proj": "down",
+   "table": "fp32",
+   "relL2": 2.0643085463234456e-07,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 17,
+   "proj": "down",
+   "table": "fp16",
+   "relL2": 0.0002111833746312186,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 128,
+   "proj": "down",
+   "table": "fp32",
+   "relL2": 2.0606064765615884e-07,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 128,
+   "proj": "down",
+   "table": "fp16",
+   "relL2": 0.00020134722581133246,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 255,
+   "proj": "down",
+   "table": "fp32",
+   "relL2": 2.0017513691072963e-07,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 255,
+   "proj": "down",
+   "table": "fp16",
+   "relL2": 0.00020386218966450542,
+   "pass": true
+  }
+ ],
+ "perf": {
+  "fused13": {
+   "w2lut": {
+    "best_cfg": "32x64",
+    "reps": [
+     68.78,
+     68.86,
+     68.85,
+     66.95,
+     66.9
+    ],
+    "min": 66.9,
+    "median": 68.78
+   },
+   "vqa_dot_fp32": {
+    "best_cfg": "32x128",
+    "reps": [
+     98.4,
+     96.55,
+     96.48,
+     96.42,
+     96.43
+    ],
+    "min": 96.42,
+    "median": 96.48,
+    "precompute_us": 15.63,
+    "ratio_min": 1.4413,
+    "ratio_median": 1.4027
+   },
+   "vqa_dot_fp16": {
+    "best_cfg": "32x128",
+    "reps": [
+     96.09,
+     94.45,
+     96.02,
+     96.14,
+     96.06
+    ],
+    "min": 94.45,
+    "median": 96.06,
+    "precompute_us": 19.24,
+    "ratio_min": 1.4118,
+    "ratio_median": 1.3966
+   }
+  },
+  "down": {
+   "w2lut": {
+    "best_cfg": "32x64",
+    "reps": [
+     22.86,
+     22.88,
+     25.01,
+     22.87,
+     22.9
+    ],
+    "min": 22.86,
+    "median": 22.88
+   },
+   "vqa_dot_fp32": {
+    "best_cfg": "32x64",
+    "reps": [
+     43.86,
+     43.71,
+     45.61,
+     43.73,
+     43.72
+    ],
+    "min": 43.71,
+    "median": 43.73,
+    "precompute_us": 16.29,
+    "ratio_min": 1.9121,
+    "ratio_median": 1.9113
+   },
+   "vqa_dot_fp16": {
+    "best_cfg": "32x128",
+    "reps": [
+     36.71,
+     36.75,
+     37.05,
+     36.74,
+     36.69
+    ],
+    "min": 36.69,
+    "median": 36.74,
+    "precompute_us": 19.74,
+    "ratio_min": 1.605,
+    "ratio_median": 1.6058
+   }
+  }
+ },
+ "correctness_gate": {
+  "n_total": 24,
+  "n_pass": {
+   "fp32": 24,
+   "fp16": 24
+  },
+  "worst_relL2": {
+   "fp32": 3.3645235930634954e-07,
+   "fp16": 0.00021635906887240708
+  },
+  "fp32_pass": true,
+  "fp16_pass": true
+ }
+}

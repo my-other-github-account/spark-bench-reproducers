@@ -1,0 +1,316 @@
+{
+ "task": "t_bd0c0ac6",
+ "stage": "3_kernel_proto_early_realplanes",
+ "device": "NVIDIA GB10",
+ "torch": "2.11.0+cu130",
+ "triton": "3.6.0",
+ "planes": "s8 t_426bbc97 stage-2 build (UNCALIBRATED)",
+ "layers": [
+  3,
+  13,
+  23
+ ],
+ "experts": [
+  0,
+  17,
+  128,
+  255
+ ],
+ "rel_tol": 0.001,
+ "correctness": [
+  {
+   "layer": 3,
+   "expert": 0,
+   "proj": "fused13",
+   "relL2": 3.3251620834562345e-07,
+   "max_abs": 2.3543834686279297e-06,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 17,
+   "proj": "fused13",
+   "relL2": 3.276301470123144e-07,
+   "max_abs": 2.086162567138672e-06,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 128,
+   "proj": "fused13",
+   "relL2": 3.291219741186069e-07,
+   "max_abs": 2.384185791015625e-06,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 255,
+   "proj": "fused13",
+   "relL2": 3.3128648624369816e-07,
+   "max_abs": 1.9073486328125e-06,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 0,
+   "proj": "down",
+   "relL2": 2.0710902504106343e-07,
+   "max_abs": 9.5367431640625e-07,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 17,
+   "proj": "down",
+   "relL2": 2.049461471642644e-07,
+   "max_abs": 9.5367431640625e-07,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 128,
+   "proj": "down",
+   "relL2": 2.0115039944812452e-07,
+   "max_abs": 1.1920928955078125e-06,
+   "pass": true
+  },
+  {
+   "layer": 3,
+   "expert": 255,
+   "proj": "down",
+   "relL2": 2.0639711806325067e-07,
+   "max_abs": 1.1920928955078125e-06,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 0,
+   "proj": "fused13",
+   "relL2": 3.2810953598527703e-07,
+   "max_abs": 2.5033950805664062e-06,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 17,
+   "proj": "fused13",
+   "relL2": 3.216203765532555e-07,
+   "max_abs": 2.3245811462402344e-06,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 128,
+   "proj": "fused13",
+   "relL2": 3.18641639296402e-07,
+   "max_abs": 1.9073486328125e-06,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 255,
+   "proj": "fused13",
+   "relL2": 3.3645235930634954e-07,
+   "max_abs": 2.0265579223632812e-06,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 0,
+   "proj": "down",
+   "relL2": 2.0882245621578477e-07,
+   "max_abs": 8.344650268554688e-07,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 17,
+   "proj": "down",
+   "relL2": 1.9909442983134795e-07,
+   "max_abs": 8.344650268554688e-07,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 128,
+   "proj": "down",
+   "relL2": 2.1341845979350182e-07,
+   "max_abs": 8.344650268554688e-07,
+   "pass": true
+  },
+  {
+   "layer": 13,
+   "expert": 255,
+   "proj": "down",
+   "relL2": 1.9996538469513325e-07,
+   "max_abs": 8.344650268554688e-07,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 0,
+   "proj": "fused13",
+   "relL2": 3.3348521810694365e-07,
+   "max_abs": 2.1457672119140625e-06,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 17,
+   "proj": "fused13",
+   "relL2": 3.19514555258138e-07,
+   "max_abs": 2.1457672119140625e-06,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 128,
+   "proj": "fused13",
+   "relL2": 3.2454721576868906e-07,
+   "max_abs": 2.384185791015625e-06,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 255,
+   "proj": "fused13",
+   "relL2": 3.3283524203397974e-07,
+   "max_abs": 2.205371856689453e-06,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 0,
+   "proj": "down",
+   "relL2": 2.0364120700833155e-07,
+   "max_abs": 9.5367431640625e-07,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 17,
+   "proj": "down",
+   "relL2": 2.0643085463234456e-07,
+   "max_abs": 9.5367431640625e-07,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 128,
+   "proj": "down",
+   "relL2": 2.0606064765615884e-07,
+   "max_abs": 9.5367431640625e-07,
+   "pass": true
+  },
+  {
+   "layer": 23,
+   "expert": 255,
+   "proj": "down",
+   "relL2": 2.0017513691072963e-07,
+   "max_abs": 1.0728836059570312e-06,
+   "pass": true
+  }
+ ],
+ "perf": {
+  "fused13": {
+   "N": 4096,
+   "K": 4096,
+   "bytes_per_expert_proj": 4718592,
+   "w2lut": {
+    "cfg": "32x64",
+    "us": 63.24,
+    "sweep": {
+     "32x64": 63.24,
+     "32x128": 65.66,
+     "32x256": 86.94,
+     "64x64": 88.17,
+     "64x128": 105.6,
+     "64x256": 699.36,
+     "128x64": 100.32,
+     "128x128": 1050.12,
+     "128x256": 1635.0
+    }
+   },
+   "vqa": {
+    "cfg": "32x128",
+    "us": 79.93,
+    "sweep": {
+     "32x64": 80.02,
+     "32x128": 79.93,
+     "32x256": 285.11,
+     "64x64": 125.65,
+     "64x128": 142.84,
+     "64x256": 1509.1,
+     "128x64": 116.89,
+     "128x128": 1297.19,
+     "128x256": 2012.85
+    }
+   },
+   "loop8_us_per_gemv": {
+    "w2lut": 68.32,
+    "vqa": 87.37
+   },
+   "bf16_mv_us": 198.11,
+   "ratio_single": 1.2639,
+   "ratio_loop8": 1.2789
+  },
+  "down": {
+   "N": 4096,
+   "K": 2048,
+   "bytes_per_expert_proj": 2359296,
+   "w2lut": {
+    "cfg": "32x64",
+    "us": 22.63,
+    "sweep": {
+     "32x64": 22.63,
+     "32x128": 26.71,
+     "32x256": 48.78,
+     "64x64": 32.84,
+     "64x128": 40.84,
+     "64x256": 358.76,
+     "128x64": 38.97,
+     "128x128": 539.69,
+     "128x256": 813.51
+    }
+   },
+   "vqa": {
+    "cfg": "32x64",
+    "us": 30.82,
+    "sweep": {
+     "32x64": 30.82,
+     "32x128": 32.84,
+     "32x256": 137.2,
+     "64x64": 53.71,
+     "64x128": 56.74,
+     "64x256": 783.29,
+     "128x64": 47.15,
+     "128x128": 631.86,
+     "128x256": 1028.41
+    }
+   },
+   "loop8_us_per_gemv": {
+    "w2lut": 22.99,
+    "vqa": 34.38
+   },
+   "bf16_mv_us": 22.57,
+   "ratio_single": 1.3619,
+   "ratio_loop8": 1.4955
+  }
+ },
+ "correctness_gate": {
+  "n_pass": 24,
+  "n_total": 24,
+  "worst_relL2": {
+   "fused13": 3.3645235930634954e-07,
+   "down": 2.1341845979350182e-07
+  },
+  "pass": true
+ },
+ "max_ratio": 1.4955,
+ "perf_gate": {
+  "rule": "40%-track budget: vqA within 1.4x of W2-LUT GEMV",
+  "max_ratio": 1.4955,
+  "pass": false
+ },
+ "verdict": "FAIL"
+}
