@@ -59,14 +59,25 @@ Order of operations that mattered:
 
 - KLD_anchor(tier) = one uniform rail row per tier. **Measured, never inferred from
   weight-space.** A tier cannot enter the solver menu without its anchor row.
-- **Per-projection anchor corrections**: fused13 and down convert weight-error→KLD with
-  DIFFERENT constants (down sits on the accumulation path; expect a_down > 1).
-  Fit multipliers from mixed rows you already have (least-squares, uniform rows as
-  pins), validate with two half-uniform rows (proj=tier, complement=native).
+- **Per-projection anchor corrections (VALIDATED on DS4)**: fused13 and down convert
+  weight-error→KLD with DIFFERENT constants. Fit multipliers from mixed rows you already
+  have (least-squares, uniform rows as pins), validate with two half-uniform rows.
+  MEASURED on DS4: a_f13(W2)=1.31, a_down(W2)=0.75 — OPPOSITE of the accumulation-path
+  guess (fused13 errors corrupt the gate×up nonlinearity; down errors average benignly).
+  Pre-register your directional guess; fit anyway. Reject unconstrained fits that return
+  nonphysical multipliers (ill-conditioning when mixed rows share assignments).
+  Corrected model predicted two later rows to 0.3-0.4%. The correction changes the SOLVE
+  (argmin), not just the estimate: repricing flipped ~1.1K marginal units and bought
+  +3.8-4.1% KLD at identical bytes.
+- **Grid-bias gate (from the W2v2 regression)**: before any new low-bit grid ships, check
+  E[dequant−w] per block. At ≤4 levels, MSE-optimal asymmetric placement leaves nonzero-mean
+  residuals that accumulate coherently (bias ~N vs noise ~√N over accumulation dims) —
+  relRMS is blind to this and WILL mislead. Sign-symmetric grids are zero-mean by
+  construction. GPTQ part-compensates grid bias (its recovery is the fingerprint).
 - Damage model: cost(unit,tier) = anchor(tier,proj) × routed_mass(e) × relRMS/Z.
   Validated linear-additivity to ~2% at expert granularity (predicted 0.1506 vs
-  measured 0.1475); expect degradation at finer granularity — recalibrate from the
-  first sealed rows at each new granularity level.
+  measured 0.1475); at projection granularity the naive split over-promises ~2× —
+  recalibrate from the first sealed rows at each new granularity level.
 
 ## Phase 4 — Allocation (the knapsack)
 

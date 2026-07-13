@@ -165,7 +165,7 @@ def main():
         "tiers": {
             "w2": {"planes_dir": "~/missions/DS4_GPTQ/planes_gptq_w2",
                    "bytes_per_expert": BYTES["w2"], "kld_anchor": ANCHOR["w2"]},
-            "w3": {"planes_dir": "/home/banana_bae/missions/DS4_R6/planes_w3v2_e43",
+            "w3": {"planes_dir": "~/missions/DS4_R6/planes_w3v2_e43",
                    "bytes_per_expert": BYTES["w3"], "kld_anchor": ANCHOR["w3"],
                    "lut": [-6.5, -3.5, -1.875, -0.875, 0.140625, 1.5, 3.5, 6.5]},
             "fp4": {"planes_dir": None, "source": "ckpt e2m1 passthrough",

@@ -4,7 +4,7 @@ Banana Bae (Jul10, verbatim): "We should end up with DSV4F KLD numbers for Q2 /
 Q3 / NVFP4 / Calibrated Q2 / Calibrated Q3 / Dynamic experts targeting a
 bpw that fits with KV on 1xSpark."
 
-Workspace: /Users/banana_bae/clawd/ds4-flash-kldmatrix/
+Workspace: <orchestrator>/clawd/ds4-flash-kldmatrix/
 Testbed serve: spark-4 <internal-host> (DS4-Flash 159B, ONE Spark,
 G2-sealed: W2 sign-sym RTN planes 73G, kv fp8, MTP k=2, enforce-eager,
 vllm-0.24.0-2ef3137a). Serve exclusivity: bench queries + CPU-side scoring

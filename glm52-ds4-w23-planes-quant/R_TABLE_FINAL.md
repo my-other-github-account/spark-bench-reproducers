@@ -66,7 +66,7 @@ generation — doctrine applies to the two serve batteries:
 R1 (s7 golden W2 serve, boot-2, ds4serve-w2.service, endpoint
 http://<internal-host>, model deepseek-v4-flash, fingerprint
 vllm-0.24.0-2ef3137a, pids api=237931 engine=238062):
-  - planes /home/banana_bae/models/hf/DeepSeek-V4-Flash/moe_w2_planes, local NVMe
+  - planes ~/models/hf/DeepSeek-V4-Flash/moe_w2_planes, local NVMe
     ext4 (nvme0n1p2), 73G fully ANON-resident.
   - majflt brackets around generation: boot evidence 0/0; warm 3-gen
     post-battery bracket engine delta 0, api delta 0 (t_79a4e035).
@@ -78,7 +78,7 @@ R2 (s7 W3 measurement serve, port 8000, serve pid 98192, unit ds4serve-r2,
 recipe serve-ds4-w3-r2.sh, fingerprint vllm-0.24.0-436d2a9 (repo 436d2a9;
 API system_fingerprint vllm-0.24.0-c4e3913f), kv fp8 1G pinned, no MTP,
 enforce-eager, MBT 2048):
-  - planes /home/banana_bae/models/hf/DeepSeek-V4-Flash/moe_w3_planes, LOCAL NVMe —
+  - planes ~/models/hf/DeepSeek-V4-Flash/moe_w3_planes, LOCAL NVMe —
     105G W3 planes CANNOT sit fully anonymous next to ~12G dense on a 121G box.
     DOCUMENTED DESIGN SPLIT: layers 0-33 anon (~83G), layers 34-42 file-backed
     (VLLM_MOE_W2_PLANES_MMAP=1, VLLM_MOE_W2_MMAP_FROM_LAYER=34 — on-disk
@@ -105,7 +105,7 @@ R2 serve rows (new this task):
   s7: ~/ds4kit/out/{R2_NLL_ROW.json,R2_NLL_ROWS.jsonl,R2_MMLU500_ROW.json,
       R2_MMLU500_QROWS.jsonl} + ~/ds4kit/battery_r2.log + BATTERY_R2_DONE
   workspace: s7_results/r2_final/  (pulled this run)
-  orchestrator-host mirror: /Users/banana_bae/clawd/ds4-flash-kldmatrix/out/s7_testbed/r2_serve/
+  orchestrator-host mirror: <orchestrator>/clawd/ds4-flash-kldmatrix/out/s7_testbed/r2_serve/
   md5: R2_NLL_ROW 6e55b165 / R2_NLL_ROWS a1bdf3e8 / R2_MMLU500_ROW cb4849f5 /
        R2_MMLU500_QROWS 0d4bfaa5 / battery_r2.log 1884f23e
 KLD ledgers: s8 ~/missions/DS4_TEACHER/KLD_LEDGER.jsonl (5 rows, md5 a52750db)
@@ -114,4 +114,4 @@ KLD ledgers: s8 ~/missions/DS4_TEACHER/KLD_LEDGER.jsonl (5 rows, md5 a52750db)
 MMLU ladder: s8 ~/missions/DS4_MMLU/out/ (M_ref/Q2/Q3/Q3v2/Q4/Q5 rows).
 R1 boot-2: s7 ~/ds4r1v2/ + workspace s7_results/r1v2/ + orchestrator-host mirror
   out/s7_testbed/r1v2_boot2/ (see R1R3_ROWS_S7.md for md5s).
-Living table: /Users/banana_bae/clawd/ds4-flash-kldmatrix/SCOREBOARD.md.
+Living table: <orchestrator>/clawd/ds4-flash-kldmatrix/SCOREBOARD.md.
