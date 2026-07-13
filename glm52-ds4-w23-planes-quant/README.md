@@ -112,9 +112,13 @@ placement barely matters; at 3 bits placement dominates.**
 7. **VQ pilot (d=4/k=256 "vqA"): the 2-bit wall is scalar-only.** 36/36 units improved,
    −9.2% relRMS at +0.002bpw (codebook amortizes per layer); d=8/k=64K reaches −13%
    (activation-rail −17.3%) but is at its representational ceiling (4× k-means budget →
-   only −1.4% more). Full 43-layer uniform build + anchor rail in flight. Kernel prototype
-   SEALED: gather-GEMV correctness 24/24 (relL2 3.4e-7), u64 single-gather variant
-   +3.9%/+0.1% vs the strongest register-select LUT baseline — LUT-class serve cost.
+   only −1.4% more). **Uniform anchor INTERIM (256/512 windows): KLD 0.2827 / top1 0.842
+   — beats W2-GPTQ (0.3115/0.832) by ~9% at identical wire bytes → takes the 2-bit menu
+   slot.** Note the calibration lesson repeating: the build's val-proxy suggested 15-20%;
+   measured anchor delivered ~9% — weight-space proxies systematically over-promise at
+   2 bits, which is exactly why anchors are measured. Kernel prototype SEALED: gather-GEMV
+   correctness 24/24 (relL2 3.4e-7), u64 single-gather variant +3.9%/+0.1% vs the strongest
+   register-select LUT baseline — LUT-class serve cost.
 8. **Ternary lattice (iq1s crib) is a RUNG, not a better ternary**: iso-quality-per-byte vs
    basic ternary (+7.7% err / −12.2% bytes → 1.63bpw rung). Our mass-weighted refit of 2,048
    ternary patterns landed IDENTICAL to llama.cpp's curated iq1s_grid (0.48139 vs 0.48145)
@@ -197,14 +201,20 @@ Every pitfall listed cost real wall-clock once.
   4-bit-class @ 3.88); their E8-lattice low-end beats scalar 2-bit — which is exactly
   why the vqA/ternary-lattice tiers exist.
 
-## In flight at snapshot (Jul 12 ~11 PM PT)
+## In flight overnight (Jul 12→13)
 
-- **Uniform vqA anchor rail** (full 43-layer d=4/k=256 planes built layer-parallel on 2 hosts)
-  + **basic-ternary anchor** (1.85bpw uniform build ~done; rail next) — the last menu inputs
-- **R7 corrected full-menu solve**: per-projection × {tern-lat 1.63, ternary 1.85, vqA 2.25,
-  W2-GPTQ, W3v2-GPTQ, FP4} with M2 anchor corrections at 94G/96G → confirmation rail
-- 96G-pp rail (relaunched sole-tenant post drop_caches), UD-direct IQ3_XXS/IQ4_XS rows,
-  NVFP4 lossless-bar pairs (P0 official DS4-NVFP4 chunked rail running; Llama/Qwen/Gemma
-  + community-A/B queued), UD-quant TPS baselines (background)
-- Salvage/refinement queue: dp_sym4 W2 arm, vq3 (d=4/k=4096) hot-band, Path-B half-uniform
-  validation rows
+- vqA anchor: s1 half sealed (interim above), s3 half railing → merged final + p95
+- Basic-ternary uniform anchor: 43-layer builds done (layer-split, ~60s/layer, LUTs
+  ≈ ±2.34-2.38 near-symmetric as the bias physics predicts); rail follows vqA on the
+  same split rig. Tern-lat 1.63 rung prices off it via the sealed shootout ratio (derived)
+- **M2-corrected 94G manifest confirmation railing** (pred 0.1105 vs uncorrected-manifest
+  measured 0.1153 — tests that the corrected model improves the SOLVE, not just estimates)
+- **R7 corrected full-menu solve** at 94G/96G the moment both anchors seal → confirmation
+  rail (expected ~0.095-0.097 @ 2.977bpw with the widened menu)
+- Background: UD-direct IQ3_XXS/IQ4_XS + UD-Q4_K_XL (155GB, 4.36 true-bpw — the community
+  4-bit flagship vs our 3.25 tier), NVFP4 lossless-bar pairs, UD-quant TPS baselines,
+  W3v2 block-bias audit (W3v3 go/skip gate)
+- Next-lever queue (the 0.05 @ 96G chase; 3-bit block carries 55% of residual damage at
+  the 96G optimum): vq3 d=4/k=4096-8192 → 3.75bpw gap-filler rung (scalar W4 16-level LUT
+  favored: zero kernel work) → W2v3 sym-4-GPTQ arms → function-space repair (Recover-LoRA
+  class) if PTQ exhausts short of target
