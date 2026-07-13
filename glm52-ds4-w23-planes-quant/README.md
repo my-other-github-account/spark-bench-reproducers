@@ -23,8 +23,11 @@ ref-top-8192, pos-cutoff 1024, corpus md5 1701920b; DS4-Flash 159B unless noted)
 | R6-e43 (serve-compatible LUT) | 0.1415 | 2.729 | 0.889 | the shipping mix |
 | R7pp 88G (per-projection knapsack, same bytes as R6-e43) | 0.1529 | 2.729 | 0.885 | solved w/ UNcorrected anchors; became a calibration row |
 | **R6pp 94G (per-projection)** | **0.1153** | **2.915** | **0.901** | measured; corrected-model pred 0.1148 (0.4% err) |
-| R6pp 96G (per-projection) | railing | 2.977 | — | corrected pred (old manifest) 0.104 |
-| **M2-corrected re-solve @96G** | **0.0998 (pred)** | 2.977 | — | corrected per-proj knapsack; rail next; full R7 menu adds VQ+ternary rungs |
+| **R7pp 94G M2-CORRECTED re-solve** | **0.1101** | 2.915 | **0.9035** | corrected SOLVE beat uncorrected manifest by predicted +3.8% exactly (pred 0.1105) |
+| vqA uniform anchor (d=4/k=256) | 0.2838 | 2.25-tier | 0.840 | +9% vs W2-GPTQ → takes the 2-bit menu slot |
+| ternary uniform anchor | 0.6785 (interim@64w) | 1.85-tier | 0.732 | honest weak rung; TERN-V2 research arms queued |
+| R7pp 96G M2-corrected (3-tier) | railing | 2.977 | — | pred 0.0998, seals ~7:45 AM PT |
+| **R7 4-TIER solve (+vqA)** | **0.0961 (pred)** | 2.977 | — | menu-widening +3.7%; rail queued |
 
 ### Cross-stack, apples-to-apples (SAME rail, SAME mxfp4 ground-truth teacher)
 
@@ -35,6 +38,15 @@ ref-top-8192, pos-cutoff 1024, corpus md5 1701920b; DS4-Flash 159B unless noted)
 
 **Iso-byte twin verdict: measured per-expert/per-projection allocation beats the best community
 sub-3-bit recipe by ~19% KLD at identical resident bytes, on ground truth.**
+
+| pair @ ~2.88-2.9 whole-model bpw | KLD | top1 |
+|---|---|---|
+| **our R6-e43 (2.88)** | **0.1415** | **0.889** |
+| our M2-94G (3.11 — the class-dominator) | 0.1101 | 0.9035 |
+| Unsloth UD-IQ3_XXS (2.895, direct rail, SEALED) | 0.1472 | 0.889 |
+
+Raw-vs-direct doctrine confirmed on two points: IQ3 raw 0.1510 vs direct 0.1472 (2.6%);
+Q2_K_XL raw-interp 0.176-0.179 vs direct 0.1736.
 
 ### Per-projection anchor corrections (fit + validation, Jul 12 late)
 
