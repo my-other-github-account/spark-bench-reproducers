@@ -10,64 +10,92 @@ QSFP RoCE fabric.
 ## Headline results (offline teacher-forced KLD rail: 512 windows, KL(ref||cand),
 ref-top-8192, pos-cutoff 1024, corpus md5 1701920b; DS4-Flash 159B unless noted)
 
-| variant | KLD | expert bpw | top1 | notes |
+**Instrument note**: the ledger field is named `kl_vs_fp8` for legacy reasons; the
+reference is the **source checkpoint's native mxfp4 experts + fp8 non-expert tensors**
+(i.e. full native precision of the released model, our teacher = KLD 0 by definition).
+No BF16 master exists for the experts; mxfp4 IS ground truth for this model.
+
+**Size convention**: total model weights GB (expert bytes + 7.55GB fp8 non-expert),
+directly comparable to GGUF file sizes. Whole-model bpw = totalGB*8/284.6e9.
+
+### Uniform tier anchors (each tier applied to ALL 22,016 expert units)
+
+| variant | KLD | top1 | total GB | notes |
 |---|---|---|---|---|
-| source (mxfp4-native) = teacher | 0 | 4.25-class | 1.0 | MMLU-500 0.844 |
-| W2 sign-sym RTN | 0.3902 | 2.25 | 0.809 | MMLU 0.802-0.810 |
-| W2 GPTQ (val-gated) | 0.3115 | 2.25 | 0.832 | |
-| W2**v2** RTN (dp-fit asym-4 + SSE) | 0.4728 ⚠️ | 2.25 | 0.787 | **REGRESSION — see "asym-4 bias" finding** |
-| W2v2 GPTQ | 0.3584 ⚠️ | 2.25 | 0.818 | GPTQ part-compensates the grid bias; v2-as-built rejected |
-| W3v2 RTN (dp-fit LUT + SSE scales) | 0.0877 | 3.25 | 0.914 | |
-| **W3v2 GPTQ** | **0.0727** | 3.25 | 0.920 | **near-lossless** (≤0.08) |
-| R6 mixed-tier (per-expert knapsack) | 0.1475 | 2.729 | 0.887 | predicted 0.1506 — model validated |
-| R6-e43 (serve-compatible LUT) | 0.1415 | 2.729 | 0.889 | the 128K shipping mix |
-| R7pp 88G (per-proj, uncorrected anchors) | 0.1529 | 2.729 | 0.885 | became correction-fit calibration row |
-| R6pp 94G (per-projection) | 0.1153 | 2.915 | 0.901 | corrected-model pred 0.1148 (0.4% err) |
-| **R7pp 94G M2-corrected re-solve** | **0.1101** | 2.915 | 0.9035 | reallocation gain +3.8% exactly as predicted |
-| ternary uniform anchor (1.85) | 0.6855 | 1.85-tier | 0.735 | 512w sealed; honest weak rung; TERN-V2 program live |
-| tern-lat rung (1.63, iq1s crib) | derived 0.738 | 1.63-tier | — | measured rail in flight (validates the R7FM mix) |
-| vqA uniform anchor (d=4/k=256) | 0.2838 | 2.25-tier | 0.840 | +9% vs W2-GPTQ — takes the 2-bit slot |
-| R7pp 96G M2-corrected (3-tier) | **0.0997** | 2.977 | 0.9084 | pred 0.0998 — 4th consecutive <1% validation |
-| **R7 FULL-MENU 96G** | **0.0944** | **2.977** | **0.9088** | **headline: per-proj × corrected × 6-rung menu; beat pred 0.0962** |
-| R7FM "calibrated-anchor" variant | 0.0868 (pred) | 2.977 | — | gated on measured tern-lat anchor |
+| source (mxfp4-native) = teacher | 0 | 1.0 | ~158 | MMLU-500 0.844 |
+| **VQ3 uniform (d=4/k=8192) 🆕** | **0.0577** | **0.929** | 120.1 | **sealed Jul13 18:30 — beats W3v2-GPTQ by 21%; best artifact ever railed here** |
+| VQ3 partial L22-42 probe 🆕 | 0.0641 | 0.925 | 120.1 | half-coverage validation row |
+| W3v2 GPTQ | 0.0727 | 0.920 | 120.1 | prior 3-bit champion |
+| W3v2 RTN | 0.0877 | 0.914 | 120.1 | |
+| old-W3 GPTQ (log-LUT) | 0.1597 | 0.880 | 120.1 | |
+| old-W3 RTN | VOID | — | 120.1 | broken grid/logging |
+| vqA uniform (d=4/k=256) | 0.2838 | 0.840 | 85.5 | 2-bit slot owner |
+| W2 GPTQ | 0.3115 | 0.832 | 85.5 | |
+| W2v2 GPTQ ⚠️ | 0.3584 | 0.818 | 85.5 | rejected (asym-4 bias) |
+| W2 sign-sym RTN | 0.3902 | 0.809 | 85.5 | |
+| W2v2 RTN ⚠️ | 0.4728 | 0.787 | 85.5 | REGRESSION — asym-4 bias finding |
+| ternary uniform (1.85b) | 0.6855 | 0.735 | ~71.6 | honest weak rung |
 
-**Menu distribution at the sealed R7FM-96G optimum** (22,016 units): W3v2 67% ·
-vqA 21% · FP4 6% · tern-lat 5.5% · scalar-W2 and basic-ternary 0% (fully displaced).
+### Mixed-tier knapsack solves (per-unit dynamic allocation)
 
-### TBD rows (in flight / queued, expected landing)
+| variant | KLD | top1 | total GB | notes |
+|---|---|---|---|---|
+| **R8 96G +vq3 (early solve) 🆕** | **0.0932** | 0.909 | 103.5 | sealed Jul13 — used pre-anchor vq3 pricing (1,433 units); FULL re-solve w/ measured 0.0577 anchor pending = the real drop |
+| **R7 FULL-MENU 96G** | **0.0944** | 0.909 | 103.5 | LP1 baseline (Jul13 06:57) |
+| 96G 3-tier M2-corrected 🆕 | 0.0997 | 0.908 | 103.5 | pred 0.0998 (0.1% err) |
+| 94G M2-corrected | 0.1101 | 0.903 | 101.5 | |
+| 94G-pp uncorrected | 0.1153 | 0.901 | 101.5 | |
+| 90G-pp 🆕 | 0.1374 | 0.891 | 97.5 | frontier row (harvested Jul13) |
+| R6-e43 | 0.1415 | 0.889 | 102.1 | 128K shipping mix |
+| R6 mixed original | 0.1475 | 0.887 | 102.1 | |
+| 88G-pp | 0.1529 | 0.885 | 95.5 | |
+| 84G-pp 🆕 | 0.1845 | 0.873 | 91.5 | frontier row (harvested Jul13) |
 
-| item | bpw | expectation | status |
+Dose-response frontier (measured, monotone): 84G 0.1845 → 88G 0.1529 → 90G 0.1374 →
+94G 0.1101 → 96G 0.0944 → (uniform 120G VQ3 0.0577).
+
+### Community GGUF, same rail, same teacher (direct-measured)
+
+| quant | KLD | top1 | total GB |
 |---|---|---|---|
-| P0: official DS4-NVFP4 vs mxfp8 (lossless bar) | ~4.5 | 0.01-0.04 | streaming rail, deadline today |
-| vq3 uniform anchor (d=4/k=8192) | 3.25-tier | 0.055-0.062 | 3-way build (biggest lever) |
-| tern-lat measured anchor | 1.63-tier | ~0.74 ±10% | railing |
-| vqA-k1024 gap rung | 2.5-tier | ~0.21 | build queued |
-| W4-scalar gap-filler | 3.75-tier | ~0.02-0.03 | queued |
-| W2v3 (sym-4/bias-constrained + GPTQ) | 2.25-tier | <0.31 | arms on s1 |
-| TERN-V2 (PT²-LLM verbatim port) | 1.85-2.03 | 0.45-0.55 | porting |
-| QTIP trellis package pilot | 3-3.5 | eval vs vq3 | queued |
-| residual-VQ (2-codebook) | 1.75-3 | pilot | queued |
-| R8 re-solve (post-vq3) | 2.977 | ~0.083-0.086 | after vq3 anchor |
-| function-space repair (the 0.05 decider) | 2.977 | 0.05-0.065 | pilot ≤2 days |
+| UD-Q2_K_XL | 0.1736 | 0.878 | 96.8 |
+| UD-IQ3_XXS | 0.1472 | 0.889 | 103.0 |
+| UD-IQ4_XS (llama-instrument col) | 0.0927 | n/a | 137.9 |
 
-### Cross-stack, apples-to-apples (SAME rail, SAME mxfp4 ground-truth teacher)
+Iso-size verdicts: our 96G-class solves beat both 2-bit and 3-bit community rungs
+at equal-or-smaller size (R7FM 0.0944 vs IQ3_XXS 0.1472 at ~same GB).
 
-| pair @ ~2.72-2.73 whole-model bpw | KLD | top1 |
+### Official NVFP4 lossless bar (same rail protocol, their models) 🆕
+
+| official pair | KLD | top1 | class |
+|---|---|---|---|
+| DS4-Flash-NVFP4 | 0.0 | 1.000 | lossless recast control (bit-identical experts) |
+| Qwen3.6-27B (FP8→NVFP4) | 0.0594 | mirror owed | dense PTQ bar |
+| Llama-3.1-8B (BF16→NVFP4) | 0.1006 | mirror owed | dense PTQ bar |
+| Gemma-4-31B ⚠️ | 0.8936 | 0.764 | CONFOUNDED (KV-quant) — rerun owed, do not cite |
+
+Industry official 4-bit PTQ ≈ **0.06-0.10 KLD on this instrument**. Our VQ3 uniform
+(0.0577 @ 3.4 whole-model bpw) already sits below the best official 4-bit PTQ row.
+
+### Menu distribution at the sealed R7FM-96G optimum
+
+(22,016 units): W3v2 67% · vqA 21% · FP4 6% · tern-lat 5.5% · scalar-W2 and
+basic-ternary 0% (fully displaced).
+
+### TBD rows (in flight / queued)
+
+| item | expectation | status |
 |---|---|---|
-| **our R6-e43** | **0.1415** | **0.889** |
-| Unsloth UD-Q2_K_XL (GGUF-dequant → our rail, 512w, SEALED) | 0.1736 | 0.878 |
-
-**Iso-byte twin verdict: measured per-expert/per-projection allocation beats the best community
-sub-3-bit recipe by ~19% KLD at identical resident bytes, on ground truth.**
-
-| pair @ ~2.88-2.9 whole-model bpw | KLD | top1 |
-|---|---|---|
-| **our R6-e43 (2.88)** | **0.1415** | **0.889** |
-| our M2-94G (3.11 — the class-dominator) | 0.1101 | 0.9035 |
-| Unsloth UD-IQ3_XXS (2.895, direct rail, SEALED) | 0.1472 | 0.889 |
-
-Raw-vs-direct doctrine confirmed on two points: IQ3 raw 0.1510 vs direct 0.1472 (2.6%);
-Q2_K_XL raw-interp 0.176-0.179 vs direct 0.1736.
+| R8 96G FULL re-solve w/ measured vq3 anchor | ~0.080-0.088 | tonight (the real vq3-in-backpack row) |
+| R8 89.2G (Q2_K_XL-size twin, V1 bin) | ~0.10-0.11 | overnight |
+| R8 95.4G (IQ3_XXS-size twin) | ~0.085-0.09 | overnight |
+| LP4 function-space repair arms (scales/LUT/residual) | arm C step-4 qval tonight | s1 training; v1 was capacity-starved (flat) |
+| tern-lat measured anchor | ~0.74 ±10% | s3 |
+| IQ3_S direct (117.3GB) | ~0.11-0.12 | s6 railing |
+| Q4_K_XL direct rerun (win0-gated) | ~0.05-0.07 | s7 queue |
+| vqA-k1024 gap rung (2.5-tier) | ~0.19-0.21 | pilot WON (0.68x vqA weight-space); build on solver demand |
+| QTIP trellis package pilot | ceiling measurement | env ready on s4 |
+| Qwen3.6-35B-A3B-NVFP4 (MoE bar) + Gemma clean rerun | — | queued |
 
 ### Per-projection anchor corrections (fit + validation, Jul 12 late)
 
