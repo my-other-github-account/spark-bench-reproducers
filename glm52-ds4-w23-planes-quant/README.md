@@ -23,8 +23,8 @@ directly comparable to GGUF file sizes. Whole-model bpw = totalGB*8/284.6e9.
 | variant | KLD | top1 | total GB | notes |
 |---|---|---|---|---|
 | source (mxfp4-native) = teacher | 0 | 1.0 | ~158 | MMLU-500 0.844 |
-| **VQ3 uniform (d=4/k=8192) 🆕** | **0.0577** | **0.929** | 120.1 | **sealed Jul13 18:30 — beats W3v2-GPTQ by 21%; best artifact ever railed here** |
-| VQ3 partial L22-42 probe 🆕 | 0.0641 | 0.925 | 120.1 | half-coverage validation row |
+| **VQ3 uniform (d=4/k=8192) 🆕** | **0.0577** | **0.929** | 128.8 | **sealed Jul13 18:30 — beats W3v2-GPTQ by 21%; NOTE: 3.5bpw wire (13-bit indices), +7.7% bytes vs W3v2 3.25** |
+| VQ3 partial L22-42 probe 🆕 | 0.0641 | 0.925 | ~124 | half-coverage validation row |
 | W3v2 GPTQ | 0.0727 | 0.920 | 120.1 | prior 3-bit champion |
 | W3v2 RTN | 0.0877 | 0.914 | 120.1 | |
 | old-W3 GPTQ (log-LUT) | 0.1597 | 0.880 | 120.1 | |
