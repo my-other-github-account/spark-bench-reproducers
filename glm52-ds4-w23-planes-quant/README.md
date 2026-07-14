@@ -292,3 +292,45 @@ Every pitfall listed cost real wall-clock once.
   the 96G optimum): vq3 d=4/k=4096-8192 → 3.75bpw gap-filler rung (scalar W4 16-level LUT
   favored: zero kernel work) → W2v3 sym-4-GPTQ arms → function-space repair (Recover-LoRA
   class) if PTQ exhausts short of target
+
+## Update Jul 14 (early AM): vq-k ladder, NVFP4 vendor comparison, recovery program
+
+### NVFP4 bar — expanded (all rows: OUR rail, 512w, KL(ref||cand), top-8192, pos [0,1024))
+
+| model | quant source | KLD | top1 | note |
+|---|---|---|---|---|
+| DS4-Flash-285B | nvidia NVFP4 (recast) | 0.0 | 1.0 | bit-identical recast of native mxfp4 — rail-fidelity control |
+| Qwen3.6-27B | **nvidia official NVFP4** | **0.0594** | **0.9301** | FP8->NVFP4, real PTQ — the clean bar |
+| Qwen3.6-27B | **Unsloth NVFP4 (community)** | **0.0736** | 0.9303 | same base model: **NVIDIA's official PTQ beats the community quant by 19% KLD** (top1 ties — KLD separates where top1 saturates) |
+| Llama-3.1-8B | nvidia official NVFP4 | 0.1006 | — | BF16->NVFP4 |
+| Gemma-4-31B | nvidia NVFP4 | 0.8936 ⚠️ | 0.764 | CONFOUNDED (ckpt auto-applies FP8 KV-quant); clean rerun pending — do not cite |
+
+Working bar: official 4-bit PTQ quality on this instrument = **0.06-0.10 KLD**.
+
+### The vq-k ladder (one primitive, 0.25bpw steps)
+
+d=4 shared-codebook VQ + block-32 scales + same u64-gather kernel; index bits = log2(k)/4:
+
+| k | wire bpw | status | relRMS/KLD |
+|---|---|---|---|
+| 8192 | 3.50 | **measured anchor** | KLD 0.0577 / top1 0.929 (112.6G expert / 128.8GB total) |
+| 4096 | 3.25 | building | iso-byte with our W3v2 tier — the key rung: zero byte-competition |
+| 2048 | 3.00 | pilot queued | |
+| 1024 | 2.75 | pilot won | relRMS 0.2246 vs vqA 0.3284 (0.684x) |
+| 512 | 2.50 | pilot queued | |
+| 256 | 2.25 | =vqA, measured | KLD 0.2838 / top1 0.840 |
+
+Key finding en route: **k=8192 is NOT iso-byte with a 3-bit scalar tier** (13-bit indices = 3.5bpw wire, +7.7% bytes/unit) — mixed-tier solvers under-buy it at fixed budgets because damage-hot units are already FP4 in the optimum. The iso-byte k=4096 rung removes byte competition entirely; if its anchor holds near the k8192 pilot delta (-1.4%), the entire scalar-3-bit block swaps.
+
+### Solver lessons (mixed-tier knapsack)
+
+- Per-unit tier pricing distributes a measured uniform anchor over per-unit proxies; the vq3/w3 cost ratio is currently layer-constant — plausibly underpricing VQ on damage-hot units (VQ codebooks fit fat tails better than fixed LUTs). Iso-byte rungs sidestep the issue.
+- Budget-swapping a calibrated solver requires re-deriving its baseline calibration per budget (the guard assertion exists for a reason — bypassing it produced garbage flat-KLD-across-budgets predictions, caught before reporting).
+
+### Function-space repair (recovery) — program status
+
+v1 pilot (10K params, vqA codebooks only, 24 steps): init 0.0619 -> best 0.0613 @20 (~1%) — **capacity-starved baseline**, not a mechanism verdict (gn ~0.001 flat; training-loss slope at end-of-schedule suggests under-trained). Program continues on a debugging ladder (fixed-batch overfit rig with per-step probe KL, per-group grad norms, param displacement, grad-direction cosine -> single-tier backbone -> single-layer -> weight-space sanity floor). Position: distillation-repair of quantization parameters is well-documented (QuIP#-FT, PV-Tuning, EfficientQAT); the open question here is harness, not physics.
+
+### Instrument robustness (closed)
+
+Position-slice check: later-token KL is uniformly lower across artifacts (more context -> lower teacher entropy); rankings unchanged. The [0,1024) convention stands for all sealed rows. Checked once, closed — no further slice spend.
