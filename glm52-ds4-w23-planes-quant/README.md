@@ -1,7 +1,15 @@
 # GLM-5.2 753B + DeepSeek-V4-Flash — W2/W3 Expert-Planes Quantization Campaign
 
 **2-Spark (GB10) serving of GLM-5.2 753B + 1-Spark DS4-Flash PoC testbed, with damage-ranked
-dynamic per-expert {ternary…2,3,4}-bit allocation — July 2026. (Updated Jul 12 evening.)**
+dynamic per-expert {ternary…2,3,4}-bit allocation — July 2026. (Updated Jul 14 afternoon.)**
+
+> **New (Jul 14):** [`RECOVERY_NOTES_DAY1.md`](RECOVERY_NOTES_DAY1.md) — full working notes from
+> day 1 of the function-space recovery program: blockwise-first pivot (AQLM/EfficientQAT survey),
+> first proven convergence on production quant bytes (−3.67%/−5.41% unit-level, monotone),
+> the wire-rounding survival decomposition (fp32 gains collapse at u8 scales; LUT-only e4m3-STE
+> survives), real-activation transfer, banking architecture failures (5 modes), GB10
+> unified-memory ops lessons, and the day's ladder seals (UD-IQ2_M 0.2115 @ 2.56bpw, k-sweep
+> curve, tern-lat dominant-rung correction, two-bin strictly-smaller doctrine).
 
 Stack: Sapid-Labs vLLM-Moet expert-planes fork (vllm 0.24.0), sign-sym W2 planes (2.25bpw)
 + 8-level programmable-LUT W3 planes (3.25bpw), UE8M0 block-32 scales, GB10 unified memory,
