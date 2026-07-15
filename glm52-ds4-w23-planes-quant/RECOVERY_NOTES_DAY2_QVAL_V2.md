@@ -1,6 +1,6 @@
 # Recovery Notes Day 2 — first qval KLD, V2 scale-out, and no-blocking operations
 
-**Timestamp:** 2026-07-14 20:02 PDT  
+**Timestamp:** 2026-07-14 20:13 PDT  
 **Scope:** DS4 LP4/function-space recovery after the first full-forward qval-positive signal.  
 **Doctrine:** no services, no `systemd-run`, no boot auto-resume for heavy Spark campaign work. Use `nohup` + logfile + explicit script-level resume only.
 
@@ -185,9 +185,9 @@ Rule going forward:
 
 ### qdelta/KLD
 
-1. Finish s4 2-window repaired half.
+1. Treat s4 2-window L023 as completed positive but not sealed; next expand to 4/8-window and independent offsets.
 2. Build `qdelta_multi_layer.py` to apply multiple V2 checkpoints.
-3. Score single-layer reproducibility first, then L003+L013+L023.
+3. Score single-layer reproducibility first, then L003+L013+L033+L023.
 4. If positive, scale windows and layers; if flat, continue V2 anyway but add LSQ scales / larger parameter coverage / code reassignment.
 
 ### VQ3 k4096
