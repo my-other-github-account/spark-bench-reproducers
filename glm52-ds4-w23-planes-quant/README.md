@@ -1,8 +1,14 @@
 # GLM-5.2 753B + DeepSeek-V4-Flash — W2/W3 Expert-Planes Quantization Campaign
 
 **2-Spark (GB10) serving of GLM-5.2 753B + 1-Spark DS4-Flash PoC testbed, with damage-ranked
-dynamic per-expert {ternary…2,3,4}-bit allocation — July 2026. (Updated Jul 14 evening.)**
+dynamic per-expert {ternary…2,3,4}-bit allocation — July 2026. (Updated Jul 15 morning.)**
 
+> **New (Jul 15 AM):** [`RECOVERY_NOTES_DAY3_E2E_BREAKTHROUGH.md`](RECOVERY_NOTES_DAY3_E2E_BREAKTHROUGH.md) —
+> e2e-KL existence proof POSITIVE (+1.78% train-window in 10 steps; +3.28% and climbing at lr 1e-2),
+> block-MSE composition failure root-caused (2×2 with receipts), k4096 anchor bug found+fixed
+> (0.247→**0.06716**, beats W3v2-GPTQ at same size), first measured IQ3-bin row (0.1005 @ 101.95GB,
+> smaller-and-better vs IQ3_XXS), production multi-layer e2e running, full TODO+ETA map.
+>
 > **New (Jul 14 PM):** [`RECOVERY_NOTES_DAY2_QVAL_V2.md`](RECOVERY_NOTES_DAY2_QVAL_V2.md) —
 > first full-forward repair KLD delta (L023, 1-window qval +2.76242%), V2 real-acts scale-out,
 > no-services cleanup, Sol/Kanban nonblocking lanes, and the current k4096/3.25bpw VQ status.
@@ -36,6 +42,7 @@ directly comparable to GGUF file sizes. Whole-model bpw = totalGB*8/284.6e9.
 |---|---|---|---|---|
 | source (mxfp4-native) = teacher | 0 | 1.0 | ~158 | MMLU-500 0.844 |
 | **VQ3 uniform (d=4/k=8192) 🆕** | **0.0577** | **0.929** | 128.8 | **sealed Jul13 18:30 — beats W3v2-GPTQ by 21%; NOTE: 3.5bpw wire (13-bit indices), +7.7% bytes vs W3v2 3.25** |
+| **VQ3 uniform (d=4/k=4096) CORRECTED 🆕** | **0.06716** | **0.924** | 120.1 | **sealed Jul15 — 3.25bpw iso-byte with W3v2; beats W3v2-GPTQ at IDENTICAL size; broken 0.247 row was a builder resume bug (codes sealed against wrong codebooks), RCA t_8885886e** |
 | VQ3 partial L22-42 probe 🆕 | 0.0641 | 0.925 | ~124 | half-coverage validation row |
 | W3v2 GPTQ | 0.0727 | 0.920 | 120.1 | prior 3-bit champion |
 | W3v2 RTN | 0.0877 | 0.914 | 120.1 | |
