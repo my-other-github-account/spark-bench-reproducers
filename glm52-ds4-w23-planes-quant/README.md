@@ -1,8 +1,12 @@
 # GLM-5.2 753B + DeepSeek-V4-Flash — W2/W3 Expert-Planes Quantization Campaign
 
 **2-Spark (GB10) serving of GLM-5.2 753B + 1-Spark DS4-Flash PoC testbed, with damage-ranked
-dynamic per-expert {ternary…2,3,4}-bit allocation — July 2026. (Updated Jul 14 afternoon.)**
+dynamic per-expert {ternary…2,3,4}-bit allocation — July 2026. (Updated Jul 14 evening.)**
 
+> **New (Jul 14 PM):** [`RECOVERY_NOTES_DAY2_QVAL_V2.md`](RECOVERY_NOTES_DAY2_QVAL_V2.md) —
+> first full-forward repair KLD delta (L023, 1-window qval +2.76242%), V2 real-acts scale-out,
+> no-services cleanup, Sol/Kanban nonblocking lanes, and the current k4096/3.25bpw VQ status.
+>
 > **New (Jul 14):** [`RECOVERY_NOTES_DAY1.md`](RECOVERY_NOTES_DAY1.md) — full working notes from
 > day 1 of the function-space recovery program: blockwise-first pivot (AQLM/EfficientQAT survey),
 > first proven convergence on production quant bytes (−3.67%/−5.41% unit-level, monotone),
