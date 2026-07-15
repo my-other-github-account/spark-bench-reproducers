@@ -95,7 +95,22 @@ Current cost: ~700 s/step (1 window, 1024 tok, batch=1, no caching, full-vocab f
 
 Target ≥5× (≤140 s/step); stretch 15×. Numerics parity required at each stage. Running arms checkpoint every step ⇒ zero-cost migration to the fast path.
 
-## 5. Two-bin solve status (campaign headline)
+## 5. Publishable target ladder + two-bin solve status (campaign headline)
+
+### 5.1 Four publishable targets (Banana Bae Jul15)
+
+All KLD targets below are against the DS4/DSV4 comparison rail; the community GGUF rows use the documented llama-instrument column where noted. **DS4 IQ4 reference:** UD-IQ4_XS KLD **`0.0927`** at **137.9GB total**. **Primary NVFP4 reference:** official-ish NVFP4 KLD **`0.0594`** with top1 **`0.9301`**.
+
+| target | size cap | quality bar | current closest sealed row | current gap |
+|---|---:|---:|---:|---:|
+| **T1 weak:** beat IQ4 at better-than-IQ3 size | `<103.0GB` total (strict working cap `101.95GB`) | KLD `<0.0927` | strict IQ3-bin measured `0.10052475 @ 101.95GB` | `0.00782475` KLD = needs **7.78%** reduction |
+| **T2 medium:** beat IQ4 at Q2_K_XL size | `<96.8GB` total (strict working cap `95.75GB`) | KLD `<0.0927` | old strict-size frontier `0.1529 @ 95.5GB`; corrected Q2-bin pending | needs **39.37%** from old row; pending new solve |
+| **T3 primary:** beat NVFP4 at IQ3 size | `101.95GB` total | KLD `≤0.0594`, top1 `≥0.9301` | strict IQ3-bin measured `0.10052475 / top1 0.9060` | needs **40.91%** reduction |
+| **T4 stretch-primary:** beat NVFP4 at Q2_K_XL size | `95.75GB` total | KLD `≤0.0594`, top1 `≥0.9301` | old strict-size frontier `0.1529 @ 95.5GB`; corrected Q2-bin pending | needs **61.15%** from old row |
+
+Interpretation: T1 is close enough that the corrected k4096 backpack and/or small e2e recovery delta plausibly seals it. T2 likely needs the full downward VQ sweep (k2048/k1024/k512) plus corrected k4096. T3/T4 need both backpack improvement **and** genuine held-out e2e recovery; k4096 alone is not enough (uniform k4096 is `0.06716`, still `0.00776` above NVFP4 even at 120.1GB, while uniform k8192 beats NVFP4 but is too large at 128.8GB).
+
+### 5.2 Current two-bin solve status
 
 First measured row landed overnight (s1, `t_ccf41534`):
 
