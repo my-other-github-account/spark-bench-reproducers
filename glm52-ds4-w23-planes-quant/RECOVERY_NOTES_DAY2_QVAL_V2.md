@@ -124,14 +124,14 @@ All replacement cards include the no-service rule and explicit acceptance criter
 
 | Spark | Current useful work | Notes |
 |---|---|---|
-| s1 | qdelta paired KLD validation, `QOFFSET=8,QWINS=1` | no k4096 rail service/proc |
+| s1 | held clean after rail kill/tombstone | k4096 rail reappeared and was killed; `NO_RELAUNCH_ON_S1.TOMBSTONE` + `POISON_PILL_NO_RAIL_ON_S1.txt`; V2 L033 launch failed on local pack/source mismatch and was handed to Kanban |
 | s2 | V2 real-acts L003 trainer | H3 preempted |
 | s3 | V2 real-acts L013 trainer | `ml_repair.py` preempted |
-| s4 | qdelta L023 2-window verdict done | `0.045433610677719116 -> 0.04498082958161831` = `+0.996577400%`; do not co-run training here |
+| s4 | V2 real-acts L033 trainer | qdelta 2w completed `0.045433610677719116 -> 0.04498082958161831` = `+0.996577400%`; now `mini_b2_v2_L033_s4.log` |
 | s6 | qdelta offset validator | P1 validation |
 | s7 | qdelta offset validator | P1 validation via QSFP path |
 | s8 | B1 L7-L12 activation banking | creates more real-acts layers for V2 |
-| swork | qdelta offset validator | P1 validation |
+| swork | qdelta offset validator completed | off4 2w was negative: `0.04281084053218365 -> 0.04316144995391369` = `-0.818973459%` |
 
 ## VQ3 k4096 / 3.25bpw status at this note timestamp
 
