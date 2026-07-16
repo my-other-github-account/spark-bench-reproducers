@@ -1,0 +1,28 @@
+{
+  "do_not_quote": true,
+  "instrument": {
+    "ngl": 0,
+    "offload": "CPU-only",
+    "reason_rejected": "Banana Bae required GPU-offloaded serving measurements; these rows do not measure the target path.",
+    "runner": "llama-bench"
+  },
+  "measurement_status": "REJECTED_CPU_ONLY",
+  "replacement_receipts": [
+    "serving/ud-tps/UD-Q2_K_XL_SUMMARY.json",
+    "serving/ud-tps/UD-IQ3_XXS_SUMMARY.json"
+  ],
+  "rows": [
+    {
+      "pp512_tok_s": 1.956,
+      "tg128_tok_s": 0.693,
+      "variant": "UD-Q2_K_XL"
+    },
+    {
+      "pp512_tok_s": 1.853,
+      "tg128_tok_s": 0.623,
+      "variant": "UD-IQ3_XXS"
+    }
+  ],
+  "schema": "quarantined-cpu-throughput-rows-v1",
+  "source_provenance": "Campaign live-state rejected-row record, 2026-07-15; retained only to prevent accidental reuse."
+}

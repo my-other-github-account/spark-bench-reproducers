@@ -1,0 +1,41 @@
+{
+  "pp2048": {
+    "max_tok_s": 286.908,
+    "median_tok_s": 286.589,
+    "min_tok_s": 286.383,
+    "n_gen": 0,
+    "n_prompt": 2048,
+    "rep_count": 3,
+    "samples_tok_s": [
+      286.589,
+      286.383,
+      286.908
+    ],
+    "spread_tok_s": 0.319,
+    "status": "ok"
+  },
+  "pp32768": {
+    "status": "missing"
+  },
+  "real120k": {
+    "eval_match_count": 0,
+    "prompt_match_count": 0,
+    "status": "perf_lines_missing"
+  },
+  "run_dir": "$MISSION_ROOT/UD_TPS/t_b6a94695/scoped_runs/UD-Q2_K_XL",
+  "tg128": {
+    "max_tok_s": 13.7945,
+    "median_tok_s": 13.7591,
+    "min_tok_s": 13.5541,
+    "n_gen": 128,
+    "n_prompt": 0,
+    "rep_count": 3,
+    "samples_tok_s": [
+      13.5541,
+      13.7945,
+      13.7591
+    ],
+    "spread_tok_s": 0.205,
+    "status": "ok"
+  }
+}

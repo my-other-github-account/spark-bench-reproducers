@@ -1,0 +1,57 @@
+{
+  "artifact": "exported arm4 VQ3U planes",
+  "artifact_byte_spot_panel": {
+    "heldout_completed_windows": 5,
+    "heldout_per_window_reduction_pct": {
+      "160": 5.597,
+      "236": 3.845,
+      "304": 7.343,
+      "4": -0.41,
+      "84": 9.21
+    },
+    "heldout_planned_windows": 8,
+    "heldout_reduction_pct_pooled": 5.1168,
+    "note": "Five completed held-out rows only; retained as supporting artifact-byte evidence, not promoted to an eight-window formal seal.",
+    "train_16_reduction_pct_pooled": 55.19
+  },
+  "claim_boundary": [
+    "The 24-window result is reported only at approximately 5.1%.",
+    "The 5/8 spot panel is incomplete and is not a formal eight-window replication seal.",
+    "The complete claims-grade exported-artifact rail is repair/rail512/SEALED_SUMMARY.json."
+  ],
+  "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+  "external_24_window_result": {
+    "note": "Established campaign aggregate. The independent replacement rerun was superseded before a second complete pair sealed; do not infer more precision than published.",
+    "reduction_pct_approx": 5.1
+  },
+  "external_window_set": [
+    9,
+    32,
+    53,
+    74,
+    96,
+    117,
+    138,
+    159,
+    181,
+    202,
+    224,
+    245,
+    265,
+    287,
+    309,
+    330,
+    352,
+    372,
+    394,
+    416,
+    437,
+    458,
+    480,
+    501
+  ],
+  "instrument": "sealed KLD streamer; KL(ref||candidate) on ref top-8192 support; pos_cutoff=1024",
+  "measurement_status": "MEASURED_CAMPAIGN_RECORD",
+  "schema": "repair-external-gate-campaign-record-v1",
+  "source_provenance": "Main-thread sealed campaign record supplied with RESULTS.md addendum on 2026-07-16."
+}

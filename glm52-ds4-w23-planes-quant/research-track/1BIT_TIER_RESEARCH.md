@@ -238,7 +238,7 @@ Local: SCOREBOARD.md, R_TABLE_FINAL.md, LIVE_STATE.md, sealed_rows/VQ3_MEASURED_
 RECOVERY_OBJECTIVE_RECIPE.md (t_013da4e2), board rows t_426bbc97 (vqA anchor), t_84a57bf0
 (ternary anchor 0.685455), t_d9f7639a (R7 full-menu 0.094442), t_38aa4bf8 (residual-VQ negative),
 t_fa2eafed (2-bit VQ ceiling), t_0dc20018 (d=8 gather kernel GATE PASS), t_ccf41534/t_3a89e6b7
-(two-bin rows), t_139f9ce8 (downward k-sweep in flight).
+(two-bin rows), t_139f9ce8 (downward k-sweep, subsequently sealed through k512; see `../RESULTS.md`).
 Web: PrismML whitepaper PDF (full parse), prismml.com news, HF prism-ml repos, HN 47593422
 thread, WSJ/PRNewswire (Hassibi/Caltech/Khosla), arXiv 2310.11453, 2402.17764, 2504.12285,
 2411.04965, 2402.11295, 2402.04291, 2410.03129, 2408.01803, 2310.00034, 2402.11960,

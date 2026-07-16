@@ -1,0 +1,66 @@
+{
+  "8k_decode_tps_median_exact": 14.670661766787852,
+  "8k_decode_tps_runs": [
+    14.670661766787852,
+    14.634682973659759,
+    14.679841033705731
+  ],
+  "artifact_accounting_note": "total estimate = exact expert plane bytes + 7.55 GB FP8 non-expert from task specification",
+  "chunked_prefill": true,
+  "cold_prefill_tps": 614.0663922693077,
+  "cold_ttft_s": 426.4815715320001,
+  "completion_tokens_per_run": 256,
+  "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+  "decode_alert_below_5": false,
+  "full_context_decode_tps_median_exact": 14.313016717094317,
+  "full_context_decode_tps_median_steady_frame_based": 14.227164174269706,
+  "full_context_decode_tps_runs": [
+    14.332085021763884,
+    14.292135487565353,
+    14.313016717094317
+  ],
+  "host": "spark-8",
+  "kv_cache_bytes": 2147483648,
+  "kv_cache_tokens": 303775,
+  "kv_max_concurrency": 1.16,
+  "max_model_len": 262144,
+  "max_num_batched_tokens": 2048,
+  "minimum_available_bytes": 3157532672,
+  "minimum_available_gib": 2.9406814575195312,
+  "observed_ceiling_bracket_gb_decimal": [
+    110.629412731,
+    120.091608143
+  ],
+  "observed_total_artifact_ceiling_gb_decimal": 110.629412731,
+  "peak_system_used_bytes": 127505637376,
+  "peak_system_used_gib": 118.7488784790039,
+  "prompt_token_ids_sha256": "ff66d41d3899ba5b6b9120f7c249333a77d8a8d04fc845f9ca590d79aa730382",
+  "prompt_tokens": 261888,
+  "r6_expert_planes_bytes": 103079412731,
+  "r6_total_estimate_bytes": 110629412731,
+  "remote_root": "$MISSION_ROOT/MAXSERVE_256K",
+  "rungs": {
+    "131072": {
+      "init_passed": true,
+      "kv_cache_tokens": 426345,
+      "peak_used_gib": 120.2309684753418
+    },
+    "262144": {
+      "init_passed": true,
+      "kv_cache_tokens": 303775,
+      "peak_used_gib": 118.7488784790039
+    },
+    "32768": {
+      "init_passed": true,
+      "kv_cache_tokens": 114577,
+      "peak_used_gib": 120.76880645751953,
+      "smoke_completion_tokens": 16
+    }
+  },
+  "task": "t_627d955b",
+  "verdict": "PASS_R6_96G_AT_FULL_262144; FAIL_W3V2_AT_32768",
+  "w3_expert_planes_bytes": 112541608143,
+  "w3_total_estimate_bytes": 120091608143,
+  "watchdog_events": [],
+  "windows_concatenated": 130
+}

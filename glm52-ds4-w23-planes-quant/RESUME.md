@@ -55,7 +55,7 @@ Use `repair/SEALED_REPAIR_REPLICATION.json` for formal pooled-KLD claims. Use th
 - Later/partial arm snapshots: `repair/results/live-snapshots/{arm6,arm7,arm8,arm9,arm10}/`
 - RMSNorm and output-scale arms: `repair/altrepair/results/`
 - 24-window gate notes: `repair/external-gate/README.md`
-- Live/final 512-rail state: `repair/rail512/`
+- Sealed 512-rail row, paired clean split, and shard receipts: `repair/rail512/`
 - Carry-through tools: `tooling/`
 - Serving receipts and baseline A/B material: `serving/`
 
@@ -71,10 +71,10 @@ Use `repair/SEALED_REPAIR_REPLICATION.json` for formal pooled-KLD claims. Use th
 | `spark-7` | arm7 trajectory; `$MISSION_ROOT/RAIL512/` shard 365–437 |
 | `spark-8` | arm5 source, normalized seal source, exported arm4 planes, and `$MISSION_ROOT/RAIL512/` shard 438–511 |
 
-The 512 rail was still in flight at the refresh cut: six mirrored shards covered 130 unique
-windows, only `spark-2` was still active, shard 146–218 had no durable rows, and shard 219–291
-had one row. The repository therefore labels its aggregate `INFLIGHT`, not sealed. Replace it only
-after `agg_rail.py` proves exact 0–511 coverage with no conflicting duplicates.
+The exported arm4 rail subsequently sealed exact windows 0–511 with no conflicting duplicates.
+`repair/rail512/RAIL512_ARM4_FINAL.json` is the authoritative row and
+`repair/rail512/SEALED_SUMMARY.json` separates the full, training, clean, and per-domain results.
+Keep the historical shard paths above only as provenance; do not relaunch this rail to debug a new artifact.
 
 ## Exact next-run plan
 

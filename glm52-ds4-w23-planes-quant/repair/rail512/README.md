@@ -1,34 +1,19 @@
-# Exported arm4 512-window rail — in flight
+# Exported arm4 512-window claims rail
 
-This directory is deliberately **not** a sealed result. At the refresh cut, the seven-way rail had incomplete coverage and several shard runners needed relaunch. `INFLIGHT_AGGREGATE.json` records only coverage, gaps, and source hashes; partial quality metrics are suppressed.
+Status: **SEALED**.
 
-## Shard assignment and last verified state
+- `RAIL512_ARM4_FINAL.json` is the authoritative whole-model measured row: 512 windows / 524,288 positions, KLD `0.092240`, top-1 `0.9100`.
+- `SEALED_SUMMARY.json` is the paired baseline-vs-patched summary. It separates the full rail, the 16 training windows, and the claims-grade 496-window train-excluded subset.
+- `BASELINE_KLD_WINDOWS.jsonl` is the immutable paired baseline ledger.
+- `WINDOW_DOMAIN_MAP.json` records the domain assignment used for the clean per-domain table.
+- `shards/*.jsonl` preserves the merged patched rows and shard receipts used to seal the aggregate.
 
-| host | windows | durable rows at snapshot | runner state |
-|---|---:|---:|---|
-| `spark-1` | 0–72 | 22 | stopped; resume required |
-| `spark-2` | 73–145 | 41 | active at final collection |
-| `spark-3` | 146–218 | 0 | staged; no durable JSONL |
-| `spark-6` | 219–291 | 1 | stopped; resume required |
-| `spark-5` | 292–364 | 21 | stopped; resume required |
-| `spark-7` | 365–437 | 22 | stopped; resume required |
-| `spark-8` | 438–511 | 23 | stopped; resume required |
+The full row reduces pooled KLD by `6.781%` and narrowly crosses the `0.0927` comparison bar. That result includes all 16 training windows. The claims-grade clean subset is KLD `0.094284`, a `5.176%` pooled reduction over 496 windows, and does **not** cross the bar. Use the clean row for generalization claims.
 
-The checked-in shard snapshots cover 130 unique windows from six readable sources. Only the
-`spark-2` runner was active at final collection. That count is a progress receipt, not a benchmark.
-
-## Seal procedure
-
-1. Relaunch each shard with the exact original assignment; the JSONL ledger is resume-safe by window ID.
-2. Copy all seven `BINREPAIR_rail512_*.jsonl` files into `shards/` using public `spark-N` names.
-3. Run:
+Re-aggregate defensively with:
 
 ```bash
-python3 tooling/agg_rail.py repair/rail512/shards/*.jsonl \
-  --expected-windows 512 --output repair/rail512/AGGREGATE.json
+python3 ../../tooling/agg_rail.py shards/*.jsonl --expected-windows 512
 ```
 
-4. Require exit code 0, `complete: true`, exact 0–511 coverage, no conflicting duplicates, matching manifest/corpus identities, and all seven source hashes.
-5. Only then replace this README's status and promote the aggregate to a measured seal.
-
-The launch recipe and source paths are in [`../../RESUME.md`](../../RESUME.md). Partial preview metrics require an explicit `--include-partial-metrics` flag and must never be published as a result.
+The aggregator fails on duplicate conflicts, missing windows, or mixed identity fields.

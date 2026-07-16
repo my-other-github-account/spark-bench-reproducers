@@ -1,0 +1,142 @@
+{
+  "bpw_note": "Approximate whole-model bpw = exact HF directory bytes * 8 / 260B parameters. This is a size-normalization estimate, not a GGUF metadata readout.",
+  "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+  "metric_note": "Rows mix explicitly labeled campaign-direct and llama.cpp instruments. REF_CLASS_SELF_REFERENCE is a control, not a compression result.",
+  "parameter_basis_for_estimated_bpw": 260000000000,
+  "retrieved_utc": "2026-07-16",
+  "schema": "unsloth-deepseek-v4-flash-ud-ladder-v1",
+  "source_api": "https://huggingface.co/api/models/unsloth/DeepSeek-V4-Flash-GGUF/tree/main?recursive=true&expand=false",
+  "variants": [
+    {
+      "estimated_whole_model_bpw_260b_basis": 2.673886558523077,
+      "instrument": null,
+      "kld": null,
+      "size_bytes": 86901313152,
+      "size_decimal_gb": 86.901313152,
+      "status": "UNTESTED",
+      "top1": null,
+      "variant": "UD-IQ1_M"
+    },
+    {
+      "estimated_whole_model_bpw_260b_basis": 2.5396688315076923,
+      "instrument": null,
+      "kld": null,
+      "size_bytes": 82539237024,
+      "size_decimal_gb": 82.539237024,
+      "status": "UNTESTED",
+      "top1": null,
+      "variant": "UD-IQ1_S"
+    },
+    {
+      "estimated_whole_model_bpw_260b_basis": 2.7977516150153847,
+      "instrument": "llama.cpp KL vs fp8 reference",
+      "kld": 0.211466,
+      "size_bytes": 90926927488,
+      "size_decimal_gb": 90.926927488,
+      "status": "MEASURED",
+      "top1": 0.864,
+      "variant": "UD-IQ2_M"
+    },
+    {
+      "estimated_whole_model_bpw_260b_basis": 2.7957149577846154,
+      "instrument": null,
+      "kld": null,
+      "size_bytes": 90860736128,
+      "size_decimal_gb": 90.860736128,
+      "status": "UNTESTED",
+      "top1": null,
+      "variant": "UD-IQ2_XXS"
+    },
+    {
+      "estimated_whole_model_bpw_260b_basis": 3.6095647035076923,
+      "instrument": null,
+      "kld": null,
+      "size_bytes": 117310852864,
+      "size_decimal_gb": 117.310852864,
+      "status": "UNTESTED",
+      "top1": null,
+      "variant": "UD-IQ3_S"
+    },
+    {
+      "estimated_whole_model_bpw_260b_basis": 3.1692273112615386,
+      "instrument": "campaign direct rail vs native mxfp4/fp8 teacher",
+      "kld": 0.1472,
+      "size_bytes": 102999887616,
+      "size_decimal_gb": 102.999887616,
+      "status": "MEASURED",
+      "top1": 0.889,
+      "variant": "UD-IQ3_XXS"
+    },
+    {
+      "estimated_whole_model_bpw_260b_basis": 4.243198763323077,
+      "instrument": null,
+      "kld": null,
+      "size_bytes": 137903959808,
+      "size_decimal_gb": 137.903959808,
+      "status": "UNTESTED",
+      "top1": null,
+      "variant": "UD-IQ4_NL"
+    },
+    {
+      "estimated_whole_model_bpw_260b_basis": 4.243198763323077,
+      "instrument": "llama.cpp KL vs fp8 reference",
+      "kld": 0.0927,
+      "size_bytes": 137903959808,
+      "size_decimal_gb": 137.903959808,
+      "status": "MEASURED_TOP1_PENDING",
+      "top1": null,
+      "variant": "UD-IQ4_XS"
+    },
+    {
+      "estimated_whole_model_bpw_260b_basis": 2.979461770830769,
+      "instrument": "campaign direct rail vs native mxfp4/fp8 teacher",
+      "kld": 0.173614,
+      "size_bytes": 96832507552,
+      "size_decimal_gb": 96.832507552,
+      "status": "MEASURED",
+      "top1": 0.8778,
+      "variant": "UD-Q2_K_XL"
+    },
+    {
+      "estimated_whole_model_bpw_260b_basis": 3.9790768374153846,
+      "instrument": null,
+      "kld": null,
+      "size_bytes": 129319997216,
+      "size_decimal_gb": 129.319997216,
+      "status": "UNTESTED",
+      "top1": null,
+      "variant": "UD-Q3_K_M"
+    },
+    {
+      "estimated_whole_model_bpw_260b_basis": 3.9830228608,
+      "instrument": null,
+      "kld": null,
+      "size_bytes": 129448242976,
+      "size_decimal_gb": 129.448242976,
+      "status": "UNTESTED",
+      "top1": null,
+      "variant": "UD-Q3_K_XL"
+    },
+    {
+      "estimated_whole_model_bpw_260b_basis": 4.772161240615385,
+      "instrument": "llama.cpp reference-class control; not a compression claim",
+      "kld": 0.0,
+      "size_bytes": 155095240320,
+      "size_decimal_gb": 155.09524032,
+      "status": "REF_CLASS_SELF_REFERENCE",
+      "top1": 1.0,
+      "variant": "UD-Q4_K_XL"
+    },
+    {
+      "estimated_whole_model_bpw_260b_basis": 4.980603529846154,
+      "instrument": null,
+      "kld": null,
+      "size_bytes": 161869614720,
+      "size_decimal_gb": 161.86961472,
+      "status": "UNTESTED",
+      "top1": null,
+      "variant": "UD-Q8_K_XL"
+    }
+  ],
+  "window_count": 512
+}

@@ -1,0 +1,19 @@
+{
+  "claims_grade_status": "PENDING_RE_RAIL; publish no Bonsai compression number until candidates are scored against the Qwen base teacher.",
+  "correct_claims_reference": "Qwen/Qwen3.6-27B BF16 revision 6a9e13bd6fc8f0983b9b99948120bc37f49c13e9",
+  "measurement_status": "SELF_CONSISTENCY_ONLY_NOT_COMPRESSION_CLAIM",
+  "rows": [
+    {
+      "claimable_as_base_model_compression": false,
+      "kld": 0.000342678,
+      "label": "Q1_0 vs own-F16 (self-consistency footnote)",
+      "n_positions": 523826,
+      "n_windows": 512,
+      "reference": "Bonsai-27B-F16 export",
+      "top1": 0.988807352,
+      "variant": "Bonsai-27B-Q1_0"
+    }
+  ],
+  "schema": "external-comparison-self-consistency-quarantine-v1",
+  "source_provenance": "Protocol correction recorded on 2026-07-16 after the self-consistency row had banked."
+}

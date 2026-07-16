@@ -1,5 +1,7 @@
 # t_f6892953 — DS4-Flash 6-row KLD table, CONSOLIDATED (t_b04fc3fe deliverable)
 
+> **Historical Jul 12 seal.** The table itself remains an immutable campaign milestone; any `IN FLIGHT` notes describe that seal-time snapshot. Use [`RESULTS.md`](RESULTS.md) for current rows and target status.
+
 Sealed 2026-07-12 ~03:30 UTC. Banana Bae's spec (Jul10 verbatim): "DSV4F KLD numbers
 for Q2 / Q3 / NVFP4 / Calibrated Q2 / Calibrated Q3 / Dynamic experts targeting
 a bpw that fits with KV on 1xSpark."

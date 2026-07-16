@@ -17,7 +17,10 @@ All headline KLD values are teacher-forced `KL(reference || candidate)` over 512
 | IQ3 bin canonical | 2.927081 bpw / 101.95 GB total | 0.10052475 | 0.906021 | sealed |
 | Q2 bin canonical | 2.734836 bpw / 95.75 GB total | 0.13135650 | 0.891554 | sealed |
 | VQ d=8, k=256 uniform | 1.25 bpw | 1.757602 | 0.539780 | sealed cold-tail rung |
+| VQ d=8, k=512 uniform | 1.375 bpw | 1.345675 | 0.603914 | sealed cold-tail rung |
 | VQ d=8, k=1024 uniform | 1.50 bpw | 1.030811 | 0.661455 | sealed cold-tail rung |
+| VQ d=8, k=2048 uniform | 1.625 bpw | 0.817378 | 0.704857 | sealed cold-tail rung |
+| VQ d=8, k=4096 uniform | 1.75 bpw | 0.664968 | 0.739141 | sealed cold-tail rung |
 
 The raw rows and manifests are copied into `anchors/`, `bins/`, and `manifests/`. `solvers/` preserves each widening step rather than only the final solver so the menu evolution is reproducible.
 

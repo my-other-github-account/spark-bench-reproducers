@@ -15,8 +15,10 @@ seal below remains pooled KLD. Raw arm6–10 snapshots live under `results/live-
 - RMSNorm-gamma source step 24: `+13.553121%`, replicated by rotated-order step 16 `+13.492236%`;
 - arm3 best `+3.016373%`, but final `+2.570928%`: `FADED_BELOW_FLOOR_NOT_SEALED`;
 - pilot1, pilot2, arm4_nuclear, and output-scale are sub-floor or negative at their binding panels.
-- the separate 24-window external gate measured approximately `+5.1%` held-out; its independent
-  remeasurement and the 512-window exported-artifact rail were still in flight at this refresh cut.
+- the separate 24-window external gate measured approximately `+5.1%` held-out;
+- the exported-artifact rail then sealed all 512 windows: full KLD `0.092240` (`+6.781%`),
+  but the claims-grade train-excluded 496-window row is KLD `0.094284` (`+5.176%`) and
+  therefore does not cross the `0.0927` bar.
 
 Raw JSONL ledgers, status snapshots, final summaries, and launch configurations are checked in below. `PROBE_TABLES.md` and `PROBE_TABLES.json` are generated from those ledgers and contain every completed pooled panel plus all eight per-window values. The generated table, rather than provisional status-message rounding, is the source for individual-arm trajectories.
 

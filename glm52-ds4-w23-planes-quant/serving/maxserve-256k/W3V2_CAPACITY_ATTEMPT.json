@@ -1,0 +1,32 @@
+{
+  "artifact": "W3v2 uniform planes",
+  "created_at": 1784227757.1746867,
+  "health_ready": false,
+  "host": "spark-8",
+  "kernel_evidence": [
+    "2026-07-16 18:24:37 NVRM NV_ERR_NO_MEMORY at mem_desc.c:1359",
+    "2026-07-16 18:24:38 NVRM NV_ERR_NO_MEMORY at mem_desc.c:1359",
+    "2026-07-16 18:24:39 NVRM NV_ERR_NO_MEMORY at mem_desc.c:1359"
+  ],
+  "kv_cache_bytes": 3221225472,
+  "last_layer_line": "(EngineCore pid=1159608) INFO 07-16 18:24:34 [moe_w2_cubit.py:752] moe_w2: layer 42 planes loaded PREPACKED (W3 codebook) from layer_042",
+  "layers_loaded": 43,
+  "max_model_len": 32768,
+  "mbt": 2048,
+  "min_mem_available_bytes": 0,
+  "model_loading_lines": [
+    "(EngineCore pid=1159608) INFO 07-16 18:24:34 [gpu_model_runner.py:5773] Model loading took 8.91 GiB memory and 159.232431 seconds"
+  ],
+  "on_path_lines": [
+    "(EngineCore pid=1159608) INFO 07-16 18:24:38 [moe_w2_cubit.py:1655] moe_w2_cubit: W3 tier ON-PATH sentinel \u2014 layer_key=0 tier=w3mc4afrag K13=4096 K2=2048"
+  ],
+  "peak_mem_used_bytes": 130663170048,
+  "peak_unit_memory_current_bytes": 116453486592,
+  "planes_bytes": 112541608143,
+  "planes_dir": "$MISSION_ROOT/W3_LUT_AUDIT/moe_w3_planes_v2",
+  "planes_gib": 104.81254024710506,
+  "residency": "anonymous",
+  "task": "t_627d955b",
+  "verdict": "FAIL_CAPACITY: all 43 W3 layers loaded but NVRM returned NV_ERR_NO_MEMORY three times before KV/API health. Peak system used reached MemTotal (MemAvailable 0); service terminated without becoming healthy.",
+  "watchdog_events": []
+}

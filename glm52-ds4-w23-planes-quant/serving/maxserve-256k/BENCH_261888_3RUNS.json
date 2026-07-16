@@ -1,0 +1,91 @@
+{
+  "corpus": "$MISSION_ROOT/DS4_TEACHER/static/windows_ds4_eval.json",
+  "endpoint": "$LOCAL_OPENAI_ENDPOINT",
+  "finished_at": 1784232740.671256,
+  "ignore_eos": true,
+  "label": "r6-96g-mml262144-pp261888-tg256",
+  "max_tokens": 256,
+  "median_decode_tps_exact": 14.313016717094317,
+  "median_decode_tps_steady": 14.227164174269706,
+  "median_decode_tps_tail64": 14.406297998819024,
+  "model": "deepseek-v4-flash",
+  "prompt_token_ids_sha256": "ff66d41d3899ba5b6b9120f7c249333a77d8a8d04fc845f9ca590d79aa730382",
+  "runs": [
+    {
+      "completion_tokens": 256,
+      "decode_interarrival_median_s": 0.07039290400280152,
+      "decode_span_s": 17.79224722800427,
+      "decode_sse_frame_rate": 14.275880766776575,
+      "decode_tps_exact": 14.332085021763884,
+      "decode_tps_steady": 14.227164174269706,
+      "decode_tps_tail64": 14.389221749319,
+      "decode_warmup_frames": 32,
+      "finish_reason": "length",
+      "prefill_tps_wall": 614.0663922693077,
+      "prompt_tokens": 261888,
+      "run": 1,
+      "stream_nonempty_frames": 255,
+      "text_chars": 1074,
+      "text_head": "eff(x, 3)\nprint(coefficient)\n</execute><|user|>Observation:\n-27\nYou have 3 steps left and 2 chances to propose solution left.<|assistant|> thinkingThe coefficient of the $x^3$ term in $(p(x))^3$ is -27.\n\n<solution>-27</solution>[gMASK]<sop><|system|>Reasoning Effort: Max<|system|>You are a helpful assistant assigned with the task of problem-solving. To achieve this, you will be using an interactive coding environment equipped with a variety of tool functions to assist you throughout the process.\n\nAt each turn, you should first provide your step-by-step thinking for solving the task. After that, you have two options:\n\n1) Interact with a Python programming environment and receive the corresponding output. Your code should be enclosed using \"<execute>\" tag, for example: <execute> print(\"Hello World!\") </execute>.\n2) Directly provide a solution that adheres to the required format for the given task. Your solution should be enclosed using \"<solution>\" tag, for example: The answer is <soluti",
+      "ttft_s": 426.4815715320001,
+      "usage": {
+        "completion_tokens": 256,
+        "prompt_tokens": 261888,
+        "total_tokens": 262144
+      },
+      "wall_s": 444.2738356530026
+    },
+    {
+      "completion_tokens": 256,
+      "decode_interarrival_median_s": 0.07029782101744786,
+      "decode_span_s": 17.841980313009117,
+      "decode_sse_frame_rate": 14.292135487565353,
+      "decode_tps_exact": 14.292135487565353,
+      "decode_tps_steady": 14.223759139578018,
+      "decode_tps_tail64": 14.406297998819024,
+      "decode_warmup_frames": 32,
+      "finish_reason": "length",
+      "prefill_tps_wall": 198733.36996165616,
+      "prompt_tokens": 261888,
+      "run": 2,
+      "stream_nonempty_frames": 256,
+      "text_chars": 1061,
+      "text_head": "eff(x, 3)\nprint(coefficient)\n</execute><|user|>Observation:\n-27\nYou have 3 steps left and 2 chances to propose solution left.<|assistant|> thinkingThe coefficient of the $x^3$ term in $(p(x))^3$ is -27.\n\n<solution>\n-27\n</solution>[gMASK]<sop><|system|>Reasoning Effort: Max<|system|>You are a helpful assistant assigned with the task of problem-solving. To achieve this, you will be using an interactive coding environment equipped with a variety of tool functions to assist you throughout the process.\n\nAt each turn, you should first provide your step-by-step thinking for solving the task. After that, you have two options:\n\n1) Interact with a Python programming environment and receive the corresponding output. Your code should be enclosed using \"<execute>\" tag, for example: <execute> print(\"Hello World!\") </execute>.\n2) Directly provide a solution that adheres to the required format for the given task. Your solution should be enclosed using \"<solution>\" tag, for example: The answer is <solu",
+      "ttft_s": 1.3177857349801343,
+      "usage": {
+        "completion_tokens": 256,
+        "prompt_tokens": 261888,
+        "total_tokens": 262144
+      },
+      "wall_s": 19.15978366098716
+    },
+    {
+      "completion_tokens": 256,
+      "decode_interarrival_median_s": 0.07021375000476837,
+      "decode_span_s": 17.815950686024735,
+      "decode_sse_frame_rate": 14.313016717094317,
+      "decode_tps_exact": 14.313016717094317,
+      "decode_tps_steady": 14.246247752010056,
+      "decode_tps_tail64": 14.426191210074721,
+      "decode_warmup_frames": 32,
+      "finish_reason": "length",
+      "prefill_tps_wall": 211576.86070679105,
+      "prompt_tokens": 261888,
+      "run": 3,
+      "stream_nonempty_frames": 256,
+      "text_chars": 1061,
+      "text_head": "eff(x, 3)\nprint(coefficient)\n</execute><|user|>Observation:\n-27\nYou have 3 steps left and 2 chances to propose solution left.<|assistant|> thinkingThe coefficient of the $x^3$ term in $(p(x))^3$ is -27.\n\n<solution>\n-27\n</solution>[gMASK]<sop><|system|>Reasoning Effort: Max<|system|>You are a helpful assistant assigned with the task of problem-solving. To achieve this, you will be using an interactive coding environment equipped with a variety of tool functions to assist you throughout the process.\n\nAt each turn, you should first provide your step-by-step thinking for solving the task. After that, you have two options:\n\n1) Interact with a Python programming environment and receive the corresponding output. Your code should be enclosed using \"<execute>\" tag, for example: <execute> print(\"Hello World!\") </execute>.\n2) Directly provide a solution that adheres to the required format for the given task. Your solution should be enclosed using \"<solution>\" tag, for example: The answer is <solu",
+      "ttft_s": 1.2377913119853474,
+      "usage": {
+        "completion_tokens": 256,
+        "prompt_tokens": 261888,
+        "total_tokens": 262144
+      },
+      "wall_s": 19.05375945099513
+    }
+  ],
+  "started_at": 1784232258.1348956,
+  "target_prompt_tokens": 261888,
+  "temperature": 0,
+  "windows_concatenated": 130
+}

@@ -1,0 +1,132 @@
+{
+  "clean_per_domain": {
+    "code": {
+      "baseline_kld_mean": 0.08769647297297296,
+      "improved_fraction": 0.9864864864864865,
+      "improved_windows": 73,
+      "median_per_window_reduction_pct": 6.714734293776358,
+      "n_windows": 74,
+      "patched_kld_mean": 0.0809619054054054,
+      "reduction_pct_pooled": 7.679405270543863
+    },
+    "dialogue": {
+      "baseline_kld_mean": 0.04295875510204082,
+      "improved_fraction": 1.0,
+      "improved_windows": 49,
+      "median_per_window_reduction_pct": 10.275992836827125,
+      "n_windows": 49,
+      "patched_kld_mean": 0.03897267346938776,
+      "reduction_pct_pooled": 9.278857413779432
+    },
+    "math": {
+      "baseline_kld_mean": 0.024222605633802817,
+      "improved_fraction": 0.971830985915493,
+      "improved_windows": 69,
+      "median_per_window_reduction_pct": 4.605232147065765,
+      "n_windows": 71,
+      "patched_kld_mean": 0.022538816901408448,
+      "reduction_pct_pooled": 6.951311340529899
+    },
+    "prose-en": {
+      "baseline_kld_mean": 0.12559794666666665,
+      "improved_fraction": 0.92,
+      "improved_windows": 69,
+      "median_per_window_reduction_pct": 3.594380391969253,
+      "n_windows": 75,
+      "patched_kld_mean": 0.11915015999999999,
+      "reduction_pct_pooled": 5.1336720366766055
+    },
+    "prose-multilingual": {
+      "baseline_kld_mean": 0.17108357894736842,
+      "improved_fraction": 0.75,
+      "improved_windows": 57,
+      "median_per_window_reduction_pct": 2.064375975975575,
+      "n_windows": 76,
+      "patched_kld_mean": 0.16824198684210526,
+      "reduction_pct_pooled": 1.6609379595322475
+    },
+    "structured": {
+      "baseline_kld_mean": 0.10981001986754968,
+      "improved_fraction": 0.9072847682119205,
+      "improved_windows": 137,
+      "median_per_window_reduction_pct": 6.363029182079738,
+      "n_windows": 151,
+      "patched_kld_mean": 0.10292160927152319,
+      "reduction_pct_pooled": 6.273025543875807
+    }
+  },
+  "comparison_to_ud_iq4_xs_bar": {
+    "bar_kld": 0.0927,
+    "clean_496_gap_pct_above_bar": 1.7088466089014074,
+    "clean_496_pass": false,
+    "full_512_margin_pct_below_bar": 0.49583249056095285,
+    "full_512_pass": true
+  },
+  "instrument": {
+    "candidate": "arm4-patched VQ3U planes",
+    "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+    "metric": "KL(ref||candidate) on ref top-8192 support",
+    "pos_cutoff": 1024,
+    "script": "eval/kld_score.py",
+    "windows": 512
+  },
+  "measurement_status": "MEASURED",
+  "notes": [
+    "The clean row excludes all 16 training windows and is the claims-grade generalization row.",
+    "The train row is contamination-only and excluded from quality claims.",
+    "Per-domain rows also exclude the 16 training windows."
+  ],
+  "rows": {
+    "clean_496": {
+      "baseline_kld_mean": 0.09943111693548387,
+      "improved_fraction": 0.9153225806451613,
+      "improved_windows": 454,
+      "median_per_window_reduction_pct": 5.09503428605265,
+      "n_windows": 496,
+      "patched_kld_mean": 0.09428410080645161,
+      "reduction_pct_pooled": 5.176464156961965
+    },
+    "full_512": {
+      "baseline_kld_mean": 0.0989496484375,
+      "improved_fraction": 0.91796875,
+      "improved_windows": 470,
+      "median_per_window_reduction_pct": 5.305760879311039,
+      "n_windows": 512,
+      "patched_kld_mean": 0.09224036328125,
+      "reduction_pct_pooled": 6.780504288994832
+    },
+    "train_16": {
+      "baseline_kld_mean": 0.084024125,
+      "improved_fraction": 1.0,
+      "improved_windows": 16,
+      "median_per_window_reduction_pct": 55.84461357263871,
+      "n_windows": 16,
+      "patched_kld_mean": 0.0288845,
+      "reduction_pct_pooled": 65.62356347061038
+    }
+  },
+  "schema": "rail512-arm4-sealed-summary-v1",
+  "source_receipts": [
+    "repair/rail512/RAIL512_ARM4_FINAL.json",
+    "repair/rail512/BASELINE_KLD_WINDOWS.jsonl",
+    "repair/rail512/WINDOW_DOMAIN_MAP.json"
+  ],
+  "train_window_ids": [
+    7,
+    44,
+    86,
+    118,
+    151,
+    186,
+    217,
+    250,
+    282,
+    313,
+    348,
+    377,
+    409,
+    441,
+    472,
+    505
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "pp2048": {
+    "max_tok_s": 285.663,
+    "median_tok_s": 285.403,
+    "min_tok_s": 283.565,
+    "n_gen": 0,
+    "n_prompt": 2048,
+    "rep_count": 3,
+    "samples_tok_s": [
+      283.565,
+      285.663,
+      285.403
+    ],
+    "spread_tok_s": 1.838,
+    "status": "ok"
+  },
+  "pp32768": {
+    "status": "missing"
+  },
+  "real120k": {
+    "eval_match_count": 0,
+    "prompt_match_count": 0,
+    "status": "perf_lines_missing"
+  },
+  "run_dir": "$MISSION_ROOT/UD_TPS/t_b6a94695/scoped_runs/UD-IQ3_XXS",
+  "tg128": {
+    "max_tok_s": 13.1003,
+    "median_tok_s": 13.0359,
+    "min_tok_s": 12.9284,
+    "n_gen": 128,
+    "n_prompt": 0,
+    "rep_count": 3,
+    "samples_tok_s": [
+      12.9284,
+      13.1003,
+      13.0359
+    ],
+    "spread_tok_s": 0.1075,
+    "status": "ok"
+  }
+}

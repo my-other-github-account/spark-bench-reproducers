@@ -1,0 +1,56 @@
+{
+  "chunked_prefill": true,
+  "expert_planes_bytes": 103079412731,
+  "expert_planes_files": 553,
+  "health_http_status": 200,
+  "host": "spark-8",
+  "init_passed": true,
+  "initial_free_memory_gib": 116.09,
+  "kv_cache_tokens": 303775,
+  "log": "$MISSION_ROOT/MAXSERVE_256K/logs/serve_planes_r6_96g__mml262144_kv2147483648_anon_mbt2048.log",
+  "maximum_concurrency": 1.16,
+  "mem_jsonl": "$MISSION_ROOT/MAXSERVE_256K/out/mem_r6_96g_262k_bench.jsonl",
+  "memory": {
+    "first_ts": 1784232069.0651867,
+    "last_ts": 1784232751.7338724,
+    "min_mem_available_bytes": 3157532672,
+    "min_swap_free_bytes": 16779837440,
+    "peak_mem_used_bytes": 127505637376,
+    "peak_unit_memory_current_bytes": 115397758976,
+    "samples": 335,
+    "watchdog_events": []
+  },
+  "model_loading_memory_gib": 8.91,
+  "sealed_at": 1784232752.706031,
+  "serve": {
+    "host": "spark-8",
+    "kv_cache_bytes": 2147483648,
+    "log": "$MISSION_ROOT/MAXSERVE_256K/logs/serve_planes_r6_96g__mml262144_kv2147483648_anon_mbt2048.log",
+    "max_model_len": 262144,
+    "max_num_batched_tokens": 2048,
+    "planes": "$MISSION_ROOT/DS4_R6/planes_r6_96g",
+    "residency": "anon",
+    "started_at": 1784232069.0554717,
+    "tag": "planes_r6_96g__mml262144_kv2147483648_anon_mbt2048"
+  },
+  "startup_markers": [
+    "(EngineCore pid=1233815) INFO 07-16 20:03:31 [gpu_model_runner.py:5773] Model loading took 8.91 GiB memory and 127.390262 seconds",
+    "(EngineCore pid=1233815) INFO 07-16 20:03:34 [moe_w2_cubit.py:1556] moe_w2_cubit: MIXED tier ON-PATH sentinel \u2014 layer_key=0 w2tier=w2mc4afrag w3tier=w3mc4afrag fp4=moe_w4_mm nsub=4 K13=4096 K2=2048",
+    "(EngineCore pid=1233815) INFO 07-16 20:03:39 [gpu_worker.py:429] Initial free memory 116.09 GiB, reserved 2.0 GiB memory for KV Cache as specified by kv_cache_memory_bytes config and skipped memory profiling. This does not respect the gpu_memory_utilization config. Only use kv_cache_memory_bytes config when you want manual control of KV cache memory size. If OOM'ed, check the difference of initial free memory between the current run and the previous run where kv_cache_memory_bytes is suggested and update it correspondingly.",
+    "(EngineCore pid=1233815) INFO 07-16 20:03:39 [kv_cache_utils.py:2146] GPU KV cache size: 303,775 tokens",
+    "(EngineCore pid=1233815) INFO 07-16 20:03:39 [kv_cache_utils.py:2147] Maximum concurrency for 262,144 tokens per request: 1.16x",
+    "(APIServer pid=1233715) INFO:     Application startup complete."
+  ],
+  "systemd": {
+    "ActiveState": "active",
+    "MainPID": "1233715",
+    "MemoryCurrent": "109870239744",
+    "MemoryHigh": "124554051584",
+    "MemoryMax": "127775277056",
+    "MemoryPeak": "115814928384",
+    "MemorySwapCurrent": "0",
+    "SubState": "running"
+  },
+  "task": "t_627d955b",
+  "unit": "maxserve-r6-262k-kv2.service"
+}

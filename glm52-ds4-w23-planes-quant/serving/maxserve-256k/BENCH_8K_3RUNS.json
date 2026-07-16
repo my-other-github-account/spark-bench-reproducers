@@ -1,0 +1,91 @@
+{
+  "corpus": "$MISSION_ROOT/DS4_TEACHER/static/windows_ds4_eval.json",
+  "endpoint": "$LOCAL_OPENAI_ENDPOINT",
+  "finished_at": 1784232039.8242552,
+  "ignore_eos": true,
+  "label": "r6-96g-mml262k-pp8192-tg256",
+  "max_tokens": 256,
+  "median_decode_tps_exact": 14.670661766787852,
+  "median_decode_tps_steady": 14.649928556048883,
+  "median_decode_tps_tail64": 14.739216770641058,
+  "model": "deepseek-v4-flash",
+  "prompt_token_ids_sha256": "50bf2bd24881397982fcf57fd7f7b147dbf65bba0e45a0dab6447105685c60e6",
+  "runs": [
+    {
+      "completion_tokens": 256,
+      "decode_interarrival_median_s": 0.06827423299546354,
+      "decode_span_s": 17.3816289989918,
+      "decode_sse_frame_rate": 14.670661766787852,
+      "decode_tps_exact": 14.670661766787852,
+      "decode_tps_steady": 14.649928556048883,
+      "decode_tps_tail64": 14.739216770641058,
+      "decode_warmup_frames": 32,
+      "finish_reason": "length",
+      "prefill_tps_wall": 674.816472987527,
+      "prompt_tokens": 8192,
+      "run": 1,
+      "stream_nonempty_frames": 256,
+      "text_chars": 969,
+      "text_head": ". But if we say Pr(M ) = .667, \nit means that if I were to repeat the coin flip many times, the proportion \nof times I would win the right to go first is .667. \nThe second interpretation is called the frequentist interpretation. \nThe first interpretation is called the subjective interpretation. \nIn this book, we will use the frequentist interpretation. \n4.2.2 Probability of a Single Event \nWhat is the probability that a fair coin will land heads? The frequentist \ninterpretation says that if we flip the coin many times, the proportion of \nheads will approach .5. So we say Pr(H) = .5. \nWhat is the probability that a fair die will land with a 4 showing? \nIf we roll the die many times, the proportion of 4s will approach 1/6. So \nwe say Pr(4) = 1/6. \nWhat is the probability that a randomly selected card from a standard \ndeck will be an ace? If we draw many cards, the proportion of aces will \napproach 4/52 = 1/13. So we say Pr(Ace) = 1/13. \n4.2.3 Probability of",
+      "ttft_s": 12.139596954017179,
+      "usage": {
+        "completion_tokens": 256,
+        "prompt_tokens": 8192,
+        "total_tokens": 8448
+      },
+      "wall_s": 29.521254162013065
+    },
+    {
+      "completion_tokens": 256,
+      "decode_interarrival_median_s": 0.06837769999401644,
+      "decode_span_s": 17.42436105100205,
+      "decode_sse_frame_rate": 14.634682973659759,
+      "decode_tps_exact": 14.634682973659759,
+      "decode_tps_steady": 14.631369323812871,
+      "decode_tps_tail64": 14.718706782017039,
+      "decode_warmup_frames": 32,
+      "finish_reason": "length",
+      "prefill_tps_wall": 7790.081517682419,
+      "prompt_tokens": 8192,
+      "run": 2,
+      "stream_nonempty_frames": 256,
+      "text_chars": 1205,
+      "text_head": ". But if we say Pr(M ) = .667, \nit means that if I were to repeat the coin flip many times, the proportion \nof times I would get the right to go first is .667. \nThe second interpretation is called the frequentist interpretation. \nThe first interpretation is called the Bayesian interpretation. \nThe Bayesian interpretation is more general. It allows us to assign \nprobabilities to events that are not repeatable. For example, we might \ntalk about the probability that a particular candidate will win an election. \nThis event is not repeatable, but we can still assign a probability. \nThe frequentist interpretation is more restrictive. It only allows us to \nassign probabilities to events that are repeatable. \nIn this book, we will use the Bayesian interpretation. \n4.ON THE OTHER HAND, if we say Pr(M ) = .667, it means that if I were to repeat the coin flip many times, the proportion of times I would get the right to go first is .667. \nThe second interpretation is called the frequentist interpr",
+      "ttft_s": 1.0515936170122586,
+      "usage": {
+        "completion_tokens": 256,
+        "prompt_tokens": 8192,
+        "total_tokens": 8448
+      },
+      "wall_s": 18.47597276500892
+    },
+    {
+      "completion_tokens": 256,
+      "decode_interarrival_median_s": 0.06815723702311516,
+      "decode_span_s": 17.37076031099423,
+      "decode_sse_frame_rate": 14.679841033705731,
+      "decode_tps_exact": 14.679841033705731,
+      "decode_tps_steady": 14.684388906809398,
+      "decode_tps_tail64": 14.754425072731083,
+      "decode_warmup_frames": 32,
+      "finish_reason": "length",
+      "prefill_tps_wall": 8376.799758576322,
+      "prompt_tokens": 8192,
+      "run": 3,
+      "stream_nonempty_frames": 256,
+      "text_chars": 487,
+      "text_head": ". But if we say Pr(M ) = .667, \nit means that if I were to repeat the same situation many times, I would \nwin about two-thirds of the time. \n4.\u521d\u4e2d\u6570\u5b66\u6982\u7387\u516c\u5f0f \n\u6982\u7387\u516c\u5f0f \n1. \u6982\u7387\u7684\u5b9a\u4e49\u516c\u5f0f \nP(A) = \n\u4e8b\u4ef6A\u53d1\u751f\u7684\u6b21\u6570 \n\u6240\u6709\u53ef\u80fd\u7684\u7ed3\u679c\u603b\u6570 \n2. \u6982\u7387\u7684\u52a0\u6cd5\u516c\u5f0f \nP(A \u222a B) = P(A) + P(B) \u2212 P(A \u2229 B) \n3. \u6982\u7387\u7684\u4e58\u6cd5\u516c\u5f0f \nP(A \u2229 B) = P(A) \u00d7 P(B|A) \n4. \u6761\u4ef6\u6982\u7387\u516c\u5f0f \nP(B|A) = \nP(A \u2229 B) \nP(A) \n5. \u5168\u6982\u7387\u516c\u5f0f \nP(B) = \nn\u2211 \ni=1 \nP(Ai) \u00d7 P(B|Ai) \n6. \u8d1d\u53f6\u65af\u516c\u5f0f \nP(Ai|B) = \nP(Ai) \u00d7 P(B|Ai) \nP(B) \n7. \u671f\u671b\u516c\u5f0f \nE(X) = \nn\u2211 \ni=1 \nxi \u00d7 P(X = xi) \n8. \u65b9\u5dee\u516c\u5f0f \nVar(X) = \nn\u2211 \ni=1 \n(xi \u2212 E",
+      "ttft_s": 0.9779390979965683,
+      "usage": {
+        "completion_tokens": 256,
+        "prompt_tokens": 8192,
+        "total_tokens": 8448
+      },
+      "wall_s": 18.348726305994205
+    }
+  ],
+  "started_at": 1784231973.4757292,
+  "target_prompt_tokens": 8192,
+  "temperature": 0,
+  "windows_concatenated": 5
+}

@@ -1,0 +1,32 @@
+{
+  "claim_scope": "corrected K4096 uniform anchor only; two-budget results require their own measured rails",
+  "claimable": true,
+  "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+  "d": 4,
+  "effective_expert_bpw": 3.2500813802083335,
+  "expert_packed_bytes": 112544382976,
+  "js": 0.013982,
+  "k": 4096,
+  "kl_vs_fp8": 0.06716,
+  "kl_vs_fp8_abs": 0.067175,
+  "measurement_status": "MEASURED",
+  "n_positions": 524288,
+  "n_windows": 512,
+  "pos_cutoff": 1024,
+  "provenance": {
+    "correction": "L000/L001 rebuilt with checkpoint-bound codebooks; the poisoned 0.247 row is excluded",
+    "source": "sealed corrected row from t_8885886e"
+  },
+  "root_cause": "The spark-8 K4096 builder checkpointed codes/scales and done masks but not the exact CUDA-Lloyd codebooks those codes indexed. L000 resumed after 80 experts and L001 after 176 experts; each resume refit different codebooks despite seed 0 (CUDA Lloyd atomics are run-dependent), then sealed mixed old-code/new-code planes under only the new codebooks. The rail decoder was correct, but faithfully decoded the early experts through the wrong LUT. A clean L000/L001 rebuild with codebooks persisted in partial checkpoints removes the first concrete divergence.",
+  "row_id": "K4096_UNIFORM_43L_512_CORRECTED_L000_L001",
+  "schema": "k4096-uniform-corrected-measured-row-v1",
+  "sealed_at_utc": "2026-07-15T12:40:03.622377+00:00",
+  "source_anomaly_task": "t_92b6e14f",
+  "support_mass_cand": 0.999803,
+  "support_mass_ref": 0.999859,
+  "support_size": 8192,
+  "task": "t_8885886e",
+  "top1_agree": 0.924427,
+  "top1_in_top64": 0.999847,
+  "whole_model_decimal_GB": 120.094382976
+}

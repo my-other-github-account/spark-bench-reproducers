@@ -1,10 +1,11 @@
 # GLM-5.2 753B + DeepSeek-V4-Flash — W2/W3 Expert-Planes Quantization Campaign
 
 **2-Spark (GB10) serving of GLM-5.2 753B + 1-Spark DS4-Flash PoC testbed, with damage-ranked
-dynamic per-expert {ternary…2,3,4}-bit allocation — July 2026. (Updated Jul 15 morning.)**
+dynamic per-expert {ternary…2,3,4}-bit allocation — July 2026. (Updated Jul 16.)**
 
-> **Iteration-kit refresh (Jul 16):** start with [`RESUME.md`](RESUME.md) to relaunch in under
-> an hour and [`LEARNINGS.md`](LEARNINGS.md) before choosing another arm. The reproducible
+> **Iteration-kit refresh (Jul 16):** start with [`RESULTS.md`](RESULTS.md) for the current
+> measured/PRED/quarantined tables, [`RESUME.md`](RESUME.md) to relaunch in under an hour,
+> and [`LEARNINGS.md`](LEARNINGS.md) before choosing another arm. The reproducible
 > campaign package is organized under
 > [`ladder/`](ladder/README.md), [`repair/`](repair/README.md),
 > [`research-track/`](research-track/README.md), [`eval/`](eval/README.md),
@@ -14,8 +15,9 @@ dynamic per-expert {ternary…2,3,4}-bit allocation — July 2026. (Updated Jul 
 > `+13.4922%`. The corresponding mean-window trajectory headlines are `+6.4218%`, `+5.9809%`,
 > `+11.1590%`, and `+10.8783%`; [`LEARNINGS.md`](LEARNINGS.md) explains why both conventions
 > are retained. The disjoint 24-window external gate measured approximately `+5.1%` held-out.
-> Arm3 faded below the binding `2.6%` pooled floor. Arm6–10 and the live 512 rail are preserved
-> as partial/in-flight evidence, never extrapolated.
+> Arm3 faded below the binding `2.6%` pooled floor. Arm6–10 are preserved as partial evidence,
+> never extrapolated. The exported arm4 512-window rail is sealed: full KLD `0.092240`
+> (`+6.781%`), claims-grade train-excluded KLD `0.094284` (`+5.176%`).
 > Export B/C parity passes, but checkpoint-to-wire A/B still fails; no served repair win is claimed.
 
 > **New (Jul 15 AM):** [`RECOVERY_NOTES_DAY3_E2E_BREAKTHROUGH.md`](RECOVERY_NOTES_DAY3_E2E_BREAKTHROUGH.md) —
@@ -116,20 +118,13 @@ Industry official 4-bit PTQ ≈ **0.06-0.10 KLD on this instrument**. Our VQ3 un
 (22,016 units): W3v2 67% · vqA 21% · FP4 6% · tern-lat 5.5% · scalar-W2 and
 basic-ternary 0% (fully displaced).
 
-### TBD rows (in flight / queued)
+### Current open rows
 
-| item | expectation | status |
-|---|---|---|
-| R8 96G FULL re-solve w/ measured vq3 anchor | ~0.080-0.088 | tonight (the real vq3-in-backpack row) |
-| R8 89.2G (Q2_K_XL-size twin, V1 bin) | ~0.10-0.11 | overnight |
-| R8 95.4G (IQ3_XXS-size twin) | ~0.085-0.09 | overnight |
-| LP4 function-space repair arms (scales/LUT/residual) | arm C step-4 qval tonight | spark-1 training; v1 was capacity-starved (flat) |
-| tern-lat measured anchor | ~0.74 ±10% | spark-3 |
-| IQ3_S direct (117.3GB) | ~0.11-0.12 | spark-6 railing |
-| Q4_K_XL direct rerun (win0-gated) | ~0.05-0.07 | spark-7 queue |
-| vqA-k1024 gap rung (2.5-tier) | ~0.19-0.21 | pilot WON (0.68x vqA weight-space); build on solver demand |
-| QTIP trellis package pilot | ceiling measurement | env ready on spark-4 |
-| Qwen3.6-35B-A3B-NVFP4 (MoE bar) + Gemma clean rerun | — | queued |
+- The full d4+d8 IQ3 menu is a `PRED` T1 pass; its measured 512-window confirmation has not sealed.
+- The exported arm4 rail is sealed, but its clean 496-window row misses T1; do not quote the training-inclusive full-row pass as clean generalization.
+- UD-IQ4_XS top-1 and the untested Unsloth variants remain pending direct rails.
+- External Bonsai compression comparisons remain pending the corrected Qwen-base teacher rail; the banked own-F16 row is self-consistency only.
+- See [`RESULTS.md`](RESULTS.md) for the exact current status and receipts. Historical overnight expectations below are retained only as campaign chronology.
 
 ### Per-projection anchor corrections (fit + validation, Jul 12 late)
 
@@ -148,7 +143,7 @@ bytes → +3.8-4.1% KLD at identical budgets (predictions above).
 |---|---|---|---|---|---|
 | W2 | 2.25 | 131,072 (KV 14G→1.49M tok) | 120,832 tok PASS | 16.0 tok/s | 15.6G |
 | R6 | 2.729 | 131,072 (KV 20G→2.13M tok) | 120,832 tok PASS | 14.6 tok/s | 11.4G |
-| **R6-96G** | **2.977** | **262,144** | **249,856 tok PASS, coherent** | **14.1 tok/s** | 3.2G |
+| **R6-96G** | **2.977** | **262,144** | **261,888 prompt + 256 decode PASS** | **14.313 tok/s median** | **2.94 GiB min available** |
 | R6-94G | 2.915 | 262,144 | 249,856 tok PASS | 14.3 tok/s | 4.7G |
 | W3v2 uniform | 3.25 | — | does not fit resident | — | ~−7G |
 
@@ -166,7 +161,7 @@ effectively transparent and corpus deltas wash out at the mean. Meanwhile the me
 constant" (−0.028, bootstrap CI crossing zero) moved estimates AWAY from truth and was **retired
 as junk. Lesson: never apply a correction whose CI includes zero; prefer direct measurement over
 bridges whenever a direct path exists.** Direct-rail rows (GGUF-dequant → our rail, mxfp4 teacher)
-replace this column as they seal: Q2_K_XL 0.1736 SEALED; IQ3_XXS in flight.
+replace this column as they seal: Q2_K_XL 0.1736 SEALED; IQ3_XXS 0.1472 SEALED.
 
 ## The W3 story (defining finding #1)
 
@@ -192,8 +187,8 @@ placement barely matters; at 3 bits placement dominates.**
    5-level LUT: marginal (+4.6%).
 5. **Scalar 2-bit is the binding constraint** — 4 levels/weight is an information wall for
    scalar grids. The frontier is VECTOR quantization (E8-lattice codebooks à la llama.cpp
-   IQ2, VPTQ, UniSVQ) + post-training ternary (PT2-LLM). Pilot in flight (weight-space
-   shootout → rail → kernel-feasibility gates; ternary decode = 3-entry LUT = our existing
+   IQ2, VPTQ, UniSVQ) + post-training ternary (PT2-LLM). A pilot was active at this historical
+   snapshot: weight-space shootout → rail → kernel-feasibility gates; ternary decode = 3-entry LUT = our existing
    kernel).
 6. **Asym-4 grid bias (defining finding #2, Jul 12): weight-MSE-optimal ≠ KLD-optimal at
    2 bits.** The DP-fit asymmetric 4-level LUT beat sign-sym W2 in weight relRMS (0.9198×)
@@ -298,7 +293,7 @@ Every pitfall listed cost real wall-clock once.
 - **W2v2 asymmetric-grid regression (open)**: dp-fit asym 4-level grid + SSE scales
   improved weight relRMS 8% but REGRESSED rail KLD 21% (0.3902→0.4728) — weight-space
   wins do not guarantee distributional wins; suspected nonzero-mean residual
-  accumulating on down-proj. GPTQ-arm adjudication + bias forensics in flight.
+  accumulating on down-proj. GPTQ-arm adjudication + bias forensics were still open at this snapshot.
 - **Per-projection allocation**: predicted −11-12% at iso-bytes; first interim reads
   ~half the predicted gain → per-projection ANCHOR corrections (a_f13, a_down per tier,
   fit from sealed mixed rows + half-uniform validation rows) now a required stage
@@ -309,7 +304,7 @@ Every pitfall listed cost real wall-clock once.
   4-bit-class @ 3.88); their E8-lattice low-end beats scalar 2-bit — which is exactly
   why the vqA/ternary-lattice tiers exist.
 
-## In flight overnight (Jul 12→13)
+## Historical in-flight snapshot (Jul 12→13; superseded by `RESULTS.md`)
 
 - vqA anchor: spark-1 half sealed (interim above), spark-3 half railing → merged final + p95
 - Basic-ternary uniform anchor: 43-layer builds done (layer-split, ~60s/layer, LUTs

@@ -1,5 +1,7 @@
 # DS4F-KLD-MATRIX — the 6-row DS4-Flash quant-tricks table (t_b04fc3fe)
 
+> **Historical working scoreboard.** Its queue language and early `NOT YET BUILT` notes are preserved as chronology, not current status. Use [`RESULTS.md`](RESULTS.md) for the current receipt-linked tables and target decisions.
+
 Banana Bae (Jul10, verbatim): "We should end up with DSV4F KLD numbers for Q2 /
 Q3 / NVFP4 / Calibrated Q2 / Calibrated Q3 / Dynamic experts targeting a
 bpw that fits with KV on 1xSpark."

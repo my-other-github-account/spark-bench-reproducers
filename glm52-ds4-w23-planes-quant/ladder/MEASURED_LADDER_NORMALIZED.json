@@ -1,0 +1,154 @@
+{
+  "comparability_note": "d4/bin rows and d8 rows are displayed in separate tables. Do not compare d8 KL_vs_fp8 numerically with d4/bin KL_vs_teacher campaign claims.",
+  "instrument": {
+    "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+    "metric": "KL(ref||candidate) on ref top-8192 support",
+    "pos_cutoff": 1024,
+    "window_count": 512
+  },
+  "rows": [
+    {
+      "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+      "family": "Q2 bin, k8192-era menu",
+      "kld": 0.1313565,
+      "measurement_status": "MEASURED",
+      "n_windows": 512,
+      "source_receipt": "ladder/bins/canonical-q2/Q2_BIN_MEASURED_ROW.json",
+      "top1": 0.891554,
+      "total_gb": 95.75,
+      "whole_model_bpw": 2.7348364980543622
+    },
+    {
+      "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+      "family": "IQ3 bin, canonical menu",
+      "kld": 0.10052475,
+      "measurement_status": "MEASURED",
+      "n_windows": 512,
+      "source_receipt": "ladder/bins/canonical-iq3/IQ3_BIN_MEASURED_ROW.json",
+      "top1": 0.906021125,
+      "total_gb": 101.95,
+      "whole_model_bpw": 2.9270813582933255
+    },
+    {
+      "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+      "family": "IQ3 bin, k4096 menu / repair base",
+      "kld": 0.09894975,
+      "measurement_status": "MEASURED",
+      "n_windows": 512,
+      "source_receipt": "ladder/bins/k4096-menu-iq3/IQ3_BIN_MEASURED_ROW.json",
+      "top1": 0.906254,
+      "total_gb": 101.95,
+      "whole_model_bpw": 2.927071895809118
+    },
+    {
+      "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+      "family": "d4 uniform k8192",
+      "kld": 0.057692,
+      "measurement_status": "MEASURED",
+      "n_windows": 512,
+      "size_note": "Derived exact decimal GB = 277025390592 expert params * 3.5/8 + 7.55e9 non-expert bytes.",
+      "source_receipt": "ladder/anchors/K8192_UNIFORM_MEASURED_ROW.json",
+      "top1": 0.929312,
+      "total_gb": 128.748608384
+    },
+    {
+      "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+      "family": "d4 uniform k4096",
+      "kld": 0.06716,
+      "measurement_status": "MEASURED",
+      "n_windows": 512,
+      "source_receipt": "ladder/anchors/K4096_UNIFORM_MEASURED_ROW.json",
+      "top1": 0.924427,
+      "total_gb": 120.094382976
+    },
+    {
+      "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+      "family": "d4 uniform k2048",
+      "kld": 0.098564,
+      "measurement_status": "MEASURED",
+      "n_windows": 512,
+      "source_receipt": "ladder/anchors/K2048_UNIFORM_MEASURED_ROW.json",
+      "top1": 0.90814,
+      "total_gb": 111.435930496,
+      "whole_model_bpw": 3.0645193708859955
+    },
+    {
+      "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+      "family": "d4 uniform k1024",
+      "kld": 0.147352,
+      "measurement_status": "MEASURED",
+      "n_windows": 512,
+      "source_receipt": "ladder/anchors/K1024_UNIFORM_MEASURED_ROW.json",
+      "top1": 0.886419,
+      "total_gb": 102.778182528,
+      "whole_model_bpw": 2.8264288713667476
+    },
+    {
+      "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+      "family": "d4 uniform k512",
+      "kld": 0.235656,
+      "measurement_status": "MEASURED",
+      "n_windows": 512,
+      "source_receipt": "ladder/anchors/K512_UNIFORM_MEASURED_ROW.json",
+      "top1": 0.852175,
+      "total_gb": 94.120786816,
+      "whole_model_bpw": 2.5883480589863845
+    },
+    {
+      "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+      "family": "d8 uniform k256",
+      "kld": 1.757602,
+      "measurement_status": "MEASURED",
+      "n_windows": 512,
+      "source_receipt": "ladder/anchors/K256D8_UNIFORM_MEASURED_ROW.json",
+      "top1": 0.53978,
+      "total_gb": 50.835569536,
+      "whole_model_bpw": 1.3979924327789948
+    },
+    {
+      "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+      "family": "d8 uniform k512",
+      "kld": 1.345675,
+      "measurement_status": "MEASURED",
+      "n_windows": 512,
+      "source_receipt": "ladder/anchors/K512D8_UNIFORM_MEASURED_ROW.json",
+      "top1": 0.603914,
+      "total_gb": 55.16444352,
+      "whole_model_bpw": 1.517037682538619
+    },
+    {
+      "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+      "family": "d8 uniform k1024",
+      "kld": 1.030811,
+      "measurement_status": "MEASURED",
+      "n_windows": 512,
+      "source_receipt": "ladder/anchors/K1024D8_UNIFORM_MEASURED_ROW.json",
+      "top1": 0.661455,
+      "total_gb": 59.49366976,
+      "whole_model_bpw": 1.6360926194371281
+    },
+    {
+      "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+      "family": "d8 uniform k2048",
+      "kld": 0.817378,
+      "measurement_status": "MEASURED",
+      "n_windows": 512,
+      "source_receipt": "ladder/anchors/K2048D8_UNIFORM_MEASURED_ROW.json",
+      "top1": 0.704857,
+      "total_gb": 63.823600512,
+      "whole_model_bpw": 1.7551669306134077
+    },
+    {
+      "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+      "family": "d8 uniform k4096",
+      "kld": 0.664968,
+      "measurement_status": "MEASURED",
+      "n_windows": 512,
+      "source_receipt": "ladder/anchors/K4096D8_UNIFORM_MEASURED_ROW.json",
+      "top1": 0.739141,
+      "total_gb": 68.154940288,
+      "whole_model_bpw": 1.8742799903452279
+    }
+  ],
+  "schema": "measured-ladder-normalized-v1"
+}
