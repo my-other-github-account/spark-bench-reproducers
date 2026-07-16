@@ -1,0 +1,65 @@
+{
+  "artifacts": {
+    "candidate_done": {
+      "bytes": 103608,
+      "md5": "598007626f0b3b940daff148640acf3d",
+      "path": "$MISSION_ROOT/DOWNWARD_KSWEEP_t139f9ce8/k1024/candidate/DONE.jsonl",
+      "sha256": "c6f404f07e1391f807b5f2ea3bc3710ac23720e4ecda19499a3f04ff8070be1f"
+    },
+    "plane_seal": {
+      "bytes": 7174,
+      "md5": "4a1e10f3b4a85efa975eecb546434f6d",
+      "path": "$MISSION_ROOT/DOWNWARD_KSWEEP_t139f9ce8/k1024/out/VQ3_UNIFORM_SEAL.json",
+      "sha256": "49458c935e48137c44ad8bc3d3d4bf96355da9c8334963c4698b8cc91b130d56"
+    },
+    "score": {
+      "bytes": 769,
+      "md5": "601a332c3219a647fb352064b60030d5",
+      "path": "$MISSION_ROOT/DOWNWARD_KSWEEP_t139f9ce8/out/K1024_ANCHOR.SCORE.jsonl",
+      "sha256": "500ccf1f098b0129d16aea2124788c9b658a4339557d95f061ea31d49dd0d646"
+    },
+    "window_rows": {
+      "bytes": 147026,
+      "md5": "cc8e4ce733e4366b8b4c32347e4f57ed",
+      "path": "$MISSION_ROOT/DOWNWARD_KSWEEP_t139f9ce8/out/K1024_ANCHOR.KLD_WINDOWS.jsonl",
+      "sha256": "da8e43b85d22089a371a98978210c8f69a93fed648997ad420d8807a1e318ac6"
+    }
+  },
+  "checkpoint_resume_provenance": {
+    "builder_persisted_codebooks": true,
+    "builder_sha256": "0e01519eb8d5cd898b62b26c3340558c474409b54247d5feb316e4930cbd6759",
+    "resume_hash_verification": true
+  },
+  "convention_notes": "prefill KL(fp8_ref||cand) on ref top-8192 support, both renormalized on S; cand lp = full-vocab log_softmax then gather. kl_vs_fp8_abs = same without renorm. JS on renormalized S. top1 = full-vocab argmax match. pos_cutoff=1024 (0=all; calibrated convention v2 = 1024 -> 1024-token windows via causal-prefill identity). MEASURED downward k1024 uniform 43L anchor; task t_139f9ce8",
+  "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+  "d": 4,
+  "effective_expert_bpw": 2.7500203450520835,
+  "expert_decimal_GB": 95.228182528,
+  "expert_packed_bytes": 95228182528,
+  "expert_parameter_count": 277025390592,
+  "host": "spark-3",
+  "js": 0.028631,
+  "k": 1024,
+  "kl_vs_fp8": 0.147352,
+  "kl_vs_fp8_abs": 0.147406,
+  "measurement_status": "MEASURED",
+  "n_layers": 43,
+  "n_positions": 524288,
+  "n_windows": 512,
+  "non_expert_decimal_GB_assumption": 7.55,
+  "pos_cutoff": 1024,
+  "prototype_plane_storage_bytes": 147170601891,
+  "row_id": "K1024_UNIFORM_43L_512_MEASURED",
+  "schema": "downward-vq3-uniform-measured-row-v1",
+  "sealed_at_utc": "2026-07-15T20:54:20.864700+00:00",
+  "support_mass_cand": 0.999771,
+  "support_mass_ref": 0.999859,
+  "support_size": 8192,
+  "task": "t_139f9ce8",
+  "top1_agree": 0.886419,
+  "top1_in_top64": 0.999554,
+  "total_model_parameter_count": 290906121344,
+  "variant": "k1024_uniform_43L",
+  "whole_model_decimal_GB": 102.778182528,
+  "whole_model_effective_bpw": 2.8264288713667476
+}

@@ -1,0 +1,79 @@
+{
+  "corrected_k4096_receipt_verified": true,
+  "created_unix": 1784150275.6571133,
+  "menu": [
+    "ternary",
+    "vqa",
+    "w2",
+    "w3",
+    "vq3",
+    "vq3b",
+    "vq3c",
+    "vq3d",
+    "fp4"
+  ],
+  "rows": [
+    {
+      "bpw": 2.927079938086128,
+      "budget_id": "IQ3-BIN",
+      "bytes_under_cap": 108780,
+      "counts_down": {
+        "fp4": 785,
+        "ternary": 99,
+        "vq3b": 4246,
+        "vq3c": 3431,
+        "vq3d": 952,
+        "vqa": 1495
+      },
+      "counts_fused13": {
+        "fp4": 206,
+        "ternary": 168,
+        "vq3b": 1980,
+        "vq3c": 4248,
+        "vq3d": 2504,
+        "vqa": 1902
+      },
+      "expert_bytes_used": 101361119406,
+      "expert_gib": 94.4,
+      "manifest": "$MISSION_ROOT/IQ4_BAR_RUN_t_1def6c8b/solve/QUADVQ_K1024MENU_IQ3_BIN_94.4G_EXPERT_101.95GB_TOTAL_MANIFEST.json",
+      "manifest_md5": "0d5876cbbb0a0405ef0825dd81196a2d",
+      "measurement_label": "PRED",
+      "predicted_kld": 0.09370679822299909,
+      "row": "QUADVQ_K1024MENU_IQ3_BIN_94.4G_EXPERT_101.95GB_TOTAL",
+      "task": "t_1def6c8b",
+      "total_gb": 101.95
+    },
+    {
+      "bpw": 2.7348320505937984,
+      "budget_id": "Q2-BIN",
+      "bytes_under_cap": 213505,
+      "counts_down": {
+        "fp4": 289,
+        "ternary": 176,
+        "vq3b": 2270,
+        "vq3c": 4009,
+        "vq3d": 1673,
+        "vqa": 2591
+      },
+      "counts_fused13": {
+        "fp4": 94,
+        "ternary": 295,
+        "vq3b": 722,
+        "vq3c": 2795,
+        "vq3d": 3605,
+        "vqa": 3497
+      },
+      "expert_bytes_used": 94703815372,
+      "expert_gib": 88.2,
+      "manifest": "$MISSION_ROOT/IQ4_BAR_RUN_t_1def6c8b/solve/QUADVQ_K1024MENU_Q2_BIN_88.2G_EXPERT_95.75GB_TOTAL_MANIFEST.json",
+      "manifest_md5": "fcdbf1eb3c33a17bfb96ed65c7a2a26a",
+      "measurement_label": "PRED",
+      "predicted_kld": 0.12607086326482744,
+      "row": "QUADVQ_K1024MENU_Q2_BIN_88.2G_EXPERT_95.75GB_TOTAL",
+      "task": "t_1def6c8b",
+      "total_gb": 95.75
+    }
+  ],
+  "status": "TRIPLE_VQ_TWO_BUDGETS_RESOLVED",
+  "task": "t_1def6c8b"
+}

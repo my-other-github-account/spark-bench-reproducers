@@ -1,0 +1,71 @@
+{
+  "artifacts": {
+    "candidate_done": {
+      "bytes": 103605,
+      "md5": "ff29e16c241897f77a5330469f8d2f06",
+      "path": "$MISSION_ROOT/DOWNWARD_KSWEEP_t139f9ce8/k2048/candidate/DONE.jsonl",
+      "sha256": "8991475f18ee655c08674c5132948722addf27fe5872ef59fb490717719b0f4b"
+    },
+    "plane_seal": {
+      "bytes": 7642,
+      "md5": "f90b0b7a99943026c9cbb427920a87ed",
+      "path": "$MISSION_ROOT/DOWNWARD_KSWEEP_t139f9ce8/k2048/source_meta/VQ3_UNIFORM_SEAL.json",
+      "sha256": "c7c08108a9c28a9a3c7f0a4b85a7265aa49689d98e9f9fd0a2d280ad65bb5df8"
+    },
+    "score": {
+      "bytes": 768,
+      "md5": "0494c94cf0a68b9eaf965fc04b179543",
+      "path": "$MISSION_ROOT/DOWNWARD_KSWEEP_t139f9ce8/out/K2048_ANCHOR.SCORE.jsonl",
+      "sha256": "5c60690aae77bf433d5427d3db1f7083601b863bf356f38a3139681964520766"
+    },
+    "staging_receipt": {
+      "bytes": 7886,
+      "md5": "9d3c82d06b2860850e5c63426b218ec2",
+      "path": "$MISSION_ROOT/DOWNWARD_KSWEEP_t139f9ce8/out/K2048_STAGING_RECEIPT.json",
+      "sha256": "8a6708533d310b46a3855f323645d215edf3716b0e5581eca552af17c231e132"
+    },
+    "window_rows": {
+      "bytes": 146857,
+      "md5": "567a5206f4782decf09353e7b0870863",
+      "path": "$MISSION_ROOT/DOWNWARD_KSWEEP_t139f9ce8/out/K2048_ANCHOR.KLD_WINDOWS.jsonl",
+      "sha256": "ce64c59ec1d213761b902c5405f1f99e51f0c4f3c72cd4c5147c411ddd03ad3b"
+    }
+  },
+  "checkpoint_resume_provenance": {
+    "builder_persisted_codebooks": false,
+    "partial_plane_loaded_count": 0,
+    "verdict": "SAFE_NO_PARTIAL_RESUME"
+  },
+  "convention_notes": "prefill KL(fp8_ref||cand) on ref top-8192 support, both renormalized on S; cand lp = full-vocab log_softmax then gather. kl_vs_fp8_abs = same without renorm. JS on renormalized S. top1 = full-vocab argmax match. pos_cutoff=1024 (0=all; calibrated convention v2 = 1024 -> 1024-token windows via causal-prefill identity). MEASURED downward k2048 uniform 43L anchor; task t_139f9ce8",
+  "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+  "d": 4,
+  "effective_expert_bpw": 3.0000406901041665,
+  "expert_decimal_GB": 103.885930496,
+  "expert_packed_bytes": 103885930496,
+  "expert_parameter_count": 277025390592,
+  "host": "spark-3",
+  "js": 0.019781,
+  "k": 2048,
+  "kl_vs_fp8": 0.098564,
+  "kl_vs_fp8_abs": 0.098537,
+  "measurement_status": "MEASURED",
+  "n_layers": 43,
+  "n_positions": 524288,
+  "n_windows": 512,
+  "non_expert_decimal_GB_assumption": 7.55,
+  "pos_cutoff": 1024,
+  "prototype_plane_storage_bytes": 147171306403,
+  "row_id": "K2048_UNIFORM_43L_512_MEASURED",
+  "schema": "downward-vq3-uniform-measured-row-v1",
+  "sealed_at_utc": "2026-07-15T15:24:58.814876+00:00",
+  "support_mass_cand": 0.999812,
+  "support_mass_ref": 0.999859,
+  "support_size": 8192,
+  "task": "t_139f9ce8",
+  "top1_agree": 0.90814,
+  "top1_in_top64": 0.999748,
+  "total_model_parameter_count": 290906121344,
+  "variant": "k2048_uniform_43L",
+  "whole_model_decimal_GB": 111.435930496,
+  "whole_model_effective_bpw": 3.0645193708859955
+}

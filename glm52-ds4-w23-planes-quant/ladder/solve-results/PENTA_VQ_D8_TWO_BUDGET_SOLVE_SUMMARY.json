@@ -1,0 +1,84 @@
+{
+  "corrected_k4096_receipt_verified": true,
+  "created_unix": 1784161880.065421,
+  "menu": [
+    "ternary",
+    "vqa",
+    "w2",
+    "w3",
+    "vq3",
+    "vq3b",
+    "vq3c",
+    "vq3d",
+    "vq8a",
+    "fp4"
+  ],
+  "rows": [
+    {
+      "bpw": 2.927079510637837,
+      "budget_id": "IQ3-BIN",
+      "bytes_under_cap": 123582,
+      "counts_down": {
+        "fp4": 795,
+        "ternary": 62,
+        "vq3b": 4265,
+        "vq3c": 3426,
+        "vq3d": 939,
+        "vq8a": 37,
+        "vqa": 1484
+      },
+      "counts_fused13": {
+        "fp4": 208,
+        "ternary": 116,
+        "vq3b": 1998,
+        "vq3c": 4269,
+        "vq3d": 2482,
+        "vq8a": 51,
+        "vqa": 1884
+      },
+      "expert_bytes_used": 101361104604,
+      "expert_gib": 94.4,
+      "manifest": "$MISSION_ROOT/IQ4_BAR_RUN_t_1def6c8b/solve/PENTAVQ_D8MENU_IQ3_BIN_94.4G_EXPERT_101.95GB_TOTAL_MANIFEST.json",
+      "manifest_md5": "8316ebf503f536b614c4a20aad3bc550",
+      "measurement_label": "PRED",
+      "predicted_kld": 0.09357928225165783,
+      "row": "PENTAVQ_D8MENU_IQ3_BIN_94.4G_EXPERT_101.95GB_TOTAL",
+      "task": "t_1def6c8b",
+      "total_gb": 101.95
+    },
+    {
+      "bpw": 2.7348346499945855,
+      "budget_id": "Q2-BIN",
+      "bytes_under_cap": 123491,
+      "counts_down": {
+        "fp4": 294,
+        "ternary": 125,
+        "vq3b": 2316,
+        "vq3c": 4002,
+        "vq3d": 1655,
+        "vq8a": 50,
+        "vqa": 2566
+      },
+      "counts_fused13": {
+        "fp4": 95,
+        "ternary": 198,
+        "vq3b": 738,
+        "vq3c": 2847,
+        "vq3d": 3587,
+        "vq8a": 93,
+        "vqa": 3450
+      },
+      "expert_bytes_used": 94703905386,
+      "expert_gib": 88.2,
+      "manifest": "$MISSION_ROOT/IQ4_BAR_RUN_t_1def6c8b/solve/PENTAVQ_D8MENU_Q2_BIN_88.2G_EXPERT_95.75GB_TOTAL_MANIFEST.json",
+      "manifest_md5": "25e2d222990ef999953715f8b0a44196",
+      "measurement_label": "PRED",
+      "predicted_kld": 0.1257900548954048,
+      "row": "PENTAVQ_D8MENU_Q2_BIN_88.2G_EXPERT_95.75GB_TOTAL",
+      "task": "t_1def6c8b",
+      "total_gb": 95.75
+    }
+  ],
+  "status": "TRIPLE_VQ_TWO_BUDGETS_RESOLVED",
+  "task": "t_1def6c8b"
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "vq-gptq-pilot-summary-v1",
+  "provenance": "reconstructed_from_completed_kanban_run_metadata",
+  "raw_source_present_at_publication": false,
+  "status": "negative_raw_reconstruction_mixed_exploratory_kld",
+  "units_tested": 1536,
+  "raw_relrms_wins": 0,
+  "rail": {
+    "layers": [3, 23, 41],
+    "windows": 6,
+    "baseline_sum": 0.3593873307108879,
+    "pilot_sum": 0.3278452754020691,
+    "delta_pct": 8.776624872985085,
+    "per_layer": [
+      {"layer": 3, "baseline": 0.09844514727592468, "pilot": 0.08111868798732758, "delta_pct": 17.599104716727554},
+      {"layer": 23, "baseline": 0.12765789031982422, "pilot": 0.11446288228034973, "delta_pct": 10.336228650554402},
+      {"layer": 41, "baseline": 0.133284293115139, "pilot": 0.13226370513439178, "delta_pct": 0.7656431541491373}
+    ]
+  },
+  "verdict": "not_claimable_single_layer_and_small_window_pilot"
+}

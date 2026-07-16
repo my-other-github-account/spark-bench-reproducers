@@ -1,0 +1,294 @@
+{
+  "task": "t_9fb38e38",
+  "tier": "vq8u",
+  "status": "complete",
+  "d": 8,
+  "k": 512,
+  "assign": "nearest (NN), per card",
+  "n_layers_done": 43,
+  "n_layers_target": 43,
+  "layers_done": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42
+  ],
+  "total_bytes": 77914251491,
+  "index_wire_bpw": 1.125,
+  "effective_bpw": {
+    "fused13": 1.375015,
+    "down": 1.375031
+  },
+  "storage_container_note": "codes stored int16; effective bpw counts the packed 9-bit code",
+  "scales": "W3v2 e43 8-level serve LUT SSE refit offsets -4..+2, per-blk32 UE8M0 bytes",
+  "codebook": "layer-shared per-proj d=8 k=512, fit_e=[17, 77, 177], s^2-weighted kmeans++ (throwaway k=0 RNG replay first) + 15-iter lloyd, per-layer generator seed 0",
+  "plane_format": "vqa_build keys: codes13/sc13/codes2/sc2/cb13/cb2/meta; codes int16, cb fp16 [512,8]",
+  "l003_sdr": {
+    "task": "t_9fb38e38",
+    "gate": "L003 extraction parity + W3v2 scale-grid parity for k=512",
+    "n_units": 12,
+    "pass": true,
+    "worst_reldiff_w3v2": 0.0,
+    "mine_l003_nn_mean": 0.531201,
+    "note": "No lower-k pilot arm exists; absolute end-to-end rail is the acceptance measurement.",
+    "pilot_ledger": "$MISSION_ROOT/SUBTERNARY_D8VQ_t_e3e9d87b/assets/VQ3_LEDGER.jsonl",
+    "pilot_ledger_md5": "65a9b990de0f46eb3805d957ea62643a"
+  },
+  "per_layer": {
+    "000": {
+      "md5": "52fdeb5e97c2f4700d4ca4d026313c64",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531568
+    },
+    "001": {
+      "md5": "29a34ddcfa48a1cc0559d3ce3603881d",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.53096
+    },
+    "002": {
+      "md5": "65d44b7564656c1a2ccf6feb4a4011c9",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531292
+    },
+    "003": {
+      "md5": "9159bf023795e6b011bb972136aa422a",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531064
+    },
+    "004": {
+      "md5": "a556d08172c441afea83cc8b3278f580",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531181
+    },
+    "005": {
+      "md5": "b8d2451e186797a53d76103a96857a8a",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.530741
+    },
+    "006": {
+      "md5": "e0287d71ea33b3ccb69045c4a337b05d",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531071
+    },
+    "007": {
+      "md5": "3a5e39d2dc82a1b9ae6299040e2fe7d3",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.530856
+    },
+    "008": {
+      "md5": "09d0729088616a508b9783ee9e11df91",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.530914
+    },
+    "009": {
+      "md5": "7eb00e39e89dae0458672889f9792822",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.530987
+    },
+    "010": {
+      "md5": "6bd1ea8da3971f3311769a89b1dac0c7",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531031
+    },
+    "011": {
+      "md5": "9ec10bcb254486b7805749006c7087f1",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.530803
+    },
+    "012": {
+      "md5": "21ce8abdb4b6c73c896d5e429ee41438",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.530766
+    },
+    "013": {
+      "md5": "2d3340f436d9db914dd7dcce38bf1452",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.530709
+    },
+    "014": {
+      "md5": "f510747bff1409decbd8193227182e58",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.530948
+    },
+    "015": {
+      "md5": "bf4d7fc61375b0cbe320110913c07413",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531188
+    },
+    "016": {
+      "md5": "74f26be49583dce8279f64179c567dab",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531482
+    },
+    "017": {
+      "md5": "516a7fd1574c0d837b2ff07aeab80018",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531895
+    },
+    "018": {
+      "md5": "ad31be682d329edf84d4d001cce56fb3",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.532493
+    },
+    "019": {
+      "md5": "b679b14f98b82c4b1af7d82ae42d3612",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.532041
+    },
+    "020": {
+      "md5": "4832a43befba623fced9cca70eb4aac2",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.533667
+    },
+    "021": {
+      "md5": "429adff3f505ad91d4670dfd187887b7",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.532293
+    },
+    "022": {
+      "md5": "850b850bdf24375e0f8987b04d94fe33",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.532683
+    },
+    "023": {
+      "md5": "fe656d2535f4cd39fddb9ad7f3de3b58",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531432
+    },
+    "024": {
+      "md5": "975d11d05904b184ca8983a8d5589ae6",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531114
+    },
+    "025": {
+      "md5": "f86c5394bcdcf4f469eddab88ea942fc",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531178
+    },
+    "026": {
+      "md5": "8321a0da2394341e30448653514376f5",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531202
+    },
+    "027": {
+      "md5": "13417b67696075291cfa0cb8cf00cedc",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531161
+    },
+    "028": {
+      "md5": "03356d27942befae5ac4a3a2c15678a0",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531301
+    },
+    "029": {
+      "md5": "69bf05c0dcfed0b4cdea87fdddfa19dd",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531458
+    },
+    "030": {
+      "md5": "bcf0b75f7bbdc4886f506da17c445ada",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531586
+    },
+    "031": {
+      "md5": "901887d2e84b81266cdf84f0489a0f15",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531738
+    },
+    "032": {
+      "md5": "4b46cae9bc6d551cd9c96d33688e9600",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.53163
+    },
+    "033": {
+      "md5": "3ee2f03de06c8ad55a0f7c40d612e542",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531694
+    },
+    "034": {
+      "md5": "605d43420d84151db5759de22213fce6",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531605
+    },
+    "035": {
+      "md5": "eaf0e6bcbc82818ba88715fa599d5a5d",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.532143
+    },
+    "036": {
+      "md5": "e2533d78ea911bc6785abfa25d82b809",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.531816
+    },
+    "037": {
+      "md5": "4c68d644c3038e94c02056ca204172e3",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.532102
+    },
+    "038": {
+      "md5": "656a41ec4699b60e0387b1ab7fcb050d",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.532404
+    },
+    "039": {
+      "md5": "aca39c2f90dfcf4409173b2b00d8fadd",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.534053
+    },
+    "040": {
+      "md5": "e45b49b117f77b3324fd6e859b4d5b94",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.534007
+    },
+    "041": {
+      "md5": "26917c77eb1615805db0b4051c9c1708",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.535532
+    },
+    "042": {
+      "md5": "8b4721bf047c7b35292ee2ab52351e8e",
+      "bytes": 1811959337,
+      "relrms_nn_mean": 0.538912
+    }
+  },
+  "ts": "2026-07-16T01:02:37"
+}

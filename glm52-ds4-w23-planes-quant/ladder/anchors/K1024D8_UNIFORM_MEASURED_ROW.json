@@ -1,0 +1,75 @@
+{
+  "artifacts": {
+    "candidate_done": {
+      "bytes": 105128,
+      "md5": "a5ec433c9a7139caaf1697688520e911",
+      "path": "$MISSION_ROOT/SUBTERNARY_D8VQ_t_e3e9d87b/k1024/candidate/DONE.jsonl",
+      "sha256": "0a18d02b288df95a7ce16193d202e466438fb2c5d1a885c49a0ffae67bc5fca2"
+    },
+    "plane_seal": {
+      "bytes": 7198,
+      "md5": "ef83bdbc3a3c805327313e8c57d8d213",
+      "path": "$MISSION_ROOT/SUBTERNARY_D8VQ_t_e3e9d87b/k1024/out/VQ8_UNIFORM_SEAL.json",
+      "sha256": "aad9523286609a3977aaca9f8d6adc889ce42b430d78af84753a1f7bb8c3f6c4"
+    },
+    "relrms_vs_baselines": {
+      "bytes": 16110,
+      "md5": "e66fab6da6919c96090eec2bd2bdfcae",
+      "path": "$MISSION_ROOT/SUBTERNARY_D8VQ_t_e3e9d87b/out/K1024D8_RELRMS_VS_BASELINES.json",
+      "sha256": "615bbb1df5b6d972b7e284ac5a00562c6422f7ec9b2e296ec8c8f482ad40d4cb"
+    },
+    "score": {
+      "bytes": 766,
+      "md5": "02c9a21ea3ab2c92c33d77720dc2b0ec",
+      "path": "$MISSION_ROOT/SUBTERNARY_D8VQ_t_e3e9d87b/out/K1024_ANCHOR.SCORE.jsonl",
+      "sha256": "2dd59093ed1456806c5a065c3d5effce6d391a81341bae5c7917bf255b6885af"
+    },
+    "window_rows": {
+      "bytes": 150399,
+      "md5": "ade29e9efbc2be30d619ce3308c85d90",
+      "path": "$MISSION_ROOT/SUBTERNARY_D8VQ_t_e3e9d87b/out/K1024_ANCHOR.KLD_WINDOWS.jsonl",
+      "sha256": "065436c23df1c42e8a92136b17327321c71b0d312abc2ac92869d141d686b0f8"
+    }
+  },
+  "checkpoint_resume_provenance": {
+    "builder_persisted_codebooks": true,
+    "builder_sha256": "3e29d5f748b054ead157788d8e104cbed2bf5ef2db43f4a4a007b5e6da263310",
+    "resume_hash_verification": true
+  },
+  "codebook_bytes": 1409024,
+  "convention_notes": "prefill KL(fp8_ref||cand) on ref top-8192 support, both renormalized on S; cand lp = full-vocab log_softmax then gather. kl_vs_fp8_abs = same without renorm. JS on renormalized S. top1 = full-vocab argmax match. pos_cutoff=1024 (0=all; calibrated convention v2 = 1024 -> 1024-token windows via causal-prefill identity). MEASURED d=8 k1024 uniform 43L anchor; task t_e3e9d87b",
+  "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+  "d": 8,
+  "effective_expert_bpw": 1.5000406901041667,
+  "expert_decimal_GB": 51.94366976,
+  "expert_packed_bytes": 51943669760,
+  "expert_parameter_count": 277025390592,
+  "host": "spark-5",
+  "index_packed_bytes_with_codebooks": 43286626304,
+  "index_wire_bpw_with_codebooks": 1.2500406901041667,
+  "js": 0.169766,
+  "k": 1024,
+  "kl_vs_fp8": 1.030811,
+  "kl_vs_fp8_abs": 1.036156,
+  "measurement_status": "MEASURED",
+  "n_layers": 43,
+  "n_positions": 524288,
+  "n_windows": 512,
+  "non_expert_decimal_GB_assumption": 7.55,
+  "pos_cutoff": 1024,
+  "prototype_plane_storage_bytes": 77914956003,
+  "row_id": "K1024D8_UNIFORM_43L_512_MEASURED",
+  "scale_overhead_bpw": 0.25,
+  "schema": "subternary-d8-vq-uniform-measured-row-v1",
+  "sealed_at_utc": "2026-07-16T04:07:50.786990+00:00",
+  "support_mass_cand": 0.994904,
+  "support_mass_ref": 0.999859,
+  "support_size": 8192,
+  "task": "t_e3e9d87b",
+  "top1_agree": 0.661455,
+  "top1_in_top64": 0.97382,
+  "total_model_parameter_count": 290906121344,
+  "variant": "k1024_d8_uniform_43L",
+  "whole_model_decimal_GB": 59.49366976,
+  "whole_model_effective_bpw": 1.6360926194371281
+}

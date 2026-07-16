@@ -1,0 +1,86 @@
+{
+  "corrected_k4096_receipt_verified": true,
+  "created_unix": 1784164123.425818,
+  "menu": [
+    "ternary",
+    "vqa",
+    "w2",
+    "w3",
+    "vq3",
+    "vq3b",
+    "vq3c",
+    "vq3d",
+    "vq3e",
+    "vq8a",
+    "fp4"
+  ],
+  "rows": [
+    {
+      "bpw": 2.9270821128686424,
+      "budget_id": "IQ3-BIN",
+      "bytes_under_cap": 33470,
+      "counts_down": {
+        "fp4": 795,
+        "ternary": 62,
+        "vq3b": 4266,
+        "vq3c": 3425,
+        "vq3d": 939,
+        "vq8a": 37,
+        "vqa": 1484
+      },
+      "counts_fused13": {
+        "fp4": 208,
+        "ternary": 116,
+        "vq3b": 1997,
+        "vq3c": 4270,
+        "vq3d": 2482,
+        "vq8a": 51,
+        "vqa": 1884
+      },
+      "expert_bytes_used": 101361194716,
+      "expert_gib": 94.4,
+      "manifest": "$MISSION_ROOT/IQ4_BAR_RUN_t_1def6c8b/solve/HEXAVQ_K512MENU_IQ3_BIN_94.4G_EXPERT_101.95GB_TOTAL_MANIFEST.json",
+      "manifest_md5": "3f285f29e0a5eb7c287a264f1e29c32a",
+      "measurement_label": "PRED",
+      "predicted_kld": 0.09358038603644561,
+      "row": "HEXAVQ_K512MENU_IQ3_BIN_94.4G_EXPERT_101.95GB_TOTAL",
+      "task": "t_1def6c8b",
+      "total_gb": 101.95
+    },
+    {
+      "bpw": 2.7348372522253905,
+      "budget_id": "Q2-BIN",
+      "bytes_under_cap": 33379,
+      "counts_down": {
+        "fp4": 294,
+        "ternary": 125,
+        "vq3b": 2316,
+        "vq3c": 4002,
+        "vq3d": 1654,
+        "vq3e": 1,
+        "vq8a": 50,
+        "vqa": 2566
+      },
+      "counts_fused13": {
+        "fp4": 95,
+        "ternary": 198,
+        "vq3b": 738,
+        "vq3c": 2847,
+        "vq3d": 3587,
+        "vq8a": 93,
+        "vqa": 3450
+      },
+      "expert_bytes_used": 94703995498,
+      "expert_gib": 88.2,
+      "manifest": "$MISSION_ROOT/IQ4_BAR_RUN_t_1def6c8b/solve/HEXAVQ_K512MENU_Q2_BIN_88.2G_EXPERT_95.75GB_TOTAL_MANIFEST.json",
+      "manifest_md5": "0bb539fdf9c0b5acaf0e9f91cfb735e0",
+      "measurement_label": "PRED",
+      "predicted_kld": 0.12579143422993955,
+      "row": "HEXAVQ_K512MENU_Q2_BIN_88.2G_EXPERT_95.75GB_TOTAL",
+      "task": "t_1def6c8b",
+      "total_gb": 95.75
+    }
+  ],
+  "status": "TRIPLE_VQ_TWO_BUDGETS_RESOLVED",
+  "task": "t_1def6c8b"
+}

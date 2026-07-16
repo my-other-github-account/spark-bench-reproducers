@@ -1,0 +1,69 @@
+{
+  "corrected_k4096_receipt_verified": true,
+  "created_unix": 1784131326.851759,
+  "menu": [
+    "ternary",
+    "vqa",
+    "w2",
+    "w3",
+    "vq3",
+    "vq3b",
+    "fp4"
+  ],
+  "rows": [
+    {
+      "bpw": 2.927071895809118,
+      "budget_id": "IQ3-BIN",
+      "bytes_under_cap": 387274,
+      "counts_down": {
+        "fp4": 569,
+        "ternary": 122,
+        "vq3b": 7655,
+        "vqa": 2662
+      },
+      "counts_fused13": {
+        "fp4": 164,
+        "ternary": 199,
+        "vq3b": 6556,
+        "vqa": 4089
+      },
+      "expert_bytes_used": 101360840912,
+      "expert_gib": 94.4,
+      "manifest": "$MISSION_ROOT/IQ4_BAR_RUN_t_1def6c8b/solve/DUALVQ_K4096MENU_IQ3_BIN_94.4G_EXPERT_101.95GB_TOTAL_MANIFEST.json",
+      "manifest_md5": "4e62bdda415605bd10efac2ae79af50f",
+      "measurement_label": "PRED",
+      "predicted_kld": 0.0989905455716338,
+      "row": "DUALVQ_K4096MENU_IQ3_BIN_94.4G_EXPERT_101.95GB_TOTAL",
+      "task": "t_1def6c8b",
+      "total_gb": 101.95
+    },
+    {
+      "bpw": 2.7348270356279105,
+      "budget_id": "Q2-BIN",
+      "bytes_under_cap": 387167,
+      "counts_down": {
+        "fp4": 266,
+        "ternary": 183,
+        "vq3b": 6433,
+        "vqa": 4126
+      },
+      "counts_fused13": {
+        "fp4": 88,
+        "ternary": 302,
+        "vq3b": 4501,
+        "vqa": 6117
+      },
+      "expert_bytes_used": 94703641710,
+      "expert_gib": 88.2,
+      "manifest": "$MISSION_ROOT/IQ4_BAR_RUN_t_1def6c8b/solve/DUALVQ_K4096MENU_Q2_BIN_88.2G_EXPERT_95.75GB_TOTAL_MANIFEST.json",
+      "manifest_md5": "e8bb99003e666c32933a9f715f3fa3bc",
+      "measurement_label": "PRED",
+      "predicted_kld": 0.1331321929636471,
+      "row": "DUALVQ_K4096MENU_Q2_BIN_88.2G_EXPERT_95.75GB_TOTAL",
+      "task": "t_1def6c8b",
+      "total_gb": 95.75
+    }
+  ],
+  "status": "DUAL_VQ3_TWO_BUDGETS_RESOLVED",
+  "task": "t_1def6c8b"
+}

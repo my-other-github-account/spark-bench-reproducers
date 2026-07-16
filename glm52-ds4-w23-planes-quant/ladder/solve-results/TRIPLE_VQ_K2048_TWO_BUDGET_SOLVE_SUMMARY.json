@@ -1,0 +1,74 @@
+{
+  "corrected_k4096_receipt_verified": true,
+  "created_unix": 1784137732.5601783,
+  "menu": [
+    "ternary",
+    "vqa",
+    "w2",
+    "w3",
+    "vq3",
+    "vq3b",
+    "vq3c",
+    "fp4"
+  ],
+  "rows": [
+    {
+      "bpw": 2.9270823039237626,
+      "budget_id": "IQ3-BIN",
+      "bytes_under_cap": 26854,
+      "counts_down": {
+        "fp4": 718,
+        "ternary": 104,
+        "vq3b": 4104,
+        "vq3c": 4254,
+        "vqa": 1828
+      },
+      "counts_fused13": {
+        "fp4": 196,
+        "ternary": 173,
+        "vq3b": 1831,
+        "vq3c": 6237,
+        "vqa": 2571
+      },
+      "expert_bytes_used": 101361201332,
+      "expert_gib": 94.4,
+      "manifest": "$MISSION_ROOT/IQ4_BAR_RUN_t_1def6c8b/solve/TRIPLEVQ_K2048MENU_IQ3_BIN_94.4G_EXPERT_101.95GB_TOTAL_MANIFEST.json",
+      "manifest_md5": "f9d9a964acf9e6616af55d88611ae77c",
+      "measurement_label": "PRED",
+      "predicted_kld": 0.09445707192147867,
+      "row": "TRIPLEVQ_K2048MENU_IQ3_BIN_94.4G_EXPERT_101.95GB_TOTAL",
+      "task": "t_1def6c8b",
+      "total_gb": 101.95
+    },
+    {
+      "bpw": 2.7348329024293396,
+      "budget_id": "Q2-BIN",
+      "bytes_under_cap": 184007,
+      "counts_down": {
+        "fp4": 267,
+        "ternary": 183,
+        "vq3b": 2158,
+        "vq3c": 5257,
+        "vqa": 3143
+      },
+      "counts_fused13": {
+        "fp4": 89,
+        "ternary": 300,
+        "vq3b": 684,
+        "vq3c": 5305,
+        "vqa": 4630
+      },
+      "expert_bytes_used": 94703844870,
+      "expert_gib": 88.2,
+      "manifest": "$MISSION_ROOT/IQ4_BAR_RUN_t_1def6c8b/solve/TRIPLEVQ_K2048MENU_Q2_BIN_88.2G_EXPERT_95.75GB_TOTAL_MANIFEST.json",
+      "manifest_md5": "681537879dff44704c58b8d63b27302c",
+      "measurement_label": "PRED",
+      "predicted_kld": 0.12748837120954037,
+      "row": "TRIPLEVQ_K2048MENU_Q2_BIN_88.2G_EXPERT_95.75GB_TOTAL",
+      "task": "t_1def6c8b",
+      "total_gb": 95.75
+    }
+  ],
+  "status": "TRIPLE_VQ_TWO_BUDGETS_RESOLVED",
+  "task": "t_1def6c8b"
+}
