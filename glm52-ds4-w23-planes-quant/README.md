@@ -3,15 +3,19 @@
 **2-Spark (GB10) serving of GLM-5.2 753B + 1-Spark DS4-Flash PoC testbed, with damage-ranked
 dynamic per-expert {ternary…2,3,4}-bit allocation — July 2026. (Updated Jul 15 morning.)**
 
-> **Publication cut (Jul 16):** the reproducible campaign package is organized under
+> **Iteration-kit refresh (Jul 16):** start with [`RESUME.md`](RESUME.md) to relaunch in under
+> an hour and [`LEARNINGS.md`](LEARNINGS.md) before choosing another arm. The reproducible
+> campaign package is organized under
 > [`ladder/`](ladder/README.md), [`repair/`](repair/README.md),
 > [`research-track/`](research-track/README.md), [`eval/`](eval/README.md),
-> [`serving/`](serving/README.md), and [`environments/`](environments/README.md).
-> Start with [`REPRO.md`](REPRO.md), [`ladder/ANCHOR_TABLE.md`](ladder/ANCHOR_TABLE.md), and
-> [`repair/SEALED_REPAIR_REPLICATION.json`](repair/SEALED_REPAIR_REPLICATION.json).
-> Formal result: codebook arm4 final `+5.6473%`, replicated by arm5 current-best `+5.3413%`;
-> RMSNorm-gamma `+13.5531%`, replicated at `+13.4922%`, all on the same eight disjoint held-out
-> probes. Arm3 faded to `+2.5709%` at its final panel and is excluded by the binding `2.6%` floor.
+> [`serving/`](serving/README.md), [`tooling/`](tooling/README.md), and
+> [`environments/`](environments/README.md). Formal pooled-KLD result: codebook arm4 best
+> `+6.2215%`, replicated by arm5 `+5.3413%`; RMSNorm-gamma `+13.5531%`, replicated at
+> `+13.4922%`. The corresponding mean-window trajectory headlines are `+6.4218%`, `+5.9809%`,
+> `+11.1590%`, and `+10.8783%`; [`LEARNINGS.md`](LEARNINGS.md) explains why both conventions
+> are retained. The disjoint 24-window external gate measured approximately `+5.1%` held-out.
+> Arm3 faded below the binding `2.6%` pooled floor. Arm6–10 and the live 512 rail are preserved
+> as partial/in-flight evidence, never extrapolated.
 > Export B/C parity passes, but checkpoint-to-wire A/B still fails; no served repair win is claimed.
 
 > **New (Jul 15 AM):** [`RECOVERY_NOTES_DAY3_E2E_BREAKTHROUGH.md`](RECOVERY_NOTES_DAY3_E2E_BREAKTHROUGH.md) —

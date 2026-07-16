@@ -17,17 +17,17 @@ used=$(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits 2>/dev/n
 export PATH="$HOME/.local/bin:/usr/local/cuda/bin:$PATH"   # nvcc lesson from t_880fdca2
 export BR_MANIFEST="$ROOT/code/DUALVQ_K4096MENU_IQ3_BIN_MANIFEST.json"
 export BR_DELTA_DIR="$ROOT/delta"
-export BR_VQ3B_DIR="$ROOT/planes"
+export BR_VQ3B_DIR="${BR_VQ3B_DIR:-$ROOT/planes}"
 export BR_TRAINABLE=${BR_TRAINABLE:-23,33,41}
 # Eval-corpus windows DISJOINT from WIDEDATA t_c65a87a6 manifest (train/probes/reserved)
-export BR_PROBE=4,84,160,236,304,373,442,511
-export BR_TRAIN=7,44,86,118,151,186,217,250,282,313,348,377,409,441,472,505
+export BR_PROBE="${BR_PROBE:-4,84,160,236,304,373,442,511}"
+export BR_TRAIN="${BR_TRAIN:-7,44,86,118,151,186,217,250,282,313,348,377,409,441,472,505}"
 export BR_STEPS=${BR_STEPS:-48} BR_LR=${BR_LR:-1e-2} BR_BATCH=${BR_BATCH:-2}
 export BR_PROBE_EVERY=8 BR_EARLY_STOP=3 BR_MAX_HOURS=${BR_MAX_HOURS:-12}
-export BR_OUTDIR="$ROOT/out" BR_TAG=${BR_TAG:-pilot1}
+export BR_OUTDIR="${BR_OUTDIR:-$ROOT/out}" BR_TAG=${BR_TAG:-pilot1}
 export BR_TEACH="$HOME/missions/DS4_TEACHER/t8192_eval"
 export BR_CORPUS="$HOME/servedab/windows_ds4_eval.json"
-export BR_REF_KLD="$ROOT/code/ledger_ref.json"
+export BR_REF_KLD="${BR_REF_KLD:-$ROOT/code/ledger_ref.json}"
 export BR_GRADCHECK=1 BR_CACHE_ONLY=${BR_CACHE_ONLY:-0}
 
 mkdir -p "$ROOT/out"

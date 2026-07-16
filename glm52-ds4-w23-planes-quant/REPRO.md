@@ -2,6 +2,10 @@
 
 This repository publishes code, manifests, result ledgers, hashes, and environment snapshots. It intentionally does not publish model weights, teacher tensors, or private infrastructure.
 
+For the fastest campaign continuation, use [`RESUME.md`](RESUME.md). For experiment design and
+failure history, read [`LEARNINGS.md`](LEARNINGS.md). This file remains the clean-room reproduction
+sequence.
+
 ## 1. Inputs
 
 Provide these environment variables:
@@ -79,14 +83,20 @@ Only pooled results greater than the `2.6%` effect floor may seal. `repair/SEALE
 
 Follow `serving/README.md` and `serving/SERVED_BASELINES.md`. Export parity (B equals C) is necessary but not sufficient; the checkpoint-to-wire A/B tolerance must pass before a served quality rail is claimable.
 
+The portable carry-through tools are under `tooling/`. `export_arm4.py` materializes
+`state['L{n}']['cb13/cb2']` into a complete hash-bound VQ3U plane set. For the sealed fast evaluator,
+set both `VQ3U_OVERRIDE_DIR`/`VQ3U_OVERRIDE_RECEIPT` and `TWOBIN_DELTA_DIR`; the first smoke that
+omitted the delta-pack binding was invalid. See `RESUME.md` for the complete environment block.
+
 ## 7. Release gates
 
 ```bash
 python3 tools/normalize_public_names.py
 python3 tools/scrub_audit.py
 python3 repair/summarize_probes.py
-python3 -m py_compile tools/*.py repair/*.py eval/*.py eval/teacher-build/*.py ladder/solvers/*.py serving/*.py
-bash -n repair/code/*.sh repair/configs/*.sh repair/altrepair/code/*.sh serving/*.sh
+python3 -m py_compile tools/*.py tooling/*.py repair/*.py eval/*.py eval/teacher-build/*.py ladder/solvers/*.py serving/*.py
+bash -n tooling/*.sh repair/code/*.sh repair/configs/*.sh repair/altrepair/code/*.sh serving/*.sh
+python3 tooling/fix_runpilot_env.py --check repair/code/run_pilot.sh
 git diff --check
 ```
 

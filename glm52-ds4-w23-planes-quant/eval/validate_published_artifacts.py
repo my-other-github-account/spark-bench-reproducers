@@ -10,13 +10,23 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED = [
+    "LEARNINGS.md",
+    "RESUME.md",
     "REPRO.md",
     "NEXT_STEPS.md",
     "ladder/ANCHOR_TABLE.md",
     "repair/SEALED_REPAIR_REPLICATION.json",
     "repair/PROBE_TABLES.json",
+    "repair/TRAJECTORIES.md",
+    "repair/external-gate/README.md",
+    "repair/rail512/README.md",
     "research-track/vq-gptq/PILOT_SUMMARY.json",
     "serving/WIRE_GATE_win0.json",
+    "tooling/README.md",
+    "tooling/export_arm4.py",
+    "tooling/agg_rail.py",
+    "tooling/fix_runpilot_env.py",
+    "tooling/rail512_shard.sh",
     "environments/spark-1-repair.txt",
     "environments/spark-3-build.txt",
     "environments/spark-5-solve-repair.txt",
