@@ -46,6 +46,15 @@ def audit(root: Path) -> list[str]:
         for label, pattern in PATTERNS.items():
             for match in pattern.finditer(text):
                 line = text.count("\n", 0, match.start()) + 1
+                line_start = text.rfind("\n", 0, match.start()) + 1
+                line_end = text.find("\n", match.end())
+                if line_end < 0:
+                    line_end = len(text)
+                source_line = text[line_start:line_end]
+                # Package versions can be four numeric components and resemble
+                # an address. A pinned ``name==version`` line is not network data.
+                if label == "private IPv4 address" and "==" in source_line:
+                    continue
                 failures.append(f"{rel}:{line}: {label}: {match.group(0)!r}")
         if path.suffix.lower() in {".md", ".txt", ".json", ".jsonl", ".yaml", ".yml", ".toml"}:
             for match in DOC_HOST_ALIAS.finditer(text):

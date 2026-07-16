@@ -3,6 +3,17 @@
 **2-Spark (GB10) serving of GLM-5.2 753B + 1-Spark DS4-Flash PoC testbed, with damage-ranked
 dynamic per-expert {ternary…2,3,4}-bit allocation — July 2026. (Updated Jul 15 morning.)**
 
+> **Publication cut (Jul 16):** the reproducible campaign package is organized under
+> [`ladder/`](ladder/README.md), [`repair/`](repair/README.md),
+> [`research-track/`](research-track/README.md), [`eval/`](eval/README.md),
+> [`serving/`](serving/README.md), and [`environments/`](environments/README.md).
+> Start with [`REPRO.md`](REPRO.md), [`ladder/ANCHOR_TABLE.md`](ladder/ANCHOR_TABLE.md), and
+> [`repair/SEALED_REPAIR_REPLICATION.json`](repair/SEALED_REPAIR_REPLICATION.json).
+> Formal result: codebook arm4 final `+5.6473%`, replicated by arm5 current-best `+5.3413%`;
+> RMSNorm-gamma `+13.5531%`, replicated at `+13.4922%`, all on the same eight disjoint held-out
+> probes. Arm3 faded to `+2.5709%` at its final panel and is excluded by the binding `2.6%` floor.
+> Export B/C parity passes, but checkpoint-to-wire A/B still fails; no served repair win is claimed.
+
 > **New (Jul 15 AM):** [`RECOVERY_NOTES_DAY3_E2E_BREAKTHROUGH.md`](RECOVERY_NOTES_DAY3_E2E_BREAKTHROUGH.md) —
 > e2e-KL existence proof POSITIVE (+1.78% train-window in 10 steps; +3.28% and climbing at lr 1e-2),
 > block-MSE composition failure root-caused (2×2 with receipts), k4096 anchor bug found+fixed
