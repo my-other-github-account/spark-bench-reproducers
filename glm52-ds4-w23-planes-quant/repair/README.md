@@ -1,26 +1,22 @@
 # End-to-end repair campaign
 
-The repair track optimizes the deployed quantized artifact against teacher logits. Every arm uses fixed held-out probes `[4,84,160,236,304,373,442,511]`, reports pooled KLD relative to its exact step-0 baseline, checkpoints before binding probe panels, and treats changes inside the ±2.6% empirical floor as zero.
+The repair track optimizes the deployed quantized artifact against teacher logits. Every arm uses fixed held-out probes `[4,84,160,236,304,373,442,511]`, reports pooled KLD from exact per-window rows, and labels a gain claimable only when it exceeds the campaign's `2.6%` effect floor.
 
-## Arm ledger
+## Formal seal
 
-| arm | mechanism / capacity | best held-out result | verdict |
-|---|---|---:|---|
-| pilot 1 | small codebook surface | +0.71% | positive trend, sub-floor |
-| pilot 2 | small codebook surface | +0.27% | sub-floor |
-| arm 3 | expanded codebook surface | +4.2% peak | first above-floor codebook repair |
-| arm 4 | all-layer codebook surface | +6.42% at step 40 | strong, banked early |
-| nuclear | high-capacity codebook run | trajectory retained in `results/` | capacity/data diagnostic |
-| output-scale | 22,016 per-expert projection gains, lr 1e-2 | +1.006% at step 8; -7.219% at step 16 | overshoot; negative at this LR |
-| RMSNorm source | 235 tensors / 446,080 parameters, lr 1e-4 | +13.5531% at step 24, 8/8 positive | strong |
-| RMSNorm replication | rotated training order, fresh tag | +13.4922% at step 16, 8/8 positive | independently replicated |
+`SEALED_REPAIR_REPLICATION.json` is authoritative:
 
-## Findings
+- codebook arm4 final step 48: `+5.647340%` (`+6.221544%` best at step 40), replicated by arm5 current-best step 32 `+5.341266%`;
+- RMSNorm-gamma source step 24: `+13.553121%`, replicated by rotated-order step 16 `+13.492236%`;
+- arm3 best `+3.016373%`, but final `+2.570928%`: `FADED_BELOW_FLOOR_NOT_SEALED`;
+- pilot1, pilot2, arm4_nuclear, and output-scale are sub-floor or negative at their binding panels.
 
-- Capacity mattered: the earliest 5-layer probes were too small to adjudicate the mechanism.
-- Learning rate is parameter-class specific. Output gains had much larger gradients and diverged at the codebook-style rate.
-- Data diversity mattered more after the first epoch; repeated narrow windows overfit while wider/rotated order improved held-out consistency.
-- Probe panels are binding measurements, not training telemetry. Preserve the best checkpoint before a panel and stop on sustained regression.
-- RMSNorm gamma is zero additional wire cost because those tensors are already served in higher precision. Export must still pass bit-exact A/B gates.
+Raw JSONL ledgers, status snapshots, final summaries, and launch configurations are checked in below. `PROBE_TABLES.md` and `PROBE_TABLES.json` are generated from those ledgers and contain every completed pooled panel plus all eight per-window values. The generated table, rather than provisional status-message rounding, is the source for individual-arm trajectories.
 
-`binrepair_e2e.py`, launchers, per-arm configs, JSONL probe ledgers, final summaries, and verification manifests are organized below this directory.
+## Evidence boundary
+
+- A training loss or single window is not a held-out claim.
+- Best and final checkpoints are reported separately.
+- Partial arms remain partial; no extrapolation is allowed.
+- Mechanism deltas are not added arithmetically; combined artifacts require a new rail.
+- In-memory repair is not a served result until export and checkpoint-to-wire gates pass.

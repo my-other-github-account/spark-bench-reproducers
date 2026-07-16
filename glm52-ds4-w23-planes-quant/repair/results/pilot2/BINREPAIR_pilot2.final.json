@@ -1,0 +1,23 @@
+{
+ "baseline_probe_mean": 0.056753577664494514,
+ "best_checkpoint": "$MISSION_ROOT/BINREPAIR_t_2956f863/out/BINREPAIR_pilot2.best.pt",
+ "best_delta_pct": 0.5162450981470065,
+ "best_probe_mean": 0.05646059010177851,
+ "codes_hash": {
+  "23": "d43c98d55036db81b2e1dbd1b327785a",
+  "33": "4dd53d7f5f9badd5006adb371cc79ee8",
+  "41": "91bbc7f5c7897f77e59715569352283b"
+ },
+ "host": "spark-8",
+ "latest": "$MISSION_ROOT/BINREPAIR_t_2956f863/out/BINREPAIR_pilot2.latest.pt",
+ "lr": 0.003,
+ "manifest_md5": "5a622d5139e73452b719d5d2cfeb2571",
+ "state": "completed",
+ "tag": "pilot2",
+ "trainable": [
+  23,
+  33,
+  41
+ ],
+ "ts": 1784177963.907404
+}

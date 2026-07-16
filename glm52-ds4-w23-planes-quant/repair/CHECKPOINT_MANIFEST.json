@@ -1,0 +1,18 @@
+{
+  "schema": "repair-checkpoint-hash-manifest-v1",
+  "note": "Checkpoint tensors are not committed. Recreate them from the checked-in code/configs and verify against these SHA-256 receipts.",
+  "files": [
+    {"path":"results/arm3/BINREPAIR_arm3_all43.best.pt","bytes":17016005,"sha256":"452e837cfa1aef979f9d4164c56e402e274088bf80da5a6112fa0dac0ba68975"},
+    {"path":"results/arm3/BINREPAIR_arm3_all43.latest.pt","bytes":17016705,"sha256":"73b1ff7ae650592a1719dbb1a18d773cb40ea1249ff0e5a23fd415103817e625"},
+    {"path":"results/arm4/BINREPAIR_arm4_all43_lr1e2.best.pt","bytes":17018105,"sha256":"af77aac9eab5ae857322f4eb609c996b5d18b008ec26c39eeaa97c456e59bd5e"},
+    {"path":"results/arm4/BINREPAIR_arm4_all43_lr1e2.latest.pt","bytes":17018805,"sha256":"c7c8c79f35c7c95fdbb223f1cb6cb06021e09b345115eefde27f7b2bccb513ae"},
+    {"path":"results/arm5/BINREPAIR_arm5_all43_64w.best.pt","bytes":17018045,"sha256":"77796cf294b5df9618f31ac954ce2b20788df4d037627770e7b406bf22cf5f2b"},
+    {"path":"results/arm5/BINREPAIR_arm5_all43_64w.latest.pt","bytes":17018745,"sha256":"5c4324010c57569d064cdacd9539c302443fc56d7ed7e9d182f21cfe8f5655aa"},
+    {"path":"results/nuclear/BINREPAIR_arm4_nuclear.best.pt","bytes":17016705,"sha256":"87257ae68e1cc4fb9e8514e6d095878d88e2aa3f4d05eec9918aa70bac34bf52"},
+    {"path":"results/nuclear/BINREPAIR_arm4_nuclear.latest.pt","bytes":17017405,"sha256":"4e66afe36f6a7ed04d60fe6c46caac7d9c76695742cd17a55afca01273d44289"},
+    {"path":"results/pilot1/BINREPAIR_pilot1.best.pt","bytes":1188889,"sha256":"50368e199f8ef1d172ef74ffc33ca3c53f120a23fd35c900570875e3d7c554dc"},
+    {"path":"results/pilot1/BINREPAIR_pilot1.latest.pt","bytes":1188949,"sha256":"9e782b94ed873a6aec4406ce258276534d8b6422a5b670964ba6fdc95c0d60e3"},
+    {"path":"results/pilot2/BINREPAIR_pilot2.best.pt","bytes":1188889,"sha256":"11e791ecf3cbf903d59d529a63444acf38fc23e30ad84b98296d2623d6f7a4e7"},
+    {"path":"results/pilot2/BINREPAIR_pilot2.latest.pt","bytes":1188949,"sha256":"cce2ca446d99532f04059060a635ac6e8feb4c6f8628cd096325c7e9a80df45a"}
+  ]
+}

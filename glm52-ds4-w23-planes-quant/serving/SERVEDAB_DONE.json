@@ -1,0 +1,60 @@
+{
+ "host": "spark-8",
+ "nll_w2_baseline": {
+  "base": "http://127.0.0.1:8000",
+  "n_pos": 5120,
+  "n_windows": 5,
+  "nll": 1.5191343487805913,
+  "per_window": {
+   "0": 1.1505944970481727,
+   "174": 2.029634501445383,
+   "321": 1.7741730110720957,
+   "332": 0.8102201234008181,
+   "380": 1.8310496109364867
+  },
+  "ppl": 4.568268955435488,
+  "ts": 1784162996.3167317,
+  "variant": "w2_baseline",
+  "windows_md5": "1701920b4ba96dea0b18fe9df0151876",
+  "wins": [
+   174,
+   321,
+   332,
+   380,
+   0
+  ]
+ },
+ "task": "t_880fdca2",
+ "tps_raw": {
+  "TPS_c1.txt": "run 0: ttft 0.30s, steady decode 10.96 tok/s (113 chunks)\nrun 1: ttft 1.77s, steady decode 10.80 tok/s (107 chunks)\nrun 2: ttft 0.27s, steady decode 10.86 tok/s (119 chunks)\nMEDIAN steady decode: 10.86 tok/s\n",
+  "TPS_c4_1.txt": "run 0: ttft 4.33s, steady decode 8.67 tok/s (114 chunks)\nMEDIAN steady decode: 8.67 tok/s\n",
+  "TPS_c4_2.txt": "run 0: ttft 4.34s, steady decode 8.67 tok/s (114 chunks)\nMEDIAN steady decode: 8.67 tok/s\n",
+  "TPS_c4_3.txt": "run 0: ttft 2.47s, steady decode 8.60 tok/s (112 chunks)\nMEDIAN steady decode: 8.60 tok/s\n",
+  "TPS_c4_4.txt": "run 0: ttft 2.47s, steady decode 8.60 tok/s (112 chunks)\nMEDIAN steady decode: 8.60 tok/s\n"
+ },
+ "ts": 1784167077.096311,
+ "wire_gate": {
+  "A_fp32": 0.25219660997390747,
+  "B_wire_mem": 0.24353156983852386,
+  "C_secs": 460.6,
+  "C_wire_file": 0.24353156983852386,
+  "ckpt": "$HOME/servedab/stage/s1_FASTv3_replica3.latest.pt",
+  "ckpt_next_step": 8,
+  "host": "spark-8",
+  "pack_patched": "$MISSION_ROOT/SERVED_AB/pack_patched",
+  "updated_ts": 1784154185.357163,
+  "verdict": {
+   "export_gate": "PASS",
+   "export_gate_rel": 0.0,
+   "tolerances": {
+    "export": 0.0001,
+    "wire": 0.005
+   },
+   "wire_delta_pct": -3.4358,
+   "wire_delta_rel": 0.034358273635320076,
+   "wire_gate": "FAIL"
+  },
+  "w3_mode": "reset",
+  "win": 0
+ }
+}

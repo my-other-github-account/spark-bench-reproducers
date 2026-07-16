@@ -1,0 +1,24 @@
+{
+ "A_fp32": 0.25219660997390747,
+ "B_wire_mem": 0.24353156983852386,
+ "C_secs": 460.6,
+ "C_wire_file": 0.24353156983852386,
+ "ckpt": "$HOME/servedab/stage/s1_FASTv3_replica3.latest.pt",
+ "ckpt_next_step": 8,
+ "host": "spark-8",
+ "pack_patched": "$MISSION_ROOT/SERVED_AB/pack_patched",
+ "updated_ts": 1784154185.357163,
+ "verdict": {
+  "export_gate": "PASS",
+  "export_gate_rel": 0.0,
+  "tolerances": {
+   "export": 0.0001,
+   "wire": 0.005
+  },
+  "wire_delta_pct": -3.4358,
+  "wire_delta_rel": 0.034358273635320076,
+  "wire_gate": "FAIL"
+ },
+ "w3_mode": "reset",
+ "win": 0
+}

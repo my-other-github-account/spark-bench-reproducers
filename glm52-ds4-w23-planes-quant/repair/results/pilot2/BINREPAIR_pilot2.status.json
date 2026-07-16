@@ -1,0 +1,60 @@
+{
+ "baseline_probe_mean": 0.056753577664494514,
+ "batch": 2,
+ "best_checkpoint": "$MISSION_ROOT/BINREPAIR_t_2956f863/out/BINREPAIR_pilot2.best.pt",
+ "best_delta_pct": 0.5162450981470065,
+ "best_probe_mean": 0.05646059010177851,
+ "cache_id": "binrepair|5a622d5139e7|L23",
+ "codes_hash": {
+  "23": "d43c98d55036db81b2e1dbd1b327785a",
+  "33": "4dd53d7f5f9badd5006adb371cc79ee8",
+  "41": "91bbc7f5c7897f77e59715569352283b"
+ },
+ "host": "spark-8",
+ "last_grad_norm": 0.0018092282116413116,
+ "last_kld_pre_update": 0.05653490871191025,
+ "last_probe_mean": 0.05670650862157345,
+ "last_probe_step": 40,
+ "latest": "$MISSION_ROOT/BINREPAIR_t_2956f863/out/BINREPAIR_pilot2.latest.pt",
+ "lr": 0.003,
+ "manifest_md5": "5a622d5139e73452b719d5d2cfeb2571",
+ "next_step": 40,
+ "probe_wins": [
+  4,
+  84,
+  160,
+  236,
+  304,
+  373,
+  442,
+  511
+ ],
+ "state": "completed",
+ "steps": 48,
+ "tag": "pilot2",
+ "train_wins": [
+  7,
+  44,
+  86,
+  118,
+  151,
+  186,
+  217,
+  250,
+  282,
+  313,
+  348,
+  377,
+  409,
+  441,
+  472,
+  505
+ ],
+ "trainable": [
+  23,
+  33,
+  41
+ ],
+ "ts": 1784177963.907404,
+ "updated_ts": 1784177963.912425
+}

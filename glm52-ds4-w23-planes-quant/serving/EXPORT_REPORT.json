@@ -1,0 +1,131 @@
+{
+ "ckpt": "$HOME/servedab/stage/s1_FASTv3_replica3.latest.pt",
+ "ckpt_meta": {
+  "format": "e2e-fast-v1",
+  "host": "spark-1",
+  "layer": 33,
+  "lr": 0.01,
+  "mode": "multi",
+  "next_step": 8,
+  "probe_wins": [
+   120,
+   129
+  ],
+  "saved_ts": 1784147683.7495992,
+  "steps_target": 40,
+  "train_wins": [
+   54,
+   57,
+   71,
+   83,
+   89,
+   96,
+   98,
+   104
+  ],
+  "warm": "3:$MISSION_ROOT/LP4_BLOCKWISE/v2states_ep2/L003.pt,13:$MISSION_ROOT/LP4_BLOCKWISE/v2states_ep2/L013.pt,33:$MISSION_ROOT/LP4_BLOCKWISE/v2states_ep2/L033.pt"
+ },
+ "generated_ts": 1784152636.7753985,
+ "layers": {},
+ "manifest_checks": {},
+ "pack_patch": {
+  "13": {
+   "cb13": {
+    "dtype": "torch.float16",
+    "rel_move": 0.03334920521757197
+   },
+   "cb2": {
+    "dtype": "torch.float16",
+    "rel_move": 0.029363662123881355
+   },
+   "file": "$MISSION_ROOT/SERVED_AB/pack_patched/layer_013.pt",
+   "tern_lut13": {
+    "dtype": "torch.float32",
+    "rel_move": 0.022343704292264444
+   },
+   "tern_lut2": {
+    "dtype": "torch.float32",
+    "rel_move": 0.018615080776878522
+   }
+  },
+  "23": {
+   "cb13": {
+    "dtype": "torch.float16",
+    "rel_move": 0.015484454427781557
+   },
+   "cb2": {
+    "dtype": "torch.float16",
+    "rel_move": 0.015583232585111332
+   },
+   "file": "$MISSION_ROOT/SERVED_AB/pack_patched/layer_023.pt",
+   "tern_lut13": {
+    "dtype": "torch.float32",
+    "rel_move": 0.006806987507954174
+   },
+   "tern_lut2": {
+    "dtype": "torch.float32",
+    "rel_move": 0.007289686775740924
+   }
+  },
+  "3": {
+   "cb13": {
+    "dtype": "torch.float16",
+    "rel_move": 0.021755001664921027
+   },
+   "cb2": {
+    "dtype": "torch.float16",
+    "rel_move": 0.018626268972428396
+   },
+   "file": "$MISSION_ROOT/SERVED_AB/pack_patched/layer_003.pt",
+   "tern_lut13": {
+    "dtype": "torch.float32",
+    "rel_move": 0.03888481585907068
+   },
+   "tern_lut2": {
+    "dtype": "torch.float32",
+    "rel_move": 0.007886093653318956
+   }
+  },
+  "33": {
+   "cb13": {
+    "dtype": "torch.float16",
+    "rel_move": 0.019670647643676233
+   },
+   "cb2": {
+    "dtype": "torch.float16",
+    "rel_move": 0.020238398107211057
+   },
+   "file": "$MISSION_ROOT/SERVED_AB/pack_patched/layer_033.pt",
+   "tern_lut13": {
+    "dtype": "torch.float32",
+    "rel_move": 0.008456677634637174
+   },
+   "tern_lut2": {
+    "dtype": "torch.float32",
+    "rel_move": 0.00433258213660984
+   }
+  },
+  "41": {
+   "cb13": {
+    "dtype": "torch.float16",
+    "rel_move": 0.01592085768191893
+   },
+   "cb2": {
+    "dtype": "torch.float16",
+    "rel_move": 0.017107114587887058
+   },
+   "file": "$MISSION_ROOT/SERVED_AB/pack_patched/layer_041.pt",
+   "tern_lut13": {
+    "dtype": "torch.float32",
+    "rel_move": 0.016658216226272716
+   },
+   "tern_lut2": {
+    "dtype": "torch.float32",
+    "rel_move": 0.03387044042159064
+   }
+  },
+  "symlinked_untrained_layers": 38
+ },
+ "tool": "lp4_export_repair.py t_880fdca2",
+ "w3_mode": "skip"
+}

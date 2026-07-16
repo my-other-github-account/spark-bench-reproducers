@@ -1,0 +1,4 @@
+run 0: ttft 0.30s, steady decode 10.96 tok/s (113 chunks)
+run 1: ttft 1.77s, steady decode 10.80 tok/s (107 chunks)
+run 2: ttft 0.27s, steady decode 10.86 tok/s (119 chunks)
+MEDIAN steady decode: 10.86 tok/s

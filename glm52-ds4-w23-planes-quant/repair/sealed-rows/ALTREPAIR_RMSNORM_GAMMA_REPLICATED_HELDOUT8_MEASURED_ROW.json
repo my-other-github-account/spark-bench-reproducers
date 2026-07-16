@@ -1,0 +1,41 @@
+{
+  "baseline_mean": 0.056753577664494514,
+  "delta_pct": 13.553120767774956,
+  "effect_floor_label": "ABOVE-FLOOR",
+  "effect_floor_pct": 2.6,
+  "kl_vs_fp8": 0.04906169674359262,
+  "manifest_md5": "5a622d5139e73452b719d5d2cfeb2571",
+  "measurement_label": "MEASURED",
+  "mechanism": "all-43L-RMSNorm-gamma",
+  "n_windows": 8,
+  "repaired_mean": 0.04906169674359262,
+  "replication_arms": [
+    {
+      "arm": "altrepair_rmsnorm_source",
+      "delta_pct": 13.553120767774956,
+      "host": "spark-5",
+      "repaired_mean": 0.04906169674359262
+    },
+    {
+      "arm": "altrepair_rmsnorm_rep1_rot8",
+      "delta_pct": 13.492236213151285,
+      "host": "spark-5",
+      "repaired_mean": 0.04909625090658665
+    }
+  ],
+  "row_id": "ALTREPAIR_RMSNORM_GAMMA_REPLICATED_HELDOUT8_MEASURED",
+  "seal_artifact": "$MISSION_ROOT/BINREPAIR_t_2956f863/out/SEALED_REPAIR_REPLICATION.json",
+  "sealed_at_utc": "2026-07-16T15:16:25.195136+00:00",
+  "variant": "ALTREPAIR_RMSNORM_GAMMA_REPLICATED_HELDOUT8_MEASURED",
+  "window_set": [
+    4,
+    84,
+    160,
+    236,
+    304,
+    373,
+    442,
+    511
+  ],
+  "zero_train_probe_leakage": true
+}

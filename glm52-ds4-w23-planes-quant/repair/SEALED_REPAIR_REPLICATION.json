@@ -1,0 +1,199 @@
+{
+  "baseline_mean": 0.056753577664494514,
+  "faded_not_sealed": [
+    {
+      "arm": "arm3",
+      "best_delta_pct": 3.0163730956474453,
+      "final_delta_pct": 2.5709280507999104,
+      "final_step": 48,
+      "label": "FADED_BELOW_FLOOR_NOT_SEALED"
+    }
+  ],
+  "format": "sealed-repair-replication-v1",
+  "manifest": "5a622d5139e73452b719d5d2cfeb2571",
+  "measurement_label": "MEASURED",
+  "probe_wins": [
+    4,
+    84,
+    160,
+    236,
+    304,
+    373,
+    442,
+    511
+  ],
+  "replication": {
+    "codebook_arms_above_floor": [
+      "arm4",
+      "arm5"
+    ],
+    "floor_pct": 2.6,
+    "orthogonal_altrepair": {
+      "arms_above_floor": [
+        "altrepair_rmsnorm_source",
+        "altrepair_rmsnorm_rep1_rot8"
+      ],
+      "mechanism": "RMSNorm-gamma",
+      "replicate_delta_pct": 13.492236213151285,
+      "source_delta_pct": 13.553120767774956
+    },
+    "verdict": "REPLICATED_ABOVE_FLOOR_HELDOUT_KLD_REPAIR_ZERO_LEAKAGE"
+  },
+  "sealed_arms": [
+    {
+      "above_floor": true,
+      "arm": "arm4",
+      "baseline_mean": 0.056753577664494514,
+      "best_delta_pct": 6.221543530062757,
+      "best_probe_mean": 0.053222629125230014,
+      "checkpoint_md5": "b95edc5680e8bbc42f0f389839f25bdc",
+      "checkpoint_path": "$MISSION_ROOT/BINREPAIR_t_2956f863/out/BINREPAIR_arm4_all43_lr1e2.best.pt",
+      "checkpoint_size": 17018105,
+      "delta_pct": 5.647339768872616,
+      "final_step": 48,
+      "host": "spark-1",
+      "last_observed_panel": {
+        "baseline_mean": 0.056753577664494514,
+        "delta_pct": 5.647339768872616,
+        "repaired_mean": 0.05354851030278951,
+        "step": 48
+      },
+      "lr": 0.01,
+      "manifest": "5a622d5139e73452b719d5d2cfeb2571",
+      "panel_kind": "natural_final",
+      "params": 1409024,
+      "probe_wins": [
+        4,
+        84,
+        160,
+        236,
+        304,
+        373,
+        442,
+        511
+      ],
+      "repaired_mean": 0.05354851030278951,
+      "windows": 16
+    },
+    {
+      "above_floor": true,
+      "arm": "arm5",
+      "baseline_mean": 0.056753577664494514,
+      "best_delta_pct": 5.34126595107312,
+      "best_probe_mean": 0.05372221814468503,
+      "checkpoint_md5": "7b6f8f9ed6d39b28680329444a9dca31",
+      "checkpoint_path": "$MISSION_ROOT/BINREPAIR_t_2956f863/out/BINREPAIR_arm5_all43_64w.best.pt",
+      "checkpoint_size": 17018045,
+      "delta_pct": 5.34126595107312,
+      "final_step": 32,
+      "host": "spark-8",
+      "last_observed_panel": {
+        "baseline_mean": 0.056753577664494514,
+        "delta_pct": 5.34126595107312,
+        "repaired_mean": 0.05372221814468503,
+        "step": 32
+      },
+      "lr": 0.003,
+      "manifest": "5a622d5139e73452b719d5d2cfeb2571",
+      "panel_kind": "current_best_lower_bound_while_96step_run_continues",
+      "params": 1409024,
+      "probe_wins": [
+        4,
+        84,
+        160,
+        236,
+        304,
+        373,
+        442,
+        511
+      ],
+      "repaired_mean": 0.05372221814468503,
+      "windows": 64
+    },
+    {
+      "above_floor": true,
+      "arm": "altrepair_rmsnorm_source",
+      "baseline_mean": 0.056753577664494514,
+      "best_delta_pct": 13.553120767774956,
+      "best_probe_mean": 0.04906169674359262,
+      "checkpoint_md5": "8395dd9099802226f5ce546f0c12dc3c",
+      "checkpoint_path": "$MISSION_ROOT/ALTREPAIR_t_7a65a4c6/out/BINREPAIR_rmsnorm_all_lr1e4_b2.best.pt",
+      "checkpoint_size": 5613650,
+      "delta_pct": 13.553120767774956,
+      "final_step": 24,
+      "host": "spark-5",
+      "last_observed_panel": {
+        "baseline_mean": 0.056753577664494514,
+        "delta_pct": 13.553120767774956,
+        "repaired_mean": 0.04906169674359262,
+        "step": 24
+      },
+      "lr": 0.0001,
+      "manifest": "5a622d5139e73452b719d5d2cfeb2571",
+      "panel_kind": "natural_final",
+      "params": 446080,
+      "probe_wins": [
+        4,
+        84,
+        160,
+        236,
+        304,
+        373,
+        442,
+        511
+      ],
+      "repaired_mean": 0.04906169674359262,
+      "windows": 16
+    },
+    {
+      "above_floor": true,
+      "arm": "altrepair_rmsnorm_rep1_rot8",
+      "baseline_mean": 0.056753577664494514,
+      "best_delta_pct": 13.492236213151285,
+      "best_probe_mean": 0.04909625090658665,
+      "checkpoint_md5": "fc06abe0a36e09de78437909608357f7",
+      "checkpoint_path": "$MISSION_ROOT/ALTREPAIR_t_7a65a4c6/out/BINREPAIR_rmsnorm_all_lr1e4_b2_rep1_rot8.best.pt",
+      "checkpoint_size": 5622480,
+      "delta_pct": 13.492236213151285,
+      "final_step": 16,
+      "host": "spark-5",
+      "last_observed_panel": {
+        "baseline_mean": 0.056753577664494514,
+        "delta_pct": 13.492236213151285,
+        "repaired_mean": 0.04909625090658665,
+        "step": 16
+      },
+      "lr": 0.0001,
+      "manifest": "5a622d5139e73452b719d5d2cfeb2571",
+      "panel_kind": "replication_crossing_best_checkpoint",
+      "params": 446080,
+      "probe_wins": [
+        4,
+        84,
+        160,
+        236,
+        304,
+        373,
+        442,
+        511
+      ],
+      "repaired_mean": 0.04909625090658665,
+      "windows": 16
+    }
+  ],
+  "sealed_at_utc": "2026-07-16T15:16:25.195136+00:00",
+  "sub_floor_zero_not_sealed": [
+    {
+      "arm": "arm4_nuclear",
+      "delta_pct": 0.31,
+      "label": "SUB_FLOOR_ZERO"
+    },
+    {
+      "arm": "arm6",
+      "delta_pct": -0.89,
+      "label": "SUB_FLOOR_ZERO"
+    }
+  ],
+  "train_probe_overlap": [],
+  "zero_train_probe_leakage": true
+}
