@@ -12,7 +12,7 @@
    "kld_anchor": 0.311544
   },
   "w3": {
-   "planes_dir": "/home/banana_bae/missions/DS4_R6/planes_w3v2_e43",
+   "planes_dir": "$MISSION_ROOT/DS4_R6/planes_w3v2_e43",
    "bytes_per_expert": 10223616,
    "kld_anchor": 0.072742,
    "lut": [

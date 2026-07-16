@@ -11,7 +11,7 @@ Three campaign-changing results landed overnight:
 | Result | Number | Status |
 |---|---|---|
 | **e2e-KL existence proof** (L033, frozen 43L stack) | win174 KLD `0.07439668 → ~0.0730695` = **+1.78%** in 10 steps @ lr 3e-3, monotone from step 4 | **PROOF-POSITIVE** (train-window) |
-| **First above-floor KLD delta** (s4 e2e @ lr 1e-2) | win174 **+3.28% @ ~step 13** and climbing | train-window, **above the ±2.6% floor** |
+| **First above-floor KLD delta** (spark-4 e2e @ lr 1e-2) | win174 **+3.28% @ ~step 13** and climbing | train-window, **above the ±2.6% floor** |
 | **k4096 anchor corrected** | `0.247241 → 0.06716` KLD / top1 `0.924427` (512w, 524,288 pos) | **SEALED** — beats W3v2-GPTQ (0.0727) at same 120.1GB |
 | First measured two-bin row (IQ3-bin) | `kl_vs_fp8 0.10052475` @ 94.4G expert / 101.95GB total, 2.927 effective bpw | MEASURED — beats UD-IQ3_XXS (0.1472 @ 103.0GB) while smaller |
 
@@ -21,11 +21,11 @@ Three campaign-changing results landed overnight:
 
 Fable audit `t_a9b0e533` ran a decisive 2×2 overnight:
 
-- **H2 apply-path bug: REFUTED.** Checkpoint apply reproduces trainer numbers bit-exact inside the eval stack (+61.09%); all 5 pilot layers contribute exactly 4 LUTs (stride-4 valid); sibling-corruption check PASS. Poison control on s6: corrupted params exploded KLD `0.0794 → 13.65` (×172) — apply path provably reaches compute.
+- **H2 apply-path bug: REFUTED.** Checkpoint apply reproduces trainer numbers bit-exact inside the eval stack (+61.09%); all 5 pilot layers contribute exactly 4 LUTs (stride-4 valid); sibling-corruption check PASS. Poison control on spark-6: corrupted params exploded KLD `0.0794 → 13.65` (×172) — apply path provably reaches compute.
 - **H1 routing mismatch: textually real, causally refuted.** The V2 trainer used sigmoid+bias/top-8/renorm; the true DS4 router is `sqrtsoftplus(x@gw.T)` scores (NO bias), top-6 selection on `scores + e_score_correction_bias`, unbiased-score weights renormed ×1.5. Yet expert-selection overlap = 0.998 and the repair transfers: **+80% block MSE under the true router** on fit windows; held-out block replay +28-35% on wins 174/321 under both routings.
 - **Therefore:** the failure was **objective composition** — per-layer block-MSE improvements do not compose into full-model KLD (downstream layers are GPTQ-calibrated against the original error pattern). This matches AQLM/EfficientQAT/CBQ literature: block-fit is phase 1 only; the winning recipes end with an end-to-end KL/logits phase over the quant params.
 
-### 2.2 Existence proof (s6, v5 run)
+### 2.2 Existence proof (spark-6, v5 run)
 
 Config: L033 repair params only (4,766), warm-start from +50% block checkpoint, KL(teacher‖student) on ref-top-8192 support, full frozen 43-layer qval student, Adam lr 3e-3, 10 steps, train window 174 (held-out w.r.t. block training), probe 321.
 
@@ -43,18 +43,18 @@ Monotone from step 4, slope accelerating at cutoff. ~700 s/step, 79.2GB peak.
 
 | Host | Run | Config | Latest |
 |---|---|---|---|
-| s6 | **prodmulti flagship** `E2E_PRODMULTI_s6_5L_8w` | ALL 5 pilot layers trainable (23,798 params), 8 train windows (2,3,8,11,14,24,332,380), held-out probes 395/475 every 25 steps, 200 steps @ lr 1e-2, ckpt+Adam saved every step | probe baseline win395 = 0.09499446; stepping |
-| s4 | single-layer L033 @ lr 1e-2 | train win174, probe 321 | **+3.28% @ ~step 13** (train-window; above floor) |
-| s8 | single-layer L033 @ lr 3e-2 | LR-ladder up-arm, 15 steps | +1.91% @ step 1 |
+| spark-6 | **prodmulti flagship** `E2E_PRODMULTI_s6_5L_8w` | ALL 5 pilot layers trainable (23,798 params), 8 train windows (2,3,8,11,14,24,332,380), held-out probes 395/475 every 25 steps, 200 steps @ lr 1e-2, ckpt+Adam saved every step | probe baseline win395 = 0.09499446; stepping |
+| spark-4 | single-layer L033 @ lr 1e-2 | train win174, probe 321 | **+3.28% @ ~step 13** (train-window; above floor) |
+| spark-8 | single-layer L033 @ lr 3e-2 | LR-ladder up-arm, 15 steps | +1.91% @ step 1 |
 
-Success bar (pre-declared): **held-out probe delta > +2.6%** on s6 prodmulti = first genuine generalization win.
+Success bar (pre-declared): **held-out probe delta > +2.6%** on spark-6 prodmulti = first genuine generalization win.
 
 ### 2.4 Supporting arms (technique menu R1-R8)
 
-- s7: R5 saliency-weighted block MSE (L013) — running
-- s2: R6 joint L003+L013 on repaired-prefix inputs — running
-- s3: L023 proper retrain (auto-chained after L013 early-stop; fixes the undertrained state that polluted early joint stacks) — running
-- swork: **e2e speed work dev host** (`t_e683d1df`) — see §4
+- spark-7: R5 saliency-weighted block MSE (L013) — running
+- spark-2: R6 joint L003+L013 on repaired-prefix inputs — running
+- spark-3: L023 proper retrain (auto-chained after L013 early-stop; fixes the undertrained state that polluted early joint stacks) — running
+- spark-5: **e2e speed work dev host** (`t_e683d1df`) — see §4
 
 ### 2.5 Per-layer block training results (context)
 
@@ -68,7 +68,7 @@ Damage-proportional headroom confirmed: repair budget should chase damage rankin
 
 ## 3. k4096 anchor: root cause + corrected row
 
-### 3.1 The bug (RCA card `t_8885886e`, receipts on spark-work)
+### 3.1 The bug (RCA card `t_8885886e`, receipts on spark-5)
 
 The spark-8 k4096 builder's **partial checkpoints persisted codes/scales/done-masks but NOT the CUDA-Lloyd codebooks those codes indexed**. On resume, training continued with re-initialized codebooks: canonical L000 resumed after 80 experts with cb13 hash `39201390→949239e9`; L001 after 176 experts `ff4db964→c8c8fcc3`. Early expert codes were therefore sealed against the wrong final LUT. Clean fixed-builder rebuilds: L000/L001 relRMS 0.139584/0.139250.
 
@@ -85,7 +85,7 @@ The spark-8 k4096 builder's **partial checkpoints persisted codes/scales/done-ma
 
 ## 4. e2e speed workstream (gate for production scale-out)
 
-Current cost: ~700 s/step (1 window, 1024 tok, batch=1, no caching, full-vocab fp32 log_softmax). Card `t_e683d1df` (Fable) on claimed swork:
+Current cost: ~700 s/step (1 window, 1024 tok, batch=1, no caching, full-vocab fp32 log_softmax). Card `t_e683d1df` (Fable) on claimed spark-5:
 
 1. Frozen-prefix activation cache (single-layer arms: L0-32 constant per window → forward only L33..head) — est. ~4×
 2. Window batching 2-4/step (79/119GB peak leaves headroom)
@@ -112,7 +112,7 @@ Interpretation: T1 is close enough that the corrected k4096 backpack and/or smal
 
 ### 5.2 Current two-bin solve status
 
-First measured row landed overnight (s1, `t_ccf41534`):
+First measured row landed overnight (spark-1, `t_ccf41534`):
 
 | Bin | KLD (kl_vs_fp8) | expert GB | total GB | effective bpw | vs community |
 |---|---:|---:|---:|---:|---|
@@ -124,12 +124,12 @@ Caveats: (1) verify the solve ingested the CORRECTED k4096 anchor (it started be
 ## 6. Full workstream TODO + time estimates (as of 06:2x PDT Jul15)
 
 ### W1 — e2e-KL recovery (P0)
-- [ ] s6 prodmulti step-25 held-out probe (wins 395/475) — **~09:00-10:30 PDT Jul15** (~12min/step at 8-window rotation + probe cost)
-- [ ] s4/s8 single-layer arms complete (15 steps) — **~08:00 PDT**; expect train-window +3-6%
+- [ ] spark-6 prodmulti step-25 held-out probe (wins 395/475) — **~09:00-10:30 PDT Jul15** (~12min/step at 8-window rotation + probe cost)
+- [ ] spark-4/spark-8 single-layer arms complete (15 steps) — **~08:00 PDT**; expect train-window +3-6%
 - [ ] Speed work first profile + prefix-cache prototype — **~10:00 PDT**; validated fast path — **afternoon Jul15**
 - [ ] Migrate arms to fast path at checkpoint — same day, free
 - [ ] 200-step prodmulti on fast path (or continued slow) — **held-out verdict Jul15 evening (fast) / Jul16 (slow)**
-- [ ] If held-out probe > +2.6%: scale to more layers (L7-12 banks from s8) + more windows; serving A/B — **Jul16-17**
+- [ ] If held-out probe > +2.6%: scale to more layers (L7-12 banks from spark-8) + more windows; serving A/B — **Jul16-17**
 - [ ] SERVED vLLM A/B KLD delta (the proof bar) — **Jul17+**, needs fast path + vLLM plane export of repaired params (vqA cb fp16 already serveable in current kernel)
 
 ### W2 — two-bin solves (campaign headline)
@@ -149,7 +149,7 @@ Caveats: (1) verify the solve ingested the CORRECTED k4096 anchor (it started be
 - [ ] W3A4/M0 slot-proof testbed (`t_1184ee27` done) — integrate verdict — **as scheduled by driver**
 
 ### W5 — ops/infra
-- [x] Host-claim protocol fleet-wide (stopped the s1 OOM crash loop — root cause was agent job-stacking, not hardware)
+- [x] Host-claim protocol fleet-wide (stopped the spark-1 OOM crash loop — root cause was agent job-stacking, not hardware)
 - [x] Effect-size floor (±2.6%) binding on all KLD claims
 - [ ] July firmware updates s1-s4 (cards ready, unassigned) — **defer until P0 lanes idle; not before held-out verdict**
 - [ ] LP4_PACK/teacher_calib staging completeness per host (teacher files only exist per-assignment; caused two launch failures) — **rolling**
@@ -158,18 +158,18 @@ Caveats: (1) verify the solve ingested the CORRECTED k4096 anchor (it started be
 
 | Spark | Mission | Lane |
 |---|---|---|
-| s1 | two-bin measured re-solve (corrected-anchor check pending) | W2 |
-| s2 | R6 joint repaired-prefix repair | W1 |
-| s3 | L023 retrain chain (fixes undertrained state) | W1 |
-| s4 | e2e L033 lr1e-2 — train-window +3.28%, above floor | W1 |
-| s6 | e2e prodmulti flagship (5L, 8w, held-out probes) | W1 |
-| s7 | R5 saliency-weighted block | W1 |
-| s8 | e2e L033 lr3e-2 up-arm | W1 |
-| swork | e2e speed dev (claimed `t_e683d1df`); also hosted corrected-anchor rail | W1-speed |
+| spark-1 | two-bin measured re-solve (corrected-anchor check pending) | W2 |
+| spark-2 | R6 joint repaired-prefix repair | W1 |
+| spark-3 | L023 retrain chain (fixes undertrained state) | W1 |
+| spark-4 | e2e L033 lr1e-2 — train-window +3.28%, above floor | W1 |
+| spark-6 | e2e prodmulti flagship (5L, 8w, held-out probes) | W1 |
+| spark-7 | R5 saliency-weighted block | W1 |
+| spark-8 | e2e L033 lr3e-2 up-arm | W1 |
+| spark-5 | e2e speed dev (claimed `t_e683d1df`); also hosted corrected-anchor rail | W1-speed |
 
 ## 8. Operational lessons (added tonight)
 
-1. **Agent job-stacking, not hardware:** s1's repeated "wedges" were multiple agents launching 30GB jobs on the same host until unified memory saturated. Fix: `HOST_CLAIM.json` claim protocol + free-mem check before every heavy launch.
+1. **Agent job-stacking, not hardware:** spark-1's repeated "wedges" were multiple agents launching 30GB jobs on the same host until unified memory saturated. Fix: `HOST_CLAIM.json` claim protocol + free-mem check before every heavy launch.
 2. **Effect-size floor:** paired-KLD across-window-set spread is ±2.6%; anything below is ZERO. The floor is binding on all reports.
 3. **Speculative execution doctrine:** when verdict A has known responses for both outcomes and hosts exist, run both branches now; prune on verdict.
 4. **Train-window vs held-out labeling is mandatory** — optimization proof ≠ generalization.

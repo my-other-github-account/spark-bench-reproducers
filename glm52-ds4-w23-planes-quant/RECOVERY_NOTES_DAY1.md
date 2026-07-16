@@ -46,7 +46,7 @@ B3 gate (≥5% block-error improvement on ≥3/5 pilot layers) → B4 e2e polish
    the banked pairs were (x_student, y_student): training the student to match itself.
    Correct design: bank INPUT-side x only; compute y_teacher on the fly from
    mxfp4-dequantized checkpoint experts.
-3. **No-evict banking OOMs or wedges the box** (s7 twice, s4 thrice today — sshd starved
+3. **No-evict banking OOMs or wedges the box** (spark-7 twice, spark-4 thrice today — sshd starved
    by page-cache pressure; cgroup MemoryMax alone does NOT protect the box; add
    MemorySwapMax=0 so the OOM killer takes the process, and even that doesn't stop
    page-cache thrash).
@@ -127,8 +127,8 @@ delta prints is a FLOOR on potential, not an estimate of it.
 
 ## 8. Quant-ladder progress today (parallel, non-recovery)
 
-- **k4096 (3.25bpw iso-byte vq3)**: 43-layer build completing (lane A 22 sealed on s8,
-  lane B on s6 at L041-42); anchor rail staged; measured anchor tonight. Layer relRMS
+- **k4096 (3.25bpw iso-byte vq3)**: 43-layer build completing (lane A 22 sealed on spark-8,
+  lane B on spark-6 at L041-42); anchor rail staged; measured anchor tonight. Layer relRMS
   ~0.139-0.173 vs k8192's ~0.12x → uniform KLD EST 0.065-0.075 (Class-B) — even
   pessimistic end swaps the W3 block at W3v2 bytes.
 - **k2048 (3.0bpw)**: building (SDR gate lesson: the build-fidelity gate compares
@@ -160,7 +160,7 @@ delta prints is a FLOOR on potential, not an estimate of it.
   also does. Verify `is-active` after EVERY systemd-run.
 - July-2026 DGX release (OS 7.5.0 + driver 580.159.03) advertises improved GB10
   unified-memory OOM handling — directly aimed at this wedge class. Fleet audit:
-  s6/swork/s7/s8 already current; s1 (7.2.3!), s3, s2, s4 have update cards gated on
+  spark-6/spark-5/spark-7/spark-8 already current; spark-1 (7.2.3!), spark-3, spark-2, spark-4 have update cards gated on
   natural gaps.
 - Multi-actor process management: kills must be unit-level + sibling sweep + tombstone
   files + code-level poison pills (a killed-but-respawnable job WILL be resurrected by an

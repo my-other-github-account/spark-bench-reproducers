@@ -1,7 +1,7 @@
 # VQ-W2 + TERNARY PILOT — Stage-1 verdict (t_fa2eafed)
 
 Date: 2026-07-12 · Host: spark-3 (GPU pilot), data staged from spark-1 over QSFP fabric
-Mission dir: s3:~/missions/VQ_W2_PILOT · Ledger: out/VQW2_LEDGER.jsonl (36/36 units)
+Mission dir: spark-3:~/missions/VQ_W2_PILOT · Ledger: out/VQW2_LEDGER.jsonl (36/36 units)
 
 ## VERDICT: GATE FAIL — stages 2 (rail) and 3 (kernel) DO NOT proceed.
 
@@ -103,7 +103,7 @@ scalar tiers is a stronger baseline than the papers compare against.
 
 ## Artifacts
 
-s3:~/missions/VQ_W2_PILOT/{vqw2_pilot.py, capacity_control.py, post_analysis.py,
+spark-3:~/missions/VQ_W2_PILOT/{vqw2_pilot.py, capacity_control.py, post_analysis.py,
   out/VQW2_LEDGER.jsonl, out/VQW2_PILOT.json, out/CAPACITY_CONTROL.json,
   out/POST_ANALYSIS.txt, out/TERNARY_LUTS.json, logs/full.log}
 Mirrors: orchestrator-host workspace t_fa2eafed/ + <orchestrator>/clawd/glm5-humming-w3/VQ_W2_PILOT/

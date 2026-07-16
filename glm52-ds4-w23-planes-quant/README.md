@@ -108,12 +108,12 @@ basic-ternary 0% (fully displaced).
 | R8 96G FULL re-solve w/ measured vq3 anchor | ~0.080-0.088 | tonight (the real vq3-in-backpack row) |
 | R8 89.2G (Q2_K_XL-size twin, V1 bin) | ~0.10-0.11 | overnight |
 | R8 95.4G (IQ3_XXS-size twin) | ~0.085-0.09 | overnight |
-| LP4 function-space repair arms (scales/LUT/residual) | arm C step-4 qval tonight | s1 training; v1 was capacity-starved (flat) |
-| tern-lat measured anchor | ~0.74 ±10% | s3 |
-| IQ3_S direct (117.3GB) | ~0.11-0.12 | s6 railing |
-| Q4_K_XL direct rerun (win0-gated) | ~0.05-0.07 | s7 queue |
+| LP4 function-space repair arms (scales/LUT/residual) | arm C step-4 qval tonight | spark-1 training; v1 was capacity-starved (flat) |
+| tern-lat measured anchor | ~0.74 ±10% | spark-3 |
+| IQ3_S direct (117.3GB) | ~0.11-0.12 | spark-6 railing |
+| Q4_K_XL direct rerun (win0-gated) | ~0.05-0.07 | spark-7 queue |
 | vqA-k1024 gap rung (2.5-tier) | ~0.19-0.21 | pilot WON (0.68x vqA weight-space); build on solver demand |
-| QTIP trellis package pilot | ceiling measurement | env ready on s4 |
+| QTIP trellis package pilot | ceiling measurement | env ready on spark-4 |
 | Qwen3.6-35B-A3B-NVFP4 (MoE bar) + Gemma clean rerun | — | queued |
 
 ### Per-projection anchor corrections (fit + validation, Jul 12 late)
@@ -296,7 +296,7 @@ Every pitfall listed cost real wall-clock once.
 
 ## In flight overnight (Jul 12→13)
 
-- vqA anchor: s1 half sealed (interim above), s3 half railing → merged final + p95
+- vqA anchor: spark-1 half sealed (interim above), spark-3 half railing → merged final + p95
 - Basic-ternary uniform anchor: 43-layer builds done (layer-split, ~60s/layer, LUTs
   ≈ ±2.34-2.38 near-symmetric as the bias physics predicts); rail follows vqA on the
   same split rig. Tern-lat 1.63 rung prices off it via the sealed shootout ratio (derived)

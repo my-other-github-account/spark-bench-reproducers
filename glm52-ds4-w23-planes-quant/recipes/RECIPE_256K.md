@@ -73,4 +73,4 @@ gpu_memory_utilization for OOM on unified memory; adjust kv-cache-memory-bytes
 3. YARN: config max_position_embeddings 1,048,576; 262,144 = 4x original
    65,536 — inside envelope, verified empirically coherent at 250K depth.
 4. Owed follow-up: offline KLD rail rows for both mixes (GPU-bound; queued
-   behind UD-IQ ladder on s8 / fullwin capture on s7).
+   behind UD-IQ ladder on spark-8 / fullwin capture on spark-7).

@@ -59,19 +59,19 @@ Linear tier-damage model validated by exact reproduction of the sealed 88 GiB
 solve (counts 5854/5039/115, pred 0.150647, 0/11008 mismatches) AND the built
 90G solve before solving the new arms. e43 scaling factor 0.1415/0.1506
 (measured e43-LUT / predicted at 88G). Offline KLD rail rows for the 94G/96G
-mixes are OWED (GPU-bound; both Spark GPUs occupied at seal time: s8 = UD-IQ
-ladder Banana Bae-HIGH, s7 = returned to peer fullwin capture) — same split as the
+mixes are OWED (GPU-bound; both Spark GPUs occupied at seal time: spark-8 = UD-IQ
+ladder Banana Bae-HIGH, spark-7 = returned to peer fullwin capture) — same split as the
 R6 precedent where the offline row and the serve row were separate cards.
 
 ## Artifacts
 
 - Manifests: R6_MANIFEST_96G.json md5 596001afa9c4660f4fa72e26b174bba9,
   R6_MANIFEST_94G.json md5 808c863b867bfc6ed869af5472044ae1 (campaign dir,
-  workspace, s8:~/missions/DS4_R6/, s7:~/ds4w3/).
-- Planes: s7:~/models/hf/DeepSeek-V4-Flash/planes_r6_{94g,96g} (553 files
+  workspace, spark-8:~/missions/DS4_R6/, spark-7:~/ds4w3/).
+- Planes: spark-7:~/models/hf/DeepSeek-V4-Flash/planes_r6_{94g,96g} (553 files
   each; S8_EXTRACT.md5 + S7_FP4PACK.md5 ledgers inside; spot md5 verified),
-  source of truth also on s8:~/missions/DS4_R6/planes_r6_{94g,96g}.
+  source of truth also on spark-8:~/missions/DS4_R6/planes_r6_{94g,96g}.
 - Probe rows: probe_r6_{94g,96g}_250k.json + _mem.jsonl (campaign dir +
-  workspace + s7:~/missions/DS4_256K/out/).
+  workspace + spark-7:~/missions/DS4_256K/out/).
 - Solver: knapsack_2arm.py (validation chain embedded).
 - Serve script: serve_arm.sh (see RECIPE_256K.md for exact flags).

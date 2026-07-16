@@ -23,7 +23,7 @@ Several operational and script-level faults obscured the signal:
    - The actual repair state carried production names: `cb13`, `cb2`, `lut13`, `lut2`, `w3lut13`, `w3lut2` / `named` parameter maps.
    - Fix: explicitly map repair-state keys into the correct LP4 `TrainableExperts` parameter slots.
 
-2. **Co-resident memory pressure on s4.**
+2. **Co-resident memory pressure on spark-4.**
    - A stale `b2-kldsignal-s4.service` and orphaned `mini_b2.py` processes kept large GPU/unified-memory allocations alive.
    - qval materializes the 43-layer student and streams large LP4 planes; it must run alone.
    - Fix: purge service/auto-resume state and keep qval/training separated by host.
@@ -36,11 +36,11 @@ Several operational and script-level faults obscured the signal:
 
 ### L023 first result
 
-- Host/path: s4 LP4 blockwise/qdelta area.
+- Host/path: spark-4 LP4 blockwise/qdelta area.
 - Result: baseline `0.02498789`, repaired `0.02429762`.
 - Interpretation: real but one-window; use as a go-signal for V2 scaling, not as a final claim.
 
-### s4 2-window follow-up
+### spark-4 2-window follow-up
 
 Sealed at 19:59 PDT:
 
@@ -66,7 +66,7 @@ Banana Bae explicitly asked to start V2 regardless of the 2-window result. The c
 Created and staged:
 
 - `/tmp/mini_b2_v2_realacts.py` locally
-- copied to target hosts as `/home/banana_bae/mini_b2_v2_realacts.py`
+- copied to target hosts as `$HOME/mini_b2_v2_realacts.py`
 
 Design:
 
@@ -82,23 +82,23 @@ Design:
 
 | Host | Layer | What was preempted | Why | Live artifact paths |
 |---|---:|---|---|---|
-| s2 | L003 | `h3.py` | lower-value e4m3 projection diagnostic; V2 real-acts is higher priority after qval-positive signal | log `~/missions/LP4_BLOCKWISE/logs/mini_b2_v2_L003_s2.log`; status/checkpoints `~/missions/LP4_BLOCKWISE/v2/` |
-| s3 | L013 | `ml_repair.py` | random-input/unit diagnostic lower value than real-acts multi-layer V2 | log `~/missions/LP4_BLOCKWISE/logs/mini_b2_v2_L013_s3.log`; status/checkpoints `~/missions/LP4_BLOCKWISE/v2/` |
+| spark-2 | L003 | `h3.py` | lower-value e4m3 projection diagnostic; V2 real-acts is higher priority after qval-positive signal | log `~/missions/LP4_BLOCKWISE/logs/mini_b2_v2_L003_s2.log`; status/checkpoints `~/missions/LP4_BLOCKWISE/v2/` |
+| spark-3 | L013 | `ml_repair.py` | random-input/unit diagnostic lower value than real-acts multi-layer V2 | log `~/missions/LP4_BLOCKWISE/logs/mini_b2_v2_L013_s3.log`; status/checkpoints `~/missions/LP4_BLOCKWISE/v2/` |
 
 Initial validation baselines printed:
 
 | Host | Layer | Init val MSE | Notes |
 |---|---:|---:|---|
-| s2 | L003 | `0.00014030339661985636` | 9 banked act files, 8 train / 1 val |
-| s3 | L013 | `0.0005350670544430614` | 9 banked act files, 8 train / 1 val |
+| spark-2 | L003 | `0.00014030339661985636` | 9 banked act files, 8 train / 1 val |
+| spark-3 | L013 | `0.0005350670544430614` | 9 banked act files, 8 train / 1 val |
 
 First epoch deltas were not sealed at this note timestamp.
 
 ### Duplicate-launch guard
 
-An initial inline SSH launch on s2 created a duplicate trainer risk because process-kill patterns in the same shell command can match the launch command itself. Correction applied:
+An initial inline SSH launch on spark-2 created a duplicate trainer risk because process-kill patterns in the same shell command can match the launch command itself. Correction applied:
 
-- kill any duplicate `/home/banana_bae/mini_b2_v2_realacts.py` processes;
+- kill any duplicate `$HOME/mini_b2_v2_realacts.py` processes;
 - move corrupted/duplicate log aside;
 - relaunch exactly one process;
 - record in `~/missions/LP4_BLOCKWISE/PREEMPTIONS.log`.
@@ -124,23 +124,23 @@ All replacement cards include the no-service rule and explicit acceptance criter
 
 | Spark | Current useful work | Notes |
 |---|---|---|
-| s1 | held clean after rail kill/tombstone | k4096 rail reappeared and was killed; `NO_RELAUNCH_ON_S1.TOMBSTONE` + `POISON_PILL_NO_RAIL_ON_S1.txt`; V2 L033 launch failed on local pack/source mismatch and was handed to Kanban |
-| s2 | V2 real-acts L003 trainer | H3 preempted |
-| s3 | V2 real-acts L013 trainer | `ml_repair.py` preempted |
-| s4 | V2 real-acts L033 trainer | qdelta 2w completed `0.045433610677719116 -> 0.04498082958161831` = `+0.996577400%`; now `mini_b2_v2_L033_s4.log` |
-| s6 | qdelta offset validator | P1 validation |
-| s7 | qdelta offset validator | P1 validation via QSFP path |
-| s8 | B1 L7-L12 activation banking | creates more real-acts layers for V2 |
-| swork | qdelta offset validator completed | off4 2w was negative: `0.04281084053218365 -> 0.04316144995391369` = `-0.818973459%` |
+| spark-1 | held clean after rail kill/tombstone | k4096 rail reappeared and was killed; `NO_RELAUNCH_ON_S1.TOMBSTONE` + `POISON_PILL_NO_RAIL_ON_S1.txt`; V2 L033 launch failed on local pack/source mismatch and was handed to Kanban |
+| spark-2 | V2 real-acts L003 trainer | H3 preempted |
+| spark-3 | V2 real-acts L013 trainer | `ml_repair.py` preempted |
+| spark-4 | V2 real-acts L033 trainer | qdelta 2w completed `0.045433610677719116 -> 0.04498082958161831` = `+0.996577400%`; now `mini_b2_v2_L033_s4.log` |
+| spark-6 | qdelta offset validator | P1 validation |
+| spark-7 | qdelta offset validator | P1 validation via QSFP path |
+| spark-8 | B1 L7-L12 activation banking | creates more real-acts layers for V2 |
+| spark-5 | qdelta offset validator completed | off4 2w was negative: `0.04281084053218365 -> 0.04316144995391369` = `-0.818973459%` |
 
 ## VQ3 k4096 / 3.25bpw status at this note timestamp
 
 Disk-verified facts:
 
-- s8 VQ3 k4096 seal: layers `0..22`, status `partial_preempted`, effective bpw `3.250061` fused13 / `3.250122` down; storage container is int16 but effective accounting counts 12-bit codes.
-- s6 VQ3 k4096 seal: layers `22..42`, status `partial_range_done`, same effective bpw.
+- spark-8 VQ3 k4096 seal: layers `0..22`, status `partial_preempted`, effective bpw `3.250061` fused13 / `3.250122` down; storage container is int16 but effective accounting counts 12-bit codes.
+- spark-6 VQ3 k4096 seal: layers `22..42`, status `partial_range_done`, same effective bpw.
 - Together, the build artifacts cover all 43 layers, with L022 overlapping.
-- s1 rail area has `K4096_RAIL_S1/out_anchor/` with `320` q8192 window outputs durable at the time of inspection.
+- spark-1 rail area has `K4096_RAIL_S1/out_anchor/` with `320` q8192 window outputs durable at the time of inspection.
 - The only scored end-to-end KLD found was the 64-window gate:
 
 | Variant | KLD | top1 | Windows | Positions | Status |
@@ -180,12 +180,12 @@ Rule going forward:
 
 1. Watch L003/L013 first epoch and best checkpoint creation via Kanban card `t_b6a473db`.
 2. Start L033/L041/L023 V2 real-acts trainers when qdelta hosts free or when a lower-value lane can be preempted safely.
-3. When s8 finishes B1 L7-L12 banking, train those layers as a second multi-layer amplifier.
+3. When spark-8 finishes B1 L7-L12 banking, train those layers as a second multi-layer amplifier.
 4. Keep one host clean for paired qdelta; do not co-reside qval and training.
 
 ### qdelta/KLD
 
-1. Treat s4 2-window L023 as completed positive but not sealed; next expand to 4/8-window and independent offsets.
+1. Treat spark-4 2-window L023 as completed positive but not sealed; next expand to 4/8-window and independent offsets.
 2. Build `qdelta_multi_layer.py` to apply multiple V2 checkpoints.
 3. Score single-layer reproducibility first, then L003+L013+L033+L023.
 4. If positive, scale windows and layers; if flat, continue V2 anyway but add LSQ scales / larger parameter coverage / code reassignment.

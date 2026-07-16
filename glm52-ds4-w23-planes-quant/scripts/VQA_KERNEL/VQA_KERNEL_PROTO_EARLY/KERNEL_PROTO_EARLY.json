@@ -4,7 +4,7 @@
  "device": "NVIDIA GB10",
  "torch": "2.11.0+cu130",
  "triton": "3.6.0",
- "planes": "s8 t_426bbc97 stage-2 build (UNCALIBRATED)",
+ "planes": "spark-8 t_426bbc97 stage-2 build (UNCALIBRATED)",
  "layers": [
   3,
   13,
