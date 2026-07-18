@@ -1,0 +1,12 @@
+{
+  "budget_gb": 95.75,
+  "checkpoint_step": 45,
+  "final_step_observed": 47,
+  "full512_status": "pending",
+  "heldout_panel_after": 0.0545097,
+  "heldout_panel_before": 0.0712644,
+  "relative_improvement_percent": 23.5106,
+  "schema": "jul18-q2-train-progress-v1",
+  "status": "training_progress_only",
+  "warning": "This receipt does not claim a full-512 gate result."
+}
