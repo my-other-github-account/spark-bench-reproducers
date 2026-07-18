@@ -816,8 +816,8 @@
   },
   {
     "path": "tools/audit_release.py",
-    "bytes": 3871,
-    "sha256": "e36b236bfb0b51989f39b3b6dc546063888c0e0991959977746c582699dd8703"
+    "bytes": 4678,
+    "sha256": "765dec9101b588008e4391e064c25751556aa7f6fa70a07f6d91623339ce2ed4"
   },
   {
     "path": "tools/update_manifests.py",

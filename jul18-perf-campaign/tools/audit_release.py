@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -57,12 +58,33 @@ def audit_links(path: Path) -> list[str]:
     return errors
 
 
+def audit_git_tracking() -> list[str]:
+    """Ensure an ignored local receipt cannot satisfy a manifest by accident."""
+    try:
+        repo = Path(subprocess.check_output(
+            ["git", "-C", str(ROOT), "rev-parse", "--show-toplevel"],
+            text=True,
+        ).strip())
+        tracked = set(subprocess.check_output(
+            ["git", "-C", str(repo), "ls-files", "-z"],
+        ).decode().split("\0"))
+    except (OSError, subprocess.CalledProcessError):
+        return ["cannot verify git tracking state"]
+
+    errors = []
+    for path in ROOT.rglob("*"):
+        if path.is_file() and str(path.relative_to(repo)) not in tracked:
+            errors.append(f"untracked package file: {path.relative_to(ROOT)}")
+    return errors
+
+
 def main() -> None:
     errors = []
     required = ["DAY.md", "README.md"]
     for name in required:
         if not (ROOT / name).is_file():
             errors.append(f"missing {name}")
+    errors.extend(audit_git_tracking())
 
     for path in ROOT.rglob("*"):
         if not path.is_file() or path.resolve() == Path(__file__).resolve():

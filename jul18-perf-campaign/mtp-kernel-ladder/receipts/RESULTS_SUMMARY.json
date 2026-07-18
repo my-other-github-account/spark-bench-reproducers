@@ -1,0 +1,57 @@
+{
+  "baseline": {
+    "sealed_mtp_k1_median_tok_s": 14.54,
+    "source": "campaign sealed arm-C receipt"
+  },
+  "device": "NVIDIA GB10",
+  "l3_decode_once": {
+    "median_tok_s": 16.029812907589083,
+    "rows_tok_s": [
+      16.126754438612863,
+      15.978748682214329,
+      15.953768220329119,
+      16.129065490739563,
+      16.029812907589083
+    ]
+  },
+  "l3b_packed_rows": {
+    "median_tok_s": 15.933059078277502,
+    "rows_tok_s": [
+      15.675801727678843,
+      16.128347860357472,
+      15.933059078277502,
+      15.869586371047344,
+      16.105499669660325
+    ]
+  },
+  "l3c_coalesced": {
+    "median_tok_s": 17.33665333474265,
+    "rows_tok_s": [
+      17.33665333474265,
+      17.34995898607699,
+      17.468821070690264,
+      17.27972938557197,
+      17.228180082128258
+    ]
+  },
+  "l3d_code_4k_acceptance_per_draft": 0.9495478343645883,
+  "l3d_code_prompt": {
+    "median_tok_s": 17.009650161537024,
+    "rows_tok_s": [
+      16.071959852177866,
+      17.009650161537024,
+      17.191198263744962,
+      17.034289752980058,
+      16.99850283632606
+    ]
+  },
+  "l3d_integer_sequence_best_case_tok_s": 17.650753966808793,
+  "measurement_note": "L3/L3b/L3c used the earlier deterministic continuation prompt. L3d was rebaselined on a code-generation prompt; do not compare those rows as if prompt-identical.",
+  "schema": "jul18-mtp-kernel-ladder-summary-v1",
+  "sustained_4k": {
+    "l3b_clean_4k_stream.json": 15.870414443783215,
+    "l3d_code_4k_stream.json": 16.63221759862324,
+    "l3e_4k_stream.json": 18.094871761737885,
+    "leverB_4k_stream.json": 15.007504570991092
+  }
+}
