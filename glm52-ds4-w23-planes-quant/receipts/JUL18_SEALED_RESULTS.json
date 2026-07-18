@@ -1,0 +1,139 @@
+{
+  "authored_by": "banana_bae",
+  "format": "glm52-ds4-jul18-public-rollup-v1",
+  "quality_rail": {
+    "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+    "positions_per_window": 1024,
+    "windows": 512
+  },
+  "tier_reanchors": [
+    {
+      "backpack_row": false,
+      "checkpoint": {
+        "best_step": 45,
+        "d": 4,
+        "k": 256,
+        "md5": "8c7b563c3ed4639b355cfc6340df413f"
+      },
+      "label": "measured-reanchor/vqa-d4k256-step45",
+      "measurement": {
+        "n_positions": 524288,
+        "n_windows": 512,
+        "rebuilt_anchor_js": 0.0507049453125,
+        "rebuilt_anchor_pooled_kld": 0.283803298828125,
+        "rebuilt_anchor_top1_agree": 0.840135587890625,
+        "relative_recovery_pct": 17.47566703278044,
+        "repaired_js": 0.043282,
+        "repaired_pooled_kld": 0.234206779296875,
+        "repaired_top1_agree": 0.855833
+      },
+      "result_sha256": "99f135c5c939e94789faad9f6d18677f9c01aeb97aa7ae82d87d0b4592a41741",
+      "row_class": "measured_repaired_tier_reanchor",
+      "status": "sealed_complete"
+    },
+    {
+      "backpack_row": false,
+      "checkpoint": {
+        "best_step": 50,
+        "d": 8,
+        "k": 4096,
+        "md5": "298b73ae58fcd7c16d536f4da107111b"
+      },
+      "export_bindings": "43/43",
+      "label": "measured-reanchor/d8-k4096-step50",
+      "measurement": {
+        "effect_floor_pct": 2.6,
+        "floor_label": "ABOVE_FLOOR",
+        "metric": "KL_vs_fp8",
+        "n_positions": 524288,
+        "n_windows": 512,
+        "post_repair_js": 0.089052,
+        "post_repair_kl_vs_fp8": 0.50298688671875,
+        "post_repair_top1_agree": 0.773985,
+        "pre_repair_js": 0.11060721875,
+        "pre_repair_kl_vs_fp8": 0.664967763671875,
+        "pre_repair_top1_agree": 0.739141458984375,
+        "relative_recovery_pct": 24.359207438671216
+      },
+      "not_comparable_to": "d4 KL_vs_teacher rows",
+      "result_md5": "0717ac4fe19665a8b1d2707f4acd1f6a",
+      "result_sha256": "70c68994b20d5cc3189796f48fe4df2bf8ad868f3ae245cf232ef4f907f4243d",
+      "row_class": "measured_repaired_tier_reanchor",
+      "status": "sealed_complete"
+    }
+  ],
+  "toolevalbench": {
+    "mixed_vq_full_row_status": "quality_gated_no_complete_row",
+    "openrouter_reference": {
+      "displayed_final": 86,
+      "mean": 85.4,
+      "population_stddev": 2.2,
+      "trials": 5
+    },
+    "ud_iq3_xxs": {
+      "attempts": 207,
+      "config": {
+        "concurrency": 1,
+        "max_turns": 8,
+        "seed": 42,
+        "temperature": 1.0,
+        "timeout_seconds": 300,
+        "tool_eval_bench_version": "2.1.0"
+      },
+      "final_score_mean": 86.0,
+      "final_score_population_stddev": 0.0,
+      "missing_attempts": 0,
+      "observed_generation_tok_s": 16.0715,
+      "receipt_sha256": "86de62732d8a89d8dfdb6432a61907597fad92257664ef5361658f681ad59111",
+      "scenario_status_agreement_all_trials": true,
+      "status_counts_each": {
+        "fail": 3,
+        "partial": 13,
+        "pass": 53
+      },
+      "trial_points": [
+        119,
+        119,
+        119
+      ],
+      "trial_scores": [
+        86,
+        86,
+        86
+      ],
+      "trials": 3
+    }
+  },
+  "v4_datascale_terminal": {
+    "canonical_checkpoint": {
+      "md5": "18a5a8981685bca0447cd4fa699efe06",
+      "sha256": "fae41d519193269aec4b2221c97a1dc00e0b00d3d66074d917a78489fac2149c",
+      "step": 32
+    },
+    "data_integrity": {
+      "first_known_bad_batch_step": 63,
+      "global_400_window_disjoint_claim": false,
+      "selected_checkpoint_clean_by_construction": true,
+      "selected_train_window_range": [
+        520,
+        647
+      ]
+    },
+    "final_receipt_sha256": "eaa06952344604bbba817cbf2befd642670e6f88995e0cd9366a1bc5eb3a763b",
+    "measurement_scope": {
+      "full_512_rail": "not_measured_for_v4",
+      "panel_role": "training_time_selection8",
+      "windows": 8
+    },
+    "selection_trajectory": {
+      "step0": 0.045747544383630157,
+      "step16": 0.04567869124002755,
+      "step32": 0.04535521334037185,
+      "step32_vs_warm_start_improvement_pct": 0.8576002243274443,
+      "step48": 0.04601215897127986,
+      "step48_vs_step32_regression_pct": 1.4484456857867938
+    },
+    "selection_row_sha256": "7815da2adfd8d10917e296782c07e284fe52672735acace43675e1b2f8a5c48b",
+    "verdict": "killed_on_negative_probe_block_no_relaunch"
+  }
+}

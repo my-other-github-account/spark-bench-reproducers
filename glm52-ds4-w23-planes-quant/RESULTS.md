@@ -1,4 +1,4 @@
-# Results — sealed through 2026-07-17
+# Results — sealed through 2026-07-18
 
 All quality rows are measured unless marked **gate**, **pilot**, **in progress**, or **negative tombstone**. The canonical offline rail is 512 windows × 1,024 scored positions with corpus MD5 `1701920b4ba96dea0b18fe9df0151876`; smaller KL is better. The paired effect-size floor is ±2.6%.
 
@@ -13,22 +13,25 @@ All quality rows are measured unless marked **gate**, **pilot**, **in progress**
 | R4 | Two-tier prerepaired backpack | **0.095608** KL | sealed 512-window row |
 | R4 | Three-tier prerepaired backpack | **0.088607** KL | sealed 64-window gate; full-512 pending |
 | R4 input | d4/k1024 repaired live re-anchor | 0.147352 → **0.126384**, **+14.2296%** | sealed paired 512-window re-anchor; exact rebuilt-anchor identity only |
+| R4 input | VQA d4/k256 step-45 live re-anchor | 0.283803 → **0.234207**, **+17.4757%** | sealed paired 512-window re-anchor; 524,288 positions; not a backpack row |
+| R4 input | d8/k4096 step-50 live re-anchor | 0.664968 → **0.502987** KL_vs_fp8, **+24.3592%** | sealed paired 512-window re-anchor; ABOVE_FLOOR; not comparable to d4 KL_vs_teacher rows |
 | R4 input | d4/k2048 repair | step-10 **−8.6358%** | negative tombstone; retain unrepaired anchor and do not relaunch |
 
 ### Provenance cautions
 
 - COMBO V2 used a disjoint 248-window fine-tuning corpus, but inherited an eval-trained warm start. Its honest label is `disjoint_finetune_corpus=true`, `zero_eval_leakage=false`.
 - The d4/k1024 improvement is valid only against its exact fixed-codebook rebuilt anchor. Transplanting the repaired codebooks onto foreign codes is invalid.
+- The VQA d4/k256 and d8/k4096 rows are repaired-tier re-anchors, not backpack rows. The d8 row uses KL_vs_fp8 and must not be compared numerically with d4 KL_vs_teacher rows.
 - The three-tier R4 number is a 64-window gate, not a full-512 row.
 - GPTQ remains a pilot until the full-bin artifact is sealed.
 
 ## Active follow-ons
 
-### COMBO V4-DATASCALE
+### COMBO V4-DATASCALE — terminal selection-panel result
 
-The pre-contamination panels are improving from the V2 warm start: step 16 added +0.152%, and step 32 reached +0.859% cumulative, with a +0.708% marginal gain from step 16→32. Best held-out panel: 0.045355 versus the V2-basis 0.045748. Training is still in progress; no 512-window claim is made.
+The clean step-32 checkpoint is the terminal selection candidate. On the fixed eight-window selection panel, mean KLD moved from 0.0457475 at warm start to **0.0453552** at step 32 (**+0.8576%**). Step 48 regressed to 0.0460122, **1.4484% worse than step 32**, triggering the negative-block tombstone and no-relaunch disposition.
 
-The live 400-window pool was found to append evaluation aliases after index 767. Panels through step 32 are pre-contamination; later panels require explicit provenance treatment. This caveat remains binding even if the trajectory improves.
+This is a measured **selection8 panel**, not a 512-window rail. The full-512 threshold was not adjudicated. The selected checkpoint consumed only clean training windows 520–647; the known aliased suffix would first have entered at step 63 and was never used by the selected checkpoint.
 
 ### T3EDGE V2 repair
 
@@ -66,13 +69,16 @@ Known limitation: the T=1 decode specialization is not valid for T≥2. Concurre
 
 ## Tool evaluation
 
-- Reference row: OpenRouter score **86**, with provider-pinned configuration retained by the benchmark lane.
+- Reference row: OpenRouter displayed score **86**; its five-trial mean is **85.4 ± 2.2** with 95% CI [83.6, 86.8].
+- UD-IQ3_XXS via llama.cpp sealed **86.0 ± 0.0** across three complete 69-scenario trials (**207/207 attempts**). Every trial scored 119/138 with 53 pass, 13 partial, and 3 fail; all per-scenario statuses and points repeated exactly. Observed generation throughput was about 16.07 tok/s.
 - The exact 14.1345 tok/s endpoint passed TC-01 and TC-02 canaries: 2/2 each, one correct tool call each, non-empty reasoning, all HTTP 200.
-- These canaries are not the full N=1 trial. The public N=1 and 5-trial rows remain pending until their terminal receipts seal.
+- Those mixed-VQ canaries are not a full trial. Its 69×3 attempt remains quality-gated with no authorized complete row; no N=1 or N=5 mixed-VQ result is claimed.
 
 ## Receipts and code
 
 - `receipts/JUL17_SEALED_RESULTS.json` — scrubbed machine-readable rollup.
+- `receipts/JUL18_SEALED_RESULTS.json` — scrubbed tier re-anchor, V4 terminal-panel, and ToolEvalBench rollup.
 - `eval/MMLU500_JUL17.md` — matched MMLU interpretation and receipt hashes.
+- `eval/TOOLEVALBENCH_JUL17.md` — canaries plus the sealed UD-IQ3_XXS N=3 row and mixed-VQ gate status.
 - `serving/TPS_JUL17.md` — throughput protocol, quality attribution, and caveats.
 - `serving/vq-warp-kernel/` — Apache-2.0 CUDA source and build instructions.

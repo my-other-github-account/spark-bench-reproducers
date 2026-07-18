@@ -1,7 +1,14 @@
 # GLM-5.2 753B + DeepSeek-V4-Flash — W2/W3 Expert-Planes Quantization Campaign
 
 **2-Spark (GB10) serving of GLM-5.2 753B + 1-Spark DS4-Flash PoC testbed, with damage-ranked
-dynamic per-expert {ternary…2,3,4}-bit allocation — July 2026. (Updated Jul 15 morning.)**
+**dynamic per-expert {ternary…2,3,4}-bit allocation — July 2026. (Updated Jul 18.)**
+
+> **Jul 18 sealed sync:** paired 512-window tier re-anchors now include VQA d4/k256
+> (**+17.4757%**) and d8/k4096 (**+24.3592% KL_vs_fp8**). COMBO V4-DATASCALE
+> terminated with clean step 32 as the best eight-window selection checkpoint; no V4
+> full-512 claim is made. UD-IQ3_XXS sealed ToolEvalBench **86.0 ± 0.0** over three
+> complete trials (207/207 attempts). See [`RESULTS.md`](RESULTS.md) and the scrubbed
+> [`JUL18_SEALED_RESULTS.json`](receipts/JUL18_SEALED_RESULTS.json).
 
 > **Iteration-kit refresh (Jul 16):** start with [`RESUME.md`](RESUME.md) to relaunch in under
 > an hour and [`LEARNINGS.md`](LEARNINGS.md) before choosing another arm. The reproducible
@@ -57,7 +64,7 @@ directly comparable to GGUF file sizes. Whole-model bpw = totalGB*8/284.6e9.
 |---|---|---|---|---|
 | source (mxfp4-native) = teacher | 0 | 1.0 | ~158 | MMLU-500 0.844 |
 | **VQ3 uniform (d=4/k=8192) 🆕** | **0.0577** | **0.929** | 128.8 | **sealed Jul13 18:30 — beats W3v2-GPTQ by 21%; NOTE: 3.5bpw wire (13-bit indices), +7.7% bytes vs W3v2 3.25** |
-| **VQ3 uniform (d=4/k=4096) CORRECTED 🆕** | **0.06716** | **0.924** | 120.1 | **sealed Jul15 — 3.25bpw iso-byte with W3v2; beats W3v2-GPTQ at IDENTICAL size; broken 0.247 row was a builder resume bug (codes sealed against wrong codebooks), RCA t_8885886e** |
+| **VQ3 uniform (d=4/k=4096) CORRECTED 🆕** | **0.06716** | **0.924** | 120.1 | **sealed Jul15 — 3.25bpw iso-byte with W3v2; beats W3v2-GPTQ at IDENTICAL size; broken 0.247 row was a builder resume bug (codes sealed against wrong codebooks); root cause documented in campaign notes** |
 | VQ3 partial L22-42 probe 🆕 | 0.0641 | 0.925 | ~124 | half-coverage validation row |
 | W3v2 GPTQ | 0.0727 | 0.920 | 120.1 | prior 3-bit champion |
 | W3v2 RTN | 0.0877 | 0.914 | 120.1 | |
