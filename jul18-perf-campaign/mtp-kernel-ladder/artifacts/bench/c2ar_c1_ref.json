@@ -1,0 +1,40 @@
+{
+ "completion_tokens": 256,
+ "decode_s_after_first": 18.44003521799459,
+ "decode_tok_s_after_first": 13.828606994804428,
+ "format": "p3-row-v1",
+ "label": "c2ar_c1_ref",
+ "n_stream_chunks": 257,
+ "output_head": "We need to write a Python module implementing an LRU cache with TTL support, including unit tests. The user wants a complete module with code and tests. We'll produce a single file or two files? Proba",
+ "output_nonempty": true,
+ "request": {
+  "ignore_eos": true,
+  "max_tokens": 256,
+  "messages": [
+   {
+    "content": "Write a Python module that implements an LRU cache with TTL support, unit tests included.",
+    "role": "user"
+   }
+  ],
+  "model": "deepseek-v4-flash-iq3-combo-v4-step32",
+  "stream": true,
+  "stream_options": {
+   "include_usage": true
+  },
+  "temperature": 0.0
+ },
+ "row_accepted_per_draft": null,
+ "row_accepted_total": null,
+ "row_cycle_ms": null,
+ "row_draft_tokens": null,
+ "row_num_drafts": null,
+ "spec_metrics_delta": {},
+ "ttft_s": 0.6928791740065208,
+ "unix": 1784403656.2109196,
+ "usage": {
+  "completion_tokens": 256,
+  "prompt_tokens": 23,
+  "total_tokens": 279
+ },
+ "wall_total_s": 19.137794502006727
+}

@@ -1,0 +1,61 @@
+{
+ "completion_tokens": 64,
+ "decode_s_after_first": 3.706208753006649,
+ "decode_tok_s_after_first": 16.99850283632606,
+ "format": "p3-row-v1",
+ "label": "l3d_code_row5",
+ "n_stream_chunks": 38,
+ "output_head": "We need to write a Python module implementing an LRU cache with TTL support, including unit tests. The user wants a complete module with code and tests. We'll produce a single file or two files? Proba",
+ "output_nonempty": true,
+ "request": {
+  "ignore_eos": true,
+  "max_tokens": 64,
+  "messages": [
+   {
+    "content": "Write a Python module that implements an LRU cache with TTL support, unit tests included.",
+    "role": "user"
+   }
+  ],
+  "model": "deepseek-v4-flash-iq3-combo-v4-step32",
+  "stream": true,
+  "stream_options": {
+   "include_usage": true
+  },
+  "temperature": 0.0
+ },
+ "row_accepted_per_draft": 0.7777777777777778,
+ "row_accepted_total": 28.0,
+ "row_cycle_ms": 104.58437398255094,
+ "row_draft_tokens": 36.0,
+ "row_num_drafts": 36.0,
+ "spec_metrics_delta": {
+  "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\",position=\"0\"}": {
+   "after": 892.0,
+   "before": 864.0,
+   "delta": 28.0
+  },
+  "vllm:spec_decode_num_accepted_tokens_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 892.0,
+   "before": 864.0,
+   "delta": 28.0
+  },
+  "vllm:spec_decode_num_draft_tokens_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 1088.0,
+   "before": 1052.0,
+   "delta": 36.0
+  },
+  "vllm:spec_decode_num_drafts_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 1088.0,
+   "before": 1052.0,
+   "delta": 36.0
+  }
+ },
+ "ttft_s": 0.6408776059979573,
+ "unix": 1784401931.0686722,
+ "usage": {
+  "completion_tokens": 64,
+  "prompt_tokens": 23,
+  "total_tokens": 87
+ },
+ "wall_total_s": 4.350997765999637
+}

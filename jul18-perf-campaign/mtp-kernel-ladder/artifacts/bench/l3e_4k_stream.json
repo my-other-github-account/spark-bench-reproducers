@@ -1,0 +1,61 @@
+{
+ "completion_tokens": 4096,
+ "decode_s_after_first": 226.30721311100933,
+ "decode_tok_s_after_first": 18.094871761737885,
+ "format": "p3-row-v1",
+ "label": "l3e_4k",
+ "n_stream_chunks": 2066,
+ "output_head": "We need to generate an endless comma-separated sequence of positive integers starting at 1. Output only the sequence, no extra text. Continue until the response token limit. So we just output numbers ",
+ "output_nonempty": true,
+ "request": {
+  "ignore_eos": true,
+  "max_tokens": 4096,
+  "messages": [
+   {
+    "content": "Write an endless comma-separated sequence of positive integers starting at 1. Output only the sequence and continue until the response token limit.",
+    "role": "user"
+   }
+  ],
+  "model": "deepseek-v4-flash-iq3-combo-v4-step32",
+  "stream": true,
+  "stream_options": {
+   "include_usage": true
+  },
+  "temperature": 0.0
+ },
+ "row_accepted_per_draft": 0.9844961240310077,
+ "row_accepted_total": 2032.0,
+ "row_cycle_ms": 109.6717429204047,
+ "row_draft_tokens": 2064.0,
+ "row_num_drafts": 2064.0,
+ "spec_metrics_delta": {
+  "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\",position=\"0\"}": {
+   "after": 2638.0,
+   "before": 606.0,
+   "delta": 2032.0
+  },
+  "vllm:spec_decode_num_accepted_tokens_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 2638.0,
+   "before": 606.0,
+   "delta": 2032.0
+  },
+  "vllm:spec_decode_num_draft_tokens_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 2799.0,
+   "before": 735.0,
+   "delta": 2064.0
+  },
+  "vllm:spec_decode_num_drafts_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 2799.0,
+   "before": 735.0,
+   "delta": 2064.0
+  }
+ },
+ "ttft_s": 0.8657208269869443,
+ "unix": 1784400939.6265147,
+ "usage": {
+  "completion_tokens": 4096,
+  "prompt_tokens": 32,
+  "total_tokens": 4128
+ },
+ "wall_total_s": 227.1787681079877
+}

@@ -1,0 +1,61 @@
+{
+ "completion_tokens": 256,
+ "decode_s_after_first": 23.431373580999207,
+ "decode_tok_s_after_first": 10.882844708975265,
+ "format": "p3-row-v1",
+ "label": "l3f_warmup3",
+ "n_stream_chunks": 142,
+ "output_head": "We need to generate an endless comma-separated sequence of positive integers starting at 1. Output only the sequence, no extra text. Continue until the response token limit. So we just output numbers ",
+ "output_nonempty": true,
+ "request": {
+  "ignore_eos": true,
+  "max_tokens": 256,
+  "messages": [
+   {
+    "content": "Write an endless comma-separated sequence of positive integers starting at 1. Output only the sequence and continue until the response token limit.",
+    "role": "user"
+   }
+  ],
+  "model": "deepseek-v4-flash-iq3-combo-v4-step32",
+  "stream": true,
+  "stream_options": {
+   "include_usage": true
+  },
+  "temperature": 0.0
+ },
+ "row_accepted_per_draft": 0.8214285714285714,
+ "row_accepted_total": 115.0,
+ "row_cycle_ms": 167.3669541499943,
+ "row_draft_tokens": 140.0,
+ "row_num_drafts": 140.0,
+ "spec_metrics_delta": {
+  "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\",position=\"0\"}": {
+   "after": 350.0,
+   "before": 235.0,
+   "delta": 115.0
+  },
+  "vllm:spec_decode_num_accepted_tokens_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 350.0,
+   "before": 235.0,
+   "delta": 115.0
+  },
+  "vllm:spec_decode_num_draft_tokens_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 417.0,
+   "before": 277.0,
+   "delta": 140.0
+  },
+  "vllm:spec_decode_num_drafts_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 417.0,
+   "before": 277.0,
+   "delta": 140.0
+  }
+ },
+ "ttft_s": 1.0003699110093294,
+ "unix": 1784401604.7510436,
+ "usage": {
+  "completion_tokens": 256,
+  "prompt_tokens": 32,
+  "total_tokens": 288
+ },
+ "wall_total_s": 24.436463828009437
+}

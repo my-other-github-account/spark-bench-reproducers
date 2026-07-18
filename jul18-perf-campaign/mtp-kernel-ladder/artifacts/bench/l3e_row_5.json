@@ -1,0 +1,61 @@
+{
+ "completion_tokens": 64,
+ "decode_s_after_first": 3.6567994819924934,
+ "decode_tok_s_after_first": 17.228180082128258,
+ "format": "p3-row-v1",
+ "label": "l3e_row_5",
+ "n_stream_chunks": 37,
+ "output_head": "We need to generate an endless comma-separated sequence of positive integers starting at 1. Output only the sequence, no extra text. Continue until the response token limit. So we just output numbers ",
+ "output_nonempty": true,
+ "request": {
+  "ignore_eos": true,
+  "max_tokens": 64,
+  "messages": [
+   {
+    "content": "Write an endless comma-separated sequence of positive integers starting at 1. Output only the sequence and continue until the response token limit.",
+    "role": "user"
+   }
+  ],
+  "model": "deepseek-v4-flash-iq3-combo-v4-step32",
+  "stream": true,
+  "stream_options": {
+   "include_usage": true
+  },
+  "temperature": 0.0
+ },
+ "row_accepted_per_draft": 0.8285714285714286,
+ "row_accepted_total": 29.0,
+ "row_cycle_ms": 106.13839766327418,
+ "row_draft_tokens": 35.0,
+ "row_num_drafts": 35.0,
+ "spec_metrics_delta": {
+  "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\",position=\"0\"}": {
+   "after": 606.0,
+   "before": 577.0,
+   "delta": 29.0
+  },
+  "vllm:spec_decode_num_accepted_tokens_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 606.0,
+   "before": 577.0,
+   "delta": 29.0
+  },
+  "vllm:spec_decode_num_draft_tokens_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 735.0,
+   "before": 700.0,
+   "delta": 35.0
+  },
+  "vllm:spec_decode_num_drafts_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 735.0,
+   "before": 700.0,
+   "delta": 35.0
+  }
+ },
+ "ttft_s": 0.8657323390070815,
+ "unix": 1784400698.4760754,
+ "usage": {
+  "completion_tokens": 64,
+  "prompt_tokens": 32,
+  "total_tokens": 96
+ },
+ "wall_total_s": 4.528293644005316
+}

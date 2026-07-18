@@ -1,0 +1,3 @@
+GOLDEN PREFLIGHT FAIL:
+ - MODEL: full checkpoint in cmdline — golden stack uses *trim-physical* for AR (full ckpt only needed for MTP)
+ - ENV VLLM_MOE_VQ_CUDA_WARP_MAX_M set (bisection leftover — must be unset)

@@ -1,0 +1,25 @@
+{
+ "format": "c2-bench-v1",
+ "label": "c2_round2",
+ "n": 2,
+ "max_tokens": 256,
+ "prompt": "Write a Python module that implements an LRU cache with TTL support, unit tests included.",
+ "agg_wall_s": 25.746925180996186,
+ "total_completion_tokens": 512,
+ "agg_tok_s_wall": 19.885869726219088,
+ "agg_tok_s_after_first": 119.85683575261545,
+ "per_request": [
+  {
+   "idx": 0,
+   "completion_tokens": 256,
+   "decode_tok_s_after_first": 59.81281476879048,
+   "chunks": 43
+  },
+  {
+   "idx": 1,
+   "completion_tokens": 256,
+   "decode_tok_s_after_first": 9.931733314611792,
+   "chunks": 0
+  }
+ ]
+}

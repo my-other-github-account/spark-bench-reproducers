@@ -1,0 +1,61 @@
+{
+ "completion_tokens": 256,
+ "decode_s_after_first": 27.394919326005038,
+ "decode_tok_s_after_first": 9.30829534357991,
+ "format": "p3-row-v1",
+ "label": "l3f_warmup2",
+ "n_stream_chunks": 140,
+ "output_head": "We need to generate an endless comma-separated sequence of positive integers starting at 1. The response token limit will stop it. So just output \"1,2,3,4,...\" as many as possible. Since it's a text r",
+ "output_nonempty": true,
+ "request": {
+  "ignore_eos": true,
+  "max_tokens": 256,
+  "messages": [
+   {
+    "content": "Write an endless comma-separated sequence of positive integers starting at 1. Output only the sequence and continue until the response token limit.",
+    "role": "user"
+   }
+  ],
+  "model": "deepseek-v4-flash-iq3-combo-v4-step32",
+  "stream": true,
+  "stream_options": {
+   "include_usage": true
+  },
+  "temperature": 0.0
+ },
+ "row_accepted_per_draft": 0.855072463768116,
+ "row_accepted_total": 118.0,
+ "row_cycle_ms": 199.29239407380763,
+ "row_draft_tokens": 138.0,
+ "row_num_drafts": 138.0,
+ "spec_metrics_delta": {
+  "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\",position=\"0\"}": {
+   "after": 235.0,
+   "before": 117.0,
+   "delta": 118.0
+  },
+  "vllm:spec_decode_num_accepted_tokens_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 235.0,
+   "before": 117.0,
+   "delta": 118.0
+  },
+  "vllm:spec_decode_num_draft_tokens_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 277.0,
+   "before": 139.0,
+   "delta": 138.0
+  },
+  "vllm:spec_decode_num_drafts_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 277.0,
+   "before": 139.0,
+   "delta": 138.0
+  }
+ },
+ "ttft_s": 2.3609628260019235,
+ "unix": 1784401580.2520769,
+ "usage": {
+  "completion_tokens": 256,
+  "prompt_tokens": 32,
+  "total_tokens": 288
+ },
+ "wall_total_s": 29.77663401400787
+}

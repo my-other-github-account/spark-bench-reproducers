@@ -1,0 +1,66 @@
+{
+ "completion_tokens": 64,
+ "decode_s_after_first": 4.288300786007312,
+ "decode_tok_s_after_first": 14.691133654982517,
+ "format": "p3-row-v1",
+ "label": "l3c_row_5",
+ "n_stream_chunks": 28,
+ "output_head": "We need to generate an endless comma-separated sequence of positive integers starting at 1. The output should only be the sequence, no extra text. Since the response token limit is finite, we need to ",
+ "output_nonempty": true,
+ "request": {
+  "ignore_eos": true,
+  "max_tokens": 64,
+  "messages": [
+   {
+    "content": "Write an endless comma-separated sequence of positive integers starting at 1. Output only the sequence and continue until the response token limit.",
+    "role": "user"
+   }
+  ],
+  "model": "deepseek-v4-flash-iq3-combo-v4-step32",
+  "stream": true,
+  "stream_options": {
+   "include_usage": true
+  },
+  "temperature": 0.0
+ },
+ "row_accepted_per_draft": 1.4230769230769231,
+ "row_accepted_total": 37.0,
+ "row_cycle_ms": 164.93464561566586,
+ "row_draft_tokens": 52.0,
+ "row_num_drafts": 26.0,
+ "spec_metrics_delta": {
+  "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\",position=\"0\"}": {
+   "after": 471.0,
+   "before": 451.0,
+   "delta": 20.0
+  },
+  "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\",position=\"1\"}": {
+   "after": 294.0,
+   "before": 277.0,
+   "delta": 17.0
+  },
+  "vllm:spec_decode_num_accepted_tokens_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 765.0,
+   "before": 728.0,
+   "delta": 37.0
+  },
+  "vllm:spec_decode_num_draft_tokens_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 1148.0,
+   "before": 1096.0,
+   "delta": 52.0
+  },
+  "vllm:spec_decode_num_drafts_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 574.0,
+   "before": 548.0,
+   "delta": 26.0
+  }
+ },
+ "ttft_s": 1.122646789997816,
+ "unix": 1784398500.3093266,
+ "usage": {
+  "completion_tokens": 64,
+  "prompt_tokens": 32,
+  "total_tokens": 96
+ },
+ "wall_total_s": 5.417381820996525
+}

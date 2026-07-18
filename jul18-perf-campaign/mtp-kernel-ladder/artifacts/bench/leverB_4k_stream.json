@@ -1,0 +1,61 @@
+{
+ "completion_tokens": 4096,
+ "decode_s_after_first": 272.8634851070092,
+ "decode_tok_s_after_first": 15.007504570991092,
+ "format": "p3-row-v1",
+ "label": "leverB_4k_stream",
+ "n_stream_chunks": 2073,
+ "output_head": "We need to generate an endless comma-separated sequence of positive integers starting at 1. The output should only be the sequence, no extra text. Since the response token limit is finite, we need to ",
+ "output_nonempty": true,
+ "request": {
+  "ignore_eos": true,
+  "max_tokens": 4096,
+  "messages": [
+   {
+    "content": "Write an endless comma-separated sequence of positive integers starting at 1. Output only the sequence and continue until the response token limit.",
+    "role": "user"
+   }
+  ],
+  "model": "deepseek-v4-flash-iq3-combo-v4-step32",
+  "stream": true,
+  "stream_options": {
+   "include_usage": true
+  },
+  "temperature": 0.0
+ },
+ "row_accepted_per_draft": 0.9773056494447127,
+ "row_accepted_total": 2024.0,
+ "row_cycle_ms": 131.75445925012514,
+ "row_draft_tokens": 2071.0,
+ "row_num_drafts": 2071.0,
+ "spec_metrics_delta": {
+  "vllm:spec_decode_num_accepted_tokens_per_pos_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\",position=\"0\"}": {
+   "after": 2521.0,
+   "before": 497.0,
+   "delta": 2024.0
+  },
+  "vllm:spec_decode_num_accepted_tokens_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 2521.0,
+   "before": 497.0,
+   "delta": 2024.0
+  },
+  "vllm:spec_decode_num_draft_tokens_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 2654.0,
+   "before": 583.0,
+   "delta": 2071.0
+  },
+  "vllm:spec_decode_num_drafts_total{engine=\"0\",model_name=\"deepseek-v4-flash-iq3-combo-v4-step32\"}": {
+   "after": 2654.0,
+   "before": 583.0,
+   "delta": 2071.0
+  }
+ },
+ "ttft_s": 0.9449950079870177,
+ "unix": 1784396338.8119984,
+ "usage": {
+  "completion_tokens": 4096,
+  "prompt_tokens": 32,
+  "total_tokens": 4128
+ },
+ "wall_total_s": 273.84381858199777
+}
