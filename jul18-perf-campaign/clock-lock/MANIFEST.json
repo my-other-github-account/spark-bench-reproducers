@@ -1,0 +1,17 @@
+[
+  {
+    "path": "README.md",
+    "bytes": 1712,
+    "sha256": "a7480003c8c8f88322922b730233b14588fd0d8e01336f15ef45e00559131eae"
+  },
+  {
+    "path": "lock_clock.sh",
+    "bytes": 230,
+    "sha256": "56cae140cec724725d71503a93bad4c35d81d29d79109f16e6d7b6305f118169"
+  },
+  {
+    "path": "receipts/CLOCK_LOCK_RECEIPT.json",
+    "bytes": 704,
+    "sha256": "a1ebdb983cab32b83e9f7c112dd6d22d4e597d89812c7776579ae52d3e1f5892"
+  }
+]

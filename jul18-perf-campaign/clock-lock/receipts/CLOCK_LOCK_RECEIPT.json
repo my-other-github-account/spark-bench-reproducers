@@ -1,0 +1,25 @@
+{
+  "baseline_clock_mhz": 2496,
+  "device": "NVIDIA GB10",
+  "fleet_audit": {
+    "cpu_governor": "performance",
+    "offline_nodes": 1,
+    "reachable_nodes": 7,
+    "reachable_prelock_sm_clock_mhz_range": [
+      2437,
+      2541
+    ],
+    "setter_accepted_nodes": 7
+  },
+  "measured_rows": {
+    "parallel_c2_tok_s": 19.625,
+    "parallel_c4_tok_s": 29.257,
+    "single_c1_tok_s": 12.571
+  },
+  "method": "sudo nvidia-smi -lgc 3003,3003",
+  "no_reboot": true,
+  "note": "Clock lock was applied in-place and persisted across the measured service session.",
+  "schema": "jul18-clock-lock-receipt-v1",
+  "sm_clock_mhz": 3003,
+  "verification": "nvidia-smi --query-gpu=clocks.sm --format=csv,noheader"
+}
