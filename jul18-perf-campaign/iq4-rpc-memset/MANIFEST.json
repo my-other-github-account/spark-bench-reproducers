@@ -1,0 +1,57 @@
+[
+  {
+    "path": "README.md",
+    "bytes": 3746,
+    "sha256": "af82bb5f8f07b4d7fceef2e2998981a1843ed124bd4d7f7ef09284be4129c21c"
+  },
+  {
+    "path": "UPSTREAM.md",
+    "bytes": 1267,
+    "sha256": "a679cff901baeb501852a3386914a1e85b4a5f396129b354cf3f25316d9a9469"
+  },
+  {
+    "path": "bench/measure_fast_config.py",
+    "bytes": 4727,
+    "sha256": "e4a6c0fa556575c3c93813f8fca61f583545257f5a4f1959c34eb1bf836b14d4"
+  },
+  {
+    "path": "patches/0001-rpc-memset-tensor.patch",
+    "bytes": 1802,
+    "sha256": "96f0876d66b95def5f1c97759ff8959281eed04ad079f244ed946dd959113894"
+  },
+  {
+    "path": "receipts/BUILD_RECEIPT.json",
+    "bytes": 632,
+    "sha256": "252767284ceeaeb2ece819637a5f5811f33c7d61e7f4c2b7181815f71c686118"
+  },
+  {
+    "path": "receipts/FAST_CONFIG_THROUGHPUT.json",
+    "bytes": 38341,
+    "sha256": "5c34dfc392f56d2905dd1c3366063ba167c9f461b96b1a999ff8bca0d4e6fe87"
+  },
+  {
+    "path": "receipts/PATCHED_RPC_NP1_VS_NP4.json",
+    "bytes": 397,
+    "sha256": "9751b48042d1753ccc74dc8db37133448ad9336e3500846db959291a20141ed0"
+  },
+  {
+    "path": "receipts/PATCHED_RPC_TRANSITION_STATE.json",
+    "bytes": 863,
+    "sha256": "3d4223dff2c409bef3a0be423df1d349e5271d14ccf20c57af6adf613ac52a20"
+  },
+  {
+    "path": "scripts/build.sh",
+    "bytes": 613,
+    "sha256": "10c5190d063773133b81c25420a16528ef2332f559c83aff22250f378627648e"
+  },
+  {
+    "path": "scripts/launch_head.sh",
+    "bytes": 857,
+    "sha256": "e813818833cf06f5688a4a1e445863256f097d6baa74cc0b3283a9621393fd36"
+  },
+  {
+    "path": "scripts/launch_rpc.sh",
+    "bytes": 338,
+    "sha256": "5958dd0d8e9d30638527917946afb6aa117db05fd4f8f1e46c516d21c5a28bc7"
+  }
+]

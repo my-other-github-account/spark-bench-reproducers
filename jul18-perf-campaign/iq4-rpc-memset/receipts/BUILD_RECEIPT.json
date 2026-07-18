@@ -1,0 +1,19 @@
+{
+  "architecture": "aarch64 / SM121a",
+  "build_rc": 0,
+  "cmake": {
+    "BUILD_SHARED_LIBS": true,
+    "CMAKE_BUILD_TYPE": "Release",
+    "GGML_CUDA": true,
+    "GGML_RPC": true,
+    "LLAMA_BUILD_SERVER": true
+  },
+  "compiler": "GNU 13.3.0",
+  "cuda": "13.0.88",
+  "llama_cpp_parent": "f6f12e43fa869ef0e008b99ed97dc4006bbb8907",
+  "patched_head": "4330479491f7e84d767fb292b6ffc7bbb2fd48ce",
+  "patched_source_sha256": "67f78c99c7381b5dfdfdaa5b80757f444ada094f3577d1c2f9272f4b88e9c019",
+  "schema": "jul18-llama-rpc-memset-build-v1",
+  "upstream_patch_commit": "d1549b0e1f22f84b655d7323f5ca36638bafd95c",
+  "upstream_pr": 13601
+}

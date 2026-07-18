@@ -1,0 +1,17 @@
+{
+  "active_client_protocol": "parallel=2 timeout=3600 N=3 whole trials; pinned f6f12e43f host-KV serve",
+  "client_pid": 61908,
+  "finalizer_cron": "paused",
+  "old_migration_watcher_pid": 41137,
+  "old_migration_watcher_stopped": true,
+  "patch_pr": 13601,
+  "patch_source_commit": "d1549b0e1f22f84b655d7323f5ca36638bafd95c",
+  "patched_build_commit": "4330479491f7e84d767fb292b6ffc7bbb2fd48ce",
+  "patched_parent": "f6f12e43fa869ef0e008b99ed97dc4006bbb8907",
+  "patched_promotion_receipt": "runs/PATCHED_RPC_PROMOTION_REJECT.json",
+  "schema": "iq4xs-patched-rpc-transition-v1",
+  "service_supervision": "none; /tmp server/client launchers with PID/log files; Hermes tracked client session proc_5557439dae54",
+  "state": "PATCH_REJECTED_PINNED_HOST_KV_N3_BACKGROUND_LIVE",
+  "task_id": "<source-task>",
+  "updated_at_utc": "2026-07-18T19:01:17.940062+00:00"
+}

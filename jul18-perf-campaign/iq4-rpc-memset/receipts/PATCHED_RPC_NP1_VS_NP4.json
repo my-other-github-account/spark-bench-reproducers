@@ -1,0 +1,9 @@
+{
+  "captured_at_utc": "2026-07-18T18:48:54.510575+00:00",
+  "exact_generated_payload_match": true,
+  "np1_payload_sha256": "ea76fc41fcb80478c9a70a25361bb5181cb1a2ae804bce279459582279efda7d",
+  "np1_tok_s": 12.64761945716101,
+  "np4_payload_sha256": "ea76fc41fcb80478c9a70a25361bb5181cb1a2ae804bce279459582279efda7d",
+  "np4_tok_s": 12.769013180335016,
+  "schema": "iq4xs-patched-np1-vs-np4-v1"
+}

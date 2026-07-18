@@ -1,0 +1,1000 @@
+{
+  "schema": "iq4xs-fast-config-throughput-v1",
+  "captured_at_utc": "2026-07-18T19:23:40.912641+00:00",
+  "endpoint": "http://<private-ip>:8356",
+  "health": {
+    "status": "ok"
+  },
+  "request_shape": {
+    "max_tokens": 64,
+    "temperature": 0,
+    "seed": 42,
+    "prompt": "Write a detailed numbered list of practical ways to validate a distributed inference server. Continue until the token limit; do not conclude early."
+  },
+  "warmup_excluded": {
+    "request_id": "warmup-excluded",
+    "wall_seconds": 7.2309733750000005,
+    "completion_tokens": 64,
+    "predicted_n": 64,
+    "server_predicted_tok_s": 12.396753445232113,
+    "server_prompt_tok_s": 17.114740069885187,
+    "finish_reason": "length",
+    "nonempty": true,
+    "response": {
+      "choices": [
+        {
+          "finish_reason": "length",
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "",
+            "reasoning_content": "We need to write a detailed numbered list of practical ways to validate a distributed inference server. The user wants to continue until the token limit, not conclude early. So we need to generate many items, each with sufficient detail. The topic is validation of a distributed inference server, which involves testing correctness, performance, scalability,"
+          }
+        }
+      ],
+      "created": 1784402557,
+      "model": "deepseek-v4-flash-ud-iq4-xs",
+      "system_fingerprint": "b2-4330479",
+      "object": "chat.completion",
+      "usage": {
+        "completion_tokens": 64,
+        "prompt_tokens": 30,
+        "total_tokens": 94,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "id": "chatcmpl-JLCJyrNT3jhLqs6JBSlSkIzevmIFNGNV",
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 30,
+        "prompt_ms": 1752.875,
+        "prompt_per_token_ms": 58.42916666666667,
+        "prompt_per_second": 17.114740069885187,
+        "predicted_n": 64,
+        "predicted_ms": 5162.642,
+        "predicted_per_token_ms": 80.66628125,
+        "predicted_per_second": 12.396753445232113
+      }
+    }
+  },
+  "single_5x64": {
+    "label": "single-5x64",
+    "concurrency": 1,
+    "request_count": 5,
+    "batch_wall_seconds": 26.432219959,
+    "total_predicted_tokens": 320,
+    "aggregate_predicted_tok_s": 12.106436784211235,
+    "nonempty_count": 5,
+    "rows": [
+      {
+        "request_id": "single-5x64-1",
+        "wall_seconds": 5.359262290999999,
+        "completion_tokens": 64,
+        "predicted_n": 64,
+        "server_predicted_tok_s": 12.570631234247427,
+        "server_prompt_tok_s": 25.01641702367178,
+        "finish_reason": "length",
+        "nonempty": true,
+        "response": {
+          "choices": [
+            {
+              "finish_reason": "length",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "We need to write a detailed numbered list of practical ways to validate a distributed inference server. The user wants to continue until the token limit, not conclude early. So we need to generate many items, each with sufficient detail. The topic is validation of a distributed inference server, which involves testing correctness, performance, scalability,"
+              }
+            }
+          ],
+          "created": 1784402562,
+          "model": "deepseek-v4-flash-ud-iq4-xs",
+          "system_fingerprint": "b2-4330479",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 64,
+            "prompt_tokens": 30,
+            "total_tokens": 94,
+            "prompt_tokens_details": {
+              "cached_tokens": 26
+            }
+          },
+          "id": "chatcmpl-cvGqBemM90b5gi1lCP44HBFRY6W6lI89",
+          "timings": {
+            "cache_n": 26,
+            "prompt_n": 4,
+            "prompt_ms": 159.895,
+            "prompt_per_token_ms": 39.97375,
+            "prompt_per_second": 25.01641702367178,
+            "predicted_n": 64,
+            "predicted_ms": 5091.232,
+            "predicted_per_token_ms": 79.5505,
+            "predicted_per_second": 12.570631234247427
+          }
+        }
+      },
+      {
+        "request_id": "single-5x64-2",
+        "wall_seconds": 5.264454958,
+        "completion_tokens": 64,
+        "predicted_n": 64,
+        "server_predicted_tok_s": 12.579548445315229,
+        "server_prompt_tok_s": 25.414736735095843,
+        "finish_reason": "length",
+        "nonempty": true,
+        "response": {
+          "choices": [
+            {
+              "finish_reason": "length",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "We need to write a detailed numbered list of practical ways to validate a distributed inference server. The user wants to continue until the token limit, not conclude early. So we need to generate many items, each with sufficient detail. The topic is validation of a distributed inference server, which involves testing correctness, performance, scalability,"
+              }
+            }
+          ],
+          "created": 1784402568,
+          "model": "deepseek-v4-flash-ud-iq4-xs",
+          "system_fingerprint": "b2-4330479",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 64,
+            "prompt_tokens": 30,
+            "total_tokens": 94,
+            "prompt_tokens_details": {
+              "cached_tokens": 26
+            }
+          },
+          "id": "chatcmpl-EiLW0R275SBfSi9H6V53JJ26OLbbSaHs",
+          "timings": {
+            "cache_n": 26,
+            "prompt_n": 4,
+            "prompt_ms": 157.389,
+            "prompt_per_token_ms": 39.34725,
+            "prompt_per_second": 25.414736735095843,
+            "predicted_n": 64,
+            "predicted_ms": 5087.623,
+            "predicted_per_token_ms": 79.494109375,
+            "predicted_per_second": 12.579548445315229
+          }
+        }
+      },
+      {
+        "request_id": "single-5x64-3",
+        "wall_seconds": 5.26697175,
+        "completion_tokens": 64,
+        "predicted_n": 64,
+        "server_predicted_tok_s": 12.56455037756474,
+        "server_prompt_tok_s": 25.912441858958577,
+        "finish_reason": "length",
+        "nonempty": true,
+        "response": {
+          "choices": [
+            {
+              "finish_reason": "length",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "We need to write a detailed numbered list of practical ways to validate a distributed inference server. The user wants to continue until the token limit, not conclude early. So we need to generate many items, each with sufficient detail. The topic is validation of a distributed inference server, which involves testing correctness, performance, scalability,"
+              }
+            }
+          ],
+          "created": 1784402573,
+          "model": "deepseek-v4-flash-ud-iq4-xs",
+          "system_fingerprint": "b2-4330479",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 64,
+            "prompt_tokens": 30,
+            "total_tokens": 94,
+            "prompt_tokens_details": {
+              "cached_tokens": 26
+            }
+          },
+          "id": "chatcmpl-M2i0OOsbvjkKvjQG4QGRj5V4ooUjt5Et",
+          "timings": {
+            "cache_n": 26,
+            "prompt_n": 4,
+            "prompt_ms": 154.366,
+            "prompt_per_token_ms": 38.5915,
+            "prompt_per_second": 25.912441858958577,
+            "predicted_n": 64,
+            "predicted_ms": 5093.696,
+            "predicted_per_token_ms": 79.589,
+            "predicted_per_second": 12.56455037756474
+          }
+        }
+      },
+      {
+        "request_id": "single-5x64-4",
+        "wall_seconds": 5.279555375000001,
+        "completion_tokens": 64,
+        "predicted_n": 64,
+        "server_predicted_tok_s": 12.559106293996118,
+        "server_prompt_tok_s": 26.00847876407709,
+        "finish_reason": "length",
+        "nonempty": true,
+        "response": {
+          "choices": [
+            {
+              "finish_reason": "length",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "We need to write a detailed numbered list of practical ways to validate a distributed inference server. The user wants to continue until the token limit, not conclude early. So we need to generate many items, each with sufficient detail. The topic is validation of a distributed inference server, which involves testing correctness, performance, scalability,"
+              }
+            }
+          ],
+          "created": 1784402578,
+          "model": "deepseek-v4-flash-ud-iq4-xs",
+          "system_fingerprint": "b2-4330479",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 64,
+            "prompt_tokens": 30,
+            "total_tokens": 94,
+            "prompt_tokens_details": {
+              "cached_tokens": 26
+            }
+          },
+          "id": "chatcmpl-Oo4NQUFmD3ytCWDdBtt6tjxj3YhsOQmK",
+          "timings": {
+            "cache_n": 26,
+            "prompt_n": 4,
+            "prompt_ms": 153.796,
+            "prompt_per_token_ms": 38.449,
+            "prompt_per_second": 26.00847876407709,
+            "predicted_n": 64,
+            "predicted_ms": 5095.904,
+            "predicted_per_token_ms": 79.6235,
+            "predicted_per_second": 12.559106293996118
+          }
+        }
+      },
+      {
+        "request_id": "single-5x64-5",
+        "wall_seconds": 5.255261041000001,
+        "completion_tokens": 64,
+        "predicted_n": 64,
+        "server_predicted_tok_s": 12.590897921852624,
+        "server_prompt_tok_s": 25.9299114493524,
+        "finish_reason": "length",
+        "nonempty": true,
+        "response": {
+          "choices": [
+            {
+              "finish_reason": "length",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "We need to write a detailed numbered list of practical ways to validate a distributed inference server. The user wants to continue until the token limit, not conclude early. So we need to generate many items, each with sufficient detail. The topic is validation of a distributed inference server, which involves testing correctness, performance, scalability,"
+              }
+            }
+          ],
+          "created": 1784402583,
+          "model": "deepseek-v4-flash-ud-iq4-xs",
+          "system_fingerprint": "b2-4330479",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 64,
+            "prompt_tokens": 30,
+            "total_tokens": 94,
+            "prompt_tokens_details": {
+              "cached_tokens": 26
+            }
+          },
+          "id": "chatcmpl-Rd7qhY0Q2QLLxMaExGqQVffUG0lDcCxJ",
+          "timings": {
+            "cache_n": 26,
+            "prompt_n": 4,
+            "prompt_ms": 154.262,
+            "prompt_per_token_ms": 38.5655,
+            "prompt_per_second": 25.9299114493524,
+            "predicted_n": 64,
+            "predicted_ms": 5083.037,
+            "predicted_per_token_ms": 79.422453125,
+            "predicted_per_second": 12.590897921852624
+          }
+        }
+      }
+    ]
+  },
+  "single_server_predicted_tok_s": {
+    "values": [
+      12.570631234247427,
+      12.579548445315229,
+      12.56455037756474,
+      12.559106293996118,
+      12.590897921852624
+    ],
+    "mean": 12.572946854595227,
+    "median": 12.570631234247427,
+    "min": 12.559106293996118,
+    "max": 12.590897921852624
+  },
+  "parallel2": {
+    "label": "parallel2-6x64",
+    "concurrency": 2,
+    "request_count": 6,
+    "batch_wall_seconds": 19.566862874999998,
+    "total_predicted_tokens": 384,
+    "aggregate_predicted_tok_s": 19.625016153745598,
+    "nonempty_count": 6,
+    "rows": [
+      {
+        "request_id": "parallel2-6x64-1",
+        "wall_seconds": 6.172663167000003,
+        "completion_tokens": 64,
+        "predicted_n": 64,
+        "server_predicted_tok_s": 10.665976933491635,
+        "server_prompt_tok_s": 26.123984430105278,
+        "finish_reason": "length",
+        "nonempty": true,
+        "response": {
+          "choices": [
+            {
+              "finish_reason": "length",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "We need to write a detailed numbered list of practical ways to validate a distributed inference server. The user wants to continue until the token limit, not conclude early. So we need to generate many items, each with sufficient detail. The topic is validation of a distributed inference server, which involves testing correctness, performance, scalability,"
+              }
+            }
+          ],
+          "created": 1784402590,
+          "model": "deepseek-v4-flash-ud-iq4-xs",
+          "system_fingerprint": "b2-4330479",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 64,
+            "prompt_tokens": 30,
+            "total_tokens": 94,
+            "prompt_tokens_details": {
+              "cached_tokens": 26
+            }
+          },
+          "id": "chatcmpl-Al8uzQxGBisq3Kx4Fi4sEQ1aJnbp02Dv",
+          "timings": {
+            "cache_n": 26,
+            "prompt_n": 4,
+            "prompt_ms": 153.116,
+            "prompt_per_token_ms": 38.279,
+            "prompt_per_second": 26.123984430105278,
+            "predicted_n": 64,
+            "predicted_ms": 6000.388,
+            "predicted_per_token_ms": 93.7560625,
+            "predicted_per_second": 10.665976933491635
+          }
+        }
+      },
+      {
+        "request_id": "parallel2-6x64-2",
+        "wall_seconds": 6.279844458999996,
+        "completion_tokens": 64,
+        "predicted_n": 64,
+        "server_predicted_tok_s": 11.001883041044245,
+        "server_prompt_tok_s": 15.449622642966945,
+        "finish_reason": "length",
+        "nonempty": true,
+        "response": {
+          "choices": [
+            {
+              "finish_reason": "length",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "We need to write a detailed numbered list of practical ways to validate a distributed inference server. The user wants to continue until the token limit, not conclude early. So we need to generate as many items as possible, each with sufficient detail. The topic is validation of a distributed inference server, which involves testing correctness, performance"
+              }
+            }
+          ],
+          "created": 1784402590,
+          "model": "deepseek-v4-flash-ud-iq4-xs",
+          "system_fingerprint": "b2-4330479",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 64,
+            "prompt_tokens": 30,
+            "total_tokens": 94,
+            "prompt_tokens_details": {
+              "cached_tokens": 26
+            }
+          },
+          "id": "chatcmpl-40nxvbycsWdxY5qGt0b123JEaFVr3nAE",
+          "timings": {
+            "cache_n": 26,
+            "prompt_n": 4,
+            "prompt_ms": 258.906,
+            "prompt_per_token_ms": 64.7265,
+            "prompt_per_second": 15.449622642966945,
+            "predicted_n": 64,
+            "predicted_ms": 5817.186,
+            "predicted_per_token_ms": 90.89353125,
+            "predicted_per_second": 11.001883041044245
+          }
+        }
+      },
+      {
+        "request_id": "parallel2-6x64-3",
+        "wall_seconds": 6.833070333000002,
+        "completion_tokens": 64,
+        "predicted_n": 64,
+        "server_predicted_tok_s": 9.992850427795489,
+        "server_prompt_tok_s": 19.279152488456607,
+        "finish_reason": "length",
+        "nonempty": true,
+        "response": {
+          "choices": [
+            {
+              "finish_reason": "length",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "We need to write a detailed numbered list of practical ways to validate a distributed inference server. The user wants to continue until the token limit, not conclude early. So we need to generate many items, each with sufficient detail. The topic is validation of a distributed inference server, which involves testing correctness, performance, scalability,"
+              }
+            }
+          ],
+          "created": 1784402596,
+          "model": "deepseek-v4-flash-ud-iq4-xs",
+          "system_fingerprint": "b2-4330479",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 64,
+            "prompt_tokens": 30,
+            "total_tokens": 94,
+            "prompt_tokens_details": {
+              "cached_tokens": 26
+            }
+          },
+          "id": "chatcmpl-kdaPhg4ooC36jHT354wAV4j8Pjm0j8o3",
+          "timings": {
+            "cache_n": 26,
+            "prompt_n": 4,
+            "prompt_ms": 207.478,
+            "prompt_per_token_ms": 51.8695,
+            "prompt_per_second": 19.279152488456607,
+            "predicted_n": 64,
+            "predicted_ms": 6404.579,
+            "predicted_per_token_ms": 100.071546875,
+            "predicted_per_second": 9.992850427795489
+          }
+        }
+      },
+      {
+        "request_id": "parallel2-6x64-4",
+        "wall_seconds": 6.726050582999996,
+        "completion_tokens": 64,
+        "predicted_n": 64,
+        "server_predicted_tok_s": 9.992827023851941,
+        "server_prompt_tok_s": 20.053945112352228,
+        "finish_reason": "length",
+        "nonempty": true,
+        "response": {
+          "choices": [
+            {
+              "finish_reason": "length",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "We need to write a detailed numbered list of practical ways to validate a distributed inference server. The user wants to continue until the token limit, not conclude early. So we need to generate many items, each with sufficient detail. The topic is validation of a distributed inference server, which involves testing correctness, performance, scalability,"
+              }
+            }
+          ],
+          "created": 1784402596,
+          "model": "deepseek-v4-flash-ud-iq4-xs",
+          "system_fingerprint": "b2-4330479",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 64,
+            "prompt_tokens": 30,
+            "total_tokens": 94,
+            "prompt_tokens_details": {
+              "cached_tokens": 26
+            }
+          },
+          "id": "chatcmpl-pvPDIswMAfymC0sN6EUMCaymgZtwkYER",
+          "timings": {
+            "cache_n": 26,
+            "prompt_n": 4,
+            "prompt_ms": 199.462,
+            "prompt_per_token_ms": 49.8655,
+            "prompt_per_second": 20.053945112352228,
+            "predicted_n": 64,
+            "predicted_ms": 6404.594,
+            "predicted_per_token_ms": 100.07178125,
+            "predicted_per_second": 9.992827023851941
+          }
+        }
+      },
+      {
+        "request_id": "parallel2-6x64-5",
+        "wall_seconds": 6.559218667000003,
+        "completion_tokens": 64,
+        "predicted_n": 64,
+        "server_predicted_tok_s": 10.059585755689442,
+        "server_prompt_tok_s": 22.490230805993647,
+        "finish_reason": "length",
+        "nonempty": true,
+        "response": {
+          "choices": [
+            {
+              "finish_reason": "length",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "We need to write a detailed numbered list of practical ways to validate a distributed inference server. The user wants to continue until the token limit, not conclude early. So we need to generate many items, each with sufficient detail. The topic is validation of a distributed inference server, which involves testing correctness, performance, scalability,"
+              }
+            }
+          ],
+          "created": 1784402603,
+          "model": "deepseek-v4-flash-ud-iq4-xs",
+          "system_fingerprint": "b2-4330479",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 64,
+            "prompt_tokens": 30,
+            "total_tokens": 94,
+            "prompt_tokens_details": {
+              "cached_tokens": 26
+            }
+          },
+          "id": "chatcmpl-bYZmgzolMKX2xf1pJWZZbku1j52khsza",
+          "timings": {
+            "cache_n": 26,
+            "prompt_n": 4,
+            "prompt_ms": 177.855,
+            "prompt_per_token_ms": 44.46375,
+            "prompt_per_second": 22.490230805993647,
+            "predicted_n": 64,
+            "predicted_ms": 6362.091,
+            "predicted_per_token_ms": 99.407671875,
+            "predicted_per_second": 10.059585755689442
+          }
+        }
+      },
+      {
+        "request_id": "parallel2-6x64-6",
+        "wall_seconds": 6.559088374999995,
+        "completion_tokens": 64,
+        "predicted_n": 64,
+        "server_predicted_tok_s": 10.059577849815533,
+        "server_prompt_tok_s": 23.53121121026902,
+        "finish_reason": "length",
+        "nonempty": true,
+        "response": {
+          "choices": [
+            {
+              "finish_reason": "length",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "We need to write a detailed numbered list of practical ways to validate a distributed inference server. The user wants to continue until the token limit, not conclude early. So we need to generate many items, each with sufficient detail. The topic is validation of a distributed inference server, which involves testing correctness, performance, scalability,"
+              }
+            }
+          ],
+          "created": 1784402603,
+          "model": "deepseek-v4-flash-ud-iq4-xs",
+          "system_fingerprint": "b2-4330479",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 64,
+            "prompt_tokens": 30,
+            "total_tokens": 94,
+            "prompt_tokens_details": {
+              "cached_tokens": 26
+            }
+          },
+          "id": "chatcmpl-azz7SZTdoci8Dmpopc1fdDcDGSh3eiEX",
+          "timings": {
+            "cache_n": 26,
+            "prompt_n": 4,
+            "prompt_ms": 169.987,
+            "prompt_per_token_ms": 42.49675,
+            "prompt_per_second": 23.53121121026902,
+            "predicted_n": 64,
+            "predicted_ms": 6362.096,
+            "predicted_per_token_ms": 99.40775,
+            "predicted_per_second": 10.059577849815533
+          }
+        }
+      }
+    ]
+  },
+  "parallel4": {
+    "label": "parallel4-8x64",
+    "concurrency": 4,
+    "request_count": 8,
+    "batch_wall_seconds": 17.499865749999998,
+    "total_predicted_tokens": 512,
+    "aggregate_predicted_tok_s": 29.257367302946314,
+    "nonempty_count": 8,
+    "rows": [
+      {
+        "request_id": "parallel4-8x64-1",
+        "wall_seconds": 9.904318917000005,
+        "completion_tokens": 64,
+        "predicted_n": 64,
+        "server_predicted_tok_s": 6.591750732946034,
+        "server_prompt_tok_s": 23.014032806503767,
+        "finish_reason": "length",
+        "nonempty": true,
+        "response": {
+          "choices": [
+            {
+              "finish_reason": "length",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "We need to write a detailed numbered list of practical ways to validate a distributed inference server. The user wants to continue until the token limit, not conclude early. So we need to generate many items, each with sufficient detail. The topic is validation of a distributed inference server, which involves testing correctness, performance, scalability,"
+              }
+            }
+          ],
+          "created": 1784402613,
+          "model": "deepseek-v4-flash-ud-iq4-xs",
+          "system_fingerprint": "b2-4330479",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 64,
+            "prompt_tokens": 30,
+            "total_tokens": 94,
+            "prompt_tokens_details": {
+              "cached_tokens": 26
+            }
+          },
+          "id": "chatcmpl-PH8SHxS9Ib93ccava2vD9rz9zpd4OgmL",
+          "timings": {
+            "cache_n": 26,
+            "prompt_n": 4,
+            "prompt_ms": 173.807,
+            "prompt_per_token_ms": 43.45175,
+            "prompt_per_second": 23.014032806503767,
+            "predicted_n": 64,
+            "predicted_ms": 9709.105,
+            "predicted_per_token_ms": 151.704765625,
+            "predicted_per_second": 6.591750732946034
+          }
+        }
+      },
+      {
+        "request_id": "parallel4-8x64-2",
+        "wall_seconds": 10.011766458000004,
+        "completion_tokens": 64,
+        "predicted_n": 64,
+        "server_predicted_tok_s": 6.756873033182476,
+        "server_prompt_tok_s": 14.291941488791545,
+        "finish_reason": "length",
+        "nonempty": true,
+        "response": {
+          "choices": [
+            {
+              "finish_reason": "length",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "We need to write a detailed numbered list of practical ways to validate a distributed inference server. The user wants to continue until the token limit, not conclude early. So we need to generate as many items as possible, each with sufficient detail. The topic is validation of a distributed inference server, which involves testing correctness, performance"
+              }
+            }
+          ],
+          "created": 1784402613,
+          "model": "deepseek-v4-flash-ud-iq4-xs",
+          "system_fingerprint": "b2-4330479",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 64,
+            "prompt_tokens": 30,
+            "total_tokens": 94,
+            "prompt_tokens_details": {
+              "cached_tokens": 26
+            }
+          },
+          "id": "chatcmpl-nMW1TahW6k19FZCUmojapwLfmSZ8mes2",
+          "timings": {
+            "cache_n": 26,
+            "prompt_n": 4,
+            "prompt_ms": 279.878,
+            "prompt_per_token_ms": 69.9695,
+            "prompt_per_second": 14.291941488791545,
+            "predicted_n": 64,
+            "predicted_ms": 9471.837,
+            "predicted_per_token_ms": 147.997453125,
+            "predicted_per_second": 6.756873033182476
+          }
+        }
+      },
+      {
+        "request_id": "parallel4-8x64-3",
+        "wall_seconds": 10.012261042000006,
+        "completion_tokens": 64,
+        "predicted_n": 64,
+        "server_predicted_tok_s": 6.756877313372673,
+        "server_prompt_tok_s": 14.712806026365348,
+        "finish_reason": "length",
+        "nonempty": true,
+        "response": {
+          "choices": [
+            {
+              "finish_reason": "length",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "We need to write a detailed numbered list of practical ways to validate a distributed inference server. The user wants to continue until the token limit, not conclude early. So we need to generate as many items as possible, each with sufficient detail. The topic is validation of a distributed inference server, which involves testing correctness, performance"
+              }
+            }
+          ],
+          "created": 1784402613,
+          "model": "deepseek-v4-flash-ud-iq4-xs",
+          "system_fingerprint": "b2-4330479",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 64,
+            "prompt_tokens": 30,
+            "total_tokens": 94,
+            "prompt_tokens_details": {
+              "cached_tokens": 26
+            }
+          },
+          "id": "chatcmpl-W1YLRga1sqCeJ6wJjX3P7tBGz7IlOA9z",
+          "timings": {
+            "cache_n": 26,
+            "prompt_n": 4,
+            "prompt_ms": 271.872,
+            "prompt_per_token_ms": 67.968,
+            "prompt_per_second": 14.712806026365348,
+            "predicted_n": 64,
+            "predicted_ms": 9471.831,
+            "predicted_per_token_ms": 147.997359375,
+            "predicted_per_second": 6.756877313372673
+          }
+        }
+      },
+      {
+        "request_id": "parallel4-8x64-4",
+        "wall_seconds": 9.902261958000004,
+        "completion_tokens": 64,
+        "predicted_n": 64,
+        "server_predicted_tok_s": 6.59173511771603,
+        "server_prompt_tok_s": 24.088549507991377,
+        "finish_reason": "length",
+        "nonempty": true,
+        "response": {
+          "choices": [
+            {
+              "finish_reason": "length",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "We need to write a detailed numbered list of practical ways to validate a distributed inference server. The user wants to continue until the token limit, not conclude early. So we need to generate many items, each with sufficient detail. The topic is validation of a distributed inference server, which involves testing correctness, performance, scalability,"
+              }
+            }
+          ],
+          "created": 1784402613,
+          "model": "deepseek-v4-flash-ud-iq4-xs",
+          "system_fingerprint": "b2-4330479",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 64,
+            "prompt_tokens": 30,
+            "total_tokens": 94,
+            "prompt_tokens_details": {
+              "cached_tokens": 26
+            }
+          },
+          "id": "chatcmpl-gObFz4kkqUKEvgMmwaSgyYSf5c6aqFfI",
+          "timings": {
+            "cache_n": 26,
+            "prompt_n": 4,
+            "prompt_ms": 166.054,
+            "prompt_per_token_ms": 41.5135,
+            "prompt_per_second": 24.088549507991377,
+            "predicted_n": 64,
+            "predicted_ms": 9709.128,
+            "predicted_per_token_ms": 151.705125,
+            "predicted_per_second": 6.59173511771603
+          }
+        }
+      },
+      {
+        "request_id": "parallel4-8x64-5",
+        "wall_seconds": 7.594146459000008,
+        "completion_tokens": 64,
+        "predicted_n": 64,
+        "server_predicted_tok_s": 8.976860878714053,
+        "server_prompt_tok_s": 16.828288352720925,
+        "finish_reason": "length",
+        "nonempty": true,
+        "response": {
+          "choices": [
+            {
+              "finish_reason": "length",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "We need to generate a detailed numbered list of practical ways to validate a distributed inference server. The user wants to continue until token limit, no early conclusion. So we need to produce many items, each with sufficient detail. The topic: validating a distributed inference server. This includes testing correctness, performance, scalability, fault tolerance"
+              }
+            }
+          ],
+          "created": 1784402621,
+          "model": "deepseek-v4-flash-ud-iq4-xs",
+          "system_fingerprint": "b2-4330479",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 64,
+            "prompt_tokens": 30,
+            "total_tokens": 94,
+            "prompt_tokens_details": {
+              "cached_tokens": 26
+            }
+          },
+          "id": "chatcmpl-nEP0wDXHXaMcKTq4IMe0f4iDtDNkaARa",
+          "timings": {
+            "cache_n": 26,
+            "prompt_n": 4,
+            "prompt_ms": 237.695,
+            "prompt_per_token_ms": 59.42375,
+            "prompt_per_second": 16.828288352720925,
+            "predicted_n": 64,
+            "predicted_ms": 7129.441,
+            "predicted_per_token_ms": 111.397515625,
+            "predicted_per_second": 8.976860878714053
+          }
+        }
+      },
+      {
+        "request_id": "parallel4-8x64-6",
+        "wall_seconds": 7.5939602919999984,
+        "completion_tokens": 64,
+        "predicted_n": 64,
+        "server_predicted_tok_s": 8.975745432151989,
+        "server_prompt_tok_s": 17.414852256747167,
+        "finish_reason": "length",
+        "nonempty": true,
+        "response": {
+          "choices": [
+            {
+              "finish_reason": "length",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "We need to generate a detailed numbered list of practical ways to validate a distributed inference server. The user wants to continue until token limit, no early conclusion. So we need to produce many items, each with sufficient detail. The topic: validating a distributed inference server. This includes testing correctness, performance, scalability, fault tolerance"
+              }
+            }
+          ],
+          "created": 1784402621,
+          "model": "deepseek-v4-flash-ud-iq4-xs",
+          "system_fingerprint": "b2-4330479",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 64,
+            "prompt_tokens": 30,
+            "total_tokens": 94,
+            "prompt_tokens_details": {
+              "cached_tokens": 26
+            }
+          },
+          "id": "chatcmpl-P5NqXXoDCdh3nIYouwnR4Q5nOnG9pUWW",
+          "timings": {
+            "cache_n": 26,
+            "prompt_n": 4,
+            "prompt_ms": 229.689,
+            "prompt_per_token_ms": 57.42225,
+            "prompt_per_second": 17.414852256747167,
+            "predicted_n": 64,
+            "predicted_ms": 7130.327,
+            "predicted_per_token_ms": 111.411359375,
+            "predicted_per_second": 8.975745432151989
+          }
+        }
+      },
+      {
+        "request_id": "parallel4-8x64-7",
+        "wall_seconds": 7.4859565000000075,
+        "completion_tokens": 64,
+        "predicted_n": 64,
+        "server_predicted_tok_s": 8.97579452611171,
+        "server_prompt_tok_s": 18.732204405814475,
+        "finish_reason": "length",
+        "nonempty": true,
+        "response": {
+          "choices": [
+            {
+              "finish_reason": "length",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "We need to generate a detailed numbered list of practical ways to validate a distributed inference server. The user wants to continue until token limit, no early conclusion. So we need to produce many items, each with sufficient detail. The topic: validating a distributed inference server. This includes testing correctness, performance, scalability, fault tolerance"
+              }
+            }
+          ],
+          "created": 1784402621,
+          "model": "deepseek-v4-flash-ud-iq4-xs",
+          "system_fingerprint": "b2-4330479",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 64,
+            "prompt_tokens": 30,
+            "total_tokens": 94,
+            "prompt_tokens_details": {
+              "cached_tokens": 26
+            }
+          },
+          "id": "chatcmpl-RwXb1TMPnyDv0cQHQ0pGa4P6EN9WASH7",
+          "timings": {
+            "cache_n": 26,
+            "prompt_n": 4,
+            "prompt_ms": 213.536,
+            "prompt_per_token_ms": 53.384,
+            "prompt_per_second": 18.732204405814475,
+            "predicted_n": 64,
+            "predicted_ms": 7130.288,
+            "predicted_per_token_ms": 111.41075,
+            "predicted_per_second": 8.97579452611171
+          }
+        }
+      },
+      {
+        "request_id": "parallel4-8x64-8",
+        "wall_seconds": 7.485556541000008,
+        "completion_tokens": 64,
+        "predicted_n": 64,
+        "server_predicted_tok_s": 8.975758020295592,
+        "server_prompt_tok_s": 18.05795701303333,
+        "finish_reason": "length",
+        "nonempty": true,
+        "response": {
+          "choices": [
+            {
+              "finish_reason": "length",
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "",
+                "reasoning_content": "We need to generate a detailed numbered list of practical ways to validate a distributed inference server. The user wants to continue until token limit, no early conclusion. So we need to produce many items, each with sufficient detail. The topic: validating a distributed inference server. This includes testing correctness, performance, scalability, fault tolerance"
+              }
+            }
+          ],
+          "created": 1784402621,
+          "model": "deepseek-v4-flash-ud-iq4-xs",
+          "system_fingerprint": "b2-4330479",
+          "object": "chat.completion",
+          "usage": {
+            "completion_tokens": 64,
+            "prompt_tokens": 30,
+            "total_tokens": 94,
+            "prompt_tokens_details": {
+              "cached_tokens": 26
+            }
+          },
+          "id": "chatcmpl-sPUgMgKaLSncQhoQbjFuMG5yDpOfxbCb",
+          "timings": {
+            "cache_n": 26,
+            "prompt_n": 4,
+            "prompt_ms": 221.509,
+            "prompt_per_token_ms": 55.37725,
+            "prompt_per_second": 18.05795701303333,
+            "predicted_n": 64,
+            "predicted_ms": 7130.317,
+            "predicted_per_token_ms": 111.411203125,
+            "predicted_per_second": 8.975758020295592
+          }
+        }
+      }
+    ]
+  }
+}
