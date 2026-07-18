@@ -4,10 +4,12 @@
 **dynamic per-expert {ternary…2,3,4}-bit allocation — July 2026. (Updated Jul 18.)**
 
 > **Jul 18 sealed sync:** paired 512-window tier re-anchors now include VQA d4/k256
-> (**+17.4757%**) and d8/k4096 (**+24.3592% KL_vs_fp8**). COMBO V4-DATASCALE
-> terminated with clean step 32 as the best eight-window selection checkpoint; no V4
-> full-512 claim is made. UD-IQ3_XXS sealed ToolEvalBench **86.0 ± 0.0** over three
-> complete trials (207/207 attempts). See [`RESULTS.md`](RESULTS.md) and the scrubbed
+> (**+17.4757%**) and d8/k4096 (**+24.3592% KL_vs_fp8**), while the R4 three-tier
+> backpack sealed at **0.091723 KL / 0.910397 top-1** over the full 512-window rail.
+> COMBO V4-DATASCALE terminated with clean step 32 as the best eight-window selection
+> checkpoint; no V4 full-512 claim is made. ToolEvalBench now includes UD-IQ3_XXS
+> **86.0 ± 0.0** over three trials and mixed-VQ IQ3 warp **85.2 ± 0.4** over five
+> complete trials. See [`RESULTS.md`](RESULTS.md) and the scrubbed
 > [`JUL18_SEALED_RESULTS.json`](receipts/JUL18_SEALED_RESULTS.json).
 
 > **Iteration-kit refresh (Jul 16):** start with [`RESUME.md`](RESUME.md) to relaunch in under

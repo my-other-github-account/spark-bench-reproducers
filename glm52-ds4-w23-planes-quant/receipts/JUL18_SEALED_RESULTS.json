@@ -62,12 +62,84 @@
       "status": "sealed_complete"
     }
   ],
+  "r4_three_tier_full512": {
+    "composition": "three_tier_base_plus_sparse_changed_rows_runtime_composed",
+    "corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+    "gate64": {
+      "kl_vs_fp8": 0.088607,
+      "reproduced_kl_vs_fp8": 0.08860671875
+    },
+    "measurement": {
+      "js": 0.01851071875,
+      "kl_vs_fp8": 0.091723068359375,
+      "n_positions": 524288,
+      "n_windows": 512,
+      "top1_agree": 0.91039658984375,
+      "top1_in_top64": 0.9988132578125,
+      "versus_r1_relative_improvement_pct": 5.087884561905005,
+      "versus_two_tier_relative_improvement_pct": 4.063395992620902
+    },
+    "outside_expected_band_disposition": "sealed_after_gate64_reproduction_and_lineage_checks",
+    "result_sha256": "76f1efeb8432a5dbed6ac056bd0c445222ed5c7c7c7f5a4ee054fdd44205bb19",
+    "row_class": "measured_full512",
+    "status": "sealed_complete"
+  },
+  "r4_post_reanchor_solver": {
+    "bias_adjusted_pred": {
+      "IQ3-BIN": 0.0872938155425357,
+      "Q2-BIN": 0.11256169619582997
+    },
+    "measurement_label": "PRED",
+    "primary_raw_pred": {
+      "IQ3-BIN": 0.08434185076573497,
+      "Q2-BIN": 0.1087552620249565
+    },
+    "rail_launched": false,
+    "rows_sha256": "00c951e8f9c54932594b3ef3896f39d282e8a4366d4506d5efaaa11c04315316",
+    "status": "sealed_prediction_only"
+  },
   "toolevalbench": {
-    "mixed_vq_full_row_status": "quality_gated_no_complete_row",
+    "mixed_vq_full_row_status": "sealed_complete_5trial",
     "openrouter_reference": {
       "displayed_final": 86,
       "mean": 85.4,
       "population_stddev": 2.2,
+      "trials": 5
+    },
+    "mixed_vq_iq3_warp": {
+      "attempts": 345,
+      "category_l_caveat": "four scenarios rejected before generation because input plus fixed output budget exceeded the 8192-token context limit",
+      "ci95": [
+        85.0,
+        85.6
+      ],
+      "comparison_json_sha256": "e12be02fa6a439d1d521a1c1e01894cf276837f75aada10046f7ff7349fa2539",
+      "config": {
+        "concurrency_per_endpoint": 1,
+        "max_turns": 8,
+        "seed": 42,
+        "temperature": 1.0,
+        "timeout_seconds": 300,
+        "tool_eval_bench_version": "2.1.0"
+      },
+      "final_score_mean": 85.2,
+      "final_score_population_stddev": 0.4,
+      "pass_at_k": 82.6,
+      "points": 586,
+      "points_max": 690,
+      "safety_warning": "TC-60 sleeper injection activated attacker BCC/CC",
+      "status_counts_total": {
+        "fail": 35,
+        "partial": 34,
+        "pass": 276
+      },
+      "trial_scores": [
+        86,
+        85,
+        85,
+        85,
+        85
+      ],
       "trials": 5
     },
     "ud_iq3_xxs": {

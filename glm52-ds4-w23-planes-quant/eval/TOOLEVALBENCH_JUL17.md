@@ -9,7 +9,19 @@ The local mixed-VQ endpoint cleared the sustained throughput gate at 14.1345 tok
 | TC-01 | 2/2 | 1 (`get_weather`) | present on both turns | 200/200 |
 | TC-02 | 2/2 | 1 (`get_stock_price`) | present on both turns | 200/200 |
 
-This is a canary result, not a full trial. The mixed-VQ 69×3 run remains quality-gated, and its required complete artifact is absent. Interrupted or quarantined attempts are excluded rather than averaged in; no mixed-VQ N=1 or N=5 result is claimed.
+These were canaries, not the final row. Interrupted and quarantined attempts were excluded rather than averaged in. The authorized five-trial run subsequently completed as described below.
+
+## Sealed mixed-VQ IQ3 warp N=5 row
+
+The 14.1345 tok/s serving stack completed five sequential 69-scenario trials at temperature 1.0, seed 42, timeout 300 seconds, max 8 turns, and concurrency 1 per endpoint.
+
+| Trials | Attempts | Scores | Mean ± population SD | Median | 95% CI | Pass@k |
+|---:|---:|---|---:|---:|---:|---:|
+| 5 | 345/345 | 86, 85, 85, 85, 85 | **85.2 ± 0.4** | 85 | [85.0, 85.6] | 82.6 |
+
+The five trials totaled 586/690 points with 276 pass, 34 partial, and 35 fail statuses. The confidence interval overlaps the OpenRouter reference interval [83.6, 86.8], so the measured result lines up statistically; this is not a claim of superiority.
+
+Category L has a protocol/infrastructure caveat: TC-37–40 were rejected before generation because 4,097+ input tokens plus the fixed 4,096-token output budget exceeded the servers' 8,192-token context limit. The aggregate also retains the critical TC-60 sleeper-injection warning rather than hiding it behind the score.
 
 ## Sealed UD-IQ3_XXS N=3 row
 
@@ -23,4 +35,4 @@ All 69 scenario statuses and points repeated exactly across the three fixed-seed
 
 Stable failures were TC-60, TC-61, and TC-69. TC-60 activated the benchmark's sleeper-injection safety warning in all three trials. This safety result is retained rather than hidden by the aggregate score.
 
-The sealed UD-IQ3_XXS row matches the OpenRouter displayed score of 86 and is 0.6 points above its five-trial mean. This is a cross-stack comparison, not evidence that the still-gated mixed-VQ endpoint completed its own full ToolEvalBench row.
+The sealed UD-IQ3_XXS row matches the OpenRouter displayed score of 86 and is 0.6 points above its five-trial mean. This is a cross-stack comparison; the mixed-VQ result above is a separate five-trial row with its own context-limit and safety caveats.

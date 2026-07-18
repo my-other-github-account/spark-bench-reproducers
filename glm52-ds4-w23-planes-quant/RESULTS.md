@@ -11,7 +11,7 @@ All quality rows are measured unless marked **gate**, **pilot**, **in progress**
 | R3 | COMBO A repair | **0.077061** KL, top-1 0.9166 | sealed 512-window row; 22.12% paired reduction |
 | R3-V2 | COMBO V2 disjoint-finetune | **0.076286** KL, top-1 **0.915979** | sealed 512-window row; 22.9043% paired reduction; numerically 1.006% below COMBO A, within the ±2.6% floor |
 | R4 | Two-tier prerepaired backpack | **0.095608** KL | sealed 512-window row |
-| R4 | Three-tier prerepaired backpack | **0.088607** KL | sealed 64-window gate; full-512 pending |
+| R4 | Three-tier prerepaired backpack | **0.091723** KL, top-1 **0.910397** | sealed full-512 row; 5.0879% better than R1 and 4.0634% better than the two-tier row |
 | R4 input | d4/k1024 repaired live re-anchor | 0.147352 → **0.126384**, **+14.2296%** | sealed paired 512-window re-anchor; exact rebuilt-anchor identity only |
 | R4 input | VQA d4/k256 step-45 live re-anchor | 0.283803 → **0.234207**, **+17.4757%** | sealed paired 512-window re-anchor; 524,288 positions; not a backpack row |
 | R4 input | d8/k4096 step-50 live re-anchor | 0.664968 → **0.502987** KL_vs_fp8, **+24.3592%** | sealed paired 512-window re-anchor; ABOVE_FLOOR; not comparable to d4 KL_vs_teacher rows |
@@ -22,10 +22,14 @@ All quality rows are measured unless marked **gate**, **pilot**, **in progress**
 - COMBO V2 used a disjoint 248-window fine-tuning corpus, but inherited an eval-trained warm start. Its honest label is `disjoint_finetune_corpus=true`, `zero_eval_leakage=false`.
 - The d4/k1024 improvement is valid only against its exact fixed-codebook rebuilt anchor. Transplanting the repaired codebooks onto foreign codes is invalid.
 - The VQA d4/k256 and d8/k4096 rows are repaired-tier re-anchors, not backpack rows. The d8 row uses KL_vs_fp8 and must not be compared numerically with d4 KL_vs_teacher rows.
-- The three-tier R4 number is a 64-window gate, not a full-512 row.
+- The earlier three-tier gate was 0.088607 on 64 windows. The sealed full-512 row is 0.091723; its first 64 windows reproduce the gate within 1e-6, and the difference is explained by block-to-block corpus heterogeneity rather than a composition mismatch.
 - GPTQ remains a pilot until the full-bin artifact is sealed.
 
 ## Active follow-ons
+
+### R4 post-reanchor solver — PRED only
+
+The deterministic all-measured-price rerun predicts **0.084342 raw / 0.087294 bias-adjusted** for the IQ3 budget and **0.108755 / 0.112562** for Q2. These are solver predictions, not measured rails or improvement claims. The IQ3 prediction is below the corrected full-menu and T1 bars but above R3 COMBO; the Q2 prediction is above all three bars. A measured follow-on rail is still required.
 
 ### COMBO V4-DATASCALE — terminal selection-panel result
 
@@ -71,8 +75,9 @@ Known limitation: the T=1 decode specialization is not valid for T≥2. Concurre
 
 - Reference row: OpenRouter displayed score **86**; its five-trial mean is **85.4 ± 2.2** with 95% CI [83.6, 86.8].
 - UD-IQ3_XXS via llama.cpp sealed **86.0 ± 0.0** across three complete 69-scenario trials (**207/207 attempts**). Every trial scored 119/138 with 53 pass, 13 partial, and 3 fail; all per-scenario statuses and points repeated exactly. Observed generation throughput was about 16.07 tok/s.
+- The 14.1345 tok/s mixed-VQ IQ3 warp stack sealed five complete 69-scenario trials (**345/345 attempts**) with scores **86, 85, 85, 85, 85**: mean **85.2 ± 0.4**, median 85, 95% CI [85.0, 85.6], and pass@k 82.6. Its interval overlaps the OpenRouter reference interval.
 - The exact 14.1345 tok/s endpoint passed TC-01 and TC-02 canaries: 2/2 each, one correct tool call each, non-empty reasoning, all HTTP 200.
-- Those mixed-VQ canaries are not a full trial. Its 69×3 attempt remains quality-gated with no authorized complete row; no N=1 or N=5 mixed-VQ result is claimed.
+- The five-trial mixed-VQ row retains two binding caveats: TC-37–40 were rejected before generation because 4,097+ input tokens plus a fixed 4,096-token output budget exceeded the 8,192-token server limit, and TC-60 triggered the benchmark's sleeper-injection safety warning.
 
 ## Receipts and code
 
