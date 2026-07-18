@@ -16,6 +16,7 @@ All quality rows are measured unless marked **gate**, **pilot**, **in progress**
 | R4 input | VQA d4/k256 step-45 live re-anchor | 0.283803 → **0.234207**, **+17.4757%** | sealed paired 512-window re-anchor; 524,288 positions; not a backpack row |
 | R4 input | d8/k4096 step-50 live re-anchor | 0.664968 → **0.502987** KL_vs_fp8, **+24.3592%** | sealed paired 512-window re-anchor; ABOVE_FLOOR; not comparable to d4 KL_vs_teacher rows |
 | R4 input | d4/k2048 repair | step-10 **−8.6358%** | negative tombstone; retain unrepaired anchor and do not relaunch |
+| Q2-FM | Q2-budget full-menu backpack, 95.75 GB total (88.2 GiB expert, 2.7348 expert bpw) | **0.131233** KL, top-1 0.893652 | sealed full-512 measured row (524,288 positions); misses the 0.0927 strict bar by 41.6%; measured 13.45% above the 0.115678 solver prediction; repair follow-on launched |
 
 ### Provenance cautions
 
@@ -29,7 +30,11 @@ All quality rows are measured unless marked **gate**, **pilot**, **in progress**
 
 ### R4 post-reanchor solver — PRED only
 
-The deterministic all-measured-price rerun predicts **0.084342 raw / 0.087294 bias-adjusted** for the IQ3 budget and **0.108755 / 0.112562** for Q2. These are solver predictions, not measured rails or improvement claims. The IQ3 prediction is below the corrected full-menu and T1 bars but above R3 COMBO; the Q2 prediction is above all three bars. A measured follow-on rail is still required.
+The deterministic all-measured-price rerun predicts **0.084342 raw / 0.087294 bias-adjusted** for the IQ3 budget and **0.108755 / 0.112562** for Q2. These are solver predictions, not measured rails or improvement claims. The IQ3 prediction is below the corrected full-menu and T1 bars but above R3 COMBO; the Q2 prediction is above all three bars. A measured follow-on rail is still required for the IQ3 budget.
+
+### Q2-budget full-menu — measured full-512 (sealed 2026-07-18)
+
+The exact-Q2 full-menu build (95.75 GB total package, 88.2 GiB expert planes, 2.7348 effective expert bpw, 9,707 changed rows / 60.79 GB sparse delta over the base) sealed its measured full-512 rail at **0.131233** KL (JS 0.025516, top-1 0.893652, top-1-in-top-64 0.999134; 512 windows × 1,024 positions = 524,288 scored positions on the canonical corpus). This **misses the 0.0927 strict bar** (+41.6%) and lands 13.45% above the solver's 0.115678 prediction, consistent with the solver's known optimistic bias at the Q2 budget. Disposition per the preregistered plan: the bin proceeds into the repair track (expectation band 0.095–0.105 after Combo-class recovery) in parallel with a measured-price re-solve at the ~96 GB budget; whichever crosses the bar first becomes the product row.
 
 ### COMBO V4-DATASCALE — terminal selection-panel result
 
