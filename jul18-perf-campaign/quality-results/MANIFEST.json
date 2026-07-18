@@ -1,0 +1,12 @@
+[
+  {
+    "path": "README.md",
+    "bytes": 2846,
+    "sha256": "101f152b41f986e9d19657f38e63ae954853d0587a15b6f6731f9aa2cdf36a62"
+  },
+  {
+    "path": "receipts/QUALITY_RESULTS.json",
+    "bytes": 1166,
+    "sha256": "263b8173af335c5c4c7ba146c4f800fef75b38bd45d96aea7c100dcf391de856"
+  }
+]

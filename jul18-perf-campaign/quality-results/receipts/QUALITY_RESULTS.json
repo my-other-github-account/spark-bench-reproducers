@@ -1,0 +1,34 @@
+{
+  "fixed_compose_protocol": {
+    "codebook_and_rows_same_lineage": true,
+    "required_missing_target_rows": 0,
+    "unchanged_override_rows_must_be_present": true
+  },
+  "methodology": {
+    "eval_corpus_md5": "1701920b4ba96dea0b18fe9df0151876",
+    "gate64_vs_full512_spearman_rho": 0.978,
+    "unpaired_certainty_windows_approx": 7000,
+    "unpaired_inflation_factor": 1.0365
+  },
+  "rows": [
+    {
+      "artifact_sha256": "9baf4ad4c0d9030c20cccad3768c977ee56a62ef18f15974fbcf5b0a3b0620fb",
+      "footprint_gb": 193.063787137,
+      "instrument": "paired_full512",
+      "name": "R5-rerepair",
+      "score": 0.07506409375,
+      "top1_agree": 0.916774736328125
+    },
+    {
+      "artifact_sha256": "2722a773a61c29e806942429b170c1fe263b22a618374c9edef5c5f6dbeb801b",
+      "baseline_score": 0.09323921875,
+      "classification": "MAINTAINER_DECISION_BAND",
+      "instrument": "paired_gate64",
+      "name": "GPTQ-zero-train",
+      "overlay_payload_bytes": 109891931697,
+      "score": 0.09078628125
+    }
+  ],
+  "schema": "jul18-quality-results-v1",
+  "scope_note": "Scores are same-instrument quality rows; footprint is receipt-reported for R5 only."
+}
