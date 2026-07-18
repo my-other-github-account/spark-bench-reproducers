@@ -1,0 +1,55 @@
+{
+  "baseline_full4k_clean_bitwise": {
+    "artifact": "source campaign receipt (path scrubbed)",
+    "decode_tok_s_after_first": 6.990040727203719,
+    "windows": {
+      "tokens_0_256": 6.155613098316553,
+      "tokens_1024_1280": 7.054781844600348,
+      "tokens_3840_4096": 7.199144242771838
+    }
+  },
+  "correctness": {
+    "behavior_gate": "PASS - temp=0 task fidelity: 574 consecutive integers strictly ascending (bench/behavior_check_cudawarp.json)",
+    "kernel_isolated": "non-bitwise BF16 envelope: max_abs 0.015625, mean_abs ~2.8e-6, cosine 1.0, equal_fraction 0.998 (real L42, both projections)",
+    "policy": "AUTOKERNEL_PROMPT hard rule 4: non-bit-exact acceptable with quantified deviation + preserved behavior",
+    "served_temp0": "token stream diverges from bitwise baseline at index 3 (expected under quantified envelope)"
+  },
+  "format": "true-m1-claim-public-v1",
+  "host": "single NVIDIA GB10 (anonymized)",
+  "no_gaming_notes": "warmups excluded (2x64 before each row); ignore_eos length-capped per protocol; decode graphs replay identical kernels per-layer (bitwise vs eager); single server, zero other GPU apps",
+  "port": 8000,
+  "primary_full4k": {
+    "artifact": "source campaign receipt (path scrubbed)",
+    "completion_tokens": 4096,
+    "decode_tok_s_after_first": 14.134496552843066,
+    "wall_tok_s": 14.056128781578403,
+    "windows": {
+      "tokens_0_256": 10.733141472640169,
+      "tokens_1024_1280": 14.54618109987175,
+      "tokens_3840_4096": 15.014852549058455
+    }
+  },
+  "protocol": "one streaming request max_tokens=4096 ignore_eos temp=0, decode-after-first over full 4096; windows 0-256/1024-1280/3840-4096; 5x64 secondary; single uncontended server; no MTP/spec",
+  "secondary_5x64": {
+    "median": 14.92957047995394,
+    "runs": [
+      14.920232317210866,
+      14.932840516857578,
+      14.94012683697844,
+      14.92957047995394,
+      14.866990424189225
+    ]
+  },
+  "sentinels": {
+    "cuda_warp_on_path": true,
+    "decode_graph_on_path": true,
+    "log": "receipts/container-server.log (new reproduction)"
+  },
+  "speedup_e2e": 2.022090729433761,
+  "stack": {
+    "flags": "VLLM_MOE_VQ_FAST=1 VLLM_MOE_VQ_GROUP_FAST=1 VLLM_MOE_VQ_CUDA_WARP=1 VLLM_MOE_W2_DECODE_GRAPH=1 VLLM_MOE_VQ_M1_FAST=0 (superseded by CUDA warp)",
+    "glue": "moe_vq_triton.py md5 47bef61a; moe_w2_cubit.py md5 ea886b26; decode-graph + valid-row + sentinel hunks",
+    "kernel": "vq_warp_gemv 0.1.0 wheel sha256 33fa891a78728932f0342273982dd97966e9e85b6d94db775e3e33d61a3fafdf"
+  },
+  "verdict": "PASS - FULL-4K sustained decode-after-first 14.13 tok/s >= 10.0 raw AR"
+}

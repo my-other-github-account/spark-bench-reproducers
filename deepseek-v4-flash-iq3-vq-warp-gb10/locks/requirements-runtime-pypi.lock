@@ -1,0 +1,3 @@
+# Hash-locked runtime upgrades from PyPI. Install with --no-deps.
+flashinfer-python==0.6.14 --hash=sha256:d124369346a3d48eac67e31c42f7a3c813bcc0abc10e2e36db413b7b3dfd97df
+transformers==5.13.0 --hash=sha256:8adbc1d20bd5463cd6876b2eb7cb31971e1065788e7dc6bc12bab597a7c504b7

@@ -1,0 +1,2 @@
+# Preserve byte-exact generated patch payloads; whitespace is validated after apply.
+patches/*.patch -whitespace

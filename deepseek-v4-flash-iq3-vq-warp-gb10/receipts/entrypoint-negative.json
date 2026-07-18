@@ -1,0 +1,9 @@
+{
+  "expected": {
+    "missing_config_exit": 64,
+    "missing_wire_exit": 65
+  },
+  "missing_config_exit": 64,
+  "missing_wire_exit": 65,
+  "status": "PASS"
+}

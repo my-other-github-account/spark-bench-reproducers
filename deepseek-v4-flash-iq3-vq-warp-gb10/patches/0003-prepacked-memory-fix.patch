@@ -1,0 +1,127 @@
+--- a/vllm/model_executor/layers/quantization/fp8.py
++++ b/vllm/model_executor/layers/quantization/fp8.py
+@@ -678,13 +678,39 @@
+         from vllm.model_executor.layers.quantization.utils import moe_w2_cubit
+         if self.block_quant and moe_w2_cubit.is_w2_layer(
+                 getattr(layer, "layer_name", "")):
++            _pp = moe_w2_cubit.prepacked_path(
++                getattr(layer, "layer_name", ""))
++            if _pp is not None:
++                # planes come prepacked from disk: skip staging entirely and
++                # discard the checkpoint expert bytes at load
++                layer._moe_w2_prepacked = _pp
++                for pname in ("w13_weight", f"w13_{self.weight_scale_name}",
++                              "w2_weight", f"w2_{self.weight_scale_name}"):
++                    newp = torch.nn.Parameter(
++                        torch.empty(0, dtype=torch.uint8),
++                        requires_grad=False)
++                    newp.weight_loader = moe_w2_cubit.noop_weight_loader
++                    layer.register_parameter(pname, newp)
++                return
+             for pname in ("w13_weight", f"w13_{self.weight_scale_name}",
+                           "w2_weight", f"w2_{self.weight_scale_name}"):
+                 p_ = getattr(layer, pname)
+                 attrs = dict(p_.__dict__)  # weight_loader, quant_method, ...
+-                newp = torch.nn.Parameter(p_.data.cpu(), requires_grad=False)
++                # torch.empty, NOT .data.cpu() — see mxfp4.py: the eager zero
++                # copy commits the full expert set at construction, which
++                # OOMs unified-memory hosts.
++                newp = torch.nn.Parameter(
++                    torch.empty(p_.shape, dtype=p_.dtype, device="cpu"),
++                    requires_grad=False)
+                 layer.register_parameter(pname, newp)
+                 set_weight_attrs(newp, attrs)
++            # unified-memory hosts: convert per layer as shards land instead
++            # of staging every layer (which would OOM the shared pool)
++            moe_w2_cubit.arm_eager_build(
++                layer,
++                lambda l, k: moe_w2_cubit.build_layer_planes_fp8(
++                    l, k, scale_suffix=self.weight_scale_name),
++                scale_suffix=self.weight_scale_name)
+ 
+     def _setup_kernel(
+         self,
+@@ -737,10 +763,17 @@
+         from vllm.model_executor.layers.quantization.utils import moe_w2_cubit
+         if self.block_quant and moe_w2_cubit.is_w2_layer(
+                 getattr(layer, "layer_name", "")):
+-            key = len(moe_w2_cubit._LAYERS)
+-            moe_w2_cubit.build_layer_planes_fp8(
+-                layer, key, scale_suffix=self.weight_scale_name)
+-            layer._moe_w2_key = key
++            _pp = getattr(layer, "_moe_w2_prepacked", None)
++            if _pp is not None:
++                key = len(moe_w2_cubit._LAYERS)
++                moe_w2_cubit.load_prepacked_layer(
++                    layer, key, _pp, scale_suffix=self.weight_scale_name)
++                layer._moe_w2_key = key
++            elif not moe_w2_cubit.eager_built(layer):
++                key = len(moe_w2_cubit._LAYERS)
++                moe_w2_cubit.build_layer_planes_fp8(
++                    layer, key, scale_suffix=self.weight_scale_name)
++                layer._moe_w2_key = key
+             return
+ 
+         # Allow for accessing weights and scales in standard way.
+--- a/vllm/model_executor/layers/quantization/mxfp4.py
++++ b/vllm/model_executor/layers/quantization/mxfp4.py
+@@ -622,16 +622,39 @@
+         # in process_weights_after_loading.
+         from vllm.model_executor.layers.quantization.utils import moe_w2_cubit
+         if moe_w2_cubit.is_w2_layer(getattr(layer, "layer_name", "")):
++            _pp = moe_w2_cubit.prepacked_path(
++                getattr(layer, "layer_name", ""))
++            if _pp is not None:
++                # planes come prepacked from disk: skip staging entirely and
++                # discard the checkpoint expert bytes at load
++                layer._moe_w2_prepacked = _pp
++                for pname in ("w13_weight", "w13_weight_scale", "w2_weight",
++                              "w2_weight_scale"):
++                    newp = torch.nn.Parameter(
++                        torch.empty(0, dtype=torch.uint8),
++                        requires_grad=False)
++                    newp.weight_loader = moe_w2_cubit.noop_weight_loader
++                    layer.register_parameter(pname, newp)
++                return
+             for pname in ("w13_weight", "w13_weight_scale", "w2_weight",
+                           "w2_weight_scale"):
+                 p_ = getattr(layer, pname)
+                 attrs = {k: getattr(p_, k) for k in ("weight_loader",)
+                          if hasattr(p_, k)}
+-                newp = torch.nn.Parameter(p_.data.cpu(), requires_grad=False)
++                # torch.empty, NOT .data.cpu(): the checkpoint overwrites
++                # every byte, and an untouched empty CPU buffer stays virtual
++                # — on unified-memory hosts the eager .cpu() zero-copy would
++                # commit the full expert set (~137 GiB) at CONSTRUCTION time.
++                newp = torch.nn.Parameter(
++                    torch.empty(p_.shape, dtype=p_.dtype, device="cpu"),
++                    requires_grad=False)
+                 layer.register_parameter(pname, newp)
+                 set_weight_attrs(newp, attrs)
+                 if pname.endswith("_scale"):
+                     newp.quant_method = "block"
++            # unified-memory hosts: convert per layer as shards land instead
++            # of staging every layer (which would OOM the shared pool)
++            moe_w2_cubit.arm_eager_build(layer, moe_w2_cubit.build_layer_planes)
+ 
+     def _setup_kernel(
+         self,
+@@ -740,9 +763,15 @@
+         # VLLM_MOE_W2: build 2-bit tensor-sym planes; skip Marlin/other backends.
+         from vllm.model_executor.layers.quantization.utils import moe_w2_cubit
+         if moe_w2_cubit.is_w2_layer(getattr(layer, "layer_name", "")):
+-            key = len(moe_w2_cubit._LAYERS)
+-            moe_w2_cubit.build_layer_planes(layer, key)
+-            layer._moe_w2_key = key
++            _pp = getattr(layer, "_moe_w2_prepacked", None)
++            if _pp is not None:
++                key = len(moe_w2_cubit._LAYERS)
++                moe_w2_cubit.load_prepacked_layer(layer, key, _pp)
++                layer._moe_w2_key = key
++            elif not moe_w2_cubit.eager_built(layer):
++                key = len(moe_w2_cubit._LAYERS)
++                moe_w2_cubit.build_layer_planes(layer, key)
++                layer._moe_w2_key = key
+             return
+ 
+         w13 = layer.w13_weight

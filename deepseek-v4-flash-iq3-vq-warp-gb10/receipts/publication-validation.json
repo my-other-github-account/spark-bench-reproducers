@@ -1,0 +1,24 @@
+{
+  "checks": {
+    "artifact_verifier": "PASS: payload_files alias quick/full; same-size tamper rejected",
+    "container_receipt": "PASS: greedy32, 3/3 sentinels, five valid 64-token rows",
+    "container_receipt_sha256": "0559164deb2aaf86f466eff9649faa49c9ac788afa48856d42cafca7422a8082",
+    "git_diff_check": "PASS",
+    "legal_and_security": "PASS: canonical licenses, loopback default, unprivileged runtime, remote-code opt-in, hash locks",
+    "parsers": "PASS: all Python AST, JSON, JSONL, and shell syntax",
+    "patch_chain": "PASS: 3/3 clean apply against ee0da84ab9e04ac7610e28580af62c365e898389",
+    "privacy_and_secrets": "PASS: 89 shipped files including cubin bytes",
+    "public_vs_tested_patch_semantics": "PASS: executable AST identical after removing docstrings; public changes are privacy-only comments/docstrings",
+    "wire_codec": "PASS: 8/8 tests"
+  },
+  "container_5x64_median_decode_tokens_per_second_after_first": 14.993464427392787,
+  "quality": {
+    "common_bitwise_serve_vs_offline_delta_pct": 1.3438157094803975,
+    "isolated_warp_vs_bitwise_delta_pct": 0.00029671062820376114,
+    "isolated_warp_gate_limit_pct": 0.3,
+    "isolated_warp_status": "PASS",
+    "positions": 65536,
+    "windows": 64
+  },
+  "status": "PASS"
+}

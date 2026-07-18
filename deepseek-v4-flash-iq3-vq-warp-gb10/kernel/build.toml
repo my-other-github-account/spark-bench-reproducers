@@ -1,0 +1,13 @@
+[general]
+name = "vq-warp-gemv"
+version = "0.1.0"
+license = "Apache-2.0"
+
+[torch]
+backend = "cuda"
+
+[torch.build]
+package = "vq_warp_gemv"
+
+[backend.cuda]
+archs = ["12.1+PTX"]

@@ -1,0 +1,29 @@
+vLLM-Moet / DeepSeek-V4-Flash IQ3 reproducer
+Copyright 2026 the vLLM-Moet authors and banana_bae
+
+This distribution contains a patchset against vLLM v0.24.0 and selected runtime
+assets needed to reproduce mixed-VQ IQ3 serving on NVIDIA GB10:
+
+- vLLM (https://github.com/vllm-project/vllm), Apache License 2.0.
+  The exact upstream commit is recorded in PROVENANCE.md. The patch files are
+  `patches/0001-vllm-moet-v0.24.0.patch` and
+  `patches/0002-iq3-vq-runtime.patch`, plus the prepacked-loader correction in
+  `patches/0003-prepacked-memory-fix.patch`.
+
+- vLLM-Moet (https://github.com/Sapid-Labs/vLLM-Moet), Apache License 2.0.
+  The exact source commit is recorded in PROVENANCE.md. Selected SM120 cubins
+  and their buildable source/SASS inputs are included under `cubins/`.
+
+- DeepGEMM (https://github.com/deepseek-ai/DeepGEMM), MIT License,
+  Copyright (c) 2025 DeepSeek. The Docker build fetches the pinned source
+  commit and builds its aarch64 wheel from source; no prebuilt DeepGEMM wheel
+  is redistributed by this repository.
+
+- `kernel/`, `tools/`, and the vLLM patch files declare Apache-2.0.
+  Campaign scripts and the entrypoint that declare `SPDX-License-Identifier: MIT`
+  are licensed under the MIT License in LICENSE-MIT.
+
+The DeepSeek-V4-Flash model weights and the prepacked IQ3 VQ wire artifact are
+not included or redistributed. They are mounted read-only at runtime. The
+runtime consumes the already-prepacked wire artifact; it does not construct
+quantization planes while loading the model.

@@ -1,0 +1,7 @@
+receipts/container-*.json
+receipts/container-*.log
+__pycache__/
+*.pyc
+.git/
+cubins/w3-source/.build/
+cubins/w3-source/out/

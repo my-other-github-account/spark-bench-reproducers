@@ -1,0 +1,18 @@
+{
+  "capability": [12, 1],
+  "cuda": "13.0",
+  "device": "NVIDIA GB10",
+  "gid": 10001,
+  "kernel_extension_sha256": "9dba34d5436cb7831d67635001f4df244fb5a881275954548ea66f5b7ef58176",
+  "kernel_op_loaded": true,
+  "kernel_version": "0.1.0",
+  "module_sha256": {
+    "moe_vq_triton.py": "d56de8945cf55cc72ecae698e9b61c03a144d9dc65542da07b5cf1fdcc353bd0",
+    "moe_w2_cubit.py": "674d4938aec5eb0eea577d03a7c14c87d5f41e87017e51dc9cceb1930ec9635f"
+  },
+  "status": "PASS",
+  "torch": "2.11.0+cu130",
+  "transformers": "5.13.0",
+  "uid": 10001,
+  "vllm": "0.24.0"
+}

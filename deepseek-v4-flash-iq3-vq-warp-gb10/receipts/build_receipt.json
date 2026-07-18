@@ -1,0 +1,63 @@
+{
+  "base_image": "vllm/vllm-openai:v0.24.0@sha256:32445b36556244d8a721cd21a2b47a7915bc6408432d05aaeab205bb223ced8b",
+  "cold_no_cache_ancestor": {
+    "build_policy": "docker build --pull --no-cache",
+    "elapsed_s": 151,
+    "image_id": "sha256:a15829cc659e94764132825ff77803f58b2ea9de1c879724b0e4ecde43892ee2",
+    "image_size_bytes": 23991635494,
+    "log": "docker-build-nocache-a158.log",
+    "log_sha256": "b74e2d0e5764cc4f27516bee339e79fff3b88b01f74dc3c7b98fb4306d0a90c5",
+    "mounted_artifact_boot": "FAIL",
+    "status": "BUILD_AND_DEVICE_SMOKE_PASS_RUNTIME_FAIL",
+    "superseded_by": "sha256:9580f855d49cd783d494117ebbc5a172236cc401a087339d0dcf85d080749c74",
+    "tested_iq3_vq_patch_sha256": "d8e3f427b951d9bf01ae79b990d78c7d5cefaf024960f3a5d045bb216acd32e3"
+  },
+  "dependency_locks": {
+    "apt_direct_versions": true,
+    "deepgemm_commit": "a6b593d2826719dcf4892609af7b84ee23aaf32a",
+    "flashinfer_jit_cache": "0.6.14+cu130",
+    "flashinfer_python": "0.6.14",
+    "python_require_hashes_no_deps": true,
+    "vllm_moet_commit": "436d2a9100466198fc9cf23bd67a733d87fc9051",
+    "vllm_upstream_commit": "ee0da84ab9e04ac7610e28580af62c365e898389"
+  },
+  "format": "deepseek-v4-flash-iq3-container-build-v3",
+  "patch_sha256": {
+    "0001-vllm-moet-v0.24.0.patch": "bd354047f88ebc531fb0097dbf52199a6e09e5cb72aa28f6041a0586c425ab6f",
+    "0002-iq3-vq-runtime.patch": "90275bd1066ccc9462ace8b0744d9cbd2a4007c067ea4dff70b50a804f7e51ed",
+    "0003-prepacked-memory-fix.patch": "730d1c4fa1309476a0f25120e6e529050ed1aedf76fc90a536f4de248396665f"
+  },
+  "publication_source": {
+    "dockerfile_sha256": "a0001c5f8c7100ffdbc7e0bb4edfc985f47ae4857c9fda75a9c3fcf44a00328f",
+    "privacy_comment_scrub": "seven internal card-id occurrences in 0002 comments were replaced; executable patch lines are unchanged",
+    "entrypoint_fail_closed": {
+      "missing_config_exit": 64,
+      "missing_wire_exit": 65
+    },
+    "runtime_user": "10001:10001"
+  },
+  "shippable_image": {
+    "architecture": "arm64",
+    "build_policy": "incremental rebuild from the cold/no-cache ancestor after two runtime fixes",
+    "container_e2e_receipt": "container-e2e.json",
+    "container_e2e_receipt_sha256": "0559164deb2aaf86f466eff9649faa49c9ac788afa48856d42cafca7422a8082",
+    "device": "NVIDIA GB10",
+    "image_id": "sha256:9580f855d49cd783d494117ebbc5a172236cc401a087339d0dcf85d080749c74",
+    "image_size_bytes": 24019694723,
+    "mounted_artifact_boot": "PASS",
+    "runtime_fixes": [
+      "remove orphan flashinfer_cubin namespace and assert FlashInfer 0.6.14 import contract",
+      "select prepacked zero-byte placeholders before checkpoint load and mmap-load immutable wire layers afterward"
+    ],
+    "runtime_module_sha256": {
+      "fp8.py": "0d20528ce9b3e358c63d6f348f3ab812485500ea7b7c13f2cb4aee1ba7e4eafc",
+      "moe_vq_triton.py": "d56de8945cf55cc72ecae698e9b61c03a144d9dc65542da07b5cf1fdcc353bd0",
+      "moe_w2_cubit.py": "674d4938aec5eb0eea577d03a7c14c87d5f41e87017e51dc9cceb1930ec9635f",
+      "mxfp4.py": "5091f05feae9e8215e9fa152534c3b7ec844917de32198b1109e84e38cb6d1cf",
+      "vq_warp_gemv.so": "9dba34d5436cb7831d67635001f4df244fb5a881275954548ea66f5b7ef58176"
+    },
+    "status": "PASS"
+  },
+  "status": "PASS_WITH_SEPARATED_BUILD_AND_RUNTIME_EVIDENCE",
+  "warp_wheel_sha256": "ce79f01cac2dc62bb4424b8f85dc70a5f35f3b454778537e94aafb25bf67cc38"
+}
