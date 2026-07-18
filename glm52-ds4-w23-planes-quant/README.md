@@ -368,3 +368,26 @@ v1 pilot (10K params, vqA codebooks only, 24 steps): init 0.0619 -> best 0.0613 
 ### Instrument robustness (closed)
 
 Position-slice check: later-token KL is uniformly lower across artifacts (more context -> lower teacher entropy); rankings unchanged. The [0,1024) convention stands for all sealed rows. Checked once, closed — no further slice spend.
+
+## Jul 17 sealed update
+
+The current public tables are in [`RESULTS.md`](RESULTS.md). Headline quality progressed from corrected IQ3 `0.096640` to COMBO A `0.077061` and COMBO V2 `0.076286`; the latter scores 84.6% on the matched MMLU-500 protocol at about 2.89 whole-model bpw. The raw-autoregressive serving stack progressed from 2.14 → 6.59 → 7.11 → **14.1345 tok/s sustained over 4,096 tokens**, without MTP/speculation. Active experiments are labeled in progress rather than extrapolated.
+
+## Foundation & Acknowledgements
+
+This campaign is built on [vLLM-Moet](https://github.com/kacper-daftcode/vllm-Moet). Its prepacked 2-bit/3-bit expert-plane serving path, W2 sign-symmetric RTN recipe, FP8-KV launch recipe, MC4/AFRAG packing, MoE W2/W4 kernels, and cubins are both our deployment target and our baseline. We thank its authors; this campaign would not exist without that engineering.
+
+On our 512-window instrument, the stock vLLM-Moet W2 recipe measured KL `0.390165`, top-1 `0.809`, MMLU-500 `0.810`, and served NLL `1.5045` (offline cross-check `1.4923`, 0.8% agreement). vLLM-Moet reports task/probe parity rather than this KLD instrument; we offer the row as a characterization datapoint.
+
+| Tier on the vLLM-Moet serving foundation | KLD | Size/class |
+|---|---:|---:|
+| Stock W2 sign-symmetric RTN | 0.390165 | ~80.5 GB total |
+| W3v2 | 0.087660 | ~3.25 expert bpw |
+| Mixed IQ3 backpack, unrepaired | 0.098950 | 101.95 GB |
+| Corrected IQ3 pre-repair | 0.096640 | 101.95 GB |
+| COMBO V2 repaired IQ3 | 0.076286 | 101.95–102.60 GB package class |
+| T3EDGE baseline | 0.066274 | 111.5-GB campaign class |
+
+The kernels make arbitrary per-expert tier mixes serveable; this repository's contribution is the quantization-quality, repair, evaluation, and newer learned-VQ decode work layered on that foundation.
+
+Upstream's Jul 16 prefill-FP4 quality fix (`2040f39`) does not affect the offline KLD instrument. Our earlier served-TPS receipts predate it; future served-quality A/B work should rebase first.
