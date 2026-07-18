@@ -1,0 +1,68 @@
+{
+  "all_pass": true,
+  "results": [
+    {
+      "test": "bitwise_d8_k256",
+      "pass": true,
+      "detail": "batch=16 rows=4096 shape=(16, 4096, 4096)"
+    },
+    {
+      "test": "subbatch1_invariant_d8_k256",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "subbatch3_invariant_d8_k256",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "subbatch8_invariant_d8_k256",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "bitwise_d8_k4096",
+      "pass": true,
+      "detail": "batch=16 rows=4096 shape=(16, 4096, 4096)"
+    },
+    {
+      "test": "subbatch1_invariant_d8_k4096",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "subbatch3_invariant_d8_k4096",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "subbatch8_invariant_d8_k4096",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "bitwise_d4_k1024",
+      "pass": true,
+      "detail": "batch=16 rows=4096 shape=(16, 4096, 4096)"
+    },
+    {
+      "test": "subbatch1_invariant_d4_k1024",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "subbatch3_invariant_d4_k1024",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "subbatch8_invariant_d4_k1024",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "torch": "2.8.0",
+  "device": "cpu",
+  "note": "CPU analog of the 8w golden gate: scalar vs bulk dequant chain bitwise identity + sub-batch invariance. On-host GPU gate is authoritative for the end-to-end rail."
+}

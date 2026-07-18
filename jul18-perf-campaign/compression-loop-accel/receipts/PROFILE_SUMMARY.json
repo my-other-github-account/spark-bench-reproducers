@@ -1,0 +1,33 @@
+{
+  "production_status": "patches staged; end-to-end GPU bitwise/loss-identity gates still required before adoption",
+  "rail": {
+    "forward_seconds_per_64": 527,
+    "load_seconds_per_64": 465,
+    "profile_split": {
+      "forward_percent": 53,
+      "load_percent": 47
+    },
+    "wall_seconds_per_64_range": [
+      1002,
+      1014
+    ]
+  },
+  "schema": "jul18-compression-loop-profile-v1",
+  "trainer": {
+    "backward_self_percent": 36.5,
+    "frozen_codes_scales_gather_h2d_self_percent": 35.0,
+    "probe_amortized_percent": 5,
+    "probe_panel_seconds_range": [
+      84,
+      104
+    ],
+    "step_seconds_range": [
+      341,
+      383
+    ]
+  },
+  "validation": {
+    "rail_cpu_analog_tests_passed": 12,
+    "trainer_cache_unit_tests_passed": 10
+  }
+}

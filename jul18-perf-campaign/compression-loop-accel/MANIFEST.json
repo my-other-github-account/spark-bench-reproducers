@@ -1,0 +1,52 @@
+[
+  {
+    "path": "DESIGN_RAIL.md",
+    "bytes": 3203,
+    "sha256": "08db3c266d310444110712fac2520d1ac220a715ff60bb9a2625e7dbc483fa73"
+  },
+  {
+    "path": "DESIGN_TRAINER.md",
+    "bytes": 3131,
+    "sha256": "792915db290858254aa7ac934d6a9c7b48df2eb01301e7352207381f24846991"
+  },
+  {
+    "path": "README.md",
+    "bytes": 2268,
+    "sha256": "5ef9ce80e8cc560f567813489dff712c5df1f16eb36b5133dcfb1dfc8d558bb7"
+  },
+  {
+    "path": "receipts/PROFILE_SUMMARY.json",
+    "bytes": 768,
+    "sha256": "ca0446199ee4d89bf87b7db3104cd22f50dc5472b6866fa465314213a58608c3"
+  },
+  {
+    "path": "receipts/R1_CPU_BITWISE_RECEIPT.json",
+    "bytes": 1516,
+    "sha256": "a2b6747aa97a31e6a2caeea056727d9520a62787595e700113da1f2fec5f1085"
+  },
+  {
+    "path": "receipts/T1_UNIT_RECEIPT.json",
+    "bytes": 1066,
+    "sha256": "bbaddd0dad1949646382d97df579597c13335f976f2578f45076dcaf276e60a0"
+  },
+  {
+    "path": "src/fullmenu_surface_t1.py",
+    "bytes": 21167,
+    "sha256": "e68400f92b80076e8597a4f226fd8398e5f579e63a4c210aff3a3bdce8c805bf"
+  },
+  {
+    "path": "src/r5_fullmenu_source.py",
+    "bytes": 29950,
+    "sha256": "ec9b2801a72193e2ba81f0f847f3364a07eb259b2742772afc763b9b3f0a4648"
+  },
+  {
+    "path": "tests/r1_cpu_bitwise_test.py",
+    "bytes": 3928,
+    "sha256": "9395efeebd5d480547ec14871d9d11d9ca638cc5c0fdf64fde81ec42d987e88c"
+  },
+  {
+    "path": "tests/t1_unit_test.py",
+    "bytes": 4691,
+    "sha256": "d5ef89431ad95b69c247a83e7271a0bbfff38c02e44a9dd181e22bdca3c2f5f5"
+  }
+]

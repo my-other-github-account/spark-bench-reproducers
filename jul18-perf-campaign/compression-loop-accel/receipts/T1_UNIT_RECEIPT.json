@@ -1,0 +1,56 @@
+{
+  "all_pass": true,
+  "results": [
+    {
+      "test": "disabled_no_cache",
+      "pass": true,
+      "detail": "fresh tensors each call, cache untouched"
+    },
+    {
+      "test": "disabled_value_correct",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "hit_same_objects",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "hit_value_equals_fresh",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "distinct_keys",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "byte_accounting",
+      "pass": true,
+      "detail": "tracked=8448 expected=8448"
+    },
+    {
+      "test": "lru_eviction_ran",
+      "pass": true,
+      "detail": "layers cached=15"
+    },
+    {
+      "test": "lru_keeps_newest",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "lru_cap_respected",
+      "pass": true,
+      "detail": "bytes=63360"
+    },
+    {
+      "test": "byte_accounting_after_eviction",
+      "pass": true,
+      "detail": "tracked=63360 recount=63360"
+    }
+  ],
+  "torch": "2.8.0"
+}
