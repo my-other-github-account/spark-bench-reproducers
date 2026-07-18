@@ -1,0 +1,52 @@
+{
+  "format": "p3-arm-receipt-v1",
+  "task": "<source-task>",
+  "arm": "B_LAYER_V5_SMALLM_MTP1_k1",
+  "host": "<worker-H>",
+  "api_pid": 650777,
+  "enginecore_pid": 650917,
+  "port": 8001,
+  "launcher": "/tmp/launch_p3_armB_t9cc8913c.sh",
+  "launcher_sha256": "e6d0ff70de24fa1b7bd2b7ac704c3ae6dc162d723e4a855802138ef19394ea18",
+  "server_log_sha256": "76d499d02ac8cdc9c9e1b7bf0d79460b30cd99925a74daf9d79c669ad0787b84",
+  "cmdline": "$HOME/venvs/vllm-moet/bin/python3 $HOME/venvs/vllm-moet/bin/vllm serve $HOME/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 2 --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --speculative-config {\"method\":\"mtp\",\"num_speculative_tokens\":1,\"draft_sample_method\":\"greedy\"} --enforce-eager --host 127.0.0.1 --port 8001 ",
+  "env_hot": "DS4_DENSE_PATCH=$HOME/missions/V2_PRODUCT_MTP_<source-task>/exports/v4-step32/dense_patch.safetensors\nPYTHONPATH=$HOME/missions/V2_PRODUCT_MTP_<source-task>/runtime_pyoverlay_v5:$HOME/missions/V2_PRODUCT_MTP_<source-task>/kernel/vq_warp_m4\nVLLM_MOE_VQ_CUDA_WARP=1\nVLLM_MOE_VQ_CUDA_WARP_MAX_M=4\nVLLM_MOE_VQ_D4_FAST=1\nVLLM_MOE_VQ_FAST=1\nVLLM_MOE_VQ_GROUP_FAST=1\nVLLM_MOE_VQ_M1_FAST=0\nVLLM_MOE_W2=1\nVLLM_MOE_W2_CUBIT_DIR=$HOME/Dev/vLLM-Moet/kernels/cubins-sm120\nVLLM_MOE_W2_DECODE_GRAPH=1\nVLLM_MOE_W2_DECODE_GRAPH_MAX_T=2\nVLLM_MOE_W2_FADVISE_GLOB=$HOME/models/hf/DeepSeek-V4-Flash/*.safetensors\nVLLM_MOE_W2_NUM_LAYERS=43\nVLLM_MOE_W2_PREPACKED_DIR=$HOME/missions/V2_PRODUCT_MTP_<source-task>/wire_v4-step32\nVLLM_MOE_W3_CUBIT_DIR=$HOME/ds4w3/cubins_e43",
+  "host_claim": "{\"owner\":\"<source-task>\",\"profile\":\"atlasfable1\",\"purpose\":\"P3 MTP ladder arms on inherited combo stack\",\"claimed_unix\":1784388896,\"prior_chain\":[\"<source-task>\",\"<source-task> (P1/P2, handoff sealed)\"],\"prior_claim_raw\":\"{\\\"owner\\\":\\\"<source-task>\\\",\\\"profile\\\":\\\"atlasfable1\\\",\\\"purpose\\\":\\\"sustained-4K clean baseline + TRUE-M1 integration gate\\\",\\\"claimed_unix\\\":1784344397}\\n\"}",
+  "golden_verifier_output": "GOLDEN PREFLIGHT FAIL:\n - MODEL: full checkpoint in cmdline — golden stack uses *trim-physical* for AR (full ckpt only needed for MTP)\n - ENV VLLM_MOE_VQ_CUDA_WARP_MAX_M set (bisection leftover — must be unset)",
+  "golden_verifier_note": "2 FAIL lines are documented intentional arm-B deviations: full ckpt (MTP head; verifier scopes trim-physical to AR only) and VLLM_MOE_VQ_CUDA_WARP_MAX_M=4 which is the card-specified small-M config for this arm (MAX_T=2/MAX_M=4). Glue md5 checks PASSED on v5 overlay. Graph sentinel PASSED (w2 decode-graph lines present).",
+  "graph_mode": "per-layer moe_w2 decode graphs (VLLM_MOE_W2_DECODE_GRAPH=1 MAX_T=2), runtime_pyoverlay_v5 + vq_warp_m4 small-M, enforce-eager ON (no native outer graphs)",
+  "layer_runtime_evidence": "(EngineCore pid=650917) INFO 07-18 15:49:42 [moe_w2_cubit.py:229] moe_w2_cubit: cubins loaded: [('w2', 512), ('w2', 1024), ('w2', 2048), ('w2', 4096), ('w2', 6144), ('w2mc2', 512), ('w2mc2', 1024), ('w2mc2', 2048), ('w2mc2', 4096), ('w2mc2', 6144), ('w2mc4', 512), ('w2mc4', 1024), ('w2mc4', 2048), ('w2mc4', 4096), ('w2mc4', 6144), ('w2mc4afrag', 512), ('w2mc4afrag', 1024), ('w2mc4afrag', 2048), ('w2mc4afrag', 4096), ('w2mc4afrag', 6144), ('w3', 2048), ('w3', 4096), ('w3mc4', 2048), ('w3mc4', 4096), ('w3mc4afrag', 2048), ('w3mc4afrag', 4096), ('w4', 512), ('w4', 1024), ('w4', 2048), ('w4', 4096), ('w4', 6144)]\n(EngineCore pid=650917) INFO 07-18 15:49:42 [moe_w2_cubit.py:787] moe_w2: layer 0 IQ3-VQ loaded (vq13=256 fp4_13=0 vq2=252 fp4_2=4) from layer_000",
+  "warmups": 3,
+  "warmup_tps": [
+    6.134,
+    10.421,
+    12.532
+  ],
+  "rows_decode_tok_s_after_first": [
+    12.56251143578249,
+    12.5969473968599,
+    12.570148983382907,
+    12.581305144268537,
+    12.562830496628957
+  ],
+  "rows_accepted_per_draft": [
+    0.8529411764705882,
+    0.8529411764705882,
+    0.8529411764705882,
+    0.8529411764705882,
+    0.8529411764705882
+  ],
+  "rows_cycle_ms": [
+    147.498,
+    147.094,
+    147.408,
+    147.277,
+    147.494
+  ],
+  "median_tps": 12.570148983382907,
+  "median_cycle_ms": 147.408,
+  "measurement_valid": true,
+  "performance_gate_pass_15": false,
+  "utc": "2026-07-18T15:56:50Z",
+  "unix": 1784390210.945972
+}

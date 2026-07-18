@@ -1,0 +1,16 @@
+{
+  "bar_pass": true,
+  "bar_ratio": 1.4,
+  "c1_tok_s": 13.828606994804428,
+  "c2_c1_ratio": 1.4380240709487546,
+  "c2_clean_rounds_tok_s": [
+    19.885869726219088,
+    19.668452985360723,
+    20.162959559532116
+  ],
+  "c2_median_tok_s": 19.885869726219088,
+  "mtp_enabled": false,
+  "prompt": "code generation",
+  "round1_quarantined": "first M=2 shape warmup",
+  "schema": "jul18-c2-concurrency-summary-v1"
+}

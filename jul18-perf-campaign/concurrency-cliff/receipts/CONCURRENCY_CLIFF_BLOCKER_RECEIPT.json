@@ -1,0 +1,65 @@
+{
+  "boot_attempts": [
+    {
+      "attempt": 1,
+      "cause": "missing standard W4 cubin w4_k2048 on <worker-F>",
+      "fix": "copied sealed 26 W2/W4 + 6 W3 cubins from <worker-D> into task-local mission and repointed launcher",
+      "verdict": "FAIL_CLOSED"
+    },
+    {
+      "attempt": 2,
+      "cause": "95GB packed wire available only through read-only SSHFS; T=512 grouped fallback produced no log progress for >15m",
+      "verdict": "STOPPED"
+    },
+    {
+      "attempt": 3,
+      "cause": "same T=512 warmup remained active >26m after kernel_cache + 1MiB reads + 8 SSH connections; network counters flat and GPU 96%",
+      "proof_sentinel": "VQ DISPATCH PROBE path=fallback_m16 T=512 mblock=16 valid_m=16 max_m=4",
+      "verdict": "STOPPED"
+    }
+  ],
+  "evidence": {
+    "application_ready_present": false,
+    "dispatch_sentinel_present": true,
+    "enginecore_failure_present": false,
+    "hashes_sha256": {
+      "launch_receipt": "501d8b5c2fc351a1b16d9e5cfb354df236e3753085324cea3770b5e45559dd60",
+      "launcher": "0412499b1d5c74400662cd391e44a5a15b85f83e199ffa43d0fe07466a8377c6",
+      "moe_vq_triton": "7b25bf83a0e6a36a50af2eab2c4a5305b7f146824e2acf183dcbd82ca760f13a",
+      "moe_w2_cubit": "2cc85159cac1369ab6586188aacf65115f2eb61e31d8c90c2232597ff3f47469",
+      "server_log": "e8e85c0795c983846a1ec4899adc6758f109d3555a2f771276429cc853a35468",
+      "vq_warp_so": "2b0baea39649f962118f3707c2cc13029ac63f26ddb7e36b0345a559905340d0"
+    },
+    "log_bytes": 23780
+  },
+  "final_host_state": {
+    "claim_owner": "UNCLAIMED",
+    "gpu_empty": true,
+    "port_8001": "clear",
+    "remote_wire": "unmounted"
+  },
+  "format": "concurrency-cliff-blocker-v1",
+  "grounded_findings": [
+    "v4->v5 source diff only changes small-M valid_m and CUDA warp dispatch; mblock=16/T=512 fallback is unchanged",
+    "remote wire is a FUSE mmap; CUDA/UVM cannot establish a valid Golden startup in the bounded host window",
+    "no /v1 endpoint became ready, so Golden preflight, T=1 sanity, and concurrency table were not run or claimed"
+  ],
+  "host": "<worker-F>",
+  "released_utc": "2026-07-18T18:40:50.247146+00:00",
+  "required_unblock": "Provide a local/NFS-mounted 95GB PACK_MANIFEST/PACK_COMPLETE wire on <worker-F>, or wait for <worker-D> (where the wire is local) to release.",
+  "staged_fastpath": {
+    "decode_graph_max_t": 4,
+    "kernel": "vq_warp_m4 (V5/M4 sealed asset)",
+    "m2_gate_ms": 0.699,
+    "m2_speedup_vs_oracle": 2.42,
+    "oracle_ms": 1.69,
+    "warp_max_m": 4
+  },
+  "status": "BLOCKED_NO_VALID_BENCHMARK",
+  "task": "<source-task>",
+  "tests": {
+    "command": "python3 -m unittest discover -s tests -v",
+    "failed": 0,
+    "passed": 15
+  }
+}
