@@ -64,7 +64,7 @@ for tier_name, k, d, n_rows, n_cols in [
     ).to(torch.bfloat16)
 
     bitwise = torch.equal(
-        scalar.view(torch.uint16) if hasattr(scalar, "view") else scalar, 
+        scalar.view(torch.uint16) if hasattr(scalar, "view") else scalar,
         bulk.view(torch.uint16),
     )
     check(f"bitwise_{tier_name}", bitwise,

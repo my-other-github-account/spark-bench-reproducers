@@ -2,32 +2,15 @@ diff --git a/ggml/src/ggml-rpc/ggml-rpc.cpp b/ggml/src/ggml-rpc/ggml-rpc.cpp
 index d380577..6e49f54 100644
 --- a/ggml/src/ggml-rpc/ggml-rpc.cpp
 +++ b/ggml/src/ggml-rpc/ggml-rpc.cpp
-@@ -522,21 +522,27 @@ static bool ggml_backend_rpc_buffer_cpy_tensor(ggml_backend_buffer_t buffer, con
- 
- static void ggml_backend_rpc_buffer_clear(ggml_backend_buffer_t buffer, uint8_t value) {
-     ggml_backend_rpc_buffer_context * ctx = (ggml_backend_rpc_buffer_context *)buffer->context;
-     rpc_msg_buffer_clear_req request = {ctx->remote_ptr, value};
-     bool status = send_rpc_cmd(ctx->sock, RPC_CMD_BUFFER_CLEAR, &request, sizeof(request), nullptr, 0);
-     RPC_STATUS_ASSERT(status);
- }
- 
+@@ -530 +530,7 @@ static void ggml_backend_rpc_buffer_clear(ggml_backend_buffer_t buffer, uint8_t
+-static ggml_backend_buffer_i ggml_backend_rpc_buffer_interface = {
 +static void ggml_backend_rpc_buffer_memset_tensor(ggml_backend_buffer_t buffer, ggml_tensor * tensor, uint8_t value, size_t offset, size_t size) {
 +    ggml_backend_rpc_buffer_context * ctx = (ggml_backend_rpc_buffer_context *)buffer->context;
 +    std::vector<uint8_t> data(size, value);
 +    ggml_backend_rpc_buffer_set_tensor(buffer, tensor, data.data(), offset, size);
 +}
 +
- static ggml_backend_buffer_i ggml_backend_rpc_buffer_interface = {
-     /* .free_buffer     = */ ggml_backend_rpc_buffer_free_buffer,
-     /* .get_base        = */ ggml_backend_rpc_buffer_get_base,
-     /* .init_tensor     = */ ggml_backend_rpc_buffer_init_tensor,
++static ggml_backend_buffer_i ggml_backend_rpc_buffer_interface = {
+@@ -534 +540 @@ static ggml_backend_buffer_i ggml_backend_rpc_buffer_interface = {
 -    /* .memset_tensor   = */ NULL,
 +    /* .memset_tensor   = */ ggml_backend_rpc_buffer_memset_tensor,
-     /* .set_tensor      = */ ggml_backend_rpc_buffer_set_tensor,
-     /* .get_tensor      = */ ggml_backend_rpc_buffer_get_tensor,
-     /* .set_tensor_2d   = */ NULL,
-     /* .get_tensor_2d   = */ NULL,
-     /* .cpy_tensor      = */ ggml_backend_rpc_buffer_cpy_tensor,
-     /* .clear           = */ ggml_backend_rpc_buffer_clear,
-     /* .reset           = */ NULL,
- };

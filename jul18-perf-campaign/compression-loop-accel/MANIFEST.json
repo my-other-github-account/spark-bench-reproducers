@@ -41,8 +41,8 @@
   },
   {
     "path": "tests/r1_cpu_bitwise_test.py",
-    "bytes": 3928,
-    "sha256": "9395efeebd5d480547ec14871d9d11d9ca638cc5c0fdf64fde81ec42d987e88c"
+    "bytes": 3927,
+    "sha256": "6bae0621f9fefad1592add72adfd736d42bae973ce805dcdc60f86608263354f"
   },
   {
     "path": "tests/t1_unit_test.py",

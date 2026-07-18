@@ -16,8 +16,8 @@
   },
   {
     "path": "patches/0001-rpc-memset-tensor.patch",
-    "bytes": 1802,
-    "sha256": "96f0876d66b95def5f1c97759ff8959281eed04ad079f244ed946dd959113894"
+    "bytes": 982,
+    "sha256": "9ef0979e53148729781d23d5eaf60dd2b45291a3e77c775f5520bda318930cb5"
   },
   {
     "path": "receipts/BUILD_RECEIPT.json",
