@@ -1,4 +1,4 @@
-# Results — sealed through 2026-07-18
+# Results — sealed through 2026-07-19
 
 All quality rows are measured unless marked **gate**, **pilot**, **in progress**, or **negative tombstone**. The canonical offline rail is 512 windows × 1,024 scored positions with corpus MD5 `1701920b4ba96dea0b18fe9df0151876`; smaller KL is better. The paired effect-size floor is ±2.6%.
 
@@ -16,7 +16,8 @@ All quality rows are measured unless marked **gate**, **pilot**, **in progress**
 | R4 input | VQA d4/k256 step-45 live re-anchor | 0.283803 → **0.234207**, **+17.4757%** | sealed paired 512-window re-anchor; 524,288 positions; not a backpack row |
 | R4 input | d8/k4096 step-50 live re-anchor | 0.664968 → **0.502987** KL_vs_fp8, **+24.3592%** | sealed paired 512-window re-anchor; ABOVE_FLOOR; not comparable to d4 KL_vs_teacher rows |
 | R4 input | d4/k2048 repair | step-10 **−8.6358%** | negative tombstone; retain unrepaired anchor and do not relaunch |
-| Q2-FM | Q2-budget full-menu backpack, 95.75 GB total (88.2 GiB expert, 2.7348 expert bpw) | **0.131233** KL, top-1 0.893652 | sealed full-512 measured row (524,288 positions); misses the 0.0927 strict bar by 41.6%; measured 13.45% above the 0.115678 solver prediction; repair follow-on launched |
+| Q2-FM | Q2-budget full-menu backpack, 95.75 GB total (88.2 GiB expert, 2.7348 expert bpw) | **0.131233** KL, top-1 0.893652 | sealed full-512 measured row; repair follow-on below |
+| Q2 fresh-200 step40 | warm-restart repair, 95.75 GB target | probe **0.0539241**, full-512 **0.0984825** KL | sealed miss: 6.2378% above the strict 0.0927 bar; parked |
 
 ### Provenance cautions
 
@@ -84,13 +85,13 @@ Frozen instrument: EvalPlus 0.4.0.dev44 @ `26d6d00`, HumanEvalPlus v0.1.10, N=1 
 |---|---:|---:|---:|---:|
 | API reference (`deepseek/deepseek-v4-flash`) | **98.2%** (161/164) | **91.5%** (150/164) | 159.63 GB measured (native source) | 4.49 |
 | Served UD-IQ4_XS | **98.2%** (161/164) | **92.7%** (152/164) | 137.90 GB | 3.88 |
-| Served IQ3 16K (this work) | pending | pending | 101.95 GB | 2.87 |
+| Served repaired IQ3 16K | **95.73% (157/164)** | **90.85% (149/164)** | 101.95 GB | 2.87 |
 
 ## Tool evaluation
 
 - Reference row: OpenRouter displayed score **86**; its five-trial mean is **85.4 ± 2.2** with 95% CI [83.6, 86.8].
 - Served UD-IQ4_XS (16K per-slot llama.cpp RPC serve) sealed **86.3 ± 3.5** across three complete 69-scenario trials (86, 90, 83), statistically even with the reference interval.
-- The 16K-context IQ3 campaign (N=5, same instrument) is in flight; its first three trials scored 88, 86, 88. The sealed N=5 row will replace the 8K-context lower-bound row below when complete.
+- The repaired IQ3 16K campaign sealed **86.60 ± 1.20** across five complete trials (**88, 86, 88, 85, 86**; 345/345 attempts). The true-16K row supersedes the earlier 8K-context lower bound.
 - UD-IQ3_XXS via llama.cpp sealed **86.0 ± 0.0** across three complete 69-scenario trials (**207/207 attempts**). Every trial scored 119/138 with 53 pass, 13 partial, and 3 fail; all per-scenario statuses and points repeated exactly. Observed generation throughput was about 16.07 tok/s.
 - The 14.1345 tok/s mixed-VQ IQ3 warp stack sealed five complete 69-scenario trials (**345/345 attempts**) with scores **86, 85, 85, 85, 85**: mean **85.2 ± 0.4**, median 85, 95% CI [85.0, 85.6], and pass@k 82.6. Its interval overlaps the OpenRouter reference interval.
 - The exact 14.1345 tok/s endpoint passed TC-01 and TC-02 canaries: 2/2 each, one correct tool call each, non-empty reasoning, all HTTP 200.
@@ -104,3 +105,60 @@ Frozen instrument: EvalPlus 0.4.0.dev44 @ `26d6d00`, HumanEvalPlus v0.1.10, N=1 
 - `eval/TOOLEVALBENCH_JUL17.md` — canaries plus the sealed UD-IQ3_XXS N=3 row and mixed-VQ gate status.
 - `serving/TPS_JUL17.md` — throughput protocol, quality attribution, and caveats.
 - `serving/vq-warp-kernel/` — Apache-2.0 CUDA source and build instructions.
+
+## 2026-07-19 calibration and repair results
+
+### Canary calibration
+
+The known code ordering is UD-IQ4_XS 161/164 HumanEval and 152/164 HumanEval+ versus repaired IQ3 157/164 and 149/164. Static and position-micro instruments did not reproduce it:
+
+| instrument | IQ3 | IQ4 | verdict |
+|---|---:|---:|---|
+| static mean/tail | code mean 0.067247; p99 0.987761 | whole-corpus mean 0.092683; p99 1.462626 | wrong direction / damage-location only |
+| own-rollout position-micro | approval 0.948997; NLL 0.284622 | approval 0.947793; NLL 0.302673 | wrong direction |
+| own-rollout prompt-macro | approval 0.937074; NLL **0.609640** | approval 0.941360; NLL **0.485575** | retrodicts through null/reasoning inflation |
+
+The standing early gate is candidate-own rollout prompt-macro NLL/approval plus reasoning-length ratio and null count at frozen budgets. See [`CANARY_CALIBRATION.md`](CANARY_CALIBRATION.md).
+
+### Repaired IQ3 per-class KLD
+
+Instrument: source-teacher top-8192 offline rail, KL(teacher||candidate), identical held-out windows, 512×1,024 scored positions. This is a damage-location table, not a cross-quant quality ranking.
+
+| class | mean | p90 | p95 | p99 | max | positions >0.5 |
+|---|---:|---:|---:|---:|---:|---:|
+| agentic | 0.084410 | 0.178075 | 0.375875 | 1.353336 | 11.027664 | 3.660% |
+| chat | 0.033820 | 0.066671 | 0.111783 | 0.345354 | 11.103209 | 0.597% |
+| code | 0.067247 | 0.147834 | 0.289001 | 0.987761 | 12.588837 | 2.597% |
+| multilingual | 0.137059 | 0.335259 | 0.606910 | 1.706343 | 10.031125 | 6.336% |
+| prose | 0.096667 | 0.216301 | 0.369949 | 1.030024 | 10.087885 | 3.250% |
+| reasoning | 0.021450 | 0.047212 | 0.075269 | 0.190526 | 8.318620 | 0.212% |
+
+The paired UD-IQ4_XS per-class table is pending on the identical labeled window set. Its existing whole-corpus llama.cpp row is not substituted into this table.
+
+### BIN 0 allocation
+
+- Current-window causal direction: sealed negative, -1.729504% versus exact step0.
+- Long-repair selected B32: rejected, 0.726430% worse pooled than matched fixed A32.
+- Boundary refresh: first positive sign, +0.029719% pooled; interval crosses zero.
+- Class-tail weighted: +1.691267% versus fixed10 and +1.756428% versus the causal arm with wholly positive intervals; only +0.057301% versus step0 with a crossing interval and zero reasoning coverage. Not promoted.
+- Gradient/STE allocation is closed after eight clean held-out negatives. Direct ARM-F/ARM-M measured-delta allocation replaces it.
+
+See [`BIN0_ALLOCATION_LEDGER.md`](BIN0_ALLOCATION_LEDGER.md).
+
+### BIN T behavioral repair
+
+The four-step trajectory micro-dose improved scorer-stream prompt-macro NLL from 0.325951 to 0.273442 (-16.11%) while spot32 mean KLD was unchanged (0.0472933→0.0472864). The training pool included HumanEval/116 and /132 three times each, so the outcome is **trained-on-task mechanism evidence**, not generalization. Clean 4/8/16-step arms now start independently from the immutable step-32 checkpoint with an 18-task sealed holdout.
+
+See [`TAILFIX_BIN_T.md`](TAILFIX_BIN_T.md).
+
+### Q2 full-512 sealed miss
+
+The fresh-200 warm restart found a new probe best at step40 (0.0539240856; checkpoint SHA-256 `62e250db2cdd3c9a13ae50f71637afd6554c743c5dc18eb384e1826ba9251d8d`), but the exact gate8-qualified full-512 row measured **0.0984824570** at 95.75 GB / 3.4471774 bpw. It misses the strict `<0.0927` target by 6.2378%. The artifact is parked. See [`Q2_FULL512_MISS.md`](Q2_FULL512_MISS.md).
+
+### Pipeline acceleration
+
+- exact 64-window rail: 2,752.213 s → 798.410 s = **3.447117x**, 64/64 bit-identical;
+- exact 512-unit plane-row builder: 736.187529 s → 48.865639 s = **15.065546x**, content/metrics hashes identical;
+- repair-step ACCEL-3: incumbent 370.273 s/step; best tested lever 1.1391x with state drift; theoretical ceiling 1.8215x. No-go for the tested local regrouping approach.
+
+See [`ACCEL_LEDGER.md`](ACCEL_LEDGER.md).
