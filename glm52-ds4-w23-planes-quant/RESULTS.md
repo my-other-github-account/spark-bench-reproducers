@@ -76,9 +76,21 @@ Quality attribution subsequently isolated the warp kernel itself: the matched 64
 
 Known limitation: the T=1 decode specialization is not valid for T≥2. Concurrent/multi-token routing must fall back to the general path until separately validated.
 
+## Code generation — EvalPlus HumanEval(+) (sealed 2026-07-18)
+
+Frozen instrument: EvalPlus 0.4.0.dev44 @ `26d6d00`, HumanEvalPlus v0.1.10, N=1 greedy, true 4,096-token completion cap bound by an audited OpenAI-decoder shim (the upstream constructor silently drops the advertised cap to a 768 default; earlier uncapped rows are quarantined), exact-commit network-isolated Docker execution.
+
+| Row | HumanEval pass@1 | HumanEval+ pass@1 | Package size | Whole-model bpw |
+|---|---:|---:|---:|---:|
+| API reference (`deepseek/deepseek-v4-flash`) | **98.2%** (161/164) | **91.5%** (150/164) | 159.63 GB measured (native source) | 4.49 |
+| Served UD-IQ4_XS | **98.2%** (161/164) | **92.7%** (152/164) | 137.90 GB | 3.88 |
+| Served IQ3 16K (this work) | pending | pending | 101.95 GB | 2.87 |
+
 ## Tool evaluation
 
 - Reference row: OpenRouter displayed score **86**; its five-trial mean is **85.4 ± 2.2** with 95% CI [83.6, 86.8].
+- Served UD-IQ4_XS (16K per-slot llama.cpp RPC serve) sealed **86.3 ± 3.5** across three complete 69-scenario trials (86, 90, 83), statistically even with the reference interval.
+- The 16K-context IQ3 campaign (N=5, same instrument) is in flight; its first three trials scored 88, 86, 88. The sealed N=5 row will replace the 8K-context lower-bound row below when complete.
 - UD-IQ3_XXS via llama.cpp sealed **86.0 ± 0.0** across three complete 69-scenario trials (**207/207 attempts**). Every trial scored 119/138 with 53 pass, 13 partial, and 3 fail; all per-scenario statuses and points repeated exactly. Observed generation throughput was about 16.07 tok/s.
 - The 14.1345 tok/s mixed-VQ IQ3 warp stack sealed five complete 69-scenario trials (**345/345 attempts**) with scores **86, 85, 85, 85, 85**: mean **85.2 ± 0.4**, median 85, 95% CI [85.0, 85.6], and pass@k 82.6. Its interval overlaps the OpenRouter reference interval.
 - The exact 14.1345 tok/s endpoint passed TC-01 and TC-02 canaries: 2/2 each, one correct tool call each, non-empty reasoning, all HTTP 200.
