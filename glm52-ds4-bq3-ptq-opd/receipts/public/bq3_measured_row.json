@@ -1,0 +1,60 @@
+{
+  "payload": {
+    "anchor_measurement_label": "MEASURED",
+    "assignment_manifest": "<private-path-redacted>",
+    "assignment_manifest_md5": "4e62bdda415605bd10efac2ae79af50f",
+    "base_pack": "<private-path-redacted>",
+    "budget_id": "IQ3-BIN",
+    "candidate_done_ledger": "<private-path-redacted>",
+    "candidate_done_ledger_md5": "a5e85019e99a9dc90b567a6201e2f14c",
+    "claim_shape": "smaller than IQ3_XXS, beats next rung",
+    "delta_pack_manifest": "<private-path-redacted>",
+    "delta_pack_manifest_md5": "0b22fef367ec9b32b3a4107efe097596",
+    "effective_bpw": 2.927071895809118,
+    "expert_bytes_used": 101360840912,
+    "expert_gb": 94.4,
+    "expert_gib": 94.4,
+    "js": 0.019827875000000002,
+    "kl_vs_fp8": 0.09894975,
+    "kl_vs_fp8_abs": 0.0997775,
+    "kld_windows_ledger": "<private-path-redacted>",
+    "kld_windows_ledger_md5": "fd63407db1a746cc926290631564f39d",
+    "measured_minus_predicted": -4.0795571633792105e-05,
+    "measurement_label": "MEASURED",
+    "n_positions": 524288,
+    "n_windows": 512,
+    "pos_cutoff": 1024,
+    "predicted_kld": 0.0989905455716338,
+    "predicted_label": "PRED",
+    "relative_prediction_error_pct": -0.041211583791373976,
+    "row_id": "DUALVQ_K4096MENU_BQ3_94.4G_EXPERT_101.95GB_TOTAL_MEASURED",
+    "score_ledger": "<private-path-redacted>",
+    "score_ledger_md5": "3510de0b8a92e67fda966fa0386be9f4",
+    "sealed_at_utc": "2026-07-15T19:57:38Z",
+    "support_mass_cand": 0.999267875,
+    "support_mass_ref": 0.999859375,
+    "support_size": 8192,
+    "task": "<internal-task-redacted>",
+    "top1_agree": 0.906254,
+    "top1_in_top64": 0.9988155,
+    "total_gb": 101.95,
+    "under_reference": "1.05GB UNDER IQ3_XXS 103.0"
+  },
+  "privacy_transform": {
+    "numeric_values_preserved": true,
+    "public_name_normalization": [
+      "banana_bae/BQ3 for this campaign",
+      "Unsloth ownership retained for IQ*/UD-* comparators"
+    ],
+    "string_redactions": [
+      "private paths",
+      "private hosts and addresses",
+      "internal task identifiers",
+      "private identities"
+    ],
+    "structural_fields_preserved": true
+  },
+  "schema": "ptq-opd-public-receipt-v1",
+  "source_format": "json",
+  "source_receipt_sha256": "f1ceb49904d0967ed0e755303b66782d346ab326d83ca4bcb7276f3517ba0b46"
+}

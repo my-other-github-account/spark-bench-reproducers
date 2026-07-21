@@ -1,0 +1,213 @@
+{
+  "payload": {
+    "caveat": "One non-benchmark transfer update only; directional high-variance read. Full verdict is reserved for step8.",
+    "checkpoint_label": "step4p1transfer",
+    "checkpoint_sha256": "64dec255497a07b1afca6ca325bfeec1dea59cc5b9e974f8188f4a870d87f5e5",
+    "created_unix": 1784602468.2259195,
+    "duplicate_rows": [
+      {
+        "absolute_pct_delta_vs_rep1": 18.432769367764916,
+        "delta_tokens": -828,
+        "finish_reasons": [
+          "stop",
+          "stop"
+        ],
+        "rep1_reasoning_tokens": 4492,
+        "rep2_reasoning_tokens": 3664,
+        "task_id": "HumanEval/116"
+      },
+      {
+        "absolute_pct_delta_vs_rep1": 27.33747260774288,
+        "delta_tokens": -1497,
+        "finish_reasons": [
+          "stop",
+          "stop"
+        ],
+        "rep1_reasoning_tokens": 5476,
+        "rep2_reasoning_tokens": 3979,
+        "task_id": "HumanEval/132"
+      },
+      {
+        "absolute_pct_delta_vs_rep1": 31.25,
+        "delta_tokens": -335,
+        "finish_reasons": [
+          "stop",
+          "stop"
+        ],
+        "rep1_reasoning_tokens": 1072,
+        "rep2_reasoning_tokens": 737,
+        "task_id": "HumanEval/99"
+      }
+    ],
+    "duplicate_variance_floor_definition": "maximum absolute within-serve replicate percent delta vs rep1 across 116/132/99 (conservative)",
+    "duplicate_variance_floor_pct": 31.25,
+    "generation_sha256": "517c671ebd574e7751cf919c4a043f5aad164b469dd4bc7a1514f4746ba086a0",
+    "median_reasoning_delta_pct_vs_step0": -17.812205477987973,
+    "panel_spec_sha256": "6360a493d740cbeb67b6dfb090a84e499ac32073a8e62ec5d7ff9550743f7100",
+    "preregistered_directional_rule": {
+      "absolute_median_exceeds_conservative_max_duplicate_pair_pct": false,
+      "at_least_8_of_12_decreased": true,
+      "median_negative": true,
+      "pass": false
+    },
+    "primary_rows": [
+      {
+        "candidate_reasoning_tokens": 4492,
+        "completion_tokens": 4699,
+        "content_is_null": false,
+        "decreased": true,
+        "delta_pct": -31.4512437051732,
+        "delta_tokens": -2061,
+        "finish_reason": "stop",
+        "step0_reasoning_tokens": 6553,
+        "task_id": "HumanEval/116"
+      },
+      {
+        "candidate_reasoning_tokens": 5476,
+        "completion_tokens": 5778,
+        "content_is_null": false,
+        "decreased": true,
+        "delta_pct": -4.81487919346428,
+        "delta_tokens": -277,
+        "finish_reason": "stop",
+        "step0_reasoning_tokens": 5753,
+        "task_id": "HumanEval/132"
+      },
+      {
+        "candidate_reasoning_tokens": 1736,
+        "completion_tokens": 1899,
+        "content_is_null": false,
+        "decreased": false,
+        "delta_pct": 0.8130081300813008,
+        "delta_tokens": 14,
+        "finish_reason": "stop",
+        "step0_reasoning_tokens": 1722,
+        "task_id": "HumanEval/134"
+      },
+      {
+        "candidate_reasoning_tokens": 1274,
+        "completion_tokens": 1493,
+        "content_is_null": false,
+        "decreased": true,
+        "delta_pct": -25.45348156816852,
+        "delta_tokens": -435,
+        "finish_reason": "stop",
+        "step0_reasoning_tokens": 1709,
+        "task_id": "HumanEval/93"
+      },
+      {
+        "candidate_reasoning_tokens": 304,
+        "completion_tokens": 672,
+        "content_is_null": false,
+        "decreased": true,
+        "delta_pct": -55.62043795620438,
+        "delta_tokens": -381,
+        "finish_reason": "stop",
+        "step0_reasoning_tokens": 685,
+        "task_id": "HumanEval/57"
+      },
+      {
+        "candidate_reasoning_tokens": 147,
+        "completion_tokens": 239,
+        "content_is_null": false,
+        "decreased": true,
+        "delta_pct": -68.58974358974359,
+        "delta_tokens": -321,
+        "finish_reason": "stop",
+        "step0_reasoning_tokens": 468,
+        "task_id": "HumanEval/2"
+      },
+      {
+        "candidate_reasoning_tokens": 1072,
+        "completion_tokens": 1303,
+        "content_is_null": false,
+        "decreased": false,
+        "delta_pct": 49.30362116991643,
+        "delta_tokens": 354,
+        "finish_reason": "stop",
+        "step0_reasoning_tokens": 718,
+        "task_id": "HumanEval/99"
+      },
+      {
+        "candidate_reasoning_tokens": 1094,
+        "completion_tokens": 1203,
+        "content_is_null": false,
+        "decreased": true,
+        "delta_pct": -10.180623973727421,
+        "delta_tokens": -124,
+        "finish_reason": "stop",
+        "step0_reasoning_tokens": 1218,
+        "task_id": "HumanEval/83"
+      },
+      {
+        "candidate_reasoning_tokens": 630,
+        "completion_tokens": 940,
+        "content_is_null": false,
+        "decreased": true,
+        "delta_pct": -25.443786982248522,
+        "delta_tokens": -215,
+        "finish_reason": "stop",
+        "step0_reasoning_tokens": 845,
+        "task_id": "HumanEval/70"
+      },
+      {
+        "candidate_reasoning_tokens": 545,
+        "completion_tokens": 779,
+        "content_is_null": false,
+        "decreased": true,
+        "delta_pct": -29.312581063553825,
+        "delta_tokens": -226,
+        "finish_reason": "stop",
+        "step0_reasoning_tokens": 771,
+        "task_id": "HumanEval/127"
+      },
+      {
+        "candidate_reasoning_tokens": 300,
+        "completion_tokens": 405,
+        "content_is_null": false,
+        "decreased": false,
+        "delta_pct": 6.761565836298932,
+        "delta_tokens": 19,
+        "finish_reason": "stop",
+        "step0_reasoning_tokens": 281,
+        "task_id": "HumanEval/29"
+      },
+      {
+        "candidate_reasoning_tokens": 652,
+        "completion_tokens": 812,
+        "content_is_null": false,
+        "decreased": false,
+        "delta_pct": 27.592954990215265,
+        "delta_tokens": 141,
+        "finish_reason": "stop",
+        "step0_reasoning_tokens": 511,
+        "task_id": "HumanEval/122"
+      }
+    ],
+    "schema": "transfer-first-signal-summary-v1",
+    "sign_count": {
+      "decreased": 8,
+      "increased": 4,
+      "unchanged": 0
+    },
+    "task_id": "<internal-task-redacted>",
+    "unique_prompt_count": 12
+  },
+  "privacy_transform": {
+    "numeric_values_preserved": true,
+    "public_name_normalization": [
+      "banana_bae/BQ3 for this campaign",
+      "Unsloth ownership retained for IQ*/UD-* comparators"
+    ],
+    "string_redactions": [
+      "private paths",
+      "private hosts and addresses",
+      "internal task identifiers",
+      "private identities"
+    ],
+    "structural_fields_preserved": true
+  },
+  "schema": "ptq-opd-public-receipt-v1",
+  "source_format": "json",
+  "source_receipt_sha256": "010e4c1eff683a7595d39c4685272766bfc40995b858835e1e56ad73521db9af"
+}

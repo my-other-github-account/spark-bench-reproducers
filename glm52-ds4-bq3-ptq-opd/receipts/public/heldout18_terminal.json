@@ -1,0 +1,106 @@
+{
+  "payload": {
+    "artifact_family": "BQ3 (ours)",
+    "candidate_identity": {
+      "checkpoint_sha256": "44bbbcd6a945e0103c54abd6bce92f97c57f6016a81502110b0c5b8c2e643855",
+      "max_completion_tokens": 4096,
+      "max_num_seqs": 32,
+      "prefix_caching": true,
+      "serve_identity_sha256": "ad424f404ca6963b5995e1440d52180dca98b46a57fba81209df0e5d1d22b2b3",
+      "system_fingerprint": "vllm-0.24.0-3f34bf12",
+      "temperature": 0.0,
+      "top_p": 0.95
+    },
+    "completed_unix": 1784570920.593623,
+    "evalplus": {
+      "baseline": {
+        "base_pass": 15,
+        "both_pass": 15,
+        "plus_pass": 15
+      },
+      "candidate": {
+        "base_pass": 15,
+        "both_pass": 15,
+        "plus_pass": 15
+      },
+      "comparison_sha256": "4ee10643b56bcc08cbcaa41db20f92878c60bb195a4c3fc5ff5d47df72537d6f",
+      "delta": {
+        "base_pass": 0,
+        "both_pass": 0,
+        "plus_pass": 0
+      },
+      "docker_image": "evalplus:26d6d00",
+      "docker_image_id": "sha256:6f2058aeb0f07ceb3434e6b98571f3fde123c62b2456e38c4d1a4724f70ebc20",
+      "evalplus_commit": "26d6d00",
+      "sealed_baseline_rows_sha256": "9ffc0062bc5d3f34ef41deeaf4724bcac2501d008004af453c4982cfe9c6110d",
+      "split_contract": {
+        "clean_heldout18_count": 18,
+        "panel_rows": "all clean-heldout18; none used in trained146 dose",
+        "trained146_count": 146
+      }
+    },
+    "excluded_failed_lineage": {
+      "counted_rows": 0,
+      "receipt": "<private-path-redacted>",
+      "receipt_sha256": "25954d130bf59626ae6d8ec162036eb4cff90ed11a2322154d11355e6a04fdc1"
+    },
+    "generation": {
+      "finish_reasons": {
+        "length": 2,
+        "stop": 16
+      },
+      "generated_tokens": 18511,
+      "null_content_count": 2,
+      "reasoning_tokens_counted": 15318,
+      "receipt_sha256": "749cade6dd2e38037fbd5554fcbbf6763df73584a57146007a88b4fd894d770e",
+      "rollouts_sha256": "a707892220f382f23b4242bfba4fbebf0b71316a855dea0bffd3cb66648dac24",
+      "rows": 18,
+      "status_sha256": "43ab7fd791b9b447835f982c81a611118a018f3519f54736a7f8cafb698ea328",
+      "submission_span_s": 0.0064697265625
+    },
+    "host": "<private-host-redacted>",
+    "replacement_authorization": "explicit replacement lineage after sealed max_num_seqs=2 queue-timeout failure",
+    "schema": "leg2-heldout18-seq32-terminal-receipt-v1",
+    "source_teacher": {
+      "done_sha256": "60f288fe074d06cf9f4033f65727b2e4bf0146af48597b5dbfdba0f983ef5e24",
+      "finish_reason_counts": {
+        "length": 2,
+        "stop": 16
+      },
+      "independent_prompt_macro_nll": 0.18426567578646788,
+      "instrument": "sealed HF layer-streamed teacher_approval_compact_v1; generated-token slice only",
+      "macro_sha256": "06af8ef171e79baf3a2d4c773550e6f14a83541bd1361999199154de4716df29",
+      "null_count": 2,
+      "position_micro_nll_diagnostic_only": 0.19774414910070257,
+      "positions": 18511,
+      "prompt_macro_nll": 0.18426567578646788,
+      "prompt_macro_top1_approval": 0.9614333991018663,
+      "prompts": 18,
+      "summaries_sha256": "333a770c933689207b54b480e3b77fed8bb384c9f31f8c3643ffce9082cd5f1f",
+      "teacher_model": "DeepSeek-V4-Flash source checkpoint dequantized bf16"
+    },
+    "status": "PASS",
+    "task_id": "<internal-task-redacted>",
+    "teardown": {
+      "gpu_compute_apps": [],
+      "task_processes_absent": true
+    }
+  },
+  "privacy_transform": {
+    "numeric_values_preserved": true,
+    "public_name_normalization": [
+      "banana_bae/BQ3 for this campaign",
+      "Unsloth ownership retained for IQ*/UD-* comparators"
+    ],
+    "string_redactions": [
+      "private paths",
+      "private hosts and addresses",
+      "internal task identifiers",
+      "private identities"
+    ],
+    "structural_fields_preserved": true
+  },
+  "schema": "ptq-opd-public-receipt-v1",
+  "source_format": "json",
+  "source_receipt_sha256": "225485c757313994c04913e4089443b334e71adf1eaa1f1275bf39d5e4820f14"
+}

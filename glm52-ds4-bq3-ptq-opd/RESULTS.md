@@ -2,9 +2,9 @@
 
 ## Scope and verdict
 
-This page publishes the sealed DS4 `banana_bae` / BQ3 benchmark cells only. `BQ3` is our approximately 3-bit artifact family, `PTQ-OPD` is the post-training optimization method, and `OPKL` is the static teacher-divergence metric.
+This page publishes the sealed DS4 `banana_bae` / BQ3 benchmark cells only. `BQ3` is our approximately 3-bit artifact family, `PTQ-OPD` is the post-training optimization method, and `OPKL` is teacher/student KLD on student-generated trajectories. Fixed-window teacher-forced KLD is reported separately as a static safety instrument.
 
-> **Important:** the promoted deployment claim is limited to **HumanEval+ v0.1.10**, the frozen prompt/template, and the pinned decoder/harness used by this campaign. The static OPKL cells are teacher-forced divergence measurements, not task-accuracy scores. These results do **not** establish broad general capability, parity with the provider-routed FP reference, or transfer to untested benchmarks.
+> **Important:** the promoted deployment claim is limited to **HumanEval+ v0.1.10**, the frozen prompt/template, and the pinned decoder/harness used by this campaign. The static KLD cells are teacher-forced divergence measurements, not task-accuracy scores. These results do **not** establish broad general capability, parity with the provider-routed FP reference, or transfer to untested benchmarks.
 
 The promoted checkpoint is BQ3 PTQ-OPD step4. The later step8 checkpoint is published as a scientific dose-response observation only: it was not promotable under the campaign contract and introduced a new held-out generation regression.
 
@@ -76,7 +76,7 @@ These are specifically **step4-to-step8** dose measurements. Step0 hidden-reason
 
 The 4096-cap row is right-censored, not treated as a measured 4096-token convergence target. See `CENSORING.md` for the uncapped evidence.
 
-## Three-way static OPKL/KLD dissociation table
+## Three-way static teacher-forced KLD dissociation table
 
 This separate comparator instrument scores 512 paired windows (524,288 positions) with `KL(teacher || candidate)` using teacher top-8192 plus tail support. Each cell is `mean / p90 / p95 / p99`; lower is better.
 
@@ -89,7 +89,7 @@ This separate comparator instrument scores 512 paired windows (524,288 positions
 | prose | .096667 / .216301 / .369949 / 1.030024 | .103839 / .238109 / .403279 / 1.073694 | .085025 / .190572 / .341761 / .999021 |
 | reasoning | .021450 / .047212 / .075269 / .190526 | .023421 / .052641 / .082310 / .204160 | .016024 / .039980 / .063102 / .154617 |
 
-The headline code-class mean moves `0.067247 -> 0.068551`, slightly worse/flat for the campaign question, while HumanEval base moves `157 -> 160`. This is the campaign's static/behavioral dissociation: static OPKL/KLD is a no-regression rail, not a sufficient behavioral selector. The full three-way comparator-table file SHA-256 is `420523724962c63b47ed94314fbac7c928515c1217f811ddf736c46586559034`.
+The headline code-class mean moves `0.067247 -> 0.068551`, slightly worse/flat for the campaign question, while HumanEval base moves `157 -> 160`. This is one direction of the campaign's static/behavioral dissociation: static KLD is a no-regression rail, not a sufficient behavioral selector. The converse also occurred: exploratory step8 improved every static class while behavior stayed flat and introduced a new null regression. See `TRANSFER.md` for both directions and the complete Transfer-8 code-class partial. The full three-way comparator-table source SHA-256 is `420523724962c63b47ed94314fbac7c928515c1217f811ddf736c46586559034`.
 
 Exploratory step8 was stopped because its campaign contract was non-creditable and it introduced a new HumanEval/145 stop/content-to-length/null regression. The sealed scaled-verdict receipt is `e4ae5038e91caad6112ee0e9bf5c270fdfccd58ba0bc1235cf664058fbab1b6d`.
 
@@ -120,6 +120,6 @@ Exploratory step8 was stopped because its campaign contract was non-creditable a
 2. **Versioning:** HumanEval+ counts are bound to v0.1.10 and the pinned campaign decoder. Other EvalPlus versions or prompt templates are not interchangeable.
 3. **Sample size:** HumanEval+ has 164 tasks; EARLY6 has six. EARLY6 is diagnostic evidence, not a general capability estimate.
 4. **Greedy variance:** hidden-reasoning length varies materially even on the same serve. Length claims require panels, medians, and duplicate controls; single reads are not promoted.
-5. **Metric separation:** OPKL is a static teacher-forced divergence metric. It is not correctness, pass rate, preference, or calibration.
+5. **Metric separation:** OPKL is measured on student-generated trajectories. Static teacher-forced KLD is a different instrument; neither is correctness, pass rate, preference, or calibration.
 6. **Provider-routed reference:** the FP comparison cell was provider-routed and not artifact-bound, so it is a benchmark reference rather than a reproducible local teacher deployment.
 7. **No broad equivalence claim:** the evidence supports the named cells only. It does not establish broad parity with FP or any external quantized artifact.

@@ -1,0 +1,133 @@
+{
+  "payload": {
+    "artifacts": {
+      "cap_shim": {
+        "path": "evalplus_codegen_pinned.py",
+        "sha256": "459a84bb6c594b4e03ed74992c30eb4ddbe05bb04ba127a659f540d4fea99282"
+      },
+      "codegen_audit": {
+        "path": "receipts/openrouter_true4096_codegen_audit.json",
+        "sha256": "7506de449cd373a59ea02d72cb14a00a7829cd36d29335a26c8b1a1f2bb8bd26"
+      },
+      "docker_eval_log": {
+        "path": "receipts/openrouter_true4096_evaluate_docker.log",
+        "sha256": "6367430e9f16420d03a65701cf6967fabe6dafc6e6c9613ff7f67002b020186e"
+      },
+      "eval_results_json": {
+        "path": "openrouter_true4096_results/humaneval/deepseek--deepseek-v4-flash_openai_temp_0.0.eval_results.json",
+        "sha256": "c00b57a6d514eeb9a4a39bbc216f1e1d97684b0247209b525af04fedf7d825c8"
+      },
+      "probe_log": {
+        "path": "receipts/openrouter_probe_true4096.log",
+        "sha256": "662aff9118fbfb6118aba0bb79d9b5024b7ac0c2d513e685df65793836907b6d"
+      },
+      "raw_jsonl": {
+        "path": "openrouter_true4096_results/humaneval/deepseek--deepseek-v4-flash_openai_temp_0.0.raw.jsonl",
+        "sha256": "4e195df023f35d9382ed836e07e0d42cc1890ec820964b89692194c46809c563"
+      },
+      "sanitized_jsonl": {
+        "path": "openrouter_true4096_results/humaneval/deepseek--deepseek-v4-flash_openai_temp_0.0.jsonl",
+        "sha256": "3e9567e350173e417ae2fa1060ccf3549da898d032d6eba34d46d6d9e1ee4fcf"
+      }
+    },
+    "execution": {
+      "docker_sandbox": {
+        "capabilities": "ALL dropped",
+        "memory_limit": "8g",
+        "network": "none",
+        "no_new_privileges": true,
+        "parallel_workers": 8,
+        "pids_limit": 512,
+        "root_filesystem": "read-only"
+      }
+    },
+    "format": "evalplus-humaneval-plus-row-v2-true-cap",
+    "generation": {
+      "attempts_by_shard": {
+        "000-021": 1,
+        "021-042": 1,
+        "042-063": 1,
+        "063-084": 1,
+        "084-104": 1,
+        "104-124": 1,
+        "124-144": 1,
+        "144-164": 2
+      },
+      "retry_policy": "Retry only requests where content=null caused upstream EvalPlus to exit before writing a sample; one written sample per task.",
+      "shard_ranges": [
+        "000-021",
+        "021-042",
+        "042-063",
+        "063-084",
+        "084-104",
+        "104-124",
+        "124-144",
+        "144-164"
+      ],
+      "shards": 8
+    },
+    "identity": "@<private-identity-redacted>",
+    "instrument": {
+      "cap_binding_proof": "wrapper prints EFFECTIVE_CONFIG and sets returned OpenAIChatDecoder.max_new_tokens after upstream make_model construction",
+      "cap_shim_sha256": "459a84bb6c594b4e03ed74992c30eb4ddbe05bb04ba127a659f540d4fea99282",
+      "dataset_hash": "fe585eb4df8c88d844eeb463ea4d0302",
+      "dataset_release": "HumanEvalPlus-v0.1.10",
+      "docker_image": "evalplus:26d6d00",
+      "docker_image_id": "sha256:8fd25f778a3fa2887880fa9cf9e674068d154590209e0194525a3af2c529b650",
+      "evalplus_git_commit": "26d6d00bb1fd0fa37f39c99d5290da67891d1c5e",
+      "evalplus_version": "0.4.0.dev44"
+    },
+    "integrity_caveats": [
+      "OpenRouter provider routing was not pinned and EvalPlus does not retain response-provider metadata; this is a model-slug aggregate.",
+      "The old 140/164 and 133/164 row is quarantined because its advertised cap was not actually bound."
+    ],
+    "row": {
+      "backend": "openai",
+      "base_url": "https://openrouter.ai/api/v1",
+      "dataset": "humaneval",
+      "decode": "greedy",
+      "humaneval_failed": 3,
+      "humaneval_pass_at_1": 0.9817073170731707,
+      "humaneval_passed": 161,
+      "humaneval_plus_failed": 14,
+      "humaneval_plus_pass_at_1": 0.9146341463414634,
+      "humaneval_plus_passed": 150,
+      "label": "OpenRouter DeepSeek-V4-Flash corrected true-cap reference",
+      "max_completion_tokens_effective": 4096,
+      "model_slug": "deepseek/deepseek-v4-flash",
+      "samples_per_task": 1,
+      "task_count": 164,
+      "temperature": 0.0,
+      "top_p": 0.95
+    },
+    "sanitizer_audit": {
+      "nonempty": 164,
+      "probe_result": "PASS: syntax, entrypoints, and fence removal",
+      "probe_tasks": 3,
+      "syntax_ok": 164
+    },
+    "sealed_utc": "2026-07-19T02:01:53.487242Z",
+    "supersedes": {
+      "reason": "EvalPlus 26d6d00 provider.make_model() drops **kwargs in the OpenAI branch, so the old receipt claimed an 8192 cap while the actual DecoderBase cap was 768.",
+      "receipt": "receipts/HUMANEVAL_PLUS_OPENROUTER.json",
+      "sha256": "c3d704acf138a2d7b37fc1bc5caab1d227761a037e5845207211aedb3d11b196"
+    }
+  },
+  "privacy_transform": {
+    "numeric_values_preserved": true,
+    "public_name_normalization": [
+      "banana_bae/BQ3 for this campaign",
+      "Unsloth ownership retained for IQ*/UD-* comparators"
+    ],
+    "string_redactions": [
+      "private paths",
+      "private hosts and addresses",
+      "internal task identifiers",
+      "private identities"
+    ],
+    "structural_fields_preserved": true
+  },
+  "schema": "ptq-opd-public-receipt-v1",
+  "source_format": "json",
+  "source_receipt_sha256": "7f51b02190c069c69e3daead6890b0952e601463375eb3c11fb3041f54b3c0d5"
+}

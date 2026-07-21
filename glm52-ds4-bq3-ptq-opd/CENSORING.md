@@ -21,7 +21,7 @@ The preregistered diagnostic replay used the same `banana_bae` BQ3 artifact fami
 | HumanEval/116 | migrated step4 duplicate/control | 4,034 | 4,372 | stop | non-null | fail / fail |
 | HumanEval/132 | migrated step4 duplicate/control | 6,856 | 7,176 | stop | non-null | pass / fail |
 
-The full canonical table is sealed by `111e14c6adf6ac4e1327cf0c8a8473805c9030a5c26c174a0a41d355def1f4ba`; its human-readable table and 14-file manifest are `d233fa480f10e343ee9c831722b4264fb44ebe8b5747a30471cb737a3da60dc5` and `8e897741be5130e801523c5fa3fec56ec48a6930d286056078e46c3b44ac794b`.
+The full canonical table's sealed source identity is `111e14c6adf6ac4e1327cf0c8a8473805c9030a5c26c174a0a41d355def1f4ba`; its privacy-normalized public payload is included under `receipts/public/`.
 
 The migrated step4 rows are duplicate/control observations and are not a fourth dose point. Their disagreement with canonical step4 is retained as a reproducibility warning rather than merged into the dose curve.
 
@@ -31,7 +31,7 @@ The migrated step4 rows are duplicate/control observations and are not a fourth 
 2. **Uncapping moves the endpoint.** The rows that were problematic at 4,096 continue to distinct natural stops at 3,563, 4,032, 5,936, 6,256, and 12,878 completion tokens under the uncapped diagnostic. A true 4,096 attractor would not be established by cap termination alone.
 3. **The same row can recover behaviorally.** HumanEval/132 at exploratory step8 naturally stops at 3,563 total tokens, emits content, and passes base tests. That is incompatible with treating its earlier capped/null observation as a measured natural endpoint.
 4. **The dose response is not monotone toward 4,096.** HumanEval/116 moves 6,553 → 3,745 → 5,980 reasoning tokens; HumanEval/132 moves 5,753 → 12,688 → 3,350. The evidence is task- and dose-dependent convergence, not collapse to one cap value.
-5. **Trace structure changes.** HumanEval/132 step8 uses 16 reasoning paragraphs versus 35 at step0. The step4 outlier is one approximately 15K-character runaway paragraph, not a repeated loop. The trace-forensics payload is `420523724962c63b3efadecd20be74eedfc1c04f34186f810575541594956a10`.
+5. **The natural-stop trajectories are non-monotone.** HumanEval/132 moves 5,753 → 12,688 → 3,350 reasoning tokens across step0, step4, and exploratory step8. That observed pattern is incompatible with a stable 4,096-token endpoint.
 
 These facts justify the narrow statement that 4,096-cap nulls are censored observations. They do not justify claiming every long trace is good, or that the uncapped endpoint is deterministic.
 
@@ -82,12 +82,7 @@ Therefore the panel supports a descriptive negative median, but not a transfer p
 | Evidence | SHA-256 |
 |---|---|
 | DIAGNOSTIC_UNCAPPED canonical table | `111e14c6adf6ac4e1327cf0c8a8473805c9030a5c26c174a0a41d355def1f4ba` |
-| DIAGNOSTIC_UNCAPPED human table | `d233fa480f10e343ee9c831722b4264fb44ebe8b5747a30471cb737a3da60dc5` |
-| DIAGNOSTIC_UNCAPPED 14-file manifest | `8e897741be5130e801523c5fa3fec56ec48a6930d286056078e46c3b44ac794b` |
 | FP reasoning table | `b108d1088a682806e9d6149d0c4f8b0cdc667fd86772f7912572ff0ebb1d9705` |
-| Train-128 task-ID verifier | `cfcc972624ac5a22c97c45b3bcab4d6ff0232af12b5091384f21c37cc93afb88` |
-| Step0 alignment artifact | `bb89d61101fa24b86fcb77a5c026e680b52d1165e91f6433c0810061489a593d` |
-| HumanEval/132 trace forensics | `420523724962c63b3efadecd20be74eedfc1c04f34186f810575541594956a10` |
 | step4+1 completed panel summary | `010e4c1eff683a7595d39c4685272766bfc40995b858835e1e56ad73521db9af` |
 | step4+1 panel generation payload | `517c671ebd574e7751cf919c4a043f5aad164b469dd4bc7a1514f4746ba086a0` |
 

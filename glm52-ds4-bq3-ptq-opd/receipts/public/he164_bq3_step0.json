@@ -1,0 +1,200 @@
+{
+  "payload": {
+    "artifacts": {
+      "codegen_audit": {
+        "path": "iq3_remote_receipts/iq3_codegen_audit.json",
+        "sha256": "2d8f901c6c90bfea0c15e3d794f89de5d012a52c40a2d1134b2373e44419ccc4"
+      },
+      "docker_eval_log": {
+        "path": "iq3_remote_receipts/iq3_evaluate_docker_retry3.log",
+        "sha256": "c1d9cf0cb750347ac84c790e80c155ff974d57ef01fa46ab940af3671644bfc7"
+      },
+      "docker_image_receipt": {
+        "path": "iq3_remote_receipts/docker_image.txt",
+        "sha256": "bfeb00960c2782e01ff320afffae22839dfbe6f244dc57ad31bf7263a1709e23"
+      },
+      "endpoint_handoff": {
+        "path": "iq3_remote_receipts/iq3_humaneval_handoff_to_mmlu.json",
+        "sha256": "cd402002697915ae2c5f3825b616be761de6ebb893854e6cca9b110ac329d23a"
+      },
+      "eval_results_json": {
+        "path": "iq3_results/humaneval/banana_bae/BQ3-step0_openai_temp_0.0.eval_results.json",
+        "sha256": "19df6df2fb8202c96b0109556dba6885be3e0233440a32caefc0cd3e98a92d61"
+      },
+      "evalplus_commit": {
+        "path": "iq3_remote_receipts/evalplus_commit.txt",
+        "sha256": "bc49ab8452e93d438f5d7f0e21d8528ab35555d3d1b96c9f77c59941e922494e"
+      },
+      "pip_freeze": {
+        "path": "iq3_remote_receipts/pip_freeze.txt",
+        "sha256": "d13d86b472a6ee9df2c53aa5b6da1ae342cf534df5fdd58e18f01c7bfeaacabe"
+      },
+      "raw_jsonl": {
+        "path": "iq3_results/humaneval/banana_bae/BQ3-step0_openai_temp_0.0.raw.jsonl",
+        "sha256": "9ffc0062bc5d3f34ef41deeaf4724bcac2501d008004af453c4982cfe9c6110d"
+      },
+      "sanitized_jsonl": {
+        "path": "iq3_results/humaneval/banana_bae/BQ3-step0_openai_temp_0.0.jsonl",
+        "sha256": "fa16dcaa5782d52cde992bbdbb238d3f371404eb94c342a36e829f842673d5bd"
+      }
+    },
+    "execution": {
+      "docker_image": "evalplus:26d6d00",
+      "docker_image_id": "sha256:ff039cb502dcccafbac6977b20f9abab219944d679e7b06faf1a6cc9dacb3918",
+      "docker_source_commit_verified_clean": true,
+      "host": "<private-host-redacted>",
+      "note": "Three infrastructure-only setup attempts failed before the retained evaluation: cache absent under network-none, result directory not writable, then an empty partial result file. The final retry3 removed the empty file and evaluated all 164 frozen samples successfully.",
+      "sandbox": {
+        "capabilities": "ALL dropped",
+        "dataset_cache": "read-only bind mount",
+        "memory_limit": "8g",
+        "network": "none",
+        "no_new_privileges": true,
+        "parallel_workers": 8,
+        "pids_limit": 512,
+        "root_filesystem": "read-only",
+        "tmpfs": [
+          "/tmp:rw,nosuid,noexec,size=2g",
+          "/run:rw,nosuid,noexec,size=64m"
+        ]
+      }
+    },
+    "format": "evalplus-humaneval-plus-row-v2-true-cap",
+    "generation": {
+      "canonical_merge_parts": [
+        "000-082",
+        "082-164",
+        "129-147",
+        "147-164"
+      ],
+      "null_failures": [
+        "HumanEval/116",
+        "HumanEval/132"
+      ],
+      "parallel_clients": 2,
+      "retry_policy": "No non-null written sample was retried. HumanEval/116 and HumanEval/132 returned null content at true 4096; each was inserted once as an empty canonical solution and retained as an honest failure. Tail resume began strictly after each null; no overlapping task generation entered the merge.",
+      "sanitizer_audit": {
+        "entrypoint_present": 162,
+        "fence_free": 164,
+        "nonempty": 162,
+        "rows": 164,
+        "syntax_ok": 164
+      }
+    },
+    "identity": "@<private-identity-redacted>",
+    "instrument": {
+      "cap_binding_proof": "evalplus_codegen_pinned.py binds OpenAIChatDecoder.max_new_tokens after upstream construction and prints EFFECTIVE_CONFIG",
+      "cap_shim_sha256": "459a84bb6c594b4e03ed74992c30eb4ddbe05bb04ba127a659f540d4fea99282",
+      "dataset_hash": "fe585eb4df8c88d844eeb463ea4d0302",
+      "dataset_release": "HumanEvalPlus-v0.1.10",
+      "evalplus_git_commit": "26d6d00bb1fd0fa37f39c99d5290da67891d1c5e",
+      "evalplus_source_status": "clean at scoring",
+      "evalplus_version": "0.4.0.dev44"
+    },
+    "integrity": {
+      "canonical_row_count": 164,
+      "final_handoff": {
+        "active_benchmark_clients": 0,
+        "claim_owner": "<internal-task-redacted>",
+        "docker_containers": 0,
+        "server_alive": true,
+        "successor": "<internal-task-redacted>",
+        "vllm_requests_running": 0.0,
+        "vllm_requests_waiting": 0.0
+      },
+      "mac_policy": "<private-identity-redacted> remained text/receipt-only; code generation and all untrusted solution execution/scoring ran on <private-host-redacted>.",
+      "nulls_retained_as_failures": [
+        "HumanEval/116",
+        "HumanEval/132"
+      ],
+      "samples_per_task_exactly_one": true
+    },
+    "row": {
+      "backend": "openai",
+      "dataset": "humaneval",
+      "decode": "greedy",
+      "humaneval_failed": 7,
+      "humaneval_failure_task_ids": [
+        "HumanEval/73",
+        "HumanEval/76",
+        "HumanEval/99",
+        "HumanEval/109",
+        "HumanEval/116",
+        "HumanEval/132",
+        "HumanEval/145"
+      ],
+      "humaneval_pass_at_1": 0.9573170731707317,
+      "humaneval_passed": 157,
+      "humaneval_plus_failed": 15,
+      "humaneval_plus_failure_task_ids": [
+        "HumanEval/32",
+        "HumanEval/39",
+        "HumanEval/73",
+        "HumanEval/76",
+        "HumanEval/91",
+        "HumanEval/97",
+        "HumanEval/99",
+        "HumanEval/109",
+        "HumanEval/116",
+        "HumanEval/124",
+        "HumanEval/132",
+        "HumanEval/134",
+        "HumanEval/145",
+        "HumanEval/151",
+        "HumanEval/154"
+      ],
+      "humaneval_plus_pass_at_1": 0.9085365853658537,
+      "humaneval_plus_passed": 149,
+      "label": "Our repaired IQ3 flagship — 16K warm serve",
+      "max_completion_tokens_effective": 4096,
+      "model_slug": "banana_bae/BQ3-step0",
+      "samples_per_task": 1,
+      "task_count": 164,
+      "temperature": 0.0,
+      "top_p": 0.95
+    },
+    "sealed_utc": "2026-07-19T09:47:48.277297+00:00",
+    "serve": {
+      "base_url": "http://<private-address-redacted>/v1",
+      "config": {
+        "block_size": 256,
+        "draft_sample_method": "greedy",
+        "gpu_memory_utilization": 0.8,
+        "kv_cache_dtype": "fp8",
+        "kv_cache_memory_bytes": 3221225472,
+        "max_model_len": 16384,
+        "max_num_batched_tokens": 512,
+        "max_num_seqs": 2,
+        "num_speculative_tokens": 1,
+        "reasoning_parser": "deepseek_v4",
+        "scheduler_reserve_full_isl": false,
+        "speculative_method": "mtp",
+        "thinking": true
+      },
+      "engine": "vLLM (vllm-moet environment)",
+      "host": "<private-host-redacted>",
+      "lifecycle": "Left warm, idle, and owner-intact for dependent MMLU-500 consumer <internal-task-redacted>.",
+      "model_root": "<private-path-redacted>",
+      "model_slug": "banana_bae/BQ3-step0",
+      "ownership": "Reused the explicitly granted warm endpoint under canonical owner <internal-task-redacted>; no relaunch and no concurrent ToolEval client.",
+      "server_pid": 766524
+    }
+  },
+  "privacy_transform": {
+    "numeric_values_preserved": true,
+    "public_name_normalization": [
+      "banana_bae/BQ3 for this campaign",
+      "Unsloth ownership retained for IQ*/UD-* comparators"
+    ],
+    "string_redactions": [
+      "private paths",
+      "private hosts and addresses",
+      "internal task identifiers",
+      "private identities"
+    ],
+    "structural_fields_preserved": true
+  },
+  "schema": "ptq-opd-public-receipt-v1",
+  "source_format": "json",
+  "source_receipt_sha256": "ca2e9f8bf44eccf3f7ecacaf38e69655d0c6411d14fa72f56726ea6ba46b0e3f"
+}

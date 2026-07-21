@@ -1,0 +1,45 @@
+{
+  "payload": [
+    {
+      "solution": "def truncate_number(number: float) -> float:\n    \"\"\" Given a positive floating point number, it can be decomposed into\n    and integer part (largest integer smaller than given number) and decimals\n    (leftover part always smaller than 1).\n\n    Return the decimal part of the number.\n    >>> truncate_number(3.5)\n    0.5\n    \"\"\"\n    return number - int(number)",
+      "task_id": "HumanEval/2"
+    },
+    {
+      "solution": "def monotonic(l: list):\n    \"\"\"Return True if list elements are monotonically increasing or decreasing.\n    >>> monotonic([1, 2, 4, 20])\n    True\n    >>> monotonic([1, 20, 4, 10])\n    False\n    >>> monotonic([4, 1, 0, -10])\n    True\n    \"\"\"\n    if len(l) <= 1:\n        return True\n    # Check if strictly non-decreasing (monotonically increasing)\n    increasing = all(l[i] <= l[i+1] for i in range(len(l)-1))\n    # Check if strictly non-increasing (monotonically decreasing)\n    decreasing = all(l[i] >= l[i+1] for i in range(len(l)-1))\n    return increasing or decreasing",
+      "task_id": "HumanEval/57"
+    },
+    {
+      "solution": "def encode(message):\n    \"\"\"\n    Encodes a message by swapping the case of all letters and replacing\n    each vowel with the letter two places ahead in the alphabet,\n    preserving the case of the swapped vowel.\n\n    Args:\n        message (str): The input message (assumed to contain only letters\n                       and spaces, but any non-letter characters are kept).\n\n    Returns:\n        str: The encoded message.\n    \"\"\"\n    result = []\n    for ch in message:\n        if ch.isalpha():\n            # Step 1: swap case\n            swapped = ch.swapcase()\n            # Step 2: if the swapped character is a vowel, replace it\n            if swapped.lower() in 'aeiou':\n                # Determine the base (a or A) and compute the new character\n                base = ord('a') if swapped.islower() else ord('A')\n                offset = ord(swapped.lower()) - ord('a')\n                new_offset = (offset + 2) % 26  # safe, though no wrap needed for vowels\n                new_char = chr(base + new_offset)\n                result.append(new_char)\n            else:\n                result.append(swapped)\n        else:\n            # Non-letter characters (e.g., spaces) are kept unchanged\n            result.append(ch)\n    return ''.join(result)",
+      "task_id": "HumanEval/93"
+    },
+    {
+      "solution": "from decimal import Decimal, ROUND_HALF_UP\ndef closest_integer(value: str) -> int:\n    \"\"\"\n    Returns the closest integer to the given numeric string.\n    If the number is equidistant from two integers, rounds away from zero.\n\n    Examples:\n    >>> closest_integer(\"10\")\n    10\n    >>> closest_integer(\"15.3\")\n    15\n    >>> closest_integer(\"14.5\")\n    15\n    >>> closest_integer(\"-14.5\")\n    -15\n    \"\"\"\n    # Convert the string to a Decimal for exact arithmetic\n    num = Decimal(value)\n    # Quantize to integer with rounding half away from zero\n    rounded = num.quantize(Decimal('1'), rounding=ROUND_HALF_UP)\n    # Return as int\n    return int(rounded)",
+      "task_id": "HumanEval/99"
+    },
+    {
+      "solution": "",
+      "task_id": "HumanEval/132"
+    },
+    {
+      "solution": "def check_if_last_char_is_a_letter(txt):\n    '''\n    Create a function that returns True if the last character\n    of a given string is an alphabetical character and is not\n    a part of a word, and False otherwise.\n    Note: \"word\" is a group of characters separated by space.\n\n    Examples:\n    check_if_last_char_is_a_letter(\"apple pie\") ➞ False\n    check_if_last_char_is_a_letter(\"apple pi e\") ➞ True\n    check_if_last_char_is_a_letter(\"apple pi e \") ➞ False\n    check_if_last_char_is_a_letter(\"\") ➞ False \n    '''\n    if not txt:  # empty string\n        return False\n    last_char = txt[-1]\n    # Check if last character is a letter\n    if not last_char.isalpha():\n        return False\n    # If the string has only one character, it's a single-letter word -> True\n    if len(txt) == 1:\n        return True\n    # Otherwise, the character before the last must be a space\n    return txt[-2] == ' '",
+      "task_id": "HumanEval/134"
+    }
+  ],
+  "privacy_transform": {
+    "numeric_values_preserved": true,
+    "public_name_normalization": [
+      "banana_bae/BQ3 for this campaign",
+      "Unsloth ownership retained for IQ*/UD-* comparators"
+    ],
+    "string_redactions": [
+      "private paths",
+      "private hosts and addresses",
+      "internal task identifiers",
+      "private identities"
+    ],
+    "structural_fields_preserved": true
+  },
+  "schema": "ptq-opd-public-receipt-v1",
+  "source_format": "jsonl",
+  "source_receipt_sha256": "2fa8f44edec724771dff9f39c56501c064fc7f5dba86d44222fa4008c0f02a4b"
+}

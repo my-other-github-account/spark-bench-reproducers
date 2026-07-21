@@ -1,0 +1,527 @@
+{
+  "payload": {
+    "all_stop_non_null": true,
+    "checkpoint_label": "step8transfer",
+    "checkpoint_sha256": "4086e9d8be9ece067ce3b713c22654e59bcad614af9444bdfacd2e66e0a02fd5",
+    "completely_empty_count": 0,
+    "created_unix": 1784609377.8410635,
+    "current_duplicate_pair_floor_pct": 104.56121632435315,
+    "duplicate_rows": [
+      {
+        "absolute_completion_pct_delta_vs_rep1": 91.52622834084976,
+        "absolute_pct_delta_vs_rep1": 104.56121632435315,
+        "both_non_null": true,
+        "delta_tokens": 3920,
+        "finish_reasons": [
+          "stop",
+          "stop"
+        ],
+        "rep1_completion_tokens": 4213,
+        "rep1_correctness": {
+          "correct_base": false,
+          "correct_both": false,
+          "correct_plus": true
+        },
+        "rep1_reasoning_tokens": 3749,
+        "rep2_completion_tokens": 8069,
+        "rep2_correctness": {
+          "correct_base": false,
+          "correct_both": false,
+          "correct_plus": true
+        },
+        "rep2_reasoning_tokens": 7669,
+        "task_id": "HumanEval/116"
+      },
+      {
+        "absolute_completion_pct_delta_vs_rep1": 94.05469678953627,
+        "absolute_pct_delta_vs_rep1": 103.55555555555556,
+        "both_non_null": true,
+        "delta_tokens": 2330,
+        "finish_reasons": [
+          "stop",
+          "stop"
+        ],
+        "rep1_completion_tokens": 2523,
+        "rep1_correctness": {
+          "correct_base": true,
+          "correct_both": false,
+          "correct_plus": false
+        },
+        "rep1_reasoning_tokens": 2250,
+        "rep2_completion_tokens": 4896,
+        "rep2_correctness": {
+          "correct_base": true,
+          "correct_both": false,
+          "correct_plus": false
+        },
+        "rep2_reasoning_tokens": 4580,
+        "task_id": "HumanEval/132"
+      },
+      {
+        "absolute_completion_pct_delta_vs_rep1": 0.0,
+        "absolute_pct_delta_vs_rep1": 0.0,
+        "both_non_null": true,
+        "delta_tokens": 0,
+        "finish_reasons": [
+          "stop",
+          "stop"
+        ],
+        "rep1_completion_tokens": 950,
+        "rep1_correctness": {
+          "correct_base": true,
+          "correct_both": false,
+          "correct_plus": false
+        },
+        "rep1_reasoning_tokens": 715,
+        "rep2_completion_tokens": 950,
+        "rep2_correctness": {
+          "correct_base": true,
+          "correct_both": false,
+          "correct_plus": false
+        },
+        "rep2_reasoning_tokens": 715,
+        "task_id": "HumanEval/99"
+      }
+    ],
+    "effective_conservative_floor_pct": 104.56121632435315,
+    "evalplus": {
+      "canonical_padding_samples": 152,
+      "commit": "26d6d00",
+      "container_image": "evalplus:26d6d00",
+      "dataset_md5": "fe585eb4df8c88d844eeb463ea4d0302",
+      "eval_log_sha256": "13e1bfa21fccc28618c31f1627da660ae6984b5bacc22e8c3e02922ccd274d34",
+      "eval_results_sha256": "55509492747d8d10fcc3bc40550c6b03e7bb79c50b581ed23ca67813472512ca",
+      "generated_correctness": [
+        {
+          "base_status": "fail",
+          "correct_base": false,
+          "correct_both": false,
+          "correct_plus": true,
+          "plus_status": "pass",
+          "raw_sha256": "69c5ebf0299c392abd5457592748724eb882d801027adf30fa9d8395fc273870",
+          "replicate_index": 1,
+          "task_id": "HumanEval/116"
+        },
+        {
+          "base_status": "pass",
+          "correct_base": true,
+          "correct_both": false,
+          "correct_plus": false,
+          "plus_status": "fail",
+          "raw_sha256": "c3bbbd16e1924fcca25eaf84c844f7ec954af44a2118bc520b783a272e3559a6",
+          "replicate_index": 1,
+          "task_id": "HumanEval/132"
+        },
+        {
+          "base_status": "pass",
+          "correct_base": true,
+          "correct_both": true,
+          "correct_plus": true,
+          "plus_status": "pass",
+          "raw_sha256": "7460e4958aaa5def79da97149f625a2ac2d932cb9a5543beb1b9c7e463388ff7",
+          "replicate_index": 1,
+          "task_id": "HumanEval/134"
+        },
+        {
+          "base_status": "pass",
+          "correct_base": true,
+          "correct_both": true,
+          "correct_plus": true,
+          "plus_status": "pass",
+          "raw_sha256": "86ab4dc99e9c85f6d8e118d09e6086d5297e6a3adda0508a905f25191257c16b",
+          "replicate_index": 1,
+          "task_id": "HumanEval/93"
+        },
+        {
+          "base_status": "pass",
+          "correct_base": true,
+          "correct_both": true,
+          "correct_plus": true,
+          "plus_status": "pass",
+          "raw_sha256": "3742a820f516127f1142d7c01cf6211bf8d25efc0ed659359d8d745ed3bc235e",
+          "replicate_index": 1,
+          "task_id": "HumanEval/57"
+        },
+        {
+          "base_status": "pass",
+          "correct_base": true,
+          "correct_both": true,
+          "correct_plus": true,
+          "plus_status": "pass",
+          "raw_sha256": "14621888a2b52c6fdddba7dfd6c75be55c9fe66813a8ba473119129431e5e207",
+          "replicate_index": 1,
+          "task_id": "HumanEval/2"
+        },
+        {
+          "base_status": "pass",
+          "correct_base": true,
+          "correct_both": false,
+          "correct_plus": false,
+          "plus_status": "fail",
+          "raw_sha256": "fce129920cfa6137f7a4dcc9da65bb1e554ed78903d5361c61d6b12b8bcaae09",
+          "replicate_index": 1,
+          "task_id": "HumanEval/99"
+        },
+        {
+          "base_status": "pass",
+          "correct_base": true,
+          "correct_both": true,
+          "correct_plus": true,
+          "plus_status": "pass",
+          "raw_sha256": "4079c9cb09edfbf6b9cbd30f89009ed9a693f6d4862620aa326db73a3a08a4f5",
+          "replicate_index": 1,
+          "task_id": "HumanEval/83"
+        },
+        {
+          "base_status": "pass",
+          "correct_base": true,
+          "correct_both": true,
+          "correct_plus": true,
+          "plus_status": "pass",
+          "raw_sha256": "4447c0fdfb30896225cc89c126acebce3bf78b700565c3441b9263ba43e9ee27",
+          "replicate_index": 1,
+          "task_id": "HumanEval/70"
+        },
+        {
+          "base_status": "pass",
+          "correct_base": true,
+          "correct_both": true,
+          "correct_plus": true,
+          "plus_status": "pass",
+          "raw_sha256": "667171006d053ba8a8aa77f336f728dc4fe24a86c85a1b1a63f552a837fe5903",
+          "replicate_index": 1,
+          "task_id": "HumanEval/127"
+        },
+        {
+          "base_status": "pass",
+          "correct_base": true,
+          "correct_both": true,
+          "correct_plus": true,
+          "plus_status": "pass",
+          "raw_sha256": "9c3369b5c64c633ca90b22f802c90d4633f991807c45c214bab3207f4fb3fee7",
+          "replicate_index": 1,
+          "task_id": "HumanEval/29"
+        },
+        {
+          "base_status": "pass",
+          "correct_base": true,
+          "correct_both": true,
+          "correct_plus": true,
+          "plus_status": "pass",
+          "raw_sha256": "80ff21b8a13d9d46cd18698b663d95edab5320e49682f80b48132526f25c1b3d",
+          "replicate_index": 1,
+          "task_id": "HumanEval/122"
+        },
+        {
+          "base_status": "fail",
+          "correct_base": false,
+          "correct_both": false,
+          "correct_plus": true,
+          "plus_status": "pass",
+          "raw_sha256": "f15692fc638ab6ff3d1ff556bb31dd3f40f2e4ffdbe8d3b8ff39ee9173c72f74",
+          "replicate_index": 2,
+          "task_id": "HumanEval/116"
+        },
+        {
+          "base_status": "pass",
+          "correct_base": true,
+          "correct_both": false,
+          "correct_plus": false,
+          "plus_status": "fail",
+          "raw_sha256": "8911c4ac596d5214348ec454d340b70d81a475d20b2e21ff1f36ef57146878e2",
+          "replicate_index": 2,
+          "task_id": "HumanEval/132"
+        },
+        {
+          "base_status": "pass",
+          "correct_base": true,
+          "correct_both": false,
+          "correct_plus": false,
+          "plus_status": "fail",
+          "raw_sha256": "94fab68450852219758cc32950743077a58f1c74c96a2665f884f8f53a75c7c2",
+          "replicate_index": 2,
+          "task_id": "HumanEval/99"
+        }
+      ],
+      "generated_samples_scored": 15,
+      "highlight": {
+        "HumanEval/116": {
+          "rep1": {
+            "correct_base": false,
+            "correct_both": false,
+            "correct_plus": true
+          },
+          "rep2": {
+            "correct_base": false,
+            "correct_both": false,
+            "correct_plus": true
+          }
+        },
+        "HumanEval/132": {
+          "rep1": {
+            "correct_base": true,
+            "correct_both": false,
+            "correct_plus": false
+          },
+          "rep2": {
+            "correct_base": true,
+            "correct_both": false,
+            "correct_plus": false
+          }
+        }
+      },
+      "padding_reason": "EvalPlus 26d6d00 requires at least one sample for every HumanEval task; padding rows are dataset prompt+canonical_solution and are excluded from all reported generated-answer correctness.",
+      "sample_file_sha256": "d33560d8accf198af1019878b381faecc21453606c99468f71477fd78fae5590",
+      "sample_manifest_sha256": "c797a6c57dcf14381b22d0fe83d20bd52d7185aa20da7795d91247be87c7d7b7"
+    },
+    "generation_count": 15,
+    "generation_sha256": "56d71c989cfbe263b2004e3995def6787a2794c1f0740a49c7aa698819e2345b",
+    "median_reasoning_delta_pct_vs_step0": -20.351454982260194,
+    "metric_reconciliation": {
+      "alternate_total_completion_median_pct": -15.975741519152212,
+      "explanation": "The previously reported -16.0% is the median total completion-token change. The preregistered rule is defined on reasoning tokens, whose median is -20.35%.",
+      "preregistered_primary_metric": "median per-task percent change in reasoning tokens vs sealed step0",
+      "primary_reasoning_median_pct": -20.351454982260194
+    },
+    "panel_spec_sha256": "6360a493d740cbeb67b6dfb090a84e499ac32073a8e62ec5d7ff9550743f7100",
+    "primary_rows": [
+      {
+        "completion_tokens": 4213,
+        "content_is_null": false,
+        "correctness": {
+          "correct_base": false,
+          "correct_both": false,
+          "correct_plus": true
+        },
+        "delta_pct": -42.7895620326568,
+        "delta_tokens": -2804,
+        "finish_reason": "stop",
+        "step0_completion_tokens": 6891,
+        "step0_reasoning_tokens": 6553,
+        "step8_reasoning_tokens": 3749,
+        "task_id": "HumanEval/116"
+      },
+      {
+        "completion_tokens": 2523,
+        "content_is_null": false,
+        "correctness": {
+          "correct_base": true,
+          "correct_both": false,
+          "correct_plus": false
+        },
+        "delta_pct": -60.8899704501999,
+        "delta_tokens": -3503,
+        "finish_reason": "stop",
+        "step0_completion_tokens": 5936,
+        "step0_reasoning_tokens": 5753,
+        "step8_reasoning_tokens": 2250,
+        "task_id": "HumanEval/132"
+      },
+      {
+        "completion_tokens": 1810,
+        "content_is_null": false,
+        "correctness": {
+          "correct_base": true,
+          "correct_both": true,
+          "correct_plus": true
+        },
+        "delta_pct": -18.00232288037166,
+        "delta_tokens": -310,
+        "finish_reason": "stop",
+        "step0_completion_tokens": 2128,
+        "step0_reasoning_tokens": 1722,
+        "step8_reasoning_tokens": 1412,
+        "task_id": "HumanEval/134"
+      },
+      {
+        "completion_tokens": 1663,
+        "content_is_null": false,
+        "correctness": {
+          "correct_base": true,
+          "correct_both": true,
+          "correct_plus": true
+        },
+        "delta_pct": -22.878876535985956,
+        "delta_tokens": -391,
+        "finish_reason": "stop",
+        "step0_completion_tokens": 1926,
+        "step0_reasoning_tokens": 1709,
+        "step8_reasoning_tokens": 1318,
+        "task_id": "HumanEval/93"
+      },
+      {
+        "completion_tokens": 452,
+        "content_is_null": false,
+        "correctness": {
+          "correct_base": true,
+          "correct_both": true,
+          "correct_plus": true
+        },
+        "delta_pct": -55.76642335766423,
+        "delta_tokens": -382,
+        "finish_reason": "stop",
+        "step0_completion_tokens": 850,
+        "step0_reasoning_tokens": 685,
+        "step8_reasoning_tokens": 303,
+        "task_id": "HumanEval/57"
+      },
+      {
+        "completion_tokens": 527,
+        "content_is_null": false,
+        "correctness": {
+          "correct_base": true,
+          "correct_both": true,
+          "correct_plus": true
+        },
+        "delta_pct": -7.051282051282051,
+        "delta_tokens": -33,
+        "finish_reason": "stop",
+        "step0_completion_tokens": 635,
+        "step0_reasoning_tokens": 468,
+        "step8_reasoning_tokens": 435,
+        "task_id": "HumanEval/2"
+      },
+      {
+        "completion_tokens": 950,
+        "content_is_null": false,
+        "correctness": {
+          "correct_base": true,
+          "correct_both": false,
+          "correct_plus": false
+        },
+        "delta_pct": -0.4178272980501393,
+        "delta_tokens": -3,
+        "finish_reason": "stop",
+        "step0_completion_tokens": 1073,
+        "step0_reasoning_tokens": 718,
+        "step8_reasoning_tokens": 715,
+        "task_id": "HumanEval/99"
+      },
+      {
+        "completion_tokens": 1078,
+        "content_is_null": false,
+        "correctness": {
+          "correct_base": true,
+          "correct_both": true,
+          "correct_plus": true
+        },
+        "delta_pct": -29.14614121510673,
+        "delta_tokens": -355,
+        "finish_reason": "stop",
+        "step0_completion_tokens": 1310,
+        "step0_reasoning_tokens": 1218,
+        "step8_reasoning_tokens": 863,
+        "task_id": "HumanEval/83"
+      },
+      {
+        "completion_tokens": 1220,
+        "content_is_null": false,
+        "correctness": {
+          "correct_base": true,
+          "correct_both": true,
+          "correct_plus": true
+        },
+        "delta_pct": 3.076923076923077,
+        "delta_tokens": 26,
+        "finish_reason": "stop",
+        "step0_completion_tokens": 1184,
+        "step0_reasoning_tokens": 845,
+        "step8_reasoning_tokens": 871,
+        "task_id": "HumanEval/70"
+      },
+      {
+        "completion_tokens": 1079,
+        "content_is_null": false,
+        "correctness": {
+          "correct_base": true,
+          "correct_both": true,
+          "correct_plus": true
+        },
+        "delta_pct": -13.359273670557718,
+        "delta_tokens": -103,
+        "finish_reason": "stop",
+        "step0_completion_tokens": 1133,
+        "step0_reasoning_tokens": 771,
+        "step8_reasoning_tokens": 668,
+        "task_id": "HumanEval/127"
+      },
+      {
+        "completion_tokens": 455,
+        "content_is_null": false,
+        "correctness": {
+          "correct_base": true,
+          "correct_both": true,
+          "correct_plus": true
+        },
+        "delta_pct": 24.555160142348754,
+        "delta_tokens": 69,
+        "finish_reason": "stop",
+        "step0_completion_tokens": 452,
+        "step0_reasoning_tokens": 281,
+        "step8_reasoning_tokens": 350,
+        "task_id": "HumanEval/29"
+      },
+      {
+        "completion_tokens": 566,
+        "content_is_null": false,
+        "correctness": {
+          "correct_base": true,
+          "correct_both": true,
+          "correct_plus": true
+        },
+        "delta_pct": -22.70058708414873,
+        "delta_tokens": -116,
+        "finish_reason": "stop",
+        "step0_completion_tokens": 753,
+        "step0_reasoning_tokens": 511,
+        "step8_reasoning_tokens": 395,
+        "task_id": "HumanEval/122"
+      }
+    ],
+    "rule_against_current_duplicate_floor": {
+      "absolute_median_exceeds_floor": false,
+      "at_least_8_of_12_down": true,
+      "floor_pct": 104.56121632435315,
+      "pass": false
+    },
+    "rule_against_effective_conservative_floor": {
+      "absolute_median_exceeds_floor": false,
+      "at_least_8_of_12_down": true,
+      "floor_pct": 104.56121632435315,
+      "pass": false
+    },
+    "rule_against_sealed_floor": {
+      "absolute_median_exceeds_floor": false,
+      "at_least_8_of_12_down": true,
+      "floor_pct": 31.25,
+      "pass": false
+    },
+    "schema": "step8-transfer-verdict-rule-v1",
+    "sealed_preregistered_floor_pct": 31.25,
+    "sign_count": {
+      "decreased": 10,
+      "increased": 2,
+      "unchanged": 0
+    },
+    "task_id": "<internal-task-redacted>",
+    "unique_prompt_count": 12,
+    "verdict": "NO_DECREASE_CLAIM"
+  },
+  "privacy_transform": {
+    "numeric_values_preserved": true,
+    "public_name_normalization": [
+      "banana_bae/BQ3 for this campaign",
+      "Unsloth ownership retained for IQ*/UD-* comparators"
+    ],
+    "string_redactions": [
+      "private paths",
+      "private hosts and addresses",
+      "internal task identifiers",
+      "private identities"
+    ],
+    "structural_fields_preserved": true
+  },
+  "schema": "ptq-opd-public-receipt-v1",
+  "source_format": "json",
+  "source_receipt_sha256": "fa098459bdaeb09768900dd4663097a489c64e9410db46c2fc262d96151457cf"
+}

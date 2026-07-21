@@ -1,0 +1,107 @@
+{
+  "payload": {
+    "artifact": "Unsloth UD-IQ3_XXS",
+    "card": "<internal-task-redacted>",
+    "codegen": {
+      "audit": {
+        "entrypoint_present": 163,
+        "fence_free": 164,
+        "nonempty": 163,
+        "null_retained_once": [
+          "HumanEval/132"
+        ],
+        "rows": 164,
+        "syntax_ok": 164
+      },
+      "config": {
+        "backend": "openai",
+        "greedy": true,
+        "max_new_tokens_effective": 4096,
+        "n_samples": 1,
+        "temperature": 0.0
+      },
+      "generation_tps_aggregate": 15.997050363356955,
+      "server_predicted_seconds": 8882.45,
+      "server_predicted_tokens": 142093
+    },
+    "evaluation": {
+      "base_accuracy": 0.9634146341463414,
+      "base_failed": [
+        "HumanEval/32",
+        "HumanEval/65",
+        "HumanEval/77",
+        "HumanEval/130",
+        "HumanEval/132",
+        "HumanEval/145"
+      ],
+      "base_passed": 158,
+      "dataset_hash": "fe585eb4df8c88d844eeb463ea4d0302",
+      "dataset_release": "HumanEvalPlus-v0.1.10",
+      "plus_accuracy": 0.9207317073170732,
+      "plus_failed": [
+        "HumanEval/32",
+        "HumanEval/49",
+        "HumanEval/65",
+        "HumanEval/76",
+        "HumanEval/77",
+        "HumanEval/86",
+        "HumanEval/91",
+        "HumanEval/99",
+        "HumanEval/130",
+        "HumanEval/132",
+        "HumanEval/145",
+        "HumanEval/151",
+        "HumanEval/163"
+      ],
+      "plus_passed": 151,
+      "tasks": 164
+    },
+    "instrument": {
+      "evalplus_commit": "26d6d00bb1fd0fa37f39c99d5290da67891d1c5e",
+      "evalplus_version": "0.4.0.dev44",
+      "openai_version": "2.46.0"
+    },
+    "integrity": {
+      "codegen_audit_sha256": "984086bbf99f9e5ac86c07d8f1188f9dcf49c9b7c528804dcfca424f44f12520",
+      "eval_results_sha256": "d255db7bf9ca91248aa209af0c0ff545f630dddb4dc0572d93cf7d8f51b9c2a7",
+      "merged_clean_rows": 164,
+      "merged_clean_sha256": "c6aaad87ca54fab0b4dacc725d6c00c4020f9a5a421293fedbb50830c5dcdf9b",
+      "merged_raw_rows": 164,
+      "merged_raw_sha256": "b9ac3518ce8a643949929eb747c648474455db2945d9e11480103ca80def1dee"
+    },
+    "model": {
+      "gguf_shards": 4,
+      "gguf_total_bytes": 102999887616,
+      "llama_cpp_commit": "86a9c79f866799eb0e7e89c03578ccfbcc5d808e",
+      "model_slug": "deepseek-v4-flash-ud-iq3-xxs",
+      "server_context": 16384
+    },
+    "sandbox": {
+      "cap_drop": "ALL",
+      "container_image_digest": "sha256:ef4932b77045b4c322f028120d5f35ee6be2ee2147c291140ecd064b59317e72",
+      "network": "none",
+      "no_new_privileges": true,
+      "pids_limit": 512,
+      "root_filesystem": "read-only",
+      "tmpfs": "/tmp"
+    },
+    "status": "PASS"
+  },
+  "privacy_transform": {
+    "numeric_values_preserved": true,
+    "public_name_normalization": [
+      "banana_bae/BQ3 for this campaign",
+      "Unsloth ownership retained for IQ*/UD-* comparators"
+    ],
+    "string_redactions": [
+      "private paths",
+      "private hosts and addresses",
+      "internal task identifiers",
+      "private identities"
+    ],
+    "structural_fields_preserved": true
+  },
+  "schema": "ptq-opd-public-receipt-v1",
+  "source_format": "json",
+  "source_receipt_sha256": "9026f674ea816fba12447cc3f1fd7bd0f859207622ada53965e1ef9dc448e9cd"
+}

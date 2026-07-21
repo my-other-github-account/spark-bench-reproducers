@@ -1,0 +1,133 @@
+{
+  "payload": {
+    "availability": {
+      "available": 4,
+      "requested_unique_prompts": 7,
+      "unavailable": 3,
+      "unavailable_task_ids": [
+        "HumanEval/2",
+        "HumanEval/57",
+        "HumanEval/93"
+      ]
+    },
+    "created_unix": 1784587079.954317,
+    "label": "FP_REASONING_TABLE_PARTIAL",
+    "lineage": {
+      "clean146_sha256": "ab777dc31c7cb548a346e1abc5a1db879851122fc951b122e0036be166a58d24",
+      "full164_visible_sequence_sha256": "88492dca04dd41bc6ce351ec630d6b60b8004b8211d4ff9f3313b8f43186dc10",
+      "raw_bank_receipt": "<private-path-redacted>",
+      "raw_bank_receipt_sha256": "87d04c2426908252edcdbee878cacf7293fdbc181e182cba3776303c68b01124",
+      "raw_bank_task_ids": [
+        "HumanEval/116",
+        "HumanEval/132",
+        "HumanEval/9",
+        "HumanEval/31",
+        "HumanEval/99",
+        "HumanEval/122",
+        "HumanEval/134",
+        "HumanEval/146"
+      ]
+    },
+    "metric": "usage.completion_tokens_details.reasoning_tokens (provider-owned; not local retokenization)",
+    "regeneration_cost": {
+      "full_7_prompt_max_completion_tokens": 28672,
+      "missing_only_max_completion_tokens": 12288,
+      "recommended": "Queue the three missing prompts, or all seven for one internally consistent rerun, as a single batch during the next already-live 4-Spark FP8 teacher window. Do not cold-start four hosts solely for this retrieval.",
+      "wall_clock": "No same-recipe local decode-throughput receipt was found; wall time is intentionally not fabricated. Marginal cost is one 7-way batch and <=28,672 completion tokens when the teacher endpoint is already warm."
+    },
+    "rows": [
+      {
+        "completion_tokens": null,
+        "finish_reason": null,
+        "status": "FP_REASONING_UNAVAILABLE",
+        "task_id": "HumanEval/2",
+        "teacher_owned_reasoning_tokens": null
+      },
+      {
+        "completion_tokens": null,
+        "finish_reason": null,
+        "status": "FP_REASONING_UNAVAILABLE",
+        "task_id": "HumanEval/57",
+        "teacher_owned_reasoning_tokens": null
+      },
+      {
+        "completion_tokens": null,
+        "finish_reason": null,
+        "status": "FP_REASONING_UNAVAILABLE",
+        "task_id": "HumanEval/93",
+        "teacher_owned_reasoning_tokens": null
+      },
+      {
+        "completion_tokens": 809,
+        "finish_reason": "stop",
+        "model_returned": "deepseek/deepseek-v4-flash",
+        "provider": "AtlasCloud",
+        "response_body_sha256": "b9d1fb1e105a036b551dd6f4053a3d328722ab0ddc2b1e62c43a2174baefa62d",
+        "source_file": "<private-path-redacted>",
+        "source_file_sha256": "cefaa3313a1a67415da0dd5412fa0c8c569adda79265d9cc6ebb5ccaffe8daf2",
+        "status": "AVAILABLE",
+        "task_id": "HumanEval/99",
+        "teacher_owned_reasoning_tokens": 472
+      },
+      {
+        "completion_tokens": 1833,
+        "finish_reason": "stop",
+        "model_returned": "deepseek/deepseek-v4-flash",
+        "provider": "Morph",
+        "response_body_sha256": "29db399f976c756de4baa6562f0cf2d232e762d42adb90c66bac0a98d225b643",
+        "source_file": "<private-path-redacted>",
+        "source_file_sha256": "61909ddc1dbb8b97bb5eca0e2c5aa09b66d0da6cadb286436e0740cb131270b4",
+        "status": "AVAILABLE",
+        "task_id": "HumanEval/116",
+        "teacher_owned_reasoning_tokens": 1480
+      },
+      {
+        "completion_tokens": 3160,
+        "finish_reason": "stop",
+        "model_returned": "deepseek/deepseek-v4-flash",
+        "provider": "DeepSeek",
+        "response_body_sha256": "238d054a37ecc93b29d8d092fc9fb676c324c6d7b70016f41004beb3ad9daf0b",
+        "source_file": "<private-path-redacted>",
+        "source_file_sha256": "4a617ea81aa728d84bd6381fed45601b61107988c7a839f0590cb51c1dea5986",
+        "status": "AVAILABLE",
+        "task_id": "HumanEval/132",
+        "teacher_owned_reasoning_tokens": 2981
+      },
+      {
+        "completion_tokens": 1062,
+        "finish_reason": "stop",
+        "model_returned": "deepseek/deepseek-v4-flash",
+        "provider": "DeepSeek",
+        "response_body_sha256": "6f37f0160411dbf49b4070f9a9520f5e3738d437ed97ff3081dbb04757f55f90",
+        "source_file": "<private-path-redacted>",
+        "source_file_sha256": "97db18272d8876ce12598c221346bbc385544fe011f23ab2ecf8c043f135d314",
+        "status": "AVAILABLE",
+        "task_id": "HumanEval/134",
+        "teacher_owned_reasoning_tokens": 834
+      }
+    ],
+    "schema": "fp-reasoning-retrieval-v1",
+    "search_receipt": {
+      "finding": "The persisted full164/CLEAN146 corpora contain only visible completion token IDs. The raw hidden-reasoning bank persisted exactly 8 sentinel tasks; among the requested set it contains /99,/116,/132,/134 only. No raw usage/reasoning payload exists for /2,/57,/93.",
+      "scope": "all live <private-host-redacted>/2/3/4/5-work/6 mission trees plus shared kanban workspaces; original ab777/CLEAN146/full164 files and seq32 raw bank"
+    },
+    "status": "PARTIAL_4_OF_7"
+  },
+  "privacy_transform": {
+    "numeric_values_preserved": true,
+    "public_name_normalization": [
+      "banana_bae/BQ3 for this campaign",
+      "Unsloth ownership retained for IQ*/UD-* comparators"
+    ],
+    "string_redactions": [
+      "private paths",
+      "private hosts and addresses",
+      "internal task identifiers",
+      "private identities"
+    ],
+    "structural_fields_preserved": true
+  },
+  "schema": "ptq-opd-public-receipt-v1",
+  "source_format": "json",
+  "source_receipt_sha256": "b108d1088a682806e9d6149d0c4f8b0cdc667fd86772f7912572ff0ebb1d9705"
+}

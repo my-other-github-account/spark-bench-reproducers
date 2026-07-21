@@ -1,0 +1,482 @@
+{
+  "payload": {
+    "artifact_task_id": "<internal-task-redacted>",
+    "baseline_rows": {
+      "HumanEval/116": {
+        "step0": {
+          "checkpoint_sha256": "fae41d519193269aec4b2221c97a1dc00e0b00d3d66074d917a78489fac2149c",
+          "completion_tokens": 6891,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 16384,
+          "natural_stop": true,
+          "reasoning_tokens": 6553,
+          "source": "<internal-task-redacted>/DIAGNOSTIC_UNCAPPED_TABLE.json"
+        },
+        "step4_uncapped_context": {
+          "completion_tokens": 4032,
+          "content_is_null": false,
+          "correct_base": true,
+          "correct_plus": true,
+          "finish_reason": "stop",
+          "max_completion_tokens": 16384,
+          "reasoning_tokens": 3745
+        },
+        "trackc_step8_uncapped_context": {
+          "completion_tokens": 6256,
+          "content_is_null": false,
+          "correct_base": true,
+          "correct_plus": true,
+          "finish_reason": "stop",
+          "max_completion_tokens": 16384,
+          "reasoning_tokens": 5980
+        }
+      },
+      "HumanEval/122": {
+        "fp_visible_completion_tokens": 175,
+        "step0": {
+          "checkpoint_sha256": "fae41d519193269aec4b2221c97a1dc00e0b00d3d66074d917a78489fac2149c",
+          "completion_tokens": 753,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 4096,
+          "natural_stop": true,
+          "reasoning_tokens": 511,
+          "source": "<internal-task-redacted> STEP0_FROZEN32_ROLLOUTS.jsonl"
+        },
+        "step0_abs_completion_ratio_gap": 3.3028571428571425,
+        "step0_completion_ratio_vs_fp_visible": 4.3028571428571425,
+        "step0_frozen4096": {
+          "completion_tokens": 753,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "reasoning_tokens": 511
+        }
+      },
+      "HumanEval/127": {
+        "fp_visible_completion_tokens": 262,
+        "step0": {
+          "checkpoint_sha256": "fae41d519193269aec4b2221c97a1dc00e0b00d3d66074d917a78489fac2149c",
+          "completion_tokens": 1133,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 4096,
+          "natural_stop": true,
+          "reasoning_tokens": 771,
+          "source": "<internal-task-redacted> STEP0_FROZEN32_ROLLOUTS.jsonl"
+        },
+        "step0_abs_completion_ratio_gap": 3.3244274809160306,
+        "step0_completion_ratio_vs_fp_visible": 4.324427480916031,
+        "step0_frozen4096": {
+          "completion_tokens": 1133,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "reasoning_tokens": 771
+        }
+      },
+      "HumanEval/132": {
+        "fp_visible_completion_tokens": 472,
+        "step0": {
+          "checkpoint_sha256": "fae41d519193269aec4b2221c97a1dc00e0b00d3d66074d917a78489fac2149c",
+          "completion_tokens": 5936,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 16384,
+          "natural_stop": true,
+          "reasoning_tokens": 5753,
+          "source": "<internal-task-redacted>/DIAGNOSTIC_UNCAPPED_TABLE.json"
+        },
+        "step0_abs_completion_ratio_gap": 7.677966101694915,
+        "step0_completion_ratio_vs_fp_visible": 8.677966101694915,
+        "step0_frozen4096": {
+          "completion_tokens": 4096,
+          "content_is_null": true,
+          "finish_reason": "length",
+          "reasoning_tokens": 4096
+        },
+        "step4_context": {
+          "completion_tokens": 4096,
+          "content_is_null": true,
+          "finish_reason": "length",
+          "max_completion_tokens": 4096,
+          "reasoning_tokens": 4096,
+          "source": "<internal-task-redacted> EARLY6_STEP4_ROLLOUTS.jsonl"
+        },
+        "step4_uncapped_context": {
+          "completion_tokens": 12878,
+          "content_is_null": false,
+          "correct_base": true,
+          "correct_plus": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 16384,
+          "reasoning_tokens": 12688
+        },
+        "step8_context": {
+          "completion_tokens": 4096,
+          "content_is_null": true,
+          "finish_reason": "length",
+          "max_completion_tokens": 4096,
+          "reasoning_tokens": 4096,
+          "source": "<internal-task-redacted> EARLY6_STEP8_ROLLOUTS.jsonl"
+        },
+        "trackc_step8_uncapped_context": {
+          "completion_tokens": 3563,
+          "content_is_null": false,
+          "correct_base": true,
+          "correct_plus": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 16384,
+          "reasoning_tokens": 3350
+        }
+      },
+      "HumanEval/134": {
+        "fp_visible_completion_tokens": 214,
+        "step0": {
+          "checkpoint_sha256": "fae41d519193269aec4b2221c97a1dc00e0b00d3d66074d917a78489fac2149c",
+          "completion_tokens": 2128,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 4096,
+          "natural_stop": true,
+          "reasoning_tokens": 1722,
+          "source": "<internal-task-redacted> STEP0_FROZEN32_ROLLOUTS.jsonl"
+        },
+        "step0_abs_completion_ratio_gap": 8.94392523364486,
+        "step0_completion_ratio_vs_fp_visible": 9.94392523364486,
+        "step0_frozen4096": {
+          "completion_tokens": 2128,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "reasoning_tokens": 1722
+        },
+        "step4_context": {
+          "completion_tokens": 1626,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 4096,
+          "reasoning_tokens": 1468,
+          "source": "<internal-task-redacted> EARLY6_STEP4_ROLLOUTS.jsonl"
+        },
+        "step8_context": {
+          "completion_tokens": 1497,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 4096,
+          "reasoning_tokens": 1283,
+          "source": "<internal-task-redacted> EARLY6_STEP8_ROLLOUTS.jsonl"
+        }
+      },
+      "HumanEval/2": {
+        "fp_visible_completion_tokens": 92,
+        "step0": {
+          "checkpoint_sha256": "fae41d519193269aec4b2221c97a1dc00e0b00d3d66074d917a78489fac2149c",
+          "completion_tokens": 635,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 4096,
+          "natural_stop": true,
+          "reasoning_tokens": 468,
+          "source": "<internal-task-redacted> STEP0_FROZEN32_ROLLOUTS.jsonl"
+        },
+        "step0_abs_completion_ratio_gap": 5.9021739130434785,
+        "step0_completion_ratio_vs_fp_visible": 6.9021739130434785,
+        "step0_frozen4096": {
+          "completion_tokens": 635,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "reasoning_tokens": 468
+        },
+        "step4_context": {
+          "completion_tokens": 280,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 4096,
+          "reasoning_tokens": 188,
+          "source": "<internal-task-redacted> EARLY6_STEP4_ROLLOUTS.jsonl"
+        },
+        "step8_context": {
+          "completion_tokens": 212,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 4096,
+          "reasoning_tokens": 120,
+          "source": "<internal-task-redacted> EARLY6_STEP8_ROLLOUTS.jsonl"
+        }
+      },
+      "HumanEval/29": {
+        "fp_visible_completion_tokens": 105,
+        "step0": {
+          "checkpoint_sha256": "fae41d519193269aec4b2221c97a1dc00e0b00d3d66074d917a78489fac2149c",
+          "completion_tokens": 452,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 4096,
+          "natural_stop": true,
+          "reasoning_tokens": 281,
+          "source": "<internal-task-redacted> STEP0_FROZEN32_ROLLOUTS.jsonl"
+        },
+        "step0_abs_completion_ratio_gap": 3.3047619047619046,
+        "step0_completion_ratio_vs_fp_visible": 4.304761904761905,
+        "step0_frozen4096": {
+          "completion_tokens": 452,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "reasoning_tokens": 281
+        }
+      },
+      "HumanEval/57": {
+        "fp_visible_completion_tokens": 121,
+        "step0": {
+          "checkpoint_sha256": "fae41d519193269aec4b2221c97a1dc00e0b00d3d66074d917a78489fac2149c",
+          "completion_tokens": 850,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 4096,
+          "natural_stop": true,
+          "reasoning_tokens": 685,
+          "source": "<internal-task-redacted> STEP0_FROZEN32_ROLLOUTS.jsonl"
+        },
+        "step0_abs_completion_ratio_gap": 6.024793388429752,
+        "step0_completion_ratio_vs_fp_visible": 7.024793388429752,
+        "step0_frozen4096": {
+          "completion_tokens": 850,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "reasoning_tokens": 685
+        },
+        "step4_context": {
+          "completion_tokens": 408,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 4096,
+          "reasoning_tokens": 232,
+          "source": "<internal-task-redacted> EARLY6_STEP4_ROLLOUTS.jsonl"
+        },
+        "step8_context": {
+          "completion_tokens": 512,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 4096,
+          "reasoning_tokens": 363,
+          "source": "<internal-task-redacted> EARLY6_STEP8_ROLLOUTS.jsonl"
+        }
+      },
+      "HumanEval/70": {
+        "fp_visible_completion_tokens": 259,
+        "step0": {
+          "checkpoint_sha256": "fae41d519193269aec4b2221c97a1dc00e0b00d3d66074d917a78489fac2149c",
+          "completion_tokens": 1184,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 4096,
+          "natural_stop": true,
+          "reasoning_tokens": 845,
+          "source": "<internal-task-redacted> STEP0_FROZEN32_ROLLOUTS.jsonl"
+        },
+        "step0_abs_completion_ratio_gap": 3.571428571428571,
+        "step0_completion_ratio_vs_fp_visible": 4.571428571428571,
+        "step0_frozen4096": {
+          "completion_tokens": 1184,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "reasoning_tokens": 845
+        }
+      },
+      "HumanEval/83": {
+        "fp_visible_completion_tokens": 257,
+        "step0": {
+          "checkpoint_sha256": "fae41d519193269aec4b2221c97a1dc00e0b00d3d66074d917a78489fac2149c",
+          "completion_tokens": 1310,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 4096,
+          "natural_stop": true,
+          "reasoning_tokens": 1218,
+          "source": "<internal-task-redacted> STEP0_FROZEN32_ROLLOUTS.jsonl"
+        },
+        "step0_abs_completion_ratio_gap": 4.097276264591439,
+        "step0_completion_ratio_vs_fp_visible": 5.097276264591439,
+        "step0_frozen4096": {
+          "completion_tokens": 1310,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "reasoning_tokens": 1218
+        }
+      },
+      "HumanEval/93": {
+        "fp_visible_completion_tokens": 242,
+        "step0": {
+          "checkpoint_sha256": "fae41d519193269aec4b2221c97a1dc00e0b00d3d66074d917a78489fac2149c",
+          "completion_tokens": 1926,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 4096,
+          "natural_stop": true,
+          "reasoning_tokens": 1709,
+          "source": "<internal-task-redacted> STEP0_FROZEN32_ROLLOUTS.jsonl"
+        },
+        "step0_abs_completion_ratio_gap": 6.958677685950414,
+        "step0_completion_ratio_vs_fp_visible": 7.958677685950414,
+        "step0_frozen4096": {
+          "completion_tokens": 1926,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "reasoning_tokens": 1709
+        },
+        "step4_context": {
+          "completion_tokens": 1577,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 4096,
+          "reasoning_tokens": 1366,
+          "source": "<internal-task-redacted> EARLY6_STEP4_ROLLOUTS.jsonl"
+        },
+        "step8_context": {
+          "completion_tokens": 1160,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 4096,
+          "reasoning_tokens": 956,
+          "source": "<internal-task-redacted> EARLY6_STEP8_ROLLOUTS.jsonl"
+        }
+      },
+      "HumanEval/99": {
+        "fp_visible_completion_tokens": 197,
+        "step0": {
+          "checkpoint_sha256": "fae41d519193269aec4b2221c97a1dc00e0b00d3d66074d917a78489fac2149c",
+          "completion_tokens": 1073,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 4096,
+          "natural_stop": true,
+          "reasoning_tokens": 718,
+          "source": "<internal-task-redacted> STEP0_FROZEN32_ROLLOUTS.jsonl"
+        },
+        "step0_abs_completion_ratio_gap": 4.446700507614213,
+        "step0_completion_ratio_vs_fp_visible": 5.446700507614213,
+        "step0_frozen4096": {
+          "completion_tokens": 1073,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "reasoning_tokens": 718
+        },
+        "step4_context": {
+          "completion_tokens": 1587,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 4096,
+          "reasoning_tokens": 1260,
+          "source": "<internal-task-redacted> EARLY6_STEP4_ROLLOUTS.jsonl"
+        },
+        "step8_context": {
+          "completion_tokens": 1149,
+          "content_is_null": false,
+          "finish_reason": "stop",
+          "max_completion_tokens": 4096,
+          "reasoning_tokens": 924,
+          "source": "<internal-task-redacted> EARLY6_STEP8_ROLLOUTS.jsonl"
+        }
+      }
+    },
+    "canonical_sha256": "a192451108893a042423f5be745d4cb927f731bd43f91267cea17f62e9253154",
+    "duplicate_tasks": [
+      "HumanEval/116",
+      "HumanEval/132",
+      "HumanEval/99"
+    ],
+    "experiment": "post-dose Track-B step8 direct-generation transfer probe",
+    "generation_config": {
+      "max_completion_tokens": 16384,
+      "n": 1,
+      "system_fingerprint": "vllm-0.24.0-3f34bf12",
+      "temperature": 0.0,
+      "top_p": 0.95
+    },
+    "panel_definition": {
+      "EARLY6": [
+        "HumanEval/132",
+        "HumanEval/134",
+        "HumanEval/93",
+        "HumanEval/57",
+        "HumanEval/2",
+        "HumanEval/99"
+      ],
+      "highlight": [
+        "HumanEval/116",
+        "HumanEval/132"
+      ],
+      "inflated6_count_consistent_expansion": [
+        "HumanEval/116",
+        "HumanEval/83",
+        "HumanEval/70",
+        "HumanEval/127",
+        "HumanEval/29",
+        "HumanEval/122"
+      ],
+      "inflated6_rule": "HumanEval/116 plus five highest sealed step0 abs(completion/FP-visible - 1) gaps outside EARLY6; this is the unique deterministic expansion producing the ordered 12-prompt union from available sealed rows.",
+      "next5_rank_proof": [
+        {
+          "abs_gap": 4.097276264591439,
+          "task_id": "HumanEval/83"
+        },
+        {
+          "abs_gap": 3.571428571428571,
+          "task_id": "HumanEval/70"
+        },
+        {
+          "abs_gap": 3.3244274809160306,
+          "task_id": "HumanEval/127"
+        },
+        {
+          "abs_gap": 3.3047619047619046,
+          "task_id": "HumanEval/29"
+        },
+        {
+          "abs_gap": 3.3028571428571425,
+          "task_id": "HumanEval/122"
+        }
+      ]
+    },
+    "schema": "track-b-transfer-panel-spec-v1",
+    "source_receipts": {
+      "diagnostic_uncapped_table_sha256": "111e14c6adf6ac4e1327cf0c8a8473805c9030a5c26c174a0a41d355def1f4ba",
+      "early6_step4_sha256": "0c8ea6a1c92b267518cfe6cbb9bfc05b73d851d38e2f8fd8c18501a4ec4d0efc",
+      "early6_step8_sha256": "c118321d1687efbfcf01ca03c88bb0623e09020ba59152a639dcefa07b91f7b4",
+      "fp_visible_frozen32_sha256": "7bc137156fe13ccb1bdc34bd504324617dbc361219f043d2bdbfae6eaf40d9f5",
+      "step0_frozen32_sha256": "9432199a0cd873c9d339fbd8cfa9735d559ff87de0f3e05ecba6a6c3a3c44085"
+    },
+    "task_id": "<internal-task-redacted>",
+    "task_ids": [
+      "HumanEval/116",
+      "HumanEval/132",
+      "HumanEval/134",
+      "HumanEval/93",
+      "HumanEval/57",
+      "HumanEval/2",
+      "HumanEval/99",
+      "HumanEval/83",
+      "HumanEval/70",
+      "HumanEval/127",
+      "HumanEval/29",
+      "HumanEval/122"
+    ],
+    "total_generations": 15
+  },
+  "privacy_transform": {
+    "numeric_values_preserved": true,
+    "public_name_normalization": [
+      "banana_bae/BQ3 for this campaign",
+      "Unsloth ownership retained for IQ*/UD-* comparators"
+    ],
+    "string_redactions": [
+      "private paths",
+      "private hosts and addresses",
+      "internal task identifiers",
+      "private identities"
+    ],
+    "structural_fields_preserved": true
+  },
+  "schema": "ptq-opd-public-receipt-v1",
+  "source_format": "json",
+  "source_receipt_sha256": "6360a493d740cbeb67b6dfb090a84e499ac32073a8e62ec5d7ff9550743f7100"
+}

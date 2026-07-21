@@ -1,0 +1,207 @@
+{
+  "payload": {
+    "baseline": "BQ3-step0 sealed 157/164 instrument",
+    "candidate": "BQ3-GKD-step4",
+    "ids": [
+      "HumanEval/2",
+      "HumanEval/57",
+      "HumanEval/93",
+      "HumanEval/99",
+      "HumanEval/132",
+      "HumanEval/134"
+    ],
+    "items": [
+      {
+        "baseline": {
+          "base_status": "pass",
+          "plus_status": "pass",
+          "visible_solution_tokens": 165
+        },
+        "candidate": {
+          "base_status": "pass",
+          "plus_status": "pass",
+          "visible_solution_tokens": 86
+        },
+        "delta": {
+          "base_pass": 0,
+          "plus_pass": 0,
+          "visible_solution_tokens": -79
+        },
+        "finish_reason": {
+          "reason": "pinned EvalPlus OpenAI decoder persisted only task_id+solution; API finish_reason was not retained",
+          "status": "unavailable"
+        },
+        "reasoning_tokens": {
+          "reason": "pinned EvalPlus OpenAI decoder persisted only task_id+solution; API reasoning_content was not retained",
+          "status": "unavailable"
+        },
+        "task_id": "HumanEval/2"
+      },
+      {
+        "baseline": {
+          "base_status": "pass",
+          "plus_status": "pass",
+          "visible_solution_tokens": 163
+        },
+        "candidate": {
+          "base_status": "pass",
+          "plus_status": "pass",
+          "visible_solution_tokens": 169
+        },
+        "delta": {
+          "base_pass": 0,
+          "plus_pass": 0,
+          "visible_solution_tokens": 6
+        },
+        "finish_reason": {
+          "reason": "pinned EvalPlus OpenAI decoder persisted only task_id+solution; API finish_reason was not retained",
+          "status": "unavailable"
+        },
+        "reasoning_tokens": {
+          "reason": "pinned EvalPlus OpenAI decoder persisted only task_id+solution; API reasoning_content was not retained",
+          "status": "unavailable"
+        },
+        "task_id": "HumanEval/57"
+      },
+      {
+        "baseline": {
+          "base_status": "pass",
+          "plus_status": "pass",
+          "visible_solution_tokens": 236
+        },
+        "candidate": {
+          "base_status": "pass",
+          "plus_status": "pass",
+          "visible_solution_tokens": 272
+        },
+        "delta": {
+          "base_pass": 0,
+          "plus_pass": 0,
+          "visible_solution_tokens": 36
+        },
+        "finish_reason": {
+          "reason": "pinned EvalPlus OpenAI decoder persisted only task_id+solution; API finish_reason was not retained",
+          "status": "unavailable"
+        },
+        "reasoning_tokens": {
+          "reason": "pinned EvalPlus OpenAI decoder persisted only task_id+solution; API reasoning_content was not retained",
+          "status": "unavailable"
+        },
+        "task_id": "HumanEval/93"
+      },
+      {
+        "baseline": {
+          "base_status": "fail",
+          "plus_status": "fail",
+          "visible_solution_tokens": 396
+        },
+        "candidate": {
+          "base_status": "pass",
+          "plus_status": "fail",
+          "visible_solution_tokens": 174
+        },
+        "delta": {
+          "base_pass": 1,
+          "plus_pass": 0,
+          "visible_solution_tokens": -222
+        },
+        "finish_reason": {
+          "reason": "pinned EvalPlus OpenAI decoder persisted only task_id+solution; API finish_reason was not retained",
+          "status": "unavailable"
+        },
+        "reasoning_tokens": {
+          "reason": "pinned EvalPlus OpenAI decoder persisted only task_id+solution; API reasoning_content was not retained",
+          "status": "unavailable"
+        },
+        "task_id": "HumanEval/99"
+      },
+      {
+        "baseline": {
+          "base_status": "fail",
+          "plus_status": "fail",
+          "visible_solution_tokens": 0
+        },
+        "candidate": {
+          "base_status": "fail",
+          "plus_status": "fail",
+          "visible_solution_tokens": 0
+        },
+        "delta": {
+          "base_pass": 0,
+          "plus_pass": 0,
+          "visible_solution_tokens": 0
+        },
+        "finish_reason": {
+          "reason": "pinned EvalPlus OpenAI decoder persisted only task_id+solution; API finish_reason was not retained",
+          "status": "unavailable"
+        },
+        "reasoning_tokens": {
+          "reason": "pinned EvalPlus OpenAI decoder persisted only task_id+solution; API reasoning_content was not retained",
+          "status": "unavailable"
+        },
+        "task_id": "HumanEval/132"
+      },
+      {
+        "baseline": {
+          "base_status": "pass",
+          "plus_status": "fail",
+          "visible_solution_tokens": 446
+        },
+        "candidate": {
+          "base_status": "pass",
+          "plus_status": "pass",
+          "visible_solution_tokens": 238
+        },
+        "delta": {
+          "base_pass": 0,
+          "plus_pass": 1,
+          "visible_solution_tokens": -208
+        },
+        "finish_reason": {
+          "reason": "pinned EvalPlus OpenAI decoder persisted only task_id+solution; API finish_reason was not retained",
+          "status": "unavailable"
+        },
+        "reasoning_tokens": {
+          "reason": "pinned EvalPlus OpenAI decoder persisted only task_id+solution; API reasoning_content was not retained",
+          "status": "unavailable"
+        },
+        "task_id": "HumanEval/134"
+      }
+    ],
+    "limitations": [
+      "visible_solution_tokens are tokenizer counts over persisted solution text, not hidden reasoning-token counts."
+    ],
+    "provenance": {
+      "<private-path-redacted>": "9ffc0062bc5d3f34ef41deeaf4724bcac2501d008004af453c4982cfe9c6110d"
+    },
+    "schema": "early6-complete-receipt-v1",
+    "sealed_unix": 1784566208.3679454,
+    "status": "PASS",
+    "summary": {
+      "baseline_base_pass": 4,
+      "baseline_plus_pass": 3,
+      "candidate_base_pass": 5,
+      "candidate_plus_pass": 4,
+      "delta_base_pass": 1,
+      "delta_plus_pass": 1
+    },
+    "task_id": "<internal-task-redacted>"
+  },
+  "privacy_transform": {
+    "numeric_values_preserved": true,
+    "public_name_normalization": [
+      "banana_bae/BQ3 for this campaign",
+      "Unsloth ownership retained for IQ*/UD-* comparators"
+    ],
+    "string_redactions": [
+      "private paths",
+      "private hosts and addresses",
+      "internal task identifiers",
+      "private identities"
+    ],
+    "structural_fields_preserved": true
+  },
+  "schema": "ptq-opd-public-receipt-v1",
+  "source_format": "json",
+  "source_receipt_sha256": "16c3fd036c2b275dc091fd7d33da903ccb2938d5065b42df7e570dd8be993d73"
+}

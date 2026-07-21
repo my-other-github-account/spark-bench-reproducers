@@ -1,0 +1,312 @@
+{
+  "payload": {
+    "artifacts": {
+      "baseline_macro": {
+        "bytes": 1170,
+        "path": "<private-path-redacted>",
+        "sha256": "6d509ebba48422a8fb9fcffb8e789a53b3581c59088f15e436d037b0fa99d0b2"
+      },
+      "baseline_rollouts": {
+        "bytes": 172676,
+        "path": "<private-path-redacted>",
+        "sha256": "9432199a0cd873c9d339fbd8cfa9735d559ff87de0f3e05ecba6a6c3a3c44085"
+      },
+      "candidate_correctness": {
+        "bytes": 1524,
+        "path": "<private-path-redacted>",
+        "sha256": "1bc94e379e144037e85649a1f2e04e633633aa526fb0e6d6fe0fb7cb344eb760"
+      },
+      "candidate_generation_receipt": {
+        "bytes": 860,
+        "path": "<private-path-redacted>",
+        "sha256": "ee7babaf5617b1776cca623c2f17eab9935e49922c7f23ad9c63322002c1d001"
+      },
+      "candidate_macro": {
+        "bytes": 1158,
+        "path": "<private-path-redacted>",
+        "sha256": "a2077f1282f86ffd9c332e76f5ac644112c45b67cd7c5528f31a6da9b2326249"
+      },
+      "candidate_probes": {
+        "bytes": 1683,
+        "path": "<private-path-redacted>",
+        "sha256": "d54d0d92581ec18dbad1a688b832bd972f660908c42ce659e8ec605d2bd0db92"
+      },
+      "candidate_rollouts": {
+        "bytes": 181240,
+        "path": "<private-path-redacted>",
+        "sha256": "7aa0bf3b79b9865ae02cc1ae019168e179485a23b47c859589915531b672b7a8"
+      },
+      "overlay_receipt": {
+        "bytes": 57047,
+        "path": "<private-path-redacted>",
+        "sha256": "88a8b283908afbb0bc9f295f05c9dab76a741019fecdd65fbdb541152bb76ea5"
+      },
+      "serve_identity": {
+        "bytes": 2276,
+        "path": "<private-path-redacted>",
+        "sha256": "03dcfb47d3d5de9b14cd0ea5df50f67ae8162b11a424e95444f9f4ef74a55d28"
+      },
+      "stage_receipt": {
+        "bytes": 2819,
+        "path": "<private-path-redacted>",
+        "sha256": "df23b75337cddd3a631257d2c60f8135f319f5f767bff5e07a869f9b86db5cec"
+      }
+    },
+    "candidate_checkpoint_sha256": "f26bcd3d0b65282faf838fc88e92befae5b5329adb6df7b5688f7a88370b2d1d",
+    "completed_unix": 1784506674.0062225,
+    "first_probes": {
+      "HumanEval/116": {
+        "baseline": {
+          "budget_exhaustion_evidence": false,
+          "completion_tokens": 3247,
+          "content_chars": 648,
+          "content_is_null": false,
+          "content_tokens_counted": 202,
+          "finish_reason": "stop",
+          "near_completion_cap": false,
+          "reasoning_chars": 11200,
+          "reasoning_field": "reasoning",
+          "reasoning_tokens_counted": 3043,
+          "reasoning_tokens_reported": null,
+          "response_id": "chatcmpl-9828f2592f3d944e",
+          "system_fingerprint": "vllm-0.24.0-3f34bf12",
+          "task_id": "HumanEval/116",
+          "usage": {
+            "completion_tokens": 3247,
+            "prompt_tokens": 192,
+            "prompt_tokens_details": null,
+            "total_tokens": 3439
+          },
+          "wall_s": 417.34533166885376
+        },
+        "candidate": {
+          "budget_exhaustion_evidence": false,
+          "completion_tokens": 2366,
+          "content_chars": 634,
+          "content_is_null": false,
+          "content_tokens_counted": 212,
+          "finish_reason": "stop",
+          "near_completion_cap": false,
+          "reasoning_chars": 7573,
+          "reasoning_field": "reasoning",
+          "reasoning_tokens_counted": 2152,
+          "reasoning_tokens_reported": null,
+          "response_id": "chatcmpl-8b48febee7cc1008",
+          "system_fingerprint": "vllm-0.24.0-3f34bf12",
+          "task_id": "HumanEval/116",
+          "usage": {
+            "completion_tokens": 2366,
+            "prompt_tokens": 192,
+            "prompt_tokens_details": null,
+            "total_tokens": 2558
+          },
+          "wall_s": 395.50387239456177
+        },
+        "candidate_evalplus": {
+          "base_fail_tests": [
+            [
+              [
+                -2,
+                -3,
+                -4,
+                -5,
+                -6
+              ]
+            ]
+          ],
+          "base_status": "fail",
+          "candidate_checkpoint_sha256": "f26bcd3d0b65282faf838fc88e92befae5b5329adb6df7b5688f7a88370b2d1d",
+          "candidate_code_sha256": "c0644b46f5419ffd6649dbaf15ea8eeadebfdee3a76ae4a5cdf3c71c4b5f4715",
+          "candidate_raw": "<private-path-redacted>",
+          "candidate_raw_sha256": "05cdafbaffe8fe46164a2d70ebd5454ffa9bf3ca2c88d8dd2f0af02bf6c2de14",
+          "completed_unix": 1784505191.8778043,
+          "dataset_md5": "fe585eb4df8c88d844eeb463ea4d0302",
+          "docker_image": "evalplus:26d6d00",
+          "docker_image_id": "sha256:ce82d4f2e99754feb576991dec8d558096cbcb43644b53faf941324d77981c95",
+          "eval_results": "<private-path-redacted>",
+          "eval_results_sha256": "0c2c925ae6018987c4cbae7e48671750611893cbe34d513464372176af34ec4c",
+          "evalplus_commit": "26d6d00",
+          "overall_correct": false,
+          "plus_fail_tests": [],
+          "plus_status": "pass",
+          "samples": "<private-path-redacted>",
+          "samples_sha256": "d67fc6da3445f5fb5e61909b9a14c043fb95df87a98bb5d866b4ce440ccddcfe",
+          "sandbox": {
+            "cpus": 2,
+            "memory": "4g",
+            "network": "none",
+            "pids_limit": 256
+          },
+          "schema": "tailfix-matched-humaneval116-evalplus-v1",
+          "status": "FAIL",
+          "task": "HumanEval/116",
+          "task_id": "<internal-task-redacted>"
+        }
+      },
+      "HumanEval/132": {
+        "baseline": {
+          "budget_exhaustion_evidence": true,
+          "completion_tokens": 4096,
+          "content_chars": null,
+          "content_is_null": true,
+          "content_tokens_counted": null,
+          "finish_reason": "length",
+          "near_completion_cap": true,
+          "reasoning_chars": 13720,
+          "reasoning_field": "reasoning",
+          "reasoning_tokens_counted": 4096,
+          "reasoning_tokens_reported": null,
+          "response_id": "chatcmpl-bfb16b0b58cff976",
+          "system_fingerprint": "vllm-0.24.0-3f34bf12",
+          "task_id": "HumanEval/132",
+          "usage": {
+            "completion_tokens": 4096,
+            "prompt_tokens": 162,
+            "prompt_tokens_details": null,
+            "total_tokens": 4258
+          },
+          "wall_s": 207.01957988739014
+        },
+        "candidate": {
+          "budget_exhaustion_evidence": true,
+          "completion_tokens": 4096,
+          "content_chars": null,
+          "content_is_null": true,
+          "content_tokens_counted": null,
+          "finish_reason": "length",
+          "near_completion_cap": true,
+          "reasoning_chars": 14545,
+          "reasoning_field": "reasoning",
+          "reasoning_tokens_counted": 4096,
+          "reasoning_tokens_reported": null,
+          "response_id": "chatcmpl-86640a60fbe9d633",
+          "system_fingerprint": "vllm-0.24.0-3f34bf12",
+          "task_id": "HumanEval/132",
+          "usage": {
+            "completion_tokens": 4096,
+            "prompt_tokens": 162,
+            "prompt_tokens_details": null,
+            "total_tokens": 4258
+          },
+          "wall_s": 215.5940489768982
+        }
+      }
+    },
+    "frozen32": {
+      "baseline": {
+        "completion_tokens": 30065,
+        "finish_counts": {
+          "length": 1,
+          "stop": 31
+        },
+        "reasoning_tokens": 22483
+      },
+      "candidate": {
+        "completion_tokens": 31995,
+        "finish_counts": {
+          "length": 1,
+          "stop": 31
+        },
+        "reasoning_tokens": 24899
+      },
+      "candidate_minus_baseline": {
+        "completion_pct": 6.419424580076501,
+        "completion_tokens": 1930,
+        "reasoning_pct": 10.74589689987991,
+        "reasoning_tokens": 2416
+      }
+    },
+    "host": "<private-host-redacted>",
+    "identity": {
+      "frozen_order_equal": true,
+      "instrument_files_exact_copies": true,
+      "prompt_token_identity_equal": 32,
+      "request": {
+        "max_completion_tokens": 4096,
+        "n": 1,
+        "served_model_name": "deepseek-v4-flash-iq3-combo-v4-step0",
+        "temperature": 0.0,
+        "top_p": 0.95
+      },
+      "serve_build_config_fingerprint": {
+        "baseline_state": {
+          "dense_patch": "<private-path-redacted>",
+          "wire": "<private-path-redacted>"
+        },
+        "baseline_system_fingerprints": [
+          "vllm-0.24.0-3f34bf12"
+        ],
+        "candidate_state": {
+          "checkpoint_sha256": "f26bcd3d0b65282faf838fc88e92befae5b5329adb6df7b5688f7a88370b2d1d",
+          "dense_patch": "<private-path-redacted>",
+          "wire": "<private-path-redacted>"
+        },
+        "candidate_system_fingerprints": [
+          "vllm-0.24.0-3f34bf12"
+        ],
+        "created_unix": 1784503536.2299154,
+        "engine_config_sha256": "5b5c3e3e4ae6e93981ebfa129ace76a71ac88742b831841d3c8c42c181c0de94",
+        "exact_engine_config_equal": true,
+        "exact_non_default_args_equal": true,
+        "fingerprint_equal": true,
+        "host": "<private-host-redacted>",
+        "non_default_args_sha256": "1082aa839b11612a6a919f9db99b8409581ab252358ef37638b87c54dbdd0919",
+        "schema": "tailfix-serve-identity-v1",
+        "shared_model_view": "<private-path-redacted>",
+        "shared_runtime_implementation": [
+          {
+            "bytes": 93775,
+            "path": "<private-path-redacted>",
+            "sha256": "c38de5aa25c541e48ebc0add11b319460472968b7f3591bab3667dd3ab05d66d"
+          },
+          {
+            "bytes": 30903,
+            "path": "<private-path-redacted>",
+            "sha256": "c212cb758e0c5d665d8951a458043262645759a77c2e608e1f55fc68d051ee1c"
+          },
+          {
+            "bytes": 1653840,
+            "path": "<private-path-redacted>",
+            "sha256": "5d32e0ab3b0f88ae6d1201d3dd323e225dc239dc5133355c583d0aa7cf3692db"
+          }
+        ],
+        "status": "PASS",
+        "task_id": "<internal-task-redacted>",
+        "vllm_binary": "<private-path-redacted>",
+        "vllm_binary_sha256": "d4e7e45f40d3e868f4e70f366d1be38d27ee8e8a38cf03bde9217cd8b5779f67"
+      }
+    },
+    "label": "trained-on-task mechanism only; HumanEval/116 and HumanEval/132 were exposed in training; no clean-split efficacy/generalization claim",
+    "schema": "tailfix-matched-paired-final-v1",
+    "source_teacher_own_rollout_macro": {
+      "baseline_prompt_macro_nll": 0.18542624056293433,
+      "baseline_prompt_macro_top1": 0.9663851777579527,
+      "candidate_minus_baseline_nll": -0.00653967622994453,
+      "candidate_minus_baseline_pct": -3.52683428736449,
+      "candidate_positions": 31995,
+      "candidate_prompt_macro_nll": 0.1788865643329898,
+      "candidate_prompt_macro_top1": 0.9669601997264425,
+      "instrument": "sealed HF layer-streamed teacher_approval_compact_v1; generated-token slice only"
+    },
+    "status": "PASS",
+    "task_id": "<internal-task-redacted>",
+    "verdict": "negative aggregate reasoning-length mechanism result despite source-teacher prompt-macro NLL improvement; /116 remains EvalPlus-incorrect and /132 remains length/null"
+  },
+  "privacy_transform": {
+    "numeric_values_preserved": true,
+    "public_name_normalization": [
+      "banana_bae/BQ3 for this campaign",
+      "Unsloth ownership retained for IQ*/UD-* comparators"
+    ],
+    "string_redactions": [
+      "private paths",
+      "private hosts and addresses",
+      "internal task identifiers",
+      "private identities"
+    ],
+    "structural_fields_preserved": true
+  },
+  "schema": "ptq-opd-public-receipt-v1",
+  "source_format": "json",
+  "source_receipt_sha256": "73d283919af016d5f79c79328a0a1b609faed96860f75e10fa65bdf144111fc5"
+}

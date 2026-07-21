@@ -66,9 +66,11 @@ Lesson: static KLD is a safety rail, not a promotion criterion.
 
 ## 5. A full table overturned a small support panel
 
-Spot16 often showed large, clean per-class improvements. The earlier exact 512-window table showed the more important result: the step4 code mean moved from `0.067247` to `0.068551`—effectively flat/slightly worse—while HumanEval improved. A transfer-8 spot16 pass therefore required a full 512-window read before revising the dissociation claim.
+Spot16 often showed large, clean per-class improvements. The earlier exact 512-window table showed the more important result: the step4 code mean moved from `0.067247` to `0.068551`—effectively flat/slightly worse—while HumanEval improved. The later complete Transfer-8 code-class partial then moved to `0.074580`, **10.9039% worse than step0**, overturning the favorable spot-16 code read. Its source identity is `c63bf9f43aeef0f74306e4f66826ea53cbce98270276698bae97c442649354c0`. The full 512-window cross-class Transfer-8 result remains open.
 
-Lesson: small support panels are launch gates, not paper-level estimators.
+Together with exploratory step8—where every static class improved but behavior stayed flat and introduced a null regression—this establishes the dissociation in both directions: behavioral gains need not improve static KLD, and static gains need not improve behavior.
+
+Lesson: small support panels are launch gates, not paper-level estimators. A complete class partial must remain scoped to that class until the full cross-class table seals.
 
 ## 6. Temperature-zero reasoning lengths varied materially
 

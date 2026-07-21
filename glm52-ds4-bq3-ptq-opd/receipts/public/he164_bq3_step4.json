@@ -1,0 +1,267 @@
+{
+  "payload": {
+    "baseline": "BQ3-step0 sealed 157/164 instrument",
+    "candidate": "BQ3-GKD-step4",
+    "candidate_checkpoint_sha256": "44bbbcd6a945e0103c54abd6bce92f97c57f6016a81502110b0c5b8c2e643855",
+    "instrument": {
+      "dataset": "HumanEvalPlus v0.1.10",
+      "decoding": "greedy temperature=0",
+      "docker_image": "evalplus:26d6d00",
+      "docker_image_id": "sha256:ff039cb502dcccafbac6977b20f9abab219944d679e7b06faf1a6cc9dacb3918",
+      "evalplus_dataset_hash": "fe585eb4df8c88d844eeb463ea4d0302",
+      "n": 164,
+      "n_samples": 1,
+      "network": "none",
+      "true_max_completion_tokens": 4096
+    },
+    "labeling": {
+      "dose": "benchmark-distribution-trained",
+      "heldout_selection_sha256": "f2f63528651541cdf60778bb24546f8a437a6fba634409865689eff4037d3936",
+      "heldout_task_count": 18,
+      "trained_task_count": 146
+    },
+    "null_retained_as_fail_once_no_retry": [
+      "HumanEval/116",
+      "HumanEval/132"
+    ],
+    "provenance": {
+      "baseline_eval": {
+        "path": "<private-path-redacted>",
+        "sha256": "19df6df2fb8202c96b0109556dba6885be3e0233440a32caefc0cd3e98a92d61"
+      },
+      "candidate_eval": {
+        "path": "<private-path-redacted>",
+        "sha256": "ca4eb6295a850fe566ec9bb0b2908c6ceacbc6424abdb33838e07b4de9975111"
+      },
+      "candidate_sanitized": {
+        "path": "<private-path-redacted>",
+        "sha256": "b4846583548813ba9c2e42347c0cc34c3984e6774867fbc1f912d5610dcfdb6d"
+      },
+      "early6": {
+        "path": "<private-path-redacted>",
+        "sha256": "16c3fd036c2b275dc091fd7d33da903ccb2938d5065b42df7e570dd8be993d73"
+      },
+      "merge_receipt": {
+        "path": "<private-path-redacted>",
+        "sha256": "056b8df7180e02487901dd08d3362ce0121a99fd9ea75e6e4f60e5468ee1db66"
+      },
+      "serve_preflight": {
+        "path": "<private-path-redacted>",
+        "sha256": "72230a46173edf9823f18c5e9e8690a02d686cf9e690dc7f2beb8c0982a0d7ce"
+      }
+    },
+    "schema": "code-repair-leg3-he164-v1",
+    "sealed_unix": 1784567769.234969,
+    "status": "PASS",
+    "status_flips": [
+      {
+        "BQ3_GKD_step4": {
+          "base": "pass",
+          "plus": "fail"
+        },
+        "BQ3_step0": {
+          "base": "pass",
+          "plus": "pass"
+        },
+        "task_id": "HumanEval/55"
+      },
+      {
+        "BQ3_GKD_step4": {
+          "base": "pass",
+          "plus": "pass"
+        },
+        "BQ3_step0": {
+          "base": "fail",
+          "plus": "fail"
+        },
+        "task_id": "HumanEval/73"
+      },
+      {
+        "BQ3_GKD_step4": {
+          "base": "pass",
+          "plus": "fail"
+        },
+        "BQ3_step0": {
+          "base": "fail",
+          "plus": "fail"
+        },
+        "task_id": "HumanEval/76"
+      },
+      {
+        "BQ3_GKD_step4": {
+          "base": "pass",
+          "plus": "fail"
+        },
+        "BQ3_step0": {
+          "base": "pass",
+          "plus": "pass"
+        },
+        "task_id": "HumanEval/86"
+      },
+      {
+        "BQ3_GKD_step4": {
+          "base": "fail",
+          "plus": "fail"
+        },
+        "BQ3_step0": {
+          "base": "pass",
+          "plus": "pass"
+        },
+        "task_id": "HumanEval/95"
+      },
+      {
+        "BQ3_GKD_step4": {
+          "base": "pass",
+          "plus": "fail"
+        },
+        "BQ3_step0": {
+          "base": "fail",
+          "plus": "fail"
+        },
+        "task_id": "HumanEval/99"
+      },
+      {
+        "BQ3_GKD_step4": {
+          "base": "pass",
+          "plus": "pass"
+        },
+        "BQ3_step0": {
+          "base": "fail",
+          "plus": "fail"
+        },
+        "task_id": "HumanEval/109"
+      },
+      {
+        "BQ3_GKD_step4": {
+          "base": "pass",
+          "plus": "pass"
+        },
+        "BQ3_step0": {
+          "base": "pass",
+          "plus": "fail"
+        },
+        "task_id": "HumanEval/124"
+      },
+      {
+        "BQ3_GKD_step4": {
+          "base": "pass",
+          "plus": "pass"
+        },
+        "BQ3_step0": {
+          "base": "pass",
+          "plus": "fail"
+        },
+        "task_id": "HumanEval/134"
+      },
+      {
+        "BQ3_GKD_step4": {
+          "base": "pass",
+          "plus": "fail"
+        },
+        "BQ3_step0": {
+          "base": "pass",
+          "plus": "pass"
+        },
+        "task_id": "HumanEval/141"
+      },
+      {
+        "BQ3_GKD_step4": {
+          "base": "pass",
+          "plus": "pass"
+        },
+        "BQ3_step0": {
+          "base": "pass",
+          "plus": "fail"
+        },
+        "task_id": "HumanEval/154"
+      }
+    ],
+    "subsets": {
+      "all164": {
+        "BQ3_GKD_step4": {
+          "base_pass": 160,
+          "base_rate": 0.975609756097561,
+          "n": 164,
+          "plus_pass": 150,
+          "plus_rate": 0.9146341463414634
+        },
+        "BQ3_step0": {
+          "base_pass": 157,
+          "base_rate": 0.9573170731707317,
+          "n": 164,
+          "plus_pass": 149,
+          "plus_rate": 0.9085365853658537
+        },
+        "delta": {
+          "base_pass": 3,
+          "plus_pass": 1
+        }
+      },
+      "benchmark_distribution_trained146": {
+        "BQ3_GKD_step4": {
+          "base_pass": 145,
+          "base_rate": 0.9931506849315068,
+          "n": 146,
+          "plus_pass": 135,
+          "plus_rate": 0.9246575342465754
+        },
+        "BQ3_step0": {
+          "base_pass": 142,
+          "base_rate": 0.9726027397260274,
+          "n": 146,
+          "plus_pass": 134,
+          "plus_rate": 0.9178082191780822
+        },
+        "delta": {
+          "base_pass": 3,
+          "plus_pass": 1
+        }
+      },
+      "clean_heldout18": {
+        "BQ3_GKD_step4": {
+          "base_pass": 15,
+          "base_rate": 0.8333333333333334,
+          "n": 18,
+          "plus_pass": 15,
+          "plus_rate": 0.8333333333333334
+        },
+        "BQ3_step0": {
+          "base_pass": 15,
+          "base_rate": 0.8333333333333334,
+          "n": 18,
+          "plus_pass": 15,
+          "plus_rate": 0.8333333333333334
+        },
+        "delta": {
+          "base_pass": 0,
+          "plus_pass": 0
+        }
+      }
+    },
+    "task_id": "<internal-task-redacted>",
+    "task_reference_only": {
+      "Unsloth_base_pass_counts": [
+        158,
+        161
+      ],
+      "provenance": "Kanban card body; not remeasured in this leg"
+    }
+  },
+  "privacy_transform": {
+    "numeric_values_preserved": true,
+    "public_name_normalization": [
+      "banana_bae/BQ3 for this campaign",
+      "Unsloth ownership retained for IQ*/UD-* comparators"
+    ],
+    "string_redactions": [
+      "private paths",
+      "private hosts and addresses",
+      "internal task identifiers",
+      "private identities"
+    ],
+    "structural_fields_preserved": true
+  },
+  "schema": "ptq-opd-public-receipt-v1",
+  "source_format": "json",
+  "source_receipt_sha256": "89408457ec802c43a995ea75d5500387cffe0ad12e6b3ff1a6e9e4c7bb42d4ba"
+}

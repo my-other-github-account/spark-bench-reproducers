@@ -1,0 +1,154 @@
+{
+  "payload": {
+    "artifacts": {
+      "cap_shim": {
+        "path": "evalplus_codegen_pinned.py",
+        "sha256": "459a84bb6c594b4e03ed74992c30eb4ddbe05bb04ba127a659f540d4fea99282"
+      },
+      "codegen_audit": {
+        "path": "receipts/iq4_codegen_audit.json",
+        "sha256": "e5bba84c7aa81793331e67ed6cedc9268ce917f95d5b65703458e8bfcb1a06b9"
+      },
+      "docker_build_log": {
+        "path": "receipts/iq4_s5_docker_build_sudo.log",
+        "sha256": "d2f56dd0f2c35bff2d716796a16c3207e3f1206b9c5f71b340d51785260e88e6"
+      },
+      "docker_eval_log": {
+        "path": "receipts/iq4_s5_evaluate_retry3.log",
+        "sha256": "4a5a5eebc0aa603221a509ba6592c4bb78cde3e3045392039d3902f5dd0ae9a6"
+      },
+      "eval_results_json": {
+        "path": "iq4_results/humaneval/deepseek-v4-flash-ud-iq4-xs_openai_temp_0.0.eval_results.json",
+        "sha256": "c26aa35efe9174ab15d76785e609b06030f602a1ac52201bb6cda38850772452"
+      },
+      "final_gate": {
+        "path": "receipts/iq4_codegen_final_gate.json",
+        "sha256": "6a7fe41986a0937f96014f4a236b1c6de90bf2bfe415ee5e54b7796c5947b8b7"
+      },
+      "models_receipt": {
+        "path": "receipts/iq4_models.json",
+        "sha256": "c8ca9fb5171d72b18f0e05baa4d425a760c744d65173bdef2801cf6369e872c3"
+      },
+      "raw_jsonl": {
+        "path": "iq4_results/humaneval/deepseek-v4-flash-ud-iq4-xs_openai_temp_0.0.raw.jsonl",
+        "sha256": "6bc19153d69d05d9758e019a181fb608f87bf430dd5b9314dea5cac2cf86a30f"
+      },
+      "sanitized_jsonl": {
+        "path": "iq4_results/humaneval/deepseek-v4-flash-ud-iq4-xs_openai_temp_0.0.jsonl",
+        "sha256": "a6f0f11427661e9df0906a518a4890b8b5e83da6222728121ebe8d76a06028c6"
+      },
+      "teardown_receipt": {
+        "path": "receipts/iq4_teardown.txt",
+        "sha256": "dcc8f2ff8e36f35b04c3a8021089b6ef320f35f8121168edd654ae9c8e92cd7d"
+      }
+    },
+    "execution": {
+      "docker_image": "evalplus:26d6d00",
+      "docker_image_id": "sha256:ff039cb502dcccafbac6977b20f9abab219944d679e7b06faf1a6cc9dacb3918",
+      "docker_source_commit_verified_clean": true,
+      "host": "<private-host-redacted>",
+      "note": "Two infrastructure-only setup attempts failed before evaluation (missing writable ground-truth cache, then sample-file permissions). The final retry3 evaluated all 164 samples successfully with the frozen sanitized input.",
+      "sandbox": {
+        "capabilities": "ALL dropped",
+        "dataset_cache": "read-only bind mount",
+        "memory_limit": "8g",
+        "network": "none",
+        "no_new_privileges": true,
+        "parallel_workers": 8,
+        "pids_limit": 512,
+        "root_filesystem": "read-only",
+        "tmpfs": [
+          "/tmp:rw,nosuid,noexec,size=2g",
+          "/run:rw,nosuid,noexec,size=64m"
+        ]
+      }
+    },
+    "format": "evalplus-humaneval-plus-row-v2-true-cap",
+    "generation": {
+      "retry_policy": "No written sample was retried. HumanEval/116 returned an empty completion and was retained as an honest failure.",
+      "sanitizer_audit": {
+        "empty_task": "HumanEval/116",
+        "nonempty": 163,
+        "rows": 164,
+        "syntax_ok": 164
+      },
+      "shard_ranges": [
+        "000-041",
+        "041-082",
+        "082-123",
+        "123-164"
+      ],
+      "shards": 4
+    },
+    "identity": "@<private-identity-redacted>",
+    "instrument": {
+      "cap_binding_proof": "evalplus_codegen_pinned.py prints EFFECTIVE_CONFIG and binds OpenAIChatDecoder.max_new_tokens after upstream construction",
+      "cap_shim_sha256": "459a84bb6c594b4e03ed74992c30eb4ddbe05bb04ba127a659f540d4fea99282",
+      "dataset_hash": "fe585eb4df8c88d844eeb463ea4d0302",
+      "dataset_release": "HumanEvalPlus-v0.1.10",
+      "evalplus_git_commit": "26d6d00bb1fd0fa37f39c99d5290da67891d1c5e",
+      "evalplus_version": "0.4.0.dev44"
+    },
+    "integrity": {
+      "invalid_rebalance": "Four auxiliary tail rows from a tentative overlapping refill were quarantined before merge; zero entered the canonical JSONL or scoring.",
+      "mac_policy": "<private-identity-redacted> performed text/codegen/receipt work only; untrusted solution execution and scoring ran on <private-host-redacted> Docker.",
+      "quarantine_path": "quarantine/INVALID_REBALANCE_DUPLICATE_RISK_20260718_201543"
+    },
+    "row": {
+      "backend": "openai",
+      "dataset": "humaneval",
+      "decode": "greedy",
+      "humaneval_failed": 3,
+      "humaneval_pass_at_1": 0.9817073170731707,
+      "humaneval_passed": 161,
+      "humaneval_plus_failed": 12,
+      "humaneval_plus_pass_at_1": 0.926829268292683,
+      "humaneval_plus_passed": 152,
+      "label": "Served DeepSeek-V4-Flash UD-IQ4_XS",
+      "max_completion_tokens_effective": 4096,
+      "model_slug": "deepseek-v4-flash-ud-iq4-xs",
+      "samples_per_task": 1,
+      "task_count": 164,
+      "temperature": 0.0,
+      "top_p": 0.95
+    },
+    "sealed_utc": "2026-07-19T04:28:59.574872Z",
+    "serve": {
+      "config": {
+        "batch_size": 2048,
+        "cache_type_k": "f16",
+        "cache_type_v": "f16",
+        "ctx_size_total": 65536,
+        "flash_attention": true,
+        "parallel_slots": 4,
+        "reasoning": "DeepSeek, preserved",
+        "slot_context": 16384,
+        "thinking": true,
+        "ubatch_size": 2048
+      },
+      "engine": "llama.cpp llama-server + ggml-rpc-server",
+      "lifecycle": "task-owned no-service launch; owner-verified teardown; both hosts GPU-empty and claims released after codegen",
+      "llama_cpp_commit": "f6f12e43fa869ef0e008b99ed97dc4006bbb8907",
+      "model_format": "GGUF IQ4_XS, four shards",
+      "model_repo_revision": "e3aa0d6a5fa4f820d9e132ac1fd1d01e1b2b49e0",
+      "topology": "<private-host-redacted> head + <private-host-redacted> RPC over QSFP"
+    }
+  },
+  "privacy_transform": {
+    "numeric_values_preserved": true,
+    "public_name_normalization": [
+      "banana_bae/BQ3 for this campaign",
+      "Unsloth ownership retained for IQ*/UD-* comparators"
+    ],
+    "string_redactions": [
+      "private paths",
+      "private hosts and addresses",
+      "internal task identifiers",
+      "private identities"
+    ],
+    "structural_fields_preserved": true
+  },
+  "schema": "ptq-opd-public-receipt-v1",
+  "source_format": "json",
+  "source_receipt_sha256": "82237887fcbdffe60b02c0c12840e0a1126cccebe39c641e4c0a42633ac4aac6"
+}

@@ -1,0 +1,286 @@
+{
+  "payload": {
+    "artifact_family": "BQ3 (ours)",
+    "campaign_contract": {
+      "creditable": false,
+      "reason": "Track-C updates 5-8 used rolling replacements rather than the frozen-bank one-pass campaign contract; this receipt is a scientific behavioral probe, not deployment promotion."
+    },
+    "candidate_checkpoint_sha256": "1a1f2bf5b202aa50ff638ea7f8eb53c7eb509bc69a356540595b8b48441f9e2a",
+    "completed_unix": 1784584258.4191332,
+    "decision": "STOP_STATIC_ONLY",
+    "early6": {
+      "delta_step8_vs_step0": {
+        "base_pass": 1,
+        "both_pass": 1,
+        "plus_pass": 1
+      },
+      "delta_step8_vs_step4": {
+        "base_pass": 0,
+        "both_pass": 0,
+        "plus_pass": 0
+      },
+      "evalplus_threeway_sha256": "663c0021c2d62070e7f92e78342ad8997158b1e9b97138c44735e0cef790081b",
+      "nonregression": true,
+      "totals": {
+        "step0": {
+          "base_pass": 4,
+          "both_pass": 3,
+          "length_finishes": 0,
+          "nulls": 0,
+          "plus_pass": 3
+        },
+        "step4": {
+          "base_pass": 5,
+          "both_pass": 4,
+          "length_finishes": 1,
+          "nulls": 1,
+          "plus_pass": 4
+        },
+        "step8": {
+          "base_pass": 5,
+          "both_pass": 4,
+          "length_finishes": 1,
+          "nulls": 1,
+          "plus_pass": 4
+        }
+      }
+    },
+    "format": "scaled-verdict-track-c-step8-v1",
+    "gates": {
+      "cap_adjacent_behavior_improved": false,
+      "early6_correctness_nonregression": true,
+      "heldout18_correctness_nonregression": true,
+      "no_new_generation_regression": false,
+      "static_all_improve": true,
+      "static_code_improve": true
+    },
+    "heldout18": {
+      "cap_adjacent_116_or_132_improved": false,
+      "delta_step8_vs_step4": {
+        "base_pass": 0,
+        "both_pass": 0,
+        "plus_pass": 0
+      },
+      "evalplus_comparison_sha256": "8b50f1c1c797b089e6537078a5550755291cdcd581edc6619312f33e01792f9b",
+      "generation_safe": false,
+      "new_generation_regressions": [
+        {
+          "step4": {
+            "completion_tokens": 1553,
+            "content_is_null": false,
+            "content_tokens_counted": 249,
+            "finish_reason": "stop",
+            "reasoning_tokens_counted": 1302
+          },
+          "step8": {
+            "completion_tokens": 4096,
+            "content_is_null": true,
+            "content_tokens_counted": null,
+            "finish_reason": "length",
+            "reasoning_tokens_counted": 4096
+          },
+          "task_id": "HumanEval/145"
+        }
+      ],
+      "nonregression_correctness": true,
+      "sentinels": {
+        "HumanEval/116": {
+          "step4": {
+            "completion_tokens": 4096,
+            "content_is_null": true,
+            "content_tokens_counted": null,
+            "finish_reason": "length",
+            "reasoning_tokens_counted": 4096
+          },
+          "step8": {
+            "completion_tokens": 4096,
+            "content_is_null": true,
+            "content_tokens_counted": null,
+            "finish_reason": "length",
+            "reasoning_tokens_counted": 4096
+          }
+        },
+        "HumanEval/132": {
+          "step4": {
+            "completion_tokens": 4096,
+            "content_is_null": true,
+            "content_tokens_counted": null,
+            "finish_reason": "length",
+            "reasoning_tokens_counted": 4096
+          },
+          "step8": {
+            "completion_tokens": 4096,
+            "content_is_null": true,
+            "content_tokens_counted": null,
+            "finish_reason": "length",
+            "reasoning_tokens_counted": 4096
+          }
+        },
+        "HumanEval/145": {
+          "step4": {
+            "completion_tokens": 1553,
+            "content_is_null": false,
+            "content_tokens_counted": 249,
+            "finish_reason": "stop",
+            "reasoning_tokens_counted": 1302
+          },
+          "step8": {
+            "completion_tokens": 4096,
+            "content_is_null": true,
+            "content_tokens_counted": null,
+            "finish_reason": "length",
+            "reasoning_tokens_counted": 4096
+          }
+        }
+      },
+      "step0": {
+        "base_pass": 15,
+        "both_pass": 15,
+        "plus_pass": 15
+      },
+      "step4": {
+        "base_pass": 15,
+        "both_pass": 15,
+        "plus_pass": 15
+      },
+      "step8": {
+        "base_pass": 15,
+        "both_pass": 15,
+        "plus_pass": 15
+      }
+    },
+    "host": "<private-host-redacted>",
+    "inputs_sha256": {
+      "inputs/FINAL_STEP8_RECEIPT.json": "529633a540a57394073ec939a0ed6086cdf7fe6da169eb1fdfcca8ec26480c04",
+      "metadata/BINT_STEP8_SERVING_OVERLAY_RECEIPT.json": "284368cac5d5f0538c0c4e960eee5909496ff485f05ee93bab03b0a4b7e69c79",
+      "receipts/BASELINE_BUILD_IDENTITY.json": "47987b548d24ae979f5961d5d31eb8dce7d72ed2c2075adcb2f008fc56331dd6",
+      "receipts/EARLY6_TERMINAL.json": "b4864bcd857cb6e774c9c4539609e243e33d02ac2814bb1ff40346226c8675bc",
+      "receipts/HARD_STEP8_SERVE_RECEIPT.json": "225d43026a6e2abdde57cd12acbb5399d076a8294256dd01387d77b579f370ba",
+      "receipts/HELDOUT18_TERMINAL.json": "944c37decf272df600a93960b31756a7877b85985ef73dd5c9a24388655d9811",
+      "results/early6/rollouts.jsonl": "c118321d1687efbfcf01ca03c88bb0623e09020ba59152a639dcefa07b91f7b4",
+      "results/heldout18/rollouts.jsonl": "81b256c4abb35e2eb3f58f70ba44d469811adbf4bb2d8b742055fcad7c8dff4c"
+    },
+    "promotable": false,
+    "reason": "Stop: static KLD improved, but 116/132 cap-adjacent length/null behavior did not improve and step8 introduced a new HE145 stop/content -> 4096 length/null regression.",
+    "serve_identity": {
+      "l3m_cuda_so_sha256": "5d32e0ab3b0f88ae6d1201d3dd323e225dc239dc5133355c583d0aa7cf3692db",
+      "max_completion_tokens": 4096,
+      "max_num_seqs": 32,
+      "prefix_caching": true,
+      "runtime_vq_sha256": "c212cb758e0c5d665d8951a458043262645759a77c2e608e1f55fc68d051ee1c",
+      "runtime_w2_sha256": "c38de5aa25c541e48ebc0add11b319460472968b7f3591bab3667dd3ab05d66d",
+      "same_build_as_step0_and_step4": true,
+      "system_fingerprint": "vllm-0.24.0-3f34bf12",
+      "vllm_c_so_md5": "b5da732360774d42ebfd811e212597fe",
+      "vllm_c_stable_so_md5": "dd06a13190cfd8734357b34de3162178"
+    },
+    "static": {
+      "all_full_gate_classes_step8_lt_step4_lt_step0": true,
+      "sealed_full_gate": {
+        "chat": {
+          "step0": 0.376197739797158,
+          "step4": 0.31012798492175336,
+          "step4_vs_step0_rel": -0.17562507130167437,
+          "step8": 0.2820961859597809,
+          "step8_vs_step0_rel": -0.25013854120472834,
+          "step8_vs_step4_rel": -0.09038784090718222
+        },
+        "code": {
+          "step0": 0.4936144252659629,
+          "step4": 0.419772672003745,
+          "step4_vs_step0_rel": -0.14959399377850724,
+          "step8": 0.39051729015725095,
+          "step8_vs_step0_rel": -0.20886167387260302,
+          "step8_vs_step4_rel": -0.06969339310929001
+        },
+        "global": {
+          "step0": 0.3831556486710542,
+          "step4": 0.3294132115440155,
+          "step4_vs_step0_rel": -0.1402626773569442,
+          "step8": 0.3059927428911713,
+          "step8_vs_step0_rel": -0.20138788517803796,
+          "step8_vs_step4_rel": -0.07109753899386273
+        },
+        "prose": {
+          "step0": 0.2559252810153224,
+          "step4": 0.22940924358713533,
+          "step4_vs_step0_rel": -0.10360851152723582,
+          "step8": 0.22196248756893427,
+          "step8_vs_step0_rel": -0.13270589490670426,
+          "step8_vs_step4_rel": -0.032460575266107794
+        },
+        "reasoning": {
+          "step0": 0.40688514860577357,
+          "step4": 0.35834294566342834,
+          "step4_vs_step0_rel": -0.11930197774157947,
+          "step8": 0.32939500787871895,
+          "step8_vs_step0_rel": -0.19044720848765595,
+          "step8_vs_step4_rel": -0.08078277564838288
+        }
+      },
+      "spot16": {
+        "code_absolute": {
+          "step0": 0.06749448403678238,
+          "step4": 0.06679136717901586,
+          "step4_vs_step0": -0.0007031168577665142,
+          "step8": 0.06614644033830609,
+          "step8_vs_step0": -0.001348043698476284,
+          "step8_vs_step4": -0.0006449268407097697
+        },
+        "delta_vs_step0": {
+          "agentic": {
+            "step0": 0.0,
+            "step4": -0.0006966095,
+            "step8": -0.001337294
+          },
+          "chat": {
+            "step0": 0.0,
+            "step4": -0.0007121295,
+            "step8": -0.001373918
+          },
+          "code": {
+            "step0": 0.0,
+            "step4": -0.0007031169,
+            "step8": -0.0013480437
+          },
+          "multilingual": {
+            "step0": 0.0,
+            "step4": -0.0006600711,
+            "step8": -0.0013113588
+          },
+          "prose": {
+            "step0": 0.0,
+            "step4": -0.0007134593,
+            "step8": -0.0013484476
+          },
+          "reasoning": {
+            "step0": 0.0,
+            "step4": -0.0006853533,
+            "step8": -0.0013296797
+          }
+        },
+        "provenance": "binding values in kanban task <internal-task-redacted> body"
+      },
+      "spot16_code_step8_lt_step4_lt_step0": true
+    },
+    "status": "PASS",
+    "task": "<internal-task-redacted>"
+  },
+  "privacy_transform": {
+    "numeric_values_preserved": true,
+    "public_name_normalization": [
+      "banana_bae/BQ3 for this campaign",
+      "Unsloth ownership retained for IQ*/UD-* comparators"
+    ],
+    "string_redactions": [
+      "private paths",
+      "private hosts and addresses",
+      "internal task identifiers",
+      "private identities"
+    ],
+    "structural_fields_preserved": true
+  },
+  "schema": "ptq-opd-public-receipt-v1",
+  "source_format": "json",
+  "source_receipt_sha256": "e4ae5038e91caad6112ee0e9bf5c270fdfccd58ba0bc1235cf664058fbab1b6d"
+}

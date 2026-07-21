@@ -8,7 +8,8 @@ The transfer-step8 panel is sealed `NO_DECREASE_CLAIM`: 10/12 prompts moved down
 - Separate within-serve repeatability from restart-to-restart variance.
 - Keep reasoning tokens as the primary estimand; report completion tokens only as a secondary metric.
 - Require answer correctness and non-null status in parallel with the length rule.
-- Complete the full 512-window static read to test whether the static/behavioral dissociation persists at transfer-step8.
+- Preserve the sealed complete 76-window code-class partial (`0.07457993` at Transfer-8 versus `0.06724732` step0 and `0.06855112` step4) as a scoped regression result.
+- Complete the full 512-window cross-class static read before making any all-class Transfer-8 direction claim.
 
 ## 2. Code-vertical three-arm program
 

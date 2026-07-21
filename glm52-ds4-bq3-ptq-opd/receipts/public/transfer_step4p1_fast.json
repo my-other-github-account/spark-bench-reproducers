@@ -1,0 +1,37 @@
+{
+  "payload": {
+    "HumanEval/116": {
+      "completion_tokens": 1141,
+      "content_chars": 926,
+      "finish": "stop",
+      "reasoning_chars": 2825,
+      "secs": 156.1,
+      "task_id": "HumanEval/116"
+    },
+    "HumanEval/132": {
+      "completion_tokens": 4096,
+      "content_chars": 0,
+      "finish": "length",
+      "reasoning_chars": 14147,
+      "secs": 398.0,
+      "task_id": "HumanEval/132"
+    }
+  },
+  "privacy_transform": {
+    "numeric_values_preserved": true,
+    "public_name_normalization": [
+      "banana_bae/BQ3 for this campaign",
+      "Unsloth ownership retained for IQ*/UD-* comparators"
+    ],
+    "string_redactions": [
+      "private paths",
+      "private hosts and addresses",
+      "internal task identifiers",
+      "private identities"
+    ],
+    "structural_fields_preserved": true
+  },
+  "schema": "ptq-opd-public-receipt-v1",
+  "source_format": "json",
+  "source_receipt_sha256": "1cf8400f77f249397bf07e8cd8763ecaa6f142ca69a2b9d10f58d2d317896676"
+}

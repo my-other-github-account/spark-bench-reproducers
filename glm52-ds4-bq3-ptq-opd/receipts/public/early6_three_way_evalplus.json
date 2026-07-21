@@ -1,0 +1,265 @@
+{
+  "payload": {
+    "artifacts": {
+      "step0": {
+        "eval_log_sha256": "ec98570b9bae0dca577c50e8245bf771f3613f3dffea091632e3bbc953db0486",
+        "eval_results_sha256": "fc4aaad1b76c94529e1f6caabe00fffee01d8d4e90a8e0b8976e072096055fa0",
+        "samples_sha256": "2623d579b55428ba11e20e6cefd583093f3ff08f0dbec63dd3b956fd66de0508"
+      },
+      "step4": {
+        "eval_log_sha256": "84811f886bec0e8d6708fa27aee37017157a0010b5d251e7746f369c29eea105",
+        "eval_results_sha256": "4dd13275ec86679adef99400692d7a7c83c29c78416b2cde74de1ee066689921",
+        "samples_sha256": "9594e02cae1960e7b8e132beee004befa6a20f002152d6c88f464b4470654076"
+      },
+      "step8": {
+        "eval_log_sha256": "4d9d1e6f716585f90b52fd524274487e8bbfc2a12d51a399c5ddb8bd09fc5473",
+        "eval_results_sha256": "aef60df93b077dbe97393a07eb9793ab2247b1bc2d95d30d284baa1f4a655efb",
+        "samples_sha256": "424dc5ec108d38fd43efb4c93bf76beb2c2aeb56cdbd2bd4f54d44e87128f59f"
+      }
+    },
+    "candidate_checkpoint_sha256": "1a1f2bf5b202aa50ff638ea7f8eb53c7eb509bc69a356540595b8b48441f9e2a",
+    "completed_unix": 1784583176.3884034,
+    "delta_step8_vs_step0": {
+      "base_pass": 1,
+      "both_pass": 1,
+      "plus_pass": 1
+    },
+    "delta_step8_vs_step4": {
+      "base_pass": 0,
+      "both_pass": 0,
+      "plus_pass": 0
+    },
+    "evalplus_commit": "26d6d00",
+    "evalplus_package_tree_sha256": "452858091dd82f6ede0fe08bd77de3ac122c866ab175c458a55aeb4da32d78e7",
+    "format": "scaled-step8-early6-threeway-evalplus-v1",
+    "inputs": {
+      "baseline_sha256": "9ffc0062bc5d3f34ef41deeaf4724bcac2501d008004af453c4982cfe9c6110d",
+      "step4_rollouts_sha256": "0c8ea6a1c92b267518cfe6cbb9bfc05b73d851d38e2f8fd8c18501a4ec4d0efc",
+      "step8_rollouts_sha256": "c118321d1687efbfcf01ca03c88bb0623e09020ba59152a639dcefa07b91f7b4"
+    },
+    "per_task": [
+      {
+        "step0": {
+          "base_status": "fail",
+          "both_pass": false,
+          "content_is_null": false,
+          "plus_status": "fail"
+        },
+        "step4": {
+          "base_status": "fail",
+          "both_pass": false,
+          "completion_tokens": 4096,
+          "content_is_null": true,
+          "content_tokens_counted": null,
+          "finish_reason": "length",
+          "plus_status": "fail",
+          "reasoning_tokens_counted": 4096
+        },
+        "step8": {
+          "base_status": "fail",
+          "both_pass": false,
+          "completion_tokens": 4096,
+          "content_is_null": true,
+          "content_tokens_counted": null,
+          "finish_reason": "length",
+          "plus_status": "fail",
+          "reasoning_tokens_counted": 4096
+        },
+        "task_id": "HumanEval/132"
+      },
+      {
+        "step0": {
+          "base_status": "pass",
+          "both_pass": false,
+          "content_is_null": false,
+          "plus_status": "fail"
+        },
+        "step4": {
+          "base_status": "pass",
+          "both_pass": true,
+          "completion_tokens": 1626,
+          "content_is_null": false,
+          "content_tokens_counted": 156,
+          "finish_reason": "stop",
+          "plus_status": "pass",
+          "reasoning_tokens_counted": 1468
+        },
+        "step8": {
+          "base_status": "pass",
+          "both_pass": true,
+          "completion_tokens": 1497,
+          "content_is_null": false,
+          "content_tokens_counted": 212,
+          "finish_reason": "stop",
+          "plus_status": "pass",
+          "reasoning_tokens_counted": 1283
+        },
+        "task_id": "HumanEval/134"
+      },
+      {
+        "step0": {
+          "base_status": "pass",
+          "both_pass": true,
+          "content_is_null": false,
+          "plus_status": "pass"
+        },
+        "step4": {
+          "base_status": "pass",
+          "both_pass": true,
+          "completion_tokens": 1577,
+          "content_is_null": false,
+          "content_tokens_counted": 209,
+          "finish_reason": "stop",
+          "plus_status": "pass",
+          "reasoning_tokens_counted": 1366
+        },
+        "step8": {
+          "base_status": "pass",
+          "both_pass": true,
+          "completion_tokens": 1160,
+          "content_is_null": false,
+          "content_tokens_counted": 202,
+          "finish_reason": "stop",
+          "plus_status": "pass",
+          "reasoning_tokens_counted": 956
+        },
+        "task_id": "HumanEval/93"
+      },
+      {
+        "step0": {
+          "base_status": "pass",
+          "both_pass": true,
+          "content_is_null": false,
+          "plus_status": "pass"
+        },
+        "step4": {
+          "base_status": "pass",
+          "both_pass": true,
+          "completion_tokens": 408,
+          "content_is_null": false,
+          "content_tokens_counted": 174,
+          "finish_reason": "stop",
+          "plus_status": "pass",
+          "reasoning_tokens_counted": 232
+        },
+        "step8": {
+          "base_status": "pass",
+          "both_pass": true,
+          "completion_tokens": 512,
+          "content_is_null": false,
+          "content_tokens_counted": 147,
+          "finish_reason": "stop",
+          "plus_status": "pass",
+          "reasoning_tokens_counted": 363
+        },
+        "task_id": "HumanEval/57"
+      },
+      {
+        "step0": {
+          "base_status": "pass",
+          "both_pass": true,
+          "content_is_null": false,
+          "plus_status": "pass"
+        },
+        "step4": {
+          "base_status": "pass",
+          "both_pass": true,
+          "completion_tokens": 280,
+          "content_is_null": false,
+          "content_tokens_counted": 90,
+          "finish_reason": "stop",
+          "plus_status": "pass",
+          "reasoning_tokens_counted": 188
+        },
+        "step8": {
+          "base_status": "pass",
+          "both_pass": true,
+          "completion_tokens": 212,
+          "content_is_null": false,
+          "content_tokens_counted": 90,
+          "finish_reason": "stop",
+          "plus_status": "pass",
+          "reasoning_tokens_counted": 120
+        },
+        "task_id": "HumanEval/2"
+      },
+      {
+        "step0": {
+          "base_status": "fail",
+          "both_pass": false,
+          "content_is_null": false,
+          "plus_status": "fail"
+        },
+        "step4": {
+          "base_status": "pass",
+          "both_pass": false,
+          "completion_tokens": 1587,
+          "content_is_null": false,
+          "content_tokens_counted": 325,
+          "finish_reason": "stop",
+          "plus_status": "fail",
+          "reasoning_tokens_counted": 1260
+        },
+        "step8": {
+          "base_status": "pass",
+          "both_pass": false,
+          "completion_tokens": 1149,
+          "content_is_null": false,
+          "content_tokens_counted": 223,
+          "finish_reason": "stop",
+          "plus_status": "fail",
+          "reasoning_tokens_counted": 924
+        },
+        "task_id": "HumanEval/99"
+      }
+    ],
+    "sandbox": {
+      "cpus": 2,
+      "memory": "4g",
+      "network": "none",
+      "pids_limit": 256
+    },
+    "status": "PASS",
+    "task": "<internal-task-redacted>",
+    "totals": {
+      "step0": {
+        "base_pass": 4,
+        "both_pass": 3,
+        "length_finishes": 0,
+        "nulls": 0,
+        "plus_pass": 3
+      },
+      "step4": {
+        "base_pass": 5,
+        "both_pass": 4,
+        "length_finishes": 1,
+        "nulls": 1,
+        "plus_pass": 4
+      },
+      "step8": {
+        "base_pass": 5,
+        "both_pass": 4,
+        "length_finishes": 1,
+        "nulls": 1,
+        "plus_pass": 4
+      }
+    }
+  },
+  "privacy_transform": {
+    "numeric_values_preserved": true,
+    "public_name_normalization": [
+      "banana_bae/BQ3 for this campaign",
+      "Unsloth ownership retained for IQ*/UD-* comparators"
+    ],
+    "string_redactions": [
+      "private paths",
+      "private hosts and addresses",
+      "internal task identifiers",
+      "private identities"
+    ],
+    "structural_fields_preserved": true
+  },
+  "schema": "ptq-opd-public-receipt-v1",
+  "source_format": "json",
+  "source_receipt_sha256": "663c0021c2d62070e7f92e78342ad8997158b1e9b97138c44735e0cef790081b"
+}
