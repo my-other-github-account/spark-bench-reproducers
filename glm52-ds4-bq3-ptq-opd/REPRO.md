@@ -105,7 +105,7 @@ export PTQ_OPD_MIN_BANK_ROWS=16
 export PTQ_OPD_MIN_PROMPTS=16
 export PTQ_OPD_TARGET=4
 export PTQ_OPD_START_UPDATE=0
-export PTQ_OPD_OBJECTIVE=reverse_kl
+export PTQ_OPD_OBJECTIVE=jsd
 export PTQ_OPD_BETA=0.5
 export PTQ_OPD_ANCHOR_WEIGHT=0.5
 export PTQ_OPD_LOGIT_CHUNK=512
@@ -135,6 +135,8 @@ export TAILFIX_START_CKPT="$PTQ_OPD_ROOT/bq3-step0.pt"
 ```
 
 `BR_TRAIN` and `BR_PROBE` select static-corpus window indices; use the frozen schedule from `reference/plans/static_anchor_control.json` for campaign reproduction. `BR_DELTA_DIR` must contain `DELTA_PACK.COMPLETE`; `BR_VQ3B_DIR` must contain all 43 `vq3u_layer_NNN.pt` planes; and `BR_WIRE_DIR` must contain `PACK_COMPLETE`, `PACK_MANIFEST.json`, the wire receipt, and every layer's NumPy planes. The source-only adapter dependencies are vendored under `reference/adapter/vendor/`; no private source tree is required.
+
+The sealed step4 artifact used beta-0.5 JSD. `PTQ_OPD_OBJECTIVE=reverse_kl` is supported for a new PTQ-OPD experiment, but it is not an exact reproduction of the sealed checkpoint and must produce new checkpoint, static-gate, and behavioral-gate identities.
 
 The public source pins the campaign's exact starting checkpoint identity. If you intentionally port PTQ-OPD to another BQ artifact, change the identity constant and regenerate a source seal; do not bypass it at runtime.
 
