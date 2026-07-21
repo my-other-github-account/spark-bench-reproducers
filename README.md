@@ -93,4 +93,4 @@ All recipes are tuned for and measured on:
 
 Patches under Apache-2.0 (matching vLLM upstream). READMEs and scripts under MIT.
 
-By [@banana_baeee](https://x.com/banana_baeee)
+By **banana_bae**.

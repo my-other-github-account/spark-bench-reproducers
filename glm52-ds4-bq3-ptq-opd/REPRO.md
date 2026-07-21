@@ -1,6 +1,6 @@
 # Reproducing PTQ-OPD from scratch
 
-This repository contains source, schemas, tests, and exact experiment contracts. It intentionally contains **no model weights, checkpoints, teacher-score tensors, generated solutions, or private infrastructure paths**.
+This repository contains source, schemas, tests, exact experiment contracts, and privacy-normalized claim receipts. It intentionally contains **no model weights, checkpoints, teacher-score tensors, private infrastructure paths, or unsanitized campaign payloads**. Small public receipts may retain generated token IDs and evaluation outputs needed to verify published aggregates.
 
 The BQ3 construction is a prerequisite and is reproduced in [`../glm52-ds4-w23-planes-quant`](../glm52-ds4-w23-planes-quant/). PTQ-OPD starts after that folder's exact `combo-V4-step32` checkpoint and 101,360,840,912-byte wire have been built.
 
@@ -234,8 +234,12 @@ Before publication:
 
 ```bash
 python tools/publication_audit.py
+python tools/verify_receipts.py
+python tools/semantic_audit.py
 python ../glm52-ds4-w23-planes-quant/tools/scrub_audit.py .
 python ../glm52-ds4-w23-planes-quant/tools/normalize_public_names.py --check .
 ```
 
-Also search for real user names, home directories, host aliases, IPs, task IDs, process IDs, tokens, provider account identifiers, and local model paths. Public docs should contain only portable relative paths and cryptographic identities.
+`receipts/RECEIPTS_MANIFEST.json` binds each sealed private source identity to a committed privacy-normalized public payload. `tools/verify_receipts.py` verifies every public hash and fails if a promoted claim cites a source identity absent from that map.
+
+Also search for real user names, home directories, host aliases, IPs, task IDs, process IDs, credentials, provider account identifiers, and local model paths. Public docs should contain only portable relative paths and cryptographic identities.

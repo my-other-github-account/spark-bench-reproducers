@@ -4,7 +4,7 @@ This directory documents a July 2026 campaign on DeepSeek-V4-Flash that started 
 
 **BQ3** means **banana_bae quant, 3-bit class**. It is the fixed `combo-V4-step32` artifact from the preceding quantization campaign; the bytes and checkpoint identity do not change during PTQ-OPD. In this repository, `IQ*` and `UD-*` refer only to Unsloth community artifacts.
 
-**PTQ-OPD** means **post-training-quantization on-policy distillation**. The student generates its own trajectories; the FP teacher scores those exact states; the fixed BQ3 continuous surface is updated with an on-policy divergence plus a static KLD anchor. We use **OPKL** for KLD measured over student-generated sequences.
+**PTQ-OPD** means **post-training-quantization on-policy distillation**. The student generates its own trajectories; the FP teacher scores those exact states; the fixed BQ3 continuous surface is updated with an on-policy divergence plus a static KLD anchor. We use **OPKL** for KLD measured over student-generated trajectories.
 
 ## Result in one table
 
@@ -21,7 +21,7 @@ This directory documents a July 2026 campaign on DeepSeek-V4-Flash that started 
 ## The campaign arc
 
 1. **Start from BQ3.** The fixed artifact is 101,360,840,912 bytes, about 2.87 effective whole-model bpw. Its build and pre-PTQ-OPD rail are documented in [`../glm52-ds4-w23-planes-quant`](../glm52-ds4-w23-planes-quant/).
-2. **Discover behavioral damage that static KLD missed.** The full 512-window code mean was nearly flat after the first dose (`0.067247 -> 0.068551`), yet HumanEval moved `157 -> 160`. Static class KLD was neither a sufficient damage detector nor a sufficient repair detector.
+2. **Discover a two-way static/behavioral dissociation.** The full 512-window code mean was nearly flat/slightly worse after the first dose (`0.067247 -> 0.068551`), yet HumanEval moved `157 -> 160`. Conversely, exploratory step8 improved every static class while behavior stayed flat and introduced a new null regression. Static class KLD was neither a sufficient damage detector nor a sufficient repair selector.
 3. **Reject off-policy trajectory NLL.** Under the exact matched serving build, a four-update FP-trajectory arm reduced teacher NLL but increased aggregate reasoning tokens by **10.7459%**. Better teacher-forced NLL was not better student behavior.
 4. **Switch to PTQ-OPD.** Generate BQ3's own rollouts, score those exact token sequences with the FP teacher, minimize a distributional divergence on top-k plus exact tail mass, and retain a 0.5-weight static anchor. The sealed step4 result used beta-0.5 JSD. Reverse-KL is implemented as a separately selectable PTQ-OPD variant, but no sealed reverse-KL result is claimed here.
 5. **Use tiny durable doses.** Only 1,855,147 parameters move: codebooks, normalization parameters, and 43 output parameters. Every optimizer boundary is file-fsynced, renamed, directory-fsynced, hashed, and statically gated before behavioral probing.
@@ -39,6 +39,7 @@ This directory documents a July 2026 campaign on DeepSeek-V4-Flash that started 
 - [`NEXT.md`](NEXT.md) — open experiments after the transfer verdict.
 - [`reference/`](reference/) — scrubbed source used for bank validation, FP32 divergence, durable checkpointing, static gates, and the 43-layer adapter.
 - [`receipts/SEALED_RESULTS.json`](receipts/SEALED_RESULTS.json) — scrubbed machine-readable headline rows and receipt identities.
+- [`receipts/RECEIPTS_MANIFEST.json`](receipts/RECEIPTS_MANIFEST.json) — source-to-public SHA-256 mapping for the normalized receipt bundle; verify with `python3 tools/verify_receipts.py`.
 - [`SOURCE_MANIFEST.sha256`](SOURCE_MANIFEST.sha256) — source/test integrity manifest.
 
 ## What is and is not claimed

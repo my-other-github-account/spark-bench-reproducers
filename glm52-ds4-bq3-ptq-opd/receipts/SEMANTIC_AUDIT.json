@@ -1,0 +1,91 @@
+{
+  "checks": [
+    {
+      "detail": {
+        "missing": []
+      },
+      "name": "required_documents",
+      "passed": true
+    },
+    {
+      "detail": {
+        "expected": "jsd",
+        "observed": "jsd"
+      },
+      "name": "sealed_objective",
+      "passed": true
+    },
+    {
+      "detail": {
+        "forbidden_phrases": []
+      },
+      "name": "opkl_definition",
+      "passed": true
+    },
+    {
+      "detail": {
+        "indexed": "fa098459bdaeb09768900dd4663097a489c64e9410db46c2fc262d96151457cf"
+      },
+      "name": "authoritative_transfer8",
+      "passed": true
+    },
+    {
+      "detail": {
+        "stale": "fa098459bdaeb097f5dfe61a16c54112fe765ea816e4725113162cc4709db50a"
+      },
+      "name": "stale_transfer8_absent",
+      "passed": true
+    },
+    {
+      "detail": {
+        "indexed": "c63bf9f43aeef0f74306e4f66826ea53cbce98270276698bae97c442649354c0"
+      },
+      "name": "code_partial_scoped",
+      "passed": true
+    },
+    {
+      "detail": {},
+      "name": "trained146_heldout18_caveat",
+      "passed": true
+    },
+    {
+      "detail": {},
+      "name": "censoring_not_attractor",
+      "passed": true
+    },
+    {
+      "detail": {},
+      "name": "two_way_dissociation",
+      "passed": true
+    },
+    {
+      "detail": {
+        "bad_matches": []
+      },
+      "name": "naming_and_ownership",
+      "passed": true
+    },
+    {
+      "detail": {
+        "failures": []
+      },
+      "name": "markdown_links",
+      "passed": true
+    },
+    {
+      "detail": {
+        "stderr": "",
+        "stdout": "RECEIPT_VERIFY_PASS receipts=27 referenced=27 resolved=27"
+      },
+      "name": "receipt_bundle",
+      "passed": true
+    }
+  ],
+  "schema": "ptq-opd-semantic-audit-v1",
+  "summary": {
+    "checks": 12,
+    "failed": 0,
+    "passed": 12,
+    "verdict": "PASS"
+  }
+}
