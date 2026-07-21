@@ -57,7 +57,7 @@ Autoregressive alignment is explicit. If `score_start=s`, score row 0 is the tea
 
 Let `p` be the FP teacher distribution and `q_theta` the BQ3 student distribution on a token position from a student-generated sequence. Both distributions are reduced to teacher top-k buckets plus one aggregate tail bucket.
 
-The sealed step4 campaign recipe uses reverse KL, `KL(q_theta || p)`. The public objective library also retains Jensen-Shannon divergence as an experimental ablation, but JSD is not an equivalent headline recipe and is not bound to the reported step4 result.
+The sealed step4 campaign recipe used beta-0.5 Jensen-Shannon divergence. The public objective library also implements reverse KL, `KL(q_theta || p)`, as a separately selectable PTQ-OPD variant. Reverse-KL is not numerically equivalent to the sealed JSD recipe, so a reverse-KL run must receive a new checkpoint identity and new gate receipts rather than inherit the reported step4 result.
 
 The step loss is:
 
@@ -67,7 +67,7 @@ L = 0.5 * L_static_anchor + L_own_rollout
 
 `L_own_rollout` is averaged first within each sequence and then across selected rows so long outputs do not silently dominate the dose. The implementation computes the full student log-normalizer before gathering top-k IDs and derives non-top-k mass from a masked `logsumexp`; it does not use `1 - sum(topk)` in low precision. Divergence math runs in FP32 with autocast disabled.
 
-The production step4 winner used `reverse_kl` on student-own rollouts with FP feedback plus the static anchor. The machine-readable result receipt binds that objective explicitly.
+The production step4 winner used `jsd` with `beta=0.5` on student-own rollouts with FP feedback plus the static anchor. Use `reverse_kl` only for a new, independently gated variant.
 
 ## 6. Dose schedule
 
