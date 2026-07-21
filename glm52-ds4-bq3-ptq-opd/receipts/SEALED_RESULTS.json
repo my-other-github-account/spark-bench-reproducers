@@ -1,0 +1,79 @@
+{
+  "schema": "bq3-ptq-opd-public-results-v1",
+  "artifact": {
+    "public_name": "BQ3",
+    "bytes": 101360840912,
+    "effective_whole_model_bpw": 2.87,
+    "trainable_parameters": {
+      "codebooks": 1409024,
+      "normalization": 446080,
+      "outputs": 43,
+      "total": 1855147
+    }
+  },
+  "method": {
+    "name": "PTQ-OPD",
+    "metric": "OPKL",
+    "objective": "reverse_kl",
+    "static_anchor_weight": 0.5
+  },
+  "humaneval": {
+    "protocol": "greedy-n1-4096-evalplus-v0.1.10-commit-26d6d00",
+    "step0": {"base": 157, "plus": 149, "total": 164},
+    "ptq_opd_step4": {"base": 160, "plus": 150, "total": 164},
+    "trained146": {
+      "step0": {"base": 142, "plus": 134},
+      "step4": {"base": 145, "plus": 135}
+    },
+    "clean_heldout18": {
+      "step0": {"base": 15, "plus": 15},
+      "step4": {"base": 15, "plus": 15}
+    },
+    "receipt_sha256": "89408457ec802c43a995ea75d5500387cffe0ad12e6b3ff1a6e9e4c7bb42d4ba"
+  },
+  "static_code_kld_512": {
+    "step0_mean": 0.067247,
+    "step4_mean": 0.068551,
+    "ud_iq4_xs_mean": 0.054216,
+    "positions": 524288,
+    "receipt_sha256": "420523724962c63b47ed94314fbac7c928515c1217f811ddf736c46586559034"
+  },
+  "off_policy_negative": {
+    "reasoning_tokens_step0": 22483,
+    "reasoning_tokens_candidate": 24899,
+    "reasoning_delta_pct": 10.745906685050925,
+    "source_teacher_macro_nll_delta_pct": -3.5267590870632657,
+    "receipt_sha256": "73d283919af016d5f79c79328a0a1b609faed96860f75e10fa65bdf144111fc5"
+  },
+  "transfer_step4_plus_1": {
+    "unique_prompts": 12,
+    "median_reasoning_delta_pct": -17.812205477987973,
+    "decreased": 8,
+    "increased": 4,
+    "duplicate_variance_floor_pct": 31.25,
+    "directional_rule_pass": false,
+    "generation_sha256": "517c671ebd574e7751cf919c4a043f5aad164b469dd4bc7a1514f4746ba086a0",
+    "summary_sha256": "010e4c1eff683a7595d39c4685272766bfc40995b858835e1e56ad73521db9af"
+  },
+  "transfer_step8": {
+    "instrument": "DIAGNOSTIC_UNCAPPED",
+    "unique_prompts": 12,
+    "generation_count_with_replicates": 15,
+    "median_reasoning_delta_pct": -20.351454982260194,
+    "median_completion_delta_pct": -15.975741519152212,
+    "decreased": 10,
+    "increased": 2,
+    "duplicate_variance_floor_pct": 104.56121632435315,
+    "sealed_preregistered_floor_pct": 31.25,
+    "verdict": "NO_DECREASE_CLAIM",
+    "generation_sha256": "56d71c989cfbe263b2004e3995def6787a2794c1f0740a49c7aa698819e2345b",
+    "panel_spec_sha256": "6360a493d740cbeb67b6dfb090a84e499ac32073a8e62ec5d7ff9550743f7100",
+    "sealed_verdict_receipt_sha256": "fa098459bdaeb09768900dd4663097a489c64e9410db46c2fc262d96151457cf"
+  },
+  "diagnostic_uncapped": {
+    "max_completion_tokens": 16384,
+    "all_natural_stop": true,
+    "generic_monotone_convergence_supported": false,
+    "table_sha256": "111e14c6adf6ac4e1327cf0c8a8473805c9030a5c26c174a0a41d355def1f4ba"
+  }
+}
