@@ -68,7 +68,7 @@
           "reasoning_field": "reasoning",
           "reasoning_tokens_counted": 3043,
           "reasoning_tokens_reported": null,
-          "response_id": "chatcmpl-9828f2592f3d944e",
+          "response_id": "<response-id-redacted>",
           "system_fingerprint": "vllm-0.24.0-3f34bf12",
           "task_id": "HumanEval/116",
           "usage": {
@@ -91,7 +91,7 @@
           "reasoning_field": "reasoning",
           "reasoning_tokens_counted": 2152,
           "reasoning_tokens_reported": null,
-          "response_id": "chatcmpl-8b48febee7cc1008",
+          "response_id": "<response-id-redacted>",
           "system_fingerprint": "vllm-0.24.0-3f34bf12",
           "task_id": "HumanEval/116",
           "usage": {
@@ -156,7 +156,7 @@
           "reasoning_field": "reasoning",
           "reasoning_tokens_counted": 4096,
           "reasoning_tokens_reported": null,
-          "response_id": "chatcmpl-bfb16b0b58cff976",
+          "response_id": "<response-id-redacted>",
           "system_fingerprint": "vllm-0.24.0-3f34bf12",
           "task_id": "HumanEval/132",
           "usage": {
@@ -179,7 +179,7 @@
           "reasoning_field": "reasoning",
           "reasoning_tokens_counted": 4096,
           "reasoning_tokens_reported": null,
-          "response_id": "chatcmpl-86640a60fbe9d633",
+          "response_id": "<response-id-redacted>",
           "system_fingerprint": "vllm-0.24.0-3f34bf12",
           "task_id": "HumanEval/132",
           "usage": {
@@ -224,7 +224,7 @@
       "request": {
         "max_completion_tokens": 4096,
         "n": 1,
-        "served_model_name": "deepseek-v4-flash-iq3-combo-v4-step0",
+        "served_model_name": "deepseek-v4-flash-bq3-combo-v4-step0",
         "temperature": 0.0,
         "top_p": 0.95
       },

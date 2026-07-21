@@ -2,39 +2,39 @@
   "payload": {
     "artifacts": {
       "codegen_audit": {
-        "path": "iq3_remote_receipts/iq3_codegen_audit.json",
+        "path": "<source-artifact-not-redistributed>",
         "sha256": "2d8f901c6c90bfea0c15e3d794f89de5d012a52c40a2d1134b2373e44419ccc4"
       },
       "docker_eval_log": {
-        "path": "iq3_remote_receipts/iq3_evaluate_docker_retry3.log",
+        "path": "<source-artifact-not-redistributed>",
         "sha256": "c1d9cf0cb750347ac84c790e80c155ff974d57ef01fa46ab940af3671644bfc7"
       },
       "docker_image_receipt": {
-        "path": "iq3_remote_receipts/docker_image.txt",
+        "path": "<source-artifact-not-redistributed>",
         "sha256": "bfeb00960c2782e01ff320afffae22839dfbe6f244dc57ad31bf7263a1709e23"
       },
       "endpoint_handoff": {
-        "path": "iq3_remote_receipts/iq3_humaneval_handoff_to_mmlu.json",
+        "path": "<source-artifact-not-redistributed>",
         "sha256": "cd402002697915ae2c5f3825b616be761de6ebb893854e6cca9b110ac329d23a"
       },
       "eval_results_json": {
-        "path": "iq3_results/humaneval/banana_bae/BQ3-step0_openai_temp_0.0.eval_results.json",
+        "path": "<source-artifact-not-redistributed>",
         "sha256": "19df6df2fb8202c96b0109556dba6885be3e0233440a32caefc0cd3e98a92d61"
       },
       "evalplus_commit": {
-        "path": "iq3_remote_receipts/evalplus_commit.txt",
+        "path": "<source-artifact-not-redistributed>",
         "sha256": "bc49ab8452e93d438f5d7f0e21d8528ab35555d3d1b96c9f77c59941e922494e"
       },
       "pip_freeze": {
-        "path": "iq3_remote_receipts/pip_freeze.txt",
+        "path": "<source-artifact-not-redistributed>",
         "sha256": "d13d86b472a6ee9df2c53aa5b6da1ae342cf534df5fdd58e18f01c7bfeaacabe"
       },
       "raw_jsonl": {
-        "path": "iq3_results/humaneval/banana_bae/BQ3-step0_openai_temp_0.0.raw.jsonl",
+        "path": "<source-artifact-not-redistributed>",
         "sha256": "9ffc0062bc5d3f34ef41deeaf4724bcac2501d008004af453c4982cfe9c6110d"
       },
       "sanitized_jsonl": {
-        "path": "iq3_results/humaneval/banana_bae/BQ3-step0_openai_temp_0.0.jsonl",
+        "path": "<source-artifact-not-redistributed>",
         "sha256": "fa16dcaa5782d52cde992bbdbb238d3f371404eb94c342a36e829f842673d5bd"
       }
     },
@@ -145,7 +145,7 @@
       ],
       "humaneval_plus_pass_at_1": 0.9085365853658537,
       "humaneval_plus_passed": 149,
-      "label": "Our repaired IQ3 flagship — 16K warm serve",
+      "label": "banana_bae BQ3 baseline — 16K warm serve",
       "max_completion_tokens_effective": 4096,
       "model_slug": "banana_bae/BQ3-step0",
       "samples_per_task": 1,
@@ -177,7 +177,7 @@
       "model_root": "<private-path-redacted>",
       "model_slug": "banana_bae/BQ3-step0",
       "ownership": "Reused the explicitly granted warm endpoint under canonical owner <internal-task-redacted>; no relaunch and no concurrent ToolEval client.",
-      "server_pid": 766524
+      "server_pid": "<process-id-redacted>"
     }
   },
   "privacy_transform": {

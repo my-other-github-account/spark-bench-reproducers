@@ -3547,7 +3547,7 @@
       }
     ],
     "created": 1784601722,
-    "id": "chatcmpl-9b57f7dc0a51d8f5",
+    "id": "<response-id-redacted>",
     "kv_transfer_params": null,
     "model": "deepseek-v4-flash-bq3-step4p1transfer",
     "object": "chat.completion",

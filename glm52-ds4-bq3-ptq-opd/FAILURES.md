@@ -21,7 +21,7 @@ Lesson: train on student-visited states. This failure is the direct motivation f
 
 ## 2. Naive class-weighted static repair did not close the code gap
 
-Three 30-step fixed-byte arms upweighted code windows by 2x or 3x. All failed the requirement to close at least half the BQ3-vs-UD-IQ4 code KLD gap while keeping other classes within 1%.
+Three 30-step fixed-byte arms upweighted code windows by 2x or 3x. All failed the requirement to close at least half the BQ3-vs-Unsloth-UD-IQ4 code KLD gap while keeping other classes within 1%.
 
 | arm | weight / seed | terminal code delta | terminal agentic delta | verdict |
 |---|---|---:|---:|---|

@@ -4,10 +4,10 @@
     "assignment_manifest": "<private-path-redacted>",
     "assignment_manifest_md5": "4e62bdda415605bd10efac2ae79af50f",
     "base_pack": "<private-path-redacted>",
-    "budget_id": "IQ3-BIN",
+    "budget_id": "BQ3",
     "candidate_done_ledger": "<private-path-redacted>",
     "candidate_done_ledger_md5": "a5e85019e99a9dc90b567a6201e2f14c",
-    "claim_shape": "smaller than IQ3_XXS, beats next rung",
+    "claim_shape": "smaller than Unsloth UD-IQ3_XXS, beats next rung",
     "delta_pack_manifest": "<private-path-redacted>",
     "delta_pack_manifest_md5": "0b22fef367ec9b32b3a4107efe097596",
     "effective_bpw": 2.927071895809118,
@@ -38,7 +38,7 @@
     "top1_agree": 0.906254,
     "top1_in_top64": 0.9988155,
     "total_gb": 101.95,
-    "under_reference": "1.05GB UNDER IQ3_XXS 103.0"
+    "under_reference": "1.05GB UNDER Unsloth UD-IQ3_XXS 103.0"
   },
   "privacy_transform": {
     "numeric_values_preserved": true,
