@@ -1,0 +1,6 @@
+# Production campaign versions were torch 2.11.0+cu130, numpy 2.3.5,
+# safetensors 0.8.0, and transformers 5.13.0. Install the matching NVIDIA
+# PyTorch wheel/container for your CUDA stack before this file.
+numpy==2.3.5
+safetensors==0.8.0
+transformers==5.13.0
