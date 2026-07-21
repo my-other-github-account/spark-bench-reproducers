@@ -1,127 +1,95 @@
-# Transfer: non-benchmark PTQ-OPD
+# Transfer policy and sealed verdicts
 
-## Question
+## Scope
 
-The step4 HumanEval gain came from a 146-task benchmark-distribution training split; the clean held-out 18 stayed flat. The transfer experiment asks the stronger question:
+This page separates preliminary reads from sealed transfer decisions for the `banana_bae` BQ3 PTQ-OPD lineage. A transfer claim is not promoted from an in-flight row, a partial panel, or an unsealed artifact. Publication requires a complete canonical summary, its SHA-256 identity, and the preregistered decision rule.
 
-> Can PTQ-OPD trained on diverse non-benchmark student rollouts reduce reasoning inflation on HumanEval without seeing HumanEval-style training data?
+## step4+1 fast reads — preliminary only
 
-The transfer bank is labeled `tailfix_general_shippable`. It is kept separate from the benchmark-distribution mechanism bank and is fail-closed against false shippable labels.
+The first two reads after one non-benchmark transfer update were:
 
-## Training identity
+| Task | Completion tokens | Finish | Visible content |
+|---|---:|---|---|
+| HumanEval/116 | 1,141 | stop | non-null |
+| HumanEval/132 | 4,096 | length | null |
 
-- Parent: PTQ-OPD step4.
-- Transfer data: 16 distinct non-benchmark student-own-rollout rows for the sealed first transfer block.
-- Objective: reverse-KL on student-own rollouts with FP feedback plus a 0.5-weight static anchor.
-- Updates 5-8 consume every row exactly once.
-- Step5 candidate: `64dec255497a07b1afca6ca325bfeec1dea59cc5b9e974f8188f4a870d87f5e5`.
-- Step8 candidate: `4086e9d8be9ece067ce3b713c22654e59bcad614af9444bdfacd2e66e0a02fd5`.
-- Step8 gate-bound latest: `e4c0eb2619930bb9a11f8b3a1bb7bc4108577952c4da4c59f606ee459af4a109`.
-- Bank manifest: `b1d3ff9e89057300e927d5578e7f6e0002805ee09d71e07e6d237e8d81e7c70e`.
+These values are sealed as a historical fast-read payload by `1cf8400f77f249397bf07e8cd8763ecaa6f142ca69a2b9d10f58d2d317896676`, but they are **not** a transfer verdict. HumanEval/132 is right-censored at the 4,096 serve limit, and two prompts cannot establish a robust direction under observed same-serve variance.
 
-## Earliest fast read: step4 + one transfer update
+The immediate uncapped HumanEval/132 follow-up then stopped naturally at **3,526 completion tokens** with non-null content. Its payload is `0b91d2a20c817a10c6ffc03ebdb07c9b8527ddc1b3488dd12ba3c2f87b5e66fb`. The uncapped follow-up resolves the censoring diagnosis for that read; it still does not turn the two-prompt fast read into a panel.
 
-The two sentinel fast reads initially reported 1,141 and 3,526 reasoning tokens in an earlier quick lineage. Those N=1 values were superseded by the sealed 12+3 panel below; they are not used for the claim.
+The completed 12-unique-prompt step4+1 panel supersedes the fast read for decision-making:
 
-### Sealed 12-prompt panel
+- median reasoning delta versus step0: **-17.812205477987973%**;
+- sign count: **8 decreased / 4 increased**;
+- duplicate pairs: HumanEval/116 `4,492 / 3,664`, HumanEval/132 `5,476 / 3,979`, HumanEval/99 `1,072 / 737`;
+- conservative duplicate-variance floor: **31.25%**;
+- preregistered rule result: **FAIL**, because the absolute median decrease did not exceed the variance floor.
 
-| task | BQ3 step0 reasoning | step4+1 transfer | delta |
-|---:|---:|---:|---:|
-| 116 | 6,553 | 4,492 | -31.45% |
-| 132 | 5,753 | 5,476 | -4.81% |
-| 134 | 1,722 | 1,736 | +0.81% |
-| 93 | 1,709 | 1,274 | -25.45% |
-| 57 | 685 | 304 | -55.62% |
-| 2 | 468 | 147 | -68.59% |
-| 99 | 718 | 1,072 | +49.30% |
-| 83 | 1,218 | 1,094 | -10.18% |
-| 70 | 845 | 630 | -25.44% |
-| 127 | 771 | 545 | -29.31% |
-| 29 | 281 | 300 | +6.76% |
-| 122 | 511 | 652 | +27.59% |
+Completed-panel summary receipt: `010e4c1eff683a7595d39c4685272766bfc40995b858835e1e56ad73521db9af`. Generation payload: `517c671ebd574e7751cf919c4a043f5aad164b469dd4bc7a1514f4746ba086a0`.
 
-All 12 primary generations naturally stopped and emitted non-null answers.
+**step4+1 transfer verdict: inconclusive-directional; no promotion.** The negative median is descriptive evidence only and remains below the 31.25% same-serve floor.
 
-Summary:
+## Transfer-8 canonical panel
 
-- median change: **-17.8122%**;
-- sign count: **8/12 down**, 4/12 up;
-- conservative replicate variance floor: **31.25%**;
-- preregistered directional rule: **FAIL** because `abs(median) < floor`.
+No Transfer-8 verdict was published until the canonical sealed receipt was located and verified. That receipt is:
 
-Verdict: **directionally encouraging but inconclusive after one transfer update**.
+`fa098459bdaeb097f5dfe61a16c54112fe765ea816e4725113162cc4709db50a`
 
-Receipts:
+Its canonical result payload is `d21b349e5c4e93196b2351d61798dceecb7b8ac60bd677976d1a5051081dfc37`.
 
-- all 15 generations: `517c671ebd574e7751cf919c4a043f5aad164b469dd4bc7a1514f4746ba086a0`
-- 12-row summary: `5da2b28e4f7875e4569d76719fc0b4583f7317365f4ef7232b6fc5468fa34646`
-- full 12+3 summary: `010e4c1eff683a7595d39c4685272766bfc40995b858835e1e56ad73521db9af`
-- exact overlay receipt: `f74b663a39b3aa5e868071768b729aa996d772dcfa1a26fd5f0f3e572752ff92`
+### Sealed result
 
-## Transfer-8 static spot panel
+- checkpoint: `step8transfer`;
+- evaluated samples: **16**;
+- EvalPlus totals: **13/16 base**, **11/16 plus**, **11/16 both**;
+- parent step4+1 panel totals: **12/16 base**, **10/16 plus**, **10/16 both**;
+- delta versus parent: **+1 base / +1 plus / +1 both**;
+- new cap hits or nulls versus parent: **none**;
+- maximum duplicate-pair reasoning spread: **34.15928504256776%**;
+- preregistered first-12 eligibility: **incomplete**;
+- promotion flag: **false**.
 
-The exact step8 checkpoint passed its static safety gate on the 16-window instrument:
+The panel contains a positive correctness delta and no new cap/null regression. Those observations do not override the preregistered rule. Because the ordered first-12 transfer subset was incomplete and same-serve duplicate variance remained large, the canonical receipt explicitly withholds promotion.
 
-| class | relative change vs transfer parent |
-|---|---:|
-| global | -8.02% |
-| chat | -10.27% |
-| code | -7.40% |
-| prose | -4.73% |
-| reasoning | -8.93% |
+**Transfer-8 verdict: no promotion; canonical panel complete, first-12 rule incomplete.**
 
-This is a safety result, not the generalization verdict. The full 512-window static read is required to decide whether the earlier static/behavioral dissociation survives at transfer-8 scale.
+## Static transfer status
 
-Step8 gate receipts:
+The static transfer experiment measures teacher-forced OPKL on the exact same held-out identities and numerators at step0, step4, and the transfer candidate. Its publication gate is:
 
-- gate file: `151e174b7197d6f201f0829ff76afdda039e77b374c02ab37d34f5ed6992a8de`
-- canonical gate body: `9b4d93ebe138b7a0f6c8eb69ad450f80b5c2b5e66a0d3c36c457479c892947a0`
-- terminal handoff: `70c76d969a9a49e600b8607c749b8f22ee913fdba40f2eec5282ee413077db1a`
+1. verify identical sample identities and teacher targets;
+2. compare the held-out paired mean against both step0 and step4;
+3. report bootstrap confidence bounds and paired win counts;
+4. seal the complete receipt; and only then
+5. publish a transfer verdict.
 
-## Transfer-8 sealed panel verdict
+No static-transfer verdict is published here. A 512-sample run may exist in an active or in-flight state, but without a verified sealed canonical receipt it is not evidence for promotion or rejection. This document intentionally makes no inference from partial progress or live status.
 
-The final 12-prompt panel plus three designated replicates is sealed. It is a separate `DIAGNOSTIC_UNCAPPED` transfer probe, not a frozen HumanEval correctness claim. All 15 generations stopped naturally, emitted non-null answers, and had exact token-ID receipts.
+## Decision table
 
-The preregistered decision rule remained:
+| Stage | Evidence state | Rule state | Published decision |
+|---|---|---|---|
+| step4+1 fast read | Two rows, including one 4096-cap null | Not eligible | Historical only |
+| step4+1 completed panel | 12 unique + duplicate controls | Inconclusive-directional: negative median, but below variance floor | **No promotion** |
+| Transfer-8 canonical panel | 16 sealed samples | First-12 rule incomplete | **No promotion** |
+| Static transfer | No verified sealed canonical receipt in this publication package | Not evaluated | **No verdict** |
 
-```text
-median(delta_reasoning_pct) < 0
-and decreased_count >= 8 of 12
-and abs(median) > max_abs_replicate_delta_pct
-```
+## Receipt index
 
-The sealed primary table is:
+| Evidence | SHA-256 |
+|---|---|
+| step4+1 two-row fast read | `1cf8400f77f249397bf07e8cd8763ecaa6f142ca69a2b9d10f58d2d317896676` |
+| step4+1 HumanEval/132 uncapped fast follow-up | `0b91d2a20c817a10c6ffc03ebdb07c9b8527ddc1b3488dd12ba3c2f87b5e66fb` |
+| step4+1 completed panel summary | `010e4c1eff683a7595d39c4685272766bfc40995b858835e1e56ad73521db9af` |
+| step4+1 panel generation payload | `517c671ebd574e7751cf919c4a043f5aad164b469dd4bc7a1514f4746ba086a0` |
+| Transfer-8 canonical result payload | `d21b349e5c4e93196b2351d61798dceecb7b8ac60bd677976d1a5051081dfc37` |
+| Transfer-8 canonical verdict receipt | `fa098459bdaeb097f5dfe61a16c54112fe765ea816e4725113162cc4709db50a` |
 
-| task | step0 reasoning | transfer-step8 reasoning | delta |
-|---:|---:|---:|---:|
-| 116 | 6,553 | 3,749 | -42.79% |
-| 132 | 5,753 | 2,250 | -60.89% |
-| 134 | 1,722 | 1,412 | -18.00% |
-| 93 | 1,709 | 1,318 | -22.88% |
-| 57 | 685 | 303 | -55.77% |
-| 2 | 468 | 435 | -7.05% |
-| 99 | 718 | 715 | -0.42% |
-| 83 | 1,218 | 863 | -29.15% |
-| 70 | 845 | 871 | +3.08% |
-| 127 | 771 | 668 | -13.36% |
-| 29 | 281 | 350 | +24.56% |
-| 122 | 511 | 395 | -22.70% |
+## Publication discipline
 
-Summary:
-
-- preregistered median reasoning-token change: **-20.3515%**;
-- sign count: **10/12 down**, 2/12 up;
-- sealed preregistered floor: **31.25%**;
-- current duplicate-pair floor: **104.5612%**;
-- alternate completion-token median: **-15.9757%** (not the preregistered estimand);
-- verdict: **`NO_DECREASE_CLAIM`**. The sign gate passed, but the magnitude gate failed against both floors.
-
-The current duplicate pairs were highly unstable: /116 changed `3,749→7,669` reasoning tokens (+104.56%), /132 changed `2,250→4,580` (+103.56%), and /99 repeated exactly at 715. Correctness bits for /116 and /132 were identical across their duplicate pairs, but the length variance prevents a reliable decrease claim.
-
-Receipts:
-
-- generation bytes: `56d71c989cfbe263b2004e3995def6787a2794c1f0740a49c7aa698819e2345b`;
-- panel specification: `6360a493d740cbeb67b6dfb090a84e499ac32073a8e62ec5d7ff9550743f7100`;
-- sealed verdict receipt: `fa098459bdaeb09768900dd4663097a489c64e9410db46c2fc262d96151457cf`.
-
-The full 512-window static read was not part of this sealed behavioral verdict and remains an open static/behavioral-dissociation follow-up rather than a publication blocker for the transfer panel.
+- Do not call a fast read a panel.
+- Do not treat a 4,096 `length/null` response as a natural endpoint.
+- Do not promote a negative median that is smaller than the same-serve variance floor.
+- Do not repair an incomplete preregistered subset after seeing the outcomes.
+- Do not infer a static-transfer verdict from an in-flight 512-sample run.
+- Do not publish a Transfer-8 verdict without the canonical sealed receipt.
