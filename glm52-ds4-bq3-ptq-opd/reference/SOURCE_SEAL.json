@@ -1,0 +1,70 @@
+{
+  "files": {
+    "adapter/binrepair_base_e2e.py": {
+      "bytes": 30114,
+      "sha256": "e209eddae3d18057f44bcd6d3ab60635317dd03064a448b0b48863dd61e1e690"
+    },
+    "adapter/binrepair_e2e.py": {
+      "bytes": 8980,
+      "sha256": "2e54507bc19fdf7b0619cbd4151a493c1ed1773d0557e1b6208be74afe3c5655"
+    },
+    "adapter/combo_core.py": {
+      "bytes": 2778,
+      "sha256": "5b9ab04f2936e762a3875da424dad63678d41cd303a6d93fd5591c844f1d952c"
+    },
+    "adapter/combo_v2_core.py": {
+      "bytes": 4613,
+      "sha256": "0e36c385c15f980e733e8b964b613f6e3ad8447e01e5fc7d25fe6c3e3c7e682f"
+    },
+    "adapter/tailfix_core.py": {
+      "bytes": 15053,
+      "sha256": "dd517c4faf040c3f1e9c94d97b6650a1adc8953327357f9ca646ace864b52ca0"
+    },
+    "adapter/tailfix_repair_e2e.py": {
+      "bytes": 52123,
+      "sha256": "00616fe7c3607f06166a6bcb979d45763ba4e4028cdbc00fe138f435a967b556"
+    },
+    "adapter/vendor/src/bq_sources_revc.py": {
+      "bytes": 19855,
+      "sha256": "1a6346b3d431b3bda052e4611701419319db488c6165e00d14b21116ddcfce27"
+    },
+    "adapter/vendor/src/planes_unpack.py": {
+      "bytes": 4724,
+      "sha256": "45a5d58df1a50bf38ac1821c1f4d30eac8866c099950e20456dbeb7c005b292f"
+    },
+    "adapter/vendor/src/t8192_ds4_build_v3.py": {
+      "bytes": 26858,
+      "sha256": "5915efb9217a3de2029a5d5e09e3c909ea9399174530c0d6c92ba763f3fcb1e4"
+    },
+    "adapter/vendor/src_lp4/lp4_pack.py": {
+      "bytes": 11471,
+      "sha256": "7dc0294030311593144a5a1d9a66d6b8b88133f93f78293cb80a6242ce4ba52d"
+    },
+    "adapter/vendor/src_lp4/lp4_train.py": {
+      "bytes": 45981,
+      "sha256": "5e02411c3d9f2cd1184c2a5711d34778794401877c7efcfbde82e876c5734ffc"
+    },
+    "build_source_seal.py": {
+      "bytes": 2128,
+      "sha256": "2233b3cb584f362be796bdf7f43c2904ed8ee04885125223ff8140ea25bd4438"
+    },
+    "plans/static_anchor_control.json": {
+      "bytes": 3919,
+      "sha256": "1dd34e07ecad6651f30bf105b2fbe3c35ef61fc13ff0f371c410e899689edd74"
+    },
+    "ptq_opd.py": {
+      "bytes": 28861,
+      "sha256": "d3a2fd72f4f909e0fb18de37b183a71e6b558eb516b198dd1e6c94d42b0354dd"
+    },
+    "train_contracts.py": {
+      "bytes": 9977,
+      "sha256": "66a6d19f6747e171c48990ba637852b0fa049581c89d500cc307549333b4aa44"
+    },
+    "train_ptq_opd.py": {
+      "bytes": 46384,
+      "sha256": "4e1a8f94e5beb5227ea9a7b3b470738101d95b1f292d2bfef010a1d695771960"
+    }
+  },
+  "format": "ptq-opd-source-seal-v2",
+  "seal_sha256": "fdd7fb84e43f4bd84f20c1f6368384d53431179233ec7a8c513f7282fff1baed"
+}
