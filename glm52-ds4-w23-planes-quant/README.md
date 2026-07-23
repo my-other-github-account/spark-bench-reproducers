@@ -3,6 +3,12 @@
 **2-Spark (GB10) serving of GLM-5.2 753B + 1-Spark DS4-Flash PoC testbed, with damage-ranked
 **dynamic per-expert {ternary…2,3,4}-bit allocation — July 2026. (Updated Jul 18.)**
 
+> **GENESIS method spec:** [`GENESIS.md`](GENESIS.md) — the canonical end-to-end
+> definition of the vertical-weighted from-scratch quantization pipeline (final VQ
+> d4/d8 + native menu, per-vertical anchors, the weight-dial solve, pre-repair-only
+> scope, and the "banana smasher" API north star). Supersedes all earlier GENESIS
+> framings scattered through the notes files.
+
 > **Jul 22 PTQ + OPD synthesis:** [`PTQ_OPD_CAMPAIGN.md`](PTQ_OPD_CAMPAIGN.md)
 > is the receipt-backed decision record for the code-KLD / HumanEval gap. It includes the
 > corrected 164-task comparator (IQ4 161/155, repaired BQ3 159/149, matched IQ3 159/151),
