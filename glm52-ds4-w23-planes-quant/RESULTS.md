@@ -88,6 +88,12 @@ Frozen instrument: EvalPlus 0.4.0.dev44 @ `26d6d00`, HumanEvalPlus v0.1.10, N=1 
 | Served repaired IQ3/BQ3 16K | **96.95% (159/164)** | **90.85% (149/164)** | 101.95 GB | 2.87 |
 | Served UD-IQ3_XXS | **96.95% (159/164)** | **92.07% (151/164)** | 103.00 GB | 2.90 |
 
+The preserved FP-as-served corpus separately rescored at 161/149. It is extraction-suspect because
+reasoning was discarded upstream and its cap/template parity remains under forensic review; it is
+not substituted for the provider-routed 161/150 reference. The IQ4 and IQ3 table rows bind f16 KV,
+context 17,408, server/client 4/4 from row 1, and fresh cache-free scoring. Parallel-1 and q8/mixed
+rows are invalid comparators.
+
 ## Tool evaluation
 
 - Reference row: OpenRouter displayed score **86**; its five-trial mean is **85.4 ± 2.2** with 95% CI [83.6, 86.8].

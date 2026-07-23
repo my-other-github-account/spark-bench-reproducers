@@ -19,11 +19,15 @@ Frozen EvalPlus instrument: N=1 greedy, true 4,096 completion-token cap, no resp
 | artifact | HumanEval | HumanEval+ | null/cap note |
 |---|---:|---:|---|
 | API source reference | 161/164 (98.17%) | 150/164 (91.46%) | provider-routed reference |
+| preserved FP-as-served corpus | 161/164 (98.17%) | 149/164 (90.85%) | extraction-suspect; forensic row, not quality ceiling |
 | served UD-IQ4_XS | **161/164 (98.17%)** | **155/164 (94.51%)** | corrected fresh-score row |
 | served repaired IQ3/BQ3 16K | 159/164 (96.95%) | 149/164 (90.85%) | corrected fresh-score row |
-| served UD-IQ3_XXS | 159/164 (96.95%) | 151/164 (92.07%) | corrected fresh-score row; batching-invariant |
+| served UD-IQ3_XXS | 159/164 (96.95%) | 151/164 (92.07%) | matched f16/ctx17408/server4/client4 row |
 
-The corrected rows supersede stale cached summaries. See
+The corrected rows supersede stale cached summaries. A 10-row diagnostic proved that llama.cpp
+generation is **not batching-invariant at temperature zero**: every selected output changed between
+1/1 and 4/4 and two row outcomes flipped. The matched table therefore binds parallelism and
+concurrency as part of the instrument. See
 [`PTQ_OPD_CAMPAIGN.md`](PTQ_OPD_CAMPAIGN.md) for the static code-KLD gap, elimination ledger,
 surviving mechanisms, exact wire accounting, and receipt digests.
 

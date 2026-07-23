@@ -29,6 +29,12 @@ PY
 
 Use the exact package snapshot matching the role under `environments/`. Model weights are independently acquired and verified by their upstream manifests.
 
+For HumanEval(+), additionally bind EvalPlus commit `26d6d00`, HumanEvalPlus dataset SHA-256
+`42526ec0e7d5f3ee0b06d6ced98f8c8bae3d76519151bfb3d36f79010645bd7f`, N=1 greedy,
+temperature 0, top-p 1, seed 0, and a true 4,096-token completion cap. KV dtype, context,
+server parallelism, client concurrency, and homogeneous-from-row policy are part of the receipt;
+temperature zero does not make llama.cpp batching invariant.
+
 ## 2. Build uniform anchors
 
 The legacy d4 scripts and playbook remain at the repository root. For each K, build all 43 expert planes, persist codebooks together with codes, and produce an integrity sidecar. Never resume codes against regenerated codebooks.
@@ -99,5 +105,12 @@ bash -n tooling/*.sh repair/code/*.sh repair/configs/*.sh repair/altrepair/code/
 python3 tooling/fix_runpilot_env.py --check repair/code/run_pilot.sh
 git diff --check
 ```
+
+Before every EvalPlus rescore, delete any prior `samples.eval_results.json`, prepare the exact nested
+response content, sanitize inside the pinned network-isolated container, and assert that the prepared
+row count is nonzero. A stale cache produced three false `0.000` summaries during this campaign.
+
+The campaign-specific identity-twin, wash-out, dose-4 screening, serve-receipt, and pre-registered
+decision-matrix templates are in [`PTQ_OPD_CAMPAIGN.md`](PTQ_OPD_CAMPAIGN.md#reproduction-appendix).
 
 The scrub gate rejects credentials, private addresses, local host aliases, machine-specific home paths, and connection strings. Read `SCRUB_POLICY.md` before adding artifacts.

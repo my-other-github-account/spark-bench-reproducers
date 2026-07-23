@@ -3,11 +3,20 @@
 [`RESUME.md`](RESUME.md) is the executable plan and artifact map. The current evidence-ranked
 ordering is in [`PTQ_OPD_CAMPAIGN.md`](PTQ_OPD_CAMPAIGN.md):
 
-1. finish the already-running LoRA-v3 step-24 full-512 monitor and select step 16 versus 24;
-2. merge or exactly integrate the selected sidecar, prove parity, then run fresh full-164 eval;
-3. measure exact-byte coefficients with matched controls, full-512 admissibility, and a composed-set test;
-4. finish SHUFFLE and ONE-POT matched-control rails before any deeper continuation;
-5. rebuild, re-repair, merge, and independently evaluate the exact composed bytes once.
+1. run the step-change representation pilots: rotations/incoherence, Hessian-sequential requantization,
+   and residual/additive VQ, each with a pre-registered layer-local gate;
+2. compose the best byte-neutral REPACK moves against an identity twin, then re-adapt and measure the
+   set directly rather than summing isolated coefficients;
+3. finish the SHUFFLE matched full-512 pair; retain the joint-batch transition method only if its
+   paired effect resolves beyond noise;
+4. retry basin shaping only as a new ONE-POT arm with an out-of-bank widened code bank, corrected LR,
+   identical twins, and an explicit all-six tolerance; the update-8 arm stopped at its fixed gate;
+5. place the trained sidecar on the winning reallocated base, merge/integrate it exactly, prove parity,
+   and run one fresh full-164 plus behavior evaluation on final bytes;
+6. complete matched six-class competitor KLD rows so all-class donor maps can replace code-only priors.
+
+A below-bar fallback product is canceled. Merge/serve work remains mechanism infrastructure for a
+winning stack, not a separate sub-KPI deliverable.
 
 The earlier pre-synthesis ordering remains below for historical context:
 

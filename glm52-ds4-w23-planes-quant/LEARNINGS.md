@@ -108,3 +108,18 @@ sidecar capacity → direct composition test, not deeper undirected optimization
 The LoRA serving attempt reached EngineCore but could not bind the exact stored-f16 KV ABI on the
 pinned serving path. HumanEval and behavior were not measured. Never convert a serving-path
 failure into a benchmark zero or use an incompatible KV substitution to manufacture a row.
+
+## 15. Serve shape and score cache are part of the benchmark
+
+Temperature-zero llama.cpp generation was not invariant to server/client batching: all 10 selected
+outputs changed between 1/1 and 4/4, and two EvalPlus outcomes flipped. Bind KV dtype, context,
+parallelism, concurrency, and homogeneous-from-row-1 policy in every score receipt. Also remove
+`samples.eval_results.json` before every rescore: stale cache produced three false `0.000` results.
+Verify the prepared schema and nonzero row count before invoking the evaluator.
+
+## 16. The code instrument is a complete class, not a sample
+
+Code-76 is the entire code class in the 512-window bank. Any in-bank code training is therefore
+evaluation-contaminated by construction. The v2 audit made the inflation visible: four trained rows
+averaged 0.05292 versus 0.06756 on the untouched 72. Code training data must come from outside the
+bank, with document and aligned-window overlap proven empty before update 1.

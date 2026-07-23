@@ -5,9 +5,11 @@
 
 > **Jul 22 PTQ + OPD synthesis:** [`PTQ_OPD_CAMPAIGN.md`](PTQ_OPD_CAMPAIGN.md)
 > is the receipt-backed decision record for the code-KLD / HumanEval gap. It includes the
-> corrected 164-task comparator (IQ4 161/155, repaired BQ3 159/149, IQ3 159/151), the
-> elimination ledger, the 0-for-5 spot-gate audit, surviving SIDECAR/REPACK/SHUFFLE/ONE-POT
-> routes, exact wire accounting, and the next-experiment matrix. Machine-readable digests are
+> corrected 164-task comparator (IQ4 161/155, repaired BQ3 159/149, matched IQ3 159/151),
+> the invalid q8/mixed and parallel-1 rows, temperature-zero batching non-invariance, three
+> stale-cache incidents, the elimination ledger, the 0-for-5 spot-gate audit, and the
+> SIDECAR/REPACK/SHUFFLE/ONE-POT results. It also documents the 0.067 allocation floor,
+> contamination-safe training law, exact wire accounting, reproduction templates, and open roads. Machine-readable digests are
 > in [`receipts/PTQ_OPD_CAMPAIGN_RECEIPTS.json`](receipts/PTQ_OPD_CAMPAIGN_RECEIPTS.json).
 
 > **Jul 18 sealed sync:** paired 512-window tier re-anchors now include VQA d4/k256
