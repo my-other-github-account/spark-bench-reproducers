@@ -1,4 +1,4 @@
-# Results — sealed through 2026-07-19
+# Results — sealed through 2026-07-22
 
 All quality rows are measured unless marked **gate**, **pilot**, **in progress**, or **negative tombstone**. The canonical offline rail is 512 windows × 1,024 scored positions with corpus MD5 `1701920b4ba96dea0b18fe9df0151876`; smaller KL is better. The paired effect-size floor is ±2.6%.
 
@@ -84,8 +84,9 @@ Frozen instrument: EvalPlus 0.4.0.dev44 @ `26d6d00`, HumanEvalPlus v0.1.10, N=1 
 | Row | HumanEval pass@1 | HumanEval+ pass@1 | Package size | Whole-model bpw |
 |---|---:|---:|---:|---:|
 | API reference (`deepseek/deepseek-v4-flash`) | **98.2%** (161/164) | **91.5%** (150/164) | 159.63 GB measured (native source) | 4.49 |
-| Served UD-IQ4_XS | **98.2%** (161/164) | **92.7%** (152/164) | 137.90 GB | 3.88 |
-| Served repaired IQ3 16K | **95.73% (157/164)** | **90.85% (149/164)** | 101.95 GB | 2.87 |
+| Served UD-IQ4_XS | **98.2%** (161/164) | **94.5%** (155/164) | 137.90 GB | 3.88 |
+| Served repaired IQ3/BQ3 16K | **96.95% (159/164)** | **90.85% (149/164)** | 101.95 GB | 2.87 |
+| Served UD-IQ3_XXS | **96.95% (159/164)** | **92.07% (151/164)** | 103.00 GB | 2.90 |
 
 ## Tool evaluation
 
@@ -110,7 +111,7 @@ Frozen instrument: EvalPlus 0.4.0.dev44 @ `26d6d00`, HumanEvalPlus v0.1.10, N=1 
 
 ### Canary calibration
 
-The known code ordering is UD-IQ4_XS 161/164 HumanEval and 152/164 HumanEval+ versus repaired IQ3 157/164 and 149/164. Static and position-micro instruments did not reproduce it:
+The corrected code ordering is UD-IQ4_XS 161/164 HumanEval and 155/164 HumanEval+ versus repaired IQ3/BQ3 159/164 and 149/164. Static and position-micro instruments did not reproduce it:
 
 | instrument | IQ3 | IQ4 | verdict |
 |---|---:|---:|---|

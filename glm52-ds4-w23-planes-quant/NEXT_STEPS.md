@@ -1,6 +1,15 @@
 # Next steps
 
-[`RESUME.md`](RESUME.md) is the executable plan and artifact map. The short ordering is:
+[`RESUME.md`](RESUME.md) is the executable plan and artifact map. The current evidence-ranked
+ordering is in [`PTQ_OPD_CAMPAIGN.md`](PTQ_OPD_CAMPAIGN.md):
+
+1. finish the already-running LoRA-v3 step-24 full-512 monitor and select step 16 versus 24;
+2. merge or exactly integrate the selected sidecar, prove parity, then run fresh full-164 eval;
+3. measure exact-byte coefficients with matched controls, full-512 admissibility, and a composed-set test;
+4. finish SHUFFLE and ONE-POT matched-control rails before any deeper continuation;
+5. rebuild, re-repair, merge, and independently evaluate the exact composed bytes once.
+
+The earlier pre-synthesis ordering remains below for historical context:
 
 1. **Selective VQ-GPTQ rebuild.** Rebuild all 43 layers, retain GPTQ assignments only where
    held-out KLD wins, and emit per-layer receipts.

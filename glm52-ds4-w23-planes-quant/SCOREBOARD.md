@@ -1,4 +1,4 @@
-# DS4-Flash campaign scoreboard — 2026-07-19
+# DS4-Flash campaign scoreboard — 2026-07-22
 
 All rows are measured unless labeled otherwise. KLD instruments are named explicitly; values from different instruments are not silently subtracted. Static KLD is a distribution-damage measure, not a complete behavioral-quality rank.
 
@@ -19,9 +19,13 @@ Frozen EvalPlus instrument: N=1 greedy, true 4,096 completion-token cap, no resp
 | artifact | HumanEval | HumanEval+ | null/cap note |
 |---|---:|---:|---|
 | API source reference | 161/164 (98.17%) | 150/164 (91.46%) | provider-routed reference |
-| served UD-IQ4_XS | **161/164 (98.17%)** | **152/164 (92.68%)** | one retained null |
-| served repaired IQ3 16K | 157/164 (95.73%) | 149/164 (90.85%) | two retained nulls in the historical frozen replay |
-| served UD-IQ3_XXS | 158/164 (96.34%) | 151/164 (92.07%) | one retained null |
+| served UD-IQ4_XS | **161/164 (98.17%)** | **155/164 (94.51%)** | corrected fresh-score row |
+| served repaired IQ3/BQ3 16K | 159/164 (96.95%) | 149/164 (90.85%) | corrected fresh-score row |
+| served UD-IQ3_XXS | 159/164 (96.95%) | 151/164 (92.07%) | corrected fresh-score row; batching-invariant |
+
+The corrected rows supersede stale cached summaries. See
+[`PTQ_OPD_CAMPAIGN.md`](PTQ_OPD_CAMPAIGN.md) for the static code-KLD gap, elimination ledger,
+surviving mechanisms, exact wire accounting, and receipt digests.
 
 ToolEvalBench true-16K:
 

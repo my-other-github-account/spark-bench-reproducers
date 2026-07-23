@@ -79,3 +79,32 @@ Use `VQ3U_OVERRIDE_DIR` with the hash-bound sealed source and set `TWOBIN_DELTA_
 ## Operational lesson: make launch inputs overridable
 
 Hardcoded `BR_VQ3B_DIR`, `BR_TRAIN`, `BR_PROBE`, `BR_REF_KLD`, and `BR_OUTDIR` caused three avoidable relaunches. `repair/code/run_pilot.sh` now honors all five environment variables, and `tooling/fix_runpilot_env.py` makes the patch idempotently on older staged copies. Run its `--check` mode before launching a fleet job.
+
+## 11. Spot gates are diagnostics, not model selection
+
+Five favorable trainer/small-window readings failed promotion on code-76 or full-512. Three
+sign-flipped and two collapsed in effect size. Keep spot gates for liveness, debugging, and
+early stopping, but never use them as the release instrument unless prospectively calibrated
+against the sealed rail. The exact five comparisons and receipts are in
+[`PTQ_OPD_CAMPAIGN.md`](PTQ_OPD_CAMPAIGN.md).
+
+## 12. The repaired endpoint is co-adapted
+
+One-layer native substitutions were not an additive damage map. More importantly, the required
+all-native source/build adjacency failed, so the apparent ranking was invalidated before use.
+Allocation needs matched re-adaptation and direct paired measurement; isolated layer percentages
+must not be summed into a predicted model gain.
+
+## 13. Move the floor before spending more steps
+
+Static-only continuation returned its early gain by step 32, repair-after-dose was inert, and
+stronger in-loop anchors did not stop behavioral-dose drift. The positive method proof was
+byte-neutral reallocation: one L17 exchange retained 75.40% of its paired advantage at dose 16.
+The current order is therefore allocation/discrete changes → matched re-adaptation → trained
+sidecar capacity → direct composition test, not deeper undirected optimization.
+
+## 14. Infrastructure blockers are unmeasured, not zero
+
+The LoRA serving attempt reached EngineCore but could not bind the exact stored-f16 KV ABI on the
+pinned serving path. HumanEval and behavior were not measured. Never convert a serving-path
+failure into a benchmark zero or use an incompatible KV substitution to manufacture a row.

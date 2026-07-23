@@ -3,6 +3,13 @@
 **2-Spark (GB10) serving of GLM-5.2 753B + 1-Spark DS4-Flash PoC testbed, with damage-ranked
 **dynamic per-expert {ternary…2,3,4}-bit allocation — July 2026. (Updated Jul 18.)**
 
+> **Jul 22 PTQ + OPD synthesis:** [`PTQ_OPD_CAMPAIGN.md`](PTQ_OPD_CAMPAIGN.md)
+> is the receipt-backed decision record for the code-KLD / HumanEval gap. It includes the
+> corrected 164-task comparator (IQ4 161/155, repaired BQ3 159/149, IQ3 159/151), the
+> elimination ledger, the 0-for-5 spot-gate audit, surviving SIDECAR/REPACK/SHUFFLE/ONE-POT
+> routes, exact wire accounting, and the next-experiment matrix. Machine-readable digests are
+> in [`receipts/PTQ_OPD_CAMPAIGN_RECEIPTS.json`](receipts/PTQ_OPD_CAMPAIGN_RECEIPTS.json).
+
 > **Jul 18 sealed sync:** paired 512-window tier re-anchors now include VQA d4/k256
 > (**+17.4757%**) and d8/k4096 (**+24.3592% KL_vs_fp8**), while the R4 three-tier
 > backpack sealed at **0.091723 KL / 0.910397 top-1** over the full 512-window rail.
