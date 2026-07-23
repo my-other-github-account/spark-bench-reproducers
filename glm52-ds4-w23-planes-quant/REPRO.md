@@ -112,5 +112,10 @@ row count is nonzero. A stale cache produced three false `0.000` summaries durin
 
 The campaign-specific identity-twin, wash-out, dose-4 screening, serve-receipt, and pre-registered
 decision-matrix templates are in [`PTQ_OPD_CAMPAIGN.md`](PTQ_OPD_CAMPAIGN.md#reproduction-appendix).
+The July 22-23 continuation adds the matched-instrument registry, teacher-bank/class-map seals,
+receipt-derived MVR invocation shape, and `kld_win*.pt` paired-reduction recipe in
+[`PTQ_OPD_JUL22_23_NOTES.md`](PTQ_OPD_JUL22_23_NOTES.md#8-reproduction-appendix). Full public-safe
+receipt paths and SHA-256 digests are indexed in
+[`receipts/PTQ_OPD_JUL23_DERIVED_METRICS.json`](receipts/PTQ_OPD_JUL23_DERIVED_METRICS.json).
 
 The scrub gate rejects credentials, private addresses, local host aliases, machine-specific home paths, and connection strings. Read `SCRUB_POLICY.md` before adding artifacts.

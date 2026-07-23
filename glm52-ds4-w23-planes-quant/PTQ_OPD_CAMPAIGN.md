@@ -2,6 +2,13 @@
 
 **Evidence cutoff: 2026-07-22 20:52 PDT.** This report separates sealed measurements from live or incomplete work. Smaller KL is better. Receipt digests below are SHA-256; the machine-readable index is [`receipts/PTQ_OPD_CAMPAIGN_RECEIPTS.json`](receipts/PTQ_OPD_CAMPAIGN_RECEIPTS.json).
 
+> Continuation: [`PTQ_OPD_JUL22_23_NOTES.md`](PTQ_OPD_JUL22_23_NOTES.md) extends this cutoff
+> through 2026-07-23 08:38 PDT and corrects the historical `0.0927` cross-instrument IQ4 bar with
+> the direct `0.0720439` matched-rail row. Its receipt registry is
+> [`receipts/PTQ_OPD_JUL23_DERIVED_METRICS.json`](receipts/PTQ_OPD_JUL23_DERIVED_METRICS.json); the direct-row
+> source is `$MISSION_ROOT/UNSLOTH_FULL512/out/UNSLOTH_FULL512_SCOREBOARD.json`, SHA-256
+> `6ec59032b36ea4861d6bbf3be50dcd4db6f7f827d8ec2b3b8a0e5de6b7c05d74`.
+
 ## Decision
 
 The repaired IQ3 artifact did not need more undirected optimization. It needed a different allocation or representation.

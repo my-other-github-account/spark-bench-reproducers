@@ -1,4 +1,4 @@
-# DS4-Flash campaign scoreboard — 2026-07-22
+# DS4-Flash campaign scoreboard — 2026-07-23
 
 All rows are measured unless labeled otherwise. KLD instruments are named explicitly; values from different instruments are not silently subtracted. Static KLD is a distribution-damage measure, not a complete behavioral-quality rank.
 
@@ -7,10 +7,19 @@ All rows are measured unless labeled otherwise. KLD instruments are named explic
 | artifact | offline KLD | instrument | total GB | whole-model bpw | disposition |
 |---|---:|---|---:|---:|---|
 | source checkpoint | 0 | source self-reference | ~159.63 | 4.49 | reference |
-| repaired IQ3 flagship | **0.0770610** | source-teacher top-8192, 512×1,024 | 101.95 | 2.8658 | deployed campaign headline |
-| UD-IQ4_XS | **0.092683** | llama.cpp / UD-Q8_K_XL, 502 re-chunked blocks | 137.904 | 3.8764 | community comparison; separate instrument |
-| UD-IQ3_XXS | **0.151021** | llama.cpp / UD-Q8_K_XL | 102.9999 | 2.8953 | community comparison |
-| Q2 fresh-200 step40 | **0.0984825** | source-teacher top-8192, full 512 | 95.75 | 3.4472 | **FAIL** strict <0.0927; parked |
+| repaired IQ3 flagship | **0.0770610** | source-teacher top-8192, 512×1,024 | 101.95 | 2.8658 | matched-rail campaign headline |
+| UD-IQ4_XS direct | **0.0720439** | source-teacher top-8192, 512×1,024 | 137.904 | 3.8764 | authoritative matched-rail IQ4 row |
+| UD-IQ3_XXS direct | **0.1499628** | source-teacher top-8192, 512×1,024 | 102.9999 | 2.8953 | authoritative matched-rail IQ3 row |
+| UD-IQ4_XS historical | **0.092683** | llama.cpp / UD-Q8_K_XL, 502 re-chunked blocks | 137.904 | 3.8764 | separate instrument; not a matched-rail bar |
+| UD-IQ3_XXS historical | **0.151021** | llama.cpp / UD-Q8_K_XL | 102.9999 | 2.8953 | separate instrument |
+| Q2 fresh-200 step40 | **0.0984825** | source-teacher top-8192, full 512 | 95.75 | 3.4472 | parked; historical `<0.0927` gate must not be reused |
+
+The direct rows and instrument correction are receipt-backed in
+[`PTQ_OPD_JUL22_23_NOTES.md`](PTQ_OPD_JUL22_23_NOTES.md). Instrument equivalence is
+bitwidth-conditional; values from the historical llama.cpp column cannot be subtracted from the
+source-teacher rows. Direct-row receipt:
+`$MISSION_ROOT/UNSLOTH_FULL512/out/UNSLOTH_FULL512_SCOREBOARD.json`, SHA-256
+`6ec59032b36ea4861d6bbf3be50dcd4db6f7f827d8ec2b3b8a0e5de6b7c05d74`.
 
 ## Behavioral evaluations
 

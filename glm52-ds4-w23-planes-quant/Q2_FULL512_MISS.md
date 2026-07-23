@@ -39,8 +39,8 @@ The accelerated rail first passed an 8-window scalar-versus-accelerated gate: 8/
 | top-1-in-teacher-top64 | 0.999414291015625 |
 | package | 95.75 GB decimal |
 | effective bpw | 3.4471773954 |
-| strict target | <0.0927 |
-| miss | +0.0057824570 / **6.2378%** |
+| corrected matched-rail IQ4 target | <0.07204393760942278 |
+| miss | +0.0264385194 / **36.6978%** above target |
 
 Block-of-64 means, in window order:
 
@@ -64,10 +64,14 @@ The block spread is material; a favorable small probe was not a substitute for t
 - accelerated gate8: `d773d3f8e1fb3dfe8421375c64490b5ac1d765f895fb4a20d115b3057155dcf3`
 - score ledger: `7544cc7a3de0721296fb857f18acff336ac120f8bf16c1bcf456aea6e2277f6c`
 - canonical corpus MD5: `1701920b4ba96dea0b18fe9df0151876`
+- corrected IQ4 target: `$MISSION_ROOT/UNSLOTH_FULL512/out/UNSLOTH_FULL512_SCOREBOARD.json`,
+  SHA-256 `6ec59032b36ea4861d6bbf3be50dcd4db6f7f827d8ec2b3b8a0e5de6b7c05d74`
 
 ## Decision and resume state
 
-**Park Q2.** Do not ship or continue squeezing based only on the 0.053924 probe. The complete 512-window row misses the bar.
+**Park Q2.** Do not ship or continue squeezing based only on the 0.053924 probe. The complete
+512-window row misses the corrected direct-IQ4 matched-rail bar. The earlier `<0.0927` ruling was
+historical and cross-instrument; see [`PTQ_OPD_JUL22_23_NOTES.md`](PTQ_OPD_JUL22_23_NOTES.md).
 
 If reopened, resume from the protected step-40 checkpoint above and the sealed fresh-200 layout. Distinct next levers are:
 

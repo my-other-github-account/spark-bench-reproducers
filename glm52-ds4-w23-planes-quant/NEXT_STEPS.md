@@ -32,10 +32,13 @@ The earlier pre-synthesis ordering remains below for historical context:
 
 ## Binding targets
 
-- T1: KLD `<0.0927` at `<=101.95 GB`.
-- T2: KLD `<0.0927` at `<=95.75 GB`.
+- T1: matched-rail KLD `<0.07204393760942278` at `<=101.95 GB`.
+- T2: matched-rail KLD `<0.07204393760942278` at `<=95.75 GB`.
 - T3: KLD `<=0.0594` and top-1 `>=0.9301` at `101.95 GB`.
 - T4: KLD `<=0.0594` and top-1 `>=0.9301` at `95.75 GB`.
+
+T1/T2 direct-IQ4 receipt: `$MISSION_ROOT/UNSLOTH_FULL512/out/UNSLOTH_FULL512_SCOREBOARD.json`,
+SHA-256 `6ec59032b36ea4861d6bbf3be50dcd4db6f7f827d8ec2b3b8a0e5de6b7c05d74`.
 
 ## Evidence rules
 
@@ -45,3 +48,5 @@ The earlier pre-synthesis ordering remains below for historical context:
 - Preserve negative arms, faded final panels, and interruption receipts.
 - Label mean-window versus pooled-KLD percentages.
 - Every new row needs corpus pin, window count, manifest hash, package snapshot, and checksum.
+- Historical `0.0927` targets are llama.cpp/UD-Q8_K_XL-instrument rows, not matched-rail bars;
+  see [`PTQ_OPD_JUL22_23_NOTES.md`](PTQ_OPD_JUL22_23_NOTES.md).

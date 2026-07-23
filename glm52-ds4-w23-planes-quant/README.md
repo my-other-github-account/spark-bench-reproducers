@@ -12,6 +12,21 @@
 > contamination-safe training law, exact wire accounting, reproduction templates, and open roads. Machine-readable digests are
 > in [`receipts/PTQ_OPD_CAMPAIGN_RECEIPTS.json`](receipts/PTQ_OPD_CAMPAIGN_RECEIPTS.json).
 
+> **Jul 22 evening → Jul 23 morning follow-up:**
+> [`PTQ_OPD_JUL22_23_NOTES.md`](PTQ_OPD_JUL22_23_NOTES.md) corrects the historical
+> cross-instrument IQ4 bar, seals the ONE-POT behavioral rejection, records REPACK
+> non-composition and SHUFFLE proxy mis-aim, and snapshots GENESIS/REBUILD plus the new
+> process laws at the explicit evidence cutoff. Its machine-readable values and public-safe
+> receipt registry are in
+> [`receipts/PTQ_OPD_JUL23_DERIVED_METRICS.json`](receipts/PTQ_OPD_JUL23_DERIVED_METRICS.json).
+
+> **Jul 22-23 provenance correction and continuation:**
+> [`PTQ_OPD_JUL22_23_NOTES.md`](PTQ_OPD_JUL22_23_NOTES.md) seals the direct mxfp4-teacher
+> IQ4/IQ3 full-512 scoreboard, ONE-POT behavioral override, REPACK composition failure,
+> SHUFFLE cycle-1 result, GENESIS/REBUILD status, process laws, and reproduction appendix.
+> Public-safe receipt paths, full SHA-256 digests, and derived arithmetic are in
+> [`receipts/PTQ_OPD_JUL23_DERIVED_METRICS.json`](receipts/PTQ_OPD_JUL23_DERIVED_METRICS.json).
+
 > **Jul 18 sealed sync:** paired 512-window tier re-anchors now include VQA d4/k256
 > (**+17.4757%**) and d8/k4096 (**+24.3592% KL_vs_fp8**), while the R4 three-tier
 > backpack sealed at **0.091723 KL / 0.910397 top-1** over the full 512-window rail.
@@ -111,11 +126,14 @@ Dose-response frontier (measured, monotone): 84G 0.1845 → 88G 0.1529 → 90G 0
 | quant | KLD | top1 | total GB |
 |---|---|---|---|
 | UD-Q2_K_XL | 0.1736 | 0.878 | 96.8 |
-| UD-IQ3_XXS | 0.1472 | 0.889 | 103.0 |
-| UD-IQ4_XS (llama-instrument col) | 0.0927 | n/a | 137.9 |
+| UD-IQ3_XXS (direct mxfp4-teacher full-512) | 0.149963 | 0.889 | 103.0 |
+| UD-IQ4_XS (direct mxfp4-teacher full-512) | 0.072044 | n/a | 137.9 |
+
+Direct-row receipt: `$MISSION_ROOT/UNSLOTH_FULL512/out/UNSLOTH_FULL512_SCOREBOARD.json`,
+SHA-256 `6ec59032b36ea4861d6bbf3be50dcd4db6f7f827d8ec2b3b8a0e5de6b7c05d74`.
 
 Iso-size verdicts: our 96G-class solves beat both 2-bit and 3-bit community rungs
-at equal-or-smaller size (R7FM 0.0944 vs IQ3_XXS 0.1472 at ~same GB).
+at equal-or-smaller size (R7FM 0.0944 vs direct IQ3_XXS 0.149963 at ~same GB).
 
 ### Official NVFP4 lossless bar (same rail protocol, their models) 🆕
 
@@ -177,14 +195,12 @@ See `recipes/RECIPE_256K.md` + `recipes/FRONTIER_256K.md` for the shippable 256K
 ### Community comparison — SUPERSEDED by direct-rail rows (see apples-to-apples table above)
 
 Historical llama.cpp-instrument column (their UD-Q8_K_XL teacher): IQ1_S 0.2852 · IQ2_XXS 0.2046
-· IQ3_XXS 0.1510 · IQ4_XS 0.0927. **Key instrument finding (Jul 12 late): the raw llama-instrument
-KLDs are our-rail-comparable to within ~±2%** — Q2_K_XL raw-ladder interpolation predicted
-0.176-0.179 and the direct ground-truth row measured 0.1736-0.1758; the Q8-class teacher is
-effectively transparent and corpus deltas wash out at the mean. Meanwhile the measured "bridge
-constant" (−0.028, bootstrap CI crossing zero) moved estimates AWAY from truth and was **retired
-as junk. Lesson: never apply a correction whose CI includes zero; prefer direct measurement over
-bridges whenever a direct path exists.** Direct-rail rows (GGUF-dequant → our rail, mxfp4 teacher)
-replace this column as they seal: Q2_K_XL 0.1736 SEALED; IQ3_XXS in flight.
+· IQ3_XXS 0.1510 · IQ4_XS 0.0927. The Jul 12 ~±2% equivalence observation was validated only
+in the lower-bit regimes with direct joins; it was never validated for IQ4. The direct
+mxfp4-teacher IQ4 row is 0.072044, so equivalence is **bitwidth-conditional** and cross-instrument
+subtraction is banned. The measured bridge constant (−0.028, bootstrap CI crossing zero) remains
+retired. Prefer direct measurements and revalidate equivalence in every fidelity regime. See
+[`PTQ_OPD_JUL22_23_NOTES.md`](PTQ_OPD_JUL22_23_NOTES.md) for the receipt-backed forensic chain.
 
 ## The W3 story (defining finding #1)
 
