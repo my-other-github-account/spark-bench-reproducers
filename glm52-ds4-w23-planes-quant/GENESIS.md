@@ -67,6 +67,32 @@ cost(unit, rung, vertical) =
   × per_projection_correction(projection, rung)
 ```
 
+### 3a. THE MASS TRANSFORM LAW (validated 2026-07-23 — the flat-dial bug)
+
+`routed_mass` MUST be the **raw multiplicative product**:
+
+```
+mass(unit, vertical) = routing_frequency × mean_routing_weight × hessian_sensitivity
+# NO log1p compression. NO equal-weighted feature averaging. NO class-mean normalization
+# of individual features before combining.
+```
+
+The first GENESIS solve used `mean(0.25·log1p(f_i)/class_mean)` over four features. That
+transform **amputated the concentration signal** (top-500 code experts = 53.4% of code
+damage mass, top-2000 = 83.0%) before the solver saw it: the "pure-code" solve returned
+native=38/22,016 units, d8-low=0, predicted code only 0.0672→0.0502 — a flat dial where
+a peaky one belonged. Same identical solver with raw-product mass: **native=4,506,
+d8-low=2,829, predicted code 0.0163 (w=8, all non-code floors passing, bytes exact)** —
+the barbell allocation (hot experts→native, cold tail→low-bpw) appeared on its own.
+Peakiness sweep receipts: γ=0.5 (sqrt-compressed product) sits between (native=1,312,
+code 0.0415). The compression dial directly controls allocation peakiness; raw product
+(γ=1) is the validated default. Receipts: GENESIS_MASS_ARMS mission, Arm A RESULT.json.
+
+Lesson for any reimplementation (banana-smasher included): **audit the feature transform
+before trusting any solve shape.** Log-compression + averaging of concentration-bearing
+features silently flattens allocations; the solver then looks "conservative" while
+actually being blind.
+
 Unmeasured rungs are priced by interpolating each family's (d4, d8 separately)
 rate-distortion curve through its measured anchors. Extrapolated prices are flagged.
 
@@ -129,6 +155,20 @@ eval-visible rows) — outside GENESIS.
 | Menu with promotion rungs above native | a rewrite | native MXFP4 = ceiling = teacher |
 | Global-only anchors | gen-1 collapse | per-vertical anchors are THE prerequisite |
 | Forgetting per-projection corrections | +4% KLD left on the table | refit and apply every generation |
+| **log1p + feature-averaging in the mass transform** | **flat dial; solver blind to the barbell** | **raw-product mass (§3a); audit transforms before trusting solve shapes** |
+| **Profiling on the eval windows** | **contamination audit on the first bar win** | **eval bank is VALIDATION-ONLY: no dev stage may read it or consume artifacts that saw it; profile on calib/TRAIN windows** |
+
+## 8. First measured results (2026-07-23, receipts on the campaign fleet)
+
+- **Pre-repair code-76 KLD 0.05213 at 101,344,038,912 bytes** — the first GENESIS build
+  (flat-mass pure-code solve, patched builder, from-scratch 43-layer wire) measured BELOW
+  the 137.9GB reference quant's 0.054216 on the identical instrument, before repair.
+  Prediction was 0.050179 → measured 0.05213 (~4% model optimism at midband-shaped mixes).
+  Caveats: profiling-on-eval-windows contamination audit + disjoint-window re-read pending;
+  full-512 per-vertical and repair stage pending; eval-visible row pending.
+- Raw-product mass solve (w=8) predicts code 0.0163 / global 0.0483 with every
+  non-code class ≤ baseline and bytes exact — build+rail in flight. Prediction-only
+  until railed; peaky-mix magnitudes are less calibrated than midband ones.
 
 ---
 
