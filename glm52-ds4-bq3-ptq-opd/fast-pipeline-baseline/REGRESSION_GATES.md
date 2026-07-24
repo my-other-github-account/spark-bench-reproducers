@@ -1,5 +1,15 @@
 # REGRESSION_GATES.md — enforceable floors for the fast baseline (frozen 2026-07-24)
 
+## Scorer-instrument law (added 18:45 after a live 6× regression)
+Any lane scoring KLD/NLL against the wire MUST use the accelerated rail instrument
+(P484 lineage: 4.883 s/window all-in, parity PASS, planes resident across windows,
+torch-mmap loader). The legacy remote walker (`genesis_remote_full512.py`) reads the
+wire over 1GbE LAN at ~83 MB/s (~30 s/layer/config) and is QUARANTINED in
+`~/DEPRECATED_CODE/` on its host with failing tombstones at the old paths. If a scorer
+shows >10 s/window or a per-layer "load" line dominating its log, it picked a stale
+tool — stop it and rehome onto the rail. Canonical copy: `CANONICAL_TOOLS/full512_rail_scorer/`
+on the rail host.
+
 Rule of use: before starting ANY new research run, check the stage you touch against its
 gate. A miss = regression = stop and bisect against PIPELINE.md's fast config BEFORE
 drawing science conclusions. Never let a slow infrastructure state masquerade as a
