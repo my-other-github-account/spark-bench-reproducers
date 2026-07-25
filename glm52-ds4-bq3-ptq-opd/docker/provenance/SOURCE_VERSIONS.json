@@ -1,0 +1,53 @@
+{
+  "artifact_sha256": {
+    "MANIFEST.json": "fe6b9364c7ec9079d557a9b1c5b3d45caaa430797e67365330112c185412bcd1",
+    "mixed_tier_compact.pt": "9ebfb324598227519e9b90385ef7768b4a2928737970c2a102ac9e5bda78e4b6",
+    "tokenizer.json": "8f9f37ca37fdc4f5fd36d5cf4d3b0e8392edb4e894fd10cc0d70b4957c8633cf"
+  },
+  "collected_utc": "2026-07-25T15:23:28Z",
+  "genesis_package": {
+    "bytes": 101346700411,
+    "files": 1645,
+    "inventory_sha256": "cb00fc4e783ab97018bbe0642556820596a7846816fb0bcc55bd9f27b223b3bd"
+  },
+  "pip_freeze": {
+    "local_path_packages_omitted": 5,
+    "raw_sha256": "2af7d5a21e36f65c4323ade6560d5993fa0bad13b55af9a3b5dac09f4f448760",
+    "sanitized_sha256": "5d7bab9403a7e0de23736e1c3439a1b83f413b839ccaba2493aa909a2c766616"
+  },
+  "platform": {
+    "architecture": "aarch64",
+    "gpu_architecture": "GB10 sm_121",
+    "kernel": "Linux 6.17.0-1026-nvidia aarch64"
+  },
+  "portability_changes": [
+    "Mounted-pack product identity is environment-bound after fail-closed pack validation.",
+    "Standalone mode removes the private host-claim dependency; optional claim checking remains fail-closed.",
+    "The HTTP endpoint supports standard non-stream JSON and OpenAI-compatible SSE.",
+    "Decode row count is runtime data rather than a Triton constexpr compile key."
+  ],
+  "portable_runtime_sha256": {
+    "mixed_prefill_server.py": "353f1dddd1fef0043a49e49049d14d637a267c39a88021ab0569dd4f6bfa02f4",
+    "mixed_tier_backend.py": "030f721536d47eff9fbe6448dd9faf2ea45c104fb058b7b29ffd2a3e7c5b6e1e",
+    "mixed_tier_patch.py": "80696f626254fb3f2be6c95035e1ba13a17ae3ab7a8d50c366f8056cba66dd27",
+    "run_prefill_ladder.py": "b7656456ca05cab07fab6f470cc1523e0e5dbf08762ea824f106cf05de8b9696",
+    "stream_tree.py": "15b781f69a35342725739bf883e06a9322bb67cbd3164e090c0323ce672d5bad"
+  },
+  "runtime": {
+    "flashinfer-python": "0.6.13",
+    "numpy": "2.4.4",
+    "python": "3.12.3",
+    "tokenizers": "0.22.2",
+    "torch": "2.11.0+cu130",
+    "triton": "3.6.0",
+    "vllm": "0.20.2rc1.dev3+gcb03fee32"
+  },
+  "schema": "genesis-container-source-freeze-v1",
+  "upstream_source_sha256": {
+    "mixed_prefill_server.py": "ffe52247a444acb3ba684761ec5601e2feea99b1216ac776cf81da079854ee8a",
+    "mixed_tier_backend.py": "db14f3607d539f03bb81201b662d44149ef78d3297625575f86057d4eaadfaf0",
+    "mixed_tier_patch.py": "80696f626254fb3f2be6c95035e1ba13a17ae3ab7a8d50c366f8056cba66dd27",
+    "run_prefill_ladder.py": "ba28a697a9cd6891793f80efbcf7ada123cef3a5432a4b9d992b92feccdd1a74",
+    "stream_tree.py": "15b781f69a35342725739bf883e06a9322bb67cbd3164e090c0323ce672d5bad"
+  }
+}

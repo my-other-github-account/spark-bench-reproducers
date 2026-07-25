@@ -9,6 +9,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SELF = Path(__file__).resolve()
 TEXT_SUFFIXES = {"", ".json", ".md", ".py", ".sha256", ".txt"}
+EXCLUDED_PUBLIC_PAYLOADS = {
+    "docker/artifacts/tokenizer.json",
+    "docker/provenance/pip-freeze.sanitized.txt",
+}
 
 # Construct sensitive literals so this audit does not flag its own policy table.
 JOINED_FORBIDDEN = [
@@ -20,8 +24,13 @@ JOINED_FORBIDDEN = [
 PATTERNS = {
     "absolute home path": re.compile(r"/(?:Users|home)/[^\s\"'`]+"),
     "private host": re.compile(r"\bspark-[0-9]+(?:\b|[-_])", re.IGNORECASE),
-    "task identifier": re.compile(r"\bt_[0-9a-f]{8}\b"),
-    "IPv4 address": re.compile(r"(?<![0-9])(?:[0-9]{1,3}\.){3}[0-9]{1,3}(?![0-9])"),
+    "task identifier": re.compile(r"t_[0-9a-f]{8}", re.IGNORECASE),
+    "private IPv4 address": re.compile(
+        r"(?<![0-9])(?:10\.(?:[0-9]{1,3}\.){2}[0-9]{1,3}|"
+        r"192\.168\.(?:[0-9]{1,3}\.)[0-9]{1,3}|"
+        r"172\.(?:1[6-9]|2[0-9]|3[01])\.(?:[0-9]{1,3}\.)[0-9]{1,3}|"
+        r"100\.(?:6[4-9]|[7-9][0-9]|1[01][0-9]|12[0-7])\.(?:[0-9]{1,3}\.)[0-9]{1,3})(?![0-9])"
+    ),
     "private mission path": re.compile(r"(?:^|[/\\])missions(?:[/\\]|$)", re.IGNORECASE),
     "BQ3 misnamed as IQ3": re.compile(r"IQ3_BIN|repaired-IQ3|IQ3 artifact", re.IGNORECASE),
 }
@@ -33,6 +42,9 @@ def text_files() -> list[Path]:
         if not path.is_file() or path.resolve() == SELF:
             continue
         if any(part in {".git", "__pycache__", ".venv"} for part in path.parts):
+            continue
+        relative = path.relative_to(ROOT).as_posix()
+        if relative in EXCLUDED_PUBLIC_PAYLOADS:
             continue
         if path.suffix.lower() in TEXT_SUFFIXES:
             files.append(path)

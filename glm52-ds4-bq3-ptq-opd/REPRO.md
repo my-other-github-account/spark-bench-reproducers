@@ -1,6 +1,6 @@
 # Reproducing PTQ-OPD from scratch
 
-This repository contains source, schemas, tests, and exact experiment contracts. It intentionally contains **no model weights, checkpoints, teacher-score tensors, generated solutions, or private infrastructure paths**.
+This repository contains source, schemas, tests, and exact experiment contracts. It intentionally contains **no 101 GB product wire, trained checkpoints, teacher-score tensors, generated solutions, or private infrastructure paths**. The container subdirectory includes only an uncalibrated 34 MB real-format kernel-warmup template and tokenizer fixture; neither carries a quality claim.
 
 The BQ3 construction is a prerequisite and is reproduced in [`../glm52-ds4-w23-planes-quant`](../glm52-ds4-w23-planes-quant/). PTQ-OPD starts after that folder's exact `combo-V4-step32` checkpoint and 101,360,840,912-byte wire have been built.
 

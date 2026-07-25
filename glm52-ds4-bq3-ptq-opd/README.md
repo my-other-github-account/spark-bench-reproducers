@@ -30,9 +30,14 @@ This directory documents a July 2026 campaign on DeepSeek-V4-Flash that started 
 
 ## Documents
 
-- [`RESULTS.md`](RESULTS.md) — sealed behavioral and static results, split caveats, and receipt hashes.
+- [`RESULTS.md`](RESULTS.md) — sealed behavioral and static results, terminal six-class comparison, split caveats, pipeline timings, and receipt hashes.
 - [`METHOD.md`](METHOD.md) — PTQ-OPD objective, bank contract, trainable surface, gates, and durability law.
-- [`REPRO.md`](REPRO.md) — from-scratch procedure using downloadable source/model inputs; no model artifacts are committed here.
+- [`REPRO.md`](REPRO.md) — from-scratch procedure using downloadable source/model inputs; no 101 GB product wire, trained checkpoints, or teacher banks are committed here.
+- [`SERVING.md`](SERVING.md) — sealed product-scale mixed-tier prefill/decode result, runtime freeze, memory law, and serving limitations.
+- [`EXPORT.md`](EXPORT.md) — build and verify the separate 101 GB model export pack.
+- [`README-DEPLOY.md`](README-DEPLOY.md) — build, run, API, and two-run cold-validation instructions for the offline container.
+- [`fast-pipeline-baseline/`](fast-pipeline-baseline/) — P602 stage timings, terminal-candidate proof table, negative register, and regression gates.
+- [`docker/`](docker/) — portable runtime, fail-closed pack contract, GPU build-time kernel warmup, tests, and provenance.
 - [`CENSORING.md`](CENSORING.md) — uncapped diagnostic and variance-aware measurement law.
 - [`TRANSFER.md`](TRANSFER.md) — non-benchmark transfer experiment and preregistered decision rule.
 - [`FAILURES.md`](FAILURES.md) — off-policy, static-weighting, resume, monitoring, and measurement failures.
@@ -50,12 +55,16 @@ Claimed:
 - on-policy PTQ-OPD implementation and fail-closed data contracts;
 - separate frozen-4096 evaluation and uncapped diagnostic results;
 - receipt hashes for every headline row.
+- the P602 measured fast-pipeline stage ledger and negative register;
+- a product-scale systems-serving baseline with 43 layers and four real packed tier/kernel classes.
 
 Not claimed:
 
 - that the first step4 dose improved the clean held-out 18;
 - that single greedy reasoning lengths define a smooth convergence curve;
 - that exploratory Track-C step8 is campaign-creditable;
-- that this repository redistributes model weights, teacher banks, or checkpoints.
+- that this repository redistributes the 101 GB product wire, teacher banks, or trained checkpoints (the container does include a 34 MB uncalibrated kernel-warmup template and tokenizer fixture);
+- that the systems-serving compact templates establish language-model quality;
+- that clean-host deployment passed unless the committed `deploy_validation.json` says so.
 
 By **banana_bae**.

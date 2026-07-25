@@ -1,0 +1,139 @@
+{
+  "acceptance_vs_sealed": {
+    "2048": {
+      "cross_restart_prefill_relative_drift": 0.007355508659489475,
+      "cross_restart_within_20_percent": true,
+      "runs": [
+        {
+          "relative_errors": {
+            "decode": 0.009664665134171135,
+            "prefill": 0.006053906770017057,
+            "ttft": 0.00609077978297985
+          },
+          "run": 1,
+          "within_20_percent": true
+        },
+        {
+          "relative_errors": {
+            "decode": 0.005964269115620618,
+            "prefill": 0.013364885865835929,
+            "ttft": 0.013545925615635926
+          },
+          "run": 2,
+          "within_20_percent": true
+        }
+      ],
+      "sealed_reference": {
+        "decode_tok_s": 16.95,
+        "prefill_tok_s": 1142.085381845603,
+        "ttft_seconds": 1.793210939002165
+      }
+    },
+    "8192": {
+      "cross_restart_prefill_relative_drift": 0.023858384236386282,
+      "cross_restart_within_20_percent": true,
+      "runs": [
+        {
+          "relative_errors": {
+            "decode": 0.00204222433019568,
+            "prefill": 0.0074786288357198884,
+            "ttft": 0.007423114120408141
+          },
+          "run": 1,
+          "within_20_percent": true
+        },
+        {
+          "relative_errors": {
+            "decode": 0.007953693781540608,
+            "prefill": 0.016558183400990318,
+            "ttft": 0.016836973089320847
+          },
+          "run": 2,
+          "within_20_percent": true
+        }
+      ],
+      "sealed_reference": {
+        "decode_tok_s": 16.95,
+        "prefill_tok_s": 2167.276585972347,
+        "ttft_seconds": 3.7798590419988614
+      }
+    }
+  },
+  "container_cold_starts": 2,
+  "image_id": "sha256:f4a36661ea3d3d78d2f09b0d41407c4fac551340247caed100a1051278adcfd9",
+  "kernel_cache_manifest_sha256": "2ad13b456b27c72b2bf8dfc14baaecce90f91d8333aaf4bdc92b62bf9caa97e6",
+  "pack_manifest_sha256": "58466bce399bc1536fc19de235445e5e697053ce57a1ee8c07a8c6b7b1684242",
+  "quality_claim": false,
+  "runs": [
+    {
+      "pack_validation": {
+        "bytes_exact": true,
+        "files_exact": true,
+        "manifest_sha_exact": true,
+        "pack_inventory_exact": true,
+        "sealed_source_inventory_exact": true,
+        "status_pass": true
+      },
+      "prefill": {
+        "2048": {
+          "decode_tok_s": 17.1138160740242,
+          "prefill_tok_s": 1135.1713034205104,
+          "ttft_seconds": 1.8041329919360578
+        },
+        "8192": {
+          "decode_tok_s": 16.984615702396816,
+          "prefill_tok_s": 2183.4848431431806,
+          "ttft_seconds": 3.7518007169710472
+        }
+      },
+      "run": 1,
+      "startup": {
+        "bind_seconds": 24.50239700207021,
+        "decode_tok_s": 16.926332403571706,
+        "first_token_seconds_from_container_start": 26.75094757194165,
+        "prefill_tok_s": 4.582814007901003,
+        "resident_product_bytes": 101346700411,
+        "smoke_request_seconds": 4.946442481013946,
+        "smoke_response_seconds_from_container_start": 29.44883975503035,
+        "warmup_smoke_seconds_after_bind": 4.946442752960138
+      }
+    },
+    {
+      "pack_validation": {
+        "bytes_exact": true,
+        "files_exact": true,
+        "manifest_sha_exact": true,
+        "pack_inventory_exact": true,
+        "sealed_source_inventory_exact": true,
+        "status_pass": true
+      },
+      "prefill": {
+        "2048": {
+          "decode_tok_s": 17.05109436150977,
+          "prefill_tok_s": 1126.821541068197,
+          "ttft_seconds": 1.817501640995033
+        },
+        "8192": {
+          "decode_tok_s": 17.084815109597113,
+          "prefill_tok_s": 2131.390422781145,
+          "ttft_seconds": 3.8435004269704223
+        }
+      },
+      "run": 2,
+      "startup": {
+        "bind_seconds": 25.214690577005967,
+        "decode_tok_s": 16.87674465890492,
+        "first_token_seconds_from_container_start": 27.454706263029948,
+        "prefill_tok_s": 4.602362106474433,
+        "resident_product_bytes": 101346700411,
+        "smoke_request_seconds": 4.941539774998091,
+        "smoke_response_seconds_from_container_start": 30.15623071999289,
+        "warmup_smoke_seconds_after_bind": 4.9415401429869235
+      }
+    }
+  ],
+  "runtime_compiler_absence": "PASS",
+  "schema": "genesis-deploy-validation-v1",
+  "status": "PASS",
+  "validation_host": "single-sm121-spark"
+}
