@@ -714,6 +714,22 @@ def main() -> int:
             * warm_up.clamp(min=-10, max=10))
         block.experts.mixed.forward(warm_activated, warm_ids, "down")
 
+    warmup_state: dict[str, Any] = {}
+    warmup_thread: threading.Thread | None = None
+    warmup_started: float | None = None
+
+    def warm_first_block_background(block: Any) -> None:
+        phase_started = time.monotonic()
+        try:
+            warm_block(block)
+            torch.cuda.synchronize()
+        except BaseException as exc:
+            warmup_state["exception"] = exc
+            warmup_state["error"] = f"{type(exc).__name__}: {exc}"
+        finally:
+            warmup_state["phase_seconds"] = time.monotonic() - phase_started
+            warmup_state["finished_monotonic"] = time.monotonic()
+
     old_dtype = torch.get_default_dtype()
     torch.set_default_dtype(torch.bfloat16)
     try:
@@ -740,6 +756,24 @@ def main() -> int:
                 cuda_allocated_bytes=int(torch.cuda.memory_allocated()),
                 mem_available_bytes=mem_available(), **proc_memory(),
                 wire_driver=guard.assert_wait())
+            if layer == 0:
+                # CUDA_MODULE_LOADING=LAZY shifts the shipped 23-argument
+                # Triton-launcher load into this first real decode-shape call.
+                # Start it as soon as block 0 is materialized so its host/module
+                # work overlaps construction of blocks 1-42 and the resident
+                # file-backed envelope map. The main thread joins before bind.
+                startup_phase(
+                    "before_first_block_kernel_warmup",
+                    execution="background_thread",
+                    overlaps="layers_1_42_and_resident_envelope_map")
+                warmup_started = time.monotonic()
+                warmup_thread = threading.Thread(
+                    target=warm_first_block_background,
+                    args=(block,),
+                    name="first-block-triton-warmup",
+                    daemon=True,
+                )
+                warmup_thread.start()
     finally:
         torch.set_default_dtype(old_dtype)
 
@@ -769,17 +803,27 @@ def main() -> int:
         reserve_resident_bytes = reserve_bytes
         residency_mode = "anonymous_exact"
 
-    warmup_started = time.monotonic()
-    startup_phase("before_first_block_kernel_warmup")
-    # Every layer uses the same shipped Triton functions and launch shapes.
-    # Exercise all four tiers on one block; warming the same eight ABIs on the
-    # other 42 blocks cost roughly 45 s while adding no kernel/cache coverage.
-    warm_block(blocks[0])
-    torch.cuda.synchronize()
-    first_block_warmup_seconds = time.monotonic() - warmup_started
+    if warmup_thread is None or warmup_started is None:
+        raise RuntimeError("first-block Triton warmup thread was not started")
+    startup_phase(
+        "before_first_block_kernel_warmup_join",
+        warmup_thread_alive=warmup_thread.is_alive(),
+        layers_loaded=len(blocks),
+        resident_envelope_mapped=True)
+    warmup_thread.join()
+    if "exception" in warmup_state:
+        raise RuntimeError(
+            f"first-block Triton warmup failed: {warmup_state['error']}") \
+            from warmup_state["exception"]
+    first_block_warmup_seconds = float(warmup_state["phase_seconds"])
+    first_block_warmup_overlap_window_seconds = time.monotonic() - warmup_started
     startup_phase(
         "after_first_block_kernel_warmup",
-        phase_seconds=first_block_warmup_seconds)
+        execution="background_thread_joined",
+        phase_seconds=first_block_warmup_seconds,
+        overlap_window_seconds=first_block_warmup_overlap_window_seconds,
+        layers_loaded=len(blocks),
+        resident_envelope_mapped=True)
 
     all_layer_probe_started = time.monotonic()
     startup_phase("before_all_layer_official_moe_probe")
@@ -882,6 +926,14 @@ def main() -> int:
             "no_tensor_alias": len(set(pointers)) == len(pointers),
             "pointer_count": len(pointers), "placeholder_exact_dedup_factor": 1,
             "layers": layer_receipts, "warmup_tier_counters": warm_counters,
+        },
+        "startup_overlap": {
+            "first_block_warmup_background": True,
+            "scheduled_after_layer": 0,
+            "layers_constructed_before_join": LAYERS - 1,
+            "resident_envelope_mapped_before_join": True,
+            "first_block_warmup_seconds": first_block_warmup_seconds,
+            "start_to_join_seconds": first_block_warmup_overlap_window_seconds,
         },
         "server_survival_contract": "detached setsid+nohup+PGID+log; second-ssh verification; self-exit if canonical wire resumes",
     }
