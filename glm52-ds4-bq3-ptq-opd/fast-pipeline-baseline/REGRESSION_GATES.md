@@ -1,5 +1,18 @@
 # REGRESSION_GATES.md — enforceable floors for the fast baseline (frozen 2026-07-24)
 
+## Transport & walk laws (added 19:15 after fabric measurement)
+- **QSFP fabric measured: 110 Gbit/s = 13.75 GB/s** (iperf3 s8→s3, 4 streams, 0 retransmits).
+  Any host-to-host bulk transfer under ~5 GB/s on QSFP is a TOOL defect (single-stream
+  ssh/scp pipe, single-threaded reader) — not a network limit. The old 0.6008 GB/s staging
+  receipt was tool-bound at ~4% of fabric. Bulk moves: ≥4 parallel streams / parallel
+  range-reads; cite measured GB/s in every stream receipt.
+- **Double-buffer always** (David, standing): every layer-walk instrument overlaps
+  next-layer load under current-layer compute. Walk cost = max(load, fwd) × layers, and at
+  fabric speed a 2.5 GB plane load is ~0.2 s — remote QSFP range-read can beat local NVMe.
+- **Scoring batch law**: default to the HIGHEST microbatch that fits (memory stop-rule);
+  batching is not expected to change correctness; bit parity is never the bar. A
+  decision-scale delta under batching = scorer bug to fix, not a reason to retreat to mb2.
+
 ## Scorer-instrument law (added 18:45; corrected 18:55 after a parity catch)
 Any lane scoring KLD/NLL against the wire MUST use a **sealed-parity** instrument: before
 its numbers count, it must reproduce a sealed baseline row on the same windows. The
