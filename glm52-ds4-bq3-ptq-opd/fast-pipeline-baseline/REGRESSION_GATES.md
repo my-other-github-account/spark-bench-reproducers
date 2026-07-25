@@ -1,12 +1,13 @@
-# REGRESSION_GATES.md — enforceable floors for the fast baseline (frozen 2026-07-24)
+# Enforceable floors for the P602 fast baseline (frozen 2026-07-25)
 
 ## Transport & walk laws (added 19:15 after fabric measurement)
-- **QSFP fabric measured: 110 Gbit/s = 13.75 GB/s** (iperf3 s8→s3, 4 streams, 0 retransmits).
+- **QSFP fabric measured: 110 Gbit/s = 13.75 GB/s** (GB10 peer-to-peer,
+  four streams, zero retransmits).
   Any host-to-host bulk transfer under ~5 GB/s on QSFP is a TOOL defect (single-stream
   ssh/scp pipe, single-threaded reader) — not a network limit. The old 0.6008 GB/s staging
   receipt was tool-bound at ~4% of fabric. Bulk moves: ≥4 parallel streams / parallel
   range-reads; cite measured GB/s in every stream receipt.
-- **Double-buffer always** (David, standing): every layer-walk instrument overlaps
+- **Double-buffer always** (requester, standing): every layer-walk instrument overlaps
   next-layer load under current-layer compute. Walk cost = max(load, fwd) × layers, and at
   fabric speed a 2.5 GB plane load is ~0.2 s — remote QSFP range-read can beat local NVMe.
 - **Scoring batch law**: default to the HIGHEST microbatch that fits (memory stop-rule);
@@ -37,13 +38,13 @@ negative research result.
 | Profile (full 43L/256E/512w) | ≤ 4,940s | 4,940.497s |
 | Anchor (one full43 row) | ≤ 2,700s | 2,699.213s |
 | Probe arm (one causal arm) | ≤ 2.64h | 2.632h |
-| Solve (task wall) | ≤ 1,290s | 1,286s |
+| Solve (task wall) | ≤ 720s | 678.339s, three OPTIMAL zero-gap cells |
 | **Build (per layer, tmpfs path)** | **≤ 168s** | 162.848s |
-| Build full readback | MUST PASS (keys/meta/dtypes/shapes/bytes, 512/512, hashes) | t_b92c95ef |
+| Build full readback | MUST PASS (keys/meta/dtypes/shapes/bytes, 512/512, hashes) | receipt `ab2be95a...` |
 | Rail (per window, system path) | ≤ 9.81s | 9.808s |
-| **Repair (per update, canonical config)** | **≤ 525s** | 428.124s best / 517.865s typical |
-| Visible eval (per task) | ≤ 40.64s, parity EXACT | 40.637s |
-| Teacher bank (full) | ≤ 7,560s | incumbent |
+| **Repair (per update, canonical config)** | **≤ 525s** | P602 520.314s / 520.249s |
+| Visible eval (full 164) | ≤ 5,400s, parity EXACT | 4,204.688s; 25.638s/task |
+| Teacher bank (canonical TRAIN-256) | ≤ 2,700s | 2,171.109s |
 | Package | ≤ 440s | 439s |
 | Staging (fabric) | ≥ 0.60 GB/s | 0.6008 GB/s (101GB in 168.71s) |
 
@@ -56,7 +57,7 @@ negative research result.
 | Eval/KLD kernel | ≤ 67 ms/8192 rows, delta ≤ 0.0005 | 66.5 ms, 0.0002 |
 | Loader | torch-mmap mandatory; ~125 s/leg class | 2.16× e2e |
 
-## Memory-safety gates (wedge prevention — spark-8 was power-cycled 2026-07-24)
+## Memory-safety gates
 
 - Any long process: log MemAvailable per phase; **checkpoint-and-stop if < 8 GB**.
 - Repair: canonical config ONLY (checkpointing + microbatching ON). Stripping them
@@ -68,8 +69,9 @@ negative research result.
 ## Serving anti-fake law
 
 A serving perf row is VOID unless its receipt contains ALL of:
-1. MemAvailable before bind and after weights load, with **drop ≥ 90 GB** (product scale);
-2. **VmHWM ≥ 90 GB** for the serving process;
+1. product-scale residency proof: anonymous bind with **MemAvailable drop >=90 GB**, or
+   file-backed bind with exact `mincore` residency for the declared product envelope;
+2. **VmHWM >=90 GB** for the serving process;
 3. **dedup/alias factor = 1** and physical:logical kernel-call ratio 1.00 ± 0.02;
 4. layer parity: qtip_layers == configured == active (43/43), unique per-layer sentinels;
 5. on-disk bytes ≤ 102,999,887,616 with sparse check (st_blocks × 512 vs apparent);
@@ -84,8 +86,8 @@ treat anything ≥ 3× that class as presumptively fake pending forensics.
 
 ## Reporting rules bound to this baseline
 
-- Uniform-placeholder serving rows must be labeled as such; the mixed-tier product row is
-  a separate, currently-unmeasured claim.
+- Uniform-placeholder serving rows must be labeled as such. The mixed-tier product row is
+  separately measured in the P530 six-cold-row receipt and remains systems-only.
 - Teacher postprocessing ≠ teacher generation; label which one a speedup applies to.
 - Kernel × ≠ system ×; report both and the adoption gap explicitly.
 - Train-window vs held-out labels on every quality number; capped ≠ null.

@@ -1,4 +1,4 @@
-# Results — sealed through 2026-07-19
+# Results — sealed through 2026-07-22
 
 All quality rows are measured unless marked **gate**, **pilot**, **in progress**, or **negative tombstone**. The canonical offline rail is 512 windows × 1,024 scored positions with corpus MD5 `1701920b4ba96dea0b18fe9df0151876`; smaller KL is better. The paired effect-size floor is ±2.6%.
 
@@ -17,7 +17,7 @@ All quality rows are measured unless marked **gate**, **pilot**, **in progress**
 | R4 input | d8/k4096 step-50 live re-anchor | 0.664968 → **0.502987** KL_vs_fp8, **+24.3592%** | sealed paired 512-window re-anchor; ABOVE_FLOOR; not comparable to d4 KL_vs_teacher rows |
 | R4 input | d4/k2048 repair | step-10 **−8.6358%** | negative tombstone; retain unrepaired anchor and do not relaunch |
 | Q2-FM | Q2-budget full-menu backpack, 95.75 GB total (88.2 GiB expert, 2.7348 expert bpw) | **0.131233** KL, top-1 0.893652 | sealed full-512 measured row; repair follow-on below |
-| Q2 fresh-200 step40 | warm-restart repair, 95.75 GB target | probe **0.0539241**, full-512 **0.0984825** KL | sealed miss: 6.2378% above the strict 0.0927 bar; parked |
+| Q2 fresh-200 step40 | warm-restart repair, 95.75 GB target | probe **0.0539241**, full-512 **0.0984825** KL | sealed miss: 36.6978% above direct-IQ4 matched-rail bar; parked |
 
 ### Provenance cautions
 
@@ -26,6 +26,9 @@ All quality rows are measured unless marked **gate**, **pilot**, **in progress**
 - The VQA d4/k256 and d8/k4096 rows are repaired-tier re-anchors, not backpack rows. The d8 row uses KL_vs_fp8 and must not be compared numerically with d4 KL_vs_teacher rows.
 - The earlier three-tier gate was 0.088607 on 64 windows. The sealed full-512 row is 0.091723; its first 64 windows reproduce the gate within 1e-6, and the difference is explained by block-to-block corpus heterogeneity rather than a composition mismatch.
 - GPTQ remains a pilot until the full-bin artifact is sealed.
+- The corrected direct-IQ4 bar comes from
+  `$MISSION_ROOT/UNSLOTH_FULL512/out/UNSLOTH_FULL512_SCOREBOARD.json`, SHA-256
+  `6ec59032b36ea4861d6bbf3be50dcd4db6f7f827d8ec2b3b8a0e5de6b7c05d74`.
 
 ## Active follow-ons
 
@@ -35,7 +38,7 @@ The deterministic all-measured-price rerun predicts **0.084342 raw / 0.087294 bi
 
 ### Q2-budget full-menu — measured full-512 (sealed 2026-07-18)
 
-The exact-Q2 full-menu build (95.75 GB total package, 88.2 GiB expert planes, 2.7348 effective expert bpw, 9,707 changed rows / 60.79 GB sparse delta over the base) sealed its measured full-512 rail at **0.131233** KL (JS 0.025516, top-1 0.893652, top-1-in-top-64 0.999134; 512 windows × 1,024 positions = 524,288 scored positions on the canonical corpus). This **misses the 0.0927 strict bar** (+41.6%) and lands 13.45% above the solver's 0.115678 prediction, consistent with the solver's known optimistic bias at the Q2 budget. Disposition per the preregistered plan: the bin proceeds into the repair track (expectation band 0.095–0.105 after Combo-class recovery) in parallel with a measured-price re-solve at the ~96 GB budget; whichever crosses the bar first becomes the product row.
+The exact-Q2 full-menu build (95.75 GB total package, 88.2 GiB expert planes, 2.7348 effective expert bpw, 9,707 changed rows / 60.79 GB sparse delta over the base) sealed its measured full-512 rail at **0.131233** KL (JS 0.025516, top-1 0.893652, top-1-in-teacher-top64 0.999134; 512 windows × 1,024 positions = 524,288 scored positions on the canonical corpus). It is **82.1569% above the corrected direct-IQ4 matched-rail bar** and lands 13.45% above the solver's 0.115678 prediction, consistent with the solver's known optimistic bias at the Q2 budget. The historical 0.0927 gate is retained only in its sealed receipt; it is not a reusable matched-rail target. Disposition per the preregistered plan remains repair/re-solve, but promotion now uses the direct matched-rail bar.
 
 ### COMBO V4-DATASCALE — terminal selection-panel result
 
@@ -84,8 +87,15 @@ Frozen instrument: EvalPlus 0.4.0.dev44 @ `26d6d00`, HumanEvalPlus v0.1.10, N=1 
 | Row | HumanEval pass@1 | HumanEval+ pass@1 | Package size | Whole-model bpw |
 |---|---:|---:|---:|---:|
 | API reference (`deepseek/deepseek-v4-flash`) | **98.2%** (161/164) | **91.5%** (150/164) | 159.63 GB measured (native source) | 4.49 |
-| Served UD-IQ4_XS | **98.2%** (161/164) | **92.7%** (152/164) | 137.90 GB | 3.88 |
-| Served repaired IQ3 16K | **95.73% (157/164)** | **90.85% (149/164)** | 101.95 GB | 2.87 |
+| Served UD-IQ4_XS | **98.2%** (161/164) | **94.5%** (155/164) | 137.90 GB | 3.88 |
+| Served repaired IQ3/BQ3 16K | **96.95% (159/164)** | **90.85% (149/164)** | 101.95 GB | 2.87 |
+| Served UD-IQ3_XXS | **96.95% (159/164)** | **92.07% (151/164)** | 103.00 GB | 2.90 |
+
+The preserved FP-as-served corpus separately rescored at 161/149. It is extraction-suspect because
+reasoning was discarded upstream and its cap/template parity remains under forensic review; it is
+not substituted for the provider-routed 161/150 reference. The IQ4 and IQ3 table rows bind f16 KV,
+context 17,408, server/client 4/4 from row 1, and fresh cache-free scoring. Parallel-1 and q8/mixed
+rows are invalid comparators.
 
 ## Tool evaluation
 
@@ -110,7 +120,7 @@ Frozen instrument: EvalPlus 0.4.0.dev44 @ `26d6d00`, HumanEvalPlus v0.1.10, N=1 
 
 ### Canary calibration
 
-The known code ordering is UD-IQ4_XS 161/164 HumanEval and 152/164 HumanEval+ versus repaired IQ3 157/164 and 149/164. Static and position-micro instruments did not reproduce it:
+The corrected code ordering is UD-IQ4_XS 161/164 HumanEval and 155/164 HumanEval+ versus repaired IQ3/BQ3 159/164 and 149/164. Static and position-micro instruments did not reproduce it:
 
 | instrument | IQ3 | IQ4 | verdict |
 |---|---:|---:|---|
@@ -153,7 +163,7 @@ See [`TAILFIX_BIN_T.md`](TAILFIX_BIN_T.md).
 
 ### Q2 full-512 sealed miss
 
-The fresh-200 warm restart found a new probe best at step40 (0.0539240856; checkpoint SHA-256 `62e250db2cdd3c9a13ae50f71637afd6554c743c5dc18eb384e1826ba9251d8d`), but the exact gate8-qualified full-512 row measured **0.0984824570** at 95.75 GB / 3.4471774 bpw. It misses the strict `<0.0927` target by 6.2378%. The artifact is parked. See [`Q2_FULL512_MISS.md`](Q2_FULL512_MISS.md).
+The fresh-200 warm restart found a new probe best at step40 (0.0539240856; checkpoint SHA-256 `62e250db2cdd3c9a13ae50f71637afd6554c743c5dc18eb384e1826ba9251d8d`), but the exact gate8-qualified full-512 row measured **0.0984824570** at 95.75 GB / 3.4471774 bpw. It is 36.6978% above the corrected direct-IQ4 matched-rail target. The artifact is parked. See [`Q2_FULL512_MISS.md`](Q2_FULL512_MISS.md).
 
 ### Pipeline acceleration
 

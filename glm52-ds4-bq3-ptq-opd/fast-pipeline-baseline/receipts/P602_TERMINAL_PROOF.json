@@ -1,0 +1,68 @@
+{
+  "comparators": {
+    "bq3_step0": {
+      "classes": {
+        "agentic": 0.08441002666950226,
+        "chat": 0.033820249140262604,
+        "code": 0.06724732369184494,
+        "multilingual": 0.13705866038799286,
+        "prose": 0.09666712582111359,
+        "reasoning": 0.021449530497193336
+      },
+      "global": 0.07706104218959808,
+      "source_sha256": "5a49b0d92cf7f1c403b2d6bb49487c6d97f273211d6b1c68efb27782a8a20a88"
+    },
+    "iq3": {
+      "classes": {
+        "agentic": 0.21216700435669544,
+        "chat": 0.160824086140312,
+        "code": 0.14996282999277796,
+        "multilingual": 0.24064873226915454,
+        "prose": 0.2498110261148719,
+        "reasoning": 0.1459998292664674
+      },
+      "global": 0.19323527469004656
+    },
+    "matched_iq4": {
+      "classes": {
+        "agentic": 0.10261288837188738,
+        "chat": 0.021995929801575626,
+        "code": 0.054215965394205624,
+        "multilingual": 0.1244332678873273,
+        "prose": 0.11508165533654922,
+        "reasoning": 0.01387832306782555
+      },
+      "global": 0.07203633869062742
+    },
+    "pre_repair": {
+      "classes": {
+        "agentic": 0.18055488866640634,
+        "chat": 0.0346663182305272,
+        "code": 0.10929560433785786,
+        "multilingual": 0.1876990252199065,
+        "prose": 0.2396727425290278,
+        "reasoning": 0.023830770308836662
+      },
+      "global": 0.12928655821542706,
+      "source_sha256": "33e95fc9607617ed703a09d3aedc409a4f366f37be6ec78b5931114ae23b79b2"
+    }
+  },
+  "interpretation": "Lower KLD is better. The terminal candidate beats IQ3 and pre-repair globally; it beats matched IQ4 in code and prose, but not globally. It does not beat BQ3 step0 globally. This is the winning measured terminal repair candidate, not a claim of universal comparator dominance.",
+  "schema": "p602-terminal-proof-table-v1",
+  "source_receipt_sha256": "7cedd750a0ef15376ad82f7950e0459a3ba6f2fe64effce045f0be292b42622a",
+  "terminal_candidate": {
+    "classes": {
+      "agentic": 0.11743831086216265,
+      "chat": 0.03286716418292094,
+      "code": 0.04170186701729041,
+      "multilingual": 0.1662451598066711,
+      "prose": 0.06461345573765714,
+      "reasoning": 0.05555758674747463
+    },
+    "generation_id": "3f4b607f-1e32-4a00-a7e7-d60d4d7f85bb",
+    "global": 0.08395439193535813,
+    "reduction_proof_sha256": "e971792c7c0d00905d072518281b07cbfbe0c4a7ee98e2d08738a96931055a38",
+    "result_sha256": "c841d74326cd58330829536040223913d25ff0e03fdb46d19ef04bda799668c4",
+    "status": "PASS"
+  }
+}

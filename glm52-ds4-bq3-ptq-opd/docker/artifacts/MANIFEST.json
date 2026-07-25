@@ -1,0 +1,96 @@
+{
+  "artifact": {
+    "bytes": 34660189,
+    "path": "mixed_tier_compact.pt"
+  },
+  "created_unix": 1784933131.2855532,
+  "elapsed_seconds": 5.572884559631348,
+  "kernel_classes": [
+    "_qtip_gemv",
+    "_truevq_d4_gemv",
+    "_truevq_d8_gemv",
+    "_native_mxfp4_gemv"
+  ],
+  "purpose": "serving-performance heterogeneity gate; compact real-format templates with uncalibrated values",
+  "quality_claim": false,
+  "schema": "mixed-tier-compact-artifact-v1",
+  "source_manifest_sha256": "b52e248ffe8925ab0fec6113f0fe595a5076055187cf8de4d32d5ded248beb83",
+  "sources": {
+    "genesis_package": {
+      "bytes": 101346700411,
+      "files": 1645,
+      "inventory_sha256": "cb00fc4e783ab97018bbe0642556820596a7846816fb0bcc55bd9f27b223b3bd"
+    },
+    "native_mxfp4": {
+      "layer": 42,
+      "selected": {
+        "down": {
+          "scales_selected_sha256": "999dd090f0b9a90fe187cbbd3d8fcefe3e8cd32d6a6b3af8a4e4327a4761c2ab",
+          "weights_selected_sha256": "c86179b4657f46b08460cbd4788a7f0ff1ccbc1deea6286f0924b2e3e875aada"
+        },
+        "fused13": {
+          "scales_selected_sha256": "5100d35be8a1afc88e5d34ac54ea9ebe2e9cdec7e5980d60d87b4670dff4e283",
+          "weights_selected_sha256": "9d7dea7d83cf4a1ed631fb89491c7fc46b2bbbcb015d9344f2f40085d108ab2d"
+        }
+      },
+      "tier": "native_mxfp4"
+    },
+    "qtip": {
+      "bytes": 1006645133,
+      "format": "uint8 C2/QTIP packed serving tensor; expert row 0 selected"
+    },
+    "truevq_d4": {
+      "d": 4,
+      "k": 2048,
+      "layer": 42,
+      "selected": {
+        "down": {
+          "codebook_selected_sha256": "38c5eaaff408cc9fc1e7c5a8fc4cce6977fc4cb51996b546373755c61d18eb72",
+          "codes_selected_packed_bytes": 2883584,
+          "codes_selected_packed_sha256": "8b95762a2072380f7d3116482cb7a8745d7ee09c36027f625b49be8819a26df3",
+          "scales_selected_sha256": "432563afb73b07fbe1db75dffbb0889dee24a7e63db97b4990c4229fa3fbdb1d"
+        },
+        "fused13": {
+          "codebook_selected_sha256": "6a476b17585d68ce0c33a9e5cc6a8e63ccabdbf6597703fdf8cd6ef5ae483004",
+          "codes_selected_packed_bytes": 5767168,
+          "codes_selected_packed_sha256": "6173783e092dbbf937d0b1db781950a17d0f649485fe329092a48d89f20646f0",
+          "scales_selected_sha256": "4a28e1207acc1b5d0fbdf8b1003f0068e5d9911ff703994d6c0ac631051ec4a0"
+        }
+      },
+      "tier": "d4_k2048"
+    },
+    "truevq_d8": {
+      "d": 8,
+      "k": 256,
+      "layer": 4,
+      "selected": {
+        "down": {
+          "codebook_selected_sha256": "82afd291f58ce182e35a810f9da119e30abaac854c715b2f0d4d32f3d82abf47",
+          "codes_selected_packed_bytes": 1048576,
+          "codes_selected_packed_sha256": "51536664b445a2f90abbaed96e1d6c91a3e22a02c1a4c10b4e04c17632defa99",
+          "scales_selected_sha256": "4fd3b7a63d746e7513fe7b6085032c06ced3587d419947b3bb202de88ba83ee0"
+        },
+        "fused13": {
+          "codebook_selected_sha256": "d345093a6bd11b156d63591dee017b1a52d6b3c640289ad0362a3c3327c52792",
+          "codes_selected_packed_bytes": 2097152,
+          "codes_selected_packed_sha256": "440ee63b32c6c4b1916d302215eac71aeb16c20caa354367a8af3c246cf0e8b7",
+          "scales_selected_sha256": "1f9de7e50c770595c5227ba428a0ee6b3d7d92bf01554e483dc4b450b38114a8"
+        }
+      },
+      "tier": "d8_k256"
+    }
+  },
+  "status": "PASS_BUILD",
+  "tier_map": {
+    "native_mxfp4": "expert_id % 4 == 3",
+    "qtip": "expert_id % 4 == 0",
+    "truevq_d4": "expert_id % 4 == 1",
+    "truevq_d8": "expert_id % 4 == 2"
+  },
+  "tier_map_counts": {
+    "native_mxfp4": 64,
+    "qtip": 64,
+    "truevq_d4": 64,
+    "truevq_d8": 64
+  }
+}

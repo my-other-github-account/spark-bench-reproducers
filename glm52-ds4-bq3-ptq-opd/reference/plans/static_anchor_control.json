@@ -1,0 +1,311 @@
+{
+  "arm": "control",
+  "batch": 4,
+  "exposures_by_class": {
+    "chat": 12,
+    "code": 12,
+    "prose": 12,
+    "reasoning": 12
+  },
+  "format": "combo-v4-tailfix-plan-v1",
+  "objective": "mean_kld",
+  "plan_sha256": "6ffabc0fca864676e4f07d979b1364b251b615d7910255e4ffbd1b961f1a97c1",
+  "probe_by_class": {
+    "chat": [
+      12,
+      13,
+      14,
+      15
+    ],
+    "code": [
+      112,
+      113,
+      114,
+      115
+    ],
+    "prose": [
+      162,
+      163,
+      164,
+      165
+    ],
+    "reasoning": [
+      62,
+      63,
+      64,
+      65
+    ]
+  },
+  "probe_wins": [
+    12,
+    13,
+    14,
+    15,
+    62,
+    63,
+    64,
+    65,
+    112,
+    113,
+    114,
+    115,
+    162,
+    163,
+    164,
+    165
+  ],
+  "schedule": [
+    {
+      "class": "chat",
+      "step": 1,
+      "wins": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "class": "reasoning",
+      "step": 2,
+      "wins": [
+        50,
+        51,
+        52,
+        53
+      ]
+    },
+    {
+      "class": "code",
+      "step": 3,
+      "wins": [
+        100,
+        101,
+        102,
+        103
+      ]
+    },
+    {
+      "class": "prose",
+      "step": 4,
+      "wins": [
+        150,
+        151,
+        152,
+        153
+      ]
+    },
+    {
+      "class": "chat",
+      "step": 5,
+      "wins": [
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "class": "reasoning",
+      "step": 6,
+      "wins": [
+        54,
+        55,
+        56,
+        57
+      ]
+    },
+    {
+      "class": "code",
+      "step": 7,
+      "wins": [
+        104,
+        105,
+        106,
+        107
+      ]
+    },
+    {
+      "class": "prose",
+      "step": 8,
+      "wins": [
+        154,
+        155,
+        156,
+        157
+      ]
+    },
+    {
+      "class": "chat",
+      "step": 9,
+      "wins": [
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "class": "reasoning",
+      "step": 10,
+      "wins": [
+        58,
+        59,
+        60,
+        61
+      ]
+    },
+    {
+      "class": "code",
+      "step": 11,
+      "wins": [
+        108,
+        109,
+        110,
+        111
+      ]
+    },
+    {
+      "class": "prose",
+      "step": 12,
+      "wins": [
+        158,
+        159,
+        160,
+        161
+      ]
+    }
+  ],
+  "start_checkpoint_next_step": 32,
+  "start_checkpoint_sha256": "fae41d519193269aec4b2221c97a1dc00e0b00d3d66074d917a78489fac2149c",
+  "step_counts": {
+    "chat": 3,
+    "code": 3,
+    "prose": 3,
+    "reasoning": 3
+  },
+  "steps": 12,
+  "tail_token_boost": null,
+  "tail_token_quantile": null,
+  "tail_window_boost": null,
+  "tail_window_quantile": null,
+  "target_gradient_mass_by_class": {
+    "chat": 0.25,
+    "code": 0.25,
+    "prose": 0.25,
+    "reasoning": 0.25
+  },
+  "total_window_exposures": 48,
+  "train_by_class": {
+    "chat": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "code": [
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111
+    ],
+    "prose": [
+      150,
+      151,
+      152,
+      153,
+      154,
+      155,
+      156,
+      157,
+      158,
+      159,
+      160,
+      161
+    ],
+    "reasoning": [
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61
+    ]
+  },
+  "train_wins": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    150,
+    151,
+    152,
+    153,
+    154,
+    155,
+    156,
+    157,
+    158,
+    159,
+    160,
+    161
+  ],
+  "trajectory_batch": null,
+  "trajectory_caveat": null,
+  "trajectory_task_ids": [],
+  "trajectory_weight": null
+}

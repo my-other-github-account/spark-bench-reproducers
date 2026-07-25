@@ -9,9 +9,10 @@ prefill recipes target PP-heavy throughput instead.
 
 ## Recipes
 
-| Directory | Model | Quant | Spec method | Headline (tok/s) | Status |
+| Directory | Model | Quant | Spec method | Headline | Status |
 |---|---|---|---|---|---|
 | [deepseek-v4-flash-iq3-vq-warp-gb10](deepseek-v4-flash-iq3-vq-warp-gb10) | DeepSeek-V4-Flash (MoE) | IQ3 mixed-VQ | none (raw AR) | **14.13 full-4K tok/s** live; **14.99 container 5x64**; warp-vs-bitwise quality **PASS** (+0.000297%), common served-vs-offline drift +1.344% | ⚠️ research-only reproducer |
+| [glm52-ds4-bq3-ptq-opd](glm52-ds4-bq3-ptq-opd) | DeepSeek-V4-Flash (MoE) | **BQ3, 101.36 GB** | PTQ-OPD behavioral repair | **160/164 HumanEval base, 150/164 plus** at unchanged bytes; clean held-out18 flat | ✅ method + receipts |
 | [qwen36-27b-dflash-spark](qwen36-27b-dflash-spark) | Qwen3.6-27B (dense) | NVFP4 / GGUF | DFlash / DFlash-DDTree | **32.83 median** vLLM; **55.17** Lucebox fixed-serving grid | ✅ shipped + archived |
 | [qwen36-27b-atlas-dflash-gb10](qwen36-27b-atlas-dflash-gb10) | Qwen3.6-27B | NVFP4 | native Rust Atlas DFlash archive | **29.31 tok/s** source-fix Sherlock r3 | ✅ audit bundle |
 | [qwen35-atlas-dflash-nvfp4-spark1](qwen35-atlas-dflash-nvfp4-spark1) | Qwen3.5-27B | NVFP4 | native Rust Atlas DFlash (`gamma=3`, all-quant forward-block) | **21.28 output tok/s**, **1.619x** vs AR on full72 c1; 30 tok/s retarget in progress | ✅ legal PASS repro bundle |
