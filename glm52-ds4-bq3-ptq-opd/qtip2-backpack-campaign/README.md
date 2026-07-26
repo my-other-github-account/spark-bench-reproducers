@@ -43,5 +43,9 @@ vs a +23.1% post-repair lead over IQ4 — projected post-dose lead ~20%.
 - `REPRO.md` — full reproduction: menu build, solve, wire assembly, rail scoring, dose.
 - `LESSONS.md` — laws + failure catalog (solver calibration, scorer instruments, fleet ops).
 
+- `UPDATE_2026-07-26.md` — overnight menu campaign, turbo full-menu wire (−32.9% solve, build, composition), dosed-wire first results (code76 0.04204), pricing science (anchors doctrine, class-scaling, BALANCED64), leakage protocol, current plan.
+- `PROCEDURES.md` — the process manual: 10 recipes (solve, overlay build, rail, fast reads, anchors, pricing, dose, acceleration adoption, fleet ops, eval integrity).
+- `BALANCED64_V1.json` — the standard fast-read window set (design method, error budget, governance).
+
 Companion docs in this repo: `../fast-pipeline-baseline/` (pipeline stages + regression gates),
 `../METHOD.md`, `../RESULTS.md` (campaign-wide), `REGRESSION_GATES.md` (laws, updated today).
