@@ -1,0 +1,10 @@
+{
+ "schema": "p656-harness-fix-provenance-v1",
+ "time": 1785029393.4032342,
+ "file": "code/full512_safety.py",
+ "change": "retire_scratch prefix filter extended to overlay_layer_*/.overlay_layer_* (loader staging dirs were surviving retirement, tripping assert_scratch_empty between layers)",
+ "old_sha256": "52a9d550b1a02fed2a524f00a66e85dee5653464ed2eb1b0ab597cb4873d9519",
+ "new_sha256": "b45f6eef933ac51d2c5f1693f21f1859945a9ad9d18741dd0732fa3956275e0c",
+ "operator": "parent-direct",
+ "authorized_by": "operator ASAP order 18:50"
+}

@@ -20,6 +20,30 @@ positions scored per window, KL(teacher||candidate), teacher = FP reference.
 - Sealed baselines: pre-repair full-512 per-window bank (PRE_REPAIR_FULL512.json,
   global 0.128374); dosed U030 full-512 view (P623_BASELINE_FULL512_VIEW.json, 0.08395).
 
+### Public source tree and provenance
+
+The runnable campaign code is under [`../tools/qtip2-backpack-campaign/`](../tools/qtip2-backpack-campaign/), grouped as `solver/`, `builders/`, `rail/`,
+`dose/`, and `misc/`. Its `TOOLS_MANIFEST.md` maps every file to this REPRO stage,
+its exact live-fleet source SHA-256, the privacy-scrubbed shipped SHA-256, and the origin
+mission receipt; `TOOLS_MANIFEST.json` is the machine-readable companion.
+`../SOURCE_MANIFEST.sha256` pins every shipped tool.
+
+All private homes, hostnames, addresses, task identifiers, and identities were replaced with
+documented placeholders. Expand or replace `$HOME`, `compute-node-*`, and TEST-NET addresses
+before execution; do not remove exactness, memory, source-identity, or stopped-mission gates.
+The P672 package under `../tools/qtip2-backpack-campaign/dose/p672-package/` is the executed
+continuation of the P662 diagnosis and retains a passing apply/rollback and 23-file bundle
+verifier after public re-sealing. The solver input schema is published without the external
+weights, QTIP units, assignments, or teacher tensors; those remain byte-count/SHA pointers.
+
+From `glm52-ds4-bq3-ptq-opd/`, repeat the publication gates with:
+
+```bash
+python3 tools/publication_audit.py
+shasum -a 256 -c SOURCE_MANIFEST.sha256
+python3 tools/qtip2-backpack-campaign/dose/p672-package/verify_bundle.py
+```
+
 ## Stage 1 — The solve (minutes, CPU-only)
 
 Configuration REQUIRED (each item's absence produced a false no-take today):

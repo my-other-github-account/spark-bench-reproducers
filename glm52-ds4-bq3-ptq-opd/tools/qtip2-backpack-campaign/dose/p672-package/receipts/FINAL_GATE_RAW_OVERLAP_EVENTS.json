@@ -1,0 +1,303 @@
+{
+  "assembly_seconds": 65.32356613304,
+  "call_parity": {
+    "actual_p13_cold": 1024,
+    "actual_p13_full43": 11008,
+    "actual_routed_cold": 4,
+    "actual_routed_full43": 43,
+    "expected_p13_cold": 1024,
+    "expected_p13_full43": 11008,
+    "expected_routed_cold": 4,
+    "expected_routed_full43": 43,
+    "pass": true
+  },
+  "exactness": {
+    "cache_exact_16_of_16": true,
+    "cache_finite_16_of_16": true,
+    "cold_cache_rows": [
+      {
+        "candidate_finite": true,
+        "exact_equal": true,
+        "max_abs": 0.0,
+        "reference_finite": true,
+        "win": 20
+      },
+      {
+        "candidate_finite": true,
+        "exact_equal": true,
+        "max_abs": 0.0,
+        "reference_finite": true,
+        "win": 21
+      },
+      {
+        "candidate_finite": true,
+        "exact_equal": true,
+        "max_abs": 0.0,
+        "reference_finite": true,
+        "win": 22
+      },
+      {
+        "candidate_finite": true,
+        "exact_equal": true,
+        "max_abs": 0.0,
+        "reference_finite": true,
+        "win": 23
+      },
+      {
+        "candidate_finite": true,
+        "exact_equal": true,
+        "max_abs": 0.0,
+        "reference_finite": true,
+        "win": 24
+      },
+      {
+        "candidate_finite": true,
+        "exact_equal": true,
+        "max_abs": 0.0,
+        "reference_finite": true,
+        "win": 25
+      },
+      {
+        "candidate_finite": true,
+        "exact_equal": true,
+        "max_abs": 0.0,
+        "reference_finite": true,
+        "win": 26
+      },
+      {
+        "candidate_finite": true,
+        "exact_equal": true,
+        "max_abs": 0.0,
+        "reference_finite": true,
+        "win": 27
+      }
+    ],
+    "finite": true,
+    "l0_cache_rows": [
+      {
+        "candidate_finite": true,
+        "exact_equal": true,
+        "max_abs": 0.0,
+        "reference_finite": true,
+        "win": 20
+      },
+      {
+        "candidate_finite": true,
+        "exact_equal": true,
+        "max_abs": 0.0,
+        "reference_finite": true,
+        "win": 21
+      },
+      {
+        "candidate_finite": true,
+        "exact_equal": true,
+        "max_abs": 0.0,
+        "reference_finite": true,
+        "win": 22
+      },
+      {
+        "candidate_finite": true,
+        "exact_equal": true,
+        "max_abs": 0.0,
+        "reference_finite": true,
+        "win": 23
+      },
+      {
+        "candidate_finite": true,
+        "exact_equal": true,
+        "max_abs": 0.0,
+        "reference_finite": true,
+        "win": 24
+      },
+      {
+        "candidate_finite": true,
+        "exact_equal": true,
+        "max_abs": 0.0,
+        "reference_finite": true,
+        "win": 25
+      },
+      {
+        "candidate_finite": true,
+        "exact_equal": true,
+        "max_abs": 0.0,
+        "reference_finite": true,
+        "win": 26
+      },
+      {
+        "candidate_finite": true,
+        "exact_equal": true,
+        "max_abs": 0.0,
+        "reference_finite": true,
+        "win": 27
+      }
+    ],
+    "model_grad_update_receipt": "$HOME/run-bundles/P672_ACTCACHE_P13_PUBLIC_TASK_s5w/final_gate/GRAD_UPDATE_EXACT.json",
+    "model_grad_update_receipt_sha256": "61ca0de1a636c622fa921ce21330a52e0cd84f3fba82c4012ba3801fb18a812b",
+    "model_output_input_grad_parameter_grad_update_pass": true,
+    "routed_backward_receipt": "$HOME/run-bundles/P672_ACTCACHE_P13_PUBLIC_TASK_s5w/gates/REAL_ROUTED_BACKWARD_EXACT.json",
+    "routed_backward_receipt_sha256": "afcd603ebb636ea599f14a6379e3d16a529a838c536f0ca0dab425c2f19b7084",
+    "routed_output_input_grad_parameter_grad_update_pass": true,
+    "scorer_decision_precision_8_of_8": true,
+    "scorer_exact_8_of_8": true,
+    "scorer_finite_8_of_8": true,
+    "scorer_rows": [
+      {
+        "abs_delta": 0.0,
+        "candidate": 0.03710725158452988,
+        "decision_precision_pass_1e_5": true,
+        "exact_equal": true,
+        "finite": true,
+        "sealed_b32": 0.03710725158452988,
+        "win": 20
+      },
+      {
+        "abs_delta": 0.0,
+        "candidate": 0.15442797541618347,
+        "decision_precision_pass_1e_5": true,
+        "exact_equal": true,
+        "finite": true,
+        "sealed_b32": 0.15442797541618347,
+        "win": 21
+      },
+      {
+        "abs_delta": 0.0,
+        "candidate": 0.10113545507192612,
+        "decision_precision_pass_1e_5": true,
+        "exact_equal": true,
+        "finite": true,
+        "sealed_b32": 0.10113545507192612,
+        "win": 22
+      },
+      {
+        "abs_delta": 0.0,
+        "candidate": 0.16858714818954468,
+        "decision_precision_pass_1e_5": true,
+        "exact_equal": true,
+        "finite": true,
+        "sealed_b32": 0.16858714818954468,
+        "win": 23
+      },
+      {
+        "abs_delta": 0.0,
+        "candidate": 0.16310837864875793,
+        "decision_precision_pass_1e_5": true,
+        "exact_equal": true,
+        "finite": true,
+        "sealed_b32": 0.16310837864875793,
+        "win": 24
+      },
+      {
+        "abs_delta": 0.0,
+        "candidate": 0.13432234525680542,
+        "decision_precision_pass_1e_5": true,
+        "exact_equal": true,
+        "finite": true,
+        "sealed_b32": 0.13432234525680542,
+        "win": 25
+      },
+      {
+        "abs_delta": 0.0,
+        "candidate": 0.061689119786024094,
+        "decision_precision_pass_1e_5": true,
+        "exact_equal": true,
+        "finite": true,
+        "sealed_b32": 0.061689119786024094,
+        "win": 26
+      },
+      {
+        "abs_delta": 0.0,
+        "candidate": 0.04669875651597977,
+        "decision_precision_pass_1e_5": true,
+        "exact_equal": true,
+        "finite": true,
+        "sealed_b32": 0.04669875651597977,
+        "win": 27
+      }
+    ]
+  },
+  "host": "compute-node-5-work",
+  "lever_adjudication": {
+    "expert_compute_order": "canonical ascending hit-expert order is unchanged; tier grouping is payload-only within each group",
+    "fixed_shape_decoder": "single Triton packed-code kernel emits int32 codes without eager arange/byte/shift temporaries",
+    "one_batch_ahead_overlap": "dedicated CUDA payload stream stages and decodes the next group after current expert kernels are launched",
+    "persistent_readonly_mmap": "p13 code/weight/scale maps are opened once per physical layer module",
+    "pinned_double_buffered_gather": "two process-wide pinned host slots gather exact selected rows with contiguous copy or numpy.take(out=)",
+    "reserve_aware_floor": "each next-group admission subtracts packed, scale, and decoded-code reserve before enforcing 32 GiB"
+  },
+  "memory": {
+    "cold_min_available_bytes": 45222637568,
+    "floor_pass": true,
+    "full43_min_available_bytes": 39540342784,
+    "minimum_available_bytes": 39540342784,
+    "minimum_available_gib": 36.82481384277344,
+    "required_minimum_gib": 32.0
+  },
+  "overall_pass": false,
+  "projected_24_update_dose": {
+    "arithmetic": "40*(1.259906070-1.110734030)/60 + 3*40*(12.394692568-11.258624845)/60",
+    "incremental_minutes_saved_vs_p649": 2.3715834737279997
+  },
+  "routed_total": {
+    "after_seconds": {
+      "cold_l4": 22.773765607969835,
+      "combined_47_layers": 298.8878501091385,
+      "full43_scorer": 276.1140845011687
+    },
+    "before_seconds": {
+      "cold_l4": 27.823548439890146,
+      "combined_47_layers": 351.03980721416883,
+      "full43_scorer": 323.2162587742787
+    },
+    "speedup_combined_47_layers": 1.1744867082619352
+  },
+  "schema": "p672-p13-pipeline-canonical-full43-gate-v1",
+  "selected_ladder_row": "p672_pipeline_g1",
+  "selected_p13_group": 1,
+  "source_identity": {
+    "base_binrepair_sha256": "59cacb05b547c58329809b8f1d7c3a52011ecdd58b2eddb2302c0e3cb521125d",
+    "fused_expert_linear_sha256": "4ce65fab1ec75775d88ff53d73a1c2a15d13723865a2ffc4047561cb732eb840",
+    "ladder_path": "$HOME/run-bundles/P672_ACTCACHE_P13_PUBLIC_TASK_s5w/experiments/p13_pipeline_ladder/P13_PIPELINE_LADDER.json",
+    "ladder_sha256": "44d12b7a56363713239d97dcc345ffc16a6945582b4b51dbb3c06f10b1b73f26",
+    "p649_final_gate_path": "$HOME/run-bundles/P649_ROUTED_EXPERTS_PUBLIC_TASK_s5w/candidate_gate_r4_postimage/FINAL_GATE.json",
+    "p649_final_gate_sha256": "804a47fb600ac381a5d6b323af2495a689deab2dd504545c6321f64770f57d81",
+    "p649_physical_sha256": "c561530422356701694ab10e121c2d51b2a7ef8c34c7457f15493785204ac184",
+    "p672_physical_sha256": "fac49a646b9bc38b1b8dd5ec46e3a005544fede26e7dfdd40d958e24ea1c16d8",
+    "profile_path": "$HOME/run-bundles/P672_ACTCACHE_P13_PUBLIC_TASK_s5w/profile/INNER_PROFILE.json",
+    "profile_sha256": "6e13e40cbc40e09e01030cdfa0fbb687ac702099c0669909825f7a4b470c44c4"
+  },
+  "target_sink": {
+    "after_seconds": {
+      "cold_l4": 8.069628119468689,
+      "combined_47_layers": 117.12977356141803,
+      "full43_scorer": 109.06014544194935
+    },
+    "before_seconds": {
+      "cold_l4": 9.902472150802613,
+      "combined_47_layers": 108.55264682102204,
+      "full43_scorer": 98.65017467021943
+    },
+    "host_submission_seconds": {
+      "cold_l4": 6.324202715069987,
+      "full43_scorer": 83.95764417736791
+    },
+    "measurement": "deferred CUDA event pairs on the dedicated p13 stream; one outer routed-stage synchronization per layer, plus separately reported host submission wall",
+    "name": "payload_io_decode_p13",
+    "pass": false,
+    "required_speedup": 1.5,
+    "speedup_combined_47_layers": 0.9267724466666154
+  },
+  "task_id": "PUBLIC_TASK",
+  "wall": {
+    "after_seconds": {
+      "cold_l4": 35.54348896094598,
+      "full43_scorer": 360.2759950309992
+    },
+    "before_seconds": {
+      "cold_l4": 40.31699424399994,
+      "full43_scorer": 396.6301621829625
+    },
+    "full43_seconds_per_layer": 8.378511512348819,
+    "full43_seconds_per_window": 11.258624844718724,
+    "full43_speedup": 1.1009064374350983
+  }
+}

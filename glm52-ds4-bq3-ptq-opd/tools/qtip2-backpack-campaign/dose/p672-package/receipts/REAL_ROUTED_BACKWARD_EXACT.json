@@ -1,0 +1,168 @@
+{
+  "adjudication": {
+    "absolute_tolerance": 1e-05,
+    "bit_exactness_required": false,
+    "contract": "P649 routed-gradient/update decision precision",
+    "reason": "The sealed P649 gate accepts finite parameter-gradient and optimizer-update deltas <=1e-5 while requiring bit-exact routed output and input-gradient. P672 preserves that established contract."
+  },
+  "all_finite": true,
+  "all_optimizer_updates_at_decision_precision": true,
+  "all_optimizer_updates_bit_exact": false,
+  "all_parameter_gradients_at_decision_precision": true,
+  "all_parameter_gradients_bit_exact": false,
+  "experts": [
+    0,
+    1
+  ],
+  "input_gradient": {
+    "decision_precision_pass_1e_5": true,
+    "exact_equal": true,
+    "finite": true,
+    "max_abs": 0.0,
+    "mean_abs": 0.0
+  },
+  "layer": 0,
+  "loss_exact_equal": true,
+  "optimizer_updates": [
+    {
+      "decision_precision_pass_1e_5": true,
+      "exact_equal": true,
+      "finite": true,
+      "max_abs": 0.0,
+      "mean_abs": 0.0,
+      "name": "d4_k1024__13"
+    },
+    {
+      "decision_precision_pass_1e_5": true,
+      "exact_equal": true,
+      "finite": true,
+      "max_abs": 0.0,
+      "mean_abs": 0.0,
+      "name": "d4_k2048__13"
+    },
+    {
+      "decision_precision_pass_1e_5": true,
+      "exact_equal": true,
+      "finite": true,
+      "max_abs": 0.0,
+      "mean_abs": 0.0,
+      "name": "d4_k256__13"
+    },
+    {
+      "decision_precision_pass_1e_5": true,
+      "exact_equal": true,
+      "finite": true,
+      "max_abs": 0.0,
+      "mean_abs": 0.0,
+      "name": "d4_k4096__13"
+    },
+    {
+      "decision_precision_pass_1e_5": true,
+      "exact_equal": true,
+      "finite": true,
+      "max_abs": 0.0,
+      "mean_abs": 0.0,
+      "name": "d4_k1024__2"
+    },
+    {
+      "decision_precision_pass_1e_5": true,
+      "exact_equal": false,
+      "finite": true,
+      "max_abs": 1.7763568394002505e-15,
+      "mean_abs": 2.168404344971009e-19,
+      "name": "d4_k2048__2"
+    },
+    {
+      "decision_precision_pass_1e_5": true,
+      "exact_equal": true,
+      "finite": true,
+      "max_abs": 0.0,
+      "mean_abs": 0.0,
+      "name": "d4_k256__2"
+    },
+    {
+      "decision_precision_pass_1e_5": true,
+      "exact_equal": true,
+      "finite": true,
+      "max_abs": 0.0,
+      "mean_abs": 0.0,
+      "name": "d4_k4096__2"
+    }
+  ],
+  "output": {
+    "decision_precision_pass_1e_5": true,
+    "exact_equal": true,
+    "finite": true,
+    "max_abs": 0.0,
+    "mean_abs": 0.0
+  },
+  "overall_pass": true,
+  "p649_reference_sha256": "c561530422356701694ab10e121c2d51b2a7ef8c34c7457f15493785204ac184",
+  "p672_candidate_sha256": "fac49a646b9bc38b1b8dd5ec46e3a005544fede26e7dfdd40d958e24ea1c16d8",
+  "parameter_gradients": [
+    {
+      "decision_precision_pass_1e_5": true,
+      "exact_equal": false,
+      "finite": true,
+      "max_abs": 1.280568540096283e-09,
+      "mean_abs": 7.44551087450418e-11,
+      "name": "d4_k1024__13"
+    },
+    {
+      "decision_precision_pass_1e_5": true,
+      "exact_equal": false,
+      "finite": true,
+      "max_abs": 1.5133991837501526e-09,
+      "mean_abs": 7.86238851802068e-11,
+      "name": "d4_k2048__13"
+    },
+    {
+      "decision_precision_pass_1e_5": true,
+      "exact_equal": true,
+      "finite": true,
+      "max_abs": 0.0,
+      "name": "d4_k256__13"
+    },
+    {
+      "decision_precision_pass_1e_5": true,
+      "exact_equal": true,
+      "finite": true,
+      "max_abs": 0.0,
+      "name": "d4_k4096__13"
+    },
+    {
+      "decision_precision_pass_1e_5": true,
+      "exact_equal": false,
+      "finite": true,
+      "max_abs": 1.0186340659856796e-10,
+      "mean_abs": 4.393430064197901e-12,
+      "name": "d4_k1024__2"
+    },
+    {
+      "decision_precision_pass_1e_5": true,
+      "exact_equal": false,
+      "finite": true,
+      "max_abs": 1.4551915228366852e-10,
+      "mean_abs": 5.362293942212659e-12,
+      "name": "d4_k2048__2"
+    },
+    {
+      "decision_precision_pass_1e_5": true,
+      "exact_equal": true,
+      "finite": true,
+      "max_abs": 0.0,
+      "name": "d4_k256__2"
+    },
+    {
+      "decision_precision_pass_1e_5": true,
+      "exact_equal": true,
+      "finite": true,
+      "max_abs": 0.0,
+      "name": "d4_k4096__2"
+    }
+  ],
+  "schema": "p672-real-routed-expert-backward-update-gate-v2",
+  "selected_p13_group": 1,
+  "task_id": "PUBLIC_TASK",
+  "tokens": 2
+}

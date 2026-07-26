@@ -1,0 +1,394 @@
+--- base_binrepair_e2e.py
++++ base_binrepair_e2e_accel.py
+@@ -38,6 +38,7 @@
+ import sys
+ import time
+ import traceback
++from concurrent.futures import Future, ThreadPoolExecutor
+ from pathlib import Path
+
+ import torch
+@@ -354,43 +355,147 @@
+
+
+ # ============================================== activation cache
++def batch_stable_layer(layer, hidden_states, *, position_embeddings,
++                       position_ids, attention_mask, input_ids,
++                       past_key_values):
++    """Batch the expensive invariant paths without changing batch-1 numerics.
++
++    DeepSeek-V4's attention and the packed routed-expert Triton kernels are
++    row-stable across batch sizes.  Its mHC projections, router/shared-expert
++    dense GEMMs, and residual batched matmuls are not: changing B changes the
++    GEMM algorithm and moves BF16 rows enough to alter repair decisions.  Keep
++    those shape-sensitive operations at their sealed B=1 shape while batching
++    attention and routed experts across all windows.  Concatenation preserves
++    autograd, so the same helper is valid for cache builds, scoring and train.
++    """
++    batch = int(hidden_states.shape[0])
++    if batch == 1:
++        return layer(
++            hidden_states, position_embeddings=position_embeddings,
++            position_ids=position_ids, attention_mask=attention_mask,
++            input_ids=input_ids, past_key_values=past_key_values,
++        )
++
++    dtype = hidden_states.dtype
++
++    def per_window(module, tensor):
++        rows = [module(tensor[index:index + 1]) for index in range(batch)]
++        if isinstance(rows[0], tuple):
++            return tuple(torch.cat([row[item] for row in rows], dim=0)
++                         for item in range(len(rows[0])))
++        return torch.cat(rows, dim=0)
++
++    post, comb, collapsed = per_window(layer.attn_hc, hidden_states)
++    attn_output, _ = layer.self_attn(
++        layer.input_layernorm(collapsed),
++        position_embeddings=position_embeddings,
++        position_ids=position_ids,
++        attention_mask=attention_mask,
++        past_key_values=past_key_values,
++    )
++    hidden_states = torch.cat([
++        post[index:index + 1].to(dtype).unsqueeze(-1)
++        * attn_output[index:index + 1].unsqueeze(-2)
++        + torch.matmul(
++            comb[index:index + 1].to(dtype).transpose(-1, -2),
++            hidden_states[index:index + 1],
++        )
++        for index in range(batch)
++    ], dim=0)
++
++    post, comb, collapsed = per_window(layer.ffn_hc, hidden_states)
++    normalized = layer.post_attention_layernorm(collapsed)
++    gate_rows = []
++    for index in range(batch):
++        row = normalized[index:index + 1]
++        if layer.mlp.is_hash:
++            gate_rows.append(layer.mlp.gate(
++                row, input_ids[index:index + 1]
++            ))
++        else:
++            gate_rows.append(layer.mlp.gate(row))
++    weights = torch.cat([row[1] for row in gate_rows], dim=0)
++    indices = torch.cat([row[2] for row in gate_rows], dim=0)
++    routed = layer.mlp.experts(
++        normalized.reshape(-1, normalized.shape[-1]), indices, weights
++    ).view_as(normalized)
++    shared = per_window(layer.mlp.shared_experts, normalized)
++    mlp_output = routed + shared
++    return torch.cat([
++        post[index:index + 1].to(dtype).unsqueeze(-1)
++        * mlp_output[index:index + 1].unsqueeze(-2)
++        + torch.matmul(
++            comb[index:index + 1].to(dtype).transpose(-1, -2),
++            hidden_states[index:index + 1],
++        )
++        for index in range(batch)
++    ], dim=0)
++
++
+ class ActCache:
+     def __init__(self, student):
+         self.student = student
+         self.mem = {}
++        self._io_workers = max(1, int(os.environ.get("BR_CACHE_IO_WORKERS", "4")))
++        self._io_pool = ThreadPoolExecutor(
++            max_workers=self._io_workers, thread_name_prefix="actcache-io"
++        )
++        self._prefetch: dict[int, Future] = {}
+         ACTCACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+     def path(self, k):
+         return ACTCACHE_DIR / f"win{k}.pt"
+
+-    def _load(self, k):
+-        payload = torch.load(self.path(k), map_location=DEV, mmap=True,
+-                             weights_only=False)
++    def _validate(self, k, payload):
+         expected = {"win": k, "upto": FIRST_TRAIN, "cache_id": CACHE_ID}
+         bad = {key: (payload.get(key), val) for key, val in expected.items()
+                if payload.get(key) != val}
+         if bad:
+             raise RuntimeError(f"actcache identity mismatch {k}: {bad}")
+-        self.mem[k] = payload["h"]
+-        emit(event="actcache_load", win=k)
+-
+-    def build_many(self, corpus, wins):
+-        missing = []
+-        for k in wins:
+-            if k in self.mem:
++
++    def _load_cpu(self, k):
++        """Mmap one cache on CPU, validate it, then fault pages in off-thread."""
++        payload = torch.load(self.path(k), map_location="cpu", mmap=True,
++                             weights_only=False)
++        self._validate(k, payload)
++        # torch.load(mmap=True) preserves the durable mmap contract. clone() in
++        # the worker faults pages before the GPU asks for them, allowing actual
++        # double buffering with the current model walk.
++        return payload["h"].contiguous().clone()
++
++    def prefetch_many(self, wins):
++        submitted = []
++        for k in dict.fromkeys(map(int, wins)):
++            if k in self.mem or k in self._prefetch or not self.path(k).is_file():
+                 continue
+-            if self.path(k).exists():
+-                self._load(k)
+-            else:
+-                missing.append(k)
+-        if not missing:
+-            return
++            self._prefetch[k] = self._io_pool.submit(self._load_cpu, k)
++            submitted.append(k)
++        if submitted:
++            emit(event="actcache_prefetch", wins=submitted,
++                 io_workers=self._io_workers)
++
++    def _load(self, k):
++        started = time.perf_counter()
++        future = self._prefetch.pop(k, None)
++        cpu_hidden = future.result() if future is not None else self._load_cpu(k)
++        self.mem[k] = cpu_hidden.to(DEV, non_blocking=True)
++        emit(event="actcache_load", win=k, prefetched=future is not None,
++             secs=time.perf_counter() - started)
++
++    def _save_one(self, k, cpu_hidden):
++        p = self.path(k)
++        tmp = Path(str(p) + f".{os.getpid()}.tmp")
++        torch.save({"h": cpu_hidden, "win": k, "upto": FIRST_TRAIN,
++                    "cache_id": CACHE_ID, "manifest_md5": AMD5,
++                    "ts": time.time()}, tmp)
++        os.replace(tmp, p)
++
++    def _build_batch(self, corpus, batch_wins, max_batch):
+         ids = torch.stack([T.window_ids(corpus, k)[0]
+-                           for k in missing]).to(DEV)
+-        t0 = time.time()
++                           for k in batch_wins]).to(DEV)
++        started = time.perf_counter()
+         m, config = self.student.model, self.student.config
+-        from transformers.masking_utils import (
+-            create_sliding_window_causal_mask)
++        from transformers.masking_utils import create_sliding_window_causal_mask
+         from transformers.cache_utils import DynamicCache
+         pos = torch.arange(ids.shape[1], device=DEV).unsqueeze(0)
+         embeds = m.model.embed_tokens(ids)
+@@ -404,28 +509,61 @@
+         hidden = embeds.unsqueeze(2).expand(
+             -1, -1, config.hc_mult, -1).contiguous()
+         del embeds
++        layer_seconds = []
+         with torch.no_grad():
+             for Li in range(FIRST_TRAIN):
+-                hidden = m.model.layers[Li](
+-                    hidden, position_embeddings=pe, position_ids=pos,
+-                    attention_mask=mask, input_ids=ids,
++                layer_started = time.perf_counter()
++                hidden = batch_stable_layer(
++                    m.model.layers[Li], hidden, position_embeddings=pe,
++                    position_ids=pos, attention_mask=mask, input_ids=ids,
+                     past_key_values=DynamicCache(config=config))
+-                if Li % 8 == 7:
+-                    torch.cuda.empty_cache()
++                torch.cuda.synchronize()
++                layer_seconds.append(time.perf_counter() - layer_started)
+         hidden = hidden.detach()
+-        secs = round(time.time() - t0, 1)
+-        for i, k in enumerate(missing):
++        forward_secs = time.perf_counter() - started
++        save_started = time.perf_counter()
++        save_futures = []
++        for i, k in enumerate(batch_wins):
+             h = hidden[i:i + 1]
+-            p = self.path(k)
+-            tmp = Path(str(p) + ".tmp")
+-            torch.save({"h": h.cpu(), "win": k, "upto": FIRST_TRAIN,
+-                        "cache_id": CACHE_ID, "manifest_md5": AMD5,
+-                        "ts": time.time()}, tmp)
+-            os.replace(tmp, p)
++            cpu_hidden = h.to("cpu", non_blocking=False)
++            save_futures.append(self._io_pool.submit(self._save_one, k, cpu_hidden))
+             self.mem[k] = h
+-        emit(event="actcache_build_batch", wins=missing, secs=secs,
+-             secs_per_window=round(secs / len(missing), 1))
++        for future in save_futures:
++            future.result()
++        save_secs = time.perf_counter() - save_started
++        emit(event="actcache_build_batch", wins=batch_wins,
++             secs=forward_secs + save_secs,
++             forward_secs=forward_secs, save_secs=save_secs,
++             layer_seconds=layer_seconds,
++             secs_per_window=(forward_secs + save_secs) / len(batch_wins),
++             batch_size=len(batch_wins), max_batch=max_batch)
++        del ids, hidden
++
++    def build_many(self, corpus, wins):
++        wins = list(dict.fromkeys(map(int, wins)))
++        # Submit every existing durable cache before waiting on the first one.
++        self.prefetch_many(wins)
++        for k in wins:
++            if k in self.mem:
++                continue
++            if self.path(k).is_file():
++                self._load(k)
++        missing = [k for k in wins if k not in self.mem]
++        if not missing:
++            return
++        max_batch = max(1, int(os.environ.get("BR_CACHE_BUILD_BATCH", "16")))
++        for offset in range(0, len(missing), max_batch):
++            self._build_batch(corpus, missing[offset:offset + max_batch], max_batch)
+         torch.cuda.empty_cache()
++
++    def get_many(self, corpus, wins, *, prefetch_wins=()):
++        """Build/load a complete microbatch together; optionally stage the next."""
++        wins = list(map(int, wins))
++        self.build_many(corpus, wins)
++        hidden = torch.cat([self.mem[k] for k in wins], 0)
++        # Start next-batch durable reads before model compute begins.
++        self.prefetch_many(prefetch_wins)
++        return hidden
+
+     def get(self, corpus, k):
+         if k not in self.mem:
+@@ -451,9 +589,9 @@
+     del embeds
+
+     def run_layer(Li, h):
+-        return m.model.layers[Li](
+-            h, position_embeddings=pe, position_ids=pos,
+-            attention_mask=mask, input_ids=ids,
++        return batch_stable_layer(
++            m.model.layers[Li], h, position_embeddings=pe,
++            position_ids=pos, attention_mask=mask, input_ids=ids,
+             past_key_values=DynamicCache(config=config))
+
+     use_activation_checkpoint = (
+@@ -470,9 +608,19 @@
+     return m.model.norm(m.model.hc_head(hidden))
+
+
++def teacher_rows_mmap(k):
++    """Mmap teacher targets instead of allocating a 100 MB read per window."""
++    payload = torch.load(os.path.join(T.TEACH, f"t8192_win{k}.pt"),
++                         map_location="cpu", mmap=True, weights_only=False)
++    idx = payload["idx"].long()[:T.T_TRAIN].to(DEV)
++    lp = payload["logprob"].float()[:T.T_TRAIN].to(DEV)
++    lp_n = lp - lp.logsumexp(-1, keepdim=True)
++    return idx, lp_n, lp_n.exp()
++
++
+ def loss_window(student, h_j, T_j, k):
+     """Support-renormalized KL (scorer-exact; full-vocab LSE cancels)."""
+-    idx, lp_n, p_n = T.teacher_rows(k)
++    idx, lp_n, p_n = teacher_rows_mmap(k)
+     logits = student.model.lm_head(h_j[:T_j].to(torch.bfloat16))
+     q = logits.gather(1, idx[:T_j]).float()
+     lq_n = q - q.logsumexp(-1, keepdim=True)
+@@ -481,10 +629,10 @@
+     return out
+
+
+-def batch_loss(student, corpus, acache, wins, requires_grad):
++def batch_loss(student, corpus, acache, wins, requires_grad, *, prefetch_wins=()):
+     rls = [T.window_ids(corpus, k)[1] for k in wins]
+     ids = torch.stack([T.window_ids(corpus, k)[0] for k in wins]).to(DEV)
+-    hidden = torch.cat([acache.get(corpus, k) for k in wins], 0)
++    hidden = acache.get_many(corpus, wins, prefetch_wins=prefetch_wins)
+     h = fast_forward(student, hidden, ids, requires_grad)
+     loss = 0.0
+     for j, k in enumerate(wins):
+@@ -492,12 +640,12 @@
+     return loss / len(wins)
+
+
+-def batch_kld_values(student, corpus, acache, wins):
++def batch_kld_values(student, corpus, acache, wins, *, prefetch_wins=()):
+     """Return scorer-exact per-window KLDs with one batched model walk."""
+     with torch.no_grad():
+         rls = [T.window_ids(corpus, k)[1] for k in wins]
+         ids = torch.stack([T.window_ids(corpus, k)[0] for k in wins]).to(DEV)
+-        hidden = torch.cat([acache.get(corpus, k) for k in wins], 0)
++        hidden = acache.get_many(corpus, wins, prefetch_wins=prefetch_wins)
+         h = fast_forward(student, hidden, ids, False)
+         values = [float(loss_window(student, h[j], rls[j], k))
+                   for j, k in enumerate(wins)]
+--- genesis_basic_repair.py
++++ genesis_basic_repair_accel.py
+@@ -1000,9 +1000,11 @@
+         if any(int(win) < 0 or int(win) >= 256 for win in wins):
+             raise RuntimeError(f"{class_name} references non-TRAIN combined window")
+     directional_spec_sha = sha256_file(directional_spec_path)
++    # Keep scorer batches at the sealed optimizer batch shape. Larger batches
++    # choose different dense-GEMM reductions and move decision-scale KLD rows.
+     directional_batch = int(os.environ.get("GENESIS_REPAIR_DIRECTIONAL_BATCH", "4"))
+     if directional_batch <= 0 or directional_batch > batch:
+-        raise RuntimeError("directional batch must be in [1, canonical batch]")
++        raise RuntimeError(f"directional batch must be in [1,{batch}]")
+
+     def bootstrap_ci95(values: list[float], *, update: int, class_index: int) -> list[float]:
+         rng = random.Random(seed + 1009 * int(update) + 7919 * int(class_index))
+@@ -1023,17 +1025,32 @@
+         assert_runtime_guard()
+         measured_started = time.time()
+         measured_classes = {}
+-        for class_index, class_name in enumerate(expected_classes):
++        ordered_wins = [
++            int(win)
++            for class_name in expected_classes
++            for win in class_wins[class_name]
++        ]
++        if len(ordered_wins) != 40 or len(set(ordered_wins)) != 40:
++            raise RuntimeError("directional TRAIN-40 must be globally unique")
++        segments = [
++            ordered_wins[offset:offset + directional_batch]
++            for offset in range(0, len(ordered_wins), directional_batch)
++        ]
++        value_by_win = {}
++        for segment_index, segment in enumerate(segments):
++            next_segment = segments[segment_index + 1] if segment_index + 1 < len(segments) else ()
++            segment_values = B.batch_kld_values(
++                student, corpus, acache, segment, prefetch_wins=next_segment
++            )
++            value_by_win.update(zip(segment, segment_values))
++            for win in segment:
++                cached = acache.mem.pop(win, None)
++                if cached is not None:
++                    del cached
++            torch.cuda.empty_cache()
++        for class_name in expected_classes:
+             wins = list(map(int, class_wins[class_name]))
+-            values = []
+-            for offset in range(0, len(wins), directional_batch):
+-                segment = wins[offset : offset + directional_batch]
+-                values.extend(B.batch_kld_values(student, corpus, acache, segment))
+-                for win in segment:
+-                    cached = acache.mem.pop(win, None)
+-                    if cached is not None:
+-                        del cached
+-                torch.cuda.empty_cache()
++            values = [value_by_win[win] for win in wins]
+             measured_classes[class_name] = {
+                 "wins": wins,
+                 "kld": values,
+@@ -1137,7 +1154,17 @@
+             forward_name = f"forward_microbatch_{segment_index}"
+             forward_mem_before = guard_memory(f"{forward_name}:before")
+             phases.start(forward_name)
+-            segment_loss = B.batch_loss(student, corpus, acache, segment_wins, True)
++            if segment_index + 1 < len(micro_wins):
++                prefetch_wins = micro_wins[segment_index + 1]
++            elif update_index + 1 < stop_after_update:
++                next_group = (update_index + 1) % groups
++                prefetch_wins = train_wins[next_group * batch:(next_group + 1) * batch]
++            else:
++                prefetch_wins = ()
++            segment_loss = B.batch_loss(
++                student, corpus, acache, segment_wins, True,
++                prefetch_wins=prefetch_wins,
++            )
+             segment_forward_seconds = phases.stop(forward_name)
+             forward_seconds += segment_forward_seconds
+             segment_weight = len(segment_wins) / len(wins)

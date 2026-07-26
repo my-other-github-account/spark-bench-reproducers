@@ -1,0 +1,28 @@
+{
+  "action": "status",
+  "bundle_shas": {
+    "payload/genesis_physical_surface.py": "fac49a646b9bc38b1b8dd5ec46e3a005544fede26e7dfdd40d958e24ea1c16d8",
+    "rollback/genesis_physical_surface.py": "c561530422356701694ab10e121c2d51b2a7ef8c34c7457f15493785204ac184"
+  },
+  "mission": "$HOME/run-bundles/P672_ACTCACHE_P13_PUBLIC_TASK_s5w/verify_p672_bundle_fixture",
+  "runtime_env": {
+    "GENESIS_REPAIR_MEM_FLOOR_BYTES": "34359738368",
+    "P649_DEQ_CHUNK": "1",
+    "P649_EXPERT_RESIDENT_SCOPE": "4",
+    "P649_NATIVE_CHUNK": "1",
+    "P649_P2_BLOCK_M": "64",
+    "P649_P2_BLOCK_N": "32",
+    "P649_P2_NUM_WARPS": "8",
+    "P672_P13_GROUP": "1",
+    "P672_P13_PIPELINE": "1"
+  },
+  "safe_boundary": "Apply or rollback only while the target mission is stopped and already uses the exact P649 r4_c1_p2_m64n32w8 postimage. P672 changes only genesis_physical_surface.py. Enable with P672_P13_PIPELINE=1 and P672_P13_GROUP=1; P649 p2 tile/grouping and P643 B32/eight-stream attention remain unchanged. B40, CONFIGS49, and multi-host PROOF-1 are forbidden.",
+  "schema": "p672-p13-pipeline-adoption-v1",
+  "status": "P649_ROUTED_EXPERTS",
+  "target_shas": {
+    "base_binrepair_e2e.py": "59cacb05b547c58329809b8f1d7c3a52011ecdd58b2eddb2302c0e3cb521125d",
+    "fused_expert_linear.py": "4ce65fab1ec75775d88ff53d73a1c2a15d13723865a2ffc4047561cb732eb840",
+    "genesis_basic_repair.py": "991370498c153988dda7df3fc5a23c40a4d58a48ba3d8bb4d596a3d9fa6a17cc",
+    "genesis_physical_surface.py": "c561530422356701694ab10e121c2d51b2a7ef8c34c7457f15493785204ac184"
+  }
+}
