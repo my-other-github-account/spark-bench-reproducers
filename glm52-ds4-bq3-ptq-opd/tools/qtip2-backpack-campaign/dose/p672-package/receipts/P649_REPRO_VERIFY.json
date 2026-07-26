@@ -1,0 +1,13 @@
+{
+  "decision": "ADOPT_BEST_AFTER_EXHAUSTIVE_PHYSICAL_FLOOR",
+  "full43_wall_seconds": 396.6301621829625,
+  "minimum_available_gib": 34.368263244628906,
+  "next_sink_if_floor": "fused_linear_p13_or_payload_io_decode_p13_from_inner_profile",
+  "routed_expert_seconds_after": 351.03980721416883,
+  "routed_expert_seconds_before": 540.9776715053013,
+  "routed_expert_speedup": 1.5410721530371956,
+  "schema": "p649-routed-expert-bundle-verification-v1",
+  "selected_grouping": "r4_c1_p2_m64n32w8",
+  "status": "PASS",
+  "verified_files": 31
+}
