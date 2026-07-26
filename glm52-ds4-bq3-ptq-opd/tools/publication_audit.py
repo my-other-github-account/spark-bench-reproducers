@@ -77,6 +77,37 @@ REQUIRED_PREFIXES = {
     "misc/qsfp/",
     "misc/teacher-sharding/",
 }
+REQUIRED_FILES = {
+    "solver/p629/solve_global_ab.py",
+    "solver/p637/solve_actual.py",
+    "solver/p637/solve_actual_respend.py",
+    "solver/p637/solve_lp_bound.py",
+    "solver/INPUT_MANIFEST_SCHEMA.json",
+    "builders/wire/canonical_shared_builder.py",
+    "builders/wire/build_shard.py",
+    "builders/wire/build_overlay_shard.py",
+    "builders/wire/pilot_code/gptqv2_pilot.py",
+    "builders/wire/pilot_code/vqw2_pilot.py",
+    "builders/qtip-rep16/qtip_rate_unit_p541.py",
+    "builders/packers/t8192_ds4_build_v3.py",
+    "rail/genesis_remote_full512.py",
+    "rail/full512_safety.py",
+    "rail/provenance/HARNESS_FIX_RETIRE_SCRATCH.json",
+    "rail/p651_overlay_rail.py",
+    "rail/p671/p671_slice_w064_127.py",
+    "rail/p671/launch_p671_slice_w064_127.sh",
+    "rail/p632_score.py",
+    "dose/p600/genesis_basic_repair.py",
+    "dose/p600/run_dose2.sh",
+    "dose/p613-acceleration/genesis_basic_repair_accel.py",
+    "dose/p662-candidate/genesis_basic_repair.py",
+    "dose/p672-package/verify_bundle.py",
+    "misc/kld/score_p623.py",
+    "misc/teacher-sharding/coordinate_merge_verify.py",
+    "misc/teacher-sharding/memory_monitor.py",
+    "misc/qsfp/p613_multistream_stage.py",
+    "misc/KASA_RECOVERY.md",
+}
 
 
 def sha256(path: Path) -> str:
@@ -138,8 +169,8 @@ def audit_manifest() -> list[str]:
     for prefix in sorted(REQUIRED_PREFIXES):
         if not any(path.startswith(prefix) for path in listed_paths):
             failures.append(f"required reproduction family absent: {prefix}")
-    if "solver/INPUT_MANIFEST_SCHEMA.json" not in listed_paths:
-        failures.append("solver input manifest schema absent")
+    for path_text in sorted(REQUIRED_FILES - listed_paths):
+        failures.append(f"required reproduction file absent: {path_text}")
     builder = by_path.get("builders/wire/canonical_shared_builder.py", {})
     if builder.get("source_sha256") != "60b594ac38e4973eaaecb76c708b555418406eb697414d2563aeb1e978268a7e":
         failures.append("canonical_shared_builder.py source pin is not 60b594ac…")
