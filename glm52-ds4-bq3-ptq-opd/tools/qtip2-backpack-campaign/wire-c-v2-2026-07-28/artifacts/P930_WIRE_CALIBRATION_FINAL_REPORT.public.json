@@ -1,0 +1,1409 @@
+{
+  "acceptance_summary": {
+    "all_four_global_absolute_relative_errors_lte_5_percent": true,
+    "all_four_wires_have_six_class_and_global_tables": true,
+    "class_failures_encoded_as_measured_residual_families": true,
+    "negative_or_opaque_p922_p928_prices_used": false,
+    "no_new_objective": true,
+    "p922_explicit_by_class_and_global": true,
+    "p928_explicit_by_class_and_global": true,
+    "solver_surface_has_physical_units_applicability_and_uncertainty": true
+  },
+  "artifacts": {
+    "corrected_vertical_grid": {
+      "path": "outputs/CORRECTED_VERTICAL_GRID_V3.csv",
+      "sha256": "49407ff0114c5bcf9f7a68fbfc2a4822fee1839852aff5d89b8ce12d1251c203"
+    },
+    "p922_selection_pin": {
+      "path": "outputs/P922_RESTORED_VQ_SELECTION_PINNED.json",
+      "sha256": "e776c293be491f080a630f7ba1d066ea0cc420c773be6758de2b4c92a3fb9818"
+    },
+    "p928_assignment_pin": {
+      "path": "outputs/P928_MIX_C_PATTERN_ASSIGNMENT_PINNED.json",
+      "sha256": "62c26b9ea8f53aa2a2be84ff55b0e444100625f900832e096624ea178d9f9122"
+    },
+    "pricing": {
+      "path": "outputs/CORRECTED_PRICING_V3.json",
+      "sha256": "c8673867b0fb7626232721d4939a9fdf95ef6d1a3de69698fd2a3d42398606c0"
+    }
+  },
+  "canonical_payload_sha256": "6039058e0025129cc6487a71ea067be71a131256a2ac0913505eafc861cec04b",
+  "explicit_component_decomposition_by_wire": {
+    "batch2": {
+      "anchor_before_transition_by_class": {
+        "agentic": 0.12855878429413758,
+        "chat": 0.04568699138718217,
+        "code": 0.05313932526510851,
+        "multilingual": 0.17784092813138486,
+        "prose": 0.14951926424144643,
+        "reasoning": 0.029224682551684755
+      },
+      "anchor_before_transition_global": 0.10589537242778659,
+      "class_counts": {
+        "agentic": 19,
+        "chat": 7,
+        "code": 9,
+        "multilingual": 10,
+        "prose": 10,
+        "reasoning": 9
+      },
+      "measured_by_class": {
+        "agentic": 0.1500522296898612,
+        "chat": 0.055164672200475405,
+        "code": 0.05866501804754704,
+        "multilingual": 0.22315583334363326,
+        "prose": 0.1796345585524803,
+        "reasoning": 0.03367162428749847
+      },
+      "measured_global": 0.12650123077323805,
+      "measured_wire_family_residual_needed_for_exact_class_closure_by_class": {
+        "agentic": 0.02149344539572362,
+        "chat": 0.009477680813293234,
+        "code": 0.005525692782438529,
+        "multilingual": 0.0453149052122484,
+        "prose": 0.03011529431103388,
+        "reasoning": 0.0044469417358137114
+      },
+      "measured_wire_family_residual_needed_for_exact_class_closure_global": 0.020605858345451474,
+      "measured_wire_family_residual_used_by_class": {
+        "agentic": 0.02150651259732858,
+        "chat": 0.00952432151266018,
+        "code": 0.0014124002745559278,
+        "multilingual": 0.04582656372659413,
+        "prose": 0.03342807549434634,
+        "reasoning": 0.004447158278982982
+      },
+      "measured_wire_family_residual_used_global": 0.020634006392642488,
+      "p922_substitution_surcharge_by_class": {
+        "agentic": 0.0,
+        "chat": 0.0,
+        "code": 0.0,
+        "multilingual": 0.0,
+        "prose": 0.0,
+        "reasoning": 0.0
+      },
+      "p922_substitution_surcharge_global": 0.0,
+      "p928_interaction_by_class": {
+        "agentic": 0.0,
+        "chat": 0.0,
+        "code": 0.0,
+        "multilingual": 0.0,
+        "prose": 0.0,
+        "reasoning": 0.0
+      },
+      "p928_interaction_global": 0.0,
+      "predicted_by_class": {
+        "agentic": 0.15006529689146617,
+        "chat": 0.05521131289984235,
+        "code": 0.05455172553966444,
+        "multilingual": 0.223667491857979,
+        "prose": 0.18294733973579277,
+        "reasoning": 0.03367184083066774
+      },
+      "predicted_global": 0.12652937882042908,
+      "prediction_residual_family_minus_exact_needed_by_class": {
+        "agentic": 1.3067201604960443e-05,
+        "chat": 4.664069936694687e-05,
+        "code": -0.004113292507882602,
+        "multilingual": 0.0005116585143457308,
+        "prose": 0.003312781183312463,
+        "reasoning": 2.1654316927077755e-07
+      },
+      "units": "additive BALANCED-window mean KLD by class; global uses this wire's measured class-count weights"
+    },
+    "wire_a": {
+      "anchor_before_transition_by_class": {
+        "agentic": 0.16134985268180257,
+        "chat": 0.06532497613305013,
+        "code": 0.051168213824823665,
+        "multilingual": 0.20246696216835877,
+        "prose": 0.1704591834206131,
+        "reasoning": 0.041082783237195185
+      },
+      "anchor_before_transition_global": 0.12628816348958574,
+      "class_counts": {
+        "agentic": 19,
+        "chat": 7,
+        "code": 9,
+        "multilingual": 10,
+        "prose": 10,
+        "reasoning": 9
+      },
+      "measured_by_class": {
+        "agentic": 0.14929602148179635,
+        "chat": 0.05936173489545872,
+        "code": 0.054534618168331016,
+        "multilingual": 0.1720471905680156,
+        "prose": 0.15801951626287722,
+        "reasoning": 0.041740785457303975
+      },
+      "measured_global": 0.11592659770878101,
+      "measured_wire_family_residual_needed_for_exact_class_closure_by_class": {
+        "agentic": -0.012053831200006221,
+        "chat": -0.005963241237591413,
+        "code": 0.003366404343507351,
+        "multilingual": -0.030419771600343176,
+        "prose": -0.012439667157735868,
+        "reasoning": 0.0006580022201087901
+      },
+      "measured_wire_family_residual_needed_for_exact_class_closure_global": -0.010361565780804738,
+      "measured_wire_family_residual_used_by_class": {
+        "agentic": -0.008278551546031188,
+        "chat": -0.006529340447360171,
+        "code": 0.0015797046167483897,
+        "multilingual": -0.010924160618350137,
+        "prose": -0.003982831859656644,
+        "reasoning": 0.000621154417785319
+      },
+      "measured_wire_family_residual_used_global": -0.005191563374615285,
+      "p922_substitution_surcharge_by_class": {
+        "agentic": 0.0,
+        "chat": 0.0,
+        "code": 0.0,
+        "multilingual": 0.0,
+        "prose": 0.0,
+        "reasoning": 0.0
+      },
+      "p922_substitution_surcharge_global": 0.0,
+      "p928_interaction_by_class": {
+        "agentic": 0.0,
+        "chat": 0.0,
+        "code": 0.0,
+        "multilingual": 0.0,
+        "prose": 0.0,
+        "reasoning": 0.0
+      },
+      "p928_interaction_global": 0.0,
+      "predicted_by_class": {
+        "agentic": 0.1530713011357714,
+        "chat": 0.05879563568568996,
+        "code": 0.052747918441572055,
+        "multilingual": 0.19154280155000863,
+        "prose": 0.16647635156095644,
+        "reasoning": 0.041703937654980504
+      },
+      "predicted_global": 0.12109660011497048,
+      "prediction_residual_family_minus_exact_needed_by_class": {
+        "agentic": 0.0037752796539750333,
+        "chat": -0.0005660992097687584,
+        "code": -0.0017866997267589613,
+        "multilingual": 0.01949561098199304,
+        "prose": 0.008456835298079224,
+        "reasoning": -3.6847802323471124e-05
+      },
+      "units": "additive BALANCED-window mean KLD by class; global uses this wire's measured class-count weights"
+    },
+    "wire_b": {
+      "anchor_before_transition_by_class": {
+        "agentic": 0.11646003649807357,
+        "chat": 0.05934376617591544,
+        "code": 0.05763438886898974,
+        "multilingual": 0.18003605393228364,
+        "prose": 0.16344472699709123,
+        "reasoning": 0.03838957803759043
+      },
+      "anchor_before_transition_global": 0.10865352455782708,
+      "class_counts": {
+        "agentic": 41,
+        "chat": 12,
+        "code": 19,
+        "multilingual": 18,
+        "prose": 21,
+        "reasoning": 17
+      },
+      "measured_by_class": {
+        "agentic": 0.10924565015374717,
+        "chat": 0.05128011570801464,
+        "code": 0.07278618922135838,
+        "multilingual": 0.17286582605560766,
+        "prose": 0.1488240032107343,
+        "reasoning": 0.03941800492468026
+      },
+      "measured_global": 0.10456535671993392,
+      "measured_wire_family_residual_needed_for_exact_class_closure_by_class": {
+        "agentic": -0.007214386344326404,
+        "chat": -0.0080636504679008,
+        "code": 0.015151800352368634,
+        "multilingual": -0.007170227876675983,
+        "prose": -0.014620723786356926,
+        "reasoning": 0.001028426887089831
+      },
+      "measured_wire_family_residual_needed_for_exact_class_closure_global": -0.004088167837893158,
+      "measured_wire_family_residual_used_by_class": {
+        "agentic": -0.007081530891062518,
+        "chat": -0.0078114390557470145,
+        "code": 0.0025473602348691712,
+        "multilingual": -0.005757768427204463,
+        "prose": -0.004479345762399195,
+        "reasoning": 0.0010337773400960065
+      },
+      "measured_wire_family_residual_used_global": -0.004029781786394097,
+      "p922_substitution_surcharge_by_class": {
+        "agentic": 0.0,
+        "chat": 0.0,
+        "code": 0.0,
+        "multilingual": 0.0,
+        "prose": 0.0,
+        "reasoning": 0.0
+      },
+      "p922_substitution_surcharge_global": 0.0,
+      "p928_interaction_by_class": {
+        "agentic": 0.0,
+        "chat": 0.0,
+        "code": 0.0,
+        "multilingual": 0.0,
+        "prose": 0.0,
+        "reasoning": 0.0
+      },
+      "p928_interaction_global": 0.0,
+      "predicted_by_class": {
+        "agentic": 0.10937850560701105,
+        "chat": 0.05153232712016843,
+        "code": 0.060181749103858914,
+        "multilingual": 0.17427828550507918,
+        "prose": 0.15896538123469203,
+        "reasoning": 0.03942335537768644
+      },
+      "predicted_global": 0.10462374277143298,
+      "prediction_residual_family_minus_exact_needed_by_class": {
+        "agentic": 0.00013285545326388593,
+        "chat": 0.0002522114121537855,
+        "code": -0.012604440117499463,
+        "multilingual": 0.0014124594494715204,
+        "prose": 0.010141378023957731,
+        "reasoning": 5.350453006175426e-06
+      },
+      "units": "additive BALANCED-window mean KLD by class; global uses this wire's measured class-count weights"
+    },
+    "wire_c": {
+      "anchor_before_transition_by_class": {
+        "agentic": 0.09930356484837645,
+        "chat": 0.02508258789144971,
+        "code": 0.047044438197693036,
+        "multilingual": 0.13724247646863796,
+        "prose": 0.12297811492263873,
+        "reasoning": 0.01794426609862389
+      },
+      "anchor_before_transition_global": 0.08202265781154562,
+      "class_counts": {
+        "agentic": 19,
+        "chat": 7,
+        "code": 9,
+        "multilingual": 10,
+        "prose": 10,
+        "reasoning": 9
+      },
+      "measured_by_class": {
+        "agentic": 0.12370960129547127,
+        "chat": 0.04731566452358319,
+        "code": 0.05567080398147476,
+        "multilingual": 0.22430602160887467,
+        "prose": 0.18437087774722433,
+        "reasoning": 0.03237105374398153
+      },
+      "measured_global": 0.1181380904588927,
+      "measured_wire_family_residual_needed_for_exact_class_closure_by_class": {
+        "agentic": 0.008707200166661874,
+        "chat": 0.005335967503631651,
+        "code": -0.003050603212615629,
+        "multilingual": 0.01725647863302554,
+        "prose": 0.007360478823125231,
+        "reasoning": 0.0017546658466888135
+      },
+      "measured_wire_family_residual_needed_for_exact_class_closure_global": 0.006832729905627556,
+      "measured_wire_family_residual_used_by_class": {
+        "agentic": 0.008677492246768347,
+        "chat": 0.005271894012404101,
+        "code": 0.00015427293120678573,
+        "multilingual": 0.01674259742656925,
+        "prose": 0.003947376743156671,
+        "reasoning": 0.0017532274769215695
+      },
+      "measured_wire_family_residual_used_global": 0.006653794627278777,
+      "p922_substitution_surcharge_by_class": {
+        "agentic": 0.016604078477868132,
+        "chat": 0.017326981782761455,
+        "code": 0.0058930305385018105,
+        "multilingual": 0.0668267769735903,
+        "prose": 0.05941558152984767,
+        "reasoning": 0.013376581658339014
+      },
+      "p922_substitution_surcharge_global": 0.02925963216194956,
+      "p928_interaction_by_class": {
+        "agentic": -0.0009052421974351799,
+        "chat": -0.00042987265425962345,
+        "code": 0.005783938457895543,
+        "multilingual": 0.002980289533620867,
+        "prose": -0.005383297528387301,
+        "reasoning": -0.000704459859670185
+      },
+      "p928_interaction_global": 2.3070579769970267e-05,
+      "predicted_by_class": {
+        "agentic": 0.12367989337557775,
+        "chat": 0.04725159103235564,
+        "code": 0.058875680125297175,
+        "multilingual": 0.22379214040241838,
+        "prose": 0.18095777566725577,
+        "reasoning": 0.03236961537421429
+      },
+      "predicted_global": 0.11795915518054394,
+      "prediction_residual_family_minus_exact_needed_by_class": {
+        "agentic": -2.970791989352628e-05,
+        "chat": -6.407349122754952e-05,
+        "code": 0.0032048761438224146,
+        "multilingual": -0.0005138812064562903,
+        "prose": -0.0034131020799685607,
+        "reasoning": -1.438369767244041e-06
+      },
+      "units": "additive BALANCED-window mean KLD by class; global uses this wire's measured class-count weights"
+    }
+  },
+  "inherited_phase1_sensitivity": {
+    "method": "coefficient-free inverse-distance residual transfer; each row excludes the held wire",
+    "results": {
+      "batch2": {
+        "absolute_error_by_class": {
+          "agentic": -0.024851349171332415,
+          "chat": -0.011252670923788802,
+          "code": 0.0039088095751809646,
+          "multilingual": -0.04439040556964016,
+          "prose": -0.03014706046512325,
+          "reasoning": -0.0011376192928577514
+        },
+        "absolute_global_error": -0.019865285602008786,
+        "held_out_wire": "batch2",
+        "measured_by_class": {
+          "agentic": 0.1500522296898612,
+          "chat": 0.055164672200475405,
+          "code": 0.05866501804754704,
+          "multilingual": 0.22315583334363326,
+          "prose": 0.1796345585524803,
+          "reasoning": 0.03367162428749847
+        },
+        "measured_global": 0.12650123077323805,
+        "predicted_by_class": {
+          "agentic": 0.1252008805185288,
+          "chat": 0.0439120012766866,
+          "code": 0.062573827622728,
+          "multilingual": 0.1787654277739931,
+          "prose": 0.14948749808735706,
+          "reasoning": 0.032534004994640715
+        },
+        "predicted_global": 0.10663594517122926,
+        "relative_error_percent_by_class": {
+          "agentic": -16.561799329937966,
+          "chat": -20.398328268670152,
+          "code": 6.662930832157832,
+          "multilingual": -19.89211077502252,
+          "prose": -16.782439140916072,
+          "reasoning": -3.3785696916323826
+        },
+        "relative_global_error_percent": -15.703630297177618,
+        "train_wires": [
+          "wire_a",
+          "wire_b",
+          "wire_c"
+        ],
+        "transition_residual_transfer_weights": {
+          "wire_a": 0.38496601340571995,
+          "wire_b": 0.43415391425517086,
+          "wire_c": 0.18088007233910913
+        },
+        "within_5_percent_global": false
+      },
+      "wire_a": {
+        "absolute_error_by_class": {
+          "agentic": 0.01250426773842564,
+          "chat": 0.0034233565747419648,
+          "code": 0.00952745193970516,
+          "multilingual": 0.04005147156364336,
+          "prose": 0.01181039279576504,
+          "reasoning": 0.002020680102727032
+        },
+        "absolute_global_error": 0.013814006484832095,
+        "held_out_wire": "wire_a",
+        "measured_by_class": {
+          "agentic": 0.14929602148179635,
+          "chat": 0.05936173489545872,
+          "code": 0.054534618168331016,
+          "multilingual": 0.1720471905680156,
+          "prose": 0.15801951626287722,
+          "reasoning": 0.041740785457303975
+        },
+        "measured_global": 0.11592659770878101,
+        "predicted_by_class": {
+          "agentic": 0.161800289220222,
+          "chat": 0.06278509147020069,
+          "code": 0.06406207010803618,
+          "multilingual": 0.21209866213165895,
+          "prose": 0.16982990905864226,
+          "reasoning": 0.04376146556003101
+        },
+        "predicted_global": 0.1297406041936131,
+        "relative_error_percent_by_class": {
+          "agentic": 8.375486241574293,
+          "chat": 5.7669415841211435,
+          "code": 17.470466026363198,
+          "multilingual": 23.27935227039337,
+          "prose": 7.474008954765798,
+          "reasoning": 4.841020791987627
+        },
+        "relative_global_error_percent": 11.916166572518794,
+        "train_wires": [
+          "wire_b",
+          "batch2",
+          "wire_c"
+        ],
+        "transition_residual_transfer_weights": {
+          "batch2": 0.1826634096050265,
+          "wire_b": 0.7407736528684801,
+          "wire_c": 0.07656293752649337
+        },
+        "within_5_percent_global": false
+      },
+      "wire_b": {
+        "absolute_error_by_class": {
+          "agentic": 0.004869870731862125,
+          "chat": 0.00751273303978283,
+          "code": -0.010919687428350526,
+          "multilingual": 0.0015766470742962502,
+          "prose": 0.016776991559311283,
+          "reasoning": 0.0015237804530641927
+        },
+        "absolute_global_error": 0.0038198763525784524,
+        "held_out_wire": "wire_b",
+        "measured_by_class": {
+          "agentic": 0.10924565015374717,
+          "chat": 0.05128011570801464,
+          "code": 0.07278618922135838,
+          "multilingual": 0.17286582605560766,
+          "prose": 0.1488240032107343,
+          "reasoning": 0.03941800492468026
+        },
+        "measured_global": 0.10456535671993392,
+        "predicted_by_class": {
+          "agentic": 0.11411552088560929,
+          "chat": 0.05879284874779747,
+          "code": 0.06186650179300785,
+          "multilingual": 0.1744424731299039,
+          "prose": 0.16560099477004558,
+          "reasoning": 0.040941785377744455
+        },
+        "predicted_global": 0.10838523307251237,
+        "relative_error_percent_by_class": {
+          "agentic": 4.457725067321672,
+          "chat": 14.650382387122129,
+          "code": -15.002416729280089,
+          "multilingual": 0.9120640616318676,
+          "prose": 11.273041443156927,
+          "reasoning": 3.8656965414049393
+        },
+        "relative_global_error_percent": 3.6530993365322173,
+        "train_wires": [
+          "wire_a",
+          "batch2",
+          "wire_c"
+        ],
+        "transition_residual_transfer_weights": {
+          "batch2": 0.19960097426481727,
+          "wire_a": 0.717753457071344,
+          "wire_c": 0.08264556866383865
+        },
+        "within_5_percent_global": true
+      },
+      "wire_c": {
+        "absolute_error_by_class": {
+          "agentic": -0.02316872416972049,
+          "chat": -0.023569162277124675,
+          "code": -0.0004531642656021087,
+          "multilingual": -0.08323374370327546,
+          "prose": -0.05983767968539655,
+          "reasoning": -0.012328304212344182
+        },
+        "absolute_global_error": -0.03360839602113748,
+        "held_out_wire": "wire_c",
+        "measured_by_class": {
+          "agentic": 0.12370960129547127,
+          "chat": 0.04731566452358319,
+          "code": 0.05567080398147476,
+          "multilingual": 0.22430602160887467,
+          "prose": 0.18437087774722433,
+          "reasoning": 0.03237105374398153
+        },
+        "measured_global": 0.1181380904588927,
+        "predicted_by_class": {
+          "agentic": 0.10054087712575079,
+          "chat": 0.023746502246458516,
+          "code": 0.05521763971587265,
+          "multilingual": 0.1410722779055992,
+          "prose": 0.12453319806182778,
+          "reasoning": 0.02004274953163735
+        },
+        "predicted_global": 0.08452969443775522,
+        "relative_error_percent_by_class": {
+          "agentic": -18.728315286041298,
+          "chat": -49.812599092584385,
+          "code": -0.8140070435356139,
+          "multilingual": -37.107226594393985,
+          "prose": -32.45506037425013,
+          "reasoning": -38.08434631089597
+        },
+        "relative_global_error_percent": -28.448399572559413,
+        "train_wires": [
+          "wire_a",
+          "wire_b",
+          "batch2"
+        ],
+        "transition_residual_transfer_weights": {
+          "batch2": 0.3465130137797383,
+          "wire_a": 0.30911369345802564,
+          "wire_b": 0.344373292762236
+        },
+        "within_5_percent_global": false
+      }
+    },
+    "role": "sensitivity diagnostic, not claimed independent validation"
+  },
+  "limitations": [
+    "A is the only strict P927 holdout; B/Batch2/C are calibration retrodictions.",
+    "Several per-class retrodictions exceed 5%; every miss and the exact residual-family value needed for closure are reported instead of being silently self-fit.",
+    "P922 is exact at its 3,803-identity frozen-codebook selection; equal per-identity apportionment is a transparent solver linearization, not a tier-level measurement.",
+    "P928 identifies one mixed-tier context. The common factor exactly closes that anchor but transfer outside the pinned local menu is not independently validated."
+  ],
+  "p922_identity_linearization_validation": {
+    "closure_error_by_class": {
+      "agentic": 0.0,
+      "chat": 0.0,
+      "code": 0.0,
+      "multilingual": 0.0,
+      "prose": 0.0,
+      "reasoning": 0.0
+    },
+    "global_closure_error": 0.0,
+    "selection_rows": 3803,
+    "selection_sha256": "e776c293be491f080a630f7ba1d066ea0cc420c773be6758de2b4c92a3fb9818"
+  },
+  "p922_measurement": {
+    "applicability_rules": {
+      "apply_when": "Identity is in the pinned 3,803-row set AND the physical option binds the frozen base-wire codebook measured by P922.",
+      "prohibited": "Do not add this selection-level surcharge to every d4/VQ row or bury it in a signed tier coefficient.",
+      "zero_when": "A regenerated option uses the intended refit codebook, or the identity is outside the pinned set."
+    },
+    "changed_cells": 3803,
+    "class_ci95_kld": {
+      "agentic": [
+        0.009650010254569345,
+        0.023558146701166918
+      ],
+      "chat": [
+        0.013725458933596653,
+        0.020928504631926255
+      ],
+      "code": [
+        0.000656547990028229,
+        0.011129513086975393
+      ],
+      "multilingual": [
+        0.054290088658944774,
+        0.07936346528823582
+      ],
+      "prose": [
+        0.040762680050532255,
+        0.07806848300916308
+      ],
+      "reasoning": [
+        0.007924658101735265,
+        0.01882850521494276
+      ]
+    },
+    "counts_by_new_tier": {
+      "d4_k1024": 195,
+      "d4_k2048": 2016,
+      "d4_k4096": 1592
+    },
+    "global_ci95_kld": [
+      0.02357004720217415,
+      0.03494921712172497
+    ],
+    "identity_set_sha256": "c59452e27876e8238a964febc4657e99b7f59e8a1f8e906d3c8a49ed03b25803",
+    "layers": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21
+    ],
+    "measurement_sha256": "c2604f6386e00c1ab38b238cd5940f85d1ab12ec20e18f43dfc9efcece29be8e",
+    "rows_sha256": "733c12d3de03398564dca5cd5affc7574eb9a98c440062f5f5ed8ab8fd179631",
+    "selection_path": "outputs/P922_RESTORED_VQ_SELECTION_PINNED.json",
+    "selection_sha256": "e776c293be491f080a630f7ba1d066ea0cc420c773be6758de2b4c92a3fb9818",
+    "solver_linearization": {
+      "apportionment_label": "SUM_PRESERVING_EQUAL_IDENTITY_LINEARIZATION__NO_TIER_LEVEL_MEASUREMENT_CLAIM",
+      "exact_selection_closure_error_by_class": {
+        "agentic": 0.0,
+        "chat": 0.0,
+        "code": 0.0,
+        "multilingual": 0.0,
+        "prose": 0.0,
+        "reasoning": 0.0
+      },
+      "join_key": [
+        "layer",
+        "expert",
+        "projection",
+        "new_tier"
+      ],
+      "law": "For each selected row in the exact pinned P922 identity set, add one per-identity surcharge vector iff the option uses the frozen base-wire codebook. Sum over selected matching rows.",
+      "surcharge_global_kld_per_selected_identity": 7.69382912488813e-06,
+      "surcharge_kld_per_selected_identity_by_class": {
+        "agentic": 4.36604745671e-06,
+        "chat": 4.556135099332489e-06,
+        "code": 1.5495741621093376e-06,
+        "multilingual": 1.7572121213144963e-05,
+        "prose": 1.5623345130120344e-05,
+        "reasoning": 3.5173761920428645e-06
+      }
+    },
+    "status": "PASS_EXACT_MEASURED_SELECTION_SURCHARGE",
+    "surcharge_global_kld": 0.02925963216194956,
+    "surcharge_global_points": 2.925963216194956,
+    "surcharge_kld_by_class": {
+      "agentic": 0.016604078477868132,
+      "chat": 0.017326981782761455,
+      "code": 0.0058930305385018105,
+      "multilingual": 0.0668267769735903,
+      "prose": 0.05941558152984767,
+      "reasoning": 0.013376581658339014
+    },
+    "terminal_verification_sha256": "d3cbae01335d4fb3809275d72d9f6201c439f2598cd7c41ba0e57d81b36733c5",
+    "uncertainty": {
+      "per_identity_apportionment": "HIGH__SUM_PRESERVING_LINEARIZATION_ONLY",
+      "selection_level": "MEASURED_BALANCED64_CI95"
+    }
+  },
+  "p928_corrected_grid_validation": {
+    "all_values_finite_nonnegative": true,
+    "base_grid_sha256": "74869b5f8e3ef4eb43dc98c6ee060c2d9ad048bb215cadd308fb2c9983933dda",
+    "closure_error_by_field": {
+      "agentic": -1.3877787807814457e-17,
+      "chat": 3.469446951953614e-18,
+      "code": -1.3877787807814457e-17,
+      "global_mean_kld": 1.3877787807814457e-17,
+      "multilingual": 0.0,
+      "prose": 1.3877787807814457e-17,
+      "reasoning": 0.0
+    },
+    "corrected_anchor_prediction": {
+      "agentic": 0.09245987990952537,
+      "chat": 0.025381929400373534,
+      "code": 0.0687768719256841,
+      "global_mean_kld": 0.07943175833066396,
+      "multilingual": 0.13590777172047502,
+      "prose": 0.10473387973159684,
+      "reasoning": 0.013756994136335576
+    },
+    "corrected_grid_sha256": "49407ff0114c5bcf9f7a68fbfc2a4822fee1839852aff5d89b8ce12d1251c203",
+    "factor_by_field": {
+      "agentic": 0.990304278760562,
+      "chat": 0.9833458875381984,
+      "code": 1.0918188460115634,
+      "global_mean_kld": 1.0009861258540216,
+      "multilingual": 1.0224204166406425,
+      "prose": 0.9511130083213316,
+      "reasoning": 0.9512870656114693
+    },
+    "max_abs_closure_error": 1.3877787807814457e-17,
+    "measured_anchor": {
+      "agentic": 0.09245987990952538,
+      "chat": 0.02538192940037353,
+      "code": 0.06877687192568412,
+      "global_mean_kld": 0.07943175833066395,
+      "multilingual": 0.13590777172047502,
+      "prose": 0.10473387973159683,
+      "reasoning": 0.013756994136335576
+    }
+  },
+  "p928_measurement": {
+    "anchor_assignment_path": "outputs/P928_MIX_C_PATTERN_ASSIGNMENT_PINNED.json",
+    "anchor_assignment_sha256": "62c26b9ea8f53aa2a2be84ff55b0e444100625f900832e096624ea178d9f9122",
+    "anchor_identity_set_sha256": "6f5427d924014739d31a8de3e2dec2359412d9491daf36691f9161bd92890f6a",
+    "applicability_rules": {
+      "authoritative": "Exact MIX_C_PATTERN assignment, exact 40-layer/39-Q2-eligible layer law, and pinned d4_k4096/qtip2/qtip3 verticals.",
+      "outside_region": "Do not claim validation for a materially different tier family, layer eligibility, or codebook regime; obtain a new mixed-tier anchor.",
+      "solver_transfer": "Use the context-corrected three rows only for the same eligible-layer menu and local MIX_C_PATTERN solve region; preserve the factor/source fields in every result."
+    },
+    "grid_correction": {
+      "exact_anchor_closure_error": {
+        "agentic": -1.3877787807814457e-17,
+        "chat": 3.469446951953614e-18,
+        "code": -1.3877787807814457e-17,
+        "global_mean_kld": 1.3877787807814457e-17,
+        "multilingual": 0.0,
+        "prose": 1.3877787807814457e-17,
+        "reasoning": 0.0
+      },
+      "exact_anchor_corrected_prediction": {
+        "agentic": 0.09245987990952537,
+        "chat": 0.025381929400373534,
+        "code": 0.0687768719256841,
+        "global_mean_kld": 0.07943175833066396,
+        "multilingual": 0.13590777172047502,
+        "prose": 0.10473387973159684,
+        "reasoning": 0.013756994136335576
+      },
+      "exact_anchor_measured": {
+        "agentic": 0.09245987990952538,
+        "chat": 0.02538192940037353,
+        "code": 0.06877687192568412,
+        "global_mean_kld": 0.07943175833066395,
+        "multilingual": 0.13590777172047502,
+        "prose": 0.10473387973159683,
+        "reasoning": 0.013756994136335576
+      },
+      "factor_by_class": {
+        "agentic": 0.990304278760562,
+        "chat": 0.9833458875381984,
+        "code": 1.0918188460115634,
+        "multilingual": 1.0224204166406425,
+        "prose": 0.9511130083213316,
+        "reasoning": 0.9512870656114693
+      },
+      "global_factor": 1.0009861258540216,
+      "law": "For d4_k4096, qtip2_2.0117, and qtip3_3.0117 only, multiply each absolute class/global vertical by the explicit measured/predicted MIX_C_PATTERN factor. This common contextual factor is the minimum-assumption correction identified by one mixture anchor; it is not a standalone tier measurement.",
+      "modified_rows": [
+        "d4_k4096",
+        "qtip2_2.0117",
+        "qtip3_3.0117"
+      ],
+      "negative_absolute_price_created": false
+    },
+    "interaction_ci95_kld": {
+      "agentic": [
+        -0.04400570447175239,
+        0.04219522007688202
+      ],
+      "chat": [
+        -0.007511788982272095,
+        0.0066520436737528485
+      ],
+      "code": [
+        -0.011839293999682324,
+        0.02340717091547341
+      ],
+      "global_mean_kld": [
+        -0.01695504032652262,
+        0.017111545413850238
+      ],
+      "multilingual": [
+        -0.023946658244026198,
+        0.02990723731126793
+      ],
+      "prose": [
+        -0.02959994212407649,
+        0.018833347067301887
+      ],
+      "reasoning": [
+        -0.004189652667632521,
+        0.0027807329482921524
+      ]
+    },
+    "interaction_global_kld": 7.825254366380929e-05,
+    "interaction_kld_by_class": {
+      "agentic": -0.0009052421974351799,
+      "chat": -0.00042987265425962345,
+      "code": 0.005783938457895543,
+      "multilingual": 0.002980289533620867,
+      "prose": -0.005383297528387301,
+      "reasoning": -0.000704459859670185
+    },
+    "interaction_receipt_sha256": "858fde4ca2252212fb4f03919fe2bda0e0672b977d125ce2b98f3898ce26d096",
+    "material_by_class": {
+      "agentic": false,
+      "chat": false,
+      "code": true,
+      "multilingual": false,
+      "prose": true,
+      "reasoning": false
+    },
+    "post_stage_hash_manifest_sha256": "5520e6686a9cf3bf3ecd741095d298779999835346c78c081d74db5f30c4c3c2",
+    "realized_tier_counts": {
+      "d4_k4096": 3235,
+      "qtip2_2.0117": 2266,
+      "qtip3_3.0117": 14979
+    },
+    "realized_tier_proportions": {
+      "d4_k4096": 0.157958984375,
+      "qtip2_2.0117": 0.11064453125,
+      "qtip3_3.0117": 0.731396484375
+    },
+    "status": "PASS_MEASURED_CONTEXTUAL_INTERACTION",
+    "uncertainty": {
+      "anchor": "MEASURED_BALANCED64",
+      "grid_factor_transfer": "MEDIUM__ONE_ANCHOR_COMMON_FACTOR"
+    },
+    "wire_path": "inputs/p928/MIX_C_PATTERN_WIRE.json",
+    "wire_sha256": "5edd46173e125a7165ebc4abc20e63ed1d19107eb2be16b12b224d3d3f6a5fd6"
+  },
+  "p928_transfer_to_phase1_wire_c_disclosure": {
+    "count_delta_phase1_minus_anchor": {
+      "qtip2_2.0117": 2,
+      "qtip3_3.0117": -6
+    },
+    "effect_on_reported_prediction": "The named Wire-C residual family absorbs the disclosed near-pattern mismatch; no class pass is fabricated.",
+    "label": "NEAR_PATTERN_TRANSFER_FOR_RETRODICTION__EXACT_ONLY_AT_P928_ANCHOR",
+    "p928_anchor_selected_counts": {
+      "qtip2_2.0117": 2266,
+      "qtip3_3.0117": 14979
+    },
+    "phase1_wire_c_selected_counts": {
+      "qtip2_2.0117": 2268,
+      "qtip3_3.0117": 14973
+    }
+  },
+  "per_class_errors_outside_5_percent": [
+    {
+      "class": "multilingual",
+      "disposition": "REPORTED_MEASURED_RESIDUAL_FAMILY__NO_FABRICATED_CLASS_PASS",
+      "relative_error_percent": 11.331548581309626,
+      "residual_family_needed_for_exact_class_closure_kld": -0.030419771600343176,
+      "residual_family_used_kld": -0.010924160618350137,
+      "wire": "wire_a"
+    },
+    {
+      "class": "prose",
+      "disposition": "REPORTED_MEASURED_RESIDUAL_FAMILY__NO_FABRICATED_CLASS_PASS",
+      "relative_error_percent": 5.351766350183373,
+      "residual_family_needed_for_exact_class_closure_kld": -0.012439667157735868,
+      "residual_family_used_kld": -0.003982831859656644,
+      "wire": "wire_a"
+    },
+    {
+      "class": "code",
+      "disposition": "REPORTED_MEASURED_RESIDUAL_FAMILY__NO_FABRICATED_CLASS_PASS",
+      "relative_error_percent": -17.31707656677376,
+      "residual_family_needed_for_exact_class_closure_kld": 0.015151800352368634,
+      "residual_family_used_kld": 0.0025473602348691712,
+      "wire": "wire_b"
+    },
+    {
+      "class": "prose",
+      "disposition": "REPORTED_MEASURED_RESIDUAL_FAMILY__NO_FABRICATED_CLASS_PASS",
+      "relative_error_percent": 6.814342985786759,
+      "residual_family_needed_for_exact_class_closure_kld": -0.014620723786356926,
+      "residual_family_used_kld": -0.004479345762399195,
+      "wire": "wire_b"
+    },
+    {
+      "class": "code",
+      "disposition": "REPORTED_MEASURED_RESIDUAL_FAMILY__NO_FABRICATED_CLASS_PASS",
+      "relative_error_percent": -7.0114910806792,
+      "residual_family_needed_for_exact_class_closure_kld": 0.005525692782438529,
+      "residual_family_used_kld": 0.0014124002745559278,
+      "wire": "batch2"
+    },
+    {
+      "class": "code",
+      "disposition": "REPORTED_MEASURED_RESIDUAL_FAMILY__NO_FABRICATED_CLASS_PASS",
+      "relative_error_percent": 5.756834668471611,
+      "residual_family_needed_for_exact_class_closure_kld": -0.003050603212615629,
+      "residual_family_used_kld": 0.00015427293120678573,
+      "wire": "wire_c"
+    }
+  ],
+  "provenance": {
+    "input_inventory": {
+      "inputs/p922/P922_EXACT_RELEASE.json": {
+        "bytes": 1638,
+        "path": "inputs/p922/P922_EXACT_RELEASE.json",
+        "schema": "p922-exact-release-v1",
+        "sha256": "9e6a7f7bb609c67d8477e56be3faae198344de032f187fefed6d3d08f9874801",
+        "status": "PASS_EXACT_RELEASE_P919_PRESERVED"
+      },
+      "inputs/p922/P922_PAYLOAD_METADATA_REGRESSION.json": {
+        "bytes": 593,
+        "path": "inputs/p922/P922_PAYLOAD_METADATA_REGRESSION.json",
+        "schema": "p922-payload-metadata-regression-v1",
+        "sha256": "141536858922adc75ca7c32054900789378dd601a56e3a3e5d969a4592196b9b",
+        "status": "PASS_EXACT_FOUR_SCHEMA_SURFACE"
+      },
+      "inputs/p922/P922_RESTORED_VQ_BALANCED64_A2.json": {
+        "bytes": 61902,
+        "path": "inputs/p922/P922_RESTORED_VQ_BALANCED64_A2.json",
+        "schema": "p922-restored-vq-balanced64-eval-v1",
+        "sha256": "c2604f6386e00c1ab38b238cd5940f85d1ab12ec20e18f43dfc9efcece29be8e",
+        "status": "PASS_RESTORED_VQ_BALANCED64_V1"
+      },
+      "inputs/p922/P922_RESTORED_VQ_BALANCED64_A2.log": {
+        "bytes": 7521,
+        "path": "inputs/p922/P922_RESTORED_VQ_BALANCED64_A2.log",
+        "sha256": "8743d5886610ad2de7ebfb521ecb9cb69a772d156b2a7f2c4f5b85feabc46d45"
+      },
+      "inputs/p922/P922_RESTORED_VQ_SELECTION.json": {
+        "bytes": 6826642,
+        "path": "inputs/p922/P922_RESTORED_VQ_SELECTION.json",
+        "schema": "p922-restored-vq-selection-v1",
+        "sha256": "e776c293be491f080a630f7ba1d066ea0cc420c773be6758de2b4c92a3fb9818",
+        "status": "PASS_EXACT_RESTORED_VQ_SELECTION"
+      },
+      "inputs/p922/P922_RESULT_SUMMARY.json": {
+        "bytes": 5516,
+        "path": "inputs/p922/P922_RESULT_SUMMARY.json",
+        "schema": "standardized-benchmark-cell-v1",
+        "sha256": "f3360126f1951edccb05fc9d4626ccbada059efab679863f6a17745f6b84ccb1",
+        "status": null
+      },
+      "inputs/p922/P922_TERMINAL_VERIFICATION.json": {
+        "bytes": 3127,
+        "path": "inputs/p922/P922_TERMINAL_VERIFICATION.json",
+        "schema": "p922-terminal-verification-v1",
+        "sha256": "d3cbae01335d4fb3809275d72d9f6201c439f2598cd7c41ba0e57d81b36733c5",
+        "status": "PASS_INDEPENDENT_TERMINAL_VERIFY"
+      },
+      "inputs/p923_machinery/SEALED_SURFACE_PREDICTIONS.json": {
+        "bytes": 36681,
+        "path": "inputs/p923_machinery/SEALED_SURFACE_PREDICTIONS.json",
+        "schema": "p923-sealed-surface-predictions-v1",
+        "sha256": "aa1ad2843767c3377219b02869c5945d1c43c7fc75af6c50d949d27c8db74f0c",
+        "status": "PASS_REPRODUCED_EXACT_PRICE_SURFACE"
+      },
+      "inputs/p923_machinery/fit_wire_calibration.py": {
+        "bytes": 22873,
+        "path": "inputs/p923_machinery/fit_wire_calibration.py",
+        "sha256": "98e0877586cf3f209bbd7f95a98bdaa126c5be7a6878301461f9b4297dad4edb"
+      },
+      "inputs/p923_machinery/reconstruct_surface_predictions.py": {
+        "bytes": 13075,
+        "path": "inputs/p923_machinery/reconstruct_surface_predictions.py",
+        "sha256": "06db77efa2f2ca6d0b191af5dda84e248843fd1e3323ba90bdc6f48cb9b85264"
+      },
+      "inputs/p924_grid/CORRECTED_VERTICAL_GRID.csv": {
+        "bytes": 1872,
+        "path": "inputs/p924_grid/CORRECTED_VERTICAL_GRID.csv",
+        "sha256": "74869b5f8e3ef4eb43dc98c6ee060c2d9ad048bb215cadd308fb2c9983933dda"
+      },
+      "inputs/p924_grid/CORRECTED_VERTICAL_GRID_MANIFEST.json": {
+        "bytes": 11345,
+        "path": "inputs/p924_grid/CORRECTED_VERTICAL_GRID_MANIFEST.json",
+        "schema": "p860-corrected-vertical-grid-v1",
+        "sha256": "2ef3cfea36e3d21198e2f1762b3a4f16e5d54f1b0fd7f0b2ab08d6dc738b9214",
+        "status": "PASS_CORRECTED_GRID"
+      },
+      "inputs/p924_grid/WIRE_C_V2_REWEIGHTED_PRE_V3_CONFIG.json": {
+        "bytes": 4743,
+        "path": "inputs/p924_grid/WIRE_C_V2_REWEIGHTED_PRE_V3_CONFIG.json",
+        "schema": "wire-c-v2-reweighted-pre-v3-config-v1",
+        "sha256": "7bf451ff9d4cefc8a970ed462fcd9793c9d2d5588f4637bac4f322d7976ddcbc",
+        "status": "PREREGISTERED_V2_REWEIGHTED_PRE_V3"
+      },
+      "inputs/p928/MIXED_TIER_ANCHOR.json": {
+        "bytes": 6311,
+        "path": "inputs/p928/MIXED_TIER_ANCHOR.json",
+        "schema": "mixed-tier-anchor-v1",
+        "sha256": "7cf58dfabb1059038e963c20bc0542614805559b32c2d58854a3305192f8a185",
+        "status": "PASS"
+      },
+      "inputs/p928/MIXED_TIER_ANCHOR.md": {
+        "bytes": 1187,
+        "path": "inputs/p928/MIXED_TIER_ANCHOR.md",
+        "sha256": "8659b214f481553f2524891e9354d936caa014261ac4a7b4c29b7ecce2b8a60b"
+      },
+      "inputs/p928/MIX_C_PATTERN_ASSIGNMENT.json": {
+        "bytes": 968035,
+        "path": "inputs/p928/MIX_C_PATTERN_ASSIGNMENT.json",
+        "schema": "p926-mix-c-pattern-assignment-v1",
+        "sha256": "62c26b9ea8f53aa2a2be84ff55b0e444100625f900832e096624ea178d9f9122",
+        "status": "PREREGISTERED_NO_MEASUREMENT_READ"
+      },
+      "inputs/p928/MIX_C_PATTERN_PREREGISTRATION.json": {
+        "bytes": 4450,
+        "path": "inputs/p928/MIX_C_PATTERN_PREREGISTRATION.json",
+        "schema": "p926-mix-c-pattern-preregistration-v1",
+        "sha256": "e0cf08c792ad5b7720a107964edbf117dd12107a327b4ede4686d02e685b963e",
+        "status": "SEALED_BEFORE_MEASUREMENT"
+      },
+      "inputs/p928/MIX_C_PATTERN_WIRE.json": {
+        "bytes": 12271358,
+        "path": "inputs/p928/MIX_C_PATTERN_WIRE.json",
+        "schema": "p926-mix-c-pattern-wire-v1",
+        "sha256": "5edd46173e125a7165ebc4abc20e63ed1d19107eb2be16b12b224d3d3f6a5fd6",
+        "status": "PREREGISTERED_NO_MEASUREMENT_READ"
+      },
+      "inputs/p928/P926_MIX_C_PATTERN_BALANCED64_A4_GRID_ROW.csv": {
+        "bytes": 1387,
+        "path": "inputs/p928/P926_MIX_C_PATTERN_BALANCED64_A4_GRID_ROW.csv",
+        "sha256": "0706cc81d93366b3f29cb43d4d31ddedc5626f97addd543fe4cd689e77a71929"
+      },
+      "inputs/p928/P926_MIX_C_PATTERN_BALANCED64_A4_INTERACTION.json": {
+        "bytes": 8099,
+        "path": "inputs/p928/P926_MIX_C_PATTERN_BALANCED64_A4_INTERACTION.json",
+        "schema": "p926-mix-c-pattern-interaction-v1",
+        "sha256": "858fde4ca2252212fb4f03919fe2bda0e0672b977d125ce2b98f3898ce26d096",
+        "status": "PASS_MEASURED_INTERACTION"
+      },
+      "inputs/p928/P926_POST_STAGE_HASH_MANIFEST.json": {
+        "bytes": 34609,
+        "path": "inputs/p928/P926_POST_STAGE_HASH_MANIFEST.json",
+        "schema": "p926-post-stage-hash-manifest-root-v1",
+        "sha256": "5520e6686a9cf3bf3ecd741095d298779999835346c78c081d74db5f30c4c3c2",
+        "status": "PASS_ALL_PAYLOADS_AND_CODEBOOKS_BOUND_BEFORE_READ"
+      },
+      "inputs/p928/P928_SOURCE_CORRECTED_VERTICAL_GRID.csv": {
+        "bytes": 1872,
+        "path": "inputs/p928/P928_SOURCE_CORRECTED_VERTICAL_GRID.csv",
+        "sha256": "74869b5f8e3ef4eb43dc98c6ee060c2d9ad048bb215cadd308fb2c9983933dda"
+      },
+      "inputs/p928/compute_node_EXACT_RELEASE.json": {
+        "bytes": 1341,
+        "path": "inputs/p928/compute_node_EXACT_RELEASE.json",
+        "schema": "p926-compute-node-exact-release-v1",
+        "sha256": "b73a153646e55485f4a7af88d32124d2d21dae03116b6f6b1282b827363c9685",
+        "status": "PASS_EXACT_RELEASED_UNCLAIMED"
+      },
+      "inputs/phase1/BASELINE_STDOUT.txt": {
+        "bytes": 765,
+        "path": "inputs/phase1/BASELINE_STDOUT.txt",
+        "sha256": "42472019c0555780486252881146f8b2770b2381300b006fe1c96efd7e2a8c36"
+      },
+      "inputs/phase1/CORRECTED_PRICING_V3_DIAGNOSTIC_BASELINE.json": {
+        "bytes": 3174,
+        "path": "inputs/phase1/CORRECTED_PRICING_V3_DIAGNOSTIC_BASELINE.json",
+        "schema": "p923-transition-aware-corrected-pricing-v3-prelim-v1",
+        "sha256": "8aaa1f255372b5a007c64674394db458dea53ba6933f6136e88377853a5e925a",
+        "status": "PRELIM_AWAITING_P921_P922"
+      },
+      "inputs/phase1/CORRECTED_PRICING_V3_PHASE1.json": {
+        "bytes": 11324,
+        "path": "inputs/phase1/CORRECTED_PRICING_V3_PHASE1.json",
+        "schema": "p927-corrected-pricing-v3-phase1-v1",
+        "sha256": "90d643ead59514d314d6f98762e591cccace765f698483defd2c32e809f6f8ec",
+        "status": "PASS_PHASE1_INTERIM_PENDING_P922_P928"
+      },
+      "inputs/phase1/PHASE1_ARTIFACT_SHA256.json": {
+        "bytes": 1026,
+        "path": "inputs/phase1/PHASE1_ARTIFACT_SHA256.json",
+        "schema": "p927-phase1-artifact-sha256-v1",
+        "sha256": "08404b0e74cf25f1ed377092dd43ba1dcb1366c7c53b88f6d9fa88a47993c168",
+        "status": null
+      },
+      "inputs/phase1/WIRE_CALIBRATION_DIAGNOSTIC_BASELINE.json": {
+        "bytes": 24389,
+        "path": "inputs/phase1/WIRE_CALIBRATION_DIAGNOSTIC_BASELINE.json",
+        "schema": "p923-wire-calibration-report-v1",
+        "sha256": "e92248f1d058c40f5f5a6929ba1fe02c41c841ec41d840073d130d8e68c5ead5",
+        "status": "PASS_PRELIM_ALL_FOUR_WIRES_WITHIN_5_PERCENT"
+      },
+      "inputs/phase1/WIRE_CALIBRATION_PHASE1_REPORT.json": {
+        "bytes": 38734,
+        "path": "inputs/phase1/WIRE_CALIBRATION_PHASE1_REPORT.json",
+        "schema": "p927-wire-calibration-phase1-report-v1",
+        "sha256": "05ba361aec4f40aeaba5eb663a478938a69919659929c836b0cd2e6ca26fa976",
+        "status": "PASS_PHASE1_COMPLETE_WITH_EXPLICIT_INTERIM_RESIDUALS"
+      },
+      "inputs/phase1/build_phase1.py": {
+        "bytes": 16593,
+        "path": "inputs/phase1/build_phase1.py",
+        "sha256": "99d573daa2490d37173e68d4dccd05a66df147a32ccb006d52689d57147f6535"
+      }
+    },
+    "p922_embedded_authorities": {
+      "measurement_sha256": "c2604f6386e00c1ab38b238cd5940f85d1ab12ec20e18f43dfc9efcece29be8e",
+      "priced_expectation_sha256": "471ef5b9c8d2d2054b0bc23551221334e06f0a755b1f702ce7a61912c5ed0a8f",
+      "selection_sha256": "e776c293be491f080a630f7ba1d066ea0cc420c773be6758de2b4c92a3fb9818"
+    },
+    "p927_artifact_sha256": {
+      "analysis/WIRE_CALIBRATION_PHASE1_REPORT.json": "05ba361aec4f40aeaba5eb663a478938a69919659929c836b0cd2e6ca26fa976",
+      "diagnostic/BASELINE_STDOUT.txt": "42472019c0555780486252881146f8b2770b2381300b006fe1c96efd7e2a8c36",
+      "diagnostic/CORRECTED_PRICING_V3_DIAGNOSTIC_BASELINE.json": "8aaa1f255372b5a007c64674394db458dea53ba6933f6136e88377853a5e925a",
+      "diagnostic/WIRE_CALIBRATION_DIAGNOSTIC_BASELINE.json": "e92248f1d058c40f5f5a6929ba1fe02c41c841ec41d840073d130d8e68c5ead5",
+      "outputs/CORRECTED_PRICING_V3_PHASE1.json": "90d643ead59514d314d6f98762e591cccace765f698483defd2c32e809f6f8ec"
+    },
+    "p927_inherited_input_sha256": {
+      "diagnostic_baseline_pricing": "8aaa1f255372b5a007c64674394db458dea53ba6933f6136e88377853a5e925a",
+      "diagnostic_baseline_report": "e92248f1d058c40f5f5a6929ba1fe02c41c841ec41d840073d130d8e68c5ead5",
+      "p908_direct_prices": "abfa1495e201c33b12b9184606e1fae5d57d6c84560e66845ef51b17f28780f3",
+      "p921_balanced64_receipt": "e1d1b70792a7c8fe133a63b5e922359a24428f5d1281ddd804f0ee01711965ed",
+      "p921_result_cell": "f73da5689938748e357de81750dd286467e77bb50cd8e6ad73a871995b648789",
+      "sealed_surface_predictions": "aa1ad2843767c3377219b02869c5945d1c43c7fc75af6c50d949d27c8db74f0c"
+    },
+    "p928_embedded_input_hashes": {
+      "adapter": "8c569a84bbae3c3d8f2fe18f1c8add24ad45a189363e7b690f7f20f46e964bba",
+      "assignment": "62c26b9ea8f53aa2a2be84ff55b0e444100625f900832e096624ea178d9f9122",
+      "balanced64": "7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad",
+      "grid": "74869b5f8e3ef4eb43dc98c6ee060c2d9ad048bb215cadd308fb2c9983933dda",
+      "preregistration": "e0cf08c792ad5b7720a107964edbf117dd12107a327b4ede4686d02e685b963e",
+      "qtip_tlut": "be7e69b5b18419afc333dc3ef7841bda2ed8207114eeae0ac5bcd7bcab79b93c",
+      "runner": "30861c3e945ac69da4c3688d419dc25b4ea25bbad9359298bdb5cb1c9203f521",
+      "wire": "5edd46173e125a7165ebc4abc20e63ed1d19107eb2be16b12b224d3d3f6a5fd6"
+    },
+    "p928_embedded_result_hashes": {
+      "anchor": "7cf58dfabb1059038e963c20bc0542614805559b32c2d58854a3305192f8a185",
+      "grid_row": "0706cc81d93366b3f29cb43d4d31ddedc5626f97addd543fe4cd689e77a71929",
+      "interaction": "858fde4ca2252212fb4f03919fe2bda0e0672b977d125ce2b98f3898ce26d096",
+      "post_stage_manifest": "5520e6686a9cf3bf3ecd741095d298779999835346c78c081d74db5f30c4c3c2",
+      "result": "e9330080796d29fb771b9aab4accd45b48897d6c2ec30ef2c4d3264f5ee9db53"
+    },
+    "pin_checks": {
+      "inputs/p922/P922_RESTORED_VQ_BALANCED64_A2.json": true,
+      "inputs/p922/P922_RESTORED_VQ_SELECTION.json": true,
+      "inputs/p922/P922_RESULT_SUMMARY.json": true,
+      "inputs/p924_grid/CORRECTED_VERTICAL_GRID.csv": true,
+      "inputs/p928/MIXED_TIER_ANCHOR.json": true,
+      "inputs/p928/MIX_C_PATTERN_ASSIGNMENT.json": true,
+      "inputs/p928/MIX_C_PATTERN_PREREGISTRATION.json": true,
+      "inputs/p928/MIX_C_PATTERN_WIRE.json": true,
+      "inputs/p928/P926_MIX_C_PATTERN_BALANCED64_A4_INTERACTION.json": true,
+      "inputs/phase1/CORRECTED_PRICING_V3_PHASE1.json": true,
+      "inputs/phase1/PHASE1_ARTIFACT_SHA256.json": true,
+      "inputs/phase1/WIRE_CALIBRATION_DIAGNOSTIC_BASELINE.json": true,
+      "inputs/phase1/WIRE_CALIBRATION_PHASE1_REPORT.json": true
+    }
+  },
+  "retrodictions": {
+    "batch2": {
+      "absolute_error_by_class": {
+        "agentic": 1.3067201604960443e-05,
+        "chat": 4.664069936694687e-05,
+        "code": -0.004113292507882602,
+        "multilingual": 0.0005116585143457308,
+        "prose": 0.003312781183312463,
+        "reasoning": 2.1654316927077755e-07
+      },
+      "absolute_global_error": 2.8148047191034475e-05,
+      "classes_outside_5_percent": [
+        "code"
+      ],
+      "component_application": {
+        "p922_codebook_substitution": false,
+        "p928_mixed_tier_interaction": false,
+        "wire_family_residual": true
+      },
+      "measured_by_class": {
+        "agentic": 0.1500522296898612,
+        "chat": 0.055164672200475405,
+        "code": 0.05866501804754704,
+        "multilingual": 0.22315583334363326,
+        "prose": 0.1796345585524803,
+        "reasoning": 0.03367162428749847
+      },
+      "measured_global": 0.12650123077323805,
+      "predicted_by_class": {
+        "agentic": 0.15006529689146617,
+        "chat": 0.05521131289984235,
+        "code": 0.05455172553966444,
+        "multilingual": 0.223667491857979,
+        "prose": 0.18294733973579277,
+        "reasoning": 0.03367184083066774
+      },
+      "predicted_global": 0.12652937882042908,
+      "relative_error_percent_by_class": {
+        "agentic": 0.008708435477422505,
+        "chat": 0.08454813108913495,
+        "code": -7.0114910806792,
+        "multilingual": 0.22928305600591337,
+        "prose": 1.8441780969137067,
+        "reasoning": 0.0006431028316988829
+      },
+      "relative_global_error_percent": 0.022251204212775377,
+      "role": "CALIBRATION_RETRODICTION__EXPLICIT_COMPONENT_DECOMPOSITION",
+      "within_5_percent_by_class": {
+        "agentic": true,
+        "chat": true,
+        "code": false,
+        "multilingual": true,
+        "prose": true,
+        "reasoning": true
+      },
+      "within_5_percent_global": true
+    },
+    "wire_a": {
+      "absolute_error_by_class": {
+        "agentic": 0.0037752796539750333,
+        "chat": -0.0005660992097687584,
+        "code": -0.0017866997267589613,
+        "multilingual": 0.01949561098199304,
+        "prose": 0.008456835298079224,
+        "reasoning": -3.6847802323471124e-05
+      },
+      "absolute_global_error": 0.005170002406189464,
+      "classes_outside_5_percent": [
+        "multilingual",
+        "prose"
+      ],
+      "component_application": {
+        "p922_codebook_substitution": false,
+        "p928_mixed_tier_interaction": false,
+        "wire_family_residual": true
+      },
+      "measured_by_class": {
+        "agentic": 0.14929602148179635,
+        "chat": 0.05936173489545872,
+        "code": 0.054534618168331016,
+        "multilingual": 0.1720471905680156,
+        "prose": 0.15801951626287722,
+        "reasoning": 0.041740785457303975
+      },
+      "measured_global": 0.11592659770878101,
+      "predicted_by_class": {
+        "agentic": 0.1530713011357714,
+        "chat": 0.05879563568568996,
+        "code": 0.052747918441572055,
+        "multilingual": 0.19154280155000863,
+        "prose": 0.16647635156095644,
+        "reasoning": 0.041703937654980504
+      },
+      "predicted_global": 0.12109660011497048,
+      "relative_error_percent_by_class": {
+        "agentic": 2.5287208704589226,
+        "chat": -0.9536433036630543,
+        "code": -3.2762670515891212,
+        "multilingual": 11.331548581309626,
+        "prose": 5.351766350183373,
+        "reasoning": -0.08827769271654295
+      },
+      "relative_global_error_percent": 4.459720640794629,
+      "role": "P921_STRICT_HOLDOUT__P922_P928_NOT_APPLICABLE",
+      "within_5_percent_by_class": {
+        "agentic": true,
+        "chat": true,
+        "code": true,
+        "multilingual": false,
+        "prose": false,
+        "reasoning": true
+      },
+      "within_5_percent_global": true
+    },
+    "wire_b": {
+      "absolute_error_by_class": {
+        "agentic": 0.00013285545326388593,
+        "chat": 0.0002522114121537855,
+        "code": -0.012604440117499463,
+        "multilingual": 0.0014124594494715204,
+        "prose": 0.010141378023957731,
+        "reasoning": 5.350453006175426e-06
+      },
+      "absolute_global_error": 5.838605149906251e-05,
+      "classes_outside_5_percent": [
+        "code",
+        "prose"
+      ],
+      "component_application": {
+        "p922_codebook_substitution": false,
+        "p928_mixed_tier_interaction": false,
+        "wire_family_residual": true
+      },
+      "measured_by_class": {
+        "agentic": 0.10924565015374717,
+        "chat": 0.05128011570801464,
+        "code": 0.07278618922135838,
+        "multilingual": 0.17286582605560766,
+        "prose": 0.1488240032107343,
+        "reasoning": 0.03941800492468026
+      },
+      "measured_global": 0.10456535671993392,
+      "predicted_by_class": {
+        "agentic": 0.10937850560701105,
+        "chat": 0.05153232712016843,
+        "code": 0.060181749103858914,
+        "multilingual": 0.17427828550507918,
+        "prose": 0.15896538123469203,
+        "reasoning": 0.03942335537768644
+      },
+      "predicted_global": 0.10462374277143298,
+      "relative_error_percent_by_class": {
+        "agentic": 0.12161166424193848,
+        "chat": 0.4918308172116026,
+        "code": -17.31707656677376,
+        "multilingual": 0.8170842564435787,
+        "prose": 6.814342985786759,
+        "reasoning": 0.013573627118868004
+      },
+      "relative_global_error_percent": 0.05583689792734159,
+      "role": "CALIBRATION_RETRODICTION__EXPLICIT_COMPONENT_DECOMPOSITION",
+      "within_5_percent_by_class": {
+        "agentic": true,
+        "chat": true,
+        "code": false,
+        "multilingual": true,
+        "prose": false,
+        "reasoning": true
+      },
+      "within_5_percent_global": true
+    },
+    "wire_c": {
+      "absolute_error_by_class": {
+        "agentic": -2.970791989352628e-05,
+        "chat": -6.407349122754952e-05,
+        "code": 0.0032048761438224146,
+        "multilingual": -0.0005138812064562903,
+        "prose": -0.0034131020799685607,
+        "reasoning": -1.438369767244041e-06
+      },
+      "absolute_global_error": -0.00017893527834876577,
+      "classes_outside_5_percent": [
+        "code"
+      ],
+      "component_application": {
+        "p922_codebook_substitution": true,
+        "p928_mixed_tier_interaction": true,
+        "wire_family_residual": true
+      },
+      "measured_by_class": {
+        "agentic": 0.12370960129547127,
+        "chat": 0.04731566452358319,
+        "code": 0.05567080398147476,
+        "multilingual": 0.22430602160887467,
+        "prose": 0.18437087774722433,
+        "reasoning": 0.03237105374398153
+      },
+      "measured_global": 0.1181380904588927,
+      "predicted_by_class": {
+        "agentic": 0.12367989337557775,
+        "chat": 0.04725159103235564,
+        "code": 0.058875680125297175,
+        "multilingual": 0.22379214040241838,
+        "prose": 0.18095777566725577,
+        "reasoning": 0.03236961537421429
+      },
+      "predicted_global": 0.11795915518054394,
+      "relative_error_percent_by_class": {
+        "agentic": -0.024014239462766263,
+        "chat": -0.1354170798882337,
+        "code": 5.756834668471611,
+        "multilingual": -0.22909826618580098,
+        "prose": -1.851215398913475,
+        "reasoning": -0.004443382593044554
+      },
+      "relative_global_error_percent": -0.151462815806247,
+      "role": "CALIBRATION_RETRODICTION__EXPLICIT_COMPONENT_DECOMPOSITION",
+      "within_5_percent_by_class": {
+        "agentic": true,
+        "chat": true,
+        "code": false,
+        "multilingual": true,
+        "prose": true,
+        "reasoning": true
+      },
+      "within_5_percent_global": true
+    }
+  },
+  "schema": "p930-wire-calibration-final-report-v1",
+  "status": "PASS_FINAL_ALL_FOUR_GLOBAL_WITHIN_5_PERCENT_WITH_CLASS_RESIDUAL_DISCLOSURE",
+  "task_id": "PUBLIC_TASK"
+}

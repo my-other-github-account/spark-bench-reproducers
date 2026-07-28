@@ -1,0 +1,43 @@
+{
+  "assignment": {
+    "assignment_cells": 22016,
+    "changed_cells": 21472,
+    "inherited_cells": 544,
+    "label": "F521 V2 restored/frozen-codebook physical endpoint",
+    "physical_manifest_path": "artifacts/BASELINE_R_PHYSICAL_MANIFEST.public.json",
+    "sealed_source_sha256": "f521cf07e0dce3c39739c7493b6eda82cd78d6b1566fadb2101691321566ca39"
+  },
+  "instrument": {
+    "class_quota": {
+      "agentic": 19,
+      "chat": 7,
+      "code": 9,
+      "multilingual": 10,
+      "prose": 10,
+      "reasoning": 9
+    },
+    "direction": "KL(teacher || candidate)",
+    "name": "BALANCED64_V1",
+    "path": "specs/BALANCED64_V1.public.json",
+    "positions": 65536,
+    "positions_per_window": 1024,
+    "support": 8192,
+    "windows": 64
+  },
+  "measurement_receipts": {
+    "p922_diagnostic": "artifacts/P922_RESTORED_VQ_BALANCED64_A2.public.json",
+    "qtip2_vertical": "artifacts/P880_QTIP2_ASSEALED_BALANCED64.public.json",
+    "qtip3_vertical": "artifacts/P819_QTIP3_UNIFORM_BALANCED64.public.json",
+    "wire_a": "artifacts/P921_WIRE_A_BALANCED64_R2.public.json",
+    "wire_c_r": "artifacts/WIRE_C_FULL_BALANCED64.public.json"
+  },
+  "model": "stock DeepSeek-V4-Flash",
+  "public_identity": "banana_bae",
+  "schema": "wire-c-v2-public-measurement-spec-v1",
+  "status": "PASS_FROZEN_PUBLIC_INDEX",
+  "validity_law": [
+    "publish global, all six classes, per-window rows, uncertainty, and instrument basis",
+    "label physical target, diagnostic, reference, estimate, and pending rows separately",
+    "do not compare absolute values across different window populations"
+  ]
+}

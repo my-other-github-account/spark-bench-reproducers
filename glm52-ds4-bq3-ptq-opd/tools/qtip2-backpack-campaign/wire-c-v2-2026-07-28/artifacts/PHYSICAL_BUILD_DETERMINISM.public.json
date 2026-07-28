@@ -1,0 +1,33 @@
+{
+  "canonical_json": "indent=2, sort_keys=True, trailing_newline",
+  "outputs": [
+    {
+      "bytes": 3840,
+      "path": "WIRE_C_V2_GLOBAL_ACCEPTANCE_WITNESS.json",
+      "sha256": "b6170b084cc77e09f3ab2736dfd070c7b9b4e35fa926618d6bad6721f036cad4"
+    },
+    {
+      "bytes": 1207,
+      "path": "WIRE_C_V2_GLOBAL_FANIN_INTAKE.json",
+      "sha256": "087814cf474bff3d0a17dad4ea13032b2e8bc6c6075169871807eedea40f9a7a"
+    },
+    {
+      "bytes": 1183,
+      "path": "WIRE_C_V2_GLOBAL_INDEPENDENT_VERIFICATION.json",
+      "sha256": "233bec14db7fe0069a377e95e8fe623ff4cb02e31f8f9ebf7e71d13791d0d853"
+    },
+    {
+      "bytes": 10641204,
+      "path": "WIRE_C_V2_GLOBAL_OVERLAY_MANIFEST.json",
+      "sha256": "e1852a23f698ab926a713b27cd99ecba959698a7c001fbe03f45a4731a7ec314"
+    },
+    {
+      "bytes": 968394,
+      "path": "WIRE_C_V2_RECONSTRUCTED_ASSIGNMENT.json",
+      "sha256": "d35866290ba80084b0280a1dbecc49ec69355ad3b1edb416f37ee313f985fd7b"
+    }
+  ],
+  "schema": "wire-c-v2-global-determinism-receipt-v1",
+  "status": "PASS",
+  "task_id": "PUBLIC_TASK"
+}

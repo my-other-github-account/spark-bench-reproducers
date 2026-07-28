@@ -1,0 +1,12 @@
+{
+  "adapter_sha256": "1ef839b4a37ce2ffef8164334d6257eefb7d4bbc10581d75ebb4fdfe34e4776e",
+  "assignment_sha256": "1a5a8bd847ba6d38792f4dc915b7ae818bc28abc0399c47110abd317c8251b1a",
+  "base_wire_manifest_sha256": "c24a1c0568a00fcb8460d7edfb7630187ef10c98e9d0c25c87aa0bccb1d89755",
+  "builder_sha256": "873a98a37a6cf854572983ebfdffc15e2292f6599a7fb3206c14cb866f2f8784",
+  "checkpoint_helper_sha256": "1d0101db7deaf3c15d9e3f47f32ea0d3348b80ad89ab210b14ea60c23e5405f3",
+  "inventory_sha256": "b3c208169bbd5b0a7bca52655e382f0609bab712518f7521d2926442baefabc0",
+  "schema": "p880-p874-binding-v1",
+  "snapshot_sha256": "6e943dc42d612efef6fceeb781e7eb772363e7bcee3c7e9322f1d279b04c7579",
+  "task": "PUBLIC_TASK",
+  "walk_sha256": "923de0afe26afba620cd31805e0ce7995abe5f03389998174baa30cda2348699"
+}

@@ -1,91 +1,167 @@
-# RESULTS — QTIP2 Backpack Campaign (all measured tables, one basis per table)
+# Results
 
-Instrument: sealed-parity full-512 rail, KL(teacher||candidate), 1024 pos/window.
-Wires: no-QTIP = GENESIS `c9fb72e2…` (101,346,700,411 B). QTIP = respent `c030883f…`
-(101,346,462,015 B; 1,411 changed cells incl. 280 QTIP2@2.0117bpw; same envelope).
-Reference: Unsloth IQ4 137.9GB global 0.07204; IQ3-true 103.0GB global 0.14724; step0 0.077061.
+Public operator identity: **banana_bae**
 
-## T1. Solver prediction (nomination basis; same solver, objective, envelope, both arms)
+## Reading law
 
-| Class | WITHOUT | WITH | Δ |
-|---|---|---|---|
-| agentic | 0.08265 | 0.08223 | −0.0004 |
-| chat | 0.02914 | 0.02841 | −0.0007 |
-| code | 0.05018 | 0.04938 | −0.0008 (hard ceiling held) |
-| multilingual | 0.11222 | 0.10573 | −0.0065 |
-| prose | 0.08139 | 0.05606 | **−0.0253** |
-| reasoning | 0.01859 | ~0 ⚠ clamp artifact | (≤−0.0186, unreliable) |
-| six-class mean | 0.06236 | 0.05363 | **−0.0087 (−14.0%)** |
+“Same instrument” means BALANCED64_V1: 64 frozen windows, 65,536 positions, support 8,192, cutoff 1,024, and `KL(teacher || candidate)`. Lower is better. Rows are not interchangeable unless checkpoint lineage and cell population also match; status and basis are explicit below.
 
-Cells bought: 280 QTIP2 (109 ex-d4_k1024, 62 ex-d4_k256, rest ex-k2048-class);
-QTIP2 freed 399,614,780 B; re-spent 399,376,384 B on tier upgrades. Bound: best_bound
-−0.0181 at delivery (bound not fully closed; refinement continued).
-Caveat: nomination basis historically ~1.9–2.3× optimistic on non-code ABSOLUTES (the T4
-build-chain anomaly); Δs are same-basis honest. See SOLVER_CALIBRATION.md (T0–T4 decomposition).
+## Global comparison
 
-## T2. Pre-repair measured, paired same-window clusters (undosed vs undosed)
+| row | status | cell/checkpoint basis | global KLD | interpretation |
+|---|---|---|---:|---|
+| Genesis/BQ3 control | MEASURED | baseline, BALANCED64 | 0.1293130 | canonical campaign control |
+| Wire A pre-repair | MEASURED | Wire-A physical read, BALANCED64 | 0.1159266 | same-instrument comparator |
+| Wire C-R pre-repair | MEASURED | physical Wire C with 3,803 frozen-base codebook substitutions | 0.1181381 | numerically worse than A; paired global CI crosses zero |
+| P922 restored-VQ diagnostic | MEASURED DIAGNOSTIC | restored VQ identities with frozen base codebooks | 0.1466261 | isolates substitution damage; **not TRUE-C** |
+| Wire C-true pre-repair | ESTIMATE | C-R minus measured P922 surcharge | **0.089–0.095** | point arithmetic 0.0888785; pending direct P937 |
+| QTIP3 uniform vertical | MEASURED REFERENCE | exact QTIP3 vertical, BALANCED64 | 0.0658810 | tier reference, not the mixed Wire-C checkpoint |
+| QTIP2 as-sealed vertical | MEASURED REFERENCE | exact QTIP2 vertical, BALANCED64 | 0.1858191 | tier reference, not the mixed Wire-C checkpoint |
+| IQ4 reference | DIFFERENT CELL POPULATION | P910 canonical IQ4 reference | 0.0720400 | benchmark context only; not apples-to-apples with Wire C |
 
-### Windows 0–63 (s6 instrument; 5.5σ)
-| Class | n | QTIP | non-QTIP | Δ% |
-|---|---|---|---|---|
-| multilingual | 9 | 0.20424 | 0.25571 | **−20.1%** |
-| prose | 12 | 0.14847 | 0.17479 | **−15.1%** |
-| chat | 7 | 0.07047 | 0.08259 | −14.7% |
-| agentic | 19 | 0.11168 | 0.12070 | −7.5% |
-| reasoning | 8 | 0.04637 | 0.04751 | −2.4% |
-| code | 9 | 0.03801 | 0.03698 | +2.8% |
-| **all** | 64 | **0.10856** | **0.12474** | paired −0.01618 (SE 0.00292), 53/64 improved |
+The task shorthand “Genesis base 0.1291, A 0.11593, C-R 0.11814, C-true 0.089–0.095” is represented above with full available precision and validity labels.
 
-### Windows 64–127 (s8 instrument; 5.5σ)
-| Class | n | QTIP | non-QTIP | Δ% |
-|---|---|---|---|---|
-| prose | 12 | 0.17639 | 0.20485 | **−13.9%** |
-| chat | 6 | 0.05423 | 0.06258 | −13.3% |
-| multilingual | 8 | 0.18514 | 0.20850 | **−11.2%** |
-| agentic | 19 | 0.13839 | 0.14914 | −7.2% |
-| reasoning | 8 | 0.04096 | 0.04150 | −1.3% |
-| code | 11 | 0.05871 | 0.05696 | +3.1% |
-| **all** | 64 | **0.11760** | **0.12959** | paired −0.01199 (SE 0.00218), 51/64 improved |
+## Six-class measured rows
 
-Combined 128-window paired mean: **−0.01408** → projected full-512 pre-repair global
-≈ **0.1143** (additive) / 0.1165 (ratio) vs measured non-QTIP **0.12837**.
-Prediction check: pre-announced band was 0.111–0.118 → landed inside.
-EARLY_8 (windows 0–7, first physical row): global 0.08679 (n=8; different mix, not
-global-comparable; class cells with n≥3 favored QTIP: agentic −26%, code −26% vs class means).
+| row | agentic | chat | code | multilingual | prose | reasoning |
+|---|---:|---:|---:|---:|---:|---:|
+| Genesis/BQ3 control | 0.1635113 | 0.0674758 | 0.0522338 | 0.2104958 | 0.1744358 | 0.0419518 |
+| Wire A pre-repair | 0.1492960 | 0.0593617 | 0.0545346 | 0.1720472 | 0.1580195 | 0.0417408 |
+| Wire C-R pre-repair | 0.1237096 | 0.0473157 | 0.0556708 | 0.2243060 | 0.1843709 | 0.0323711 |
+| QTIP3 uniform vertical | 0.0762649 | 0.0201583 | 0.0535853 | 0.1107425 | 0.0937558 | 0.0109988 |
+| QTIP2 as-sealed vertical | 0.2043961 | 0.0576808 | 0.1406611 | 0.3377411 | 0.2649419 | 0.0347060 |
+| IQ4 reference (different cells) | 0.1026100 | 0.0304200 | 0.0542160 | 0.0991100 | 0.0850200 | 0.0160200 |
 
-## T3. Dose ledger (repair training)
+No per-class TRUE-C estimate is promoted here. P922 supplies a measured substitution vector, but transferring it to a not-yet-built TRUE-C checkpoint by class would add an unsupported precision claim. Direct P937/P939 rows should replace the estimate.
 
-| Dose | Wire | Recipe | Global effect |
-|---|---|---|---|
-| dose-1 | GENESIS | registered 24-update canonical | 0.12837 → 0.08395 = **−34.6%** (chat −43.3 / agentic −38.7 / reasoning −36.8 / prose −33.0 / mult −30.7 / code −20.3) |
-| dose-2 | GENESIS | 24-update reweighted 4×mult/3×prose/2×reason/1×chat/2×code-guard | U030→U024 same-64-window: 0.08288 → 0.08194 = **−1.1%** (reasoning −10.6, code −4.2, mult −1.0, prose −0.2, chat +0.8) |
-| dose-on-QTIP (P680) | QTIP respent | dose-2 recipe rebased, act-caches rebuilt (5.22× builder) | IN FLIGHT — projection 0.1143 × 0.654 ≈ **0.0748** |
+## Wire A versus Wire C-R
 
-Law learned: repair returns cliff ~30× after dose-1. Residual mult/prose gap is
-allocation-structural — reallocation (backpack) moved mult/prose 11–20% where a
-mult/prose-targeted dose moved them 0.2–1.0%.
+The P921 paired BALANCED64 comparison reported A−C:
 
-## T4. Ship scoreboard (current vs bars)
+- global paired mean: **−0.0022114928 KLD**;
+- 95% CI: **[−0.0121269382, 0.0077039527]**;
+- 64 paired windows;
+- numerical ordering: Wire C-R worse;
+- global 95% separation: **no**.
 
-| Measure | ours (U024/U030 chain) | IQ4 | status |
-|---|---|---|---|
-| global | 0.08194 (interim U024) | 0.07204 | ❌ open — QTIP wire projected 0.0748±0.003 post-dose |
-| code | 0.02945 (U024 interim, n=9) / 0.04170 (U030 sealed) | 0.054216 | ✅ won (+20-45%) |
-| agentic | 0.10078 | 0.10261 | ✅ won |
-| chat | 0.03835 | 0.03042 | ❌ open |
-| reasoning | 0.02529 (U024 interim) | 0.01602 | ❌ open |
-| prose | 0.11732 | 0.08502 | ❌ open — QTIP −14/−15% measured pre-repair |
-| multilingual | 0.14648 | 0.09911 | ❌ open — QTIP −11/−20% measured pre-repair |
-| bytes | 101.3 GB | 137.9 GB | ✅ −36.6 GB |
-| decode | 16.954 tok/s (mixed, worst-case 4-kernel) | — | ✅ ≥10 gate |
-| prefill | 1,142–2,167 tok/s | — | ✅ ≥200 gate |
+Class-level paired effects were heterogeneous: A was worse on agentic, chat, and reasoning; C-R was worse on multilingual and prose; CODE was not separated at 95%. Therefore the global headline must not hide the class structure.
 
-## T5. Serving rows (sealed)
+## P922 substitution penalty
 
-| Row | Value | Conditions |
+P922 applied exactly 3,803 restored VQ identities over the immutable base and scored 64/64 windows. It measured:
+
+| field | value |
+|---|---:|
+| diagnostic candidate global KLD | 0.1466261360 |
+| candidate 95% CI | [0.1179341743, 0.1753180978] |
+| measured minus priced substitution penalty | 0.0292596322 KLD |
+| penalty in global points | 2.9259632162 |
+| penalty 95% CI | [0.0235700472, 0.0349492171] KLD |
+| preregistered expected band | [0.0000556985, 0.0001113971] KLD |
+| gate | EXCEEDS_RESTORED_VQ_SUBSTITUTION_BAND |
+
+Class surcharge vector:
+
+| class | surcharge KLD |
+|---|---:|
+| agentic | 0.0166040785 |
+| chat | 0.0173269818 |
+| code | 0.0058930305 |
+| multilingual | 0.0668267770 |
+| prose | 0.0594155815 |
+| reasoning | 0.0133765817 |
+
+The exact-selection surcharge is measured. Its equal-per-identity solver linearization is sum-preserving but carries high per-identity uncertainty and must be applied only to the pinned selection when the physical option uses the frozen base codebook.
+
+## P930 corrected pricing
+
+P930 combines the P922 selection surcharge with the measured P928 additive mixed-tier interaction of **+0.0000782525 KLD** (**+0.0000783** rounded) and the ordinary VQ/native transport rules. The public sanitized receipts are included in the repro package. The interaction is already embedded in the three corrected grid rows and must not be added twice.
+
+Global retrodiction errors:
+
+| anchor | relative error | 5% gate |
+|---|---:|---|
+| Wire A | +4.4597206408% | PASS |
+| Wire B | +0.0558368979% | PASS |
+| Batch2 | +0.0222512042% | PASS |
+| Wire C | −0.1514628158% | PASS |
+
+All four global anchors pass. Six per-class misses remain disclosed; the corrected surface is not a claim of perfect class calibration.
+
+Internally closed P930 hashes:
+
+| artifact | source SHA-256 |
+|---|---|
+| `CORRECTED_PRICING_V3.json` | `c8673867b0fb7626232721d4939a9fdf95ef6d1a3de69698fd2a3d42398606c0` |
+| `WIRE_CALIBRATION_FINAL_REPORT.json` | `6213107d728ac0df48be7121a082a6efa6f894d30c800e8db94315589c86a0d9` |
+| corrected vertical grid | `49407ff0114c5bcf9f7a68fbfc2a4822fee1839852aff5d89b8ce12d1251c203` |
+| P922 pinned selection | `e776c293be491f080a630f7ba1d066ea0cc420c773be6758de2b4c92a3fb9818` |
+| P928 pinned assignment | `62c26b9ea8f53aa2a2be84ff55b0e444100625f900832e096624ea178d9f9122` |
+
+The parent handoff’s four conflicting transcription hashes are not accepted as integrity pins;
+`ARTIFACT_PROVENANCE.json` is the source/public byte authority for this package.
+
+## P931 corrected-pricing V3 first feasible
+
+The included P931 receipt is a **PROJECTED FIRST FEASIBLE**, not a measurement and not the final SCIP result:
+
+| field | value |
+|---|---:|
+| exact bytes | 101,346,700,411 |
+| envelope slack | 0 |
+| projected reweighted objective | 0.0691322231 |
+| projected CODE KLD | 0.0510564775 |
+| exact P922 surcharge rows joined | 3,803 |
+| P928 application | embedded once in corrected grid |
+| final SCIP status at publication | PENDING |
+
+The sanitized machine-readable receipt is `artifacts/P931_V3_FIRST_FEASIBLE.public.json`. It records the exact P930/P922/P928 pins and preserves the final-run distinction.
+
+## Solver preview, not physical measurement
+
+The baseline preview solver produced:
+
+| field | value |
+|---|---:|
+| priced objective | 0.0299040206 |
+| LP lower bound | 0.0299036218 |
+| relative gap | 1.33367e-5 |
+| exact bytes | 101,346,585,857 |
+| slack | 114,554 |
+| changed cells | 21,474 |
+| QTIP3 purchases | 14,973 |
+| QTIP2 purchases | 2,268 |
+
+This row is not in the measurement table because it is a grid-priced preview produced under a disclosed retrodiction-gate failure. It remains useful as a build provenance anchor and as evidence that greedy-zero did not imply no improving coupled move.
+
+## Repair outcomes
+
+The earlier repair campaign did not produce a promotable global measured gain:
+
+- one 32-update lane stopped fail-closed before update 1 because the mandated adaptive projected-grad/basis-recomputed method was absent;
+- one 24-update lane also stopped before update 1 on the same missing method;
+- a completed 24-update proxy-optimized run moved the proxy while the held-out P909 score worsened, so it was not promoted;
+- targeted wedge smokes did not establish a safe transferable update.
+
+These are negative results, not hidden failures. The next chain repairs the exact TRUE-C checkpoint only after direct pre-repair scoring.
+
+## Exact TRUE-C dependency chain
+
+| stage | validity | output |
 |---|---|---|
-| uniform QTIP serve | 24.390 tok/s × 4096 | placeholder values (quality_claim:false), resident 101,360,840,912 B, 43/43 layers, anti-fake gates green |
-| mixed-tier serve | 16.954 tok/s × 4096 | real GENESIS bytes 101,346,700,411; _qtip_gemv+d4+d8+native_mxfp4 every token; MTP off |
-| prefill ladder | 2048: 1.79s = 1,142 tok/s · 8192: 3.78s = 2,167 tok/s | real wire, 268MB scratch |
-| MXFP4 microbench | M=1: 0.389ms native vs 0.866ms QTIP · M=128: 1.108ms vs 21.5ms | the QTIP prefill cliff — mixed-tier dispatch avoids it |
-| container | ×2 cold restarts within 0.6–1.4% of sealed rows | Docker, triton-cache baked in image |
+| P930 refit prerequisite | REMAINING | regenerate 3,803 intended TRUE-C codebooks |
+| P932 | PENDING | preregister exact pre/post chain and hashes |
+| P937 | PENDING | direct TRUE-C pre-repair BALANCED64 |
+| P938 | PENDING | repair/dose the exact TRUE-C checkpoint |
+| P939 | PENDING | direct TRUE-C post-repair BALANCED64 |
+
+The direct P937/P939 measurements supersede the 0.089–0.095 estimate when sealed. Until then, they are pending and must not be represented as results.
+
+## Machine-readable authority
+
+`tools/qtip2-backpack-campaign/wire-c-v2-2026-07-28/artifacts/SAME_INSTRUMENT_RESULTS.json` is the machine-readable table. Verify it with:
+
+```bash
+cd tools/qtip2-backpack-campaign/wire-c-v2-2026-07-28
+python3 code/recompute_results.py --check
+```

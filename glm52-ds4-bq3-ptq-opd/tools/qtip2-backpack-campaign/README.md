@@ -1,25 +1,34 @@
-# Backpack campaign reproduction tools
+# QTIP2 Backpack Campaign Tools
 
-These are privacy-scrubbed copies of the exact campaign scripts. `TOOLS_MANIFEST.md` is the
-human-readable stage/provenance index; `TOOLS_MANIFEST.json` is its machine-readable companion.
-Both record the live source SHA-256 and the shipped placeholder-adjusted SHA-256 for every
-fleet-derived file. The source hash is provenance; the shipped hash is what
-`SOURCE_MANIFEST.sha256` verifies.
+Public operator identity: **banana_bae**
 
-Layout:
-- `solver/`: the global A/B solver, honest six-class solve, re-spend, and verifiers.
-- `builders/`: canonical shared/overlay builders, rep-16 QTIP unit builder, and packers.
-- `rail/`: full-512 safety, overlay rail, P632 scorer, and P671 64-window slice path.
-- `dose/`: dose-2 orchestrator, P613/P662 lineage, and the P672 executed package.
-- `misc/`: KLD, teacher-shard merge, memory guard, QSFP staging, and recovery mapping.
+## `wire-c-v2-2026-07-28/`
 
-Before running, expand or replace `$HOME`, `compute-node-*`, and TEST-NET addresses with
-local values. Do not bypass the exactness,
-source-identity, memory-floor, or stop-state gates merely to make a script launch.
+A self-contained public verification package for the 2026-07-27–28 Wire-C campaign. It includes:
 
-`solver/INPUT_MANIFEST_SCHEMA.json` documents the fail-closed input-manifest shape consumed by
-the P629/P637 solvers without including any input payloads.
+- frozen BALANCED64/acquisition/build/scoring specs;
+- QTIP3/QTIP2 BALANCED64 public anchors;
+- reduced P908 direct-pricing reconstruction inputs;
+- P921 Wire-A/Wire-C-R same-instrument receipts;
+- P922 restored-VQ diagnostic and substitution-surcharge receipts;
+- P930 corrected-pricing/calibration receipts;
+- source/public provenance hashes;
+- deterministic package, result, and P908 verifiers.
 
-The P672 package is re-sealed after privacy substitution. Its apply/rollback CLI remains
-fail-closed and targets the companion scrubbed P662 candidate source identities. The original
-live source hashes remain in `TOOLS_MANIFEST.json`.
+Run:
+
+```bash
+cd wire-c-v2-2026-07-28
+python3 code/verify_package.py
+python3 code/recompute_results.py --check
+python3 code/p908_direct_pricing.py
+python3 code/verify_corrected_pricing.py
+```
+
+The package excludes model weights and terabyte-scale tensor payloads. Direct TRUE-C P937/P939 measurements remain dependency-gated; the current TRUE-C row is explicitly an estimate.
+
+`code/bulk_transfer.py` is the capacity-gated eight-worker immutable-object recipe used for the
+campaign’s roughly 2 GB/s operating point; it reports measured throughput and does not promise a
+universal fabric rate.
+
+See the package `README.md` and the repository’s `qtip2-backpack-campaign/REPRO.md`.

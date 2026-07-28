@@ -1,0 +1,48 @@
+{
+  "claim_postimage_sha256": "b8c9d866323f469b5ac5ce46604ad44b3ed56b308dc4d1049faf2b51942384cd",
+  "claim_preimage_sha256": "bd8f32df8f9bbda0349fb816167b542c494d934a74497deaf5784caaaf8ba3c5",
+  "created_unix": 1785246425.9498296,
+  "gpu_apps": [
+    "2435409, $COMPUTE_ROOT/humming_env/bin/python3, 634",
+    "2436119, $COMPUTE_ROOT/humming_env/bin/python3, 611",
+    "2436120, $COMPUTE_ROOT/humming_env/bin/python3, 361"
+  ],
+  "gpu_utilization": "0, 0",
+  "host": "compute-node",
+  "measured_receipt_sha256": "c2604f6386e00c1ab38b238cd5940f85d1ab12ec20e18f43dfc9efcece29be8e",
+  "next_authorized_task": "PUBLIC_TASK",
+  "paused_p919_processes": [
+    {
+      "cmdline_sha256": "cdc832d68a683b6c4762a7cc99f899febb1a2d99e88833d60708e8872004e1c4",
+      "pgid": 2435409,
+      "pid": 2435409,
+      "ppid": 1,
+      "sid": 2435409,
+      "starttime_ticks": 15599077,
+      "state": "T"
+    },
+    {
+      "cmdline_sha256": "4dc00a74900cd0e3535cca5ea6d6249d584c7b2f1d11e745839a511f168fde27",
+      "pgid": 2436119,
+      "pid": 2436119,
+      "ppid": 2435409,
+      "sid": 2436119,
+      "starttime_ticks": 15604774,
+      "state": "T"
+    },
+    {
+      "cmdline_sha256": "888cbc1158c01a9fcf6fdffe01ec5c60cee413d3b55b1b3762d4ad4cfc6b2ea4",
+      "pgid": 2436120,
+      "pid": 2436120,
+      "ppid": 2435409,
+      "sid": 2436120,
+      "starttime_ticks": 15604774,
+      "state": "T"
+    }
+  ],
+  "root_available_bytes": 17051533312,
+  "schema": "p922-exact-release-v1",
+  "status": "PASS_EXACT_RELEASE_P919_PRESERVED",
+  "task_id": "PUBLIC_TASK",
+  "terminal_verification_sha256": "d3cbae01335d4fb3809275d72d9f6201c439f2598cd7c41ba0e57d81b36733c5"
+}

@@ -1,0 +1,420 @@
+{
+  "host": "compute-node",
+  "interpretation": {
+    "basis_artifact_band": [
+      0.117,
+      0.122
+    ],
+    "conclusion": "The physical Wire-A read is 0.1159266, near the prior 0.1143 projection rather than the 0.117-0.122 basis-artifact band. This supports the task's operational 'C underperformed' branch numerically, with explicit global paired uncertainty.",
+    "global_statistical_caveat": "Wire C is numerically worse by 0.00221149275011169 KL (A-C negative), but the paired 95% CI crosses zero; the global A-vs-C gap is not statistically separated at 95% on BALANCED64_V1.",
+    "operational_band_result": "WIRE_C_GENUINELY_UNDERPERFORMED_BAND",
+    "wire_a_global": 0.11592659770878103,
+    "wire_c_global": 0.11813809045889272,
+    "wire_c_underperformed_operational_band": [
+      0.112,
+      0.116
+    ]
+  },
+  "local_artifacts": {
+    "P921_CANONICAL_PROGRESS_R2.json": {
+      "path": "$CONTROL_ROOT/.hermes/kanban/boards/glm52-humming-w3/workspaces/PUBLIC_TASK/P921_CANONICAL_PROGRESS_R2.json",
+      "sha256": "aa61bcf9d50c5843fdb9e01928c7b183281338a9275295361e003e0576f50aaf"
+    },
+    "P921_FULL_LOCAL_OVERLAY_STAGE.json": {
+      "path": "$CONTROL_ROOT/.hermes/kanban/boards/glm52-humming-w3/workspaces/PUBLIC_TASK/P921_FULL_LOCAL_OVERLAY_STAGE.json",
+      "sha256": "5c4c64730a1a97803dc814b2d7305ca5618de5ddd0b09c973730df6c64050ada"
+    },
+    "P921_HOST_RELEASE.json": {
+      "path": "$CONTROL_ROOT/.hermes/kanban/boards/glm52-humming-w3/workspaces/PUBLIC_TASK/P921_HOST_RELEASE.json",
+      "sha256": "e0ca7b4f9be06019df43ebdba7944cd6b0c78101e98727faf42a4c1263c60b9f"
+    },
+    "P921_LOADER_SENTINEL_R2.json": {
+      "path": "$CONTROL_ROOT/.hermes/kanban/boards/glm52-humming-w3/workspaces/PUBLIC_TASK/P921_LOADER_SENTINEL_R2.json",
+      "sha256": "caf20a72ad79dd59343f6fc53f754d9a655b70ce412a09446715be80b0d27702"
+    },
+    "P921_MEASUREMENT_LAUNCH_R2.json": {
+      "path": "$CONTROL_ROOT/.hermes/kanban/boards/glm52-humming-w3/workspaces/PUBLIC_TASK/P921_MEASUREMENT_LAUNCH_R2.json",
+      "sha256": "bb4fa666c9d83662bdad6ff1eacb0941edb0ab422aacdb32616c2af105c10ea9"
+    },
+    "P921_SCORER_BINDING_AUDIT_R2.json": {
+      "path": "$CONTROL_ROOT/.hermes/kanban/boards/glm52-humming-w3/workspaces/PUBLIC_TASK/P921_SCORER_BINDING_AUDIT_R2.json",
+      "sha256": "3c1ad05d2ec543ff1aa848296d272c42b5a20ea9ccc89a08f0f3d4ee7f07b13e"
+    },
+    "P921_WIRE_A_BALANCED64_FINAL_SEAL.json": {
+      "path": "$CONTROL_ROOT/.hermes/kanban/boards/glm52-humming-w3/workspaces/PUBLIC_TASK/P921_WIRE_A_BALANCED64_FINAL_SEAL.json",
+      "sha256": "9b6c5efe6eb36bfedaa22d872d1753f33185eb77913484b7ce082f614fa295c6"
+    },
+    "P921_WIRE_A_BALANCED64_R2.json": {
+      "path": "$CONTROL_ROOT/.hermes/kanban/boards/glm52-humming-w3/workspaces/PUBLIC_TASK/P921_WIRE_A_BALANCED64_R2.json",
+      "sha256": "e1d1b70792a7c8fe133a63b5e922359a24428f5d1281ddd804f0ee01711965ed"
+    },
+    "P921_WIRE_A_BALANCED64_R2.log": {
+      "path": "$CONTROL_ROOT/.hermes/kanban/boards/glm52-humming-w3/workspaces/PUBLIC_TASK/P921_WIRE_A_BALANCED64_R2.log",
+      "sha256": "168e195613afaab9a0b6f622e3de1c5b7328e24cfc6dbf78c93f93fca52ad7d4"
+    }
+  },
+  "measurement": {
+    "cutoff": 1024,
+    "direction": "KL(teacher||candidate)",
+    "n_positions": 65536,
+    "n_windows": 64,
+    "name": "BALANCED64_V1",
+    "support": 8192,
+    "window_ids": [
+      28,
+      56,
+      68,
+      71,
+      76,
+      99,
+      107,
+      122,
+      124,
+      130,
+      141,
+      156,
+      160,
+      171,
+      180,
+      183,
+      185,
+      186,
+      196,
+      210,
+      212,
+      213,
+      218,
+      228,
+      232,
+      235,
+      249,
+      270,
+      272,
+      273,
+      283,
+      288,
+      290,
+      295,
+      297,
+      306,
+      307,
+      309,
+      311,
+      328,
+      331,
+      357,
+      362,
+      365,
+      368,
+      374,
+      376,
+      380,
+      384,
+      385,
+      391,
+      396,
+      413,
+      429,
+      430,
+      437,
+      442,
+      447,
+      454,
+      462,
+      464,
+      475,
+      489,
+      499
+    ],
+    "window_manifest_sha256": "7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad"
+  },
+  "model": {
+    "corpus_sha256": "5aadaacbb486ae4f528c5e51ae70beff863337bd908fc727e6e49fc3ac520ebd",
+    "model_index_sha256": "7e975ba3bef8947a94e7da0abd60888375b232b4dfad883d59653e65c6ba522a",
+    "path": "$COMPUTE_ROOT/models/hf/DeepSeek-V4-Flash",
+    "teacher_done_sha256": "6338af84f907a26dfdf0f784edc322aa672738542ed884b70e4d9b6e96aa33b0",
+    "teacher_path": "$MISSION_ROOT/DS4_TEACHER"
+  },
+  "paired_a_minus_c": {
+    "global": {
+      "ci95": [
+        -0.012126938241669431,
+        0.00770395274144605
+      ],
+      "ci95_excludes_zero": false,
+      "mean": -0.00221149275011169,
+      "n_windows": 64,
+      "numerically_worse_wire": "C",
+      "window_mean_se": 0.005058900760998847
+    },
+    "six_classes": {
+      "agentic": {
+        "ci95_excludes_zero": true,
+        "n_windows": 19,
+        "numerically_worse_wire": "A",
+        "paired_ci95": [
+          0.0105073977766016,
+          0.04066544259604861
+        ],
+        "wire_a_kld": 0.14929602148179635,
+        "wire_a_minus_wire_c_mean": 0.025586420186325107,
+        "wire_c_kld": 0.12370960129547127
+      },
+      "chat": {
+        "ci95_excludes_zero": true,
+        "n_windows": 7,
+        "numerically_worse_wire": "A",
+        "paired_ci95": [
+          0.008195816565894845,
+          0.015896324177856223
+        ],
+        "wire_a_kld": 0.05936173489545872,
+        "wire_a_minus_wire_c_mean": 0.012046070371875533,
+        "wire_c_kld": 0.04731566452358319
+      },
+      "code": {
+        "ci95_excludes_zero": false,
+        "n_windows": 9,
+        "numerically_worse_wire": "C",
+        "paired_ci95": [
+          -0.006505240918948563,
+          0.004232869292661063
+        ],
+        "wire_a_kld": 0.054534618168331016,
+        "wire_a_minus_wire_c_mean": -0.00113618581314375,
+        "wire_c_kld": 0.05567080398147476
+      },
+      "multilingual": {
+        "ci95_excludes_zero": true,
+        "n_windows": 10,
+        "numerically_worse_wire": "C",
+        "paired_ci95": [
+          -0.08100479228989119,
+          -0.023512869791827037
+        ],
+        "wire_a_kld": 0.1720471905680156,
+        "wire_a_minus_wire_c_mean": -0.05225883104085911,
+        "wire_c_kld": 0.22430602160887467
+      },
+      "prose": {
+        "ci95_excludes_zero": true,
+        "n_windows": 10,
+        "numerically_worse_wire": "C",
+        "paired_ci95": [
+          -0.051179850618374254,
+          -0.001522872350319976
+        ],
+        "wire_a_kld": 0.15801951626287722,
+        "wire_a_minus_wire_c_mean": -0.026351361484347115,
+        "wire_c_kld": 0.18437087774722433
+      },
+      "reasoning": {
+        "ci95_excludes_zero": true,
+        "n_windows": 9,
+        "numerically_worse_wire": "A",
+        "paired_ci95": [
+          0.0057460987784249285,
+          0.012993364648219962
+        ],
+        "wire_a_kld": 0.041740785457303975,
+        "wire_a_minus_wire_c_mean": 0.009369731713322445,
+        "wire_c_kld": 0.03237105374398153
+      }
+    }
+  },
+  "prior_projection": {
+    "basis": "paired W0-127 projection; not a prior physical BALANCED64 read",
+    "global_kld": 0.11430034303225284,
+    "measured_a_minus_projection": 0.0016262546765281882
+  },
+  "raw_remote_paths": {
+    "final_seal": "$MISSION_ROOT/P921_WIRE_A_BALANCED64_PUBLIC_TASK_s6/receipts/P921_WIRE_A_BALANCED64_FINAL_SEAL.json",
+    "loader_sentinel": "$MISSION_ROOT/P921_WIRE_A_BALANCED64_PUBLIC_TASK_s6/run/WIRE_A_P637_PREREPAIR_BALANCED64_R2/LOADER_SENTINEL.json",
+    "measurement": "$MISSION_ROOT/P921_WIRE_A_BALANCED64_PUBLIC_TASK_s6/receipts/WIRE_A_P637_PREREPAIR_BALANCED64_R2.json",
+    "mission": "$MISSION_ROOT/P921_WIRE_A_BALANCED64_PUBLIC_TASK_s6",
+    "progress": "$MISSION_ROOT/P921_WIRE_A_BALANCED64_PUBLIC_TASK_s6/run/WIRE_A_P637_PREREPAIR_BALANCED64_R2/CANONICAL_PROGRESS.json",
+    "scorer_log": "$MISSION_ROOT/P921_WIRE_A_BALANCED64_PUBLIC_TASK_s6/logs/WIRE_A_P637_PREREPAIR_BALANCED64_R2.log"
+  },
+  "run_id": "WIRE_A_P637_PREREPAIR_BALANCED64_R2",
+  "runtime": {
+    "attention": "eager",
+    "canonical_builder_sha256": "873a98a37a6cf854572983ebfdffc15e2292f6599a7fb3206c14cb866f2f8784",
+    "canonical_loader_sha256": "155310d1e6701d6cb2d1c04558514366a2304cb2a8d6d26402ed7c800b8b6c89",
+    "canonical_reader_sha256": "f5b17ab3a12a3b4d042d9fc712032d9007c6d99d76ad77f256830314900ee51e",
+    "chunk_size": 64,
+    "elapsed_seconds": 975.7573022842407,
+    "instrument_lineage": "P921 exact P637 sparse overlay on P885/P850 parity-proven BALANCED64 rail",
+    "launch_policy": "task-owned nohup+setsid; no services/systemd/systemd-run/tmux/Tailscale; local sparse overlays; canonical immutable base direct-QSFP layer stream; no NAS",
+    "layer_overlap": true,
+    "microbatch": 2,
+    "p632_exact_scorer_sha256": "5c16e62c32e6936223c54e2b3cf9394a1d0f87833cc409360e82e0341954c12f",
+    "windows_per_minute": 3.935404829674949
+  },
+  "same_instrument_wire_c": {
+    "final_seal_sha256": "29e021348412e7e5847c288ffe9deb84162a08594a4f04def7324fe8114ef7ef",
+    "global_kld": {
+      "mean": 0.11813809045889272,
+      "n_positions": 65536,
+      "n_windows": 64,
+      "source_class": "global",
+      "window_mean_ci95": [
+        0.09157258918794148,
+        0.14470359172984396
+      ],
+      "window_mean_se": 0.013553827179056758
+    },
+    "independent_full_rereads": 2,
+    "receipt_sha256": "f45dfee8ebb98554364e739599aa9c4431ad8cc5812420118cdbd5f54bee6538",
+    "semantic_label": "WIRE_C_BASELINE_R_FULL_PREREPAIR",
+    "six_class_kld": {
+      "agentic": 0.12370960129547127,
+      "chat": 0.04731566452358319,
+      "code": 0.05567080398147476,
+      "multilingual": 0.22430602160887467,
+      "prose": 0.18437087774722433,
+      "reasoning": 0.03237105374398153
+    }
+  },
+  "schema": "p921-standardized-benchmark-cell-v1",
+  "status": "VALID_PHYSICAL_READ",
+  "task_id": "PUBLIC_TASK",
+  "validity": {
+    "changed_cells_applied": 1411,
+    "changed_cells_expected": 1411,
+    "completed_layers": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42
+    ],
+    "first_window_sanity": {
+      "expected_window": 28,
+      "mean": 0.07017651798631283,
+      "observed_window": 28,
+      "rule": "exact first BALANCED64 id; finite nonnegative KL <=2.0",
+      "source_class": "prose",
+      "status": "PASS"
+    },
+    "full_wire": true,
+    "host_released_unclaimed": true,
+    "immutable_base_mutated": false,
+    "label": "VALID_PHYSICAL_READ",
+    "mmap_completed_layers": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42
+    ],
+    "overlay_stage_retired": true,
+    "pre_gpu_failed_attempt_disclosure": "R1 failed closed before GPU work because INSTANCE_PARITY_GATE.json had not yet been copied task-locally; R2 is the only physical measurement and is the valid receipt.",
+    "scorer_rc": 0
+  },
+  "wire_a_p637": {
+    "assignment_map_sha256": "36d0841986d5781186f766b3815e4b3c6332eece2090d3e6d73e7e3ffa33dc07",
+    "assignment_sha256": "c030883fddb1217529d67444d08257c4a1df18e2adbc93be092aba3d3611bc65",
+    "changed_cells": 1411,
+    "global_kld": {
+      "mean": 0.11592659770878103,
+      "n_positions": 65536,
+      "n_windows": 64,
+      "source_class": "global",
+      "window_mean_ci95": [
+        0.09443751336748803,
+        0.13741568205007404
+      ],
+      "window_mean_se": 0.01096381854147602
+    },
+    "overlay_manifest_sha256": "e03bc8919d51bbf1a9cf1f54f342e9f43dea625839ad8aad23578f7b8f9d98fa",
+    "pack_fraction": 1.0,
+    "qtip2_cells": 406,
+    "semantic_label": "WIRE_A_P637_PRE_REPAIR_UNDOSED",
+    "six_class_kld": {
+      "agentic": 0.14929602148179635,
+      "chat": 0.05936173489545872,
+      "code": 0.054534618168331016,
+      "multilingual": 0.1720471905680156,
+      "prose": 0.15801951626287722,
+      "reasoning": 0.041740785457303975
+    },
+    "unchanged_cells": 20605,
+    "vq_cells": 1005
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "failure_recovery_disclosure": {
+    "attempt_1": "FAIL_CLOSED at L000 because the prepared adapter omitted the 20 historical p760-genesis-vq-overlay-cell-v1 rows and expected the later canonical_builder_sha256 key instead of P760's builder_sha256 key.",
+    "attempt_2": "PASS after exact four-schema validation of all 3,803 payload headers; no data, model, scoring, or expected-metric changes.",
+    "regression_gate": "PASS_EXACT_FOUR_SCHEMA_SURFACE",
+    "regression_receipt_sha256": "141536858922adc75ca7c32054900789378dd601a56e3a3e5d969a4592196b9b",
+    "root_cause_receipt": "$MISSION_ROOT/P922_RESTORED_VQ_EVAL_PUBLIC_TASK_s4/receipts/P922_PAYLOAD_METADATA_CENSUS.json"
+  },
+  "interpretation": "The frozen-base-codebook substitution costs 0.0292596322 KLD (2.92596 global points) versus the same cells' PRICED true-C expectation. This lands inside the task's 2-4 point materiality branch, not the <1 point exoneration branch. Regenerating the missing refit codebooks belongs on the morning menu.",
+  "label": "P922_CODEBOOK_SUBSTITUTION_PENALTY",
+  "model_authority": {
+    "base_assignment_sha256": "c9fb72e2bf7416ef48f33df229f9a3b5b5dd4f9e9b35a610d83fb1c49f4a050d",
+    "base_wire_manifest_sha256": "c24a1c0568a00fcb8460d7edfb7630187ef10c98e9d0c25c87aa0bccb1d89755",
+    "model_index_sha256": "7e975ba3bef8947a94e7da0abd60888375b232b4dfad883d59653e65c6ba522a",
+    "model_path": "$COMPUTE_ROOT/models/hf/DeepSeek-V4-Flash",
+    "priced_expectation_sha256": "471ef5b9c8d2d2054b0bc23551221334e06f0a755b1f702ce7a61912c5ed0a8f",
+    "restored_selection_sha256": "e776c293be491f080a630f7ba1d066ea0cc420c773be6758de2b4c92a3fb9818"
+  },
+  "parsed_metrics": {
+    "candidate_global_kld_ci95": [
+      0.11793417433098766,
+      0.17531809776476812
+    ],
+    "candidate_global_kld_mean": 0.1466261360478779,
+    "elapsed_seconds": 1003.7587685585022,
+    "gate": "EXCEEDS_RESTORED_VQ_SUBSTITUTION_BAND",
+    "measured_delta_vs_pre_repair_ci95_kld": [
+      0.011623547353525906,
+      0.023002717273076727
+    ],
+    "measured_delta_vs_pre_repair_kld": 0.017313132313301317,
+    "measured_minus_priced_substitution_penalty_kld": 0.02925963216194956,
+    "preregistered_expected_penalty_band_kld": [
+      5.569853837512092e-05,
+      0.00011139707675024184
+    ],
+    "priced_same_cells_delta_kld": -0.011946499848648241,
+    "substitution_penalty_ci95_kld": [
+      0.02357004720217415,
+      0.03494921712172497
+    ],
+    "substitution_penalty_global_points": 2.925963216194956,
+    "windows_per_minute": 3.8256203784048863
+  },
+  "raw_paths": {
+    "exact_release": "$MISSION_ROOT/P922_RESTORED_VQ_EVAL_PUBLIC_TASK_s4/receipts/P922_EXACT_RELEASE.json",
+    "local_mirror": "receipts/remote",
+    "measurement": "$MISSION_ROOT/P922_RESTORED_VQ_EVAL_PUBLIC_TASK_s4/receipts/P922_RESTORED_VQ_BALANCED64_A2.json",
+    "proof_log": "$MISSION_ROOT/P922_RESTORED_VQ_EVAL_PUBLIC_TASK_s4/logs/P922_RESTORED_VQ_BALANCED64_A2.log",
+    "remote_mission": "$MISSION_ROOT/P922_RESTORED_VQ_EVAL_PUBLIC_TASK_s4",
+    "terminal_verification": "$MISSION_ROOT/P922_RESTORED_VQ_EVAL_PUBLIC_TASK_s4/receipts/P922_TERMINAL_VERIFICATION.json"
+  },
+  "receipt_sha256": {
+    "exact_release": "9e6a7f7bb609c67d8477e56be3faae198344de032f187fefed6d3d08f9874801",
+    "measurement": "c2604f6386e00c1ab38b238cd5940f85d1ab12ec20e18f43dfc9efcece29be8e",
+    "proof_log": "8743d5886610ad2de7ebfb521ecb9cb69a772d156b2a7f2c4f5b85feabc46d45",
+    "terminal_verification": "d3cbae01335d4fb3809275d72d9f6201c439f2598cd7c41ba0e57d81b36733c5"
+  },
+  "resource_handoff": {
+    "compute_node_claim_post_release_sha256": "b8c9d866323f469b5ac5ce46604ad44b3ed56b308dc4d1049faf2b51942384cd",
+    "next_authorized_task": "PUBLIC_TASK",
+    "p919_restart_required_claim_sha256": "cd4aa70f766d4a3eb58a05f569d52bd77f4e3819002fe90d3fd26fffa18a7ef3",
+    "status": "UNCLAIMED_WITH_SIGSTOP_PRESERVED_P919_TENANT"
+  },
+  "runtime_authority": {
+    "adapter_sha256": "5cacbbaf654b13d380f47c67497e7d7d44a17cfe9699d3cbeefd3739e0c8b015",
+    "attention": "eager",
+    "baseline_parity_receipt_sha256": "da6c1a0023f509927cd68307fabb5ee6a5528863a977929b78a195d496a42b3c",
+    "canonical_loader_sha256": "155310d1e6701d6cb2d1c04558514366a2304cb2a8d6d26402ed7c800b8b6c89",
+    "canonical_reader_sha256": "f5b17ab3a12a3b4d042d9fc712032d9007c6d99d76ad77f256830314900ee51e",
+    "chunk_size": 64,
+    "claim_sha256_during_run": "bd8f32df8f9bbda0349fb816167b542c494d934a74497deaf5784caaaf8ba3c5",
+    "exact_scorer_sha256": "5c16e62c32e6936223c54e2b3cf9394a1d0f87833cc409360e82e0341954c12f",
+    "layer_overlap": true,
+    "lineage": "P760/P739 parity-proven layer-streamed physical rail with P841 bit-exact acceleration",
+    "microbatch": 2,
+    "output_file_set_sha256": "77741fed3ebe1e0e79b843e06bddaba9b213d6e546b850eda9ef22f5905dd895",
+    "runner_sha256": "b1c041229e06ad7791903e0621ee3bddaf6d5c196cd507e5970740223c31d8ac"
+  },
+  "schema": "standardized-benchmark-cell-v1",
+  "scope": {
+    "changed_cells_applied": 3803,
+    "changed_cells_expected": 3803,
+    "host": "compute-node",
+    "payload_bytes_verified": 25390680191,
+    "positions": 65536,
+    "restored_layers": [
+      0,
+      21
+    ],
+    "scored_layers": 43,
+    "unchanged_cells_bound_to_immutable_base": 18213,
+    "unique_codebooks": 111,
+    "windows": 64
+  },
+  "task_id": "PUBLIC_TASK",
+  "validity": {
+    "coverage": "EXACT_3803_RESTORED_VQ_CELLS_OVER_IMMUTABLE_BASE",
+    "decision": "MATERIAL_TRUE_C_BETTER_REGENERATE_REFIT_CODEBOOKS",
+    "label": "PASS_EXACT_MEASURED_BALANCED64",
+    "terminal_verification": "PASS_INDEPENDENT_TERMINAL_VERIFY"
+  }
+}

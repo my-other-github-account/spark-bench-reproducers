@@ -1,0 +1,2291 @@
+{
+  "active_assignment": {
+    "path": "$MISSION_ROOT/P921_WIRE_A_BALANCED64_PUBLIC_TASK_s6/inputs/ASSIGNMENT_RESPENT.json",
+    "sha256": "c030883fddb1217529d67444d08257c4a1df18e2adbc93be092aba3d3611bc65"
+  },
+  "active_overlay_manifest": {
+    "path": "$MISSION_ROOT/P921_WIRE_A_BALANCED64_PUBLIC_TASK_s6/inputs/P653_EXACT_ASSEMBLED_WIRE_MANIFEST.json",
+    "sha256": "e03bc8919d51bbf1a9cf1f54f342e9f43dea625839ad8aad23578f7b8f9d98fa"
+  },
+  "anchor": "qtip3",
+  "claim_sha256": "46982e22257c87c758106e84cd505fed86f60caae07a1322766d30a62adb7a7a",
+  "codebook_deviation_disclosure": null,
+  "compatibility_binding": null,
+  "completed_unix": 1785243363.5936694,
+  "corrected_full512_equivalent": null,
+  "coverage": {
+    "changed_cells_applied": 1411,
+    "changed_cells_expected": 1411,
+    "completed_layers": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42
+    ],
+    "coverage_layers": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42
+    ],
+    "immutable_base_mutated": false,
+    "mmap_completed_layers": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42
+    ],
+    "overlay_stage_retired": true,
+    "overlay_stage_rows": [
+      {
+        "bytes": 27395581,
+        "changed_cells": 7,
+        "elapsed_seconds": 0.02062082290649414,
+        "files": 7,
+        "kinds": {
+          "qtip2_exact": 7
+        },
+        "layer": 0,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 0,
+        "changed_cells": 0,
+        "elapsed_seconds": 0.0,
+        "files": 0,
+        "layer": 1,
+        "stage_retired": true
+      },
+      {
+        "bytes": 0,
+        "changed_cells": 0,
+        "elapsed_seconds": 0.0,
+        "files": 0,
+        "layer": 2,
+        "stage_retired": true
+      },
+      {
+        "bytes": 294303532,
+        "changed_cells": 44,
+        "elapsed_seconds": 0.1651005744934082,
+        "files": 50,
+        "kinds": {
+          "genesis_vq": 44
+        },
+        "layer": 3,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 372707813,
+        "changed_cells": 57,
+        "elapsed_seconds": 0.21267294883728027,
+        "files": 64,
+        "kinds": {
+          "genesis_vq": 57
+        },
+        "layer": 4,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 325479517,
+        "changed_cells": 49,
+        "elapsed_seconds": 0.19179677963256836,
+        "files": 53,
+        "kinds": {
+          "genesis_vq": 49
+        },
+        "layer": 5,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 530048097,
+        "changed_cells": 149,
+        "elapsed_seconds": 0.30161237716674805,
+        "files": 155,
+        "kinds": {
+          "genesis_vq": 20,
+          "qtip2_exact": 129
+        },
+        "layer": 6,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 187373177,
+        "changed_cells": 29,
+        "elapsed_seconds": 0.11495542526245117,
+        "files": 37,
+        "kinds": {
+          "genesis_vq": 29
+        },
+        "layer": 7,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 254179062,
+        "changed_cells": 38,
+        "elapsed_seconds": 0.14795637130737305,
+        "files": 44,
+        "kinds": {
+          "genesis_vq": 38
+        },
+        "layer": 8,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 298762649,
+        "changed_cells": 45,
+        "elapsed_seconds": 0.17215895652770996,
+        "files": 51,
+        "kinds": {
+          "genesis_vq": 45
+        },
+        "layer": 9,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 419187944,
+        "changed_cells": 64,
+        "elapsed_seconds": 0.2744138240814209,
+        "files": 71,
+        "kinds": {
+          "genesis_vq": 64
+        },
+        "layer": 10,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 405742092,
+        "changed_cells": 60,
+        "elapsed_seconds": 0.25990724563598633,
+        "files": 65,
+        "kinds": {
+          "genesis_vq": 60
+        },
+        "layer": 11,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 486012160,
+        "changed_cells": 72,
+        "elapsed_seconds": 0.2900581359863281,
+        "files": 78,
+        "kinds": {
+          "genesis_vq": 72
+        },
+        "layer": 12,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 579675152,
+        "changed_cells": 88,
+        "elapsed_seconds": 0.33905816078186035,
+        "files": 95,
+        "kinds": {
+          "genesis_vq": 88
+        },
+        "layer": 13,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 544012276,
+        "changed_cells": 84,
+        "elapsed_seconds": 0.33477020263671875,
+        "files": 91,
+        "kinds": {
+          "genesis_vq": 84
+        },
+        "layer": 14,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 468183507,
+        "changed_cells": 71,
+        "elapsed_seconds": 0.3052401542663574,
+        "files": 77,
+        "kinds": {
+          "genesis_vq": 71
+        },
+        "layer": 15,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 1243168608,
+        "changed_cells": 302,
+        "elapsed_seconds": 0.7290544509887695,
+        "files": 312,
+        "kinds": {
+          "genesis_vq": 34,
+          "qtip2_exact": 268
+        },
+        "layer": 16,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 120467503,
+        "changed_cells": 19,
+        "elapsed_seconds": 0.07935881614685059,
+        "files": 26,
+        "kinds": {
+          "genesis_vq": 19
+        },
+        "layer": 17,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 138298905,
+        "changed_cells": 21,
+        "elapsed_seconds": 0.09286665916442871,
+        "files": 28,
+        "kinds": {
+          "genesis_vq": 21
+        },
+        "layer": 18,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 200681598,
+        "changed_cells": 30,
+        "elapsed_seconds": 0.13656020164489746,
+        "files": 36,
+        "kinds": {
+          "genesis_vq": 30
+        },
+        "layer": 19,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 53598152,
+        "changed_cells": 8,
+        "elapsed_seconds": 0.04089474678039551,
+        "files": 12,
+        "kinds": {
+          "genesis_vq": 8
+        },
+        "layer": 20,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 62505653,
+        "changed_cells": 9,
+        "elapsed_seconds": 0.045534372329711914,
+        "files": 16,
+        "kinds": {
+          "genesis_vq": 9
+        },
+        "layer": 21,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 50978380,
+        "changed_cells": 10,
+        "elapsed_seconds": 0.03418397903442383,
+        "files": 13,
+        "kinds": {
+          "genesis_vq": 8,
+          "qtip2_exact": 2
+        },
+        "layer": 22,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 35703507,
+        "changed_cells": 7,
+        "elapsed_seconds": 0.02600264549255371,
+        "files": 9,
+        "kinds": {
+          "genesis_vq": 7
+        },
+        "layer": 23,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 80279063,
+        "changed_cells": 11,
+        "elapsed_seconds": 0.05977201461791992,
+        "files": 13,
+        "kinds": {
+          "genesis_vq": 11
+        },
+        "layer": 24,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 58007669,
+        "changed_cells": 9,
+        "elapsed_seconds": 0.044446706771850586,
+        "files": 13,
+        "kinds": {
+          "genesis_vq": 9
+        },
+        "layer": 25,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 116028981,
+        "changed_cells": 17,
+        "elapsed_seconds": 0.07902193069458008,
+        "files": 24,
+        "kinds": {
+          "genesis_vq": 17
+        },
+        "layer": 26,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 22372407,
+        "changed_cells": 3,
+        "elapsed_seconds": 0.018410682678222656,
+        "files": 6,
+        "kinds": {
+          "genesis_vq": 3
+        },
+        "layer": 27,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 35741742,
+        "changed_cells": 6,
+        "elapsed_seconds": 0.027199268341064453,
+        "files": 11,
+        "kinds": {
+          "genesis_vq": 6
+        },
+        "layer": 28,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 58029471,
+        "changed_cells": 11,
+        "elapsed_seconds": 0.04090523719787598,
+        "files": 14,
+        "kinds": {
+          "genesis_vq": 11
+        },
+        "layer": 29,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 35766334,
+        "changed_cells": 6,
+        "elapsed_seconds": 0.027713537216186523,
+        "files": 10,
+        "kinds": {
+          "genesis_vq": 6
+        },
+        "layer": 30,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 49072923,
+        "changed_cells": 7,
+        "elapsed_seconds": 0.03532052040100098,
+        "files": 9,
+        "kinds": {
+          "genesis_vq": 7
+        },
+        "layer": 31,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 62455933,
+        "changed_cells": 9,
+        "elapsed_seconds": 0.04584980010986328,
+        "files": 13,
+        "kinds": {
+          "genesis_vq": 9
+        },
+        "layer": 32,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 53585336,
+        "changed_cells": 8,
+        "elapsed_seconds": 0.04056072235107422,
+        "files": 13,
+        "kinds": {
+          "genesis_vq": 8
+        },
+        "layer": 33,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 66928805,
+        "changed_cells": 9,
+        "elapsed_seconds": 0.04790854454040527,
+        "files": 12,
+        "kinds": {
+          "genesis_vq": 9
+        },
+        "layer": 34,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 58048597,
+        "changed_cells": 9,
+        "elapsed_seconds": 0.04412531852722168,
+        "files": 16,
+        "kinds": {
+          "genesis_vq": 9
+        },
+        "layer": 35,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 31290769,
+        "changed_cells": 5,
+        "elapsed_seconds": 0.023363351821899414,
+        "files": 8,
+        "kinds": {
+          "genesis_vq": 5
+        },
+        "layer": 36,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 33882198,
+        "changed_cells": 6,
+        "elapsed_seconds": 0.027873754501342773,
+        "files": 10,
+        "kinds": {
+          "genesis_vq": 6
+        },
+        "layer": 37,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 0,
+        "changed_cells": 0,
+        "elapsed_seconds": 0.0,
+        "files": 0,
+        "layer": 38,
+        "stage_retired": true
+      },
+      {
+        "bytes": 4491949,
+        "changed_cells": 1,
+        "elapsed_seconds": 0.005645751953125,
+        "files": 2,
+        "kinds": {
+          "genesis_vq": 1
+        },
+        "layer": 39,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 71431655,
+        "changed_cells": 11,
+        "elapsed_seconds": 0.05253124237060547,
+        "files": 16,
+        "kinds": {
+          "genesis_vq": 11
+        },
+        "layer": 40,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 35749950,
+        "changed_cells": 6,
+        "elapsed_seconds": 0.028402090072631836,
+        "files": 11,
+        "kinds": {
+          "genesis_vq": 6
+        },
+        "layer": 41,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      },
+      {
+        "bytes": 89282030,
+        "changed_cells": 14,
+        "elapsed_seconds": 0.06447601318359375,
+        "files": 21,
+        "kinds": {
+          "genesis_vq": 14
+        },
+        "layer": 42,
+        "mode": "balanced64",
+        "schema": "p921-wire-a-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "PUBLIC_TASK",
+        "transport": "compute-node local copy; no network/NAS"
+      }
+    ],
+    "qtip2_cells": 406,
+    "qtip3_cells": 0,
+    "unchanged_cells_bound_to_immutable_base": 20605
+  },
+  "coverage_status": "WIRE_A_P637_EXACT_1411_ON_IMMUTABLE_BASE",
+  "cutoff": 1024,
+  "direction": "KL(teacher||candidate)",
+  "exactness": {
+    "active_rows_sha256": "ef4224f9cb1098b9c56e7bc91c9cff402ef99fea98a2c3ed0ae41625c40183ef",
+    "changed_cells": 1411,
+    "identity_set_sha256": "09686eb1c7b0a5c85f9fddf05bc0588af39078741f27354d74da59b9ed335680",
+    "pack_fraction": 1.0,
+    "zero_quarantine": true,
+    "zero_substitution": true
+  },
+  "fast64_correction": null,
+  "first_window_sanity": {
+    "expected_window": 28,
+    "mean": 0.07017651798631283,
+    "observed_window": 28,
+    "rule": "exact first BALANCED64 id; finite nonnegative KL <=2.0",
+    "source_class": "prose",
+    "status": "PASS"
+  },
+  "full_wire": true,
+  "global": {
+    "mean": 0.11592659770878103,
+    "n_positions": 65536,
+    "n_windows": 64,
+    "source_class": "global",
+    "window_mean_ci95": [
+      0.09443751336748803,
+      0.13741568205007404
+    ],
+    "window_mean_se": 0.01096381854147602
+  },
+  "gpu_snapshot_before": {
+    "foreign_compute_apps": [],
+    "nvidia_reported_utilization": "0, 0",
+    "zero_util_required": true
+  },
+  "gpu_snapshot_before_child_exit": {
+    "foreign_compute_apps": [],
+    "nvidia_reported_utilization": "0, 0",
+    "zero_util_required": false
+  },
+  "host": "compute-node",
+  "instrument": {
+    "adapter_sha256": "92bf8524c1f085474c8e4d2c4c672651d3ec186287b05d07af4a960b16daaf6d",
+    "assignment_sha256": "c030883fddb1217529d67444d08257c4a1df18e2adbc93be092aba3d3611bc65",
+    "attention": "eager",
+    "base_assignment_sha256": "c9fb72e2bf7416ef48f33df229f9a3b5b5dd4f9e9b35a610d83fb1c49f4a050d",
+    "base_wire_manifest_sha256": "c24a1c0568a00fcb8460d7edfb7630187ef10c98e9d0c25c87aa0bccb1d89755",
+    "baseline_parity_receipt_sha256": "da6c1a0023f509927cd68307fabb5ee6a5528863a977929b78a195d496a42b3c",
+    "canonical_builder_sha256": "873a98a37a6cf854572983ebfdffc15e2292f6599a7fb3206c14cb866f2f8784",
+    "canonical_loader_sha256": "155310d1e6701d6cb2d1c04558514366a2304cb2a8d6d26402ed7c800b8b6c89",
+    "canonical_reader_sha256": "f5b17ab3a12a3b4d042d9fc712032d9007c6d99d76ad77f256830314900ee51e",
+    "chunk_size": 64,
+    "environment_contract": {
+      "ARM4_LOADER_FALLBACK": "torch-eager",
+      "ARM4_LOADER_MODE": "torch-mmap",
+      "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+      "CUDA_MODULE_LOADING": "EAGER",
+      "FULL512_LOADER_INPUT_SHA256": "c24a1c0568a00fcb8460d7edfb7630187ef10c98e9d0c25c87aa0bccb1d89755",
+      "FULL512_LOADER_SHA256": "155310d1e6701d6cb2d1c04558514366a2304cb2a8d6d26402ed7c800b8b6c89",
+      "FULL512_TASK_ID": "PUBLIC_TASK",
+      "FULLMENU_ASSEMBLY_BATCH": "8",
+      "PYTHONHASHSEED": "0",
+      "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True",
+      "TWOBIN_ATTN_IMPL": "eager",
+      "TWOBIN_KLD_STREAM_OUT": "1",
+      "TWOBIN_LAYER_OVERLAP": "1"
+    },
+    "identity_set_sha256": "09686eb1c7b0a5c85f9fddf05bc0588af39078741f27354d74da59b9ed335680",
+    "inventory_sha256": "e03bc8919d51bbf1a9cf1f54f342e9f43dea625839ad8aad23578f7b8f9d98fa",
+    "layer_overlap": true,
+    "lineage": "P921 exact P637 sparse overlay on P885/P850 parity-proven BALANCED64 rail",
+    "microbatch": 2,
+    "p632_exact_scorer_sha256": "5c16e62c32e6936223c54e2b3cf9394a1d0f87833cc409360e82e0341954c12f",
+    "runner_sha256": "23dad1e1018747263df512f7cb79cd76cb6561d84711ced37b93ea0ac1cdf5d1",
+    "torch_load_safety": {
+      "all_weights_only": true,
+      "calls": 1476,
+      "explicit_false_overridden": 64
+    }
+  },
+  "instrument_id_sha256": "4138dcc574198c827ae667426711d5f5dace27de36e91fc42b23dab2c01bc758",
+  "loader_proof": {
+    "double_buffer": true,
+    "mode": "torch-mmap",
+    "progress": "$MISSION_ROOT/P921_WIRE_A_BALANCED64_PUBLIC_TASK_s6/run/WIRE_A_P637_PREREPAIR_BALANCED64_R2/CANONICAL_PROGRESS.json",
+    "progress_sha256": "aa61bcf9d50c5843fdb9e01928c7b183281338a9275295361e003e0576f50aaf",
+    "sentinel": "$MISSION_ROOT/P921_WIRE_A_BALANCED64_PUBLIC_TASK_s6/run/WIRE_A_P637_PREREPAIR_BALANCED64_R2/LOADER_SENTINEL.json",
+    "sentinel_sha256": "caf20a72ad79dd59343f6fc53f754d9a655b70ce412a09446715be80b0d27702"
+  },
+  "matched_delta_vs_measured_pre_repair": {
+    "global": {
+      "candidate_minus_pre_repair_mean": -0.013386406025795551,
+      "label": "global",
+      "n_windows": 64,
+      "window_ids": [
+        28,
+        56,
+        68,
+        71,
+        76,
+        99,
+        107,
+        122,
+        124,
+        130,
+        141,
+        156,
+        160,
+        171,
+        180,
+        183,
+        185,
+        186,
+        196,
+        210,
+        212,
+        213,
+        218,
+        228,
+        232,
+        235,
+        249,
+        270,
+        272,
+        273,
+        283,
+        288,
+        290,
+        295,
+        297,
+        306,
+        307,
+        309,
+        311,
+        328,
+        331,
+        357,
+        362,
+        365,
+        368,
+        374,
+        376,
+        380,
+        384,
+        385,
+        391,
+        396,
+        413,
+        429,
+        430,
+        437,
+        442,
+        447,
+        454,
+        462,
+        464,
+        475,
+        489,
+        499
+      ],
+      "window_mean_ci95": [
+        -0.018832891836441445,
+        -0.007939920215149658
+      ],
+      "window_mean_se": 0.0027788192911458636
+    },
+    "six_classes": {
+      "agentic": {
+        "candidate_minus_pre_repair_mean": -0.014215319393930509,
+        "label": "agentic",
+        "n_windows": 19,
+        "window_ids": [
+          122,
+          130,
+          171,
+          180,
+          213,
+          235,
+          272,
+          273,
+          283,
+          288,
+          384,
+          391,
+          413,
+          429,
+          430,
+          437,
+          442,
+          464,
+          499
+        ],
+        "window_mean_ci95": [
+          -0.02487558219346446,
+          -0.003555056594396559
+        ],
+        "window_mean_se": 0.005438909591598954
+      },
+      "chat": {
+        "candidate_minus_pre_repair_mean": -0.008114016675494327,
+        "label": "chat",
+        "n_windows": 7,
+        "window_ids": [
+          141,
+          156,
+          186,
+          249,
+          295,
+          328,
+          447
+        ],
+        "window_mean_ci95": [
+          -0.011159081793286979,
+          -0.005068951557701675
+        ],
+        "window_mean_se": 0.0015536046519350267
+      },
+      "code": {
+        "candidate_minus_pre_repair_mean": 0.0023008641711552936,
+        "label": "code",
+        "n_windows": 9,
+        "window_ids": [
+          56,
+          124,
+          228,
+          311,
+          357,
+          368,
+          374,
+          396,
+          475
+        ],
+        "window_mean_ci95": [
+          0.0005972614940140347,
+          0.004004466848296553
+        ],
+        "window_mean_se": 0.0008691850393577851
+      },
+      "multilingual": {
+        "candidate_minus_pre_repair_mean": -0.038448649550411454,
+        "label": "multilingual",
+        "n_windows": 10,
+        "window_ids": [
+          107,
+          183,
+          196,
+          232,
+          270,
+          297,
+          362,
+          365,
+          380,
+          489
+        ],
+        "window_mean_ci95": [
+          -0.056201241252910754,
+          -0.020696057847912154
+        ],
+        "window_mean_se": 0.009057444746173112
+      },
+      "prose": {
+        "candidate_minus_pre_repair_mean": -0.016416301035308337,
+        "label": "prose",
+        "n_windows": 10,
+        "window_ids": [
+          28,
+          68,
+          99,
+          218,
+          290,
+          307,
+          309,
+          331,
+          376,
+          385
+        ],
+        "window_mean_ci95": [
+          -0.027738051610466885,
+          -0.005094550460149791
+        ],
+        "window_mean_se": 0.005776403354672728
+      },
+      "reasoning": {
+        "candidate_minus_pre_repair_mean": -0.00021100801344167388,
+        "label": "reasoning",
+        "n_windows": 9,
+        "window_ids": [
+          71,
+          76,
+          160,
+          185,
+          210,
+          212,
+          306,
+          454,
+          462
+        ],
+        "window_mean_ci95": [
+          -0.0027160342444204105,
+          0.0022940182175370627
+        ],
+        "window_mean_se": 0.0012780746076422125
+      }
+    }
+  },
+  "matched_delta_vs_prior_wire_a_projection_anchor": {
+    "global": {
+      "candidate_minus_pre_repair_mean": 0.001626254676528174,
+      "label": "global",
+      "n_windows": 64,
+      "window_ids": [
+        28,
+        56,
+        68,
+        71,
+        76,
+        99,
+        107,
+        122,
+        124,
+        130,
+        141,
+        156,
+        160,
+        171,
+        180,
+        183,
+        185,
+        186,
+        196,
+        210,
+        212,
+        213,
+        218,
+        228,
+        232,
+        235,
+        249,
+        270,
+        272,
+        273,
+        283,
+        288,
+        290,
+        295,
+        297,
+        306,
+        307,
+        309,
+        311,
+        328,
+        331,
+        357,
+        362,
+        365,
+        368,
+        374,
+        376,
+        380,
+        384,
+        385,
+        391,
+        396,
+        413,
+        429,
+        430,
+        437,
+        442,
+        447,
+        454,
+        462,
+        464,
+        475,
+        489,
+        499
+      ],
+      "window_mean_ci95": [
+        -0.007844244287115951,
+        0.0110967536401723
+      ],
+      "window_mean_se": 0.004831887226349044
+    },
+    "six_classes": {
+      "agentic": {
+        "candidate_minus_pre_repair_mean": 0.001626254676528174,
+        "label": "agentic",
+        "n_windows": 64,
+        "window_ids": [
+          28,
+          56,
+          68,
+          71,
+          76,
+          99,
+          107,
+          122,
+          124,
+          130,
+          141,
+          156,
+          160,
+          171,
+          180,
+          183,
+          185,
+          186,
+          196,
+          210,
+          212,
+          213,
+          218,
+          228,
+          232,
+          235,
+          249,
+          270,
+          272,
+          273,
+          283,
+          288,
+          290,
+          295,
+          297,
+          306,
+          307,
+          309,
+          311,
+          328,
+          331,
+          357,
+          362,
+          365,
+          368,
+          374,
+          376,
+          380,
+          384,
+          385,
+          391,
+          396,
+          413,
+          429,
+          430,
+          437,
+          442,
+          447,
+          454,
+          462,
+          464,
+          475,
+          489,
+          499
+        ],
+        "window_mean_ci95": [
+          -0.007844244287115951,
+          0.0110967536401723
+        ],
+        "window_mean_se": 0.004831887226349044
+      },
+      "chat": {
+        "candidate_minus_pre_repair_mean": 0.001626254676528174,
+        "label": "chat",
+        "n_windows": 64,
+        "window_ids": [
+          28,
+          56,
+          68,
+          71,
+          76,
+          99,
+          107,
+          122,
+          124,
+          130,
+          141,
+          156,
+          160,
+          171,
+          180,
+          183,
+          185,
+          186,
+          196,
+          210,
+          212,
+          213,
+          218,
+          228,
+          232,
+          235,
+          249,
+          270,
+          272,
+          273,
+          283,
+          288,
+          290,
+          295,
+          297,
+          306,
+          307,
+          309,
+          311,
+          328,
+          331,
+          357,
+          362,
+          365,
+          368,
+          374,
+          376,
+          380,
+          384,
+          385,
+          391,
+          396,
+          413,
+          429,
+          430,
+          437,
+          442,
+          447,
+          454,
+          462,
+          464,
+          475,
+          489,
+          499
+        ],
+        "window_mean_ci95": [
+          -0.007844244287115951,
+          0.0110967536401723
+        ],
+        "window_mean_se": 0.004831887226349044
+      },
+      "code": {
+        "candidate_minus_pre_repair_mean": 0.001626254676528174,
+        "label": "code",
+        "n_windows": 64,
+        "window_ids": [
+          28,
+          56,
+          68,
+          71,
+          76,
+          99,
+          107,
+          122,
+          124,
+          130,
+          141,
+          156,
+          160,
+          171,
+          180,
+          183,
+          185,
+          186,
+          196,
+          210,
+          212,
+          213,
+          218,
+          228,
+          232,
+          235,
+          249,
+          270,
+          272,
+          273,
+          283,
+          288,
+          290,
+          295,
+          297,
+          306,
+          307,
+          309,
+          311,
+          328,
+          331,
+          357,
+          362,
+          365,
+          368,
+          374,
+          376,
+          380,
+          384,
+          385,
+          391,
+          396,
+          413,
+          429,
+          430,
+          437,
+          442,
+          447,
+          454,
+          462,
+          464,
+          475,
+          489,
+          499
+        ],
+        "window_mean_ci95": [
+          -0.007844244287115951,
+          0.0110967536401723
+        ],
+        "window_mean_se": 0.004831887226349044
+      },
+      "multilingual": {
+        "candidate_minus_pre_repair_mean": 0.001626254676528174,
+        "label": "multilingual",
+        "n_windows": 64,
+        "window_ids": [
+          28,
+          56,
+          68,
+          71,
+          76,
+          99,
+          107,
+          122,
+          124,
+          130,
+          141,
+          156,
+          160,
+          171,
+          180,
+          183,
+          185,
+          186,
+          196,
+          210,
+          212,
+          213,
+          218,
+          228,
+          232,
+          235,
+          249,
+          270,
+          272,
+          273,
+          283,
+          288,
+          290,
+          295,
+          297,
+          306,
+          307,
+          309,
+          311,
+          328,
+          331,
+          357,
+          362,
+          365,
+          368,
+          374,
+          376,
+          380,
+          384,
+          385,
+          391,
+          396,
+          413,
+          429,
+          430,
+          437,
+          442,
+          447,
+          454,
+          462,
+          464,
+          475,
+          489,
+          499
+        ],
+        "window_mean_ci95": [
+          -0.007844244287115951,
+          0.0110967536401723
+        ],
+        "window_mean_se": 0.004831887226349044
+      },
+      "prose": {
+        "candidate_minus_pre_repair_mean": 0.001626254676528174,
+        "label": "prose",
+        "n_windows": 64,
+        "window_ids": [
+          28,
+          56,
+          68,
+          71,
+          76,
+          99,
+          107,
+          122,
+          124,
+          130,
+          141,
+          156,
+          160,
+          171,
+          180,
+          183,
+          185,
+          186,
+          196,
+          210,
+          212,
+          213,
+          218,
+          228,
+          232,
+          235,
+          249,
+          270,
+          272,
+          273,
+          283,
+          288,
+          290,
+          295,
+          297,
+          306,
+          307,
+          309,
+          311,
+          328,
+          331,
+          357,
+          362,
+          365,
+          368,
+          374,
+          376,
+          380,
+          384,
+          385,
+          391,
+          396,
+          413,
+          429,
+          430,
+          437,
+          442,
+          447,
+          454,
+          462,
+          464,
+          475,
+          489,
+          499
+        ],
+        "window_mean_ci95": [
+          -0.007844244287115951,
+          0.0110967536401723
+        ],
+        "window_mean_se": 0.004831887226349044
+      },
+      "reasoning": {
+        "candidate_minus_pre_repair_mean": 0.001626254676528174,
+        "label": "reasoning",
+        "n_windows": 64,
+        "window_ids": [
+          28,
+          56,
+          68,
+          71,
+          76,
+          99,
+          107,
+          122,
+          124,
+          130,
+          141,
+          156,
+          160,
+          171,
+          180,
+          183,
+          185,
+          186,
+          196,
+          210,
+          212,
+          213,
+          218,
+          228,
+          232,
+          235,
+          249,
+          270,
+          272,
+          273,
+          283,
+          288,
+          290,
+          295,
+          297,
+          306,
+          307,
+          309,
+          311,
+          328,
+          331,
+          357,
+          362,
+          365,
+          368,
+          374,
+          376,
+          380,
+          384,
+          385,
+          391,
+          396,
+          413,
+          429,
+          430,
+          437,
+          442,
+          447,
+          454,
+          462,
+          464,
+          475,
+          489,
+          499
+        ],
+        "window_mean_ci95": [
+          -0.007844244287115951,
+          0.0110967536401723
+        ],
+        "window_mean_se": 0.004831887226349044
+      }
+    }
+  },
+  "measurement": "balanced64",
+  "measurement_label": "balanced64_v1",
+  "outputs": {
+    "directory": "$MISSION_ROOT/P921_WIRE_A_BALANCED64_PUBLIC_TASK_s6/out/WIRE_A_P637_PREREPAIR_BALANCED64_R2",
+    "per_window": [
+      {
+        "bytes": 5964,
+        "mean": 0.07017651798631283,
+        "sha256": "4f026d8f32c91422c4af1754c612ae09561ed25b2646468ee6d29bbaf5c5df50",
+        "source_class": "prose",
+        "win": 28
+      },
+      {
+        "bytes": 5964,
+        "mean": 0.05976096566403532,
+        "sha256": "adecf00a2c9c789d0c666cc23750dc82c710a942ab5f48017c8f9f5605c51ac5",
+        "source_class": "code",
+        "win": 56
+      },
+      {
+        "bytes": 5964,
+        "mean": 0.17706383711643642,
+        "sha256": "dac669ba4fad9bc008bc98e599465f037eda03a40c5ade031bf6b2ba2fcb9a42",
+        "source_class": "prose",
+        "win": 68
+      },
+      {
+        "bytes": 5964,
+        "mean": 0.046222250023723294,
+        "sha256": "d39f7f4deb0d22b2cf152ec6dcfc0469c5a17a3c8131f41e9b9159d78454f016",
+        "source_class": "reasoning",
+        "win": 71
+      },
+      {
+        "bytes": 5964,
+        "mean": 0.02646249631763356,
+        "sha256": "e4d26be948802ea7341a7f9bd729775ebf2c800c6c550cb5857038dfbe7cecd7",
+        "source_class": "reasoning",
+        "win": 76
+      },
+      {
+        "bytes": 5964,
+        "mean": 0.2104911680631495,
+        "sha256": "946284163d5155e2a42d6c910d8187f84f9af3c9a2a59909380886a1c00a94a2",
+        "source_class": "prose",
+        "win": 99
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.12419123369045518,
+        "sha256": "ce21d7bdad9befb89ad2c56242095580e9128c63b16629318d341229239f037a",
+        "source_class": "multilingual",
+        "win": 107
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.09803398240232615,
+        "sha256": "d6082b4afce66e4abdc21628d76bdcd8a7ab3ad96fb8f1b6e5ab1a402f167e37",
+        "source_class": "agentic",
+        "win": 122
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.0739820046747503,
+        "sha256": "a77f93dacaf814842be8e903a1247df04309ce93462eef517a9d20952848a5f7",
+        "source_class": "code",
+        "win": 124
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.06292284553706898,
+        "sha256": "c4141c5b4f01ba9c7a84d2182f2e7b22f664df8f169e275ab2577e9072d55187",
+        "source_class": "agentic",
+        "win": 130
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.05880534973178794,
+        "sha256": "d4ee242ebd199cf21370c6c914b4ac73244daf38be9614a82e848d669aad0c81",
+        "source_class": "chat",
+        "win": 141
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.09789132069943687,
+        "sha256": "ba6fb42f98f7380eeb2852d5a724dd38073f74f06f323e4a1ffa0a6ede0ba482",
+        "source_class": "chat",
+        "win": 156
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.03146271795323189,
+        "sha256": "be0cbe16212445e8423659ab0a90e0776b5c9aa2442cae78b89a6711312063f0",
+        "source_class": "reasoning",
+        "win": 160
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.05167578898796432,
+        "sha256": "f572533bc9b77e2cd5ac295e97e698e5542a324fd55431f31fd62a5101ad021d",
+        "source_class": "agentic",
+        "win": 171
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.30505420951407614,
+        "sha256": "174526d1c611850ddf2d2a52f423ede3a5dda61f8b2b7d5ea89e2029d19666bc",
+        "source_class": "agentic",
+        "win": 180
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.1703133765712648,
+        "sha256": "e0b822f8a0c19cc3e7172fb679801d1d0a1f713a5a5164840214be089608dc81",
+        "source_class": "multilingual",
+        "win": 183
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.04348391253481586,
+        "sha256": "ddad679dc6cbe765e3d2a99e815eb67c3e0669b7801a10dd2c2a4ddd1462a0a4",
+        "source_class": "reasoning",
+        "win": 185
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.0713343470798335,
+        "sha256": "45d5ffa2fc700d0ce87d86a7908993719c8f64e45aa06611a815557065eb3e35",
+        "source_class": "chat",
+        "win": 186
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.19982755682971054,
+        "sha256": "a4237e9cdaed1bf3f71cf8e1e31114ae61fd89fb2b9b7d540a7401e3d743c7b5",
+        "source_class": "multilingual",
+        "win": 196
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.0670960892539908,
+        "sha256": "9a3985aae5bf45f7c720cef9ce3665cac9410227604090c371c0ed0c35794b48",
+        "source_class": "reasoning",
+        "win": 210
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.034270309461311516,
+        "sha256": "890ee000d880e8b0bc785d4770dce6b474cb0dd6208f13f995e024d6d3ffa796",
+        "source_class": "reasoning",
+        "win": 212
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.08838823787905842,
+        "sha256": "cef3494b2b8b50abb208c845c223d9f2ab3ccce9479f0dc93a60939442236323",
+        "source_class": "agentic",
+        "win": 213
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.17497775058888637,
+        "sha256": "de55708c73d6c1154bc615339970689fe0ac8407adbb1a6f3d08a75f23c74db9",
+        "source_class": "prose",
+        "win": 218
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.056414425985833405,
+        "sha256": "c2326f4fa66e8fbafce84934b3cce4575ac9e67790011e1afb41403e074ea919",
+        "source_class": "code",
+        "win": 228
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.13796036992821312,
+        "sha256": "c595ee94f67d627f475d2f997556863ad831860577d451d8853219c853d86b07",
+        "source_class": "multilingual",
+        "win": 232
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.31595383619139433,
+        "sha256": "e0251bf7ca05b237816afb615fe16e269a49bf9d0cafb8a7cfc7cdb6570ff7cf",
+        "source_class": "agentic",
+        "win": 235
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.052410397889437216,
+        "sha256": "dc87f7e2f132af319c3a32156e3f6a79db027e9e60fdd9e8f375cf4764d444e2",
+        "source_class": "chat",
+        "win": 249
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.2532092211272743,
+        "sha256": "eb45344331402d1a64b64480038ca4bc4e33869328280ebfc8868738f62d1907",
+        "source_class": "multilingual",
+        "win": 270
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.060433138250677934,
+        "sha256": "fd6d4282b1cf5e2a96c8b2b76008b91ba9bf6f15fcfaeddbfbb96806c524af2a",
+        "source_class": "agentic",
+        "win": 272
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.04895786819630657,
+        "sha256": "6f860b4abe2f61d57154b169f98e2392a4e2d482d936799d5a531366a39d74e4",
+        "source_class": "agentic",
+        "win": 273
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.13596717032018224,
+        "sha256": "c407e79a08c8585991ab4fdf5dfd4de44da71964533a06fc9710d91987bcda66",
+        "source_class": "agentic",
+        "win": 283
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.044697454152000285,
+        "sha256": "88ae094b7a76a89c82bd093fb1d8c6f06cf4fba2f75b9b163bcd30583eef90da",
+        "source_class": "agentic",
+        "win": 288
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.12039909125310239,
+        "sha256": "65c5aa4c61072312684316281a4adc347962113bc9be67b220b60100be08f378",
+        "source_class": "prose",
+        "win": 290
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.04141124706125687,
+        "sha256": "a4f9a1cea5f549a2d8faf728f8d2d4ec8ee529199629c5ff8df2a34b6ec12436",
+        "source_class": "chat",
+        "win": 295
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.18260946042621412,
+        "sha256": "51ed1fa961a3f77c1d5a57d5e595afb4a485649a1e5788bee46364960bbff7b1",
+        "source_class": "multilingual",
+        "win": 297
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.029698712587516045,
+        "sha256": "84aab38de5a710dade348aae28beb0a5db9f414dac52d103478a7948b9ed3762",
+        "source_class": "reasoning",
+        "win": 306
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.11881788294274837,
+        "sha256": "38b6d90e38d6e1d78887bbc9f490f4f23c4a13c4f0960e0839b0ded16d719f86",
+        "source_class": "prose",
+        "win": 307
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.13318807731892945,
+        "sha256": "fe1f3a4d2f86eeb12cd58f78946712bf2b2a9a2b4288692caf3dba6db1a918d4",
+        "source_class": "prose",
+        "win": 309
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.07402625801779555,
+        "sha256": "e3b86028886fa82ccc1222b0bee5a40ba316b1c94b5708743f03656487649db6",
+        "source_class": "code",
+        "win": 311
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.045034744603969806,
+        "sha256": "616248b99b4cab591a84e48ffaa63da79d6310ca837b4edbe6e2497073876658",
+        "source_class": "chat",
+        "win": 328
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.1382387536720202,
+        "sha256": "e8977bd7af9ab98e6b231f58716e356ba2e0ae43a682e862f490de607fcb45fa",
+        "source_class": "prose",
+        "win": 331
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.033251854410642365,
+        "sha256": "cd6869f31c4e58bd350d5bbf0a65f0890ac36fa77424bcd4222e82e035b0be0e",
+        "source_class": "code",
+        "win": 357
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.1707516712508507,
+        "sha256": "0aeb49a2fcb16a5a8aef7f46109f8afdda652ceb6451179ee71c3911d313ea50",
+        "source_class": "multilingual",
+        "win": 362
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.17508171014558724,
+        "sha256": "ad49a8d055a87f0c9c484875ad8df18ed16bae54a81c3f03dd89712aacadb323",
+        "source_class": "multilingual",
+        "win": 365
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.04149400720587891,
+        "sha256": "703f831ac40e4e77056276db2f2619b06e78bf20559cc7d49477d5d9fc920906",
+        "source_class": "code",
+        "win": 368
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.0207440803577019,
+        "sha256": "7ba0a2cd409a1ca4debe5186040c4ab95cd9a955b3e87872a6a82b1ecc06ffb0",
+        "source_class": "code",
+        "win": 374
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.16210288691507913,
+        "sha256": "0787f939489c7d2a310f2852a8dbab14a4206246adcb4d0bdc5f0d454ecd4564",
+        "source_class": "prose",
+        "win": 376
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.13118723824139633,
+        "sha256": "ac2ade354f5c02ba1c26cd86c47525fbe067f324786a4bc27b18e9f60ebe121f",
+        "source_class": "multilingual",
+        "win": 380
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.056075789484079,
+        "sha256": "382c63508d301b42a0974ce8e3491c0fce868f6ab0985420a021af637a04766a",
+        "source_class": "agentic",
+        "win": 384
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.27473919677210756,
+        "sha256": "cbfe0c87dd958e8dbd19476fb5318b218eae879b37b735cd159b7b03e7d5fbcf",
+        "source_class": "prose",
+        "win": 385
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.16053476983406398,
+        "sha256": "2859764d23818af9a26c367c6371cacfcb5dce7029ebfe28c69e180852fdf5a1",
+        "source_class": "agentic",
+        "win": 391
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.07491062377932386,
+        "sha256": "47d449c2d4badad41948d7b23f38da13f4e37f06605f5091b5525e31dadc4ef1",
+        "source_class": "code",
+        "win": 396
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.3719500277437443,
+        "sha256": "2e78bd9519b3fcde26ffe1673726e9f39f2129629555d80fc6e754427affcea4",
+        "source_class": "agentic",
+        "win": 413
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.1469105856297418,
+        "sha256": "f7ba2aad9bd5781106b8b3fe9f0625db047dfdec56b92feb50bdff9235a88db4",
+        "source_class": "agentic",
+        "win": 429
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.43410083165497954,
+        "sha256": "07135fb3ab2692d24f62c82815c64fbe040dff93ebdf8f3e10345f1eaac12f0a",
+        "source_class": "agentic",
+        "win": 430
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.0649298147982833,
+        "sha256": "343449cb6c6f84b3808de7ce1d80f63fc7528e819a2e0dace3754bdc9471d5b2",
+        "source_class": "agentic",
+        "win": 437
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.05765048618570269,
+        "sha256": "7cf28d4d01a18d7af670c78882e5441a9be59478e7bc553bf8d85645fa9de563",
+        "source_class": "agentic",
+        "win": 442
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.04864473720248888,
+        "sha256": "79d00ac4c09651681a8eaadc0735255c028720f84dace2559e0e7f4922e0eb3e",
+        "source_class": "chat",
+        "win": 447
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.03680704850199712,
+        "sha256": "90965335ed5171c986e66fdbff47418fc3f5641f7b7348866d971fe816f89e0a",
+        "source_class": "reasoning",
+        "win": 454
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.06016353248151572,
+        "sha256": "85475ea0fbc7f0dfc68993b66008c91988ccab9d24943464ec94b2c4e75d84c0",
+        "source_class": "reasoning",
+        "win": 462
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.17635558088438202,
+        "sha256": "a77b074ded2ebc648bd33c9ea518eff14b174c2966eff5a3023d87667c1df2d0",
+        "source_class": "agentic",
+        "win": 464
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.056227343419017466,
+        "sha256": "698b3bc067ad63bbe20078f64368f215828412f7a2f44c26d8e7540eca1d9779",
+        "source_class": "code",
+        "win": 475
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.17534006746918962,
+        "sha256": "aa2b9a52c34a415cbf5f1cc90171ae30a1ab4358bbce12649699707dba777637",
+        "source_class": "multilingual",
+        "win": 489
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.156031990508099,
+        "sha256": "8d51323903a64def17afd30baffba4d08805bb76d621352cb88f0cd789db9bef",
+        "source_class": "agentic",
+        "win": 499
+      }
+    ],
+    "window_output_set_sha256": "824bf2882474eb3547b515cf29dde77fe66ecd16bd4a9ed7650c197bc0e565e5"
+  },
+  "prior_wire_a_projection_anchor": {
+    "basis": "paired W0-127 projection; not a prior BALANCED64 physical read",
+    "global_mean": 0.11430034303225284,
+    "path": "$MISSION_ROOT/P921_WIRE_A_BALANCED64_PUBLIC_TASK_s6/inputs/P783_OLD_CORRUPT_BALANCED64.json",
+    "sha256": "32643f906af59f2b5076ddf336a6115e7c172b0f021bcaaccc7e73eba53d9da3"
+  },
+  "repair_and_dosing_blocked": true,
+  "schema": "p921-wire-a-p637-prerepair-balanced64-v1",
+  "six_classes": {
+    "agentic": {
+      "mean": 0.14929602148179635,
+      "n_positions": 19456,
+      "n_windows": 19,
+      "source_class": "agentic",
+      "window_mean_ci95": [
+        0.09522819189557868,
+        0.20336385106801402
+      ],
+      "window_mean_se": 0.027585627339906976
+    },
+    "chat": {
+      "mean": 0.05936173489545872,
+      "n_positions": 7168,
+      "n_windows": 7,
+      "source_class": "chat",
+      "window_mean_ci95": [
+        0.04479820012058951,
+        0.07392526967032793
+      ],
+      "window_mean_se": 0.007430374885137354
+    },
+    "code": {
+      "mean": 0.054534618168331016,
+      "n_positions": 9216,
+      "n_windows": 9,
+      "source_class": "code",
+      "window_mean_ci95": [
+        0.04194240374369004,
+        0.06712683259297199
+      ],
+      "window_mean_se": 0.0064245991962453945
+    },
+    "multilingual": {
+      "mean": 0.1720471905680156,
+      "n_positions": 10240,
+      "n_windows": 10,
+      "source_class": "multilingual",
+      "window_mean_ci95": [
+        0.1488405542311707,
+        0.19525382690486048
+      ],
+      "window_mean_se": 0.011840120580022909
+    },
+    "prose": {
+      "mean": 0.15801951626287722,
+      "n_positions": 10240,
+      "n_windows": 10,
+      "source_class": "prose",
+      "window_mean_ci95": [
+        0.1230066791599891,
+        0.19303235336576535
+      ],
+      "window_mean_se": 0.017863692399432713
+    },
+    "reasoning": {
+      "mean": 0.041740785457303975,
+      "n_positions": 9216,
+      "n_windows": 9,
+      "source_class": "reasoning",
+      "window_mean_ci95": [
+        0.03258934505399184,
+        0.05089222586061611
+      ],
+      "window_mean_se": 0.004669102246587826
+    }
+  },
+  "source_physical_manifest": {
+    "overlay_rows_sha256": "23b4211622efcd70f31e5c60d12a720c6741a57f2d4703cae6a8956ee944af15",
+    "path": "$MISSION_ROOT/P921_WIRE_A_BALANCED64_PUBLIC_TASK_s6/inputs/P653_EXACT_ASSEMBLED_WIRE_MANIFEST.json",
+    "sha256": "e03bc8919d51bbf1a9cf1f54f342e9f43dea625839ad8aad23578f7b8f9d98fa"
+  },
+  "started_unix": 1785242387.8363671,
+  "status": "PASS_FULL_WIRE_A_BALANCED64_V1",
+  "support": 8192,
+  "task_id": "PUBLIC_TASK",
+  "throughput": {
+    "elapsed_seconds": 975.7573022842407,
+    "overlay_transferred_bytes": 8060910677,
+    "windows_per_minute": 3.935404829674949
+  },
+  "window_ids": [
+    28,
+    56,
+    68,
+    71,
+    76,
+    99,
+    107,
+    122,
+    124,
+    130,
+    141,
+    156,
+    160,
+    171,
+    180,
+    183,
+    185,
+    186,
+    196,
+    210,
+    212,
+    213,
+    218,
+    228,
+    232,
+    235,
+    249,
+    270,
+    272,
+    273,
+    283,
+    288,
+    290,
+    295,
+    297,
+    306,
+    307,
+    309,
+    311,
+    328,
+    331,
+    357,
+    362,
+    365,
+    368,
+    374,
+    376,
+    380,
+    384,
+    385,
+    391,
+    396,
+    413,
+    429,
+    430,
+    437,
+    442,
+    447,
+    454,
+    462,
+    464,
+    475,
+    489,
+    499
+  ],
+  "window_manifest": {
+    "name": "BALANCED64_V1",
+    "path": "$MISSION_ROOT/P921_WIRE_A_BALANCED64_PUBLIC_TASK_s6/inputs/BALANCED64_V1.json",
+    "sha256": "7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad"
+  },
+  "windows": 64,
+  "wire_semantic_label": "WIRE_A_P637_PRE_REPAIR_UNDOSED"
+}

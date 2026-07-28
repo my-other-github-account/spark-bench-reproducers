@@ -1,0 +1,263 @@
+{
+  "definitive_rerun_required_after": "NONE__THIS_IS_THE_DEFINITIVE_CORRECTED_PRICING_V3_SOLVE",
+  "effective_v3_code_cap_predicted_kld": 0.05105647752666574,
+  "envelope_bytes": 101346700411,
+  "envelope_slack_bytes": 0,
+  "exact_bytes": 101346700411,
+  "feasibility": {
+    "all_classes_present": true,
+    "exact_bytes_at_or_below_envelope": true,
+    "objective_finite_nonnegative": true,
+    "per_class_hard_ceilings_satisfied": true
+  },
+  "known_blind_spot_note": null,
+  "objective_class_weights": {
+    "agentic": 1.0,
+    "chat": 1.0,
+    "code": 1.5,
+    "multilingual": 2.0,
+    "prose": 1.5,
+    "reasoning": 1.0
+  },
+  "objective_reweighted": 0.06913222309403669,
+  "output_label": "WIRE_C_V3_DEFINITIVE",
+  "per_class_hard_ceilings": {
+    "agentic": 0.08441002666950226,
+    "chat": 0.033820249140262604,
+    "code": 0.05105647752666574,
+    "multilingual": 0.13705866038799286,
+    "prose": 0.09666712582111359,
+    "reasoning": 0.021449530497193336
+  },
+  "pre_v3": false,
+  "prediction_by_class": {
+    "agentic": 0.08252670876502949,
+    "chat": 0.02908751547174559,
+    "code": 0.05105647752666574,
+    "multilingual": 0.11243519329923132,
+    "prose": 0.08100268652233014,
+    "reasoning": 0.01848442784356199
+  },
+  "preview": false,
+  "pricing_v3_surface": {
+    "effective_v3_code_cap_predicted_kld": 0.05105647752666574,
+    "grid_factor_by_tier_and_class": {
+      "d4_k4096": {
+        "agentic": 0.990304278760562,
+        "chat": 0.9833458875381984,
+        "code": 1.0918188460115634,
+        "multilingual": 1.0224204166406425,
+        "prose": 0.9511130083213316,
+        "reasoning": 0.9512870656114693
+      },
+      "qtip2_2.0117": {
+        "agentic": 0.990304278760562,
+        "chat": 0.9833458875381984,
+        "code": 1.0918188460115634,
+        "multilingual": 1.0224204166406425,
+        "prose": 0.9511130083213316,
+        "reasoning": 0.9512870656114693
+      },
+      "qtip3_3.0117": {
+        "agentic": 0.990304278760562,
+        "chat": 0.9833458875381985,
+        "code": 1.0918188460115634,
+        "multilingual": 1.0224204166406425,
+        "prose": 0.9511130083213315,
+        "reasoning": 0.9512870656114693
+      }
+    },
+    "hard_code_guard_semantics": "same no-regression-to-exact-original-incumbent rule, repriced on the V3 surface",
+    "input_shas": {
+      "p922_selection": "e776c293be491f080a630f7ba1d066ea0cc420c773be6758de2b4c92a3fb9818",
+      "p928_assignment": "62c26b9ea8f53aa2a2be84ff55b0e444100625f900832e096624ea178d9f9122",
+      "pre_v3_grid": "74869b5f8e3ef4eb43dc98c6ee060c2d9ad048bb215cadd308fb2c9983933dda",
+      "pricing_v3": "c8673867b0fb7626232721d4939a9fdf95ef6d1a3de69698fd2a3d42398606c0",
+      "v3_grid": "49407ff0114c5bcf9f7a68fbfc2a4822fee1839852aff5d89b8ce12d1251c203",
+      "v3_validation": "9666d979b79ec576f55a4ea685bb1311b29910875fc227a24f470370e516b379"
+    },
+    "modified_grid_tiers": [
+      "d4_k4096",
+      "qtip2_2.0117",
+      "qtip3_3.0117"
+    ],
+    "original_prediction_after_v3": {
+      "agentic": 0.08252670876502911,
+      "chat": 0.029087515471745495,
+      "code": 0.05105647752666574,
+      "multilingual": 0.11243519329923206,
+      "prose": 0.0810026865223305,
+      "reasoning": 0.018484427843561996
+    },
+    "original_prediction_before_v3": {
+      "agentic": 0.08264514478803922,
+      "chat": 0.029143086888150288,
+      "code": 0.05017895385607341,
+      "multilingual": 0.11221847266005718,
+      "prose": 0.0813892828041555,
+      "reasoning": 0.01859277197607296
+    },
+    "p922_application": "SEPARATE_EXACT_FROZEN_CODEBOOK_JOIN",
+    "p922_counts_by_tier": {
+      "d4_k1024": 195,
+      "d4_k2048": 2016,
+      "d4_k4096": 1592
+    },
+    "p922_join_key": [
+      "layer",
+      "expert",
+      "projection",
+      "new_tier"
+    ],
+    "p922_joined_rows": 3803,
+    "p922_surcharge_closure_by_class": {
+      "agentic": 0.016604078477868132,
+      "chat": 0.017326981782761455,
+      "code": 0.0058930305385018105,
+      "multilingual": 0.0668267769735903,
+      "prose": 0.05941558152984767,
+      "reasoning": 0.013376581658339014
+    },
+    "p922_surcharge_closure_error_by_class": {
+      "agentic": 0.0,
+      "chat": 0.0,
+      "code": 0.0,
+      "multilingual": 0.0,
+      "prose": 0.0,
+      "reasoning": 0.0
+    },
+    "p922_surcharge_per_identity_by_class": {
+      "agentic": 4.36604745671e-06,
+      "chat": 4.556135099332489e-06,
+      "code": 1.5495741621093376e-06,
+      "multilingual": 1.7572121213144963e-05,
+      "prose": 1.5623345130120344e-05,
+      "reasoning": 3.5173761920428645e-06
+    },
+    "p928_interaction_application": "ALREADY_BAKED_INTO_THE_THREE_V3_GRID_ROWS__NOT_ADDED_TWICE",
+    "pricing_report_canonical_payload_sha256": "5588dbc5f2804180dfa23233de9441239ba67f0ef381c6e613634b1bfb6d8b9a",
+    "scaled_option_counts": {
+      "d4_k4096": 22016,
+      "qtip2_2.0117": 19968,
+      "qtip3_3.0117": 20480
+    },
+    "schema": "p931-pricing-only-surface-adapter-v1",
+    "source_p924_solver_sha256": "fc99323ecea76d52b3640e96894ded0ee684987d66abea38cde6cc8be4dfd355",
+    "source_pre_v3_code_cap_predicted_kld": 0.0501789538560735,
+    "status": "PASS_P930_V3_GRID_AND_P922_SURCHARGE_APPLIED",
+    "surface_report_canonical_sha256": "fe98076a9832934f2a77960eca3ad449d3e2811fe9d48a0e79632a67edd7536e",
+    "task_id": "PUBLIC_TASK",
+    "tier_option_sums_after_grid_factor_before_surcharge": {
+      "d4_k4096": {
+        "agentic": 0.051911508367980475,
+        "chat": 0.015545794739817662,
+        "code": 0.03468034775768162,
+        "multilingual": 0.05873670535435869,
+        "prose": 0.040302275521299,
+        "reasoning": 0.01025685518047518
+      },
+      "qtip2_2.0117": {
+        "agentic": 0.09555374447613621,
+        "chat": 0.022047409875797046,
+        "code": 0.1426031623355659,
+        "multilingual": 0.17441618208679827,
+        "prose": 0.11085107601165697,
+        "reasoning": 0.0131477434091544
+      },
+      "qtip3_3.0117": {
+        "agentic": 0.03369219612874333,
+        "chat": 0.007095759252712689,
+        "code": 0.052843227028112005,
+        "multilingual": 0.054926584756534814,
+        "prose": 0.037805857894532356,
+        "reasoning": 0.0036804107562706146
+      }
+    },
+    "tier_option_sums_before_surcharge": {
+      "d4_k4096": {
+        "agentic": 0.052419755706752585,
+        "chat": 0.015809080951908472,
+        "code": 0.03176382958067599,
+        "multilingual": 0.05744868196915447,
+        "prose": 0.042373803290137485,
+        "reasoning": 0.010782082035229049
+      },
+      "qtip2_2.0117": {
+        "agentic": 0.09648927761448095,
+        "chat": 0.02242080854275257,
+        "code": 0.13061064374964598,
+        "multilingual": 0.1705914506870627,
+        "prose": 0.11654879603350579,
+        "reasoning": 0.013821005124991667
+      },
+      "qtip3_3.0117": {
+        "agentic": 0.03402206458292956,
+        "chat": 0.007215934232945121,
+        "code": 0.048399262589347486,
+        "multilingual": 0.053722112609024965,
+        "prose": 0.03974907036678835,
+        "reasoning": 0.0038688750108306336
+      }
+    },
+    "unchanged_grid_tiers": [
+      "d4_k1024",
+      "d4_k2048",
+      "d4_k256",
+      "d4_k512",
+      "d4_k8192",
+      "d8_k1024",
+      "d8_k2048",
+      "d8_k256",
+      "d8_k4096",
+      "d8_k512",
+      "native_mxfp4"
+    ]
+  },
+  "public_validity": {
+    "measured": false,
+    "source_sha256_before_privacy_substitution": "e84c6c5550eebc00df8b0f15d344c719864bbaf96cfdf5723bc696e839352772",
+    "status": "PROJECTED_FIRST_FEASIBLE__FINAL_SCIP_PENDING"
+  },
+  "schema": "wire-c-v3-definitive-first-feasible-v1",
+  "solve_authority": {
+    "definitive": true,
+    "definitive_rerun_required_after": "NONE__THIS_IS_THE_DEFINITIVE_CORRECTED_PRICING_V3_SOLVE",
+    "known_blind_spot_note": null,
+    "late_code_blind_spot_disposition": "V3 captures the missing positive/material code direction through the measured P928 correction and explicit P922 surcharge; disclosed per-class residual error remains.",
+    "legacy_pre_v3_authority_preserved_as_lineage_only": {
+      "definitive_rerun_required_after": "NONE__THIS_IS_THE_DEFINITIVE_CORRECTED_PRICING_V3_SOLVE",
+      "known_blind_spot_note": "KNOWN BLIND SPOT \u2014 code late-band risk: binding Wire-B retrodiction FAIL was measured +23.3% versus retrodicted +1.037441975032% (22.262558024968 pp absolute miss); chat miss 10.867757772235 pp. This operator-authorized baseline is diagnostic only, not a repaired pricing model.",
+      "mode": "OPERATOR_AUTHORIZED_BASELINE_PREVIEW",
+      "output_label": "WIRE_C_V3_DEFINITIVE",
+      "override_receipt": {
+        "authorization_basis": "Operator final override on PUBLIC_TASK: run the baseline-labeled preview immediately despite the disclosed retrodiction failure, preserving corrected grid SHA 74869b5f... and exact envelope 101346700411.",
+        "binding_retrodiction_decision": "STOP_NO_WIRE_C_SOLVE_OR_BUILD",
+        "binding_retrodiction_sha256": "0574eebee0708d6346f9d36a69ff278a61c95c69a2b5fb351865c31b6d9bff87",
+        "binding_retrodiction_task_id": "PUBLIC_TASK",
+        "definitive_rerun_required_after": "120/120 seals",
+        "known_blind_spot": "code late-band risk",
+        "known_blind_spot_detail": "Wire B code measured +23.3% but corrected-grid baseline retrodicted +1.0374419750323272% (22.262558024967674 pp absolute miss); chat miss was 10.867757772235024 pp. Baseline preview only; improved V2 follows diagnostic research.",
+        "output_label": "WIRE_C_BASELINE_PREVIEW",
+        "retrodiction_fail_disclosed": true,
+        "schema": "wire-c-operator-baseline-preview-override-v1",
+        "status": "AUTHORIZED_OPERATOR_BASELINE_PREVIEW",
+        "task_id": "PUBLIC_TASK"
+      },
+      "retrodiction_fail_disclosed": true,
+      "retrodiction_gate_passed": false
+    },
+    "mode": "P930_FINAL_CORRECTED_PRICING_V3",
+    "output_label": "WIRE_C_V3_DEFINITIVE",
+    "pricing_task_id": "PUBLIC_TASK",
+    "pricing_v3_sha256": "c8673867b0fb7626232721d4939a9fdf95ef6d1a3de69698fd2a3d42398606c0",
+    "v3_grid_sha256": "49407ff0114c5bcf9f7a68fbfc2a4822fee1839852aff5d89b8ce12d1251c203",
+    "v3_validation_sha256": "9666d979b79ec576f55a4ea685bb1311b29910875fc227a24f470370e516b379",
+    "v3_validation_status": "PASS"
+  },
+  "status": "WIRE_C_V3_DEFINITIVE_FIRST_FEASIBLE",
+  "task_id": "PUBLIC_TASK",
+  "warm_start_assignment": {
+    "path": "$P931_OUTPUT_ROOT/WIRE_C_BASELINE_PREVIEW_WARM_START.json",
+    "sha256": "5254acd0c96ea46796d86161877fe3f8342d4de8b08ec1ba1f1296dd75f0ed52"
+  }
+}

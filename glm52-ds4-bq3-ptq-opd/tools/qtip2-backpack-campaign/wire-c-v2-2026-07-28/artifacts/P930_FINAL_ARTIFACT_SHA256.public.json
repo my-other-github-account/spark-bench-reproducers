@@ -1,0 +1,28 @@
+{
+  "artifacts": {
+    "analysis/WIRE_CALIBRATION_FINAL_REPORT.json": "6213107d728ac0df48be7121a082a6efa6f894d30c800e8db94315589c86a0d9",
+    "outputs/CORRECTED_PRICING_V3.json": "c8673867b0fb7626232721d4939a9fdf95ef6d1a3de69698fd2a3d42398606c0",
+    "outputs/CORRECTED_VERTICAL_GRID_V3.csv": "49407ff0114c5bcf9f7a68fbfc2a4822fee1839852aff5d89b8ce12d1251c203",
+    "outputs/P922_RESTORED_VQ_SELECTION_PINNED.json": "e776c293be491f080a630f7ba1d066ea0cc420c773be6758de2b4c92a3fb9818",
+    "outputs/P928_MIX_C_PATTERN_ASSIGNMENT_PINNED.json": "62c26b9ea8f53aa2a2be84ff55b0e444100625f900832e096624ea178d9f9122"
+  },
+  "consumer_handoff": {
+    "definitive_solve_task": "PUBLIC_TASK",
+    "fan_in_task": "PUBLIC_TASK",
+    "grid_sha256": "49407ff0114c5bcf9f7a68fbfc2a4822fee1839852aff5d89b8ce12d1251c203",
+    "pre_v3_solver_task": "PUBLIC_TASK",
+    "pricing_sha256": "c8673867b0fb7626232721d4939a9fdf95ef6d1a3de69698fd2a3d42398606c0",
+    "report_sha256": "6213107d728ac0df48be7121a082a6efa6f894d30c800e8db94315589c86a0d9"
+  },
+  "schema": "p930-final-artifact-sha256-v1",
+  "status": "PASS_HASH_CLOSED",
+  "task_id": "PUBLIC_TASK",
+  "verification": {
+    "absolute_grid_nonnegative": true,
+    "all_four_global_within_5_percent": true,
+    "class_misses_disclosed": true,
+    "input_pins": true,
+    "p922_selection_closure": true,
+    "p928_anchor_closure": true
+  }
+}

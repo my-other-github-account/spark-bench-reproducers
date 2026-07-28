@@ -1,0 +1,143 @@
+{
+  "artifacts": {
+    "launch_checklist": {
+      "path": "WIRE_C_V2_LAUNCH_CHECKLIST.md",
+      "sha256": "f44aa5f08fc4a9319edfb2ba0e4edf4aaa28f3b84e1f93f479068356f8d1fbc1"
+    },
+    "package_manifest": {
+      "file_count": 154,
+      "path": "PACKAGE_MANIFEST.json",
+      "sha256": "ec9aa657179cb3de274392af88b2e1144205a7b22e1645389d5af26ded77796a",
+      "total_bytes": 82315361
+    }
+  },
+  "canonical_interpreter": {
+    "ortools_version": "9.14.6206",
+    "path": "$SOURCE_ROOT/python"
+  },
+  "code_shas": {
+    "canonical_p760_respend_lineage": "d53c25d0c7dc49dd5bb85b47e08d22f123d15f39378d2d4ef9e024df478b11bb",
+    "launcher": "219098367f66c185782d1fed8bd7dbc6bf799d467653a23eedebd3df41969d45",
+    "pinned_p693_turbo_core": "98abe59ef6da4bfbd9cf91590932e45ffb352e474b9318497ea7ed79e3d90223",
+    "pinned_p760_turbo_wrapper": "db1cdc17dc9aae78d2283e26f7dff241d02b81b5a04af662ab213346dbcdf7a9",
+    "retrodiction_pricing": "466bba58afd00cc12d6b157281eda8a5d06fb5807b89874b5a6497ee29c3047e",
+    "v2_wrapper": "17349746cc68770fed8ae17abce56f5a4913b230b85b87320fb35c9df6defcaa"
+  },
+  "current_menu": {
+    "qtip15_present": false,
+    "qtip2_layers": 39,
+    "qtip2_missing_layers": [
+      13
+    ],
+    "qtip3_layers": 40,
+    "sha256": "ef70628ee7c578a8db7efee333299f2de861ce73e7823c635d1cc90e71d1f09c",
+    "source_shas": {
+      "qtip2_inventory_seal": "96e09515e61e87669e5a378b714262184173b625844898a20f210838a3ed0b5b",
+      "qtip2_uniform_wire": "b3c208169bbd5b0a7bca52655e382f0609bab712518f7521d2926442baefabc0",
+      "qtip3_inventory_seal": "ab58d76c31f1286c4fa5149d0cc017a4846e4cc5d60062fe48aa35b0859bc48c",
+      "qtip3_uniform_wire": "c918a9f1c9f8bc2ac40f7f368f03ea17f5274eec28bd4519a9a14eeff2b9366f"
+    }
+  },
+  "dominated_option_pruning": {
+    "cells": 22016,
+    "option_variables_after": 287275,
+    "option_variables_before": 304640,
+    "removed_option_variables": 17365,
+    "rule": "drop B only when same-cell A has <= bytes and <= all six class costs, with at least one strict; preserve exact-original and feasible-hint options"
+  },
+  "dry_run": {
+    "checks_failed": 0,
+    "checks_passed": 11,
+    "dominance_receipt_sha256": "3f1ea2d0d8fcb9af9d20f56e18cffe10b47777edf6dae30d796ca8c0c1d864e8",
+    "receipt_sha256": "58cf7cdb8b5cd72b0fc5fd11870cef26387455ddde282ca3f9e8b162194cdb52",
+    "solver_call_count": 0,
+    "status": "PASS_WIRE_C_V2_DRY_RUN"
+  },
+  "greedy_feasible_seed": {
+    "dry_run_assignment_map_sha256": "5dd60a03011b85a3b1c461a0830089efaac609f33942e82c9c53f78b35cd4ed8",
+    "dry_run_changed_cells": 0,
+    "dry_run_code": 0.0501789538560735,
+    "dry_run_exact_bytes": 101346700411,
+    "dry_run_objective_uniform_six": 0.06236128549542452,
+    "later_hint_override": "P693_HINT_ASSIGNMENT may point to a legal baseline assignment; it is revalidated fail-closed",
+    "rule": "deterministic admissible one-cell objective moves, non-positive-byte first then objective-gain/byte; enforce envelope and every class cap after each move; retain incumbent if no admissible move"
+  },
+  "hard_code_guard": {
+    "basis": "sealed current exact-envelope incumbent; FIRST_FEASIBLE_PREVIEW.prediction_by_class.code",
+    "basis_is_non_wire_b": true,
+    "cap_predicted_kld": 0.0501789538560735,
+    "class": "code",
+    "late_band_concentration_confirmed": false,
+    "operator": "<=",
+    "p887_late_band_code_kld": 0.055876973966477825,
+    "p887_ratio": 1.0427663502730358,
+    "p887_uniform_q3_code_kld": 0.053585325180321663,
+    "wire_b_actual_used_as_fit_target": false
+  },
+  "input_shas": {
+    "binding_retrodiction_disclosure": "0574eebee0708d6346f9d36a69ff278a61c95c69a2b5fb351865c31b6d9bff87",
+    "corrected_grid_csv": "74869b5f8e3ef4eb43dc98c6ee060c2d9ad048bb215cadd308fb2c9983933dda",
+    "corrected_grid_receipt": "2ef3cfea36e3d21198e2f1762b3a4f16e5d54f1b0fd7f0b2ab08d6dc738b9214",
+    "p887_late_band": "07579735a5b2d67808c1ab353d80c20d112dee66e95ae3b9c61ba7e7e78ae824",
+    "qtip2_anchor": "96e09515e61e87669e5a378b714262184173b625844898a20f210838a3ed0b5b",
+    "qtip3_anchor": "d79a79653f66067aee9255d95e0212013abae128df5c0ac2c7727ab899e44315",
+    "sealed_first_feasible": "bedef45c789198bbf4bda2a4b2d3fd23664e6cd9c6546e272113a315d98f6edb",
+    "v2_config": "0f87f379b0cb87ff87dcdad531ca71e8067ebd8c2e41f66fa84ccba64a6a5dbd"
+  },
+  "mandatory_purchase_table": {
+    "path": "outputs/WIRE_C_V2/PURCHASE_TABLE.json",
+    "required_fields": [
+      "changed_cell_count",
+      "changed_cells",
+      "selected_cell_counts.QTIP2",
+      "selected_cell_counts.QTIP3",
+      "selected_cell_counts.QTIP15",
+      "bytes_by_tier",
+      "total_qtip_selected_logical_bytes",
+      "total_package_bytes",
+      "package_slack_bytes",
+      "objective_uniform_six",
+      "prediction_by_class",
+      "assignment_sha256",
+      "assignment_map_sha256",
+      "hard_code_guard"
+    ],
+    "sealed_before_result_done": true
+  },
+  "objective": {
+    "classes": [
+      "agentic",
+      "chat",
+      "code",
+      "multilingual",
+      "prose",
+      "reasoning"
+    ],
+    "envelope_bytes": 101346700411,
+    "name": "uniform mean of six predicted class KLDs",
+    "pack_fraction": 1.0,
+    "weights": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "one_command": "./launch_wire_c_v2.sh",
+  "schema": "wire-c-v2-solve-ready-v1",
+  "scip": {
+    "feaspump_frequency": 5,
+    "nonregression_reference": "legal current-menu feasible hint on same corrected price basis",
+    "primal_heavy": true,
+    "rens_frequency": 5,
+    "rins_frequency": 5,
+    "rounding_frequency": 1,
+    "threads": 16,
+    "time_limit_seconds": 3600
+  },
+  "scope": "CPU/text-only prestage; solver not executed; no Spark contacted or mutated",
+  "status": "WIRE_C_V2_SOLVE_READY",
+  "task_id": "PUBLIC_TASK"
+}

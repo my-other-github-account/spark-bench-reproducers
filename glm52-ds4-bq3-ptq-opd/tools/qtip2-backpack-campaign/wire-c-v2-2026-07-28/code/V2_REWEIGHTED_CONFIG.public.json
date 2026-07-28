@@ -1,0 +1,106 @@
+{
+  "class_weights": {
+    "agentic": 1.0,
+    "chat": 1.0,
+    "code": 1.5,
+    "multilingual": 2.0,
+    "prose": 1.5,
+    "reasoning": 1.0
+  },
+  "current_snapshot_is_menu": true,
+  "dominated_option_pruning": {
+    "protected_options": [
+      "exact-original option",
+      "greedy feasible-hint option"
+    ],
+    "rule": "Drop option B only when another option A in the same cell has A.bytes <= B.bytes and A.cost[class] <= B.cost[class] for every one of the six constrained classes, with at least one strict inequality.",
+    "scalar_objective_only_pruning": false
+  },
+  "envelope_bytes": 101346700411,
+  "greedy_feasible_seed": {
+    "acceptance": "atomic pair only: one freeing sell plus one spending buy; combined package bytes <= envelope; every class remains nonnegative and <= its hard ceiling, including CODE <= 0.0501789538560735; combined reweighted objective strictly improves",
+    "candidate_order": "deterministic sell+buy pair ranking under the reweighted objective; no single move may be committed",
+    "fallback": "If no admissible improving pair exists, retain the legal prior V2 assignment as the SCIP hint; do not weaken any cap or alter prices.",
+    "paired_swaps_only": true,
+    "round_limit": 30,
+    "single_moves_forbidden": true,
+    "start": "legal prior V2 terminal assignment on the identical current menu and corrected-grid surface"
+  },
+  "hard_code_guard": {
+    "basis": "sealed current exact-envelope non-QTIP incumbent, FIRST_FEASIBLE_PREVIEW.prediction_by_class.code",
+    "basis_is_non_wire_b": true,
+    "cap_predicted_kld": 0.0501789538560735,
+    "class": "code",
+    "operator": "<=",
+    "p887_interpretation": "late-layer concentration not confirmed; do not invent layer-band prices",
+    "p887_late_band_code_kld": 0.055876973966477825,
+    "p887_ratio_late_over_uniform": 1.0427663502730358,
+    "p887_uniform_q3_code_kld": 0.053585325180321663,
+    "rationale": "The current sealed incumbent is exactly feasible and supplies a preregistered no-code-regression cap on the same measured-price surface. This cap does not alter the uniform-six objective; it only rejects assignments whose aggregate predicted code KLD exceeds the incumbent.",
+    "wire_b_actual_used_as_fit_target": false
+  },
+  "mandatory_purchase_table_schema": {
+    "assignment_map_sha256": "64 lowercase hex",
+    "assignment_sha256": "64 lowercase hex",
+    "bytes_by_tier": "for QTIP2/QTIP3/QTIP15: selected logical bytes, gross bytes freed, gross bytes spent, net byte delta",
+    "changed_cells": "integer plus full rows: layer, expert, projection, from, to, delta_bytes, delta_by_class",
+    "hard_code_guard": "cap, observed code prediction, slack, PASS/FAIL",
+    "objective_reweighted": "finite nonnegative normalized weighted mean using the preregistered class weights",
+    "package_slack_bytes": "integer",
+    "prediction_by_class": [
+      "agentic",
+      "chat",
+      "code",
+      "multilingual",
+      "prose",
+      "reasoning"
+    ],
+    "selected_cell_counts": {
+      "QTIP15": "integer",
+      "QTIP2": "integer",
+      "QTIP3": "integer"
+    },
+    "total_package_bytes": "integer",
+    "total_qtip_bytes": "integer"
+  },
+  "objective": "normalized class-weighted mean with multilingual protection and code moat",
+  "out_of_scope": [
+    "solver execution during prestage",
+    "build",
+    "rail",
+    "Spark mutation",
+    "new prices",
+    "Wire-B self-fitting"
+  ],
+  "output_label": "V2_REWEIGHTED_PRE_V3",
+  "pack_fraction": 1.0,
+  "schema": "wire-c-v2-reweighted-pre-v3-config-v1",
+  "scip": {
+    "backend": "OR-Tools MPSolver SCIP",
+    "canonical_interpreter": "$SOURCE_ROOT/python",
+    "ortools_version": "9.14.6206",
+    "parameters": [
+      "parallel/maxnthreads = 16",
+      "randomization/randomseedshift = 0",
+      "limits/gap = 0.0000001",
+      "display/verblevel = 4",
+      "heuristics/rens/freq = 5",
+      "heuristics/rins/freq = 5",
+      "heuristics/feaspump/freq = 5",
+      "heuristics/rounding/freq = 1"
+    ],
+    "primal_heavy": true,
+    "threads": 16,
+    "time_limit_seconds": 3600
+  },
+  "sealed_input_shas": {
+    "corrected_grid_csv": "74869b5f8e3ef4eb43dc98c6ee060c2d9ad048bb215cadd308fb2c9983933dda",
+    "current_menu": "8a6ef941dfed2036360aa70674f4f47c799593a70a58c6e51d2256371fe903f6",
+    "first_feasible": "bedef45c789198bbf4bda2a4b2d3fd23664e6cd9c6546e272113a315d98f6edb",
+    "p887_late_band": "07579735a5b2d67808c1ab353d80c20d112dee66e95ae3b9c61ba7e7e78ae824",
+    "qtip2_anchor": "96e09515e61e87669e5a378b714262184173b625844898a20f210838a3ed0b5b",
+    "qtip3_anchor": "d79a79653f66067aee9255d95e0212013abae128df5c0ac2c7727ab899e44315"
+  },
+  "status": "PREREGISTERED_V2_REWEIGHTED_PRE_V3",
+  "task_id": "PUBLIC_TASK"
+}
