@@ -12,7 +12,7 @@ This bundle is a research evidence recovery package, not a model or third-party 
 
 Classification: included.
 
-The recovered runners, adapters, kernels, launchers, finalizers, manifests, logs, and receipts were produced inside the project mission/board authority chain. Each file has an exact source SHA-256 and a shipped SHA-256 in `SOURCE_MANIFEST.json`. Runtime-specific paths, direct addresses, and operator-local identifiers were deterministically replaced with placeholders.
+The recovered runners, adapters, kernels, launchers, finalizers, manifests, logs, and receipts were produced inside the project mission/board authority chain. Each file has an exact source SHA-256 and a shipped SHA-256 in `SOURCE_MANIFEST.json`. Runtime-specific paths, direct addresses, and operator-local identifiers were deterministically replaced with documented substitutions.
 
 ### Generated benchmark outputs
 
@@ -62,7 +62,7 @@ The scanner never prints a suspected secret value; it emits only rule IDs, relat
 ## Consumer obligations
 
 1. Run both bundled verification tools after extraction.
-2. Rebind placeholders only in a task-local copy.
+2. Rebind documented substitutions only in a task-local copy.
 3. Resolve third-party dependencies under their own licenses.
 4. Do not publish generated benchmark outputs as original human-authored library code.
 5. Do not infer model availability from a receipt hash.

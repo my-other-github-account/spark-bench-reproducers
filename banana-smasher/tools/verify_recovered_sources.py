@@ -5,7 +5,9 @@ from __future__ import annotations
 import hashlib
 import json
 from pathlib import Path
-from typing import Any
+import subprocess
+import sys
+from typing import Any, Optional, Tuple
 
 ROOT = Path(__file__).resolve().parents[1]
 BUNDLE = ROOT / "vendor" / "recovered" / "glm52_research_source_bundle_v1"
@@ -21,8 +23,31 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def run_bundle_tool(script: str) -> Tuple[dict[str, Any], Optional[str]]:
+    completed = subprocess.run(
+        [sys.executable, str(BUNDLE / "tools" / script), str(BUNDLE)],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+        timeout=60,
+    )
+    try:
+        result = json.loads(completed.stdout)
+    except Exception:
+        return {}, "{} produced invalid JSON (exit {})".format(script, completed.returncode)
+    if completed.returncode != 0 or result.get("status") != "PASS":
+        return result, "{} failed (exit {})".format(script, completed.returncode)
+    return result, None
+
+
 def verify() -> dict[str, Any]:
     failures: list[dict[str, Any]] = []
+    bundle_verification, bundle_error = run_bundle_tool("verify_bundle.py")
+    privacy_verification, privacy_error = run_bundle_tool("privacy_scan.py")
+    if bundle_error:
+        failures.append({"reason": bundle_error, "details": bundle_verification.get("errors", [])})
+    if privacy_error:
+        failures.append({"reason": privacy_error, "details": privacy_verification.get("findings", [])})
     manifest_path = BUNDLE / "RECOVERY_MANIFEST.json"
     if not manifest_path.is_file():
         return {"schema": "banana-smasher-recovered-verification-v1", "status": "FAIL", "failures": [{"reason": "missing recovery manifest"}]}
@@ -79,6 +104,8 @@ def verify() -> dict[str, Any]:
         "recovered_source_entries": manifest["recovered_source_entries"],
         "promotable_families": sorted(PROMOTABLE),
         "hold_only_families": sorted(HOLD_ONLY),
+        "bundle_verification": bundle_verification,
+        "privacy_verification": privacy_verification,
         "failures": failures,
     }
 

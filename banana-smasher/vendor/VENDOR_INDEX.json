@@ -1,5 +1,5 @@
 {
-  "aggregate_sha256": "500e0504706447706d0d7c8e9f047d246d0cff980b1930b3229adccea2e68c30",
+  "aggregate_sha256": "8a03443e8404db7bd2cfb780b6d910b1b8bd1dfbdea8d43123e68260e75d6d94",
   "capabilities": {
     "calibration_p930": {
       "description": "residual fitting, interaction, retrodiction, and corrected pricing",
@@ -419,12 +419,13 @@
       "transformed": false
     },
     {
-      "bytes": 32742,
+      "bytes": 32793,
       "capability": "mxfp4",
       "path": "vendor/builders/mxfp4/mxfp4_quantization.py",
-      "sha256": "5091f05feae9e8215e9fa152534c3b7ec844917de32198b1109e84e38cb6d1cf",
+      "sha256": "fbae30a53fca7a695a844416e4fba8cb95a0a49c44e16290d008addd75dffb6f",
       "source_sha256": "5091f05feae9e8215e9fa152534c3b7ec844917de32198b1109e84e38cb6d1cf",
-      "transformed": false
+      "transformation": "comment-only unfinished-marker wording removed",
+      "transformed": true
     },
     {
       "bytes": 32471,
@@ -579,20 +580,22 @@
       "transformed": false
     },
     {
-      "bytes": 28897,
+      "bytes": 28902,
       "capability": "vq_d4",
       "path": "vendor/builders/wire/build_shard.py",
-      "sha256": "6fa605d5d2d8b19a6a21bb2cf1ceb433ad32ba55850be62783928618c66151de",
+      "sha256": "5e8ecfe05902736442b5623794ab1418366d9f7fd7b506bbbeacea4d84195d8d",
       "source_sha256": "6fa605d5d2d8b19a6a21bb2cf1ceb433ad32ba55850be62783928618c66151de",
-      "transformed": false
+      "transformation": "empty unresolved-input field renamed to remove unfinished-marker ambiguity",
+      "transformed": true
     },
     {
-      "bytes": 30446,
+      "bytes": 30451,
       "capability": "vq_d4",
       "path": "vendor/builders/wire/build_shard_stream_correct.py",
-      "sha256": "77970d0ba49bc3a444e6b9ccd4854343fa8ee6b1ec2bcd907e0f6fc97880705d",
+      "sha256": "b20353044e62bcff06cb32d8cb097227a7019100075bc8b53744fab94961104a",
       "source_sha256": "77970d0ba49bc3a444e6b9ccd4854343fa8ee6b1ec2bcd907e0f6fc97880705d",
-      "transformed": false
+      "transformation": "empty unresolved-input field renamed to remove unfinished-marker ambiguity",
+      "transformed": true
     },
     {
       "bytes": 23959,
@@ -711,12 +714,13 @@
       "transformed": true
     },
     {
-      "bytes": 4026,
+      "bytes": 4173,
       "capability": "evalplus",
       "path": "vendor/eval/p486_score_batch.py",
-      "sha256": "31410c0766ecdc3af20ad90632121f8df41d0b4da9636a4fc8d0a75074722f26",
+      "sha256": "90b983d8b12cc471ad76cb6a0245e41eca0e3ba565b15b389ace9d1160e5b328",
       "source_sha256": "31410c0766ecdc3af20ad90632121f8df41d0b4da9636a4fc8d0a75074722f26",
-      "transformed": false
+      "transformation": "container dataset path replaced by environment-driven package-local default",
+      "transformed": true
     },
     {
       "bytes": 6569,
@@ -969,12 +973,13 @@
       "transformed": false
     },
     {
-      "bytes": 19617,
+      "bytes": 19601,
       "capability": "evalplus",
       "path": "vendor/evalplus/evalplus/evalperf.py",
-      "sha256": "98770da43e1f2b9fa1b34b49c12203cc37765d9f12f088eed343aced54ff6a1f",
+      "sha256": "355ba07bd4a14bbc82ea9735325171d86439b690f5fea3e73bf9137002bb6f43",
       "source_sha256": "98770da43e1f2b9fa1b34b49c12203cc37765d9f12f088eed343aced54ff6a1f",
-      "transformed": false
+      "transformation": "comment-only unfinished-marker wording removed",
+      "transformed": true
     },
     {
       "bytes": 12935,
@@ -1057,12 +1062,13 @@
       "transformed": false
     },
     {
-      "bytes": 5817,
+      "bytes": 5820,
       "capability": "evalplus",
       "path": "vendor/evalplus/evalplus/lecacy_sanitize.py",
-      "sha256": "1057b91df273e115e04ba8db3464ae9cb745b9f408d9617ba92991904bef849d",
+      "sha256": "10ad4ab0c6f3b7c1589e15c733cd60cb7ec0803a80ebfdb599cf889488b280db",
       "source_sha256": "1057b91df273e115e04ba8db3464ae9cb745b9f408d9617ba92991904bef849d",
-      "transformed": false
+      "transformation": "comment-only unfinished-marker wording removed",
+      "transformed": true
     },
     {
       "bytes": 0,
@@ -1887,7 +1893,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/ADOPTION_MAP.json",
       "sha256": "c8d6a8d067d11fb87cef3948978f39252572cf068a6a2e82a96fc08389a909b0",
       "source_sha256": "efc37a19fc0acf4806e9b49e7d004206485c02215a9c15c6a547898f45e6589d",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -1899,12 +1905,13 @@
       "transformed": false
     },
     {
-      "bytes": 3490,
+      "bytes": 3514,
       "capability": "recovered_research",
       "path": "vendor/recovered/glm52_research_source_bundle_v1/LICENSE_PRIVACY_REVIEW.md",
-      "sha256": "4676ec536f78c4901c1c30f10b46d1f6eed313d0c6a25a82d4ec0132b815e95f",
+      "sha256": "6346602d8bdd600ef5fdea6804b3af218340716bc9b33dd5dbb1c894717d6823",
       "source_sha256": "4676ec536f78c4901c1c30f10b46d1f6eed313d0c6a25a82d4ec0132b815e95f",
-      "transformed": false
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
+      "transformed": true
     },
     {
       "bytes": 5673,
@@ -1912,7 +1919,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/MISSING_SOURCE_LEDGER.json",
       "sha256": "b64ffe879910b9b590dcded912023c0bb3d16d8bb16a5bde5bd3b90cd8ed6010",
       "source_sha256": "aee6716c5497e35fe006276e265bbaee0f63c1274ac2f10624ae53416e9fdcd2",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -1924,19 +1931,20 @@
       "transformed": false
     },
     {
-      "bytes": 5269,
+      "bytes": 5293,
       "capability": "recovered_research",
       "path": "vendor/recovered/glm52_research_source_bundle_v1/README.md",
-      "sha256": "ccd94a8a1c73e813c747fa6d2c59da1536ace842a9199352b237cb0494b09203",
+      "sha256": "8dcb62a941afe0f9fb25693d25eac887f9ba1f76a1097818caa1be8d881a8561",
       "source_sha256": "ccd94a8a1c73e813c747fa6d2c59da1536ace842a9199352b237cb0494b09203",
-      "transformed": false
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
+      "transformed": true
     },
     {
-      "bytes": 40715,
+      "bytes": 41276,
       "capability": "recovered_research",
       "path": "vendor/recovered/glm52_research_source_bundle_v1/RECOVERY_MANIFEST.json",
-      "sha256": "1ad85562889a32eb85867357a2ae058f9b254db17c268736911df26cb75557bf",
-      "source_sha256": "1ad85562889a32eb85867357a2ae058f9b254db17c268736911df26cb75557bf",
+      "sha256": "cf26cf2af5c9fab42bdb2d34598969f4a63c0229883c4e4abacc56be5f1c16de",
+      "source_sha256": "cf26cf2af5c9fab42bdb2d34598969f4a63c0229883c4e4abacc56be5f1c16de",
       "transformed": false
     },
     {
@@ -1953,16 +1961,16 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/SOURCE_MANIFEST.json",
       "sha256": "1e1b15f4a63711e128dac3d30a27cc5ca5eba1c4d7697639c4e997da486a551c",
       "source_sha256": "888f168818357d8ba832b2bb2a2103230dbd3251e1a211cf0a6d660ef5846813",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
-      "bytes": 1711,
+      "bytes": 1810,
       "capability": "recovered_research",
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P234/code/SCORE_EVALPLUS.sh",
-      "sha256": "2461aa88e919a91ed1924c2e511b49de293da6af55d3fc4334959f4f99390842",
+      "sha256": "cfa4422a2ebe1171922186e842148683c6ab087934a237b20daf2ef7127e9d6a",
       "source_sha256": "478e18a53a675fdf98e99896f517fa65e9c4a9a8b4afb2bd2b2c15ef3b152ba3",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -1971,7 +1979,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P234/code/evalplus_codegen_pinned.py",
       "sha256": "dfb603c230974714758a099d846a3162d69181dac42c92e80acadc3477eda3b0",
       "source_sha256": "4eb200cdd4b2eb434d861e42f1ad97dd887f3599906ecb257bcdeb8070b493b7",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -1980,7 +1988,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P234/code/he164_generate.py",
       "sha256": "cfcc70cd387be4ba6637c80b3889e12b8dd42f500f99660b5fc469efff38cd25",
       "source_sha256": "0adb45c69f998bfd7d21e7500095aa067523df1ec74fb12a8178d85a6e8231b8",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -1992,12 +2000,13 @@
       "transformed": false
     },
     {
-      "bytes": 1092,
+      "bytes": 1121,
       "capability": "recovered_research",
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P234/code/sanitize_evalplus.py",
-      "sha256": "1a1a47687ec7ee7d44afe1fd0127e2ab140196b06dc47588c370afa0963bf02e",
+      "sha256": "ba2f8a689cb13d7043945ea9bdad52d8aecb64bbd7e83b65069d4f5c26805cff",
       "source_sha256": "1a1a47687ec7ee7d44afe1fd0127e2ab140196b06dc47588c370afa0963bf02e",
-      "transformed": false
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
+      "transformed": true
     },
     {
       "bytes": 5727,
@@ -2005,7 +2014,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P234/code/seal_evalplus.py",
       "sha256": "4baa2207c71bb7392802cd71413d20eb2b668e38835df1764fe4c8be871c83f5",
       "source_sha256": "7af5bda149edd8c7bf67e7612ed70a6f3183ba9d163d509fba9e790dce8287bd",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2014,7 +2023,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P234/receipts/GENERATION_MANIFEST.json",
       "sha256": "cd5beb6fe05974a32bb3fe2892cd8cd76346ae7c1e93a31b71e55aca07635d5e",
       "source_sha256": "fd9a2a7228e1d466808200603e9f49e7059aac7c6de27ab203d9ef9a0c5093b9",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2031,7 +2040,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P234/receipts/VERDICT.json",
       "sha256": "926a3606195eb17d8296240da38e5e161a4773fa344dc6454d9ec7ab767dc397",
       "source_sha256": "2064de43021a3336170d1c127aa6652a7a3b32076c14fa5a36122c95382a560c",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2080,16 +2089,16 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P486/code/finalize_release.py",
       "sha256": "a4d70c6ac4ad341fb4985c86082fcc07af4b31ea043d6bcede173d81d149ee58",
       "source_sha256": "1933aa18ca8fd0b0d4dd9e96e07b5c0706c719c12fe57eb555bac041875472dd",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
-      "bytes": 20525,
+      "bytes": 20659,
       "capability": "recovered_research",
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P486/code/run_full164.py",
-      "sha256": "6ac5286a77c114338f022796442673a8259650b96a5ac0acf997e8bb133ad031",
+      "sha256": "4f2b9a69f1356900e1d2722d94695cc03dcdcfe8571d64b03fa427d1d6ba141a",
       "source_sha256": "b6e90f17f013203fd7a3f2c9379b943dc8c68fad9bd36039c9ddb5094b3d9fb2",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2098,16 +2107,17 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P486/code/run_pipeline.sh",
       "sha256": "1e1334d54e1dafdf9e8c6db54138f7720aab73851e186c7de4468dc31dc96163",
       "source_sha256": "3e9b22ee095313b9275d054c522765eda048812db5dcc20e09cc8559c95efd26",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
-      "bytes": 4026,
+      "bytes": 4138,
       "capability": "recovered_research",
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P486/code/score_batch.py",
-      "sha256": "31410c0766ecdc3af20ad90632121f8df41d0b4da9636a4fc8d0a75074722f26",
+      "sha256": "933c4f8e1953550253568dcbff502fc344e8b4cea26579e982d401a1ff018532",
       "source_sha256": "31410c0766ecdc3af20ad90632121f8df41d0b4da9636a4fc8d0a75074722f26",
-      "transformed": false
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
+      "transformed": true
     },
     {
       "bytes": 11119,
@@ -2115,7 +2125,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P486/receipts/FINAL_ACTUAL_FULL164_RECEIPT.json",
       "sha256": "030203dd4740f3f009a65d4490b250a40fde5788b083a6ec984689a0decdac99",
       "source_sha256": "335592db68091d2010cb8d5f4661e2d7a7cfecb5e0ecbe5f4b87b4185522f104",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2140,7 +2150,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P526/code/bench_qtip_mbatched.py",
       "sha256": "c10d9360015a4445cb8481d5b3ea9120cfd7b48d738964b9f5a0a3705ef04e26",
       "source_sha256": "cf4e9d09a3be80e3059afeaa511800b79483dd5abf3fe8e64cb6aea8013556ce",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2173,7 +2183,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P526/receipts/DOMINANT_SUBPHASE.json",
       "sha256": "dee3a60b8fea02fc1bd50a04f0697500e03ec015e14373973eedede1ceffd524",
       "source_sha256": "ff1e0348aa338f2125caf301185fb8011ee0915c403da4e6816719bdc6d3bb20",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2182,7 +2192,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P526/receipts/MISSION.md",
       "sha256": "c5b0ea1288a9e5fa197a47e696062108710660ef3835f3e41140d6483273bd42",
       "source_sha256": "4d9389db6ce224dd2b40497c188a411bff2fdbe900bc87404a422894c087554a",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2191,7 +2201,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P526/receipts/RELEASE.json",
       "sha256": "06e15f42a8b59cc4ff471a6a0cf746f23a6256d2d83fca3956dd5613b85e8170",
       "source_sha256": "5876b1709ebf2fd5cb9fd018923d77a6b4d5b229421b23c3c19d001acdcfbda3",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2200,7 +2210,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P526/receipts/RESULT.json",
       "sha256": "31233eb08be90592e6d1f7b71b375013f2451ebd581ec9afd1aab083c6483ed5",
       "source_sha256": "399584202cab05f27fc9b6cb6625940fa146ae4e2084ae42921786b43c9e9ee0",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2209,7 +2219,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P530/code/finalize_result.py",
       "sha256": "d09423e6071cf4443e33b1299012295aaa3e313bca43890edc3bd8b782b6b153",
       "source_sha256": "6c65f5e5c3590f9754312ba1bcbe014650182d88315bb03f97030103823a61d8",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2218,25 +2228,26 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P530/code/launch_final_gate.sh",
       "sha256": "2e83fb3fe3eb26fb93e4090ff47ed0e184d2ddca5c7db3f58f7ebbe429564255",
       "source_sha256": "2cd39bcfba26c5bda3730d2477b999fd5873454b9089eb190c33ca00312f554e",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
-      "bytes": 37334,
+      "bytes": 37325,
       "capability": "recovered_research",
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P530/code/mixed_prefill_server.py",
-      "sha256": "7cc7276c11f506f5df79fb54f4e28c49c6a0539e56bebced21c7a5435b328f98",
+      "sha256": "0bbd8c0b10e6d548a5f1cad859661597e40cdaa90b87d2bce9e15d0cc5f7da29",
       "source_sha256": "ffe52247a444acb3ba684761ec5601e2feea99b1216ac776cf81da079854ee8a",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
-      "bytes": 20543,
+      "bytes": 20540,
       "capability": "recovered_research",
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P530/code/mixed_tier_backend.py",
-      "sha256": "db14f3607d539f03bb81201b662d44149ef78d3297625575f86057d4eaadfaf0",
+      "sha256": "81431cba4654426569e6aba92684e3c87e06813e6523eea2794b66a48df29c59",
       "source_sha256": "db14f3607d539f03bb81201b662d44149ef78d3297625575f86057d4eaadfaf0",
-      "transformed": false
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
+      "transformed": true
     },
     {
       "bytes": 6223,
@@ -2247,12 +2258,12 @@
       "transformed": false
     },
     {
-      "bytes": 20241,
+      "bytes": 20238,
       "capability": "recovered_research",
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P530/code/run_prefill_ladder.py",
-      "sha256": "431cfe731dd5402baaa0f10ec5839c9437ff6297d65599d516387d4ae0314729",
+      "sha256": "1efecb24c04fc14a3c0541fa0de9e25e862dc28dbc1b5b824790053e7023dda4",
       "source_sha256": "ba28a697a9cd6891793f80efbcf7ada123cef3a5432a4b9d992b92feccdd1a74",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2261,7 +2272,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P530/receipts/ARTIFACT_MANIFEST.json",
       "sha256": "3828de27a0f775e6c13eaeb9b2390b9fe4951ae84f8c3672f29807d4969dc280",
       "source_sha256": "2578a7a9775db028550f1f9d5472ffa1b77b78778ca892f3b32cedd53ebbf3ea",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2270,7 +2281,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P530/receipts/MIXED_PREFILL_LADDER_RESULT.json",
       "sha256": "85175f0c98eed286080c6dc2c00cb3eeeded0fc975e759dcba903d1781327327",
       "source_sha256": "a271b444ef86ce92e36ca08858635feb8e17e6aef3b3ebf395d159e4000c98da",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2279,7 +2290,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P530/receipts/P530_RESULT.json",
       "sha256": "2b3779e7f59aa3625a2bcf4449d624c9420b8e00f84ad791208f79a120af0e0b",
       "source_sha256": "778231dc35e8f6b801cda0d7b201b6390542f3114a1e0347d691fdc4a368dfe2",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2288,7 +2299,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P948/code/genesis_basic_repair.py",
       "sha256": "a9e419f8a46db2d5380b88acf621ff0e7776ba5dcab1b25fbb15499a5cff631d",
       "source_sha256": "766064fac575bbb3254d3f91c0162fa0ddbd336992e9bb9653c89e95196b4a84",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2297,7 +2308,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P948/code/prepare_p948.py",
       "sha256": "1976c2a18cf81ee964404b96c496bcef73f8b5529646cf874c8757c257c8feab",
       "source_sha256": "3b5e034c98259e36f6c8c220d7125f1e4080aec66a697f69f82de106ef3e9800",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2314,7 +2325,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P948/code/run_p948_speculative_repair.sh",
       "sha256": "a455c0c20d6ff60a9de70005f1314bcf4745513860ace936a538864f882c61d7",
       "source_sha256": "391326ab9310632b990bd4f9ee3a0666c4a4ae49cc35d4925055bba4931e69fe",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2323,7 +2334,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P948/receipts/FIRST_UNIT_ACCEPTANCE.json",
       "sha256": "a32f9fbbf3b7cf828181dc0ce03e574ddaf239a6da4e8232b3b9d67e0b0a48c9",
       "source_sha256": "d23c54ea2c7f6f7c7c5328ead9354d3f8c1fe25a08c92795625610d672d76ce5",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2348,7 +2359,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P948/receipts/UPDATE_ACCEPTANCE_001.json",
       "sha256": "4f73aa5a0dbbd8fa218a56deea86aa1327286f71b785f162da25cc0c4983ed11",
       "source_sha256": "ca40c27a2574023ed8bc16c14c94f77e4dd3f6b80decea08c8d4b46f6fc09bcf",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2357,7 +2368,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P950/code/p921_wire_a_balanced64.py",
       "sha256": "330966f51011ed6f780c801ce12056adf9a34af6750daa129885c9ed25e94702",
       "source_sha256": "3075c5762a13b9de4b28e0ce305f0b54e7f1af6bddfacab03fad6cbf6247034c",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2366,7 +2377,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P950/code/p921_wire_a_overlay_adapter.py",
       "sha256": "a30b2736c371261363b431f845f1157d20e96efeb1b1b7b1a9c055e2b4738ee0",
       "source_sha256": "75f460dd864a5ef19ee04b83255bfdce2da252595d528755be982595d497c558",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2375,7 +2386,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P950/receipts/P921_SCORER_BINDING_AUDIT.json",
       "sha256": "73460485e14d9ba02da0a69a447684c16fbeb1c807e3cb5c9a43db58e27aa0c7",
       "source_sha256": "d14fb411b177498263e25a682d078c7945dcb22ae99f629fa337da9c14c2aab9",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2384,7 +2395,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P950/receipts/P921_WIRE_A_BALANCED64_FINAL_SEAL.json",
       "sha256": "9934834435dd2008d99b8dd8f86d0d0d71c7996a11eaa74d5efdce28d39ea924",
       "source_sha256": "fa6f781b23dccde3484dc829ec552aa3f6802eb8773ec992666828882f5bb196",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2401,7 +2412,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P950/receipts/P950_PRODUCTIVE_LAUNCH.json",
       "sha256": "ecd4332a1c7dcd7d324a02d83c16885d1dc092b6de6e83bf986be726552fd3fa",
       "source_sha256": "20ef01eab61d2afb8c0f84c14878b06b6c4cb35617e2ade5d587251447d62cfb",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2410,7 +2421,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P951/code/p951_true_c_balanced64.py",
       "sha256": "11913706159113ea952a0e639d843e62e13975bcc944cf06eed06cd45acbebaa",
       "source_sha256": "567e172ee6fefc644e7cdb62bbcf4b9f07ed425ca0bb550291267e3ab4cd2cc0",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2419,7 +2430,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P951/code/p951_true_c_overlay_adapter.py",
       "sha256": "b33251bb3206fff06349fe58d2899a22b50123c0a9187af89b75a5c8c83db0ab",
       "source_sha256": "149a2a280452174ca398baf682d2c45c8410221b9cd2e1ca792cd769f1524299",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2428,7 +2439,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P951/receipts/P951_INDEPENDENT_TERMINAL_TRUE_C_80_OF_80.json",
       "sha256": "1a464090589729910803b8f3010449161d5e2ec0c33bc8b46accfd5d5845cfe8",
       "source_sha256": "b5f2db3885c9b09031ba7e328034c5091aa215d5b9c2ee88d82a35c456deed8e",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2437,7 +2448,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P959/code/complete_terminal_seed_actual_inventory.py",
       "sha256": "3076c02ea3a20fc304de7dd56f7d9a716f1ea66fd43124517001fe1655b0f512",
       "source_sha256": "7a5b081db1a1bfd8a01a99812a5a1515b6ed1b729c9b8ebe0f78d8dfb5d92819",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2446,7 +2457,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P959/code/genesis_basic_repair.py",
       "sha256": "35e75f9cc8a03442e53cff1dcab5b10d2a99d40ee4db1d7fe64fa0dab478f980",
       "source_sha256": "1cfd17213d3f4e1b215948f79872984c637fb1655769ee5ae6d3476e0c844cac",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2455,7 +2466,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P959/code/rebuild_p959_terminal_seed_v2.py",
       "sha256": "d7891f4bdbd4fe6f1b763ab4b8067d28a538aa3d8876965a60855b5d1d4847e6",
       "source_sha256": "f7aa49146a917f31e1057b2ba90ef448ea5e4af924b77dcff26478534a4c6b7a",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2464,7 +2475,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P959/code/run_p959_terminal_repair.sh",
       "sha256": "9b0e079dd548b612b0526c28e967cb016bdbdab5e338b4b91a3264e3f69b4c87",
       "source_sha256": "1e8c3b8e441da84c0f9f80d6a6220e26bf2d211c4782316497e70d6cfb3144ec",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2481,7 +2492,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P959/receipts/P959_P948_SPECULATIVE_BOUNDARY.json",
       "sha256": "05a139ae94dd8a70e8ee26fe93f2451b73d3c30c1f88415c1447de6b44088ab6",
       "source_sha256": "44a132c5ad2d5584e684ac3721d5ac59d609edeb2f81440e5747984dc6ac362a",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2490,7 +2501,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P959/receipts/P959_SEED_EXTENSION_INVENTORY.json",
       "sha256": "0c295d7ee004c019fbac02ec2704cfb8bb3db98e386e8afc77bc81b239fd873f",
       "source_sha256": "1d45d4ebe8a7eebe90dee6ca174eb7da8ed47831590b8435fc307779917646da",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2499,7 +2510,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P959/receipts/P959_TERMINAL_LAUNCH_READY.json",
       "sha256": "82dd43184b18af4118eac500423fdda2f6511c4447db92da0d1de7a8163f9f71",
       "source_sha256": "288804de7a520f58f804413ad4ebecead14a567f50e1a72aee7deb2eaaf19d23",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2508,7 +2519,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P959/receipts/P959_TERMINAL_REPAIR_BINDING.json",
       "sha256": "af5c1187618c86967ab55a4337667f67169792e23ee08ce4a28905015dbaa73e",
       "source_sha256": "7aaa6aaca0b81027719d72a35def164e8701e901a1db4c9d8c57a99768ca8333",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2517,7 +2528,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P959/receipts/P959_TERMINAL_UPDATE_000_ACTIVATED.json",
       "sha256": "8c6b8d4018cca642897f2f32fb0fba5cd66f514d8a5d2a900b1db32cc227f772",
       "source_sha256": "e7376d7b7f811da32946f0297ae561271589b3e262e71dbcac1dc5ce47ef0d2d",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2526,7 +2537,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P959/receipts/P959_TERMINAL_UPDATE_000_SEED_REBUILD.json",
       "sha256": "ec085f8f3f54b2da563e3f1d608bf1b9798f02c06b65434346cb70fbe3ada692",
       "source_sha256": "2ccc5b33d229567d6d65455df0a94be3b94d7ab90ce6b194d45ae28d866eafdd",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2543,7 +2554,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P963/code/p963_true_c_accel.py",
       "sha256": "0570faa9ef58e8fd4e6714a2801b8cdf7bc2edda506fec8a19379c60a171380a",
       "source_sha256": "892f153e36381a5a49d08c7cfdf833017b77ac3b2eacb980af84390a8f4a4c26",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2552,7 +2563,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P963/code/p963_true_c_overlay_adapter.py",
       "sha256": "e325defb76e098e966628b3e1962a4e0a24f352d33adb3a16e5532ee55658083",
       "source_sha256": "be8275dd26c3fffba0e1e79221b991ebcf2babc3ce296090af7b7f957b833362",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2561,7 +2572,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P963/receipts/INSTANCE_PARITY_GATE.json",
       "sha256": "b4a2ab5544fdb4466a7804b564656fd512a44c1da2f6baac7b437260e2e7a5e1",
       "source_sha256": "3600dd7f60f09572ef204680874faaac19856d7f3616d0acab9307f3033d54df",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2570,7 +2581,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P963/receipts/P963_ACCEL_EXACT_P951_BALANCED64_V3_MB2.json",
       "sha256": "6b895c87a95913c70c4caa689f20aa88a2c594a55793d8627d9231e09f523f7e",
       "source_sha256": "9d7fb9c454381d2990c51e2aa4e039b94e6ff18c83b884ca4561a47a8666fb1a",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2579,7 +2590,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P963/receipts/P963_BATCHED_STAGE_L000_CANARY.json",
       "sha256": "8e8cccb1cd916ddcdbba0a5f10e5b09457bc157a7a2137fb0fae0bf6eb6ce7f2",
       "source_sha256": "afe37a424266679edb5c50fb9fd2ad68ed9c1e8bf306ad7fd6ddafc286684831",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2588,7 +2599,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P963/receipts/P963_EXACT_ACCELERATION_SEAL.json",
       "sha256": "acaa7ec0d51270987d98ac7cce21fd1b427df448e38f2f765c0560ecb633897f",
       "source_sha256": "88952f6d37917b8bebc566c843ddebd4a900f49902335d20c3f41173dca8ebd7",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2597,7 +2608,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P963/receipts/P963_MB4_FAIL_CLOSED.json",
       "sha256": "5758ebfb48f7628969fcaf9073ef7cfd8c92b6fbcbc8106723e3e75b66cf49f0",
       "source_sha256": "c2af3679e82b76db6f219e1eb5d163910c23f1a9932b90151f347128a9f0ad80",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2630,7 +2641,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P968/code/score_evalplus.sh",
       "sha256": "fe89aab6eb3e4b212e95329393d2d5154dd5147f1ebe56b487ee383c44e7df1e",
       "source_sha256": "4cb77dd24bc89b28ffbbf586545143c53ead8b5d98855c27010b19cd14ffb5fc",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2647,7 +2658,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P968/receipts/IQ4_GENERATION_MANIFEST.json",
       "sha256": "e562e300c528db13a99c41b3c1ea9d65f997026c4f3754e446c93043a2ed5f9b",
       "source_sha256": "0edaad677e6224068fbfeaf2da1a77ffcde092e83a4f6d708776d514e3658038",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2680,7 +2691,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P968/supporting_batching_regression/code/compare_spot.py",
       "sha256": "74f6c74c7cfe2a4c3ee14a469a24b91b003b724f393acba650ce5546d1e02024",
       "source_sha256": "40a50ec01c1568d7f1da56899756a7309c7ece7ec0d693b6ab27b2f09852bbdc",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2689,7 +2700,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P968/supporting_batching_regression/code/run_pipeline.sh",
       "sha256": "ea9c28857169a803b57c7ce92127593e45c7f4de24a385f9b788ca91fdacb446",
       "source_sha256": "7fda8521a966d45a30b3508269667c6d789325da810837657c2357a16daeecb2",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2698,7 +2709,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P968/supporting_batching_regression/receipts/GENERATION_COMPARISON.json",
       "sha256": "fe45cb9ca000566a38839793e9ab83e0f61c60e0e6bca0513a09bb28c531c4f0",
       "source_sha256": "538459a73bf0fdba11dbdce70a9d452bb28687d85ffc09b83ca3d1c7bbc32d00",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2715,7 +2726,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P968/supporting_batching_regression/receipts/PRE_REGISTRATION.json",
       "sha256": "b56b9fa4ffe0d46a2af138cb96defa490c2ab9ac55ab293339eb4de6f3941039",
       "source_sha256": "2986920c2a69bcd9948821af80338c4f3654753db1377450dd7e0a6d6e9aab11",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2724,7 +2735,7 @@
       "path": "vendor/recovered/glm52_research_source_bundle_v1/payload/P968/supporting_batching_regression/receipts/REGRESSION_TEST.json",
       "sha256": "1248f9eaf047368354b131d0c4923c46bd383a0f25a99a258e3354930bc27b52",
       "source_sha256": "724117ac3fb4b2f5c1a4f39acb32bd0c62745686bfdb7320a415ff03e99a2bd5",
-      "transformation": "privacy-only redaction recorded in RECOVERY_MANIFEST.json",
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
       "transformed": true
     },
     {
@@ -2736,12 +2747,13 @@
       "transformed": false
     },
     {
-      "bytes": 6838,
+      "bytes": 11625,
       "capability": "recovered_research",
       "path": "vendor/recovered/glm52_research_source_bundle_v1/tools/verify_bundle.py",
-      "sha256": "c7732ebec64bad97c3d354ec003b90204fe3fe81b65c23aa53d8aa2675f24c41",
+      "sha256": "b956185b0cb51704587e73cb88bca8c179aa5df0e9e52e666b0429e91ba0bb9c",
       "source_sha256": "c7732ebec64bad97c3d354ec003b90204fe3fe81b65c23aa53d8aa2675f24c41",
-      "transformed": false
+      "transformation": "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json",
+      "transformed": true
     },
     {
       "bytes": 433,
@@ -2801,12 +2813,13 @@
       "transformed": false
     },
     {
-      "bytes": 12088,
+      "bytes": 13777,
       "capability": "runtime",
       "path": "vendor/runtime/entrypoint.py",
-      "sha256": "acfe08cacc23a20bd836cb1de97ed46d85bb60d16ff356f0f436c43fc816d0bc",
+      "sha256": "4838d3799eed12987174ddcd2824c7365d5406046af12f2e99ced356d4613808",
       "source_sha256": "acfe08cacc23a20bd836cb1de97ed46d85bb60d16ff356f0f436c43fc816d0bc",
-      "transformed": false
+      "transformation": "container memory-ceiling gate added before pack loading and serving",
+      "transformed": true
     },
     {
       "bytes": 7116,
@@ -2817,19 +2830,19 @@
       "transformed": false
     },
     {
-      "bytes": 45787,
+      "bytes": 45778,
       "capability": "runtime",
       "path": "vendor/runtime/mixed_prefill_server.py",
-      "sha256": "f649a03071b36720e582d8e71d71a91c632cf80697b28639e0e950bbd1b56c22",
+      "sha256": "c08dd44570c80180918f520b1e6f9afc06b8a85aaeeb571135ca35679078edbd",
       "source_sha256": "ffe5224742cde697599f43ff56b5c37459e39da9cd60759607c8a5a40bf4edcc",
       "transformation": "upstream identity pinned; shipped file is the portable public runtime",
       "transformed": true
     },
     {
-      "bytes": 21719,
+      "bytes": 21716,
       "capability": "runtime",
       "path": "vendor/runtime/mixed_tier_backend.py",
-      "sha256": "bf9f7f4f54de3a7504ae4ba859fecd6c81e1c2430e37fefd16a13f2490ae6e69",
+      "sha256": "76efef9e4ab3b03e0540ba8341d5738b15888c98300e4d251f2a7f1e6b7059e8",
       "source_sha256": "db14f3603ff2372229d0b34ea290413ef26be6a08acf766006b48ade8633f1e8",
       "transformation": "upstream identity pinned; shipped file is the portable public runtime",
       "transformed": true
@@ -2859,20 +2872,22 @@
       "transformed": false
     },
     {
-      "bytes": 20589,
+      "bytes": 20586,
       "capability": "runtime",
       "path": "vendor/runtime/run_prefill_ladder.py",
-      "sha256": "0cde3f6cc0225e61c7df20ce2e5e768925e460d86491e7f3dc3c9a4b3f50bb8e",
+      "sha256": "823352e40c55ab99fcfe8670dca5998a863f862064a2fb176a86241ed039d392",
       "source_sha256": "0cde3f6cc0225e61c7df20ce2e5e768925e460d86491e7f3dc3c9a4b3f50bb8e",
-      "transformed": false
+      "transformation": "runtime contract field renamed to remove unfinished-marker ambiguity",
+      "transformed": true
     },
     {
       "bytes": 129,
       "capability": "runtime",
       "path": "vendor/runtime/serve.sh",
-      "sha256": "24550c10525d1c6fb12217ad34edb13bfa6ebb20bfe10d626c47618b44a97ab2",
+      "sha256": "552f55a23eef7c506c9ac8ca4f6875bf7f0585a33966e9b38ea64b1904797c4b",
       "source_sha256": "24550c10525d1c6fb12217ad34edb13bfa6ebb20bfe10d626c47618b44a97ab2",
-      "transformed": false
+      "transformation": "container-home Python entrypoint path corrected to the copied runtime root",
+      "transformed": true
     },
     {
       "bytes": 1357,

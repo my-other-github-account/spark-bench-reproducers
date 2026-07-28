@@ -192,6 +192,39 @@ class SmashAcceptanceTests(unittest.TestCase):
         self.assertEqual(payload["recovered_source_entries"], 89)
         self.assertIn("P963", payload["promotable_families"])
         self.assertIn("P526", payload["hold_only_families"])
+        self.assertEqual(payload["bundle_verification"]["status"], "PASS")
+        self.assertTrue(payload["bundle_verification"]["recovery_overlay_verified"])
+        self.assertEqual(payload["privacy_verification"]["status"], "PASS")
+
+    def test_docker_context_closes_runtime_entrypoint(self) -> None:
+        result = subprocess.run(
+            ["python3", str(ROOT / "tools" / "verify_docker_context.py")],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            timeout=60,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr or result.stdout)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["status"], "PASS")
+        self.assertGreaterEqual(payload["exact_pinned_requirements"], 8)
+        self.assertEqual(
+            payload["runtime_references"]["/opt/genesis/runtime/entrypoint.py"],
+            "vendor/runtime/entrypoint.py",
+        )
+
+    def test_acceleration_evidence_is_closed(self) -> None:
+        result = subprocess.run(
+            ["python3", str(ROOT / "tools" / "verify_accelerations.py")],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            timeout=60,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr or result.stdout)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["status"], "PASS")
+        self.assertGreaterEqual(payload["measured_receipts"], 5)
 
     def test_manifest_and_self_containment_verifiers_pass(self) -> None:
         manifest = run_smash("verify", "--manifest")

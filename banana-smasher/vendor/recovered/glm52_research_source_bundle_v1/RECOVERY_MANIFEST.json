@@ -19,11 +19,14 @@
       "transformed": false
     },
     {
-      "bytes": 3490,
+      "bytes": 3514,
       "path": "LICENSE_PRIVACY_REVIEW.md",
       "recovered_bundle_sha256": "4676ec536f78c4901c1c30f10b46d1f6eed313d0c6a25a82d4ec0132b815e95f",
-      "sha256": "4676ec536f78c4901c1c30f10b46d1f6eed313d0c6a25a82d4ec0132b815e95f",
-      "transformed": false
+      "sha256": "6346602d8bdd600ef5fdea6804b3af218340716bc9b33dd5dbb1c894717d6823",
+      "transformations": {
+        "release_hardening": 1
+      },
+      "transformed": true
     },
     {
       "bytes": 5673,
@@ -43,11 +46,14 @@
       "transformed": false
     },
     {
-      "bytes": 5269,
+      "bytes": 5293,
       "path": "README.md",
       "recovered_bundle_sha256": "ccd94a8a1c73e813c747fa6d2c59da1536ace842a9199352b237cb0494b09203",
-      "sha256": "ccd94a8a1c73e813c747fa6d2c59da1536ace842a9199352b237cb0494b09203",
-      "transformed": false
+      "sha256": "8dcb62a941afe0f9fb25693d25eac887f9ba1f76a1097818caa1be8d881a8561",
+      "transformations": {
+        "unfinished_marker_wording": 4
+      },
+      "transformed": true
     },
     {
       "bytes": 10817,
@@ -67,11 +73,12 @@
       "transformed": true
     },
     {
-      "bytes": 1711,
+      "bytes": 1810,
       "path": "payload/P234/code/SCORE_EVALPLUS.sh",
       "recovered_bundle_sha256": "478e18a53a675fdf98e99896f517fa65e9c4a9a8b4afb2bd2b2c15ef3b152ba3",
-      "sha256": "2461aa88e919a91ed1924c2e511b49de293da6af55d3fc4334959f4f99390842",
+      "sha256": "cfa4422a2ebe1171922186e842148683c6ab087934a237b20daf2ef7127e9d6a",
       "transformations": {
+        "final_archive_audit_fix": 1,
         "kanban_task_id": 1
       },
       "transformed": true
@@ -104,11 +111,14 @@
       "transformed": false
     },
     {
-      "bytes": 1092,
+      "bytes": 1121,
       "path": "payload/P234/code/sanitize_evalplus.py",
       "recovered_bundle_sha256": "1a1a47687ec7ee7d44afe1fd0127e2ab140196b06dc47588c370afa0963bf02e",
-      "sha256": "1a1a47687ec7ee7d44afe1fd0127e2ab140196b06dc47588c370afa0963bf02e",
-      "transformed": false
+      "sha256": "ba2f8a689cb13d7043945ea9bdad52d8aecb64bbd7e83b65069d4f5c26805cff",
+      "transformations": {
+        "package_portability": 1
+      },
+      "transformed": true
     },
     {
       "bytes": 5727,
@@ -193,11 +203,12 @@
       "transformed": true
     },
     {
-      "bytes": 20525,
+      "bytes": 20659,
       "path": "payload/P486/code/run_full164.py",
       "recovered_bundle_sha256": "b6e90f17f013203fd7a3f2c9379b943dc8c68fad9bd36039c9ddb5094b3d9fb2",
-      "sha256": "6ac5286a77c114338f022796442673a8259650b96a5ac0acf997e8bb133ad031",
+      "sha256": "4f2b9a69f1356900e1d2722d94695cc03dcdcfe8571d64b03fa427d1d6ba141a",
       "transformations": {
+        "final_archive_audit_fix": 1,
         "kanban_task_id": 2
       },
       "transformed": true
@@ -213,11 +224,14 @@
       "transformed": true
     },
     {
-      "bytes": 4026,
+      "bytes": 4138,
       "path": "payload/P486/code/score_batch.py",
       "recovered_bundle_sha256": "31410c0766ecdc3af20ad90632121f8df41d0b4da9636a4fc8d0a75074722f26",
-      "sha256": "31410c0766ecdc3af20ad90632121f8df41d0b4da9636a4fc8d0a75074722f26",
-      "transformed": false
+      "sha256": "933c4f8e1953550253568dcbff502fc344e8b4cea26579e982d401a1ff018532",
+      "transformations": {
+        "package_portability": 1
+      },
+      "transformed": true
     },
     {
       "bytes": 11119,
@@ -335,21 +349,25 @@
       "transformed": true
     },
     {
-      "bytes": 37334,
+      "bytes": 37325,
       "path": "payload/P530/code/mixed_prefill_server.py",
       "recovered_bundle_sha256": "ffe52247a444acb3ba684761ec5601e2feea99b1216ac776cf81da079854ee8a",
-      "sha256": "7cc7276c11f506f5df79fb54f4e28c49c6a0539e56bebced21c7a5435b328f98",
+      "sha256": "0bbd8c0b10e6d548a5f1cad859661597e40cdaa90b87d2bce9e15d0cc5f7da29",
       "transformations": {
-        "kanban_task_id": 5
+        "kanban_task_id": 5,
+        "release_hardening": 1
       },
       "transformed": true
     },
     {
-      "bytes": 20543,
+      "bytes": 20540,
       "path": "payload/P530/code/mixed_tier_backend.py",
       "recovered_bundle_sha256": "db14f3607d539f03bb81201b662d44149ef78d3297625575f86057d4eaadfaf0",
-      "sha256": "db14f3607d539f03bb81201b662d44149ef78d3297625575f86057d4eaadfaf0",
-      "transformed": false
+      "sha256": "81431cba4654426569e6aba92684e3c87e06813e6523eea2794b66a48df29c59",
+      "transformations": {
+        "release_hardening": 1
+      },
+      "transformed": true
     },
     {
       "bytes": 6223,
@@ -359,12 +377,13 @@
       "transformed": false
     },
     {
-      "bytes": 20241,
+      "bytes": 20238,
       "path": "payload/P530/code/run_prefill_ladder.py",
       "recovered_bundle_sha256": "ba28a697a9cd6891793f80efbcf7ada123cef3a5432a4b9d992b92feccdd1a74",
-      "sha256": "431cfe731dd5402baaa0f10ec5839c9437ff6297d65599d516387d4ae0314729",
+      "sha256": "1efecb24c04fc14a3c0541fa0de9e25e862dc28dbc1b5b824790053e7023dda4",
       "transformations": {
-        "kanban_task_id": 1
+        "kanban_task_id": 1,
+        "release_hardening": 1
       },
       "transformed": true
     },
@@ -874,11 +893,14 @@
       "transformed": false
     },
     {
-      "bytes": 6838,
+      "bytes": 11625,
       "path": "tools/verify_bundle.py",
       "recovered_bundle_sha256": "c7732ebec64bad97c3d354ec003b90204fe3fe81b65c23aa53d8aa2675f24c41",
-      "sha256": "c7732ebec64bad97c3d354ec003b90204fe3fe81b65c23aa53d8aa2675f24c41",
-      "transformed": false
+      "sha256": "b956185b0cb51704587e73cb88bca8c179aa5df0e9e52e666b0429e91ba0bb9c",
+      "transformations": {
+        "recovery_overlay_verification": 1
+      },
+      "transformed": true
     }
   ],
   "privacy_transformations": {

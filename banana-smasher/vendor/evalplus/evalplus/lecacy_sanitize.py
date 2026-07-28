@@ -84,7 +84,7 @@ def sanitize(
             break
 
     chunks = [chunk for chunk in re.split(f"{def_left}\\s*\\(", new_code)]
-    # TODO: having return does not mean this is complete
+    # Return presence alone does not mean this is complete.
     bodies = [chunk for chunk in chunks[1:] if "    return " in chunk.split("\ndef")[0]]
     def_left = def_left + "("
     new_code = def_left + def_left.join(bodies) if len(bodies) > 0 else ""  # fn + impl

@@ -2,7 +2,7 @@
 
 Each model layer owns independent compact templates for four genuinely different
 wire/kernel classes: packed QTIP, trueVQ d4, trueVQ d8, and native MXFP4. Values
-are uncalibrated serving placeholders, but every routed expert is dispatched by a
+are uncalibrated serving templates, but every routed expert is dispatched by a
 static per-expert tier map to its tier's distinct Triton kernel.
 """
 from __future__ import annotations

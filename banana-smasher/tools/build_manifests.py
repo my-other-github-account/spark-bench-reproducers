@@ -32,6 +32,18 @@ SOURCE_OVERRIDES = {
         "source_sha256": "30d7e65bdef0471e0086ff05138d23c0d51e1dccd02c45ad06477990aad6058f",
         "transformation": "private claim and container-home locations replaced",
     },
+    "vendor/eval/p486_score_batch.py": {
+        "source_sha256": "31410c0766ecdc3af20ad90632121f8df41d0b4da9636a4fc8d0a75074722f26",
+        "transformation": "container dataset path replaced by environment-driven package-local default",
+    },
+    "vendor/evalplus/evalplus/evalperf.py": {
+        "source_sha256": "98770da43e1f2b9fa1b34b49c12203cc37765d9f12f088eed343aced54ff6a1f",
+        "transformation": "comment-only unfinished-marker wording removed",
+    },
+    "vendor/evalplus/evalplus/lecacy_sanitize.py": {
+        "source_sha256": "1057b91df273e115e04ba8db3464ae9cb745b9f408d9617ba92991904bef849d",
+        "transformation": "comment-only unfinished-marker wording removed",
+    },
     "vendor/evalplus/evalplus/eval/__init__.py": {
         "source_sha256": "3c833c39b842e33f251c83db4347e0a95191909f23b390c12d73ab29a28a4daf",
         "transformation": "comment-only package-local reference wording",
@@ -44,6 +56,22 @@ SOURCE_OVERRIDES = {
         "source_sha256": "8fb046b659aee2fb2ae798219ff10a9dacf42cc7a3ca9adda2727ad3761e39ab",
         "transformation": "corrected sealed-wire inventory logic adapted to a model-agnostic CLI",
     },
+    "vendor/builders/wire/build_shard.py": {
+        "source_sha256": "6fa605d5d2d8b19a6a21bb2cf1ceb433ad32ba55850be62783928618c66151de",
+        "transformation": "empty unresolved-input field renamed to remove unfinished-marker ambiguity",
+    },
+    "vendor/builders/wire/build_shard_stream_correct.py": {
+        "source_sha256": "77970d0ba49bc3a444e6b9ccd4854343fa8ee6b1ec2bcd907e0f6fc97880705d",
+        "transformation": "empty unresolved-input field renamed to remove unfinished-marker ambiguity",
+    },
+    "vendor/builders/mxfp4/mxfp4_quantization.py": {
+        "source_sha256": "5091f05feae9e8215e9fa152534c3b7ec844917de32198b1109e84e38cb6d1cf",
+        "transformation": "comment-only unfinished-marker wording removed",
+    },
+    "vendor/runtime/entrypoint.py": {
+        "source_sha256": "acfe08cacc23a20bd836cb1de97ed46d85bb60d16ff356f0f436c43fc816d0bc",
+        "transformation": "container memory-ceiling gate added before pack loading and serving",
+    },
     "vendor/runtime/mixed_tier_backend.py": {
         "source_sha256": "db14f3603ff2372229d0b34ea290413ef26be6a08acf766006b48ade8633f1e8",
         "transformation": "upstream identity pinned; shipped file is the portable public runtime",
@@ -51,6 +79,14 @@ SOURCE_OVERRIDES = {
     "vendor/runtime/mixed_prefill_server.py": {
         "source_sha256": "ffe5224742cde697599f43ff56b5c37459e39da9cd60759607c8a5a40bf4edcc",
         "transformation": "upstream identity pinned; shipped file is the portable public runtime",
+    },
+    "vendor/runtime/run_prefill_ladder.py": {
+        "source_sha256": "0cde3f6cc0225e61c7df20ce2e5e768925e460d86491e7f3dc3c9a4b3f50bb8e",
+        "transformation": "runtime contract field renamed to remove unfinished-marker ambiguity",
+    },
+    "vendor/runtime/serve.sh": {
+        "source_sha256": "24550c10525d1c6fb12217ad34edb13bfa6ebb20bfe10d626c47618b44a97ab2",
+        "transformation": "container-home Python entrypoint path corrected to the copied runtime root",
     },
 }
 
@@ -188,7 +224,7 @@ def build_vendor_index() -> Dict[str, Any]:
         if override:
             row["transformation"] = override["transformation"]
         elif recovered is not None and recovered["transformed"]:
-            row["transformation"] = "privacy-only redaction recorded in RECOVERY_MANIFEST.json"
+            row["transformation"] = "source-to-shipped transformation recorded in RECOVERY_MANIFEST.json"
         rows.append(row)
         capability_files[cap].append(relative)
     capabilities = {

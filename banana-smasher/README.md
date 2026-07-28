@@ -82,13 +82,13 @@ The exact machine-readable contract is `contracts/STAGE_CONTRACTS.json`; receipt
 - P959 corrected sealed-wire inventory seed logic and sparse repair sources.
 - Streaming packers, mixed-tier runtime, CUDA kernel source, and build contract.
 - EvalPlus at commit `26d6d00bb1fd0fa37f39c99d5290da67891d1c5e`, HumanEvalPlus-v0.1.10, endpoint generation, paired sanitization, and four timing cells.
-- The dense-all prefill route, all four decode classes, architecture-specific kernel-cache warmup, 128 GB UMA residency checks, replay-gated accelerated rail, >=8-stream mover, hardlink-first materialization, deterministic four-way sharding, per-codebook streaming, and speculative warm/revoke gates. `configs/EXPECTED_PERF.json` is the fail-closed READY authority; historical measurements in `receipts/ACCELERATION_RECEIPTS.json` are evidence, never substitutes for a fresh 2K run.
+- The dense-all prefill route, all four decode classes, architecture-specific kernel-cache warmup, 128 GB UMA residency checks, replay-gated accelerated rail, >=8-stream mover, hardlink-first materialization, deterministic four-way sharding, per-codebook streaming, and speculative warm/revoke gates. `configs/EXPECTED_PERF.json` is the fail-closed READY authority. In `receipts/ACCELERATION_RECEIPTS.json`, every measured row points to a shipped raw receipt; contract-only rows carry no speed claim. Historical evidence never substitutes for a fresh 2K run.
 
 No symlink or package file reference escapes this folder. `./smash verify --self-contained` scans that invariant and the privacy law.
 
 ## Container
 
-The package-root `Dockerfile` installs the pinned vLLM runtime, copies only package-local runtime and kernel assets, builds the CUDA extension, validates a mounted pack, starts the OpenAI-compatible server, and seals startup smoke metrics. Build from this folder:
+The package-root `Dockerfile` pins the linux/arm64 NGC base by digest, installs the exact versions in `locks/requirements-runtime.txt`, copies only package-local runtime and kernel assets, builds the CUDA extension, validates a mounted pack, starts the OpenAI-compatible server, and seals startup smoke metrics. Build from this folder (the build fetches the digest-pinned base and exact Python distributions unless already cached; the built runtime can then operate offline):
 
 ```bash
 docker build -t banana-smasher:0.1 .
@@ -104,6 +104,9 @@ python3 -m unittest discover -s tests -v
 python3 -m compileall -q banana_smasher tools vendor
 python3 tools/build_manifests.py
 python3 tools/verify_recovered_sources.py
+python3 vendor/recovered/glm52_research_source_bundle_v1/tools/verify_bundle.py vendor/recovered/glm52_research_source_bundle_v1
+python3 tools/verify_accelerations.py
+python3 tools/verify_docker_context.py
 ./smash verify --manifest --self-contained
 ```
 

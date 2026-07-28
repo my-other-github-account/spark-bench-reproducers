@@ -257,7 +257,7 @@ def main() -> int:
                     "decode_physical_logical_ratio"],
                 "configured_layers": mixed["configured_layers"],
                 "active_layers": mixed["active_layers"],
-                "dedup_factor": mixed["placeholder_exact_dedup_factor"],
+                "dedup_factor": mixed["contract_exact_dedup_factor"],
                 "prefix_cache_enabled": mixed["prefix_cache_enabled"],
                 "mtp_enabled": mixed["mtp_enabled"],
                 "max_model_len": health["max_model_len"],

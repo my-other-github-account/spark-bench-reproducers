@@ -231,7 +231,9 @@ def main() -> None:
         score_inside = "/work/" + str(score_path.relative_to(M))
         cmd = [
             "docker", "run", "--rm", "--network", "none", "--cpus", "4", "--memory", "6g", "--pids-limit", "256",
-            "-v", f"{M}:/work", "-v", f"{M / 'cache/evalplus'}:/root/.cache/evalplus",
+            "-v", f"{M}:/work",
+            "-v", f"{M / 'cache/evalplus/HumanEvalPlus-v0.1.10.jsonl'}:/work/HumanEvalPlus-v0.1.10.jsonl:ro",
+            "-e", "HUMANEVAL_OVERRIDE_PATH=/work/HumanEvalPlus-v0.1.10.jsonl",
             "evalplus:26d6d00", "python", "/work/task_local/score_batch.py", "--batch", batch_inside, "--out", score_inside,
         ]
         score_t0 = time.perf_counter()

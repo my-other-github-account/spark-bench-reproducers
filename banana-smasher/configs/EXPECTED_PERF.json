@@ -1,5 +1,5 @@
 {
-  "schema": "banana-smasher-expected-perf-v1",
+  "schema": "banana-smasher-expected-perf-v2",
   "target": {
     "architecture": "GB10 sm_121",
     "node_ram_gb_min": 128,
@@ -10,6 +10,16 @@
     "decode_tok_s_min": 15.0,
     "ttft_seconds_max": 2.5,
     "regression_floor_fraction": 0.8
+  },
+  "historical_resource_envelope": {
+    "validity": "historical-measured-baseline",
+    "receipt": "vendor/recovered/glm52_research_source_bundle_v1/payload/P530/receipts/P530_RESULT.json",
+    "resident_product_bytes": 101346700411,
+    "transient_scratch_bytes": 268435456,
+    "transient_scratch_bytes_max": 8589934592,
+    "mtp_enabled": false,
+    "kv_cache_bytes": [0],
+    "disposition": "comparison-only-not-a-fresh-readiness-result"
   },
   "required_decode_kernel_classes": [
     "_qtip_gemv",
@@ -34,19 +44,33 @@
     "p968_audit_and_batching_gates"
   ],
   "historical_baselines": {
-    "uniform_qtip_decode_tok_s": {"value": 24.39, "validity": "historical-measurement"},
-    "mixed_decode_tok_s": {"value": 16.95, "validity": "historical-measurement"},
-    "integrated_decode_tok_s_at_2k": {"value": 17.2, "validity": "historical-measurement"},
-    "prefill_dense_all_tok_s_at_2k": {"value": 1137.0, "validity": "historical-measurement"}
-    ,"p530_systems_canary": {
-      "prefill_tok_s_at_2k": 988.854,
-      "decode_tok_s": 17.1765,
-      "ttft_seconds": 2.1337,
-      "boot_seconds": 704.622,
-      "resident_bytes": 101346700411,
-      "quality": false,
-      "synthetic": true,
-      "validity": "historical-speed-regression-precedent-only"
+    "uniform_decode_tok_s": {
+      "value": 24.39,
+      "validity": "historical-measured-baseline",
+      "receipt": "receipts/P602_DECODE_BASELINES.json",
+      "receipt_row": 0,
+      "disposition": "comparison-only-not-gated"
+    },
+    "mixed_decode_tok_s": {
+      "value": 16.949440963383346,
+      "validity": "historical-measured-baseline",
+      "receipt": "receipts/P602_DECODE_BASELINES.json",
+      "receipt_row": 1,
+      "disposition": "comparison-only-not-gated"
+    },
+    "integrated_decode_tok_s_at_pp2048": {
+      "value": 17.20703272177992,
+      "validity": "historical-measured-baseline",
+      "receipt": "vendor/recovered/glm52_research_source_bundle_v1/payload/P530/receipts/P530_RESULT.json",
+      "receipt_selector": "final_rows[prompt_tokens=2048].decode_tok_s_median",
+      "disposition": "comparison-only-not-gated"
+    },
+    "prefill_tok_s_at_pp2048": {
+      "value": 1142.085381845603,
+      "validity": "historical-measured-baseline",
+      "receipt": "vendor/recovered/glm52_research_source_bundle_v1/payload/P530/receipts/P530_RESULT.json",
+      "receipt_selector": "final_rows[prompt_tokens=2048].prefill_tok_s_median",
+      "disposition": "comparison-only-not-gated"
     }
   },
   "truth_law": "READY requires fresh measured metrics at the declared prompt length; dry-run and historical values never satisfy readiness"

@@ -456,7 +456,7 @@ def finalize(assignment: dict, command_sha: str) -> None:
         "schema": "genesis-build-shard-manifest-v1", "status": "PASS", "task": TASK,
         "host": HOST, "shard": SHARD, "layers": layers, "layer_count": len(layers),
         "missing_layers": sorted(set(LAYERS) - set(layers)), "extra_layers": sorted(set(layers) - set(LAYERS)),
-        "placeholders": [], "assignment_sha256": ASSIGNMENT_MAP_SHA256, "assignment_file_sha256": EXPECTED[ASSIGNMENT], "input_manifest_sha256": EXPECTED[INPUT_MANIFEST],
+        "unresolved_inputs": [], "assignment_sha256": ASSIGNMENT_MAP_SHA256, "assignment_file_sha256": EXPECTED[ASSIGNMENT], "input_manifest_sha256": EXPECTED[INPUT_MANIFEST],
         "canonical_shared_builder_sha256": EXPECTED[BUILDER], "command_sha256": command_sha,
         "layer_receipts": receipts, "vq_files": all_files,
         "vq_file_count": len(all_files), "vq_bytes": sum(x["bytes"] for x in all_files),

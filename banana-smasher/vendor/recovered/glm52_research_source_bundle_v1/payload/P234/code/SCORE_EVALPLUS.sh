@@ -13,11 +13,14 @@ test "$IMAGE_ID" = "sha256:ce82d4f2e99754feb576991dec8d558096cbcb43644b53faf9413
 mkdir -p "$OUT"
 python3 "$CODE/prepare_evalplus.py" | tee "$OUT/prepare.log"
 sudo -n docker run --rm --network none --cpus 8 --memory 16g --pids-limit 512 \
- -v "$OUT:/work" -v "$DATASET:/root/.cache/evalplus/HumanEvalPlus-v0.1.10.jsonl:ro" \
- -v "$CODE/sanitize_evalplus.py:/sanitize_evalplus.py:ro" evalplus:26d6d00 python /sanitize_evalplus.py | tee "$OUT/sanitize.log"
+ -v "$OUT:/work" -v "$DATASET:/work/HumanEvalPlus-v0.1.10.jsonl:ro" \
+ -v "$CODE/sanitize_evalplus.py:/sanitize_evalplus.py:ro" \
+ -e HUMANEVAL_OVERRIDE_PATH=/work/HumanEvalPlus-v0.1.10.jsonl \
+ evalplus:26d6d00 python /sanitize_evalplus.py | tee "$OUT/sanitize.log"
 set +e
 sudo -n docker run --rm --network none --cpus 16 --memory 32g --pids-limit 1024 \
- -v "$OUT:/work" -v "$DATASET:/root/.cache/evalplus/HumanEvalPlus-v0.1.10.jsonl:ro" \
+ -v "$OUT:/work" -v "$DATASET:/work/HumanEvalPlus-v0.1.10.jsonl:ro" \
+ -e HUMANEVAL_OVERRIDE_PATH=/work/HumanEvalPlus-v0.1.10.jsonl \
  evalplus:26d6d00 evalplus.evaluate humaneval --samples /work/samples.jsonl --parallel 16 --i-just-wanna-run --test-details >"$OUT/evalplus.log" 2>&1
 RC=$?
 set -e

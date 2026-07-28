@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-import hashlib,json,pathlib
+import hashlib,json,os,pathlib
 from evalplus.sanitize import sanitize
-DATASET=pathlib.Path('/root/.cache/evalplus/HumanEvalPlus-v0.1.10.jsonl')
+DATASET=pathlib.Path(os.environ.get('HUMANEVAL_OVERRIDE_PATH','/work/HumanEvalPlus-v0.1.10.jsonl'))
 RAW=pathlib.Path('/work/raw_solutions.jsonl')
 OUT=pathlib.Path('/work/samples.jsonl')
 def sha(p):

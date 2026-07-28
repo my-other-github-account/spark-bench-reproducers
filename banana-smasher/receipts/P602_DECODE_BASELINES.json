@@ -1,0 +1,32 @@
+{
+  "quality_claim": false,
+  "rows": [
+    {
+      "decode_tok_s": 24.39,
+      "dedup_factor": 1,
+      "kernel_dispatch": "uniform_qtip",
+      "layers": 43,
+      "openai_completion_tokens": 4096,
+      "physical_logical_kernel_calls_ratio": 1.0,
+      "resident_product_bytes": 101360840912,
+      "source_receipt_sha256": "5740d68c289793113dacd229fef5e126f02f5ec048478ba077f510d7ba354327",
+      "vmhwm_bytes_rounded": 102000000000
+    },
+    {
+      "cold_rows": 3,
+      "decode_tok_s_median": 16.949440963383346,
+      "decode_tok_s_raw": [
+        16.949440963383346,
+        16.81034719743049,
+        16.952075917869887
+      ],
+      "kernel_dispatch": "mixed_qtip_truevq_d4_truevq_d8_native_mxfp4",
+      "layers": 43,
+      "prompt_tokens": 512,
+      "resident_product_bytes": 101346700411,
+      "source_receipt_sha256": "1d21e2388c536e53fe236f9babb82600d3fa540c2b0579b71296cb9793116367"
+    }
+  ],
+  "schema": "p602-public-decode-baselines-v1",
+  "status": "PASS"
+}

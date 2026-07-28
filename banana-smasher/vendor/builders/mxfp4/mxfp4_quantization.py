@@ -68,7 +68,7 @@ class Mxfp4Config(QuantizationConfig):
     def get_config_filenames(cls) -> list[str]:
         return []
 
-    # TODO (zyongye) This is only temporaty fallback.
+    # This is a temporary fallback retained from upstream.
     # We should have `Mxfp4MoEMethod` after this migration is complete.
     def get_quant_method(
         self, layer: torch.nn.Module, prefix: str
@@ -155,7 +155,7 @@ class GptOssMxfp4MoEMethod(FusedMoEMethodBase):
         # so can skip the padding in the forward before applying the moe method
         return self.mxfp4_backend == Mxfp4MoeBackend.FLASHINFER_TRTLLM_MXFP4_MXFP8
 
-    # TODO(bnell): move to MK/expert_class?
+    # Upstream follow-up: consider moving this to MK/expert_class.
     @property
     def has_unpadded_output(self) -> bool:
         return self.mxfp4_backend in [
@@ -499,7 +499,7 @@ class Mxfp4MoEMethod(FusedMoEMethodBase):
         # so can skip the padding in the forward before applying the moe method
         return self.mxfp4_backend == Mxfp4MoeBackend.FLASHINFER_TRTLLM_MXFP4_MXFP8
 
-    # TODO(bnell): move to MK/expert_class?
+    # Upstream follow-up: consider moving this to MK/expert_class.
     @property
     def has_unpadded_output(self) -> bool:
         return self.mxfp4_backend in [

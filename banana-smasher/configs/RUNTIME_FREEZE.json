@@ -1,6 +1,11 @@
 {
   "schema": "banana-smasher-runtime-freeze-v1",
   "architecture": "linux-aarch64-sm_121",
+  "base_image": {
+    "reference": "nvcr.io/nvidia/pytorch:26.01-py3",
+    "platform": "linux/arm64",
+    "manifest_digest": "sha256:1b6dd8dc60741fb99b9aa343fa03fc897fbb64fbdcb1c8afcbd48c75cba57255"
+  },
   "runtime": {
     "python": "3.12.3",
     "torch": "2.11.0+cu130",

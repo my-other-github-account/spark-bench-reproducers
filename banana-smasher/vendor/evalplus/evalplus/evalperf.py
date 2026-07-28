@@ -297,7 +297,7 @@ def perf_worker(
     return ret_dict
 
 
-# TODO(@ganler): OPTIMIZATION: reuse the samples from the generations of other datasets
+# Optimization opportunity: reuse samples generated for other datasets.
 def script(
     samples: Optional[str] = None,
     min_correct: int = 10,

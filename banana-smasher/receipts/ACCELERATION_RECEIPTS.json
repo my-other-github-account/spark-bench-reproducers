@@ -1,22 +1,158 @@
 {
-  "schema": "banana-smasher-acceleration-receipts-v1",
-  "validity": "historical-measurements-and-enforced-contracts",
+  "schema": "banana-smasher-acceleration-receipts-v2",
+  "validity": "Every measured=true row is bound to a shipped raw receipt. Every measured=false row is a contract-only implementation and carries no speed claim.",
   "rows": [
-    {"id": "p530_systems_canary", "measured": true, "prefill_tok_s_at_2k": 988.854, "decode_tok_s": 17.1765, "ttft_seconds": 2.1337, "boot_seconds": 704.622, "resident_bytes": 101346700411, "all_four_tier_counters": true, "quality": false, "synthetic": true, "validity": "speed-regression-precedent-only", "disposition": "DEGRADED because prefill is below the published 1000 tok/s gate"},
-    {"id": "dense_all_prefill", "measured": true, "baseline_tok_s": 28.95, "intermediate_tok_s": 117.0, "final_tok_s": 1137.0, "gate": "configs/EXPECTED_PERF.json", "implementation": "vendor/runtime/mixed_tier_backend.py"},
-    {"id": "kernel_cache_warmup", "measured": false, "contract": "all four decode classes plus dense and packed prefill compile before READY", "implementation": "vendor/runtime/warmup_kernels.py", "gate": "vendor/runtime/verify_kernel_cache.py"},
-    {"id": "packed_qtip_shared_prefill", "measured": true, "lineage": "P526 explicit-M shared packed prefill", "contract": "packed tiers use shared mbatched prefill without persistent dense copies", "implementation": "vendor/runtime/mixed_tier_backend.py"},
-    {"id": "uma_128gb_residency_gate", "measured": false, "contract": "resident envelope exact and node RAM at least 128 GB", "implementation": "vendor/runtime/mixed_prefill_server.py", "gate": "configs/EXPECTED_PERF.json"},
-    {"id": "accelerated_measurement_rail", "measured": true, "baseline_seconds_per_layer_range": [76.0, 92.0], "accelerated_seconds_per_layer_range": [21.0, 34.0], "replay_max_abs": 1e-12, "implementation": "vendor/pipeline/accelerated_pipeline.py"},
-    {"id": "bulk_mover_8_streams", "measured": true, "speedup": 8.4, "bytes": 2080000000, "seconds": 3.05, "streams_min": 8, "implementation": "vendor/pipeline/accelerated_pipeline.py"},
-    {"id": "hardlink_materialization", "measured": true, "cells_per_minute": 600.0, "implementation": "vendor/pipeline/accelerated_pipeline.py"},
-    {"id": "gpu_shards_4way", "measured": false, "contract": "stable range partition, skip existing, collision refusal", "implementation": "vendor/pipeline/accelerated_pipeline.py"},
-    {"id": "per_codebook_streaming", "measured": false, "contract": "produce then rebuild then stream each codebook independently", "implementation": "vendor/pipeline/accelerated_pipeline.py"},
-    {"id": "speculative_parallel_revoke", "measured": false, "contract": "warm against last-known-good seal and publish only if expected seal still matches", "implementation": "vendor/pipeline/accelerated_pipeline.py", "gate": "vendor/recovered/glm52_research_source_bundle_v1/payload/P959/receipts/P959_P948_SPECULATIVE_BOUNDARY.json"},
-    {"id": "p963_true_c_mb2_bulk_stage", "measured": true, "speedup": 2.4355729286027437, "maximum_absolute_per_position_delta": 0.0, "implementation": "vendor/recovered/glm52_research_source_bundle_v1/payload/P963/code/p963_true_c_accel.py", "gate": "vendor/recovered/glm52_research_source_bundle_v1/payload/P963/receipts/P963_EXACT_ACCELERATION_SEAL.json", "negative_gate": "vendor/recovered/glm52_research_source_bundle_v1/payload/P963/receipts/P963_MB4_FAIL_CLOSED.json"},
-    {"id": "p959_terminal_seed_rebuild", "measured": false, "contract": "rebuild the terminal 196-codebook seed from canonical state and terminal wire authority while excluding speculative P948 lineage", "implementation": "vendor/recovered/glm52_research_source_bundle_v1/payload/P959/code/rebuild_p959_terminal_seed_v2.py", "gate": "vendor/recovered/glm52_research_source_bundle_v1/payload/P959/receipts/P959_TERMINAL_UPDATE_000_SEED_REBUILD.json"},
-    {"id": "p486_full164_eval", "measured": true, "completed": 164, "base_passes": 152, "plus_passes": 144, "implementation": "vendor/recovered/glm52_research_source_bundle_v1/payload/P486/code/run_full164.py", "gate": "vendor/recovered/glm52_research_source_bundle_v1/payload/P486/receipts/FINAL_ACTUAL_FULL164_RECEIPT.json"},
-    {"id": "p968_audit_and_batching_gates", "measured": false, "contract": "fail closed on malformed or empty EvalPlus inputs and preserve the measured batching-regression boundary", "implementation": "vendor/recovered/glm52_research_source_bundle_v1/payload/P968/code/timing_adjudicate.py", "gate": "vendor/recovered/glm52_research_source_bundle_v1/payload/P968/receipts/SCORE_MATRIX_RECEIPT.json", "negative_gate": "vendor/recovered/glm52_research_source_bundle_v1/payload/P968/supporting_batching_regression/receipts/REGRESSION_TEST.json"}
+    {
+      "id": "dense_all_prefill",
+      "measured": true,
+      "receipt": "vendor/recovered/glm52_research_source_bundle_v1/payload/P530/receipts/P530_RESULT.json",
+      "baseline_pp2048_tok_s": 28.950002443,
+      "intermediate_pp2048_tok_s": 117.253752248,
+      "final_probe_pp2048_tok_s": 1137.632529908508,
+      "final_gate_pp2048_tok_s": 1142.085381845603,
+      "disposition": "PROMOTE",
+      "implementation": "vendor/runtime/mixed_tier_backend.py",
+      "gate": "configs/EXPECTED_PERF.json",
+      "regression_gate": "configs/EXPECTED_PERF.json"
+    },
+    {
+      "id": "kernel_cache_warmup",
+      "measured": false,
+      "contract": "compile every decode/prefill shape and verify immutable cache before readiness",
+      "implementation": [
+        "vendor/runtime/warmup_kernels.py",
+        "vendor/runtime/verify_kernel_cache.py"
+      ],
+      "regression_gate": "vendor/runtime/verify_kernel_cache.py"
+    },
+    {
+      "id": "packed_qtip_shared_prefill",
+      "measured": true,
+      "receipt": "vendor/recovered/glm52_research_source_bundle_v1/payload/P526/receipts/RESULT.json",
+      "measured_speedup_range": [2.648196953638263, 3.0797341323933782],
+      "receipt_verdict": "MISS",
+      "disposition": "HOLD_REJECTED_LT_GATE",
+      "implementation": [
+        "vendor/runtime/mixed_tier_backend.py",
+        "vendor/recovered/glm52_research_source_bundle_v1/payload/P526/code/qtip_vq_backend_sealed.py"
+      ],
+      "regression_gate": "vendor/recovered/glm52_research_source_bundle_v1/payload/P526/receipts/RESULT.json"
+    },
+    {
+      "id": "uma_128gb_residency_gate",
+      "measured": false,
+      "contract": "one resident product, scratch <=8 GiB, KV headroom reserved, no persistent second weight copy, and node RAM at least 128 GB",
+      "implementation": [
+        "vendor/runtime/entrypoint.py",
+        "vendor/runtime/mixed_prefill_server.py"
+      ],
+      "regression_gate": "tests/test_accelerations.py"
+    },
+    {
+      "id": "accelerated_measurement_rail",
+      "measured": true,
+      "receipt": "vendor/recovered/glm52_research_source_bundle_v1/payload/P963/receipts/P963_EXACT_ACCELERATION_SEAL.json",
+      "baseline_elapsed_seconds": 3643.123103618622,
+      "accelerated_elapsed_seconds": 1495.7971739768982,
+      "speedup": 2.4355729286027437,
+      "replay_max_abs": 0.0,
+      "implementation": [
+        "vendor/pipeline/accelerated_pipeline.py",
+        "vendor/recovered/glm52_research_source_bundle_v1/payload/P963/code/p963_true_c_accel.py"
+      ],
+      "regression_gate": "vendor/recovered/glm52_research_source_bundle_v1/payload/P963/receipts/P963_EXACT_ACCELERATION_SEAL.json"
+    },
+    {
+      "id": "bulk_mover_8_streams",
+      "measured": true,
+      "receipt": "vendor/recovered/glm52_research_source_bundle_v1/payload/P963/receipts/P963_BATCHED_STAGE_L000_CANARY.json",
+      "speedup": 8.40087987944764,
+      "bytes": 2077863259,
+      "seconds": 3.0461604595184326,
+      "streams_min": 8,
+      "implementation": "vendor/pipeline/accelerated_pipeline.py",
+      "regression_gate": "tests/test_accelerations.py"
+    },
+    {
+      "id": "hardlink_materialization",
+      "measured": false,
+      "contract": "hardlink first, copy fallback, read-back SHA verification, and collision refusal; no historical rate is promoted without a shipped raw receipt",
+      "implementation": "vendor/pipeline/accelerated_pipeline.py",
+      "regression_gate": "tests/test_accelerations.py"
+    },
+    {
+      "id": "gpu_shards_4way",
+      "measured": false,
+      "contract": "stable range partition, skip existing, and collision refusal",
+      "implementation": "vendor/pipeline/accelerated_pipeline.py",
+      "regression_gate": "tests/test_accelerations.py"
+    },
+    {
+      "id": "per_codebook_streaming",
+      "measured": false,
+      "contract": "produce, rebuild, and stream each codebook independently",
+      "implementation": "vendor/pipeline/accelerated_pipeline.py",
+      "regression_gate": "tests/test_accelerations.py"
+    },
+    {
+      "id": "speculative_parallel_revoke",
+      "measured": false,
+      "contract": "warm against last-known-good seal and publish only if expected seal still matches; speculative P948 output must not seed or promote",
+      "implementation": "vendor/pipeline/accelerated_pipeline.py",
+      "receipt": "vendor/recovered/glm52_research_source_bundle_v1/payload/P959/receipts/P959_P948_SPECULATIVE_BOUNDARY.json",
+      "regression_gate": "tests/test_accelerations.py"
+    },
+    {
+      "id": "p963_true_c_mb2_bulk_stage",
+      "measured": true,
+      "receipt": "vendor/recovered/glm52_research_source_bundle_v1/payload/P963/receipts/P963_EXACT_ACCELERATION_SEAL.json",
+      "speedup": 2.4355729286027437,
+      "maximum_absolute_per_position_delta": 0.0,
+      "implementation": "vendor/recovered/glm52_research_source_bundle_v1/payload/P963/code/p963_true_c_accel.py",
+      "gate": "vendor/recovered/glm52_research_source_bundle_v1/payload/P963/receipts/P963_EXACT_ACCELERATION_SEAL.json",
+      "regression_gate": "vendor/recovered/glm52_research_source_bundle_v1/payload/P963/receipts/P963_EXACT_ACCELERATION_SEAL.json",
+      "negative_gate": "vendor/recovered/glm52_research_source_bundle_v1/payload/P963/receipts/P963_MB4_FAIL_CLOSED.json"
+    },
+    {
+      "id": "p959_terminal_seed_rebuild",
+      "measured": false,
+      "contract": "rebuild UPDATE_000 only from terminal authority, excluding speculative P948 lineage, then reset optimizer and scheduler",
+      "implementation": "vendor/recovered/glm52_research_source_bundle_v1/payload/P959/code/rebuild_p959_terminal_seed_v2.py",
+      "receipt": "vendor/recovered/glm52_research_source_bundle_v1/payload/P959/receipts/P959_TERMINAL_UPDATE_000_SEED_REBUILD.json",
+      "gate": "vendor/recovered/glm52_research_source_bundle_v1/payload/P959/receipts/P959_TERMINAL_UPDATE_000_SEED_REBUILD.json",
+      "regression_gate": "vendor/recovered/glm52_research_source_bundle_v1/payload/P959/receipts/P959_TERMINAL_UPDATE_000_SEED_REBUILD.json"
+    },
+    {
+      "id": "p486_full164_eval",
+      "measured": true,
+      "receipt": "vendor/recovered/glm52_research_source_bundle_v1/payload/P486/receipts/FINAL_ACTUAL_FULL164_RECEIPT.json",
+      "coverage": 164,
+      "base_passes": 152,
+      "plus_passes": 144,
+      "implementation": "vendor/recovered/glm52_research_source_bundle_v1/payload/P486/code/run_full164.py",
+      "gate": "vendor/recovered/glm52_research_source_bundle_v1/payload/P486/receipts/FINAL_ACTUAL_FULL164_RECEIPT.json",
+      "regression_gate": "vendor/recovered/glm52_research_source_bundle_v1/payload/P486/receipts/FINAL_ACTUAL_FULL164_RECEIPT.json"
+    },
+    {
+      "id": "p968_audit_and_batching_gates",
+      "measured": false,
+      "contract": "fail closed on malformed or empty EvalPlus inputs and preserve the measured batching-regression boundary",
+      "implementation": "vendor/recovered/glm52_research_source_bundle_v1/payload/P968/code/timing_adjudicate.py",
+      "receipt": "vendor/recovered/glm52_research_source_bundle_v1/payload/P968/receipts/SCORE_MATRIX_RECEIPT.json",
+      "gate": "vendor/recovered/glm52_research_source_bundle_v1/payload/P968/receipts/SCORE_MATRIX_RECEIPT.json",
+      "regression_gate": "vendor/recovered/glm52_research_source_bundle_v1/payload/P968/receipts/SCORE_MATRIX_RECEIPT.json",
+      "negative_gate": "vendor/recovered/glm52_research_source_bundle_v1/payload/P968/supporting_batching_regression/receipts/REGRESSION_TEST.json"
+    }
+  ],
+  "lineage_dispositions": [
+    {"id": "P526", "receipt": "vendor/recovered/glm52_research_source_bundle_v1/payload/P526/receipts/RESULT.json", "disposition": "HOLD_REJECTED_LT_GATE"},
+    {"id": "P530", "receipt": "vendor/recovered/glm52_research_source_bundle_v1/payload/P530/receipts/P530_RESULT.json", "disposition": "PROMOTE"},
+    {"id": "P948", "receipt": "vendor/recovered/glm52_research_source_bundle_v1/payload/P959/receipts/P959_P948_SPECULATIVE_BOUNDARY.json", "disposition": "HOLD_SPECULATIVE_REVOKED"},
+    {"id": "P950", "receipt": "vendor/recovered/glm52_research_source_bundle_v1/payload/P950/receipts/P950_CURRENT_SNAPSHOT_PIN.json", "disposition": "HOLD_PRELIM_NOT_DECISION_GRADE"},
+    {"id": "P951", "receipt": "vendor/recovered/glm52_research_source_bundle_v1/payload/P951/receipts/P951_INDEPENDENT_TERMINAL_TRUE_C_80_OF_80.json", "disposition": "PROMOTE_BASELINE"},
+    {"id": "P959", "receipt": "vendor/recovered/glm52_research_source_bundle_v1/payload/P959/receipts/P959_TERMINAL_UPDATE_000_SEED_REBUILD.json", "disposition": "PROMOTE_TERMINAL_SEED"},
+    {"id": "P963", "receipt": "vendor/recovered/glm52_research_source_bundle_v1/payload/P963/receipts/P963_EXACT_ACCELERATION_SEAL.json", "disposition": "PROMOTE_EXACT_ACCELERATION"},
+    {"id": "P486", "receipt": "vendor/recovered/glm52_research_source_bundle_v1/payload/P486/receipts/FINAL_ACTUAL_FULL164_RECEIPT.json", "disposition": "PROMOTE_VISIBLE_EVAL"}
   ],
   "truth_law": "Rows marked measured=false are executable contracts, not speed claims; measured rows are historical evidence and cannot satisfy a fresh serve READY gate"
 }

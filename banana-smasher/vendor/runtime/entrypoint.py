@@ -27,6 +27,34 @@ def pack_hash_workers() -> int:
     return workers
 
 
+def detected_memory_limit_bytes(
+    proc_meminfo: str | Path = "/proc/meminfo",
+    cgroup_v2_limit: str | Path = "/sys/fs/cgroup/memory.max",
+    cgroup_v1_limit: str | Path = "/sys/fs/cgroup/memory/memory.limit_in_bytes",
+) -> int:
+    """Return the lowest real host/container memory ceiling visible to Linux."""
+    ceilings: list[int] = []
+    meminfo = Path(proc_meminfo)
+    if meminfo.is_file():
+        for line in meminfo.read_text().splitlines():
+            if line.startswith("MemTotal:"):
+                fields = line.split()
+                if len(fields) >= 2:
+                    ceilings.append(int(fields[1]) * 1024)
+                break
+    for candidate in (Path(cgroup_v2_limit), Path(cgroup_v1_limit)):
+        if not candidate.is_file():
+            continue
+        value = candidate.read_text().strip()
+        if value and value != "max":
+            parsed = int(value)
+            if parsed > 0:
+                ceilings.append(parsed)
+    if not ceilings:
+        raise PackValidationError("unable to determine the Linux memory ceiling")
+    return min(ceilings)
+
+
 def prepare_pack(source: str, download_root: str | Path) -> Path:
     if not source.startswith(("http://", "https://")):
         root = Path(source).resolve()
@@ -170,6 +198,19 @@ def serve(pack_source: str) -> int:
     started_at = time.monotonic()
     mission = Path(os.environ.get("GENESIS_MISSION", "/run/genesis")).resolve()
     receipts = mission / "receipts"
+    expected_config = json.loads(
+        Path("/opt/genesis/config/EXPECTED_PERF.json").read_text()
+    )
+    memory_limit_bytes = detected_memory_limit_bytes()
+    required_memory_bytes = int(
+        float(expected_config["target"]["node_ram_gb_min"]) * 1_000_000_000
+    )
+    if memory_limit_bytes < required_memory_bytes:
+        raise PackValidationError(
+            "node/container memory ceiling {} is below required {} bytes".format(
+                memory_limit_bytes, required_memory_bytes
+            )
+        )
     pack = prepare_pack(pack_source, mission / "downloads")
     validation = validate_pack(
         pack,
@@ -268,8 +309,10 @@ def serve(pack_source: str) -> int:
                     == validation["resident_envelope"]["bytes"]
                 ),
             },
-            json.loads(Path("/opt/genesis/config/EXPECTED_PERF.json").read_text()),
+            expected_config,
         )
+        smoke["memory_limit_bytes"] = memory_limit_bytes
+        smoke["required_memory_bytes"] = required_memory_bytes
         smoke["readiness"] = readiness
         smoke["status"] = readiness["status"]
         _write_json(receipts / "STARTUP_SMOKE.json", smoke)

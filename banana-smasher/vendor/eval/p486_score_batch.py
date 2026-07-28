@@ -4,12 +4,17 @@ from __future__ import annotations
 import argparse, hashlib, json, os, time
 from pathlib import Path
 from typing import Any
+
+EXPECTED_DATASET_SHA = "42526ec0e7d5f3ee0b06d6ced98f8c8bae3d76519151bfb3d36f79010645bd7f"
+DATASET = Path(os.environ.get(
+    "HUMANEVAL_OVERRIDE_PATH",
+    str(Path(__file__).resolve().with_name("HumanEvalPlus-v0.1.10.jsonl")),
+)).resolve()
+os.environ.setdefault("HUMANEVAL_OVERRIDE_PATH", str(DATASET))
+
 from evalplus.data import get_human_eval_plus, get_human_eval_plus_hash
 from evalplus.evaluate import PASS, check_correctness, get_groundtruth
 from evalplus.sanitize import sanitize
-
-EXPECTED_DATASET_SHA = "42526ec0e7d5f3ee0b06d6ced98f8c8bae3d76519151bfb3d36f79010645bd7f"
-DATASET = Path("/root/.cache/evalplus/HumanEvalPlus-v0.1.10.jsonl")
 
 def sha256(p: Path) -> str:
     h = hashlib.sha256()

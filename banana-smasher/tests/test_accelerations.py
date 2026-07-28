@@ -3,6 +3,7 @@ from __future__ import annotations
 import importlib.util
 import json
 from pathlib import Path
+import sys
 import tempfile
 import unittest
 
@@ -51,10 +52,47 @@ class AccelerationTests(unittest.TestCase):
             "resident_envelope_verified": True,
         }
         self.assertEqual(module.evaluate(metrics, expected)["status"], "READY")
-        metrics["prefill_tok_s"] = 999
-        result = module.evaluate(metrics, expected)
-        self.assertEqual(result["status"], "DEGRADED")
-        self.assertIn("prefill_tok_s", result["failed"])
+        failure_cases = (
+            ("prefill_tok_s", 999, "prefill_tok_s"),
+            ("decode_tok_s", 14.99, "decode_tok_s"),
+            ("ttft_seconds", 2.51, "ttft_seconds"),
+            ("prompt_tokens", 1024, "prompt_tokens"),
+            ("validity", "historical-measurement", "fresh_measurement"),
+        )
+        for field, value, failed_gate in failure_cases:
+            with self.subTest(field=field):
+                candidate = dict(metrics)
+                candidate[field] = value
+                result = module.evaluate(candidate, expected)
+                self.assertEqual(result["status"], "DEGRADED")
+                self.assertIn(failed_gate, result["failed"])
+
+    def test_container_memory_gate_uses_lowest_visible_ceiling(self) -> None:
+        runtime = ROOT / "vendor" / "runtime"
+        sys.path.insert(0, str(runtime))
+        try:
+            module = load("container_entrypoint", runtime / "entrypoint.py")
+        finally:
+            sys.path.remove(str(runtime))
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            meminfo = root / "meminfo"
+            cgroup_v2 = root / "memory.max"
+            cgroup_v1 = root / "memory.limit_in_bytes"
+            meminfo.write_text("MemTotal:       200000000 kB\n")
+            cgroup_v2.write_text("150000000000\n")
+            self.assertEqual(
+                module.detected_memory_limit_bytes(meminfo, cgroup_v2, cgroup_v1),
+                150000000000,
+            )
+            cgroup_v2.write_text("max\n")
+            self.assertEqual(
+                module.detected_memory_limit_bytes(meminfo, cgroup_v2, cgroup_v1),
+                200000000 * 1024,
+            )
+            meminfo.unlink()
+            with self.assertRaises(module.PackValidationError):
+                module.detected_memory_limit_bytes(meminfo, cgroup_v2, cgroup_v1)
 
     def test_pipeline_accelerations_execute(self) -> None:
         module = load("accelerated_pipeline", ROOT / "vendor/pipeline/accelerated_pipeline.py")

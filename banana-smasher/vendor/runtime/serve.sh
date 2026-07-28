@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-exec /opt/vllm-runtime/bin/python /opt/genesis/scripts/entrypoint.py serve "${1:-/model}"
+exec /opt/vllm-runtime/bin/python /opt/genesis/runtime/entrypoint.py serve "${1:-/model}"

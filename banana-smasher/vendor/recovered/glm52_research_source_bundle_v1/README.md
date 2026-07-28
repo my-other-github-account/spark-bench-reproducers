@@ -11,14 +11,14 @@ The bundle intentionally excludes models, tensors, checkpoints, caches, compiled
 `SOURCE_MANIFEST.json` is the provenance index. For each recovered source it records:
 
 - authority class and source role;
-- a placeholder-safe source locator;
+- a privacy-safe symbolic source locator;
 - exact pre-scrub `source_sha256` and byte count;
 - shipped `shipped_sha256` and byte count;
 - every deterministic scrub transformation applied.
 
 The shipped files use these substitutions:
 
-| Private/runtime-specific source text | Shipped placeholder |
+| Private/runtime-specific source text | Shipped symbolic token |
 |---|---|
 | operator home on Spark nodes | `${SPARK_HOME}` |
 | operator home on collection host | `${MACMINI_HOME}` |
@@ -27,7 +27,7 @@ The shipped files use these substitutions:
 | QSFP, LAN, or Tailscale addresses | `${QSFP_HOST}`, `${LAN_HOST}`, `${TAILSCALE_HOST}` |
 | operator-local username/hostname literals | `${OPERATOR_USER}`, `${LOCAL_HOST}` |
 
-Because the shipped version is scrubbed, it is normal for source and shipped SHA-256 values to differ. Consumers must rebind placeholders explicitly in a task-local environment before running any recovered code. Never infer physical artifact identity from a shipped code hash; use the source hash and receipt chain.
+Because the shipped version is scrubbed, it is normal for source and shipped SHA-256 values to differ. Consumers must rebind the documented substitutions explicitly in a task-local environment before running any recovered code. Never infer physical artifact identity from a shipped code hash; use the source hash and receipt chain.
 
 ## Contents
 
