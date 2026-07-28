@@ -1,0 +1,2344 @@
+{
+  "coordinator_inventory": {
+    "path": "$SOURCE_ROOT/P818_FULL_MENU_INVENTORY.json",
+    "sha256": "635749b3f86232ab3f5539fcefb6994a06a78e8163fb8bca4cfa26342ca59b44"
+  },
+  "coverage": {
+    "duplicates": 0,
+    "gaps": 0,
+    "identities": 20480,
+    "identities_per_layer": 512,
+    "identity_set_sha256": "6f5427d924014739d31a8de3e2dec2359412d9491daf36691f9161bd92890f6a",
+    "layer_count": 40,
+    "layers": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42
+    ],
+    "quarantine": 0
+  },
+  "layers": [
+    {
+      "authority": {
+        "bytes": 369944,
+        "local_mirror": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+        "sha256": "c723ddef5bdbbf0bc1855dd1ea5eafaccc35c127252ae28f213af92cc45ea4df"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "e59bda9401852496d0cdb30e9ac529fc5f7c5cb22bfaf65fcd2fc399a8adf9d6",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 3,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "readbacks": [
+          {
+            "host": "nas",
+            "kind": "full-unit-readback",
+            "path": "/volume1/operator/archives/P818_Q3_HONEST/PUBLIC_TASK/replica_a/L003",
+            "status": "PASS",
+            "units": 512
+          },
+          {
+            "host": "nas",
+            "kind": "full-unit-readback",
+            "path": "/volume1/operator/archives/P818_Q3_HONEST/PUBLIC_TASK/replica_b/L003",
+            "status": "PASS",
+            "units": 512
+          }
+        ],
+        "receipt": "L003_REPLICAS.json",
+        "source_host": "nas",
+        "source_root": "/volume1/operator/archives/P818_Q3_HONEST/PUBLIC_TASK/replica_a/L003",
+        "transport": "remote_dir"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 369906,
+        "local_mirror": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+        "sha256": "6f9c0228bef07a2d9b28b7cdcc4106781908153625dcccbb3a002e750a8a464c"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "51027161b3ac09512aeab73f736960c38d7d26e2aadaab0d1dcedf048089b873",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 4,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "readbacks": [
+          {
+            "host": "nas",
+            "kind": "full-unit-readback",
+            "path": "/volume1/operator/archives/P818_Q3_HONEST/PUBLIC_TASK/replica_a/L004",
+            "status": "PASS",
+            "units": 512
+          },
+          {
+            "host": "nas",
+            "kind": "full-unit-readback",
+            "path": "/volume1/operator/archives/P818_Q3_HONEST/PUBLIC_TASK/replica_b/L004",
+            "status": "PASS",
+            "units": 512
+          }
+        ],
+        "receipt": "L004_REPLICAS.json",
+        "source_host": "nas",
+        "source_root": "/volume1/operator/archives/P818_Q3_HONEST/PUBLIC_TASK/replica_a/L004",
+        "transport": "remote_dir"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 369931,
+        "local_mirror": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+        "sha256": "587be31a66986bc58c2d258cdf9ed466ce334649d02fe997a74d624fc05e82b2"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "6442dcb15a15f41d6cfd4b3ee344496dfcc5db0e788584bc50047180fabc6a54",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 5,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "full-unit-readback",
+            "path": "$SOURCE_ROOT/L005",
+            "status": "PASS",
+            "units": 512
+          },
+          {
+            "host": "compute-node",
+            "kind": "full-unit-readback",
+            "path": "$SOURCE_ROOT/L005",
+            "status": "PASS",
+            "units": 512
+          }
+        ],
+        "receipt": "L005_REPLICAS.json",
+        "source_host": "compute-node",
+        "source_root": "$SOURCE_ROOT/L005",
+        "transport": "remote_dir"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 369960,
+        "local_mirror": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+        "sha256": "d469f73a820f3b347e778fe4d09209668ad420b9fbd600b04e3e2db8556f684c"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "df796bf212f75ad3b17a77d43d73859295b6d32a66a19963d2fc4597cf7d7e69",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 6,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "full-unit-readback",
+            "path": "$SOURCE_ROOT/L006",
+            "status": "PASS",
+            "units": 512
+          },
+          {
+            "host": "compute-node",
+            "kind": "full-unit-readback",
+            "path": "$SOURCE_ROOT/L006",
+            "status": "PASS",
+            "units": 512
+          }
+        ],
+        "receipt": "L006_REPLICAS.json",
+        "source_host": "compute-node",
+        "source_root": "$SOURCE_ROOT/L006",
+        "transport": "remote_dir"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 369937,
+        "local_mirror": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+        "sha256": "d2cc4543f21b69007e258811da745cbddb6cffe34ae99adcdfdc822b0d9140e0"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "a8b5c958240edeb036b3ca090ea8c77e2833085ba4c7b230eb374443d65592a2",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 7,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "full-unit-readback",
+            "path": "$SOURCE_ROOT/L007",
+            "status": "PASS",
+            "units": 512
+          },
+          {
+            "host": "compute-node",
+            "kind": "full-unit-readback",
+            "path": "$SOURCE_ROOT/L007",
+            "status": "PASS",
+            "units": 512
+          }
+        ],
+        "receipt": "L007_REPLICAS.json",
+        "source_host": "compute-node",
+        "source_root": "$SOURCE_ROOT/L007",
+        "transport": "remote_dir"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 5441,
+        "local_mirror": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+        "sha256": "efc86ccdcc11895faf9e04b21fd5703bfa0a50799160e7d32d9daf8f0b65307d"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 0,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "81eed3dd3e5bf2e858dd1510614a715ab8ba620a2b47d3594d96fa7a3de28066",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 8,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2429839360,
+        "archive_path": "$SOURCE_ROOT/L008.tar",
+        "archive_sha256": "8682a08c32f8507a481e317c0066eaa021a84795558bd52bf36516bba9f378d1",
+        "readbacks": [
+          {
+            "bytes": 2429839360,
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L008.tar",
+            "sha256": "8682a08c32f8507a481e317c0066eaa021a84795558bd52bf36516bba9f378d1",
+            "status": "PASS"
+          },
+          {
+            "bytes": 2429839360,
+            "host": "compute-node-work",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L008.tar",
+            "sha256": "8682a08c32f8507a481e317c0066eaa021a84795558bd52bf36516bba9f378d1",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "L008_DUAL_REPLICA.json",
+        "source_host": "compute-node",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 5440,
+        "local_mirror": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+        "sha256": "0158f0de8ea04ee14354ca0c4e5be8f5f1fd3703ef39c63f7300918f5669392a"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 0,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "bce118ae25ef7423ccd5a8d140d03869af89a39f017a76814db8d8ac20641f4b",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 9,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2429839360,
+        "archive_path": "$SOURCE_ROOT/L009.tar",
+        "archive_sha256": "d8a554dce5e80a7f28195796c37940023cdd8bb29aae321ab157fce6f06f324c",
+        "readbacks": [
+          {
+            "bytes": 2429839360,
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L009.tar",
+            "sha256": "d8a554dce5e80a7f28195796c37940023cdd8bb29aae321ab157fce6f06f324c",
+            "status": "PASS"
+          },
+          {
+            "bytes": 2429839360,
+            "host": "compute-node-work",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L009.tar",
+            "sha256": "d8a554dce5e80a7f28195796c37940023cdd8bb29aae321ab157fce6f06f324c",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "L009_DUAL_REPLICA.json",
+        "source_host": "compute-node",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 5441,
+        "local_mirror": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+        "sha256": "e22cf0615daae99038ae1111f29098f7d226e666c3cd6d5430b29e8e2a346d75"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 0,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "c0b04e04a8391c9807e9934e37c9bd87f23d937039fc123a973f9bca5ac83b17",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 10,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2429839360,
+        "archive_path": "$SOURCE_ROOT/L010.tar",
+        "archive_sha256": "fb5af2e999cdb018fbcedad9d491a442c88240f0c701ae6b145d1f15d8f364b9",
+        "readbacks": [
+          {
+            "bytes": 2429839360,
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L010.tar",
+            "sha256": "fb5af2e999cdb018fbcedad9d491a442c88240f0c701ae6b145d1f15d8f364b9",
+            "status": "PASS"
+          },
+          {
+            "bytes": 2429839360,
+            "host": "compute-node-work",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L010.tar",
+            "sha256": "fb5af2e999cdb018fbcedad9d491a442c88240f0c701ae6b145d1f15d8f364b9",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "L010_DUAL_REPLICA.json",
+        "source_host": "compute-node",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 9302,
+        "local_mirror": "$SOURCE_ROOT/P824_FULL_MENU_FINAL.json",
+        "sha256": "7542adc782ffe8896e1c109d226949ba7317c7f7af70c2e68d5e4bf4c37eccb2"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 0,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "5f56ff4902e78d27001ae15fa1d25ca2b0f5dd2379f40847700db9fb35bcc7cb",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 11,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2429706240,
+        "archive_path": "/volume1/operator/archives/P818_Q3_HONEST_PUBLIC_TASK_s3/layers/L011.tar",
+        "archive_sha256": "64d63aaabfffaf67165f76a8cbc25ab36650d3c6540cdb578c0fcf167f7ef570",
+        "readbacks": [
+          {
+            "bytes": 2429706240,
+            "host": "nas",
+            "kind": "archive-sha256",
+            "path": "/volume1/operator/archives/P818_Q3_HONEST_PUBLIC_TASK_s3/layers/L011.tar",
+            "status": "PASS"
+          },
+          {
+            "bytes": 2429706240,
+            "host": "nas",
+            "kind": "archive-sha256",
+            "path": "/volume1/operator/archives/P818_Q3_HONEST/PUBLIC_TASK/layers/L011.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "P824_FULL_MENU_FINAL.json",
+        "source_host": "nas",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 479931,
+        "local_mirror": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+        "sha256": "f1133760242df03ccd11571230d140e7dd3f3ea7ea5e594fa73fbf188db61296"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "66992082d871c321161eb13bbdda9a86ed906fbaa131ac1fc3057b50d1b38e11",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 12,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2431703040,
+        "archive_path": "/volume1/operator/archives/P818_Q3_HONEST/PUBLIC_TASK/L012.tar",
+        "archive_sha256": "e03e416430a49c6ef3ce9497ac8b20cec4f9aa1bd2f492368618d20e85a8aa19",
+        "readbacks": [
+          {
+            "bytes": 2431703040,
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "/dev/shm/P818_Q3_HONEST_PUBLIC_TASK_s2/archives/L012.tar",
+            "status": "PASS"
+          },
+          {
+            "bytes": 2431703040,
+            "host": "nas",
+            "kind": "archive-sha256",
+            "path": "/volume1/operator/archives/P818_Q3_HONEST/PUBLIC_TASK/L012.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "L012_REPLICAS.json",
+        "source_host": "nas",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 96394,
+        "local_mirror": "$SOURCE_ROOT/L013_ALREADY_EXACT_NOOP_SEAL.json",
+        "sha256": "cf08494ae98d0355d090d1a2fa1c9352733a0b9e91aadafff43f2c009002201c"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 0,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "39224e2723d9bedb5df972eb149c0ab7e6f1ec3819b4c8513aaa19562c3a109d",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "ALREADY_EXACT_NOOP",
+      "layer": 13,
+      "sse_gate": {
+        "applicable": false,
+        "status": "AUTHORIZED_NOOP_PARITY"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2429163520,
+        "archive_path": "/volume1/operator/archives/QTIP_ANCHOR_WIRE_PUBLIC_TASK/layers/L013.tar",
+        "archive_sha256": "3100ace65543e65078983063e71d3705948d12b23e54f164a8b840117002f14e",
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "/dev/shm/P818_Q3_HONEST_PUBLIC_TASK_s2/archives/L013.tar",
+            "status": "PASS"
+          },
+          {
+            "host": "nas",
+            "kind": "archive-sha256",
+            "path": "/volume1/operator/archives/QTIP_ANCHOR_WIRE_PUBLIC_TASK/layers/L013.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "L013_ALREADY_EXACT_NOOP_SEAL.json",
+        "source_host": "nas",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 7826,
+        "local_mirror": "$SOURCE_ROOT/L014_TERMINAL_SEAL.json",
+        "sha256": "1a0d749fc8911e3a83732daef4258635623f276fd283062b8751928e1e054b48"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 0,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "c3028436efaf762ccfeaee0a35a3e42c5ccf68ab8cc1f8298b8f996be2263f47",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 14,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2431897600,
+        "archive_path": "/tmp/P818_Q3_HONEST/PUBLIC_TASK/L014.tar",
+        "archive_sha256": "0e42e602e0e7a3458a76675e9a617632b0ca5e38a3427d9e118c79f34e1bd9a4",
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "/dev/shm/P818_Q3_HONEST_PUBLIC_TASK_s2/archives/L014.tar",
+            "status": "PASS"
+          },
+          {
+            "host": "nas",
+            "kind": "archive-sha256",
+            "path": "/tmp/P818_Q3_HONEST/PUBLIC_TASK/L014.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "L014_TERMINAL_SEAL.json",
+        "source_host": "nas",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 318328,
+        "local_mirror": "$SOURCE_ROOT/L015_NOOP_MANIFEST.json",
+        "sha256": "1ac28d9f57e9b48dca6830ea8784aab55d4671fe31980664f40c758be0df4148"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 0,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "9eca46de1ad50fd566cc10a94dbd3b134723c094e83917231bedee1cd165c74a",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "ALREADY_EXACT_ALL64",
+      "layer": 15,
+      "sse_gate": {
+        "applicable": false,
+        "status": "AUTHORIZED_NOOP_PARITY"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2429163520,
+        "archive_path": "$SOURCE_ROOT/L015.tar",
+        "archive_sha256": "7bf2be1952c788c75c6e8a49785064f577f7877a83af928b9f3bafc42f20a33b",
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L015.tar",
+            "status": "PASS"
+          },
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L015.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "P837_TERMINAL_SEAL.json",
+        "source_host": "compute-node",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 318301,
+        "local_mirror": "$SOURCE_ROOT/L016_NOOP_MANIFEST.json",
+        "sha256": "306959c9c1ac4e19eea764503d6d0ad489f3348014e7f878056014405761d5e3"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 0,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "54bec74763c4528dc0216ec3803dfb32a89442be6606b45ab48ca1972a125577",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "ALREADY_EXACT_ALL64",
+      "layer": 16,
+      "sse_gate": {
+        "applicable": false,
+        "status": "AUTHORIZED_NOOP_PARITY"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2429163520,
+        "archive_path": "$SOURCE_ROOT/L016.tar",
+        "archive_sha256": "e57023bebaae2a985c775ba2526447ceb55d5beadcd6af26ceca36e80a39e1e3",
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L016.tar",
+            "status": "PASS"
+          },
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L016.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "P837_TERMINAL_SEAL.json",
+        "source_host": "compute-node",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 402718,
+        "local_mirror": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+        "sha256": "8c29abce29957f5acbe54e07f28f3549671c1e063d75e9f4c58af9ea114eddfd"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "13ab8de1d0e8dac55ac8a5ce83a50c109a32199c7f002ef6824c56df4205c78a",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 17,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "full-unit-readback",
+            "path": "$SOURCE_ROOT/L017",
+            "status": "PASS",
+            "units": 512
+          },
+          {
+            "host": "compute-node",
+            "kind": "full-unit-readback",
+            "path": "$SOURCE_ROOT/L017",
+            "status": "PASS",
+            "units": 512
+          }
+        ],
+        "receipt": "P838_L017_TERMINAL_DISPOSITION.json",
+        "source_host": "compute-node",
+        "source_root": "$SOURCE_ROOT/L017",
+        "transport": "remote_dir"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 17196,
+        "local_mirror": "$SOURCE_ROOT/P838_L018_TERMINAL_DISPOSITION.json",
+        "sha256": "b5eb4a138c5de06d2f616573c7a7d3cb940a53e725e395bf62f6134fa54477e2"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 0,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "5d40b3eaac6c13f9f96e87240e5f8eb0bdfb625b10bf880c0deb344d62cafb45",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "ALREADY_HONEST_EXACT_ALL64",
+      "layer": 18,
+      "sse_gate": {
+        "applicable": false,
+        "status": "AUTHORIZED_NOOP_PARITY"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2429347840,
+        "archive_path": "/volume1/operator/archives/QTIP_ANCHOR_WIRE_PUBLIC_TASK/layers/L018.tar",
+        "archive_sha256": "cb5a00c90af11f796c4bfed9290a1135861108772abafe3298fcb72202746c0f",
+        "readbacks": [
+          {
+            "host": "nas",
+            "kind": "archive-sha256",
+            "path": "/volume1/operator/archives/QTIP_ANCHOR_WIRE_PUBLIC_TASK/layers/L018.tar",
+            "status": "PASS"
+          },
+          {
+            "host": "compute-node",
+            "kind": "full-unit-readback",
+            "path": "$SOURCE_ROOT/L018",
+            "status": "PASS",
+            "units": 512
+          }
+        ],
+        "receipt": "P838_L018_TERMINAL_DISPOSITION.json",
+        "source_host": "nas",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 414959,
+        "local_mirror": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+        "sha256": "edc8cb60d8a8166cb32a8029af79d0682022a7eed437b11fda12bb584c3d4973"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "97a3c99e1834eaea487b3c89f1cdf911fff0bb6c2077c50c8e78e501517bb3c0",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 19,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "readbacks": [
+          {
+            "host": "nas",
+            "kind": "full-unit-readback",
+            "path": "/volume1/operator/archives/P818_Q3_HONEST/PUBLIC_TASK/L019",
+            "status": "PASS",
+            "units": 512
+          },
+          {
+            "host": "compute-node",
+            "kind": "source-tree-readback",
+            "path": "$SOURCE_ROOT/L019",
+            "status": "PASS",
+            "units": 512
+          }
+        ],
+        "receipt": "L019_REPLICAS.json",
+        "source_host": "nas",
+        "source_root": "/volume1/operator/archives/P818_Q3_HONEST/PUBLIC_TASK/L019",
+        "transport": "remote_dir"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 414966,
+        "local_mirror": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+        "sha256": "02a18ce562e40519b7167db28744f9856ddbe0808c37b049bfb409a8881b4d25"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "bbb5a1c90f514b1ecee659a34d5ffb72ed8c0e7172720eef47d1e763a2d72319",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 20,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "readbacks": [
+          {
+            "host": "nas",
+            "kind": "full-unit-readback",
+            "path": "/volume1/operator/archives/P818_Q3_HONEST/PUBLIC_TASK/L020",
+            "status": "PASS",
+            "units": 512
+          },
+          {
+            "host": "compute-node",
+            "kind": "full-unit-readback",
+            "path": "$SOURCE_ROOT/L020",
+            "status": "PASS",
+            "units": 512
+          }
+        ],
+        "receipt": "L020_REPLICAS.json",
+        "source_host": "nas",
+        "source_root": "/volume1/operator/archives/P818_Q3_HONEST/PUBLIC_TASK/L020",
+        "transport": "remote_dir"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 414958,
+        "local_mirror": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+        "sha256": "f53b115a39668569529b447888a31bed2f5b3bce87978c2c17f0db9202e02edb"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "e793a1850cfbeffadcea29b00eab2871628f64646d58fa2731052190df5e0e50",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 21,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "readbacks": [
+          {
+            "host": "nas",
+            "kind": "full-unit-readback",
+            "path": "/volume1/operator/archives/P818_Q3_HONEST/PUBLIC_TASK/L021",
+            "status": "PASS",
+            "units": 512
+          },
+          {
+            "host": "compute-node",
+            "kind": "source-tree-readback",
+            "path": "$SOURCE_ROOT/L021",
+            "status": "PASS",
+            "units": 512
+          }
+        ],
+        "receipt": "L021_REPLICAS.json",
+        "source_host": "nas",
+        "source_root": "/volume1/operator/archives/P818_Q3_HONEST/PUBLIC_TASK/L021",
+        "transport": "remote_dir"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 402434,
+        "local_mirror": "$SOURCE_ROOT/MANIFEST_L022.json",
+        "sha256": "e3d1c146ec19032f6dd0d9fd1ed2659935d27fda0a30cc4f8d6e2a097ed03e61"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "a1b6a6bf8f18173612d16119820131800cabf9964ab76873a1cf840814135c97",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 22,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2430566400,
+        "archive_path": "$SOURCE_ROOT/L022.tar",
+        "archive_sha256": "94412dfc61272c27a1a71a16050cd2a918154ee6f16c65b20e42d998b266976f",
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "full-unit-readback",
+            "path": "$SOURCE_ROOT/L022",
+            "status": "PASS",
+            "units": 512
+          },
+          {
+            "bytes": 2430566400,
+            "host": "compute-node",
+            "kind": "deterministic-archive-readback",
+            "path": "$SOURCE_ROOT/L022.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "MANIFEST_L022.json",
+        "source_host": "compute-node",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 2610,
+        "local_mirror": "$SOURCE_ROOT/L023_TERMINAL.json",
+        "sha256": "24b67f689183a6428fb1562272d68bdfc43cb51852722ffebafb1587b866d838"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 0,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "8a263af09599a8d4e2157df09fb4dd3e0ca5c7b213ebc65514a84e01bfd18d61",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "ALREADY_HONEST",
+      "layer": 23,
+      "sse_gate": {
+        "applicable": false,
+        "status": "AUTHORIZED_NOOP_PARITY"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2429163520,
+        "archive_path": "/volume1/operator/archives/QTIP_ANCHOR_WIRE_PUBLIC_TASK/layers/L023.tar",
+        "archive_sha256": "f660aff3e850002039ed1d70d39eb31a3e2b3462da17a1b7eb272e1b96541d66",
+        "readbacks": [
+          {
+            "host": "nas",
+            "kind": "archive-sha256",
+            "path": "/volume1/operator/archives/QTIP_ANCHOR_WIRE_PUBLIC_TASK/layers/L023.tar",
+            "status": "PASS"
+          },
+          {
+            "host": "nas",
+            "kind": "archive-sha256",
+            "path": "/volume1/operator/archives/P818_Q3_HONEST/PUBLIC_TASK/already_honest/L023.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "L023_TERMINAL.json",
+        "source_host": "nas",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 402419,
+        "local_mirror": "$SOURCE_ROOT/MANIFEST_L024.json",
+        "sha256": "bd3c3210ca56252887221e3e0df906254621de7584dac6b28ba797292928cd19"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "86d4109e7605393d59c5b06d10a1d66cecf5efd131ad1246dbae3a7ce6d9ec61",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 24,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2430218240,
+        "archive_path": "$SOURCE_ROOT/L024.tar",
+        "archive_sha256": "fc1b19d5123567477ca1fc6853e549e8bb6874d4d1dc10e59170c74a1c1c4d83",
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "full-unit-readback",
+            "path": "$SOURCE_ROOT/L024",
+            "status": "PASS",
+            "units": 512
+          },
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L024.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "P844_TERMINAL.json",
+        "source_host": "compute-node",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 414928,
+        "local_mirror": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+        "sha256": "8a454866df1dd635d2e78692d4d61160d51eb2841bbdffa8464deea3c3310b69"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "5c7757c7085121aebbb0c7e0335ee0d361d49ec512e7c0ab13205aa9e617ffc1",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 25,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2430115840,
+        "archive_path": "$SOURCE_ROOT/L025.tar",
+        "archive_sha256": "2736d9180d42e1df034993f4dde69bfdebf14818dd3134a7424d072756132312",
+        "readbacks": [
+          {
+            "host": "nas",
+            "kind": "full-unit-readback",
+            "path": "/volume1/operator/archives/P818_Q3_HONEST/PUBLIC_TASK/primary/L025",
+            "status": "PASS",
+            "units": 512
+          },
+          {
+            "bytes": 2430115840,
+            "host": "compute-node-work",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L025.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "L025_TERMINAL.json",
+        "source_host": "compute-node-work",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 410379,
+        "local_mirror": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+        "sha256": "8541533ae3a899f38d7a2f9b44ae3523cd7fa28cc5c2789741340b2d048ffe5f"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "a271be3933df940e7ea701dd5d2c8ae6e15c6e4cff0dd8a9a3ac7b206c4d70ea",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 26,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2430115840,
+        "archive_path": "$SOURCE_ROOT/L026.tar",
+        "archive_sha256": "57672cf4a3d30170fffc0d32e407d2be4c64c0601a8193978048d2bba0a38403",
+        "readbacks": [
+          {
+            "host": "compute-node-work",
+            "kind": "full-unit-readback",
+            "path": "$SOURCE_ROOT/L026",
+            "status": "PASS",
+            "units": 512
+          },
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L026.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "P844_TERMINAL.json",
+        "source_host": "compute-node",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 414949,
+        "local_mirror": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+        "sha256": "53e98c18d9dec9c685b6c106ac2e8917f998beda6c5bad3a6790426b141fa163"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "da262aff1bb099f3d9bce53bd52f0865d9c35bebdcf75fa6bbd3f99974e6bcba",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 27,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2430115840,
+        "archive_path": "$SOURCE_ROOT/L027.tar",
+        "archive_sha256": "b83125157a1a1e7d9369cb0b0267e094628553c525b4d90fe170b102f8e6cb81",
+        "readbacks": [
+          {
+            "host": "nas",
+            "kind": "full-unit-readback",
+            "path": "/volume1/operator/archives/P818_Q3_HONEST/PUBLIC_TASK/primary/L027",
+            "status": "PASS",
+            "units": 512
+          },
+          {
+            "bytes": 2430115840,
+            "host": "compute-node-work",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L027.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "L027_TERMINAL.json",
+        "source_host": "compute-node-work",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 403742,
+        "local_mirror": "$SOURCE_ROOT/MANIFEST_L028.json",
+        "sha256": "fa1d3cf018c8bdc834e8fd453a65155ab65bc4bfa06a10fcd0d35161aa274d73"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "246868321a5e86478cd15a4815526deda9bb4eb0ce43cc119a890c22360ca84d",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 28,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2430105600,
+        "archive_path": "$SOURCE_ROOT/L028.tar",
+        "archive_sha256": "e57649944978a93b863159870a482f65d15b6cdf9624888915349c29451a1892",
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L028.tar",
+            "status": "PASS"
+          },
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L028.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "P848_TERMINAL.json",
+        "source_host": "compute-node",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 414935,
+        "local_mirror": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+        "sha256": "e750c569d987ff36f091f173bf586b0f7ce1a0c2a3f672ea8ceae5baf4e2c296"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "6f4b8af065ec1a11ae3f95d6cc747e2d6bdf8993c4ef71ead9b52eb521bb837f",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 29,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2430115840,
+        "archive_path": "$SOURCE_ROOT/L029.tar",
+        "archive_sha256": "591b9ce8bbfd303efa9cf231eb88b7e2ca51c14bbd6ad19c3d9ad370871a854a",
+        "readbacks": [
+          {
+            "host": "nas",
+            "kind": "full-unit-readback",
+            "path": "/volume1/operator/archives/P818_Q3_HONEST/PUBLIC_TASK/primary/L029",
+            "status": "PASS",
+            "units": 512
+          },
+          {
+            "bytes": 2430115840,
+            "host": "compute-node-work",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L029.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "L029_TERMINAL.json",
+        "source_host": "compute-node-work",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 7971,
+        "local_mirror": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+        "sha256": "96ce95034e02c6052ad012dde415e1dc0c6c147ef70fb390d761a9ad67b13680"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 0,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "fc1ac14fd7f2d5ea2aad6986e248c57f0f0b1c20d6f9aad9877777339a2de30b",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 30,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2429839360,
+        "archive_path": "$SOURCE_ROOT/L030.tar",
+        "archive_sha256": "2a4903f99e5da115254c88da1cd26186e9c0b8f561054de8fe77759038754487",
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L030.tar",
+            "status": "PASS"
+          },
+          {
+            "host": "compute-node-work",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L030.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "P846_TERMINAL_SEAL.json",
+        "source_host": "compute-node",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 414967,
+        "local_mirror": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+        "sha256": "07c94b6eb2930fdd3da02c8cc224dc72c4d40d1635287361d213b8ba05b2cc59"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "143c2a93bd2dac8f44dd43b4283cf86bc4970abfc1d5bb2db7eaaa03dcb466df",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 31,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2430115840,
+        "archive_path": "$SOURCE_ROOT/L031.tar",
+        "archive_sha256": "2b51525ed2afb0424d9edd7c4f19ac4de091e093c0968d7f77dc5b462aeddfc5",
+        "readbacks": [
+          {
+            "host": "nas",
+            "kind": "full-unit-readback",
+            "path": "/volume1/operator/archives/P818_Q3_HONEST/PUBLIC_TASK/primary/L031",
+            "status": "PASS",
+            "units": 512
+          },
+          {
+            "bytes": 2430115840,
+            "host": "compute-node-work",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L031.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "L031_TERMINAL.json",
+        "source_host": "compute-node-work",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 1323,
+        "local_mirror": "$SOURCE_ROOT/L032_SEAL.json",
+        "sha256": "00529a73bc01b8e3ccbe6a2ad7a7aa9a83a1d63af6ccfaa505091372a9f13381"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 0,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "2ab8401bb5e43338b4fa3e5534f2e4ec6536d503cab06841c9d3b0bc26ce3ada",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 32,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2431416320,
+        "archive_path": "$SOURCE_ROOT/L032.tar",
+        "archive_sha256": "65afd1b72479fb02709e5507ff08af0811b9c958d0890c08ed67f5a994f1b88b",
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "/dev/shm/P818_S7_PUBLIC_TASK/archives/L032.tar",
+            "status": "PASS"
+          },
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L032.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "L032_SEAL.json",
+        "source_host": "compute-node",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 532669,
+        "local_mirror": "$SOURCE_ROOT/L033.MANIFEST.json",
+        "sha256": "89d3ca9bf818f79f8822caa861caddbe71a0355116aab1d692d265a96b01ea72"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "453fb1ba06d25f9a2dd4d32dca79c50d208deabfcf15349094a359e7981480e4",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 33,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2430627840,
+        "archive_path": "/volume1/operator/archive/glm52-humming-w3/P830_PUBLIC_TASK/L033.tar",
+        "archive_sha256": "1f0d21953b43290b32b75adfb2a891c4e2ac0b871e2bc4bdc41c8f9d90e924b4",
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "producer-archive-readback",
+            "path": "$SOURCE_ROOT/L033.tar",
+            "status": "PASS"
+          },
+          {
+            "host": "nas",
+            "kind": "independent-size-sha-md5-readback",
+            "path": "/volume1/operator/archive/glm52-humming-w3/P830_PUBLIC_TASK/L033.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "P830_TERMINAL_NAS_RELEASE.json",
+        "source_host": "nas",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 400284,
+        "local_mirror": "$SOURCE_ROOT/L034_FULL512_MANIFEST.json",
+        "sha256": "33f3a3465791ef56f2cc9262a514b79d88ea71852df86f60e8a81e480e187495"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "e86a254806195b3251922c23e4334be8d6bde737cfc925762b995514b9a6e5f2",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 34,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2430095360,
+        "archive_path": "$SOURCE_ROOT/L034.P847.FULL512.tar",
+        "archive_sha256": "7d7261a72c1b2c5fa2c7bcd5dde41b7e237e32d6912f8812368ff7cafbbfe696",
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L034.P847.FULL512.tar",
+            "status": "PASS"
+          },
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L034.P847.FULL512.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "P847_TERMINAL_SEAL.json",
+        "source_host": "compute-node",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 532705,
+        "local_mirror": "$SOURCE_ROOT/L035.MANIFEST.json",
+        "sha256": "e4b3124dd99a0309076c31772a5e0d466dd787832c9fb0ee35407a9cda41bc99"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "506efc106c1d6670da8e215ef7e49819e4de417638cbbc9cce29e30f77b834e1",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 35,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2430627840,
+        "archive_path": "/volume1/operator/archive/glm52-humming-w3/P830_PUBLIC_TASK/L035.tar",
+        "archive_sha256": "91c256a0778b1b50898ce6ce81712971c22add531fa83a1ab73659075a73371e",
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "producer-archive-readback",
+            "path": "$SOURCE_ROOT/L035.tar",
+            "status": "PASS"
+          },
+          {
+            "host": "nas",
+            "kind": "independent-size-sha-md5-readback",
+            "path": "/volume1/operator/archive/glm52-humming-w3/P830_PUBLIC_TASK/L035.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "P830_TERMINAL_NAS_RELEASE.json",
+        "source_host": "nas",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 408249,
+        "local_mirror": "$SOURCE_ROOT/L036_FULL512_MANIFEST.json",
+        "sha256": "5de453e72fdf8fa6a0e7715a58ea218a780df877edb76ad68c8053e25f0cd4ef"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "1101364f82cb115e549d2a08aa511c1355a3dea9c9383b519e70a1da090357c0",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 36,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2430105600,
+        "archive_path": "$SOURCE_ROOT/L036.P842.FULL512.tar",
+        "archive_sha256": "3460f7c1531258664a9d7531561a87f6512172e35beaca9b2ba99a96f264bf8a",
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "/dev/shm/P842_S6_P818_L036_PUBLIC_TASK_s6/archives/L036.P842.FULL512.tar",
+            "status": "PASS"
+          },
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L036.P842.FULL512.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "P842_TERMINAL_SEAL.json",
+        "source_host": "compute-node",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 3601,
+        "local_mirror": "$SOURCE_ROOT/L037_ACCEPTANCE_MISMATCH.json",
+        "sha256": "033f56ef1fe15bcc65b7cf0c2098d2ad0d25a950d04f8d2e34ff6ce6be1c7775"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 0,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "60b72d529f0064cf0d139ef0725e2b5acbb27a0a7dda824afeaa8c1e80a07a79",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "ALREADY_EXACT_NOOP",
+      "layer": 37,
+      "sse_gate": {
+        "applicable": false,
+        "status": "AUTHORIZED_NOOP_PARITY"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2429214720,
+        "archive_path": "/volume1/operator/archives/QTIP_ANCHOR_WIRE_PUBLIC_TASK/layers/L037.tar",
+        "archive_sha256": "f9ca45e36b96289f1b496e47f4047548adcd11690b2672aecb704435f3353725",
+        "readbacks": [
+          {
+            "host": "nas",
+            "kind": "archive-sha256",
+            "path": "/volume1/operator/archives/QTIP_ANCHOR_WIRE_PUBLIC_TASK/layers/L037.tar",
+            "status": "PASS"
+          },
+          {
+            "host": "compute-node",
+            "kind": "source-tree-parity-readback",
+            "path": "$SOURCE_ROOT/L037",
+            "status": "PASS",
+            "units": 512
+          }
+        ],
+        "receipt": "L037_ACCEPTANCE_MISMATCH.json",
+        "source_host": "nas",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 1219,
+        "local_mirror": "$SOURCE_ROOT/L038_SEAL.json",
+        "sha256": "327603468850745bedc10f93f959e83de718a475b0926a00451a2853059da96c"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 0,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "0a82a9a28297a0f4f4932dd508baf746032da8ad761e1c9649ca00adc9fefc06",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 38,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2431600640,
+        "archive_path": "$SOURCE_ROOT/L038.tar",
+        "archive_sha256": "da38487ce06b3719159b466d3c9ff19f0cc3d69751b738428249a4743b989254",
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "/dev/shm/P818_S7_PUBLIC_TASK/archives/L038.tar",
+            "status": "PASS"
+          },
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L038.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "L038_SEAL.json",
+        "source_host": "compute-node",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "sha256": "f34dfe15e7fecccfc1886814a1f747fc28ba6be87aec66a1abf87de8201d6e7c",
+        "shards": [
+          {
+            "bytes": 452685,
+            "local_mirror": "$SOURCE_ROOT/P816A_SHARD_MANIFEST.json",
+            "name": "A",
+            "sha256": "8c37200f80427294d8443df9211d737e8030bac60bda48574004c28b05030006"
+          },
+          {
+            "bytes": 152628,
+            "local_mirror": "$SOURCE_ROOT/SHARD_MANIFEST.json",
+            "name": "B",
+            "sha256": "85b18ec6a59b110059e9b15090b1be6ee906382c4fb4f59ed0c59f5e369271c5"
+          },
+          {
+            "bytes": 235140,
+            "local_mirror": "$SOURCE_ROOT/P816C_MANIFEST.json",
+            "name": "C",
+            "sha256": "38ebbea543a1416fe62205cad6ec93c01bbb7475edd527d6d7779e1e8084e880"
+          }
+        ]
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "59112912bddf607668e879cbbe3e49b29ab6f14364995d3d9ac8101fd6b32b9a",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "P816_EXACT_SHARD_UNION",
+      "layer": 39,
+      "sse_gate": {
+        "applicable": false,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "parts": [
+          {
+            "archive_bytes": 805754880,
+            "archive_path": "$SOURCE_ROOT/P816A_L039_E000_E084_EXACT_SOLVER_s1.tar",
+            "archive_sha256": "9b8a7d1044ea4873e3cbe1139850286ee285a0341a6c14e3e9322081a399e300",
+            "expert_range": [
+              0,
+              84
+            ],
+            "source_host": "compute-node"
+          },
+          {
+            "archive_bytes": 807505920,
+            "archive_path": "/volume1/operator/archives/P816/P816B_PUBLIC_TASK_s2/P816B_L039_E085-E169_EXACT_FULLSTATE.tar",
+            "archive_sha256": "eef1c24f97d652cacf5cd8a0c13fb3e3c06d64635a2949547263e4cc9a7be798",
+            "expert_range": [
+              85,
+              169
+            ],
+            "source_host": "nas"
+          },
+          {
+            "archive_bytes": 813892481,
+            "archive_path": "$SOURCE_ROOT/P816C_QTIP3_L039_E170_255_FULLSTATE_172.tar.gz",
+            "archive_sha256": "6b572957914101b1059a9e4c4f62be6bb437c25e0d9b9d6b8bcfdbf090ce8922",
+            "expert_range": [
+              170,
+              255
+            ],
+            "source_host": "compute-node"
+          }
+        ],
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "shard-readback",
+            "path": "P816A host archive + independent reread",
+            "status": "PASS",
+            "units": 170
+          },
+          {
+            "host": "compute-node",
+            "kind": "shard-readback",
+            "path": "P816B host archive + NAS second copy",
+            "status": "PASS",
+            "units": 170
+          },
+          {
+            "host": "compute-node/compute-node",
+            "kind": "shard-readback",
+            "path": "P816C two surviving byte-identical copies",
+            "status": "PASS",
+            "units": 172
+          }
+        ],
+        "receipt": "P816_A_B_C_UNION",
+        "transport": "remote_tar_set"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 455303,
+        "local_mirror": "$SOURCE_ROOT/L040_FULL512_MANIFEST.json",
+        "sha256": "4316b61112cdc9faba067e408da564f8d8b9217cd448b7b2472e16ad924d8d1e"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "b0d001548f1f5494eb4ef4da81473524a46cdfcf044915631db635893d847db0",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 40,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2430146560,
+        "archive_path": "$SOURCE_ROOT/L040_P847_FULL512.tar",
+        "archive_sha256": "c2cdc81c6663f89e94fa6f2860b10928d759408361cce1d8a1ed3301f53899a9",
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "/dev/shm/P847_S8_P818_L040_PUBLIC_TASK_s8/artifacts/L040_P847_FULL512.tar",
+            "status": "PASS"
+          },
+          {
+            "host": "compute-node",
+            "kind": "archive-sha256",
+            "path": "$SOURCE_ROOT/L040_P847_FULL512.tar",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "P847_TERMINAL_RELEASE.json",
+        "source_host": "compute-node",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 532686,
+        "local_mirror": "$SOURCE_ROOT/L041.MANIFEST.json",
+        "sha256": "b1377159d4c4c81dcb085a35077a325a1424ef805cf7cc87c4b6da7a6c264c7f"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "25de786aee8d75c4998689219949b32d7c4d3a68ad59e83b7173700f4b3d2081",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 41,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2430627840,
+        "archive_path": "/volume1/operator/archives/P818_Q3_HONEST_PUBLIC_TASK_s8/layers/L041.tar",
+        "archive_sha256": "ffa2c819affbb09b08eff8ae2173df4947ca764265773b129d8e21e7ffc42a7b",
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "full-unit-readback",
+            "path": "$SOURCE_ROOT/L041",
+            "status": "PASS",
+            "units": 512
+          },
+          {
+            "bytes": 2430627840,
+            "host": "nas",
+            "kind": "independent-archive-readback",
+            "path": "/volume1/operator/archives/P818_Q3_HONEST_PUBLIC_TASK_s8/layers/L041.tar",
+            "sha256": "ffa2c819affbb09b08eff8ae2173df4947ca764265773b129d8e21e7ffc42a7b",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "NAS_COPY_L041.json",
+        "source_host": "nas",
+        "transport": "remote_tar"
+      }
+    },
+    {
+      "authority": {
+        "bytes": 532720,
+        "local_mirror": "$SOURCE_ROOT/L042.MANIFEST.json",
+        "sha256": "1ba0ea6a27356e8cc97caa74022726a6e30b1d0a46c8b71cc6d8ea451711a1e8"
+      },
+      "closure": {
+        "accepted_fraction": 1.0,
+        "accepted_identities": 512,
+        "artifact_sha256_rows_present": 512,
+        "duplicates": 0,
+        "expected_identities": 512,
+        "gaps": 0,
+        "identity_set_sha256": "758e05b0c0609b351c43f46eaaae78fdf42c363cd5f1ea2382d5217d005cef84",
+        "minimum_required_accepted_fraction": 0.95,
+        "pack_fraction": 1.0,
+        "quarantine": 0,
+        "runtime_reread_exact": true,
+        "unique_identities": 512
+      },
+      "disposition": "FRESH_HONEST_BUILD",
+      "layer": 42,
+      "sse_gate": {
+        "applicable": true,
+        "status": "PASS"
+      },
+      "status": "PASS",
+      "transport": {
+        "archive_bytes": 2430627840,
+        "archive_path": "/volume1/operator/archives/P818_Q3_HONEST_PUBLIC_TASK_s8/layers/L042.tar",
+        "archive_sha256": "e5b4652fd10e0cf0971659ce6fd03560b90a09e825433c49b5c7aacea1f57eb6",
+        "readbacks": [
+          {
+            "host": "compute-node",
+            "kind": "full-unit-readback",
+            "path": "$SOURCE_ROOT/L042",
+            "status": "PASS",
+            "units": 512
+          },
+          {
+            "bytes": 2430627840,
+            "host": "nas",
+            "kind": "independent-archive-readback",
+            "path": "/volume1/operator/archives/P818_Q3_HONEST_PUBLIC_TASK_s8/layers/L042.tar",
+            "sha256": "e5b4652fd10e0cf0971659ce6fd03560b90a09e825433c49b5c7aacea1f57eb6",
+            "status": "PASS"
+          }
+        ],
+        "receipt": "NAS_COPY_L042.json",
+        "source_host": "nas",
+        "transport": "remote_tar"
+      }
+    }
+  ],
+  "mode": "administrative-deadlock-bypass-no-payload",
+  "payload_policy": "No model/tensor payload copied to Mac; only JSON authorities and SHA/byte transport references mirrored.",
+  "row_authorities": [
+    {
+      "layer": 3,
+      "path": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+      "rows": 512,
+      "sha256": "c723ddef5bdbbf0bc1855dd1ea5eafaccc35c127252ae28f213af92cc45ea4df"
+    },
+    {
+      "layer": 4,
+      "path": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+      "rows": 512,
+      "sha256": "6f9c0228bef07a2d9b28b7cdcc4106781908153625dcccbb3a002e750a8a464c"
+    },
+    {
+      "layer": 5,
+      "path": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+      "rows": 512,
+      "sha256": "587be31a66986bc58c2d258cdf9ed466ce334649d02fe997a74d624fc05e82b2"
+    },
+    {
+      "layer": 6,
+      "path": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+      "rows": 512,
+      "sha256": "d469f73a820f3b347e778fe4d09209668ad420b9fbd600b04e3e2db8556f684c"
+    },
+    {
+      "layer": 7,
+      "path": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+      "rows": 512,
+      "sha256": "d2cc4543f21b69007e258811da745cbddb6cffe34ae99adcdfdc822b0d9140e0"
+    },
+    {
+      "layer": 12,
+      "path": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+      "rows": 512,
+      "sha256": "f1133760242df03ccd11571230d140e7dd3f3ea7ea5e594fa73fbf188db61296"
+    },
+    {
+      "layer": 17,
+      "path": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+      "rows": 512,
+      "sha256": "8c29abce29957f5acbe54e07f28f3549671c1e063d75e9f4c58af9ea114eddfd"
+    },
+    {
+      "layer": 19,
+      "path": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+      "rows": 512,
+      "sha256": "edc8cb60d8a8166cb32a8029af79d0682022a7eed437b11fda12bb584c3d4973"
+    },
+    {
+      "layer": 20,
+      "path": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+      "rows": 512,
+      "sha256": "02a18ce562e40519b7167db28744f9856ddbe0808c37b049bfb409a8881b4d25"
+    },
+    {
+      "layer": 21,
+      "path": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+      "rows": 512,
+      "sha256": "f53b115a39668569529b447888a31bed2f5b3bce87978c2c17f0db9202e02edb"
+    },
+    {
+      "layer": 22,
+      "path": "$SOURCE_ROOT/MANIFEST_L022.json",
+      "rows": 512,
+      "sha256": "e3d1c146ec19032f6dd0d9fd1ed2659935d27fda0a30cc4f8d6e2a097ed03e61"
+    },
+    {
+      "layer": 24,
+      "path": "$SOURCE_ROOT/MANIFEST_L024.json",
+      "rows": 512,
+      "sha256": "bd3c3210ca56252887221e3e0df906254621de7584dac6b28ba797292928cd19"
+    },
+    {
+      "layer": 25,
+      "path": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+      "rows": 512,
+      "sha256": "8a454866df1dd635d2e78692d4d61160d51eb2841bbdffa8464deea3c3310b69"
+    },
+    {
+      "layer": 26,
+      "path": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+      "rows": 512,
+      "sha256": "8541533ae3a899f38d7a2f9b44ae3523cd7fa28cc5c2789741340b2d048ffe5f"
+    },
+    {
+      "layer": 27,
+      "path": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+      "rows": 512,
+      "sha256": "53e98c18d9dec9c685b6c106ac2e8917f998beda6c5bad3a6790426b141fa163"
+    },
+    {
+      "layer": 28,
+      "path": "$SOURCE_ROOT/MANIFEST_L028.json",
+      "rows": 512,
+      "sha256": "fa1d3cf018c8bdc834e8fd453a65155ab65bc4bfa06a10fcd0d35161aa274d73"
+    },
+    {
+      "layer": 29,
+      "path": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+      "rows": 512,
+      "sha256": "e750c569d987ff36f091f173bf586b0f7ce1a0c2a3f672ea8ceae5baf4e2c296"
+    },
+    {
+      "layer": 31,
+      "path": "$SOURCE_ROOT/LAYER_MANIFEST.json",
+      "rows": 512,
+      "sha256": "07c94b6eb2930fdd3da02c8cc224dc72c4d40d1635287361d213b8ba05b2cc59"
+    },
+    {
+      "layer": 33,
+      "path": "$SOURCE_ROOT/L033.MANIFEST.json",
+      "rows": 512,
+      "sha256": "89d3ca9bf818f79f8822caa861caddbe71a0355116aab1d692d265a96b01ea72"
+    },
+    {
+      "layer": 34,
+      "path": "$SOURCE_ROOT/L034_FULL512_MANIFEST.json",
+      "rows": 512,
+      "sha256": "33f3a3465791ef56f2cc9262a514b79d88ea71852df86f60e8a81e480e187495"
+    },
+    {
+      "layer": 35,
+      "path": "$SOURCE_ROOT/L035.MANIFEST.json",
+      "rows": 512,
+      "sha256": "e4b3124dd99a0309076c31772a5e0d466dd787832c9fb0ee35407a9cda41bc99"
+    },
+    {
+      "layer": 36,
+      "path": "$SOURCE_ROOT/L036_FULL512_MANIFEST.json",
+      "rows": 512,
+      "sha256": "5de453e72fdf8fa6a0e7715a58ea218a780df877edb76ad68c8053e25f0cd4ef"
+    },
+    {
+      "layer": 40,
+      "path": "$SOURCE_ROOT/L040_FULL512_MANIFEST.json",
+      "rows": 512,
+      "sha256": "4316b61112cdc9faba067e408da564f8d8b9217cd448b7b2472e16ad924d8d1e"
+    },
+    {
+      "layer": 41,
+      "path": "$SOURCE_ROOT/L041.MANIFEST.json",
+      "rows": 512,
+      "sha256": "b1377159d4c4c81dcb085a35077a325a1424ef805cf7cc87c4b6da7a6c264c7f"
+    },
+    {
+      "layer": 42,
+      "path": "$SOURCE_ROOT/L042.MANIFEST.json",
+      "rows": 512,
+      "sha256": "1ba0ea6a27356e8cc97caa74022726a6e30b1d0a46c8b71cc6d8ea451711a1e8"
+    },
+    {
+      "layer": 39,
+      "path": "$SOURCE_ROOT/P816A_SHARD_MANIFEST.json",
+      "rows": 170,
+      "sha256": "8c37200f80427294d8443df9211d737e8030bac60bda48574004c28b05030006",
+      "shard": "A"
+    },
+    {
+      "layer": 39,
+      "path": "$SOURCE_ROOT/SHARD_MANIFEST.json",
+      "rows": 170,
+      "sha256": "85b18ec6a59b110059e9b15090b1be6ee906382c4fb4f59ed0c59f5e369271c5",
+      "shard": "B"
+    },
+    {
+      "layer": 39,
+      "path": "$SOURCE_ROOT/P816C_MANIFEST.json",
+      "rows": 172,
+      "sha256": "38ebbea543a1416fe62205cad6ec93c01bbb7475edd527d6d7779e1e8084e880",
+      "shard": "C"
+    }
+  ],
+  "schema": "p818-terminal-full-menu-manifest-v1",
+  "special_adjudications": {
+    "L037": {
+      "disposition": "ALREADY_EXACT_NOOP",
+      "note": "operator-authorized; do not re-audit",
+      "parity_receipt_sha256": "033f56ef1fe15bcc65b7cf0c2098d2ad0d25a950d04f8d2e34ff6ce6be1c7775"
+    },
+    "L039": {
+      "disposition": "P816_EXACT_SHARD_UNION",
+      "shard_counts": {
+        "A": 170,
+        "B": 170,
+        "C": 172
+      },
+      "total": 512
+    }
+  },
+  "status": "PASS",
+  "task_id": "PUBLIC_TASK"
+}

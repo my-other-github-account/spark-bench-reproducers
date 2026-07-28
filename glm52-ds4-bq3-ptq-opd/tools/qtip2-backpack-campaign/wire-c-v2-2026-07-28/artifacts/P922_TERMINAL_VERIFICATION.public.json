@@ -1,0 +1,78 @@
+{
+  "claim_sha256": "bd8f32df8f9bbda0349fb816167b542c494d934a74497deaf5784caaaf8ba3c5",
+  "code_and_inputs": {
+    "$MISSION_ROOT/P922_RESTORED_VQ_EVAL_PUBLIC_TASK_s4/code/p922_restored_vq_adapter.py": "5cacbbaf654b13d380f47c67497e7d7d44a17cfe9699d3cbeefd3739e0c8b015",
+    "$MISSION_ROOT/P922_RESTORED_VQ_EVAL_PUBLIC_TASK_s4/code/p922_run_restored_vq_balanced64.py": "b1c041229e06ad7791903e0621ee3bddaf6d5c196cd507e5970740223c31d8ac",
+    "$MISSION_ROOT/P922_RESTORED_VQ_EVAL_PUBLIC_TASK_s4/inputs/P922_PRICED_EXPECTATION.json": "471ef5b9c8d2d2054b0bc23551221334e06f0a755b1f702ce7a61912c5ed0a8f",
+    "$MISSION_ROOT/P922_RESTORED_VQ_EVAL_PUBLIC_TASK_s4/inputs/P922_RESTORED_VQ_SELECTION.json": "e776c293be491f080a630f7ba1d066ea0cc420c773be6758de2b4c92a3fb9818"
+  },
+  "coverage": {
+    "changed_cells": 3803,
+    "layers": 43,
+    "output_file_set_sha256": "77741fed3ebe1e0e79b843e06bddaba9b213d6e546b850eda9ef22f5905dd895",
+    "output_files": 64,
+    "unchanged_cells": 18213,
+    "windows": 64
+  },
+  "created_unix": 1785246361.5975916,
+  "host": "compute-node",
+  "measured_receipt": "$MISSION_ROOT/P922_RESTORED_VQ_EVAL_PUBLIC_TASK_s4/receipts/P922_RESTORED_VQ_BALANCED64_A2.json",
+  "measured_receipt_sha256": "c2604f6386e00c1ab38b238cd5940f85d1ab12ec20e18f43dfc9efcece29be8e",
+  "process_resource_proof": {
+    "gpu_apps": [
+      "2435409, $COMPUTE_ROOT/humming_env/bin/python3, 634",
+      "2436119, $COMPUTE_ROOT/humming_env/bin/python3, 611",
+      "2436120, $COMPUTE_ROOT/humming_env/bin/python3, 361"
+    ],
+    "gpu_utilization": "0, 0",
+    "p922_scorer_pids": [],
+    "paused_p919_processes": [
+      {
+        "cmdline_sha256": "cdc832d68a683b6c4762a7cc99f899febb1a2d99e88833d60708e8872004e1c4",
+        "pgid": 2435409,
+        "pid": 2435409,
+        "ppid": 1,
+        "sid": 2435409,
+        "starttime_ticks": 15599077,
+        "state": "T"
+      },
+      {
+        "cmdline_sha256": "4dc00a74900cd0e3535cca5ea6d6249d584c7b2f1d11e745839a511f168fde27",
+        "pgid": 2436119,
+        "pid": 2436119,
+        "ppid": 2435409,
+        "sid": 2436119,
+        "starttime_ticks": 15604774,
+        "state": "T"
+      },
+      {
+        "cmdline_sha256": "888cbc1158c01a9fcf6fdffe01ec5c60cee413d3b55b1b3762d4ad4cfc6b2ea4",
+        "pgid": 2436120,
+        "pid": 2436120,
+        "ppid": 2435409,
+        "sid": 2436120,
+        "starttime_ticks": 15604774,
+        "state": "T"
+      }
+    ]
+  },
+  "result": {
+    "decision": "MATERIAL_TRUE_C_BETTER_REGENERATE_REFIT_CODEBOOKS",
+    "expected_band_kld": [
+      5.569853837512092e-05,
+      0.00011139707675024184
+    ],
+    "measured_balanced64_delta_kld": 0.017313132313301317,
+    "preview_penalty_ci95_kld": [
+      0.02357004720217415,
+      0.03494921712172497
+    ],
+    "priced_same_cells_balanced64_delta_kld": -0.011946499848648241,
+    "status": "EXCEEDS_RESTORED_VQ_SUBSTITUTION_BAND",
+    "substitution_penalty_global_points": 2.925963216194956,
+    "substitution_penalty_kld": 0.02925963216194956
+  },
+  "schema": "p922-terminal-verification-v1",
+  "status": "PASS_INDEPENDENT_TERMINAL_VERIFY",
+  "task_id": "PUBLIC_TASK"
+}

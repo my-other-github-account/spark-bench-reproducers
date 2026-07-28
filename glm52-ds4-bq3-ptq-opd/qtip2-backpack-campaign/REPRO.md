@@ -1,137 +1,214 @@
-# REPRO — QTIP2 Backpack: full reproduction path
+# Reproducing the Wire-C Public Results
 
-Every step names the receipt that proves it ran. Hosts: GB10 DGX Sparks (121G host RAM,
-CUDA), QSFP fabric 13.75 GB/s measured (≥4 streams law; <5 GB/s = tool defect).
-Model: DeepSeek-V4-Flash (284.6B params; bpw = bytes×8÷284.6e9). Eval bank: 512 held-out
-windows (agentic 154 / chat 52 / code 76 / mult 76 / prose 78 / reasoning 76), 1024
-positions scored per window, KL(teacher||candidate), teacher = FP reference.
+Public operator identity: **banana_bae**
 
-## Stage 0 — Inputs (all pre-existing, SHA-pinned)
+The package is designed to fail closed without private infrastructure. It includes the frozen instrument/specs, public reduced receipts, reconstruction/pricing code, provenance hashes, and deterministic verifiers. It does **not** include model weights or the approximately terabyte-scale tensor payloads.
 
-- Canonical solver + input manifest: the P0-lineage SCIP solve that produced the shipped
-  GENESIS nomination (sanity gate: replaying it MUST re-emit assignment `c9fb72e2…`
-  byte-exact — P618/P620 receipts show max-abs error 0.0).
-- OG anchor damage grid (per-cell VQ prices, step0 basis) + step0 per-class means
-  (BQ3_STEP0_PER_CLASS.json; ceilings = step0 means to 5 digits).
-- QTIP2 rep-16 unit archives: 8,192 units @2.0117bpw, 16 layers, L16/K2/V2 trellis,
-  9-bit tlut, quantlut_sym decode, td 16×16; 1,617,954,816 B/layer logical.
-- QTIP2 price rows: 9 measured TRAIN-8 paired swap rows (see CHRONICLE §0; basis caveat:
-  artifact-relative swaps into the repaired wire — direction: overstates QTIP2 damage).
-- Sealed baselines: pre-repair full-512 per-window bank (PRE_REPAIR_FULL512.json,
-  global 0.128374); dosed U030 full-512 view (P623_BASELINE_FULL512_VIEW.json, 0.08395).
+## 1. Verify the package first
 
-### Public source tree and provenance
-
-The runnable campaign code is under [`../tools/qtip2-backpack-campaign/`](../tools/qtip2-backpack-campaign/), grouped as `solver/`, `builders/`, `rail/`,
-`dose/`, and `misc/`. Its `TOOLS_MANIFEST.md` maps every file to this REPRO stage,
-its exact live-fleet source SHA-256, the privacy-scrubbed shipped SHA-256, and the origin
-mission receipt; `TOOLS_MANIFEST.json` is the machine-readable companion.
-`../SOURCE_MANIFEST.sha256` pins every shipped tool.
-
-All private homes, hostnames, addresses, task identifiers, and identities were replaced with
-documented placeholders. Expand or replace `$HOME`, `compute-node-*`, and TEST-NET addresses
-before execution; do not remove exactness, memory, source-identity, or stopped-mission gates.
-The P672 package under `../tools/qtip2-backpack-campaign/dose/p672-package/` is the executed
-continuation of the P662 diagnosis and retains a passing apply/rollback and 23-file bundle
-verifier after public re-sealing. The solver input schema is published without the external
-weights, QTIP units, assignments, or teacher tensors; those remain byte-count/SHA pointers.
-
-From `glm52-ds4-bq3-ptq-opd/`, repeat the publication gates with:
+From the repository root:
 
 ```bash
-python3 tools/publication_audit.py
-shasum -a 256 -c SOURCE_MANIFEST.sha256
-python3 tools/qtip2-backpack-campaign/dose/p672-package/verify_bundle.py
+cd glm52-ds4-bq3-ptq-opd/tools/qtip2-backpack-campaign/wire-c-v2-2026-07-28
+python3 code/verify_package.py
+python3 code/recompute_results.py --check
+python3 code/p908_direct_pricing.py
+python3 code/verify_corrected_pricing.py
 ```
 
-## Stage 1 — The solve (minutes, CPU-only)
+Expected terminal lines:
 
-Configuration REQUIRED (each item's absence produced a false no-take today):
-1. Objective: uniform arithmetic mean of six per-class predicted KLDs. Weights all-1.0
-   (assert the weight vector in the receipt).
-2. QTIP2 as a PER-EXPERT-CELL menu column (8,192 individually-buyable cells), never
-   whole-layer.
-3. Protection via HARD constraint rows: code ≤ incumbent predicted; others ≤ step0
-   ceilings. NEVER penalty weights (a dual loop escalated code to 32,401× today = the
-   pure-code objective in disguise).
-4. Full menu in BOTH directions: every cell may demote OR promote across all tiers
-   (missing upgrade variables stranded 399.6MB as slack in the first pass).
-5. Exact envelope: 101,346,700,411 B cap; byte-closure check both directions.
-6. Per-cell predicted class deltas clamp at ≥0 vs FP (FP-supremacy floor).
-7. Sanity FIRST: replay the shipped nomination through the same code path; require
-   byte-exact assignment reproduction before the WITH-arm counts.
+```text
+WIRE_C_V2_PACKAGE_VERIFY_PASS files=<count>
+SAME_INSTRUMENT_RECOMPUTE_PASS rows=6 true_c=ESTIMATE_NOT_MEASURED
+CORRECTED_PRICING_VERIFY_PASS rows=14 classes=6 p922=EXPLICIT p928=EXPLICIT
+```
 
-Two arms: WITHOUT (= sanity replay) and WITH (+QTIP2 column). ~678s each, run concurrently.
-Expected result (receipt: P637 WITH_RESULT.json): 280 QTIP2 cells bought (109 ex-k1024,
-62 ex-k256), 1,411 changed cells total after re-spend, objective 0.062361→0.053635,
-final bytes 101,346,462,015.
+Then run the repository-wide publication audit:
 
-## Stage 2 — Build the wire (OVERLAY, ~minutes of encode + assembly)
+```bash
+cd ../../../../
+python3 glm52-ds4-bq3-ptq-opd/tools/publication_audit.py
+```
 
-DO NOT rebuild full tier planes (hours + disk-fill; see CHRONICLE §3.2).
-1. Diff WITH-assignment vs incumbent → changed-cell list (1,406 ordinary + QTIP2 cells).
-2. Ordinary cells: re-encode ONLY changed rows against the target tier's existing layer
-   codebook (canonical shared builder as the inner encoder; assignment-aware harness =
-   GENESIS_BUILD_SHARD mission pattern with pilot_code/ on PYTHONPATH).
-3. QTIP2 cells: byte-select prebuilt units from the rep-16 sealed archives (copy/pack,
-   no re-encode).
-4. Overlay onto the sealed physical wire → assembled wire + whole-wire hash (P653 receipt);
-   bind prediction↔wire (P655: assignment c030883f over base c9fb72e2, base manifest SHA).
-5. VERIFY: changed cells byte-match the assignment; untouched planes SHA-match the sealed
-   wire manifest; `immutable_p640_pack_mutated: false` in every downstream receipt.
+## 2. What each verifier proves
 
-## Stage 3 — Pre-repair rail (the verdict instrument)
+### `verify_package.py`
 
-Shape that works: **64-window slices, one host each** — full 43-layer walk over the slice;
-load ~35s/layer (invariant) + fwd ~10-16s (64w, mb=4) ≈ 23-24 min/slice. mb ladder on a
-121G host with the 512-window shape: 16 OOM, 8 OOM by L003, 4 thrash by L04, 2 marginal —
-do not fight this wall; slice instead. Distinct run_id per slice (P640_SLICE_W<a>_<b>).
-Gates (ALL mandatory, each caught a real fake-path today):
-- Sealed-parity: instrument must reproduce U030 baseline rows for ITS windows first.
-- LOADER_SENTINEL from the loader stage (proves candidate wire staged, not base).
-- scratch retirement clean between layers (prefix filter must include overlay_layer_*).
-- once-only run_id; second-SSH liveness; GPU-exclusivity snapshot; mem-guard
-  (MemAvailable logger + 8G checkpoint-and-stop) — hosts WEDGE without it (s1/s6 today).
-Comparison: pair per-window vs PRE_REPAIR_FULL512.json (TRUE pre-repair). Beware the
-harness field `matched_delta_vs_measured_pre_repair` — in today's build it paired against
-the DOSED U030 view (mislabeled); always verify `pre_repair_baseline_receipt_sha256`
-(47dcf922… = U030 view, NOT true pre-repair).
-Merge: per-window .pt files byte-concatenate; per-class means from all 512.
+- every file listed in `PACKAGE_MANIFEST.json` exists;
+- byte counts and public SHA-256 values match;
+- the package has no unmanifested files other than the self-referential package manifest;
+- required schemas and scientific invariants parse;
+- P908 direct-pricing reconstruction closes;
+- no private identity/path/address patterns are present.
 
-## Stage 4 — Dose (repair training on the new wire)
+### `recompute_results.py --check`
 
-Registered dose: 24 updates, canonical single-host (s8-class), batch 4, ~8.6-8.7 min/update
-(gate ≤525s/update), builder pin 60b594ac, act-caches rebuilt for the new wire with the
-accelerated builder (5.22× cold-build, all_exact_equal contract — P613/P662 validation).
-Window mix (dose-2 recipe): 4×mult / 3×prose / 2×reasoning / 1×chat / 2×code-guard.
-Guards: mem-guard mandatory; code-guard = checkpoint+report if code trends above
-0.045-equivalent at any gate-8 read. Expected recovery on a FRESH wire ≈ dose-1 scale
-(−34.6% global); do NOT expect dose-2-scale second helpings (+1.1% measured).
+- Genesis/BQ3, Wire A, Wire C-R, QTIP2, and QTIP3 rows equal their shipped source receipts;
+- the P922 diagnostic and substitution penalty equal the shipped P922 receipt;
+- the TRUE-C point estimate recomputes as Wire C-R minus the measured surcharge;
+- the published 0.089–0.095 range remains explicitly labeled estimated;
+- P930 global retrodiction errors equal the corrected pricing receipt;
+- P928's additive interaction remains +0.0000782525 KLD (+0.0000783 rounded) and is applied once;
+- the P931 first-feasible artifact is labeled projected while final SCIP remains pending;
+- the internally closed P930 source hashes equal `ARTIFACT_PROVENANCE.json`;
+- the P932→P937→P938→P939 chain is represented as pending, not measured.
 
-## Stage 5 — Post-repair rail
+### `p908_direct_pricing.py`
 
-Rerun Stage 3 on the dosed checkpoint (same slices, same gates, run_id P640_DOSED_W<a>_<b>).
-Ship gate: global < IQ4 0.07204 AND code < 0.045 (moat) AND all classes ≤ IQ3-true AND
-serving rows hold (prefill ≥200 tok/s sealed at 1,142-2,167; decode ≥ mixed-tier 16.95 floor).
+Prints the source-bound P908/BQ3 direct-pricing JSON view reconstructed from reduced public rows.
 
-## Known-good numbers to reproduce against
+### `verify_corrected_pricing.py`
 
-| Checkpoint | global | code | receipt |
-|---|---|---|---|
-| step0 | 0.077061 | 0.0672 | step0 chain |
-| pre-repair (no QTIP) | 0.128374 | 0.052350 | PRE_REPAIR_FULL512.json |
-| U030 dose-1 | 0.08395 | 0.041704 | P623 view / P656 parity |
-| U024 dose-2 | 0.08194 (64w interim) | 0.029449 (64w, n=9) | P638 INTERIM_64.json |
-| QTIP wire pre-repair W000-063 | 0.10856 | 0.03801 (n=9) | P660 interim64 bank |
-| QTIP wire pre-repair W064-127 | 0.11760 | 0.05871 (n=11) | P671 RAIL_SLICE_W064_127.json |
-| QTIP wire post-dose | TBD (P680) | TBD | — |
+Checks the 14-row nonnegative P930 grid, explicit P922/P928 components, source pins, strict-holdout
+disclosure, and final validation gates.
 
-## Failure modes index (fast lookup)
+## 3. Package layout
 
-wrong-objective no-take · whole-layer no-take · penalty-weight ceiling · missing upgrade
-variables ("re-spend") · self-verification theater (30 green checks, wrong instrument) ·
-wrong-builder pin (inner vs harness) · full-tier rebuild fallacy (1,406-cell delta = overlay)
-· mb wall on 121G hosts · sentinel/retirement/once-only/liveness gates · dosed-view
-mislabeled as pre-repair · sshd-starvation wedges (mem-guard) · duplicated all-512 race
-lanes · reasoning→0 clamp artifact. Details: CHRONICLE.md; laws: LESSONS.md +
-../fast-pipeline-baseline/REGRESSION_GATES.md.
+```text
+wire-c-v2-2026-07-28/
+├── README.md
+├── PACKAGE_MANIFEST.json
+├── specs/
+│   ├── BALANCED64_V1.public.json
+│   ├── ACQUISITION_SPECS.public.json
+│   └── WIRE_C_V2_MEASUREMENT_SPEC.public.json
+├── code/
+│   ├── verify_package.py
+│   ├── recompute_results.py
+│   ├── verify_corrected_pricing.py
+│   ├── bulk_transfer.py
+│   └── p908_direct_pricing.py
+└── artifacts/
+    ├── SAME_INSTRUMENT_RESULTS.json
+    ├── ARTIFACT_PROVENANCE.json
+    ├── P908_* reduced reconstruction inputs/outputs
+    ├── P819/P880 QTIP3/QTIP2 public anchors
+    ├── P921 Wire-A/Wire-C-R measurement receipts
+    ├── P922 diagnostic/selection receipts
+    ├── P930 corrected pricing/report/validation receipts
+    └── P931 corrected-pricing V3 projected first-feasible receipt
+```
+
+`ARTIFACT_PROVENANCE.json` records two hashes for each newly imported receipt:
+
+- `source_sha256`: the original internal receipt bytes;
+- `public_sha256`: the sanitized JSON committed here.
+
+Only paths, local usernames, private host labels, and internal task identifiers were substituted. Numeric measurements and scientific arrays are unchanged.
+
+## 4. Frozen BALANCED64 instrument
+
+`specs/BALANCED64_V1.public.json` binds:
+
+- exactly 64 ordered window IDs;
+- 1,024 positions/window;
+- 65,536 total positions;
+- support 8,192;
+- `KL(teacher || candidate)`;
+- source-class counts 19/7/9/10/10/9;
+- window-manifest SHA-256 `7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad`.
+
+A result using a different window order, cutoff, support, reducer, or direction is a different instrument and must not be inserted into the same measured table.
+
+## 5. Reproduce P908 direct pricing
+
+The P908 public inputs are reduced measurement/pricing rows, not model weights. The script:
+
+1. loads the frozen BQ3 assignment and tier grid;
+2. joins exactly 22,016 cell identities;
+3. checks tier-family consistency and complete coverage;
+4. reconstructs global and six-class BALANCED64 prices;
+5. compares against the published P908 receipt;
+6. fails on missing/duplicate identities or tolerance breach.
+
+Run:
+
+```bash
+python3 code/p908_direct_pricing.py
+```
+
+The output is the source-bound direct-pricing JSON view; it has no separate pass marker.
+
+## 6. Recompute the cross-wire table
+
+Run:
+
+```bash
+python3 code/recompute_results.py --check
+```
+
+The calculation uses only package files. In particular:
+
+```text
+TRUE-C point estimate
+  = measured Wire C-R global
+  - measured P922 substitution surcharge
+  = 0.11813809045889272 - 0.02925963216194956
+  = 0.08887845829694316
+```
+
+The published **0.089–0.095** is an estimate range with a transfer allowance, not a measured CI. Do not replace it with the point arithmetic or relabel it measured. Direct P937/P939 receipts supersede it when available.
+
+## 7. P930 manifest audit
+
+The P930 parent handoff comment contained four transcription hashes that do not match the attached
+bytes. They are not accepted or published as integrity pins.
+
+The source-byte authority is `ARTIFACT_PROVENANCE.json`. The internal P930 closure is the hash set
+embedded in `P930_FINAL_ARTIFACT_SHA256.public.json` and repeated in
+`SAME_INSTRUMENT_RESULTS.json`:
+
+- pricing `c8673867b0fb7626232721d4939a9fdf95ef6d1a3de69698fd2a3d42398606c0`;
+- report `6213107d728ac0df48be7121a082a6efa6f894d30c800e8db94315589c86a0d9`;
+- grid `49407ff0114c5bcf9f7a68fbfc2a4822fee1839852aff5d89b8ce12d1251c203`;
+- P922 selection `e776c293be491f080a630f7ba1d066ea0cc420c773be6758de2b4c92a3fb9818`;
+- P928 assignment `62c26b9ea8f53aa2a2be84ff55b0e444100625f900832e096624ea178d9f9122`.
+
+This distinction prevents a documentation transcription from becoming an integrity pin.
+
+`artifacts/P931_V3_FIRST_FEASIBLE.public.json` is the sanitized first-feasible handoff from the unchanged P924 solver machinery consuming P930 V3. Verify that `public_validity.status` is `PROJECTED_FIRST_FEASIBLE__FINAL_SCIP_PENDING`, `measured` is false, exact bytes are 101,346,700,411, the P922 join count is 3,803, and P928 is marked already embedded rather than added twice. It is not a final SCIP or physical-score receipt.
+
+## 8. Reproduce a physical run from scratch
+
+A physical rerun additionally requires the external model/tensor authorities named by `SOURCE_MANIFEST.sha256` and the public acquisition specs. Those payloads are not redistributed here.
+
+Required sequence:
+
+1. Acquire exact QTIP3/QTIP2/VQ/native sources under `ACQUISITION_SPECS.public.json`.
+2. Verify every source path/size/SHA and codebook binding.
+3. Stage all payloads on compute-local disk over the payload fabric.
+4. Build from the immutable base plus changed cells using disk-direct checkpoints.
+5. Seal every layer and reconstruct the complete assignment identity-by-identity.
+6. Stage the exact teacher, checkpoint, scorer, tokenizer, and BALANCED64 spec locally.
+7. Run the first-window gate, then all 64 windows.
+8. Independently reread/reduce the output and exact-release resources.
+
+Operational rules are in `qtip2-backpack-campaign/PROCEDURES.md`.
+
+## 9. What cannot be reproduced from this repository alone
+
+Without gated external weights and tensor payloads you cannot:
+
+- rebuild QTIP cell tensors;
+- materialize the 43-layer physical checkpoint;
+- rerun teacher/candidate logits;
+- produce a new P937/P939 physical score.
+
+You can still reproduce every public arithmetic, join, manifest, hash, reduced result, and validity label included in this release.
+
+## 10. Expected failure behavior
+
+The scripts fail nonzero on:
+
+- missing, extra, or modified package files;
+- source/public hash mismatch;
+- malformed JSON or schema drift;
+- missing/duplicate cell identities;
+- changed BALANCED64 window order/count;
+- P908 reconstruction mismatch;
+- P921/P922/P930 metric mismatch;
+- a pending/estimated TRUE-C row mislabeled measured;
+- a private identity/path/address pattern.
+
+Do not suppress a failed verifier to publish a result.

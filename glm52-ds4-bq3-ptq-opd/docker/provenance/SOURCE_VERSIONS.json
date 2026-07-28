@@ -24,11 +24,11 @@
     "Mounted-pack product identity is environment-bound after fail-closed pack validation.",
     "Standalone mode removes the private host-claim dependency; optional claim checking remains fail-closed.",
     "The HTTP endpoint supports standard non-stream JSON and OpenAI-compatible SSE.",
-    "Decode row count is runtime data rather than a Triton constexpr compile key."
+    "Decode row count remains a Triton constexpr compile key because the shipped aarch64 runtime-scalar launcher segfaults for multi-row MoE launches; the kernels do not read the value."
   ],
   "portable_runtime_sha256": {
     "mixed_prefill_server.py": "353f1dddd1fef0043a49e49049d14d637a267c39a88021ab0569dd4f6bfa02f4",
-    "mixed_tier_backend.py": "030f721536d47eff9fbe6448dd9faf2ea45c104fb058b7b29ffd2a3e7c5b6e1e",
+    "mixed_tier_backend.py": "bf9f7f4f54de3a7504ae4ba859fecd6c81e1c2430e37fefd16a13f2490ae6e69",
     "mixed_tier_patch.py": "80696f626254fb3f2be6c95035e1ba13a17ae3ab7a8d50c366f8056cba66dd27",
     "run_prefill_ladder.py": "b7656456ca05cab07fab6f470cc1523e0e5dbf08762ea824f106cf05de8b9696",
     "stream_tree.py": "15b781f69a35342725739bf883e06a9322bb67cbd3164e090c0323ce672d5bad"

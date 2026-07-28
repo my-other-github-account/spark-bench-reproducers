@@ -42,6 +42,8 @@ This directory documents a July 2026 campaign on DeepSeek-V4-Flash that started 
 - [`TRANSFER.md`](TRANSFER.md) — non-benchmark transfer experiment and preregistered decision rule.
 - [`FAILURES.md`](FAILURES.md) — off-policy, static-weighting, resume, monitoring, and measurement failures.
 - [`NEXT.md`](NEXT.md) — open experiments after the transfer verdict.
+- [`qtip2-backpack-campaign/UPDATE_2026-07-27_28.md`](qtip2-backpack-campaign/UPDATE_2026-07-27_28.md) — definitive 24-hour Wire C solve/build/read chronicle, true-C correction chain, and operational laws.
+- [`tools/qtip2-backpack-campaign/wire-c-v2-2026-07-28/`](tools/qtip2-backpack-campaign/wire-c-v2-2026-07-28/) — privacy-scrubbed receipts, source/public hashes, solver references, and executable verification.
 - [`reference/`](reference/) — scrubbed source used for bank validation, FP32 divergence, durable checkpointing, static gates, and the 43-layer adapter.
 - [`receipts/SEALED_RESULTS.json`](receipts/SEALED_RESULTS.json) — scrubbed machine-readable headline rows and receipt identities.
 - [`SOURCE_MANIFEST.sha256`](SOURCE_MANIFEST.sha256) — source/test integrity manifest.

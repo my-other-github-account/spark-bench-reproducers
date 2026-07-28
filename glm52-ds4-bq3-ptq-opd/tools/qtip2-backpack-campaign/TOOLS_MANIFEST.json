@@ -1,5 +1,5 @@
 {
-  "description": "Privacy-scrubbed, source-hash-bound reproduction code for the QTIP2 Backpack solve, wire build, rail, repair-dose, and supporting operations.",
+  "description": "Privacy-scrubbed, source-hash-bound reproduction code and receipts through the Wire C true-C correction/pricing endpoint.",
   "files": [
     {
       "origin": {
@@ -14,7 +14,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "generated_from_mission_receipt",
       "repro_stage": "Stages 0\u20135 \u2014 package orientation",
-      "shipped_sha256": "854bc748f090dc69c421a60e88134040e3136bf55c4259a4d70e718581f3c924",
+      "shipped_sha256": "29f7d1c7b9c0c9b7fb834cd1307e989d3beaa357d2e9985d6301188dbd10ee1a",
       "source_sha256": "2fc585683e3eb81ad5fa0795b43a28db7a76af5e7b5c9cd8726069d5c9b9ac0d",
       "source_verification": {
         "method": "package orientation generated from the cited mission receipt",
@@ -2262,6 +2262,1226 @@
         "status": "match"
       },
       "stage": "solver"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "package-level source/public hash manifest",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/PACKAGE_MANIFEST.json"
+      },
+      "path": "wire-c-v2-2026-07-28/PACKAGE_MANIFEST.json",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_or_exact_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "00f8e021edb3e53917329cd53853b6afe343e8171553d89de254033c0ff419ed",
+      "source_sha256": "2d2f690ee1d427148e5b3094e8782a3d9eb5f506357c7a8959398eef2ef65cc0",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "package orientation and verification contract",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/README.md"
+      },
+      "path": "wire-c-v2-2026-07-28/README.md",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_or_exact_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "fab16e152a94d7c1684bf8662fc3fcefaf824576632cfbb933d3641dc76e952c",
+      "source_sha256": "8ed8ef53ec780af74d497c811bf46a44fa3900d90903009b6458bec14032b440",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "compact P921/P922/P930 sealed-source to public-copy provenance index",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/ARTIFACT_PROVENANCE.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/ARTIFACT_PROVENANCE.json",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_or_exact_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "fac00d9befb0e1c1c46315be049a6adcaf468e384ea837a8c9880013af3d1f46",
+      "source_sha256": "51a526b89eb32d654a1d7065a0f6b10c2c28ec37f88f593bb2518e535bc86a09",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "canonical BALANCED64 instrument specification",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/BALANCED64_V1.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/BALANCED64_V1.json",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_or_exact_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad",
+      "source_sha256": "7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "BASELINE_R restored physical manifest; source pin 398441d1",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/BASELINE_R_PHYSICAL_MANIFEST.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/BASELINE_R_PHYSICAL_MANIFEST.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "0deb8324bce70e344368f7959cbe856a3efad9499a16ed210ce753892d773d6e",
+      "source_sha256": "398441d16f1a251079b518a55095c568353b9f3e542f2ec55d4139e0ac6e7ffd",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "BQ3 control full512 receipt used for matched Wire B windows",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/BQ3_FULL512.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/BQ3_FULL512.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "f915b05c77e80ae1b9ee418a1d07a96f2f325bb622440eb921352977484b47d3",
+      "source_sha256": "4823f90fb1df1f7d0351c585954799f1fd69a98f3709cfcb721f1c8e0183ef0c",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "P908 corrected-pricing patch receipt",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/CORRECTED_PRICING_GRID_PATCH.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/CORRECTED_PRICING_GRID_PATCH.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "d4d29b2f89638a147d8f0f8b27afe9715c0682a1520be92209de2d530100909a",
+      "source_sha256": "6f317b13723c6b7705f0add2def7d791635e5297e0a82ae5097af8180eee1fa4",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "corrected vertical grid; exact source pin 74869b5f",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/CORRECTED_VERTICAL_GRID.csv"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/CORRECTED_VERTICAL_GRID.csv",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_or_exact_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "74869b5f8e3ef4eb43dc98c6ee060c2d9ad048bb215cadd308fb2c9983933dda",
+      "source_sha256": "74869b5f8e3ef4eb43dc98c6ee060c2d9ad048bb215cadd308fb2c9983933dda",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "P908 direct-pricing receipt",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/DIRECT_SELECTED_CODE_PRICES.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/DIRECT_SELECTED_CODE_PRICES.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "f815b3165e2268def49adb31caaf2e99f5853382eb0fd88137a2d870a90cf651",
+      "source_sha256": "abfa1495e201c33b12b9184606e1fae5d57d6c84560e66845ef51b17f28780f3",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "complete QTIP3 menu inventory; source pin 854b85c6",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/FULL_MENU_MANIFEST.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/FULL_MENU_MANIFEST.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "ebc7a504f5d80365aae4c7ff87d1fcf7a34de3d80fd887fcca4fceec27215f1b",
+      "source_sha256": "854b85c6216ae38682010b13ccd0348f52f1503ca8c568c61e43b829da361fcc",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "physical build global acceptance witness",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/GLOBAL_ACCEPTANCE_WITNESS.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/GLOBAL_ACCEPTANCE_WITNESS.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "299ade420ab47dfa7151d5f9da75d5688e3a0c5f01cc8da0f28bf930fdad655a",
+      "source_sha256": "b6170b084cc77e09f3ab2736dfd070c7b9b4e35fa926618d6bad6721f036cad4",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "physical build independent verification",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/GLOBAL_INDEPENDENT_VERIFICATION.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/GLOBAL_INDEPENDENT_VERIFICATION.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "17a3ebd5760385ef6c86a34712e7dbf7b9a9849254d352ec255094e2312705ae",
+      "source_sha256": "233bec14db7fe0069a377e95e8fe623ff4cb02e31f8f9ebf7e71d13791d0d853",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "QTIP3 BALANCED64 anchor receipt; source pin d79a7965",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/P819_QTIP3_UNIFORM_BALANCED64.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/P819_QTIP3_UNIFORM_BALANCED64.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "e9b197e669f9800611ef5b83336c05ffdae28c2976da1e676b1a8cf46b126eb9",
+      "source_sha256": "d79a79653f66067aee9255d95e0212013abae128df5c0ac2c7727ab899e44315",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "P874 checkpoint binding receipt",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/P874_BINDING_SHAS.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/P874_BINDING_SHAS.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "b6e3d5c2fa381624f04b8bec6c649bf711db5655478806be277c231c54f222f7",
+      "source_sha256": "0612ea1ef9a10e77c279647f2141f1ba99b2fe668cc23989aae3406c08b57659",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "QTIP2 as-sealed BALANCED64 anchor receipt; source pin 96e09515",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/P880_QTIP2_ASSEALED_BALANCED64.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/P880_QTIP2_ASSEALED_BALANCED64.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "88015c7bcc5f312ee8223aa4a9590a203422082af2598a6f3f40ace979026be4",
+      "source_sha256": "96e09515e61e87669e5a378b714262184173b625844898a20f210838a3ed0b5b",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "P921 standardized strict Wire A holdout result",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/P921_RESULT_CELL.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/P921_RESULT_CELL.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "9fac2ded3656efa7ce799a89c11bc43288e9dfa029b79d93814e29945af0a263",
+      "source_sha256": "f73da5689938748e357de81750dd286467e77bb50cd8e6ad73a871995b648789",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "P921 final seal and terminal verification",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/P921_WIRE_A_BALANCED64_FINAL_SEAL.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/P921_WIRE_A_BALANCED64_FINAL_SEAL.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "69d012460abdffc5c3c38b09f9c8d87e83f51f5d055b29e2e847297f0a590854",
+      "source_sha256": "9b6c5efe6eb36bfedaa22d872d1753f33185eb77913484b7ce082f614fa295c6",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "P921 Wire A per-window BALANCED64 measurement",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/P921_WIRE_A_BALANCED64_R2.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/P921_WIRE_A_BALANCED64_R2.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "b3ddc4f733e7e910705a34a663ad6a207d606f3fb91af539b8df638d97c6caa5",
+      "source_sha256": "e1d1b70792a7c8fe133a63b5e922359a24428f5d1281ddd804f0ee01711965ed",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "P922 exact release receipt",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/P922_EXACT_RELEASE.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/P922_EXACT_RELEASE.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "bc7a52b157ddc28737efe7e4db0a0c602172298b0f65d84fe4789ddb58c59f49",
+      "source_sha256": "9e6a7f7bb609c67d8477e56be3faae198344de032f187fefed6d3d08f9874801",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "P922 four-schema payload regression gate",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/P922_PAYLOAD_METADATA_REGRESSION.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/P922_PAYLOAD_METADATA_REGRESSION.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "702346136a3d48562a93d4e7c754ef472dbc603ab11e5a47a91a1f468cb2a75c",
+      "source_sha256": "141536858922adc75ca7c32054900789378dd601a56e3a3e5d969a4592196b9b",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "P922 restored-VQ per-window BALANCED64 measurement",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/P922_RESTORED_VQ_BALANCED64_A2.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/P922_RESTORED_VQ_BALANCED64_A2.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "4f86b3774717671531c3afb2a5b86937c8fffcd00c72f6ffadaf7978abb6d7d0",
+      "source_sha256": "c2604f6386e00c1ab38b238cd5940f85d1ab12ec20e18f43dfc9efcece29be8e",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "P922 exact codebook-substitution standardized result",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/P922_RESULT_SUMMARY.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/P922_RESULT_SUMMARY.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "99adbe75ac0a15878e1fa84ff70a0e9a7dfae0e5a4a2b047ebf2073eda0e0958",
+      "source_sha256": "f3360126f1951edccb05fc9d4626ccbada059efab679863f6a17745f6b84ccb1",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "P922 independent terminal verification",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/P922_TERMINAL_VERIFICATION.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/P922_TERMINAL_VERIFICATION.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "4035305a84a5476651d5cd5d26726ee9fd81c89886d6944a1ab4510e5f1c579c",
+      "source_sha256": "d3cbae01335d4fb3809275d72d9f6201c439f2598cd7c41ba0e57d81b36733c5",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "P930 final solver-consumable corrected pricing",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/P930_CORRECTED_PRICING_V3.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/P930_CORRECTED_PRICING_V3.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "723f6b2cd3bfcffdcb708869f7f0f6732a7f8447862a258d3797078f967804bb",
+      "source_sha256": "c8673867b0fb7626232721d4939a9fdf95ef6d1a3de69698fd2a3d42398606c0",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "P930 corrected 14-row nonnegative vertical grid",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/P930_CORRECTED_VERTICAL_GRID_V3.csv"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/P930_CORRECTED_VERTICAL_GRID_V3.csv",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_or_exact_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "49407ff0114c5bcf9f7a68fbfc2a4822fee1839852aff5d89b8ce12d1251c203",
+      "source_sha256": "49407ff0114c5bcf9f7a68fbfc2a4822fee1839852aff5d89b8ce12d1251c203",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "P930 final artifact source hash manifest",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/P930_FINAL_ARTIFACT_SHA256.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/P930_FINAL_ARTIFACT_SHA256.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "6ec3639ba1325d23671d5e346c89103c36db0258259bcf8f6d505715cce23a55",
+      "source_sha256": "bcc9171608fbbf0b654acc79a18a6634b214ed3319a6255bc17661341dcc95c9",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "P930 final validator output",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/P930_FINAL_VALIDATION.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/P930_FINAL_VALIDATION.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "62fcb19df8e537085ea8ca2247114091b67dae659501672656f993f2fbd3814e",
+      "source_sha256": "9666d979b79ec576f55a4ea685bb1311b29910875fc227a24f470370e516b379",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "P930 exact P922 identity-selection pin",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/P930_P922_RESTORED_VQ_SELECTION_PINNED.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/P930_P922_RESTORED_VQ_SELECTION_PINNED.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "21b154bca098421733c4c326efb0a99ad9cdd83a7fe86016ae972cd4c7760706",
+      "source_sha256": "e776c293be491f080a630f7ba1d066ea0cc420c773be6758de2b4c92a3fb9818",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "P930 exact P928 mixed-tier assignment pin",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/P930_P928_MIX_C_PATTERN_ASSIGNMENT_PINNED.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/P930_P928_MIX_C_PATTERN_ASSIGNMENT_PINNED.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "0728c3c52c3a987ea09058c825477d8606a9c70b25a9b22c145099f97834151d",
+      "source_sha256": "62c26b9ea8f53aa2a2be84ff55b0e444100625f900832e096624ea178d9f9122",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "P930 final four-wire calibration report",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/P930_WIRE_CALIBRATION_FINAL_REPORT.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/P930_WIRE_CALIBRATION_FINAL_REPORT.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "ce351c01165f77f523d6d787596f8a0d1ac0d691cba86098a26e8355989a3d78",
+      "source_sha256": "6213107d728ac0df48be7121a082a6efa6f894d30c800e8db94315589c86a0d9",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V3 projected first-feasible publication",
+        "node": "control-plane",
+        "note": "P931 corrected-pricing V3 projected first feasible; final SCIP pending",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/P931_V3_FIRST_FEASIBLE.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/P931_V3_FIRST_FEASIBLE.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2/V3 publication seam \u2014 corrected-pricing first feasible",
+      "shipped_sha256": "4806ec12459012b4341e18da5abcbcd42ce6875601b995a2c6dc7789d26951f6",
+      "source_sha256": "e84c6c5550eebc00df8b0f15d344c719864bbaf96cfdf5723bc696e839352772",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "physical build determinism receipt",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/PHYSICAL_BUILD_DETERMINISM.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/PHYSICAL_BUILD_DETERMINISM.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "3bd0b6571161d76f779dd6dff87632c5d91cdfef1412acb0ca5373cb8f3937cd",
+      "source_sha256": "58ac2a6a4c5c6828b1b5ef3279d53cbaf7a70c76259585a59f903eee5cda92c1",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "machine-readable pre-repair comparison table",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/SAME_INSTRUMENT_RESULTS.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/SAME_INSTRUMENT_RESULTS.json",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_or_exact_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "1727b78d8ee4e0e14746d3e549588b7f8c2e935a75f99ea6a7952b22d060f7dc",
+      "source_sha256": "1727b78d8ee4e0e14746d3e549588b7f8c2e935a75f99ea6a7952b22d060f7dc",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "chosen reweighted solve assignment",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/V2_REWEIGHTED_ASSIGNMENT.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/V2_REWEIGHTED_ASSIGNMENT.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "8fdb2b5624b4030fd0315eaa6738d53782ebb62859fab299fa0dddabe3e84ae1",
+      "source_sha256": "5e2730816074d0b19676835dd7a6ede5f0801b92d2db859890e9749cca800c20",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "chosen reweighted solve terminal receipt",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/V2_REWEIGHTED_DONE.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/V2_REWEIGHTED_DONE.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "eb0b233374fa3d7d09552c8e7df65278d3ab73e67a6e29ed3ad7df9cf89ab286",
+      "source_sha256": "53c012627cfe0ee92757846e6bbce92d58913837be5015f1722facfe65f89c37",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "complete 154-file V2 solver input pin manifest",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/V2_SOLVER_INPUT_MANIFEST.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/V2_SOLVER_INPUT_MANIFEST.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "43134efa5d671993e51c67f1c275aaef3e52d89d30be4c45f5313b1d286ef49d",
+      "source_sha256": "ec9aa657179cb3de274392af88b2e1144205a7b22e1645389d5af26ded77796a",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "V2 solver preflight and dry-run receipt",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/V2_SOLVE_READY.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/V2_SOLVE_READY.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "d01e5459483ba6fc87da451d9591a8875b60813c8b84dfd9e0f43710299b51a1",
+      "source_sha256": "720b6eb8969d596b08b431a1666103d9b9bc6999804ccadcc6d118f513ac4c1b",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "Wire B measured slice receipt",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/WIRE_B_W256_319_RECEIPT.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/WIRE_B_W256_319_RECEIPT.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "3b3eb3bb03cc2f1485f6ab38c106411072592fb0e47133862d0599d23abd9a63",
+      "source_sha256": "baefa805af9fd03f438fe06dbbad08b359fc305cd2bc922bbe535233f6953c8e",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "Wire B measured slice receipt",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/WIRE_B_W320_383_RECEIPT.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/WIRE_B_W320_383_RECEIPT.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "11bfc22d57e513ddf824bf41c5ba9c1837551ac1f5edba81b1c1a21b1a7850c8",
+      "source_sha256": "e215109ff6410aa48be7ae179f74a30f51eb05334c2ed31c7107087aadab3c69",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "physically built V2 assignment; source pin f521cf07",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/WIRE_C_F521_BUILD_ASSIGNMENT.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/WIRE_C_F521_BUILD_ASSIGNMENT.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "b96284684931eb39d2ff0e07da321f7dfc5eb33360701e9b29194666d71975c0",
+      "source_sha256": "f521cf07e0dce3c39739c7493b6eda82cd78d6b1566fadb2101691321566ca39",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "physical F949 baseline assignment; source pin f949b01a",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/WIRE_C_F949_ASSIGNMENT.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/WIRE_C_F949_ASSIGNMENT.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "2162c3ee197fc798736e9a9f167f5bcd6f0d2bff964ceabf6b799e2a48de571b",
+      "source_sha256": "f949b01a29049b03c9dcba6fb1c9df775d414427aeb9f475cd176503f8ddd654",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "Wire C BASELINE_R pre-repair BALANCED64 result",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/artifacts/WIRE_C_FULL_BALANCED64.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/artifacts/WIRE_C_FULL_BALANCED64.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "e1f7078461e11304419b97eb5237ba57575da11c85865c463ba463729d1be18d",
+      "source_sha256": "29e021348412e7e5847c288ffe9deb84162a08594a4f04def7324fe8114ef7ef",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "chosen V2 reweighted solver configuration",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/code/V2_REWEIGHTED_CONFIG.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/code/V2_REWEIGHTED_CONFIG.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "70385a8eb373dc1b400691ca24397f84547454939a5a55211d07fef534ddf146",
+      "source_sha256": "7bf451ff9d4cefc8a970ed462fcd9793c9d2d5588f4637bac4f322d7976ddcbc",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "capacity-gated parallel immutable-object transfer helper",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/code/bulk_transfer.py"
+      },
+      "path": "wire-c-v2-2026-07-28/code/bulk_transfer.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_or_exact_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "174da5de80e64733bba5589a6c31a1c3b65d5fb6a4c785af12f0fc7fed0041ba",
+      "source_sha256": "174da5de80e64733bba5589a6c31a1c3b65d5fb6a4c785af12f0fc7fed0041ba",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "chosen V2 reweighted launch wrapper",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/code/launch_v2_reweighted.sh"
+      },
+      "path": "wire-c-v2-2026-07-28/code/launch_v2_reweighted.sh",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "58838ad5f1aab5e06ee7bdc999d1644a6db83b0c1bd95f31d1bb0837ff46c56b",
+      "source_sha256": "7effc841e03252fc43ce37ab6ba92fed46bb5a193d7cba8239014f887747040a",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "P874 checkpoint and resume patch",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/code/p874_checkpoint_patch.py"
+      },
+      "path": "wire-c-v2-2026-07-28/code/p874_checkpoint_patch.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_or_exact_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "1d0101db7deaf3c15d9e3f47f32ea0d3348b80ad89ab210b14ea60c23e5405f3",
+      "source_sha256": "1d0101db7deaf3c15d9e3f47f32ea0d3348b80ad89ab210b14ea60c23e5405f3",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "portable P908 direct-pricing inspector",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/code/p908_direct_pricing.py"
+      },
+      "path": "wire-c-v2-2026-07-28/code/p908_direct_pricing.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_or_exact_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "71a7f2e2a873c118ad458f7f5e249558e6f99b1dbae8799c709b7282f2047d66",
+      "source_sha256": "71a7f2e2a873c118ad458f7f5e249558e6f99b1dbae8799c709b7282f2047d66",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "bounded takeover and rebuild reference script",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/code/rebuild_anchor_worker.public.py"
+      },
+      "path": "wire-c-v2-2026-07-28/code/rebuild_anchor_worker.public.py",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "0ec61b4d008eee833ca0c4215967155cf41ef00abeef21300f80194fd0313a03",
+      "source_sha256": "729646ad6d7e9b3ca1d26c4e9245b9845be2d028c176a67c7d07e0b5760ac2cd",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "portable same-instrument result recomputation",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/code/recompute_results.py"
+      },
+      "path": "wire-c-v2-2026-07-28/code/recompute_results.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_or_exact_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "9cd5956376c62176426537037484bee83d8ae83988bda189ab15ff013d605c15",
+      "source_sha256": "9cd5956376c62176426537037484bee83d8ae83988bda189ab15ff013d605c15",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "restore and productive-resume reference script",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/code/restore_anchor_worker.public.py"
+      },
+      "path": "wire-c-v2-2026-07-28/code/restore_anchor_worker.public.py",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "e8bae0e0d4f45ad249929f43430329ffc3367400662959bd4e39c56c7d6957ca",
+      "source_sha256": "d2c6c0b732f42b01bf6c540574ff80d0fa3b78384d694dfc7f4d86b0e2d9b84b",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "pinned measured-anchor repricing dependency",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/code/retrodict_wire_b.py"
+      },
+      "path": "wire-c-v2-2026-07-28/code/retrodict_wire_b.py",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "a5e6abd14a463b57124a0ea8aa71f31f303d3c64d9373a66eefb551d95786538",
+      "source_sha256": "466bba58afd00cc12d6b157281eda8a5d06fb5807b89874b5a6497ee29c3047e",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "pinned P693 optimization core dependency",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/code/solve_p693_turbo.py"
+      },
+      "path": "wire-c-v2-2026-07-28/code/solve_p693_turbo.py",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "5c039c5e2250f4216661bf531cfd4864edaed362c5c1987d55f46af7b34f768a",
+      "source_sha256": "a6052cabce24d218f7ba2161910f70e77abddf51d953a07a7132158b75dc2c04",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "pinned P760 full-menu solver dependency",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/code/solve_p760_turbo.py"
+      },
+      "path": "wire-c-v2-2026-07-28/code/solve_p760_turbo.py",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "db1cdc17dc9aae78d2283e26f7dff241d02b81b5a04af662ab213346dbcdf7a9",
+      "source_sha256": "db1cdc17dc9aae78d2283e26f7dff241d02b81b5a04af662ab213346dbcdf7a9",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "chosen V2 reweighted solver wrapper",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/code/solve_v2_reweighted.py"
+      },
+      "path": "wire-c-v2-2026-07-28/code/solve_v2_reweighted.py",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "900a3e9cb3621a87f6c8dbcb806282abb28e0e36fe2c020da905e41df710094f",
+      "source_sha256": "fc99323ecea76d52b3640e96894ded0ee684987d66abea38cde6cc8be4dfd355",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "fail-closed corrected-pricing verifier",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/code/verify_corrected_pricing.py"
+      },
+      "path": "wire-c-v2-2026-07-28/code/verify_corrected_pricing.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_or_exact_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "7c14b813e1f1e7a16a13f5a20ad807eb580eaeb6888903b3ae37e787bd2b64cf",
+      "source_sha256": "7c14b813e1f1e7a16a13f5a20ad807eb580eaeb6888903b3ae37e787bd2b64cf",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "fail-closed package/hash/privacy/closure verifier",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/code/verify_package.py"
+      },
+      "path": "wire-c-v2-2026-07-28/code/verify_package.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_or_exact_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "5e2347132b54eddef71b05cceddd02df239f805d0c2ba5e87c7375a5bac063e8",
+      "source_sha256": "2d0afe3a58f41fe1ff80c05fdce35d77026beebc22d506cb981dd1829809da10",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "frozen publication and no-dose policy",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/doctrine/FROZEN_SCOPE.md"
+      },
+      "path": "wire-c-v2-2026-07-28/doctrine/FROZEN_SCOPE.md",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_or_exact_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "dde171abda7bc5a8bf7312e41f5e39e42e63b1eaa5741858dd6c5a2c7f94c2f4",
+      "source_sha256": "dde171abda7bc5a8bf7312e41f5e39e42e63b1eaa5741858dd6c5a2c7f94c2f4",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "recovery and stalled-worker doctrine",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/doctrine/KASA_WEDGE_DOCTRINE.md"
+      },
+      "path": "wire-c-v2-2026-07-28/doctrine/KASA_WEDGE_DOCTRINE.md",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_or_exact_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "56078826da36721f54176c6937f75ae46db213ba25dcf9915b6f53ecf2db362f",
+      "source_sha256": "56078826da36721f54176c6937f75ae46db213ba25dcf9915b6f53ecf2db362f",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "frozen public acquisition and staging contract",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/specs/ACQUISITION_SPECS.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/specs/ACQUISITION_SPECS.public.json",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_or_exact_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "db6180484581dbfa82a8442c0c73c18363294f964ed68c98a0a3db04730793f9",
+      "source_sha256": "db6180484581dbfa82a8442c0c73c18363294f964ed68c98a0a3db04730793f9",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "canonical BALANCED64 instrument specification (spec layout)",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/specs/BALANCED64_V1.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/specs/BALANCED64_V1.public.json",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_or_exact_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad",
+      "source_sha256": "7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "Wire C V2 public integration",
+        "node": "control-plane",
+        "note": "frozen Wire C V2 measurement and validity contract",
+        "receipt": "public-package",
+        "relative_source": "wire-c-v2-2026-07-28/specs/WIRE_C_V2_MEASUREMENT_SPEC.public.json"
+      },
+      "path": "wire-c-v2-2026-07-28/specs/WIRE_C_V2_MEASUREMENT_SPEC.public.json",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_or_exact_public_copy",
+      "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
+      "shipped_sha256": "5e40fa56efdcf90b332230c9889d7c7b37151c1431b32bc9a3a236bab8e3aa2d",
+      "source_sha256": "5e40fa56efdcf90b332230c9889d7c7b37151c1431b32bc9a3a236bab8e3aa2d",
+      "source_verification": {
+        "method": "source hash captured before public substitution; shipped hash independently recomputed",
+        "status": "match"
+      },
+      "stage": "wire-c-v2"
     }
   ],
   "hash_semantics": {
@@ -2283,6 +3503,7 @@
     "dose": 37,
     "misc": 6,
     "rail": 17,
-    "solver": 17
+    "solver": 17,
+    "wire-c-v2": 61
   }
 }

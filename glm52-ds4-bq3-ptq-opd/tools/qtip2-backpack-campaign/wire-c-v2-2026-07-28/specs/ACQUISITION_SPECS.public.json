@@ -1,0 +1,37 @@
+{
+  "external_payload_contract": [
+    "verify exact relative identity, byte count, SHA-256, tier, pack fraction, and codebook binding",
+    "stage to persistent compute-local disk before build or score",
+    "do not consume archive or volatile-scratch paths mid-layer",
+    "fail closed on missing or quarantined identities"
+  ],
+  "geometry": {
+    "assignment_cells": 22016,
+    "cells_per_layer": 512,
+    "layers": 43
+  },
+  "menu_authority": {
+    "path": "artifacts/FULL_MENU_MANIFEST.public.json",
+    "sealed_source_sha256": "854b85c6216ae38682010b13ccd0348f52f1503ca8c568c61e43b829da361fcc"
+  },
+  "model": "stock DeepSeek-V4-Flash",
+  "public_identity": "banana_bae",
+  "schema": "wire-c-public-acquisition-specs-v1",
+  "status": "PASS_FROZEN_PUBLIC_INDEX",
+  "tier_verticals": {
+    "qtip2": {
+      "coverage_status": "PARTIAL_VERTICAL_39_OF_40",
+      "missing_layers": [
+        13
+      ],
+      "path": "artifacts/P880_QTIP2_ASSEALED_BALANCED64.public.json",
+      "sealed_source_sha256": "96e09515e61e87669e5a378b714262184173b625844898a20f210838a3ed0b5b"
+    },
+    "qtip3": {
+      "coverage_status": "UNIFORM_40_OF_40",
+      "missing_layers": [],
+      "path": "artifacts/P819_QTIP3_UNIFORM_BALANCED64.public.json",
+      "sealed_source_sha256": "d79a79653f66067aee9255d95e0212013abae128df5c0ac2c7727ab899e44315"
+    }
+  }
+}
