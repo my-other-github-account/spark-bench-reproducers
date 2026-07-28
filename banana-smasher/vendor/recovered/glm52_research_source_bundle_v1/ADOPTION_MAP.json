@@ -1,0 +1,250 @@
+{
+  "bundle_id": "glm52_research_source_bundle_v1",
+  "consumers": [
+    "P971A research sources/evidence handoff",
+    "P971B task-redacted implementation-plan handoff"
+  ],
+  "families": {
+    "P951": {
+      "disposition": "REFERENCE_BASELINE",
+      "adoption_readiness": "ADOPTABLE_WITH_EXTERNAL_RUNTIME_AND_ARTIFACT_REBINDING",
+      "claim_boundary": "Independent terminal TRUE-C BALANCED64 measurement only.",
+      "evidence": {
+        "status": "PASS_INDEPENDENT_TERMINAL_TRUE_C_80_OF_80",
+        "global_mean_kld": 0.06829414627618949,
+        "windows": 64,
+        "positions": 65536
+      },
+      "implementation_notes": [
+        "The runner retains the P951 high-concurrency staging knobs, including 8-worker/8-stream materialization settings.",
+        "Use this as the numerical and timing baseline for P963; do not alter prompts, support, cutoff, windows, or overlay identity."
+      ],
+      "primary_files": [
+        "payload/P951/code/p951_true_c_balanced64.py",
+        "payload/P951/code/p951_true_c_overlay_adapter.py",
+        "payload/P951/receipts/P951_INDEPENDENT_TERMINAL_TRUE_C_80_OF_80.json"
+      ]
+    },
+    "P963": {
+      "disposition": "PROMOTE_AS_EXACT_ACCELERATION_REFERENCE",
+      "adoption_readiness": "ADOPTABLE_WITH_EXTERNAL_RUNTIME_AND_ARTIFACT_REBINDING",
+      "claim_boundary": "Exact-equal BALANCED64 acceleration at microbatch 2. MB4 is explicitly fail-closed at the 1e-12 equality rail.",
+      "evidence": {
+        "status": "PASS_EXACT_EQUAL_ACCELERATION_GE_2X",
+        "speedup": 2.4355729286027437,
+        "maximum_absolute_per_position_delta": 0.0,
+        "tensor_exact_windows": "64/64",
+        "wall_clock_reduction_percent": 58.94189871071991
+      },
+      "implementation_notes": [
+        "Adopt the batched per-peer bulk-stage path rather than per-member transport.",
+        "Preserve the P951 >=8-stream staging settings and P963 max-8 batch validation.",
+        "Keep the MB4 fail-closed receipt as a regression rail; it is not a successful tuning point."
+      ],
+      "primary_files": [
+        "payload/P963/code/p963_true_c_accel.py",
+        "payload/P963/code/p963_true_c_overlay_adapter.py",
+        "payload/P963/receipts/P963_BATCHED_STAGE_L000_CANARY.json",
+        "payload/P963/receipts/P963_EXACT_ACCELERATION_SEAL.json",
+        "payload/P963/receipts/P963_MB4_FAIL_CLOSED.json"
+      ]
+    },
+    "P959": {
+      "disposition": "PROMOTE_COMPLETE_TERMINAL_SEED_RECIPE_AND_PINS",
+      "adoption_readiness": "SOURCE_READY_PHYSICAL_CHECKPOINT_REQUIRED",
+      "claim_boundary": "The complete terminal UPDATE_000 seed is reconstructed from canonical state plus terminal wire authority; speculative P948 state is excluded.",
+      "evidence": {
+        "status": "PASS_TERMINAL_UPDATE_000_REBUILT_FROM_WIRE",
+        "terminal_codebook_count": 196,
+        "p943_changed_surface_codebook_count": 184,
+        "shared_exact_count": 116,
+        "terminal_added_from_authority_count": 80,
+        "unchanged_base_inherited_codebook_count": 12,
+        "terminal_seed_sha256": "08623d062e90340ee1997ce80764be4d9e72d48045903967299e8a1fd604edb3"
+      },
+      "implementation_notes": [
+        "Use P959_TERMINAL_UPDATE_000_SEED_REBUILD.json as the terminal authority, not the earlier failed extension inventory.",
+        "The bundle excludes the checkpoint tensor; resolve it by its receipt hash through the physical artifact authority chain.",
+        "Optimizer/scheduler state resets on state-only load; no training updates were run during reconstruction."
+      ],
+      "primary_files": [
+        "payload/P959/code/complete_terminal_seed_actual_inventory.py",
+        "payload/P959/code/rebuild_p959_terminal_seed_v2.py",
+        "payload/P959/receipts/P959_TERMINAL_UPDATE_000_SEED_REBUILD.json",
+        "payload/P959/receipts/P959_P948_SPECULATIVE_BOUNDARY.json"
+      ]
+    },
+    "P948": {
+      "disposition": "HOLD_RESEARCH_ONLY",
+      "adoption_readiness": "DO_NOT_PROMOTE_OR_SEED",
+      "claim_boundary": "A successful speculative warmup/update exists, but the terminal boundary classifies it as revoked.",
+      "evidence": {
+        "status": "SUCCESS_SPECULATIVE_REVOKED_WARMUP_ONLY",
+        "checkpoint_valid": true,
+        "must_not_seed_or_promote": true,
+        "classification": "SPECULATIVE_REVOKED_UNTIL_P943_TERMINAL"
+      },
+      "implementation_notes": [
+        "Code is useful for repair-loop study and unit-gate reuse only.",
+        "Do not use P948 UPDATE_001 as P959 lineage or product state."
+      ],
+      "primary_files": [
+        "payload/P948/code/genesis_basic_repair.py",
+        "payload/P948/code/run_p948_controller.sh",
+        "payload/P948/receipts/FIRST_UNIT_ACCEPTANCE.json",
+        "payload/P959/receipts/P959_P948_SPECULATIVE_BOUNDARY.json"
+      ]
+    },
+    "P950": {
+      "disposition": "HOLD_PRELIMINARY_MEASUREMENT",
+      "adoption_readiness": "NOT_DECISION_GRADE",
+      "claim_boundary": "Pinned current snapshot at 77/80 codebooks; 3 codebooks and 52 rows remain outside the terminal surface.",
+      "evidence": {
+        "status": "PASS_PINNED_PRELIM_77_OF_80",
+        "strict_pass_codebooks": 77,
+        "strict_pass_rows": 2808,
+        "missing_codebooks": 3,
+        "missing_rows": 52
+      },
+      "implementation_notes": [
+        "Use to reproduce the preliminary instrument and scorer binding only.",
+        "Do not quote as the final TRUE-C result or replace P951/P963 terminal evidence."
+      ],
+      "primary_files": [
+        "payload/P950/code/p921_wire_a_balanced64.py",
+        "payload/P950/code/p921_wire_a_overlay_adapter.py",
+        "payload/P950/receipts/P950_CURRENT_SNAPSHOT_PIN.json",
+        "payload/P950/receipts/P921_WIRE_A_BALANCED64_FINAL_SEAL.json"
+      ]
+    },
+    "P486": {
+      "disposition": "PROMOTE_VISIBLE_FULL164_ACTUAL_EVAL_REFERENCE",
+      "adoption_readiness": "ADOPTABLE_WITH_EXACT_ENDPOINT_AND_CONTAINER_REBINDING",
+      "claim_boundary": "One actual greedy HumanEvalPlus 164-sample run under the pinned graph-on vLLM contract.",
+      "evidence": {
+        "status": "PASS",
+        "completed": 164,
+        "total": 164,
+        "base_passes": 152,
+        "plus_passes": 144,
+        "wall_seconds": 4204.688042163849,
+        "dataset_sha256": "42526ec0e7d5f3ee0b06d6ced98f8c8bae3d76519151bfb3d36f79010645bd7f"
+      },
+      "implementation_notes": [
+        "Retain temperature 0, top_p 1, max_tokens 4096, concurrency 4, f16-equivalent prompt rendering pins in the receipt, and EvalPlus commit/image/network isolation.",
+        "Generated and sanitized rows are included for audit; they are not a model artifact."
+      ],
+      "primary_files": [
+        "payload/P486/code/run_full164.py",
+        "payload/P486/code/score_batch.py",
+        "payload/P486/receipts/FINAL_ACTUAL_FULL164_RECEIPT.json",
+        "payload/P486/receipts/raw_solutions.jsonl",
+        "payload/P486/receipts/samples.jsonl"
+      ]
+    },
+    "P526": {
+      "disposition": "NEGATIVE_RESULT_RESEARCH_ONLY",
+      "adoption_readiness": "DO_NOT_PROMOTE_AS_PRODUCT_KERNEL",
+      "claim_boundary": "The isolated explicit-M kernel wins its synthetic component comparison but misses the preregistered product bar.",
+      "evidence": {
+        "verdict": "MISS",
+        "minimum_component_speedup": 2.648196953638263,
+        "tested_M": [128, 512],
+        "persistent_second_weight_copy": false
+      },
+      "implementation_notes": [
+        "Use for kernel design and bottleneck analysis, not as evidence of end-to-end product speed.",
+        "P530 incorporates this component in its ladder and then promotes a different all-tier dense prefill path."
+      ],
+      "primary_files": [
+        "payload/P526/code/mbatched_qtip.py",
+        "payload/P526/code/bench_qtip_mbatched.py",
+        "payload/P526/receipts/RESULT.json",
+        "payload/P526/receipts/DOMINANT_SUBPHASE.json"
+      ]
+    },
+    "P530": {
+      "disposition": "PROMOTE_MIXED_TIER_PREFILL_REFERENCE",
+      "adoption_readiness": "ADOPTABLE_AS_SYNTHETIC_EXACT_PRODUCT_SERVE_REFERENCE",
+      "claim_boundary": "One-projection-at-a-time streaming BF16 dequant plus dense matrix multiply for prefill; incumbent Triton retained for decode.",
+      "evidence": {
+        "status": "PASS_GE_200_TOK_S",
+        "pp2048_prefill_tok_s_median": 1142.085381845603,
+        "pp8192_prefill_tok_s_median": 2167.276585972347,
+        "pp2048_decode_tok_s_median": 17.20703272177992,
+        "pp8192_decode_tok_s_median": 17.09600697287455,
+        "resident_product_bytes": 101346700411,
+        "transient_scratch_bytes": 268435456
+      },
+      "implementation_notes": [
+        "The final receipt explicitly describes a synthetic exact product-serve instrument with no allocated KV; do not relabel it as a native end-to-end model serve.",
+        "Preserve all four tier launch counts, six cache-cold rows, resident-byte pin, scratch cap, and no-persistent-second-copy law."
+      ],
+      "primary_files": [
+        "payload/P530/code/mixed_prefill_server.py",
+        "payload/P530/code/mixed_tier_backend.py",
+        "payload/P530/code/run_prefill_ladder.py",
+        "payload/P530/receipts/P530_RESULT.json",
+        "payload/P530/receipts/MIXED_PREFILL_LADDER_RESULT.json"
+      ]
+    },
+    "P234": {
+      "disposition": "PROMOTE_EVALPLUS_SANITIZER_AND_PIN_SET",
+      "adoption_readiness": "ADOPTABLE_WITH_EXACT_MODEL_ENDPOINT_REBINDING",
+      "claim_boundary": "Clean HumanEval164 generation and network-none EvalPlus scoring under pinned source/container identities.",
+      "evidence": {
+        "status": "PASS",
+        "sealed_raw_rows": 164,
+        "base_passes": 161,
+        "science_threshold": 160,
+        "dataset": "HumanEvalPlus-v0.1.10",
+        "dataset_sha256": "42526ec0e7d5f3ee0b06d6ced98f8c8bae3d76519151bfb3d36f79010645bd7f"
+      },
+      "implementation_notes": [
+        "Adopt prepare_evalplus.py, sanitize_evalplus.py, seal_evalplus.py, pinned codegen, and INPUT_RECEIPT as a single methodology unit.",
+        "Do not mix P486/P234 output rows without checking prompt, endpoint, KV, batching, and served-model pins."
+      ],
+      "primary_files": [
+        "payload/P234/code/evalplus_codegen_pinned.py",
+        "payload/P234/code/prepare_evalplus.py",
+        "payload/P234/code/sanitize_evalplus.py",
+        "payload/P234/code/seal_evalplus.py",
+        "payload/P234/receipts/INPUT_RECEIPT.json",
+        "payload/P234/receipts/VERDICT.json"
+      ]
+    },
+    "P968": {
+      "disposition": "PROMOTE_AUDIT_GRID_AND_BATCHING_REGRESSION_GATES",
+      "adoption_readiness": "PARTIAL_SOURCE_READY_WITH_EXPLICIT_MISSING_TOOLKIT_LEDGER",
+      "claim_boundary": "Preserved score-matrix and sanitizer proofs are valid. No n=5 sampled evaluation was launched. Supporting batching diagnostics are diagnostic-only and not table rows.",
+      "evidence": {
+        "sanitize_status": "PASS",
+        "score_matrix_status": "PASS",
+        "evalplus_commit": "26d6d00bb1fd0fa37f39c99d5290da67891d1c5e",
+        "timing_cells": ["canonical", "factor8", "min8", "relaxed"],
+        "batching_regression": {
+          "generation_rows_different": "10/10",
+          "outcome_flip_rows": ["HumanEval/39", "HumanEval/76"],
+          "batching_invariant": false,
+          "new_table_row": false
+        }
+      },
+      "implementation_notes": [
+        "Use the sanitizer receipt and four-cell timing grid to prevent empty/malformed input from becoming a plausible zero score.",
+        "Assert non-empty task coverage, expected task IDs, sanitizer row count, and result-key presence before aggregation.",
+        "Pin batching/server parallelism: the included diagnostic proves temp-0 visible completions were not batch-invariant on the tested llama.cpp build.",
+        "The original scratch-only independent canary/regression toolkit from the interrupted P968 task was unavailable; see the missing-source ledger."
+      ],
+      "primary_files": [
+        "payload/P968/code/p968_common.py",
+        "payload/P968/code/export_evalplus.py",
+        "payload/P968/code/score_evalplus.sh",
+        "payload/P968/receipts/SANITIZE_RECEIPT.json",
+        "payload/P968/receipts/SCORE_MATRIX_RECEIPT.json",
+        "payload/P968/supporting_batching_regression/code/run_pipeline.sh",
+        "payload/P968/supporting_batching_regression/receipts/REGRESSION_TEST.json",
+        "payload/P968/supporting_batching_regression/receipts/GENERATION_COMPARISON.json"
+      ]
+    }
+  }
+}

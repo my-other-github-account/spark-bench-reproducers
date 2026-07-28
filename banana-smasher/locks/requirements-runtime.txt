@@ -1,0 +1,6 @@
+flashinfer-python==0.6.13
+safetensors==0.7.0
+tokenizers==0.22.2
+transformers==5.0.0rc3
+triton==3.6.0
+vllm==0.24.0

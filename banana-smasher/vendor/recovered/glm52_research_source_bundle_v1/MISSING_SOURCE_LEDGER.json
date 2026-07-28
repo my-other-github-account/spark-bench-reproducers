@@ -1,0 +1,86 @@
+{
+  "bundle_id": "glm52_research_source_bundle_v1",
+  "policy": "Unavailable, intentionally excluded, or external dependencies are declared here. No source or evidence was reconstructed from unsupported prose.",
+  "entries": [
+    {
+      "scope": "all",
+      "item": "model weights, tensor checkpoints, packed products, caches, compiled runtimes, and container images",
+      "classification": "INTENTIONALLY_EXCLUDED",
+      "reason": "The handoff is limited to text/code/KB-scale receipts and forbids model/tensor artifacts.",
+      "impact": "Recovered code cannot be executed without independently resolving exact external artifact identities from receipt hashes.",
+      "substitute": "Use receipt SHA-256 pins and the cluster artifact-authority process; do not substitute similar files."
+    },
+    {
+      "scope": "P951/P950/P963",
+      "item": "full TRUE-C scorer/build/runtime dependency tree and physical overlay payloads",
+      "classification": "EXTERNAL_RUNTIME_DEPENDENCY",
+      "reason": "Selected runners and adapters were recovered, but the multi-mission scorer stack, canonical builder package, model inputs, and overlay payloads are larger external authorities.",
+      "impact": "The bundle is sufficient to audit staging settings, exactness logic, source hashes, and results, but not to run the measurement in isolation.",
+      "substitute": "Rebind only exact dependencies named and hashed by the receipts and runner constants."
+    },
+    {
+      "scope": "P959",
+      "item": "TERMINAL_UPDATE_000.pt",
+      "classification": "INTENTIONALLY_EXCLUDED_TENSOR",
+      "reason": "Tensor artifacts are outside the bundle policy.",
+      "impact": "The terminal seed recipe and exact 196/184/116/80/12 count/pin receipt are present, but the executable seed tensor is not.",
+      "substitute": "Resolve only a physical artifact matching SHA-256 08623d062e90340ee1997ce80764be4d9e72d48045903967299e8a1fd604edb3."
+    },
+    {
+      "scope": "P959/P948",
+      "item": "repair framework transitive modules and training/model payloads",
+      "classification": "EXTERNAL_RUNTIME_DEPENDENCY",
+      "reason": "The exact controllers/trainers and key receipts were preserved; shared repair framework modules and model payloads remain in broader mission authorities.",
+      "impact": "Algorithm and lineage boundaries are auditable; a standalone training launch is not supported by this bundle.",
+      "substitute": "Adopt via a task-local mission that resolves exact source hashes; never use the revoked P948 checkpoint as a substitute for P959."
+    },
+    {
+      "scope": "P948",
+      "item": "UPDATE_001.pt",
+      "classification": "INTENTIONALLY_EXCLUDED_AND_REVOKED_TENSOR",
+      "reason": "Tensor artifacts are excluded, and P959 explicitly classifies this checkpoint as speculative/revoked.",
+      "impact": "No executable speculative checkpoint is shipped.",
+      "substitute": "None. It must not seed or promote."
+    },
+    {
+      "scope": "P950",
+      "item": "terminal 80-of-80 P950 snapshot/result",
+      "classification": "NEVER_EXISTED_IN_RECOVERED_P950_MISSION",
+      "reason": "The surviving mission is explicitly pinned at 77/80 with 3 codebooks and 52 rows missing and terminal_result_pending=true.",
+      "impact": "P950 evidence is preliminary and not decision-grade.",
+      "substitute": "Use P951/P963 terminal evidence for the finished TRUE-C path; do not extrapolate P950."
+    },
+    {
+      "scope": "P486/P234/P968",
+      "item": "EvalPlus third-party source tree and container filesystem",
+      "classification": "EXTERNAL_PINNED_DEPENDENCY",
+      "reason": "Third-party source/container redistribution was not needed for this first-party recovery bundle.",
+      "impact": "Scoring requires the exact pinned EvalPlus commit/image/dataset identity recorded in receipts.",
+      "substitute": "Resolve EvalPlus commit 26d6d00 (or the full commit recorded by P968), verify image/dataset hashes, and run network-none."
+    },
+    {
+      "scope": "P968",
+      "item": "scratch-only independent canary/regression toolkit from interrupted task task-redacted",
+      "classification": "UNAVAILABLE_AFTER_SCRATCH_WORKSPACE_RECLAMATION",
+      "reason": "The board records the toolkit as prepared, but the scratch workspace no longer exists and no task attachment preserved those exact source files.",
+      "impact": "The exact scratch-only validator/test sources cannot be claimed as recovered.",
+      "substitute": "This bundle includes the surviving P968 mission audit code, sanitizer receipt, four-cell timing score matrix, sanitized input, and exact preserved batching-regression code/proofs from task-redacted. These are supporting evidence, not reconstructed replacements."
+    },
+    {
+      "scope": "P968",
+      "item": "n=5 sampled true-C/IQ4 evaluation requested by the P968 task",
+      "classification": "NOT_EXECUTED",
+      "reason": "The P968 handoff explicitly states no n=5 sampled evaluation was launched because the exact endpoint/topology gates did not clear.",
+      "impact": "No sampled pass@1 or MBPP+ claim is present in this bundle.",
+      "substitute": "None; a future matched run must follow the pinned n=5, temperature 0.2, top_p 0.95 contract."
+    },
+    {
+      "scope": "P526",
+      "item": "positive product promotion receipt",
+      "classification": "DOES_NOT_EXIST",
+      "reason": "P526 sealed verdict is MISS despite positive isolated component speedups.",
+      "impact": "P526 cannot be cited as an end-to-end product win.",
+      "substitute": "Use P530 for the later promoted mixed-tier prefill reference, preserving its synthetic-instrument caveat."
+    }
+  ]
+}

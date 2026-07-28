@@ -1,0 +1,9 @@
+{
+  "schema": "banana-smasher-model-mount-manifest-v1",
+  "host_path_env": "BANANA_MODEL_PACK",
+  "container_path": "/model",
+  "read_only": true,
+  "required_files": ["MANIFEST.json"],
+  "embedded_weights": false,
+  "law": "model tensors remain host-mounted and are never included in this source package or container build context"
+}

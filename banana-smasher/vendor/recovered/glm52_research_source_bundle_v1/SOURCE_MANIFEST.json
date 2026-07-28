@@ -1,0 +1,1974 @@
+{
+  "bundle_id": "glm52_research_source_bundle_v1",
+  "deterministic_order": "entries sorted by explicit recovery index; archive members later sorted lexicographically",
+  "entries": [
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P951/code/p951_true_c_balanced64.py",
+      "family": "P951",
+      "index": 1,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "runner",
+      "scrub_transformations": [
+        {
+          "count": 6,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        },
+        {
+          "count": 1,
+          "rule_id": "scratch_root",
+          "replacement": "${SCRATCH_ROOT}"
+        },
+        {
+          "count": 1,
+          "rule_id": "qsfp_address",
+          "replacement": "${QSFP_HOST}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 25311,
+      "shipped_sha256": "567e172ee6fefc644e7cdb62bbcf4b9f07ed425ca0bb550291267e3ab4cd2cc0",
+      "source_bytes": 25293,
+      "source_kind": "remote",
+      "source_locator": "spark-1:${SPARK_HOME}/missions/P951_TRUE_C_BALANCED64_t_463a3c8e_s1/code/p951_true_c_balanced64.py",
+      "source_sha256": "131e34e283222b3ea1e8048971e8cb22009303a4ba903233f280d5b34ba37211"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P951/code/p951_true_c_overlay_adapter.py",
+      "family": "P951",
+      "index": 2,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "overlay-adapter",
+      "scrub_transformations": [
+        {
+          "count": 1,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        },
+        {
+          "count": 5,
+          "rule_id": "qsfp_address",
+          "replacement": "${QSFP_HOST}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 15779,
+      "shipped_sha256": "149a2a280452174ca398baf682d2c45c8410221b9cd2e1ca792cd769f1524299",
+      "source_bytes": 15782,
+      "source_kind": "remote",
+      "source_locator": "spark-1:${SPARK_HOME}/missions/P951_TRUE_C_BALANCED64_t_463a3c8e_s1/code/p951_true_c_overlay_adapter.py",
+      "source_sha256": "cd51a54df68b935c72b7324935841b1bd6cbe48c0903f267d75af97becc1af37"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P951/receipts/P951_INDEPENDENT_TERMINAL_TRUE_C_80_OF_80.json",
+      "family": "P951",
+      "index": 3,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "terminal-result",
+      "scrub_transformations": [
+        {
+          "count": 10,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 67712,
+      "shipped_sha256": "b5f2db3885c9b09031ba7e328034c5091aa215d5b9c2ee88d82a35c456deed8e",
+      "source_bytes": 67692,
+      "source_kind": "remote",
+      "source_locator": "spark-1:${SPARK_HOME}/missions/P951_TRUE_C_BALANCED64_t_463a3c8e_s1/receipts/P951_INDEPENDENT_TERMINAL_TRUE_C_80_OF_80.json",
+      "source_sha256": "25dc5d5965b6e0e6c11db69ae05b7d64ec158dd41698e84e551db35270f1e5f7"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P963/code/p963_true_c_accel.py",
+      "family": "P963",
+      "index": 4,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "runner",
+      "scrub_transformations": [
+        {
+          "count": 7,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        },
+        {
+          "count": 1,
+          "rule_id": "scratch_root",
+          "replacement": "${SCRATCH_ROOT}"
+        },
+        {
+          "count": 1,
+          "rule_id": "qsfp_address",
+          "replacement": "${QSFP_HOST}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 27080,
+      "shipped_sha256": "892f153e36381a5a49d08c7cfdf833017b77ac3b2eacb980af84390a8f4a4c26",
+      "source_bytes": 27060,
+      "source_kind": "remote",
+      "source_locator": "spark-1:${SPARK_HOME}/missions/P963_ACCEL_TRUE_C_t_d78a699d_s1/code/p963_true_c_accel.py",
+      "source_sha256": "44ff2771fad236ad9d25fdbcd4ccdbfdb24b0725a27631650eb9748cb50cfdf8"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P963/code/p963_true_c_overlay_adapter.py",
+      "family": "P963",
+      "index": 5,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "batched-bulk-mover-overlay-adapter",
+      "scrub_transformations": [
+        {
+          "count": 1,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        },
+        {
+          "count": 1,
+          "rule_id": "scratch_root",
+          "replacement": "${SCRATCH_ROOT}"
+        },
+        {
+          "count": 5,
+          "rule_id": "qsfp_address",
+          "replacement": "${QSFP_HOST}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 18838,
+      "shipped_sha256": "be8275dd26c3fffba0e1e79221b991ebcf2babc3ce296090af7b7f957b833362",
+      "source_bytes": 18834,
+      "source_kind": "remote",
+      "source_locator": "spark-1:${SPARK_HOME}/missions/P963_ACCEL_TRUE_C_t_d78a699d_s1/code/p963_true_c_overlay_adapter.py",
+      "source_sha256": "e84efd6080806ca51bf8681e05e7e06aef6d2406bab29da4d4b68ff8d551415e"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P963/code/launch_p963.sh",
+      "family": "P963",
+      "index": 6,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "launcher",
+      "scrub_transformations": [
+        {
+          "count": 2,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 575,
+      "shipped_sha256": "de3450226cdd7183c59903901ccc9dde07dbf16c3ea5f5aded9cf32b7eca647b",
+      "source_bytes": 571,
+      "source_kind": "remote",
+      "source_locator": "spark-1:${SPARK_HOME}/missions/P963_ACCEL_TRUE_C_t_d78a699d_s1/code/launch_p963.sh",
+      "source_sha256": "393070f9b8c6184f062a9c5cf42f4712492174a7619f4768c3063305ed412c30"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P963/receipts/P963_BATCHED_STAGE_L000_CANARY.json",
+      "family": "P963",
+      "index": 7,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "bulk-stage-canary",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 532,
+      "shipped_sha256": "afe37a424266679edb5c50fb9fd2ad68ed9c1e8bf306ad7fd6ddafc286684831",
+      "source_bytes": 532,
+      "source_kind": "remote",
+      "source_locator": "spark-1:${SPARK_HOME}/missions/P963_ACCEL_TRUE_C_t_d78a699d_s1/receipts/P963_BATCHED_STAGE_L000_CANARY.json",
+      "source_sha256": "afe37a424266679edb5c50fb9fd2ad68ed9c1e8bf306ad7fd6ddafc286684831"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P963/receipts/P963_ACCEL_EXACT_P951_BALANCED64_V3_MB2.json",
+      "family": "P963",
+      "index": 8,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "exact-result",
+      "scrub_transformations": [
+        {
+          "count": 10,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 76944,
+      "shipped_sha256": "9d7fb9c454381d2990c51e2aa4e039b94e6ff18c83b884ca4561a47a8666fb1a",
+      "source_bytes": 76924,
+      "source_kind": "remote",
+      "source_locator": "spark-1:${SPARK_HOME}/missions/P963_ACCEL_TRUE_C_t_d78a699d_s1/receipts/P963_ACCEL_EXACT_P951_BALANCED64_V3_MB2.json",
+      "source_sha256": "85566c504f23d2862ce4f5d1cc5c03797888e57fd090547b239b2ffa2890f6a2"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P963/receipts/P963_EXACT_ACCELERATION_SEAL.json",
+      "family": "P963",
+      "index": 9,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "release-seal",
+      "scrub_transformations": [
+        {
+          "count": 7,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 6425,
+      "shipped_sha256": "88952f6d37917b8bebc566c843ddebd4a900f49902335d20c3f41173dca8ebd7",
+      "source_bytes": 6411,
+      "source_kind": "remote",
+      "source_locator": "spark-1:${SPARK_HOME}/missions/P963_ACCEL_TRUE_C_t_d78a699d_s1/receipts/P963_EXACT_ACCELERATION_SEAL.json",
+      "source_sha256": "11ed966638ac0c4641a28c8c4946599bdaeaaca1016d26f8a0ddb7cfb2373196"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P963/receipts/P963_MB4_FAIL_CLOSED.json",
+      "family": "P963",
+      "index": 10,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "numerical-fail-closed",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 226,
+      "shipped_sha256": "c2af3679e82b76db6f219e1eb5d163910c23f1a9932b90151f347128a9f0ad80",
+      "source_bytes": 226,
+      "source_kind": "remote",
+      "source_locator": "spark-1:${SPARK_HOME}/missions/P963_ACCEL_TRUE_C_t_d78a699d_s1/receipts/P937_FAILURE_1785262893.json",
+      "source_sha256": "c2af3679e82b76db6f219e1eb5d163910c23f1a9932b90151f347128a9f0ad80"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P963/receipts/INSTANCE_PARITY_GATE.json",
+      "family": "P963",
+      "index": 11,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "parity-gate",
+      "scrub_transformations": [
+        {
+          "count": 1,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 1357,
+      "shipped_sha256": "3600dd7f60f09572ef204680874faaac19856d7f3616d0acab9307f3033d54df",
+      "source_bytes": 1355,
+      "source_kind": "remote",
+      "source_locator": "spark-1:${SPARK_HOME}/missions/P963_ACCEL_TRUE_C_t_d78a699d_s1/receipts/INSTANCE_PARITY_GATE.json",
+      "source_sha256": "84eb3e0476a27b7843e5e150ed699d665420731bc4d25327fd14429a1dffa638"
+    },
+    {
+      "authority": "board-workspace-source",
+      "destination": "payload/P959/code/complete_terminal_seed_actual_inventory.py",
+      "family": "P959",
+      "index": 12,
+      "license_classification": "first-party-board-artifact",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "terminal-seed-rebuilder",
+      "scrub_transformations": [
+        {
+          "count": 3,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 14175,
+      "shipped_sha256": "7a5b081db1a1bfd8a01a99812a5a1515b6ed1b729c9b8ebe0f78d8dfb5d92819",
+      "source_bytes": 14169,
+      "source_kind": "local",
+      "source_locator": "board-local:${MACMINI_HOME}/.hermes/kanban/boards/glm52-humming-w3/workspaces/task-redacted/complete_terminal_seed_actual_inventory.py",
+      "source_sha256": "4c3fe3dbc7988db64399d7269825f89bf6a0ccd7082d129e8b18dd810dca7b05"
+    },
+    {
+      "authority": "board-workspace-source",
+      "destination": "payload/P959/code/rebuild_p959_terminal_seed_v2.py",
+      "family": "P959",
+      "index": 13,
+      "license_classification": "first-party-board-artifact",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "terminal-seed-rebuilder-compact",
+      "scrub_transformations": [
+        {
+          "count": 2,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 5185,
+      "shipped_sha256": "f7aa49146a917f31e1057b2ba90ef448ea5e4af924b77dcff26478534a4c6b7a",
+      "source_bytes": 5181,
+      "source_kind": "local",
+      "source_locator": "board-local:${MACMINI_HOME}/.hermes/kanban/boards/glm52-humming-w3/workspaces/task-redacted/rebuild_p959_terminal_seed_v2.py",
+      "source_sha256": "8fb046b659aee2fb2ae798219ff10a9dacf42cc7a3ca9adda2727ad3761e39ab"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P959/code/genesis_basic_repair.py",
+      "family": "P959",
+      "index": 14,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "repair-trainer",
+      "scrub_transformations": [
+        {
+          "count": 1,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 76303,
+      "shipped_sha256": "1cfd17213d3f4e1b215948f79872984c637fb1655769ee5ae6d3476e0c844cac",
+      "source_bytes": 76301,
+      "source_kind": "remote",
+      "source_locator": "spark-3:${SPARK_HOME}/missions/P959_TRUE_C_REPAIR_t_8343707a_s3/code/genesis_basic_repair.py",
+      "source_sha256": "36a7e9d0a8be3fa6b1d2612a6a58c9032667aab56c7f20e6f50e5547b78c6921"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P959/code/run_p959_terminal_repair.sh",
+      "family": "P959",
+      "index": 15,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "terminal-launcher",
+      "scrub_transformations": [
+        {
+          "count": 15,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 7787,
+      "shipped_sha256": "1e8c3b8e441da84c0f9f80d6a6220e26bf2d211c4782316497e70d6cfb3144ec",
+      "source_bytes": 7757,
+      "source_kind": "remote",
+      "source_locator": "spark-3:${SPARK_HOME}/missions/P959_TRUE_C_REPAIR_t_8343707a_s3/code/run_p959_terminal_repair.sh",
+      "source_sha256": "a20c0b645937729aafd1fbf97758941a40162585c129367d91e0575197e17c7e"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P959/receipts/P959_TERMINAL_UPDATE_000_SEED_REBUILD.json",
+      "family": "P959",
+      "index": 16,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "seed-rebuild-receipt",
+      "scrub_transformations": [
+        {
+          "count": 3,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 3165,
+      "shipped_sha256": "2ccc5b33d229567d6d65455df0a94be3b94d7ab90ce6b194d45ae28d866eafdd",
+      "source_bytes": 3159,
+      "source_kind": "remote",
+      "source_locator": "spark-3:${SPARK_HOME}/missions/P959_TRUE_C_REPAIR_t_8343707a_s3/receipts/P959_TERMINAL_UPDATE_000_SEED_REBUILD.json",
+      "source_sha256": "b9fe37bb65c0b1c5ca6c1937695c61c65239907868c30ba985b665e577458950"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P959/receipts/P959_SEED_EXTENSION_INVENTORY.json",
+      "family": "P959",
+      "index": 17,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "keyspace-inventory",
+      "scrub_transformations": [
+        {
+          "count": 3,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 29656,
+      "shipped_sha256": "1d45d4ebe8a7eebe90dee6ca174eb7da8ed47831590b8435fc307779917646da",
+      "source_bytes": 29650,
+      "source_kind": "remote",
+      "source_locator": "spark-3:${SPARK_HOME}/missions/P959_TRUE_C_REPAIR_t_8343707a_s3/receipts/P959_SEED_EXTENSION_INVENTORY.json",
+      "source_sha256": "ba79d1d86b9d7709528573c45082cdad9e0d81fdc999ce2373c8d5ec9fcfdd1e"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P959/receipts/P959_P948_SPECULATIVE_BOUNDARY.json",
+      "family": "P959",
+      "index": 18,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "speculative-boundary",
+      "scrub_transformations": [
+        {
+          "count": 8,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 3232,
+      "shipped_sha256": "44a132c5ad2d5584e684ac3721d5ac59d609edeb2f81440e5747984dc6ac362a",
+      "source_bytes": 3216,
+      "source_kind": "remote",
+      "source_locator": "spark-3:${SPARK_HOME}/missions/P959_TRUE_C_REPAIR_t_8343707a_s3/receipts/P959_P948_SPECULATIVE_BOUNDARY.json",
+      "source_sha256": "d3b1fb02405e4ecb4c34f38bd72d4146d6e3bc4a5501f429eed553c0cbfb37d3"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P959/receipts/P959_TERMINAL_REPAIR_BINDING.json",
+      "family": "P959",
+      "index": 19,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "terminal-binding",
+      "scrub_transformations": [
+        {
+          "count": 9,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 2489,
+      "shipped_sha256": "7aaa6aaca0b81027719d72a35def164e8701e901a1db4c9d8c57a99768ca8333",
+      "source_bytes": 2471,
+      "source_kind": "remote",
+      "source_locator": "spark-3:${SPARK_HOME}/missions/P959_TRUE_C_REPAIR_t_8343707a_s3/receipts/P959_TERMINAL_REPAIR_BINDING.json",
+      "source_sha256": "e4ffd858b74ccd73c3df8d70b51852e62087ed2e322bc3afa8f1bce9e2b10d9d"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P959/receipts/P959_TERMINAL_LAUNCH_READY.json",
+      "family": "P959",
+      "index": 20,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "launch-readiness",
+      "scrub_transformations": [
+        {
+          "count": 8,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 2682,
+      "shipped_sha256": "288804de7a520f58f804413ad4ebecead14a567f50e1a72aee7deb2eaaf19d23",
+      "source_bytes": 2666,
+      "source_kind": "remote",
+      "source_locator": "spark-3:${SPARK_HOME}/missions/P959_TRUE_C_REPAIR_t_8343707a_s3/receipts/P959_TERMINAL_LAUNCH_READY.json",
+      "source_sha256": "ed879ba2d52c88a731110797affd77d24429f205e8e7d8d6ca88fa018ee73def"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P959/receipts/P959_TERMINAL_UPDATE_000_ACTIVATED.json",
+      "family": "P959",
+      "index": 21,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "activation-receipt",
+      "scrub_transformations": [
+        {
+          "count": 4,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 1747,
+      "shipped_sha256": "e7376d7b7f811da32946f0297ae561271589b3e262e71dbcac1dc5ce47ef0d2d",
+      "source_bytes": 1739,
+      "source_kind": "remote",
+      "source_locator": "spark-3:${SPARK_HOME}/missions/P959_TRUE_C_REPAIR_t_8343707a_s3/receipts/P959_TERMINAL_UPDATE_000_ACTIVATED.json",
+      "source_sha256": "1c366953c8373229d624480c0f2786dbcae5c220359ee503a23fc1568d27dec5"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P959/receipts/BASIC_REPAIR_STATUS.json",
+      "family": "P959",
+      "index": 22,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "strict-keyspace-gate",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 1284,
+      "shipped_sha256": "c5e7ed1a4134dc90c62c3adc651d581240cab3e5076e9a05e390e5040ab7b6b3",
+      "source_bytes": 1284,
+      "source_kind": "remote",
+      "source_locator": "spark-3:${SPARK_HOME}/missions/P959_TRUE_C_REPAIR_t_8343707a_s3/run/BASIC_REPAIR_STATUS.json",
+      "source_sha256": "c5e7ed1a4134dc90c62c3adc651d581240cab3e5076e9a05e390e5040ab7b6b3"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P948/code/run_p948_controller.sh",
+      "family": "P948",
+      "index": 23,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "controller",
+      "scrub_transformations": [
+        {
+          "count": 4,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 1668,
+      "shipped_sha256": "d464c2d4b27270766383aeee0b24ba251a562a1fe8705837fe27835f936afe73",
+      "source_bytes": 1660,
+      "source_kind": "remote",
+      "source_locator": "spark-3:${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/code/run_p948_controller.sh",
+      "source_sha256": "27ebd39ee639809f140c458b9db8603a89a3a4f5d216bf29d8520e90253038ad"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P948/code/run_p948_speculative_repair.sh",
+      "family": "P948",
+      "index": 24,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "speculative-launcher",
+      "scrub_transformations": [
+        {
+          "count": 15,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 8129,
+      "shipped_sha256": "391326ab9310632b990bd4f9ee3a0666c4a4ae49cc35d4925055bba4931e69fe",
+      "source_bytes": 8099,
+      "source_kind": "remote",
+      "source_locator": "spark-3:${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/code/run_p948_speculative_repair.sh",
+      "source_sha256": "d8467f614e26a7e8968aea75ec07feacc6b254b5a61173e4e7e4abba2c0b29fb"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P948/code/genesis_basic_repair.py",
+      "family": "P948",
+      "index": 25,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "speculative-trainer",
+      "scrub_transformations": [
+        {
+          "count": 1,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 71677,
+      "shipped_sha256": "766064fac575bbb3254d3f91c0162fa0ddbd336992e9bb9653c89e95196b4a84",
+      "source_bytes": 71675,
+      "source_kind": "remote",
+      "source_locator": "spark-3:${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/code/genesis_basic_repair.py",
+      "source_sha256": "0c3274c7d4712da023e96bf55fdd04a64c6195bd95cd0ee25683862b6c474a12"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P948/code/prepare_p948.py",
+      "family": "P948",
+      "index": 26,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "preparer",
+      "scrub_transformations": [
+        {
+          "count": 6,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        },
+        {
+          "count": 5,
+          "rule_id": "qsfp_address",
+          "replacement": "${QSFP_HOST}"
+        },
+        {
+          "count": 3,
+          "rule_id": "operator_username",
+          "replacement": "${OPERATOR_USER}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 16605,
+      "shipped_sha256": "3b5e034c98259e36f6c8c220d7125f1e4080aec66a697f69f82de106ef3e9800",
+      "source_bytes": 16565,
+      "source_kind": "remote",
+      "source_locator": "spark-3:${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/code/prepare_p948.py",
+      "source_sha256": "7bd597fa63bfd79f6f1c517a7a695078d0d7dabe718cb661fdc7e8714870bb5d"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P948/receipts/FIRST_UNIT_ACCEPTANCE.json",
+      "family": "P948",
+      "index": 27,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "first-unit-acceptance",
+      "scrub_transformations": [
+        {
+          "count": 3,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 1661,
+      "shipped_sha256": "d23c54ea2c7f6f7c7c5328ead9354d3f8c1fe25a08c92795625610d672d76ce5",
+      "source_bytes": 1655,
+      "source_kind": "remote",
+      "source_locator": "spark-3:${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/receipts/FIRST_UNIT_ACCEPTANCE.json",
+      "source_sha256": "2a75ac320c389d4842711025fc87b004ceebbed7a27a227ef5e68196e8a6c5b4"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P948/receipts/UPDATE_ACCEPTANCE_001.json",
+      "family": "P948",
+      "index": 28,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "update-acceptance",
+      "scrub_transformations": [
+        {
+          "count": 3,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 1635,
+      "shipped_sha256": "ca40c27a2574023ed8bc16c14c94f77e4dd3f6b80decea08c8d4b46f6fc09bcf",
+      "source_bytes": 1629,
+      "source_kind": "remote",
+      "source_locator": "spark-3:${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/receipts/UPDATE_ACCEPTANCE_001.json",
+      "source_sha256": "3db91cd95a7e4187d54d78905510fa4c8b9ac267027f99280e61e52b79da3d2c"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P948/receipts/SPECULATIVE_REVOKED_CONTROLLER.stderr.log",
+      "family": "P948",
+      "index": 29,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "revocation-proof",
+      "scrub_transformations": [
+        {
+          "count": 5,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        },
+        {
+          "count": 1,
+          "rule_id": "qsfp_address",
+          "replacement": "${QSFP_HOST}"
+        },
+        {
+          "count": 1,
+          "rule_id": "operator_username",
+          "replacement": "${OPERATOR_USER}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 1605,
+      "shipped_sha256": "f238b7da6a441a6933bed718765baf91aaec6d055c182d06e6fa74ffa92b9d07",
+      "source_bytes": 1585,
+      "source_kind": "remote",
+      "source_locator": "spark-3:${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/logs/SPECULATIVE_REVOKED_UNTIL_P943_TERMINAL__P948_CONTROLLER.stderr.log",
+      "source_sha256": "aab25db25373311f7aed5ee2be1004e5f36ca979a027d4f0e1572b792290f8f7"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P948/receipts/SPECULATIVE_REVOKED_CONTROLLER.stdout.log",
+      "family": "P948",
+      "index": 30,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "revocation-proof",
+      "scrub_transformations": [
+        {
+          "count": 2,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 300,
+      "shipped_sha256": "fbe3d247c8294f67b14b304d479c71a0c3c7f6fdaf8f68d3138663ab582e31d4",
+      "source_bytes": 296,
+      "source_kind": "remote",
+      "source_locator": "spark-3:${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/logs/SPECULATIVE_REVOKED_UNTIL_P943_TERMINAL__P948_CONTROLLER.stdout.log",
+      "source_sha256": "486a95dfc2dd140f39fa29f01f9c90923534afdce92511884b3af99f0215498d"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P950/code/p921_wire_a_balanced64.py",
+      "family": "P950",
+      "index": 31,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "measurement-runner",
+      "scrub_transformations": [
+        {
+          "count": 5,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        },
+        {
+          "count": 1,
+          "rule_id": "scratch_root",
+          "replacement": "${SCRATCH_ROOT}"
+        },
+        {
+          "count": 1,
+          "rule_id": "qsfp_address",
+          "replacement": "${QSFP_HOST}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 24448,
+      "shipped_sha256": "3075c5762a13b9de4b28e0ce305f0b54e7f1af6bddfacab03fad6cbf6247034c",
+      "source_bytes": 24432,
+      "source_kind": "remote",
+      "source_locator": "spark-7:${SPARK_HOME}/missions/P950_PRELIM_TRUE_C_BALANCED64_t_090f28e7_s7/code/p921_wire_a_balanced64.py",
+      "source_sha256": "23dad1e1018747263df512f7cb79cd76cb6561d84711ced37b93ea0ac1cdf5d1"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P950/code/p921_wire_a_overlay_adapter.py",
+      "family": "P950",
+      "index": 32,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "overlay-adapter",
+      "scrub_transformations": [
+        {
+          "count": 2,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        },
+        {
+          "count": 3,
+          "rule_id": "qsfp_address",
+          "replacement": "${QSFP_HOST}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 16851,
+      "shipped_sha256": "75f460dd864a5ef19ee04b83255bfdce2da252595d528755be982595d497c558",
+      "source_bytes": 16850,
+      "source_kind": "remote",
+      "source_locator": "spark-7:${SPARK_HOME}/missions/P950_PRELIM_TRUE_C_BALANCED64_t_090f28e7_s7/code/p921_wire_a_overlay_adapter.py",
+      "source_sha256": "92bf8524c1f085474c8e4d2c4c672651d3ec186287b05d07af4a960b16daaf6d"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P950/receipts/P950_CURRENT_SNAPSHOT_PIN.json",
+      "family": "P950",
+      "index": 33,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "snapshot-pin",
+      "scrub_transformations": [
+        {
+          "count": 2,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 1748,
+      "shipped_sha256": "1b4f5ab5b0d94a53c4973b023c02c2fc193430f9521d70b73e27ae6e4502fb4d",
+      "source_bytes": 1744,
+      "source_kind": "remote",
+      "source_locator": "spark-7:${SPARK_HOME}/missions/P950_PRELIM_TRUE_C_BALANCED64_t_090f28e7_s7/receipts/P950_CURRENT_SNAPSHOT_PIN.json",
+      "source_sha256": "6aa8de4a2c6fb151f72ccdaf9dd1ae25bdeb750dea8a16167e1c36a70f4bd419"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P950/receipts/P950_PRODUCTIVE_LAUNCH.json",
+      "family": "P950",
+      "index": 34,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "launch-receipt",
+      "scrub_transformations": [
+        {
+          "count": 7,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 2189,
+      "shipped_sha256": "20ef01eab61d2afb8c0f84c14878b06b6c4cb35617e2ade5d587251447d62cfb",
+      "source_bytes": 2175,
+      "source_kind": "remote",
+      "source_locator": "spark-7:${SPARK_HOME}/missions/P950_PRELIM_TRUE_C_BALANCED64_t_090f28e7_s7/receipts/P950_PRODUCTIVE_LAUNCH.json",
+      "source_sha256": "da6214423c918c5873ccad2b239ffb199dd413ce7fefcc8df499f5d07e967b8c"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P950/receipts/P921_WIRE_A_BALANCED64_FINAL_SEAL.json",
+      "family": "P950",
+      "index": 35,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "measurement-seal",
+      "scrub_transformations": [
+        {
+          "count": 11,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 14963,
+      "shipped_sha256": "fa6f781b23dccde3484dc829ec552aa3f6802eb8773ec992666828882f5bb196",
+      "source_bytes": 14941,
+      "source_kind": "remote",
+      "source_locator": "spark-7:${SPARK_HOME}/missions/P950_PRELIM_TRUE_C_BALANCED64_t_090f28e7_s7/receipts/P921_WIRE_A_BALANCED64_FINAL_SEAL.json",
+      "source_sha256": "9b6c5efe6eb36bfedaa22d872d1753f33185eb77913484b7ce082f614fa295c6"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P950/receipts/P921_SCORER_BINDING_AUDIT.json",
+      "family": "P950",
+      "index": 36,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "scorer-binding",
+      "scrub_transformations": [
+        {
+          "count": 5,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 3413,
+      "shipped_sha256": "d14fb411b177498263e25a682d078c7945dcb22ae99f629fa337da9c14c2aab9",
+      "source_bytes": 3403,
+      "source_kind": "remote",
+      "source_locator": "spark-7:${SPARK_HOME}/missions/P950_PRELIM_TRUE_C_BALANCED64_t_090f28e7_s7/receipts/P921_SCORER_BINDING_AUDIT_WIRE_A_P637_PREREPAIR_BALANCED64_R2.json",
+      "source_sha256": "3c1ad05d2ec543ff1aa848296d272c42b5a20ea9ccc89a08f0f3d4ee7f07b13e"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P486/code/run_full164.py",
+      "family": "P486",
+      "index": 37,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "generation-runner",
+      "scrub_transformations": [
+        {
+          "count": 7,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 20519,
+      "shipped_sha256": "b6e90f17f013203fd7a3f2c9379b943dc8c68fad9bd36039c9ddb5094b3d9fb2",
+      "source_bytes": 20505,
+      "source_kind": "remote",
+      "source_locator": "spark-2:${SPARK_HOME}/missions/VISIBLE_EVAL_FULL164_t_872fd554_s2/task_local/run_full164.py",
+      "source_sha256": "c79fad7e31bab1e9121642354e8612cb8fad3287cbd1976c6dd26e55fedba07b"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P486/code/score_batch.py",
+      "family": "P486",
+      "index": 38,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "batch-scorer",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 4026,
+      "shipped_sha256": "31410c0766ecdc3af20ad90632121f8df41d0b4da9636a4fc8d0a75074722f26",
+      "source_bytes": 4026,
+      "source_kind": "remote",
+      "source_locator": "spark-2:${SPARK_HOME}/missions/VISIBLE_EVAL_FULL164_t_872fd554_s2/task_local/score_batch.py",
+      "source_sha256": "31410c0766ecdc3af20ad90632121f8df41d0b4da9636a4fc8d0a75074722f26"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P486/code/finalize_release.py",
+      "family": "P486",
+      "index": 39,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "receipt-finalizer",
+      "scrub_transformations": [
+        {
+          "count": 2,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 4192,
+      "shipped_sha256": "1933aa18ca8fd0b0d4dd9e96e07b5c0706c719c12fe57eb555bac041875472dd",
+      "source_bytes": 4188,
+      "source_kind": "remote",
+      "source_locator": "spark-2:${SPARK_HOME}/missions/VISIBLE_EVAL_FULL164_t_872fd554_s2/task_local/finalize_release.py",
+      "source_sha256": "5a276f18ead147eee2b683b9605279fb1138b80a6d4217ffa2f7d7f9391fee11"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P486/code/run_pipeline.sh",
+      "family": "P486",
+      "index": 40,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "pipeline-launcher",
+      "scrub_transformations": [
+        {
+          "count": 5,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 2824,
+      "shipped_sha256": "3e9b22ee095313b9275d054c522765eda048812db5dcc20e09cc8559c95efd26",
+      "source_bytes": 2814,
+      "source_kind": "remote",
+      "source_locator": "spark-2:${SPARK_HOME}/missions/VISIBLE_EVAL_FULL164_t_872fd554_s2/task_local/run_pipeline.sh",
+      "source_sha256": "09e5d2aed16db5e7b900bbf4ef27c5e9ebe5a71c51529f27bfb4944326db162b"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P486/receipts/FINAL_ACTUAL_FULL164_RECEIPT.json",
+      "family": "P486",
+      "index": 41,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "final-actual-receipt",
+      "scrub_transformations": [
+        {
+          "count": 10,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 11113,
+      "shipped_sha256": "335592db68091d2010cb8d5f4661e2d7a7cfecb5e0ecbe5f4b87b4185522f104",
+      "source_bytes": 11093,
+      "source_kind": "remote",
+      "source_locator": "spark-2:${SPARK_HOME}/missions/VISIBLE_EVAL_FULL164_t_872fd554_s2/out/FINAL_ACTUAL_FULL164_RECEIPT.json",
+      "source_sha256": "913988e8fca752d35b2f8594a52d0112f6010eef1a9e1ae7c932dbbd5796e2cf"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P486/receipts/raw_solutions.jsonl",
+      "family": "P486",
+      "index": 42,
+      "license_classification": "generated-benchmark-output",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "generated-completions",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 153756,
+      "shipped_sha256": "a0a0d5474e699fbcc09a3c530c8765e28a788a6583fd4b566e8cb5686741d128",
+      "source_bytes": 153756,
+      "source_kind": "remote",
+      "source_locator": "spark-2:${SPARK_HOME}/missions/VISIBLE_EVAL_FULL164_t_872fd554_s2/out/raw_solutions.jsonl",
+      "source_sha256": "a0a0d5474e699fbcc09a3c530c8765e28a788a6583fd4b566e8cb5686741d128"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P486/receipts/samples.jsonl",
+      "family": "P486",
+      "index": 43,
+      "license_classification": "generated-benchmark-output",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "scorable-samples",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 116774,
+      "shipped_sha256": "a33622bb53815978fe3569a41d2984aed4a59b51ec47a3882f00afdb586e4429",
+      "source_bytes": 116774,
+      "source_kind": "remote",
+      "source_locator": "spark-2:${SPARK_HOME}/missions/VISIBLE_EVAL_FULL164_t_872fd554_s2/out/samples.jsonl",
+      "source_sha256": "a33622bb53815978fe3569a41d2984aed4a59b51ec47a3882f00afdb586e4429"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P526/code/mbatched_qtip.py",
+      "family": "P526",
+      "index": 44,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "candidate-kernel",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 2879,
+      "shipped_sha256": "655634773e941f6fa310235fe1adfbd1803eaa8d9207c9b51640b93d947e98a9",
+      "source_bytes": 2879,
+      "source_kind": "remote",
+      "source_locator": "spark-4:${SPARK_HOME}/missions/P526_QTIP_MBATCH_t_88eede57_s4/code/mbatched_qtip.py",
+      "source_sha256": "655634773e941f6fa310235fe1adfbd1803eaa8d9207c9b51640b93d947e98a9"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P526/code/bench_qtip_mbatched.py",
+      "family": "P526",
+      "index": 45,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "benchmark",
+      "scrub_transformations": [
+        {
+          "count": 3,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 8225,
+      "shipped_sha256": "cf4e9d09a3be80e3059afeaa511800b79483dd5abf3fe8e64cb6aea8013556ce",
+      "source_bytes": 8219,
+      "source_kind": "remote",
+      "source_locator": "spark-4:${SPARK_HOME}/missions/P526_QTIP_MBATCH_t_88eede57_s4/code/bench_qtip_mbatched.py",
+      "source_sha256": "9396736587a419ff862b82c6dc3ad9f38812aa20071724e9349dad1425ee1f97"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P526/code/qtip_vq_backend_sealed.py",
+      "family": "P526",
+      "index": 46,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "incumbent-reference",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 6701,
+      "shipped_sha256": "5391a3ef62243188576c8f82346dc003b023470aea9fa1decb9376b70ae1f1fd",
+      "source_bytes": 6701,
+      "source_kind": "remote",
+      "source_locator": "spark-4:${SPARK_HOME}/missions/P526_QTIP_MBATCH_t_88eede57_s4/code/qtip_vq_backend_sealed.py",
+      "source_sha256": "5391a3ef62243188576c8f82346dc003b023470aea9fa1decb9376b70ae1f1fd"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P526/code/run_p526.sh",
+      "family": "P526",
+      "index": 47,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "launcher",
+      "scrub_transformations": [
+        {
+          "count": 2,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 172,
+      "shipped_sha256": "a6a0041c2916b93c528b57f0cd6e3220a258e4ca30b99b34757fa7a78012b609",
+      "source_bytes": 168,
+      "source_kind": "remote",
+      "source_locator": "spark-4:${SPARK_HOME}/missions/P526_QTIP_MBATCH_t_88eede57_s4/code/run_p526.sh",
+      "source_sha256": "0e4651e8db0ad7de015d85a9207052a5500371901047b71276dfde3948b855c2"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P526/receipts/RESULT.json",
+      "family": "P526",
+      "index": 48,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "result",
+      "scrub_transformations": [
+        {
+          "count": 1,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 5780,
+      "shipped_sha256": "399584202cab05f27fc9b6cb6625940fa146ae4e2084ae42921786b43c9e9ee0",
+      "source_bytes": 5778,
+      "source_kind": "remote",
+      "source_locator": "spark-4:${SPARK_HOME}/missions/P526_QTIP_MBATCH_t_88eede57_s4/RESULT.json",
+      "source_sha256": "fb416f942b5469f4870a08f3aedf2579664ff138dc80286f7518ee0bcdd6a1d2"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P526/receipts/DOMINANT_SUBPHASE.json",
+      "family": "P526",
+      "index": 49,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "profile-receipt",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 1532,
+      "shipped_sha256": "ff1e0348aa338f2125caf301185fb8011ee0915c403da4e6816719bdc6d3bb20",
+      "source_bytes": 1532,
+      "source_kind": "remote",
+      "source_locator": "spark-4:${SPARK_HOME}/missions/P526_QTIP_MBATCH_t_88eede57_s4/DOMINANT_SUBPHASE.json",
+      "source_sha256": "ff1e0348aa338f2125caf301185fb8011ee0915c403da4e6816719bdc6d3bb20"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P526/receipts/RELEASE.json",
+      "family": "P526",
+      "index": 50,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "release-receipt",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 510,
+      "shipped_sha256": "5876b1709ebf2fd5cb9fd018923d77a6b4d5b229421b23c3c19d001acdcfbda3",
+      "source_bytes": 510,
+      "source_kind": "remote",
+      "source_locator": "spark-4:${SPARK_HOME}/missions/P526_QTIP_MBATCH_t_88eede57_s4/RELEASE.json",
+      "source_sha256": "5876b1709ebf2fd5cb9fd018923d77a6b4d5b229421b23c3c19d001acdcfbda3"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P526/receipts/MISSION.md",
+      "family": "P526",
+      "index": 51,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "contract",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 440,
+      "shipped_sha256": "4d9389db6ce224dd2b40497c188a411bff2fdbe900bc87404a422894c087554a",
+      "source_bytes": 440,
+      "source_kind": "remote",
+      "source_locator": "spark-4:${SPARK_HOME}/missions/P526_QTIP_MBATCH_t_88eede57_s4/MISSION.md",
+      "source_sha256": "4d9389db6ce224dd2b40497c188a411bff2fdbe900bc87404a422894c087554a"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P530/code/mixed_prefill_server.py",
+      "family": "P530",
+      "index": 52,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "server",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 37319,
+      "shipped_sha256": "ffe52247a444acb3ba684761ec5601e2feea99b1216ac776cf81da079854ee8a",
+      "source_bytes": 37319,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/P530_PREFILL_t_099a5835_s8/code/mixed_prefill_server.py",
+      "source_sha256": "ffe52247a444acb3ba684761ec5601e2feea99b1216ac776cf81da079854ee8a"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P530/code/mixed_tier_backend.py",
+      "family": "P530",
+      "index": 53,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "backend",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 20543,
+      "shipped_sha256": "db14f3607d539f03bb81201b662d44149ef78d3297625575f86057d4eaadfaf0",
+      "source_bytes": 20543,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/P530_PREFILL_t_099a5835_s8/code/mixed_tier_backend.py",
+      "source_sha256": "db14f3607d539f03bb81201b662d44149ef78d3297625575f86057d4eaadfaf0"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P530/code/mixed_tier_patch.py",
+      "family": "P530",
+      "index": 54,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "runtime-patch",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 6223,
+      "shipped_sha256": "80696f626254fb3f2be6c95035e1ba13a17ae3ab7a8d50c366f8056cba66dd27",
+      "source_bytes": 6223,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/P530_PREFILL_t_099a5835_s8/code/mixed_tier_patch.py",
+      "source_sha256": "80696f626254fb3f2be6c95035e1ba13a17ae3ab7a8d50c366f8056cba66dd27"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P530/code/run_prefill_ladder.py",
+      "family": "P530",
+      "index": 55,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "benchmark-runner",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 20238,
+      "shipped_sha256": "ba28a697a9cd6891793f80efbcf7ada123cef3a5432a4b9d992b92feccdd1a74",
+      "source_bytes": 20238,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/P530_PREFILL_t_099a5835_s8/code/run_prefill_ladder.py",
+      "source_sha256": "ba28a697a9cd6891793f80efbcf7ada123cef3a5432a4b9d992b92feccdd1a74"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P530/code/finalize_result.py",
+      "family": "P530",
+      "index": 56,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "result-finalizer",
+      "scrub_transformations": [
+        {
+          "count": 1,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 4936,
+      "shipped_sha256": "6c65f5e5c3590f9754312ba1bcbe014650182d88315bb03f97030103823a61d8",
+      "source_bytes": 4934,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/P530_PREFILL_t_099a5835_s8/code/finalize_result.py",
+      "source_sha256": "6b7acea70fda7210cc32f779dad9dc4ebf25a2f7a3674f13fd1f41c8f3873b82"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P530/code/launch_final_gate.sh",
+      "family": "P530",
+      "index": 57,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "final-gate-launcher",
+      "scrub_transformations": [
+        {
+          "count": 3,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 1276,
+      "shipped_sha256": "2cd39bcfba26c5bda3730d2477b999fd5873454b9089eb190c33ca00312f554e",
+      "source_bytes": 1270,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/P530_PREFILL_t_099a5835_s8/code/launch_final_gate.sh",
+      "source_sha256": "97599a1ecdfa1621289f28984388b73d82d8b572b7dd58115207885c84aa459f"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P530/receipts/P530_RESULT.json",
+      "family": "P530",
+      "index": 58,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "result",
+      "scrub_transformations": [
+        {
+          "count": 7,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 5054,
+      "shipped_sha256": "778231dc35e8f6b801cda0d7b201b6390542f3114a1e0347d691fdc4a368dfe2",
+      "source_bytes": 5040,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/P530_PREFILL_t_099a5835_s8/receipts/P530_RESULT.json",
+      "source_sha256": "88748e8c9708e7e9b23aa2e857f69d0e8c3a363130714fc2af79ecd8b76f1a31"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P530/receipts/MIXED_PREFILL_LADDER_RESULT.json",
+      "family": "P530",
+      "index": 59,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "benchmark-result",
+      "scrub_transformations": [
+        {
+          "count": 9,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 7593,
+      "shipped_sha256": "a271b444ef86ce92e36ca08858635feb8e17e6aef3b3ebf395d159e4000c98da",
+      "source_bytes": 7575,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/P530_PREFILL_t_099a5835_s8/receipts/final_gate/MIXED_PREFILL_LADDER_RESULT.json",
+      "source_sha256": "ee8912dfe3494e05066cb3b736d7be74f6f37892d64a3fadcde6045d0720022f"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P530/receipts/ARTIFACT_MANIFEST.json",
+      "family": "P530",
+      "index": 60,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "artifact-manifest",
+      "scrub_transformations": [
+        {
+          "count": 3,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 3815,
+      "shipped_sha256": "2578a7a9775db028550f1f9d5472ffa1b77b78778ca892f3b32cedd53ebbf3ea",
+      "source_bytes": 3809,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/P530_PREFILL_t_099a5835_s8/artifact/MANIFEST.json",
+      "source_sha256": "b52e248ffe8925ab0fec6113f0fe595a5076055187cf8de4d32d5ded248beb83"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P234/code/he164_generate.py",
+      "family": "P234",
+      "index": 61,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "generation-runner",
+      "scrub_transformations": [
+        {
+          "count": 2,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 9094,
+      "shipped_sha256": "0adb45c69f998bfd7d21e7500095aa067523df1ec74fb12a8178d85a6e8231b8",
+      "source_bytes": 9090,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/code/he164_generate.py",
+      "source_sha256": "9bb9fd20d744580e3c7c0d2ef1610a0ef67fb798625ea8baebaa72f85d4620a0"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P234/code/evalplus_codegen_pinned.py",
+      "family": "P234",
+      "index": 62,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "pinned-codegen",
+      "scrub_transformations": [
+        {
+          "count": 1,
+          "rule_id": "collection_home",
+          "replacement": "${MACMINI_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 1585,
+      "shipped_sha256": "4eb200cdd4b2eb434d861e42f1ad97dd887f3599906ecb257bcdeb8070b493b7",
+      "source_bytes": 1584,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/code/evalplus_codegen_pinned.py",
+      "source_sha256": "459a84bb6c594b4e03ed74992c30eb4ddbe05bb04ba127a659f540d4fea99282"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P234/code/prepare_evalplus.py",
+      "family": "P234",
+      "index": 63,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "evalplus-preparer",
+      "scrub_transformations": [
+        {
+          "count": 1,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 2216,
+      "shipped_sha256": "6b553142afaa99f36787f742be5de3c5214819ad69768fe8395699226c2f2193",
+      "source_bytes": 2214,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/code/prepare_evalplus.py",
+      "source_sha256": "be758c958bb24e25caa89b2ec019798da72c83d2e75f9a1b9652a56b40178407"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P234/code/sanitize_evalplus.py",
+      "family": "P234",
+      "index": 64,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "sanitizer",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 1092,
+      "shipped_sha256": "1a1a47687ec7ee7d44afe1fd0127e2ab140196b06dc47588c370afa0963bf02e",
+      "source_bytes": 1092,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/code/sanitize_evalplus.py",
+      "source_sha256": "1a1a47687ec7ee7d44afe1fd0127e2ab140196b06dc47588c370afa0963bf02e"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P234/code/seal_evalplus.py",
+      "family": "P234",
+      "index": 65,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "seal-finalizer",
+      "scrub_transformations": [
+        {
+          "count": 2,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 5721,
+      "shipped_sha256": "7af5bda149edd8c7bf67e7612ed70a6f3183ba9d163d509fba9e790dce8287bd",
+      "source_bytes": 5717,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/code/seal_evalplus.py",
+      "source_sha256": "20076c080e021b1dc102332f6fa8098d1912b0e6f9702efa2a9c797c6a038971"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P234/code/SCORE_EVALPLUS.sh",
+      "family": "P234",
+      "index": 66,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "score-launcher",
+      "scrub_transformations": [
+        {
+          "count": 4,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 1708,
+      "shipped_sha256": "478e18a53a675fdf98e99896f517fa65e9c4a9a8b4afb2bd2b2c15ef3b152ba3",
+      "source_bytes": 1700,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/code/SCORE_EVALPLUS.sh",
+      "source_sha256": "3f9709551532f8a42d33def0f0dd95d04815a487ef333861fb34da23330b50f5"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P234/receipts/INPUT_RECEIPT.json",
+      "family": "P234",
+      "index": 67,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "input-pin",
+      "scrub_transformations": [
+        {
+          "count": 2,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 753,
+      "shipped_sha256": "c38a4d5519e535165c0e4c1733b2a6064c45b3487fadaea0f694202e0f737233",
+      "source_bytes": 749,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/evalplus/INPUT_RECEIPT.json",
+      "source_sha256": "4a1c0ae5cd3761c619e75bbc0dbcb71bb89697528de12f7b667683bcf22bf501"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P234/receipts/VERDICT.json",
+      "family": "P234",
+      "index": 68,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "evalplus-verdict",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 607708,
+      "shipped_sha256": "2064de43021a3336170d1c127aa6652a7a3b32076c14fa5a36122c95382a560c",
+      "source_bytes": 607708,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/evalplus/VERDICT.json",
+      "source_sha256": "2064de43021a3336170d1c127aa6652a7a3b32076c14fa5a36122c95382a560c"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P234/receipts/VERDICT.md",
+      "family": "P234",
+      "index": 69,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "evalplus-summary",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 802,
+      "shipped_sha256": "c5f386630df92f284e6ffd45fe0b9a6c646eba7d00da4e096c38ceb257993f8e",
+      "source_bytes": 802,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/evalplus/VERDICT.md",
+      "source_sha256": "c5f386630df92f284e6ffd45fe0b9a6c646eba7d00da4e096c38ceb257993f8e"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P234/receipts/raw_solutions.jsonl",
+      "family": "P234",
+      "index": 70,
+      "license_classification": "generated-benchmark-output",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "pre-sanitizer-solutions",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 135234,
+      "shipped_sha256": "90f0ab8d3af95f8fc419825feff152da0f4f9ff0164723f657bebabf8b07d9d6",
+      "source_bytes": 135234,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/evalplus/raw_solutions.jsonl",
+      "source_sha256": "90f0ab8d3af95f8fc419825feff152da0f4f9ff0164723f657bebabf8b07d9d6"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P234/receipts/samples.jsonl",
+      "family": "P234",
+      "index": 71,
+      "license_classification": "generated-benchmark-output",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "sanitized-samples",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 110312,
+      "shipped_sha256": "ffdf58435febbd2710de0ca888cd68707d1bb5b1940443107ddefacc3488ef7a",
+      "source_bytes": 110312,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/evalplus/samples.jsonl",
+      "source_sha256": "ffdf58435febbd2710de0ca888cd68707d1bb5b1940443107ddefacc3488ef7a"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P234/receipts/sanitize.log",
+      "family": "P234",
+      "index": 72,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "sanitizer-proof",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 123,
+      "shipped_sha256": "fb34b7db1a4f2e0708610c1469f13d64a3c04435aa885c8f879f7fe13200cfe6",
+      "source_bytes": 123,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/evalplus/sanitize.log",
+      "source_sha256": "fb34b7db1a4f2e0708610c1469f13d64a3c04435aa885c8f879f7fe13200cfe6"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P234/receipts/seal.log",
+      "family": "P234",
+      "index": 73,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "seal-proof",
+      "scrub_transformations": [
+        {
+          "count": 1,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 563,
+      "shipped_sha256": "804c5ca3ef14e9bbbddd92757ca2c0ec027b8570da6512f0fba465dcb350ba0b",
+      "source_bytes": 561,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/evalplus/seal.log",
+      "source_sha256": "bc122e83e6310aee8046ca40457627ea5d697f96c60d7c221d362076366378ce"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P234/receipts/GENERATION_MANIFEST.json",
+      "family": "P234",
+      "index": 74,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "generation-manifest",
+      "scrub_transformations": [
+        {
+          "count": 164,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 58035,
+      "shipped_sha256": "fd9a2a7228e1d466808200603e9f49e7059aac7c6de27ab203d9ef9a0c5093b9",
+      "source_bytes": 57707,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/GENERATION_MANIFEST.json",
+      "source_sha256": "95f91ac664153f71295cb26e6395d8548c7fbe6e125088a56be0bfad4e4b892c"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P968/code/p968_common.py",
+      "family": "P968",
+      "index": 75,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "audit-common",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 6570,
+      "shipped_sha256": "b72e11726d14ae9d9ffbcd2c3e7c62203123ff1bbcbe72766e98ab1c8b921a51",
+      "source_bytes": 6570,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/P968_CODE_AUDIT_t_a441d327_s8/code/p968_common.py",
+      "source_sha256": "b72e11726d14ae9d9ffbcd2c3e7c62203123ff1bbcbe72766e98ab1c8b921a51"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P968/code/export_evalplus.py",
+      "family": "P968",
+      "index": 76,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "exporter",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 2886,
+      "shipped_sha256": "182613826dc504fa7c83415d4d5d36541c15ab1207054d2d85b70c2133ef917b",
+      "source_bytes": 2886,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/P968_CODE_AUDIT_t_a441d327_s8/code/export_evalplus.py",
+      "source_sha256": "182613826dc504fa7c83415d4d5d36541c15ab1207054d2d85b70c2133ef917b"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P968/code/analyze.py",
+      "family": "P968",
+      "index": 77,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "audit-analysis",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 10299,
+      "shipped_sha256": "ff4c1f71155de93eef4e9479a693f5cc65fabc62bcc745151f916bb2a0222c1f",
+      "source_bytes": 10299,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/P968_CODE_AUDIT_t_a441d327_s8/code/analyze.py",
+      "source_sha256": "ff4c1f71155de93eef4e9479a693f5cc65fabc62bcc745151f916bb2a0222c1f"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P968/code/timing_adjudicate.py",
+      "family": "P968",
+      "index": 78,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "timing-adjudicator",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 4386,
+      "shipped_sha256": "f6644f1e2e421f6169cb29f127bc2c31fa48e99d79a3e3abc05ae017ab228717",
+      "source_bytes": 4386,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/P968_CODE_AUDIT_t_a441d327_s8/code/timing_adjudicate.py",
+      "source_sha256": "f6644f1e2e421f6169cb29f127bc2c31fa48e99d79a3e3abc05ae017ab228717"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P968/receipts/SANITIZE_RECEIPT.json",
+      "family": "P968",
+      "index": 79,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "sanitizer-proof",
+      "scrub_transformations": [
+        {
+          "count": 2,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 603,
+      "shipped_sha256": "c8531f1b4d753b41315773e4e5b848ca8dd2e6def8bf3b114f4c8928c02599e2",
+      "source_bytes": 599,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/P968_CODE_AUDIT_t_a441d327_s8/scores/iq4_humaneval_greedy/SANITIZE_RECEIPT.json",
+      "source_sha256": "1fe50f39ea78e182df7d41920f98a42c73be60ee56397e71c64c3d614bd9c765"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P968/receipts/SCORE_MATRIX_RECEIPT.json",
+      "family": "P968",
+      "index": 80,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "score-matrix-proof",
+      "scrub_transformations": [
+        {
+          "count": 6,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 2080,
+      "shipped_sha256": "86a1870ef164a5f5cc3e59b0b472310c4f43e2f13229aeb36aa62e51d7564f14",
+      "source_bytes": 2068,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/P968_CODE_AUDIT_t_a441d327_s8/scores/iq4_humaneval_greedy/SCORE_MATRIX_RECEIPT.json",
+      "source_sha256": "28969b61a2d17cd5cb52d7f5f6912e9a4b2a397910c95faa934385e6f038536e"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P968/code/score_evalplus.sh",
+      "family": "P968",
+      "index": 81,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "pinned-evalplus-grid",
+      "scrub_transformations": [
+        {
+          "count": 1,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        },
+        {
+          "count": 1,
+          "rule_id": "temporary_root",
+          "replacement": "${TMPDIR}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 4012,
+      "shipped_sha256": "4cb77dd24bc89b28ffbbf586545143c53ead8b5d98855c27010b19cd14ffb5fc",
+      "source_bytes": 4005,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/P968_CODE_AUDIT_t_a441d327_s8/code/score_evalplus.sh",
+      "source_sha256": "6065eff5ae5882914e42fe5f5ba2aca0d8b5cd22d1876b218f596b2dc6cb9931"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P968/receipts/IQ4_GENERATION_MANIFEST.json",
+      "family": "P968",
+      "index": 82,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "generation-pin",
+      "scrub_transformations": [
+        {
+          "count": 167,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 81841,
+      "shipped_sha256": "0edaad677e6224068fbfeaf2da1a77ffcde092e83a4f6d708776d514e3658038",
+      "source_bytes": 81507,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/P968_CODE_AUDIT_t_a441d327_s8/raw/IQ4_GENERATION_MANIFEST.json",
+      "source_sha256": "fdce7814127670ac1710cb64e5397c4ff67989c4cea27e68a0fcf4a84e9e4d94"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P968/receipts/iq4_humaneval_greedy-sanitized.jsonl",
+      "family": "P968",
+      "index": 83,
+      "license_classification": "generated-benchmark-output",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "sanitized-regression-input",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 112582,
+      "shipped_sha256": "0c6fe046b9a7d128be5205fef88e84962bda8bbdc1d27ad8618fc7f8111974d2",
+      "source_bytes": 112582,
+      "source_kind": "remote",
+      "source_locator": "spark-8:${SPARK_HOME}/missions/P968_CODE_AUDIT_t_a441d327_s8/raw/iq4_humaneval_greedy-sanitized.jsonl",
+      "source_sha256": "0c6fe046b9a7d128be5205fef88e84962bda8bbdc1d27ad8618fc7f8111974d2"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P968/supporting_batching_regression/code/run_pipeline.sh",
+      "family": "P968",
+      "index": 84,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "batching-regression-pipeline",
+      "scrub_transformations": [
+        {
+          "count": 4,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 5407,
+      "shipped_sha256": "7fda8521a966d45a30b3508269667c6d789325da810837657c2357a16daeecb2",
+      "source_bytes": 5399,
+      "source_kind": "remote",
+      "source_locator": "spark-4:${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/code/run_pipeline.sh",
+      "source_sha256": "05ac36a124c620a96dba22ca6eecd1d9a39875b4a022b62c7fb07630611a2c97"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P968/supporting_batching_regression/code/compare_spot.py",
+      "family": "P968",
+      "index": 85,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "batching-comparator",
+      "scrub_transformations": [
+        {
+          "count": 1,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 3640,
+      "shipped_sha256": "40a50ec01c1568d7f1da56899756a7309c7ece7ec0d693b6ab27b2f09852bbdc",
+      "source_bytes": 3638,
+      "source_kind": "remote",
+      "source_locator": "spark-4:${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/code/compare_spot.py",
+      "source_sha256": "77de989edb7e692e2ea8df9559906299e295e396adc63aa6edbd7d4cca2a391a"
+    },
+    {
+      "authority": "surviving-live-mission",
+      "destination": "payload/P968/supporting_batching_regression/receipts/PRE_REGISTRATION.json",
+      "family": "P968",
+      "index": 86,
+      "license_classification": "first-party-mission",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "preregistration",
+      "scrub_transformations": [
+        {
+          "count": 3,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 6205,
+      "shipped_sha256": "2986920c2a69bcd9948821af80338c4f3654753db1377450dd7e0a6d6e9aab11",
+      "source_bytes": 6199,
+      "source_kind": "remote",
+      "source_locator": "spark-4:${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/receipts/PRE_REGISTRATION.json",
+      "source_sha256": "c4e641cf7567a659d13822951b05d288881985816df25c51ed321a1c50ef8bbf"
+    },
+    {
+      "authority": "board-task-attachment",
+      "destination": "payload/P968/supporting_batching_regression/receipts/REGRESSION_TEST.json",
+      "family": "P968",
+      "index": 87,
+      "license_classification": "first-party-board-artifact",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "regression-proof",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 520,
+      "shipped_sha256": "724117ac3fb4b2f5c1a4f39acb32bd0c62745686bfdb7320a415ff03e99a2bd5",
+      "source_bytes": 520,
+      "source_kind": "local",
+      "source_locator": "board-local:${MACMINI_HOME}/.hermes/kanban/boards/glm52-humming-w3/attachments/task-redacted/REGRESSION_TEST.json",
+      "source_sha256": "724117ac3fb4b2f5c1a4f39acb32bd0c62745686bfdb7320a415ff03e99a2bd5"
+    },
+    {
+      "authority": "board-task-attachment",
+      "destination": "payload/P968/supporting_batching_regression/receipts/GENERATION_COMPARISON.json",
+      "family": "P968",
+      "index": 88,
+      "license_classification": "first-party-board-artifact",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "batching-difference-proof",
+      "scrub_transformations": [
+        {
+          "count": 20,
+          "rule_id": "spark_home",
+          "replacement": "${SPARK_HOME}"
+        }
+      ],
+      "scrubbed": true,
+      "shipped_bytes": 27369,
+      "shipped_sha256": "538459a73bf0fdba11dbdce70a9d452bb28687d85ffc09b83ca3d1c7bbc32d00",
+      "source_bytes": 27329,
+      "source_kind": "local",
+      "source_locator": "board-local:${MACMINI_HOME}/.hermes/kanban/boards/glm52-humming-w3/attachments/task-redacted/GENERATION_COMPARISON.json",
+      "source_sha256": "22e9995154b121f31b45b320b3a720d273e6230b208dc27d9c73ea2fe3dddd7c"
+    },
+    {
+      "authority": "board-task-attachment",
+      "destination": "payload/P968/supporting_batching_regression/receipts/IQ3_BATCHING_INVARIANCE_FINAL.md",
+      "family": "P968",
+      "index": 89,
+      "license_classification": "first-party-board-artifact",
+      "privacy_review": "automated-scan-required-before-release",
+      "role": "batching-regression-summary",
+      "scrub_transformations": [],
+      "scrubbed": false,
+      "shipped_bytes": 2290,
+      "shipped_sha256": "1ea50ce3c3e313e17a075aa2142241dd40808c292c31137c7cdcd6dbf2ba7298",
+      "source_bytes": 2290,
+      "source_kind": "local",
+      "source_locator": "board-local:${MACMINI_HOME}/.hermes/kanban/boards/glm52-humming-w3/attachments/task-redacted/IQ3_BATCHING_INVARIANCE_FINAL.md",
+      "source_sha256": "1ea50ce3c3e313e17a075aa2142241dd40808c292c31137c7cdcd6dbf2ba7298"
+    }
+  ],
+  "families": [
+    "P234",
+    "P486",
+    "P526",
+    "P530",
+    "P948",
+    "P950",
+    "P951",
+    "P959",
+    "P963",
+    "P968"
+  ],
+  "schema": "glm52-recovered-source-manifest-v1",
+  "source_entry_count": 89
+}

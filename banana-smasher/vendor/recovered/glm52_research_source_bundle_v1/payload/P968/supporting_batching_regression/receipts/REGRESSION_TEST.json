@@ -1,0 +1,10 @@
+{
+  "created_epoch": 1784713815.713343,
+  "result": "PASS: delayed Arm B uses its own launch epoch and gate errors cannot be swallowed",
+  "run_pipeline_sha256": "98b84dc7d00852b681dfcb114c9b81e02f517ab991af63937196eb18abecdacc",
+  "schema": "iq3-batching-invariance-arm-epoch-regression-v1",
+  "status": "PASS",
+  "task": "task-redacted",
+  "test": "Arm B starts 31 minutes after claim and reaches CUDA 2 seconds after its own launch",
+  "test_sha256": "fb8bf2a063ca887a97c067f79d097acd2dd13ccfdc3d6c476c633c0347ce6aa4"
+}

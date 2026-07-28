@@ -1,0 +1,136 @@
+{
+  "artifact_sha256": "9ebfb324598227519e9b90385ef7768b4a2928737970c2a102ac9e5bda78e4b6",
+  "candidate": "one-projection-at-a-time streaming dequantize-to-BF16 plus dense torch.mm for all four tiers; decode retains incumbent Triton",
+  "code_sha256": {
+    "finalize_result.py": "6b7acea70fda7210cc32f779dad9dc4ebf25a2f7a3674f13fd1f41c8f3873b82",
+    "mixed_prefill_server.py": "ffe52247a444acb3ba684761ec5601e2feea99b1216ac776cf81da079854ee8a",
+    "mixed_tier_backend.py": "db14f3607d539f03bb81201b662d44149ef78d3297625575f86057d4eaadfaf0",
+    "mixed_tier_patch.py": "80696f626254fb3f2be6c95035e1ba13a17ae3ab7a8d50c366f8056cba66dd27",
+    "release_host.py": "dba251a1b8baa7f08b253e195ea785643af6da7d1b5219a5bf990cfc99c08b36",
+    "run_prefill_ladder.py": "ba28a697a9cd6891793f80efbcf7ada123cef3a5432a4b9d992b92feccdd1a74",
+    "stream_tree.py": "15b781f69a35342725739bf883e06a9322bb67cbd3164e090c0323ce672d5bad"
+  },
+  "final_gate_path": "${SPARK_HOME}/missions/P530_PREFILL_t_099a5835_s8/receipts/final_gate/MIXED_PREFILL_LADDER_RESULT.json",
+  "final_gate_sha256": "ee8912dfe3494e05066cb3b736d7be74f6f37892d64a3fadcde6045d0720022f",
+  "final_rows": [
+    {
+      "client_ttft_seconds_median": 1.793210939002165,
+      "client_ttft_seconds_raw": [
+        1.793210939002165,
+        1.8006329060008284,
+        1.792753857000207
+      ],
+      "decode_tok_s_median": 17.20703272177992,
+      "decode_tok_s_raw": [
+        17.469310437138233,
+        17.07665881400414,
+        17.20703272177992
+      ],
+      "mtp_enabled": false,
+      "prefill_launch_shapes_identical_across_cold_rows": true,
+      "prefill_tier_kernel_launches": {
+        "native_mxfp4": 86,
+        "qtip": 86,
+        "truevq_d4": 86,
+        "truevq_d8": 86
+      },
+      "prefill_tok_s_median": 1142.085381845603,
+      "prefill_tok_s_raw": [
+        1142.085381845603,
+        1137.3778592931355,
+        1142.3765688764954
+      ],
+      "prompt_tokens": 2048,
+      "rows": 3
+    },
+    {
+      "client_ttft_seconds_median": 3.7798590419988614,
+      "client_ttft_seconds_raw": [
+        3.780398167997191,
+        3.7535365459989407,
+        3.7798590419988614
+      ],
+      "decode_tok_s_median": 17.09600697287455,
+      "decode_tok_s_raw": [
+        17.09600697287455,
+        17.32558086556148,
+        17.065589577652705
+      ],
+      "mtp_enabled": false,
+      "prefill_launch_shapes_identical_across_cold_rows": true,
+      "prefill_tier_kernel_launches": {
+        "native_mxfp4": 86,
+        "qtip": 86,
+        "truevq_d4": 86,
+        "truevq_d8": 86
+      },
+      "prefill_tok_s_median": 2167.276585972347,
+      "prefill_tok_s_raw": [
+        2166.9675087002865,
+        2182.475087056822,
+        2167.276585972347
+      ],
+      "prompt_tokens": 8192,
+      "rows": 3
+    }
+  ],
+  "finished_unix": 1784961686.1230953,
+  "gates": {
+    "all_row_gates_pass": true,
+    "dedup_and_physical_logical_exact": true,
+    "exact_shapes": true,
+    "final_result_pass": true,
+    "finite_complete_rows": true,
+    "kv_reported": true,
+    "layers_43_four_tiers": true,
+    "median_prefill_ge_200": true,
+    "memavailable_floor_ge_8gib": true,
+    "no_persistent_second_weight_copy": true,
+    "resident_product_exact": true,
+    "scratch_le_8gib": true,
+    "six_cache_cold_rows": true
+  },
+  "host": "spark-8",
+  "ladder": [
+    {
+      "pp2048_prefill_tok_s": 28.950002443,
+      "variant": "sealed_product_baseline",
+      "verdict": "REJECT_LT_200"
+    },
+    {
+      "pp2048_prefill_tok_s": 117.253752248,
+      "variant": "p526_explicit_m_plus_streaming_native",
+      "verdict": "REJECT_LT_200"
+    },
+    {
+      "pp2048_probe_prefill_tok_s": 1137.632529908508,
+      "variant": "streaming_dequant_dense_all",
+      "verdict": "PROMOTE_TO_FINAL_GATE"
+    }
+  ],
+  "memory_law": {
+    "kv_cache_bytes": [
+      0
+    ],
+    "kv_note": [
+      "synthetic exact product-serve instrument allocates no KV; full configured 32K KV headroom remains unconsumed"
+    ],
+    "mem_available_bytes_floor": 103013068800,
+    "persistent_second_weight_copy": false,
+    "resident_product_bytes": 101346700411,
+    "transient_scratch_bytes": 268435456,
+    "vmhwm_bytes_max": 101908348928
+  },
+  "p526_component_sha256": "655634773e941f6fa310235fe1adfbd1803eaa8d9207c9b51640b93d947e98a9",
+  "raw_row_files": [
+    "${SPARK_HOME}/missions/P530_PREFILL_t_099a5835_s8/receipts/final_gate/rows/mixed_pp02048_cold1.json",
+    "${SPARK_HOME}/missions/P530_PREFILL_t_099a5835_s8/receipts/final_gate/rows/mixed_pp02048_cold2.json",
+    "${SPARK_HOME}/missions/P530_PREFILL_t_099a5835_s8/receipts/final_gate/rows/mixed_pp02048_cold3.json",
+    "${SPARK_HOME}/missions/P530_PREFILL_t_099a5835_s8/receipts/final_gate/rows/mixed_pp08192_cold1.json",
+    "${SPARK_HOME}/missions/P530_PREFILL_t_099a5835_s8/receipts/final_gate/rows/mixed_pp08192_cold2.json",
+    "${SPARK_HOME}/missions/P530_PREFILL_t_099a5835_s8/receipts/final_gate/rows/mixed_pp08192_cold3.json"
+  ],
+  "schema": "p530-make-or-break-prefill-result-v1",
+  "status": "PASS_GE_200_TOK_S",
+  "task": "task-redacted"
+}

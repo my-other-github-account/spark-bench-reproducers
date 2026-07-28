@@ -1,0 +1,8 @@
+{
+  "aggregate_sha256": "2c62f08596ce291163c468f0a7578e1b09cba945e6996fd7b3c53202debca621",
+  "package_files": 359,
+  "schema": "banana-smasher-package-manifest-v1",
+  "source_manifest_sha256": "64fc52d168373d0ec8f97a479b1df4cb941ca91c60717a06dd591700fdb0206b",
+  "tools_aggregate_sha256": "1e54b5e902c423f67c2d17846a91d193ab2b0442efd194903fb2e8279ce747a1",
+  "tools_manifest_sha256": "a329b40eca0eec45fa6054a856f0f0923a0e709324d56f13de6ef1178f8d7057"
+}

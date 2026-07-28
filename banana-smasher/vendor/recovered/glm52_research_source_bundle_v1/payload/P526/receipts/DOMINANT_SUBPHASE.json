@@ -1,0 +1,36 @@
+{
+  "candidate_sha256": "655634773e941f6fa310235fe1adfbd1803eaa8d9207c9b51640b93d947e98a9",
+  "conclusion": "fused13 is the exact measured dominant projection at both M values; the single fused kernel does not expose gather/dequant and dot as separately timed sub-kernels.",
+  "definition": "dominant measured projection within the same fused gather-dequant-GEMM candidate pair; no second candidate or unfused attribution run",
+  "host": "spark-4",
+  "rows": [
+    {
+      "M": 128,
+      "dominant_projection": "fused13",
+      "down_candidate_ms": 2.0918080806732178,
+      "down_speedup": 2.648196953638263,
+      "fused13_candidate_ms": 4.348127841949463,
+      "fused13_fraction": 0.6751818487316061,
+      "fused13_speedup": 3.0251769854973607,
+      "pair_candidate_ms_sum": 6.439935922622681,
+      "pair_incumbent_ms_sum": 18.693376064300537,
+      "pair_speedup": 2.9027270284837883
+    },
+    {
+      "M": 512,
+      "dominant_projection": "fused13",
+      "down_candidate_ms": 8.275103569030762,
+      "down_speedup": 2.74116496630489,
+      "fused13_candidate_ms": 17.067935943603516,
+      "fused13_fraction": 0.6734762787665871,
+      "fused13_speedup": 3.0797341323933782,
+      "pair_candidate_ms_sum": 25.343039512634277,
+      "pair_incumbent_ms_sum": 75.24812889099121,
+      "pair_speedup": 2.9691832683872716
+    }
+  ],
+  "schema": "p526-dominant-subphase-v1",
+  "source_result_sha256": "fb416f942b5469f4870a08f3aedf2579664ff138dc80286f7518ee0bcdd6a1d2",
+  "task_id": "task-redacted",
+  "verdict": "MISS_LT_7X"
+}

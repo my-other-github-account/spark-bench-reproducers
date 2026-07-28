@@ -1,0 +1,8 @@
+{
+  "created_unix": 1785262893.3278444,
+  "error": "P963 decision-scale numerical drift 4.223759889602661",
+  "error_type": "RuntimeError",
+  "schema": "p937-failure-v1",
+  "status": "FAIL_CLOSED",
+  "task_id": "task-redacted"
+}

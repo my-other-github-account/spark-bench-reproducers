@@ -1,0 +1,27 @@
+{
+  "activated_unix": 1785264505.190769,
+  "after_sha256": {
+    "code/run_p959_terminal_repair.sh": "a20c0b645937729aafd1fbf97758941a40162585c129367d91e0575197e17c7e",
+    "code/seal_release_p959.py": "4ab020ed1ed01b58059499ee2936055485eee710a4f6c84390d7cd53149446b0"
+  },
+  "binding": "${SPARK_HOME}/missions/P959_TRUE_C_REPAIR_t_8343707a_s3/receipts/P959_TERMINAL_REPAIR_BINDING.json",
+  "binding_sha256": "e4ffd858b74ccd73c3df8d70b51852e62087ed2e322bc3afa8f1bce9e2b10d9d",
+  "claim_sha256": "e095527068f0474eb8ed6e93b0038643b8d1409cdd1b2a58e109df302334db48",
+  "complete_runtime_codebook_count": 196,
+  "gpu_apps": [],
+  "launch_ready": "${SPARK_HOME}/missions/P959_TRUE_C_REPAIR_t_8343707a_s3/receipts/P959_TERMINAL_LAUNCH_READY.json",
+  "launch_ready_sha256": "ed879ba2d52c88a731110797affd77d24429f205e8e7d8d6ca88fa018ee73def",
+  "old_to_new_alias_mapping_used": false,
+  "p943_changed_surface_codebook_count": 184,
+  "previous_activation_sha256": "d2b682c28b91530b42adb70ea8f1d2c004b1a952b77ac51ca37ba47964a8e114",
+  "schema": "p959-terminal-update-000-activation-v2",
+  "scoped_processes": [],
+  "seed_rebuild": "${SPARK_HOME}/missions/P959_TRUE_C_REPAIR_t_8343707a_s3/receipts/P959_TERMINAL_UPDATE_000_SEED_REBUILD.json",
+  "seed_rebuild_sha256": "b9fe37bb65c0b1c5ca6c1937695c61c65239907868c30ba985b665e577458950",
+  "status": "PASS_REBUILT_TERMINAL_UPDATE_000_ACTIVATED",
+  "task_id": "task-redacted",
+  "terminal_seed": "${SPARK_HOME}/missions/P959_TRUE_C_REPAIR_t_8343707a_s3/seed/TERMINAL_UPDATE_000.pt",
+  "terminal_seed_sha256": "08623d062e90340ee1997ce80764be4d9e72d48045903967299e8a1fd604edb3",
+  "trainer_sha256": "36a7e9d0a8be3fa6b1d2612a6a58c9032667aab56c7f20e6f50e5547b78c6921",
+  "unchanged_base_inherited_codebook_count": 12
+}

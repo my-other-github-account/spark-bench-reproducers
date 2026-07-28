@@ -1,0 +1,571 @@
+{
+  "comparison_surface_sha256": "03537e324770f8d14bc74326056bd8afc34b6849055f8b047093c415a9a84948",
+  "completed_unix": 1785243421.4899678,
+  "cutoff": 1024,
+  "direction": "KL(teacher||candidate)",
+  "gpu_apps_after": [],
+  "host": "spark-6",
+  "measurement": "BALANCED64_V1",
+  "p637_overlay": {
+    "assignment_map_sha256": "36d0841986d5781186f766b3815e4b3c6332eece2090d3e6d73e7e3ffa33dc07",
+    "assignment_sha256": "c030883fddb1217529d67444d08257c4a1df18e2adbc93be092aba3d3611bc65",
+    "changed_cells": 1411,
+    "manifest_sha256": "e03bc8919d51bbf1a9cf1f54f342e9f43dea625839ad8aad23578f7b8f9d98fa",
+    "pack_fraction": 1.0,
+    "qtip2_cells": 406,
+    "unchanged_cells": 20605,
+    "vq_cells": 1005
+  },
+  "paired_wire_a_minus_wire_c": {
+    "global": {
+      "label": "global",
+      "n_windows": 64,
+      "window_ids": [
+        28,
+        56,
+        68,
+        71,
+        76,
+        99,
+        107,
+        122,
+        124,
+        130,
+        141,
+        156,
+        160,
+        171,
+        180,
+        183,
+        185,
+        186,
+        196,
+        210,
+        212,
+        213,
+        218,
+        228,
+        232,
+        235,
+        249,
+        270,
+        272,
+        273,
+        283,
+        288,
+        290,
+        295,
+        297,
+        306,
+        307,
+        309,
+        311,
+        328,
+        331,
+        357,
+        362,
+        365,
+        368,
+        374,
+        376,
+        380,
+        384,
+        385,
+        391,
+        396,
+        413,
+        429,
+        430,
+        437,
+        442,
+        447,
+        454,
+        462,
+        464,
+        475,
+        489,
+        499
+      ],
+      "window_mean_ci95": [
+        -0.012126938241669431,
+        0.00770395274144605
+      ],
+      "window_mean_se": 0.005058900760998847,
+      "wire_a_minus_wire_c_mean": -0.00221149275011169
+    },
+    "six_classes": {
+      "agentic": {
+        "label": "agentic",
+        "n_windows": 19,
+        "window_ids": [
+          122,
+          130,
+          171,
+          180,
+          213,
+          235,
+          272,
+          273,
+          283,
+          288,
+          384,
+          391,
+          413,
+          429,
+          430,
+          437,
+          442,
+          464,
+          499
+        ],
+        "window_mean_ci95": [
+          0.0105073977766016,
+          0.04066544259604861
+        ],
+        "window_mean_se": 0.007693378780471177,
+        "wire_a_minus_wire_c_mean": 0.025586420186325107
+      },
+      "chat": {
+        "label": "chat",
+        "n_windows": 7,
+        "window_ids": [
+          141,
+          156,
+          186,
+          249,
+          295,
+          328,
+          447
+        ],
+        "window_mean_ci95": [
+          0.008195816565894845,
+          0.015896324177856223
+        ],
+        "window_mean_se": 0.0019644152071330045,
+        "wire_a_minus_wire_c_mean": 0.012046070371875533
+      },
+      "code": {
+        "label": "code",
+        "n_windows": 9,
+        "window_ids": [
+          56,
+          124,
+          228,
+          311,
+          357,
+          368,
+          374,
+          396,
+          475
+        ],
+        "window_mean_ci95": [
+          -0.006505240918948563,
+          0.004232869292661063
+        ],
+        "window_mean_se": 0.0027393138294922515,
+        "wire_a_minus_wire_c_mean": -0.00113618581314375
+      },
+      "multilingual": {
+        "label": "multilingual",
+        "n_windows": 10,
+        "window_ids": [
+          107,
+          183,
+          196,
+          232,
+          270,
+          297,
+          362,
+          365,
+          380,
+          489
+        ],
+        "window_mean_ci95": [
+          -0.08100479228989119,
+          -0.023512869791827037
+        ],
+        "window_mean_se": 0.014666306759710243,
+        "wire_a_minus_wire_c_mean": -0.05225883104085911
+      },
+      "prose": {
+        "label": "prose",
+        "n_windows": 10,
+        "window_ids": [
+          28,
+          68,
+          99,
+          218,
+          290,
+          307,
+          309,
+          331,
+          376,
+          385
+        ],
+        "window_mean_ci95": [
+          -0.051179850618374254,
+          -0.001522872350319976
+        ],
+        "window_mean_se": 0.012667596496952623,
+        "wire_a_minus_wire_c_mean": -0.026351361484347115
+      },
+      "reasoning": {
+        "label": "reasoning",
+        "n_windows": 9,
+        "window_ids": [
+          71,
+          76,
+          160,
+          185,
+          210,
+          212,
+          306,
+          454,
+          462
+        ],
+        "window_mean_ci95": [
+          0.0057460987784249285,
+          0.012993364648219962
+        ],
+        "window_mean_se": 0.0018487923137232227,
+        "wire_a_minus_wire_c_mean": 0.009369731713322445
+      }
+    }
+  },
+  "predeclared_interpretation": {
+    "basis_artifact_band": [
+      0.117,
+      0.122
+    ],
+    "diagnostic": "WIRE_C_GENUINELY_UNDERPERFORMED_BAND",
+    "explanation": "Wire A lands near the prior 0.114 projection on this instrument (operational band 0.112-0.116).",
+    "wire_a_global": 0.11592659770878103,
+    "wire_c_global": 0.11813809045889272,
+    "wire_c_underperformed_operational_band": [
+      0.112,
+      0.116
+    ]
+  },
+  "prior_wire_a_projection": {
+    "basis": "paired W0-127 projection; not a prior physical BALANCED64 read",
+    "global_mean": 0.11430034303225284,
+    "wire_a_measured_minus_projection": 0.0016262546765281882
+  },
+  "proof": {
+    "binding": {
+      "path": "${SPARK_HOME}/missions/P921_WIRE_A_BALANCED64_t_c4f16d03_s6/receipts/P921_SCORER_BINDING_AUDIT_WIRE_A_P637_PREREPAIR_BALANCED64_R2.json",
+      "sha256": "3c1ad05d2ec543ff1aa848296d272c42b5a20ea9ccc89a08f0f3d4ee7f07b13e"
+    },
+    "launch": {
+      "path": "${SPARK_HOME}/missions/P921_WIRE_A_BALANCED64_t_c4f16d03_s6/receipts/P921_MEASUREMENT_LAUNCH_WIRE_A_P637_PREREPAIR_BALANCED64_R2.json",
+      "sha256": "bb4fa666c9d83662bdad6ff1eacb0941edb0ab422aacdb32616c2af105c10ea9"
+    },
+    "loader_sentinel": {
+      "path": "${SPARK_HOME}/missions/P921_WIRE_A_BALANCED64_t_c4f16d03_s6/run/WIRE_A_P637_PREREPAIR_BALANCED64_R2/LOADER_SENTINEL.json",
+      "sha256": "caf20a72ad79dd59343f6fc53f754d9a655b70ce412a09446715be80b0d27702"
+    },
+    "progress": {
+      "path": "${SPARK_HOME}/missions/P921_WIRE_A_BALANCED64_t_c4f16d03_s6/run/WIRE_A_P637_PREREPAIR_BALANCED64_R2/CANONICAL_PROGRESS.json",
+      "sha256": "aa61bcf9d50c5843fdb9e01928c7b183281338a9275295361e003e0576f50aaf"
+    },
+    "stage": {
+      "path": "${SPARK_HOME}/missions/P921_WIRE_A_BALANCED64_t_c4f16d03_s6/receipts/FULL_LOCAL_OVERLAY_STAGE.json",
+      "sha256": "5c4c64730a1a97803dc814b2d7305ca5618de5ddd0b09c973730df6c64050ada"
+    }
+  },
+  "same_instrument_binding": {
+    "attention": "eager",
+    "base_assignment_sha256": "c9fb72e2bf7416ef48f33df229f9a3b5b5dd4f9e9b35a610d83fb1c49f4a050d",
+    "base_wire_manifest_sha256": "c24a1c0568a00fcb8460d7edfb7630187ef10c98e9d0c25c87aa0bccb1d89755",
+    "baseline_parity_receipt_sha256": "da6c1a0023f509927cd68307fabb5ee6a5528863a977929b78a195d496a42b3c",
+    "canonical_builder_sha256": "873a98a37a6cf854572983ebfdffc15e2292f6599a7fb3206c14cb866f2f8784",
+    "canonical_loader_sha256": "155310d1e6701d6cb2d1c04558514366a2304cb2a8d6d26402ed7c800b8b6c89",
+    "canonical_reader_sha256": "f5b17ab3a12a3b4d042d9fc712032d9007c6d99d76ad77f256830314900ee51e",
+    "chunk_size": 64,
+    "environment_contract_without_task_id": {
+      "ARM4_LOADER_FALLBACK": "torch-eager",
+      "ARM4_LOADER_MODE": "torch-mmap",
+      "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+      "CUDA_MODULE_LOADING": "EAGER",
+      "FULL512_LOADER_INPUT_SHA256": "c24a1c0568a00fcb8460d7edfb7630187ef10c98e9d0c25c87aa0bccb1d89755",
+      "FULL512_LOADER_SHA256": "155310d1e6701d6cb2d1c04558514366a2304cb2a8d6d26402ed7c800b8b6c89",
+      "FULLMENU_ASSEMBLY_BATCH": "8",
+      "PYTHONHASHSEED": "0",
+      "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True",
+      "TWOBIN_ATTN_IMPL": "eager",
+      "TWOBIN_KLD_STREAM_OUT": "1",
+      "TWOBIN_LAYER_OVERLAP": "1"
+    },
+    "layer_overlap": true,
+    "microbatch": 2,
+    "p632_exact_scorer_sha256": "5c16e62c32e6936223c54e2b3cf9394a1d0f87833cc409360e82e0341954c12f",
+    "task_ids_disclosed": {
+      "wire_a": "task-redacted",
+      "wire_c": "task-redacted"
+    }
+  },
+  "schema": "p921-wire-a-balanced64-final-seal-v1",
+  "scorer_rc": 0,
+  "status": "PASS_SAME_INSTRUMENT_WIRE_A_VS_WIRE_C",
+  "support": 8192,
+  "task_id": "task-redacted",
+  "task_processes_after": {
+    "GUARD.pid": {
+      "alive": false,
+      "cmdline": null,
+      "pid": 823885,
+      "pid_file": "${SPARK_HOME}/missions/P921_WIRE_A_BALANCED64_t_c4f16d03_s6/GUARD.pid"
+    },
+    "SCORER.child.pid": {
+      "alive": false,
+      "cmdline": null,
+      "pid": 823887,
+      "pid_file": "${SPARK_HOME}/missions/P921_WIRE_A_BALANCED64_t_c4f16d03_s6/SCORER.child.pid"
+    },
+    "SCORER.wrapper.pid": {
+      "alive": false,
+      "cmdline": null,
+      "pid": 823886,
+      "pid_file": "${SPARK_HOME}/missions/P921_WIRE_A_BALANCED64_t_c4f16d03_s6/SCORER.wrapper.pid"
+    }
+  },
+  "window_ids": [
+    28,
+    56,
+    68,
+    71,
+    76,
+    99,
+    107,
+    122,
+    124,
+    130,
+    141,
+    156,
+    160,
+    171,
+    180,
+    183,
+    185,
+    186,
+    196,
+    210,
+    212,
+    213,
+    218,
+    228,
+    232,
+    235,
+    249,
+    270,
+    272,
+    273,
+    283,
+    288,
+    290,
+    295,
+    297,
+    306,
+    307,
+    309,
+    311,
+    328,
+    331,
+    357,
+    362,
+    365,
+    368,
+    374,
+    376,
+    380,
+    384,
+    385,
+    391,
+    396,
+    413,
+    429,
+    430,
+    437,
+    442,
+    447,
+    454,
+    462,
+    464,
+    475,
+    489,
+    499
+  ],
+  "wire_a": {
+    "global": {
+      "mean": 0.11592659770878103,
+      "n_positions": 65536,
+      "n_windows": 64,
+      "source_class": "global",
+      "window_mean_ci95": [
+        0.09443751336748803,
+        0.13741568205007404
+      ],
+      "window_mean_se": 0.01096381854147602
+    },
+    "label": "WIRE_A_P637_PRE_REPAIR_UNDOSED",
+    "receipt": "${SPARK_HOME}/missions/P921_WIRE_A_BALANCED64_t_c4f16d03_s6/receipts/WIRE_A_P637_PREREPAIR_BALANCED64_R2.json",
+    "receipt_sha256": "e1d1b70792a7c8fe133a63b5e922359a24428f5d1281ddd804f0ee01711965ed",
+    "six_classes": {
+      "agentic": {
+        "mean": 0.14929602148179635,
+        "n_positions": 19456,
+        "n_windows": 19,
+        "source_class": "agentic",
+        "window_mean_ci95": [
+          0.09522819189557868,
+          0.20336385106801402
+        ],
+        "window_mean_se": 0.027585627339906976
+      },
+      "chat": {
+        "mean": 0.05936173489545872,
+        "n_positions": 7168,
+        "n_windows": 7,
+        "source_class": "chat",
+        "window_mean_ci95": [
+          0.04479820012058951,
+          0.07392526967032793
+        ],
+        "window_mean_se": 0.007430374885137354
+      },
+      "code": {
+        "mean": 0.054534618168331016,
+        "n_positions": 9216,
+        "n_windows": 9,
+        "source_class": "code",
+        "window_mean_ci95": [
+          0.04194240374369004,
+          0.06712683259297199
+        ],
+        "window_mean_se": 0.0064245991962453945
+      },
+      "multilingual": {
+        "mean": 0.1720471905680156,
+        "n_positions": 10240,
+        "n_windows": 10,
+        "source_class": "multilingual",
+        "window_mean_ci95": [
+          0.1488405542311707,
+          0.19525382690486048
+        ],
+        "window_mean_se": 0.011840120580022909
+      },
+      "prose": {
+        "mean": 0.15801951626287722,
+        "n_positions": 10240,
+        "n_windows": 10,
+        "source_class": "prose",
+        "window_mean_ci95": [
+          0.1230066791599891,
+          0.19303235336576535
+        ],
+        "window_mean_se": 0.017863692399432713
+      },
+      "reasoning": {
+        "mean": 0.041740785457303975,
+        "n_positions": 9216,
+        "n_windows": 9,
+        "source_class": "reasoning",
+        "window_mean_ci95": [
+          0.03258934505399184,
+          0.05089222586061611
+        ],
+        "window_mean_se": 0.004669102246587826
+      }
+    },
+    "window_output_set_sha256": "824bf2882474eb3547b515cf29dde77fe66ecd16bd4a9ed7650c197bc0e565e5"
+  },
+  "wire_c": {
+    "final_seal": "${SPARK_HOME}/missions/P885_WIRE_C_PREREPAIR_t_3d5cd763_s6/f521_t_1a8b046b/receipts/P885_F521_FULL_PREREPAIR_FINAL_SEAL.json",
+    "final_seal_sha256": "29e021348412e7e5847c288ffe9deb84162a08594a4f04def7324fe8114ef7ef",
+    "global": {
+      "mean": 0.11813809045889272,
+      "n_positions": 65536,
+      "n_windows": 64,
+      "source_class": "global",
+      "window_mean_ci95": [
+        0.09157258918794148,
+        0.14470359172984396
+      ],
+      "window_mean_se": 0.013553827179056758
+    },
+    "independent_full_rereads": 2,
+    "label": "WIRE_C_BASELINE_R_FULL_PREREPAIR",
+    "receipt": "${SPARK_HOME}/missions/P885_WIRE_C_PREREPAIR_t_3d5cd763_s6/receipts/WIRE_C_BASELINE_R_FULL_PREREPAIR_BALANCED64_R6.json",
+    "receipt_sha256": "f45dfee8ebb98554364e739599aa9c4431ad8cc5812420118cdbd5f54bee6538",
+    "six_classes": {
+      "agentic": {
+        "mean": 0.12370960129547127,
+        "n_positions": 19456,
+        "n_windows": 19,
+        "source_class": "agentic",
+        "window_mean_ci95": [
+          0.059934685483900144,
+          0.1874845171070424
+        ],
+        "window_mean_se": 0.032538222352842414
+      },
+      "chat": {
+        "mean": 0.04731566452358319,
+        "n_positions": 7168,
+        "n_windows": 7,
+        "source_class": "chat",
+        "window_mean_ci95": [
+          0.03184653198369989,
+          0.06278479706346649
+        ],
+        "window_mean_se": 0.00789241456116495
+      },
+      "code": {
+        "mean": 0.05567080398147476,
+        "n_positions": 9216,
+        "n_windows": 9,
+        "source_class": "code",
+        "window_mean_ci95": [
+          0.04219182515896194,
+          0.06914978280398758
+        ],
+        "window_mean_se": 0.006877030011486131
+      },
+      "multilingual": {
+        "mean": 0.22430602160887467,
+        "n_positions": 10240,
+        "n_windows": 10,
+        "source_class": "multilingual",
+        "window_mean_ci95": [
+          0.17657964580118432,
+          0.272032397416565
+        ],
+        "window_mean_se": 0.02435019173861752
+      },
+      "prose": {
+        "mean": 0.18437087774722433,
+        "n_positions": 10240,
+        "n_windows": 10,
+        "source_class": "prose",
+        "window_mean_ci95": [
+          0.15199370342519367,
+          0.216748052069255
+        ],
+        "window_mean_se": 0.016518966490831965
+      },
+      "reasoning": {
+        "mean": 0.03237105374398153,
+        "n_positions": 9216,
+        "n_windows": 9,
+        "source_class": "reasoning",
+        "window_mean_ci95": [
+          0.024836979878320606,
+          0.03990512760964246
+        ],
+        "window_mean_se": 0.003843915237582106
+      }
+    },
+    "window_output_set_sha256": "7cdc29eca57eb822aa7f7a5904ae8f7cb96061d4216af8ce9d0ffda0c8d643e3"
+  }
+}

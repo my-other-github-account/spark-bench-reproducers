@@ -1,0 +1,102 @@
+{
+  "adapter": {
+    "path": "${SPARK_HOME}/missions/P921_WIRE_A_BALANCED64_t_c4f16d03_s6/code/p921_wire_a_overlay_adapter.py",
+    "sha256": "92bf8524c1f085474c8e4d2c4c672651d3ec186287b05d07af4a960b16daaf6d"
+  },
+  "base_assignment_sha256": "c9fb72e2bf7416ef48f33df229f9a3b5b5dd4f9e9b35a610d83fb1c49f4a050d",
+  "base_wire_manifest_sha256": "c24a1c0568a00fcb8460d7edfb7630187ef10c98e9d0c25c87aa0bccb1d89755",
+  "created_unix": 1785242387.0740662,
+  "host": "spark-6",
+  "immutable_p653_manifest_sha256": "e03bc8919d51bbf1a9cf1f54f342e9f43dea625839ad8aad23578f7b8f9d98fa",
+  "p637_assignment_sha256": "c030883fddb1217529d67444d08257c4a1df18e2adbc93be092aba3d3611bc65",
+  "preflight": {
+    "active_rows_sha256": "ef4224f9cb1098b9c56e7bc91c9cff402ef99fea98a2c3ed0ae41625c40183ef",
+    "anchor": "qtip3",
+    "assignment_sha256": "c030883fddb1217529d67444d08257c4a1df18e2adbc93be092aba3d3611bc65",
+    "changed_cells": 1411,
+    "codebook_deviation_disclosure": null,
+    "compatibility_binding": null,
+    "coverage_layers": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42
+    ],
+    "exact_wire_bytes": 101346521679,
+    "final_assignment_sha256": "c030883fddb1217529d67444d08257c4a1df18e2adbc93be092aba3d3611bc65",
+    "identity_set_sha256": "09686eb1c7b0a5c85f9fddf05bc0588af39078741f27354d74da59b9ed335680",
+    "inventory_sha256": "e03bc8919d51bbf1a9cf1f54f342e9f43dea625839ad8aad23578f7b8f9d98fa",
+    "manifest_rows": [
+      {
+        "name": "P653_EXACT_ASSEMBLED_WIRE_MANIFEST",
+        "path": "${SPARK_HOME}/missions/P921_WIRE_A_BALANCED64_t_c4f16d03_s6/inputs/P653_EXACT_ASSEMBLED_WIRE_MANIFEST.json",
+        "rows": 1411,
+        "sha256": "e03bc8919d51bbf1a9cf1f54f342e9f43dea625839ad8aad23578f7b8f9d98fa",
+        "source_overlay_rows_sha256": "23b4211622efcd70f31e5c60d12a720c6741a57f2d4703cae6a8956ee944af15"
+      }
+    ],
+    "native_cells": 0,
+    "pack_fraction": 1.0,
+    "qtip2_cells": 406,
+    "qtip3_cells": 0,
+    "source_overlay_rows_sha256": "23b4211622efcd70f31e5c60d12a720c6741a57f2d4703cae6a8956ee944af15",
+    "source_physical_manifest": {
+      "overlay_rows_sha256": "23b4211622efcd70f31e5c60d12a720c6741a57f2d4703cae6a8956ee944af15",
+      "path": "${SPARK_HOME}/missions/P921_WIRE_A_BALANCED64_t_c4f16d03_s6/inputs/P653_EXACT_ASSEMBLED_WIRE_MANIFEST.json",
+      "sha256": "e03bc8919d51bbf1a9cf1f54f342e9f43dea625839ad8aad23578f7b8f9d98fa"
+    },
+    "status": "PASS_P770_PREFLIGHT",
+    "unchanged_cells": 20605,
+    "vq_cells": 1005
+  },
+  "runner": {
+    "path": "${SPARK_HOME}/missions/P921_WIRE_A_BALANCED64_t_c4f16d03_s6/code/p921_wire_a_balanced64.py",
+    "sha256": "23dad1e1018747263df512f7cb79cd76cb6561d84711ced37b93ea0ac1cdf5d1"
+  },
+  "schema": "p921-p637-scorer-binding-audit-v1",
+  "stage_receipt": {
+    "path": "${SPARK_HOME}/missions/P921_WIRE_A_BALANCED64_t_c4f16d03_s6/receipts/FULL_LOCAL_OVERLAY_STAGE.json",
+    "sha256": "5c4c64730a1a97803dc814b2d7305ca5618de5ddd0b09c973730df6c64050ada"
+  },
+  "status": "PASS_EXACT_P637_ON_P885_P850_BALANCED64_RAIL",
+  "task_id": "task-redacted"
+}

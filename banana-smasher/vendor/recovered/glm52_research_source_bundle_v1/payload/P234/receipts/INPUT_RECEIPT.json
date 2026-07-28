@@ -1,0 +1,12 @@
+{
+  "checkpoint_sha256": "4086e9d8be9ece067ce3b713c22654e59bcad614af9444bdfacd2e66e0a02fd5",
+  "created_epoch": 1784639380.29265,
+  "dataset_sha256": "42526ec0e7d5f3ee0b06d6ced98f8c8bae3d76519151bfb3d36f79010645bd7f",
+  "generation_manifest": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/GENERATION_MANIFEST.json",
+  "generation_manifest_sha256": "95f91ac664153f71295cb26e6395d8548c7fbe6e125088a56be0bfad4e4b892c",
+  "raw_solutions": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/evalplus/raw_solutions.jsonl",
+  "raw_solutions_sha256": "90f0ab8d3af95f8fc419825feff152da0f4f9ff0164723f657bebabf8b07d9d6",
+  "schema": "clean-he164-transfer8-evalplus-input-v1",
+  "status": "PASS",
+  "tasks": 164
+}

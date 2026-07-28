@@ -1,0 +1,80 @@
+{
+  "artifacts": [
+    {
+      "bytes": 32554345,
+      "exists": true,
+      "mtime_ns": 1785261905872938487,
+      "path": "${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/checkpoints/UPDATE_001.pt",
+      "sha256": "e3a32a8b3250f8bd34f22aef48ddda15ccb3ab7c8148142d4d8c89dbb4c4139c"
+    },
+    {
+      "bytes": 335221,
+      "exists": true,
+      "mtime_ns": 1785261905915938901,
+      "path": "${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/checkpoints/UPDATE_001.json",
+      "sha256": "859fc3c57193fcdc9c5b538ada1a57164e7ce4712051777e885b50ff60423481"
+    },
+    {
+      "bytes": 491159,
+      "exists": true,
+      "mtime_ns": 1785261905987939596,
+      "path": "${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/logs/SPECULATIVE_REVOKED_UNTIL_P943_TERMINAL__P911_TRAINER.stdout.log",
+      "sha256": "341354f2d3fd41b7c9ab54df013a879e1fda95f8b4c6016a1d91443b36ede635"
+    },
+    {
+      "bytes": 7367,
+      "exists": true,
+      "mtime_ns": 1785257715878529681,
+      "path": "${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/logs/SPECULATIVE_REVOKED_UNTIL_P943_TERMINAL__P911_TRAINER.stderr.log",
+      "sha256": "8e84fead21430860626c9dd6c5a45c89c03ec868ff24dc6fd36e20945737d838"
+    },
+    {
+      "bytes": 2643,
+      "exists": true,
+      "mtime_ns": 1785261905906938815,
+      "path": "${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/logs/UPDATE_PHASES.jsonl",
+      "sha256": "8247fb0a10cf6866054c87abd853eab1ee07bb715cf47f6184de34e9ee10e6aa"
+    },
+    {
+      "bytes": 187,
+      "exists": true,
+      "mtime_ns": 1785261908609846706,
+      "path": "${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/run/PHASE_001_EXIT.json",
+      "sha256": "0dd1c5a0b0a635e57ae8300e7271370cf0d84f86833abc796348ed19a0b2cdc9"
+    },
+    {
+      "bytes": 229,
+      "exists": true,
+      "mtime_ns": 1785261908631504339,
+      "path": "${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/run/P948_CONTROLLER_PROGRESS.json",
+      "sha256": "1412616a01367f84bd468ba821b4716174ca008850ed59021997cebca9c1f855"
+    }
+  ],
+  "canonical_terminal_seed": "${SPARK_HOME}/missions/P909_WIRE_C_REPAIR_t_c80c52ef_s3/checkpoints/UPDATE_000.pt",
+  "canonical_terminal_seed_sha256": "7dc85cea3e784878b6b07dd49884062ec60f20c8ce70557e9249d442789bb5b2",
+  "checkpoint_valid": true,
+  "classification": "SPECULATIVE_REVOKED_UNTIL_P943_TERMINAL",
+  "controller_progress": {
+    "pid": 1056617,
+    "schema": "p948-controller-progress-v1",
+    "speculative_label": "SPECULATIVE_REVOKED_UNTIL_P943_TERMINAL",
+    "state": "ATTEMPT4_REPRESENTATIVE_UPDATE_001_EXITED",
+    "trainer_rc": 0,
+    "updated_unix": 1785261908.6313915
+  },
+  "must_not_seed_or_promote": true,
+  "phase_exit": {
+    "completed_unix": 1785261908.609661,
+    "schema": "p911-phase-exit-v1",
+    "speculative_label": "SPECULATIVE_REVOKED_UNTIL_P943_TERMINAL",
+    "stop_after_update": 1,
+    "trainer_rc": 0
+  },
+  "predecessor_pgid": 969039,
+  "predecessor_processes_at_boundary": [],
+  "predecessor_task_id": "task-redacted",
+  "schema": "p959-p948-speculative-boundary-v1",
+  "sealed_unix": 1785261937.683566,
+  "status": "SUCCESS_SPECULATIVE_REVOKED_WARMUP_ONLY",
+  "successor_task_id": "task-redacted"
+}

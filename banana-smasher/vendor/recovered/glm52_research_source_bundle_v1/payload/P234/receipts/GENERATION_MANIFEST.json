@@ -1,0 +1,1334 @@
+{
+  "checkpoint_sha256": "4086e9d8be9ece067ce3b713c22654e59bcad614af9444bdfacd2e66e0a02fd5",
+  "created_epoch": 1784639263.0160317,
+  "dataset_sha256": "42526ec0e7d5f3ee0b06d6ced98f8c8bae3d76519151bfb3d36f79010645bd7f",
+  "generation": {
+    "concurrency": 2,
+    "max_tokens": 4096,
+    "n": 1,
+    "prompt_contract": "EvalPlus 26d6d00 OpenAIChatDecoder",
+    "seed": 0,
+    "temperature": 0.0,
+    "top_p": 1.0
+  },
+  "model": "deepseek-v4-flash-bq3-step8transfer",
+  "rows": [
+    {
+      "completion_tokens": 565,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_0.json",
+      "raw_sha256": "5d2a613ace8b6668f7a1e4f1cc15670ea6eb9437ccf9e24b22e23c3193a222e6",
+      "task_id": "HumanEval/0"
+    },
+    {
+      "completion_tokens": 879,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_1.json",
+      "raw_sha256": "ef7a8a42b3075ca25921339c4eb7bb7e2e5adb941d985da9198dfd8437306194",
+      "task_id": "HumanEval/1"
+    },
+    {
+      "completion_tokens": 317,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_2.json",
+      "raw_sha256": "e0d2ccd5cb1d9bd45cb89adc8bac02fc1a2730d22eefe347a9cd4028d679d170",
+      "task_id": "HumanEval/2"
+    },
+    {
+      "completion_tokens": 379,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_3.json",
+      "raw_sha256": "d442776fced0e56ba55903c4fd557e875fc7c9bd2b0541c658ea79478516cbc7",
+      "task_id": "HumanEval/3"
+    },
+    {
+      "completion_tokens": 694,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_4.json",
+      "raw_sha256": "03f71b59e9c8e20fda041a381517c570b57e0d56e44f96bc709743f67665c0c5",
+      "task_id": "HumanEval/4"
+    },
+    {
+      "completion_tokens": 416,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_5.json",
+      "raw_sha256": "38c2120d98b1c8e35d49df6ae00cea4e88a6f0357acd43ba6fa45d19eba8c876",
+      "task_id": "HumanEval/5"
+    },
+    {
+      "completion_tokens": 584,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_6.json",
+      "raw_sha256": "4577553932ce266132cb7e1285b75794f9e8dfe64ee583700ac9ef5ed20e4833",
+      "task_id": "HumanEval/6"
+    },
+    {
+      "completion_tokens": 245,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_7.json",
+      "raw_sha256": "40841b44dc134c7d8341fa0e5e9373f86dc9a31870d7568ed186b49ae7cbcdce",
+      "task_id": "HumanEval/7"
+    },
+    {
+      "completion_tokens": 416,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_8.json",
+      "raw_sha256": "8c0b0f1b97785d8a22521edf3c91cacd5e1ff03d4eb0c404b613b88016a07422",
+      "task_id": "HumanEval/8"
+    },
+    {
+      "completion_tokens": 613,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_9.json",
+      "raw_sha256": "2f09c29b3e02d4f4d133d8ee346fe1e2a5da6cb465c2c7a0e06f8a5621bc54f8",
+      "task_id": "HumanEval/9"
+    },
+    {
+      "completion_tokens": 817,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_10.json",
+      "raw_sha256": "f97d810b45f924dc20555c3086487b9cb589e7b40f83763b456ffe367641d833",
+      "task_id": "HumanEval/10"
+    },
+    {
+      "completion_tokens": 447,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_11.json",
+      "raw_sha256": "881dcf11b2e2f5508946784767b6c2dc76daed3203a845a627e22aab680e0218",
+      "task_id": "HumanEval/11"
+    },
+    {
+      "completion_tokens": 361,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_12.json",
+      "raw_sha256": "6e7d380ffc889bf4daf6ac48b696ebf0c901635e03505ef5231bad2f523939de",
+      "task_id": "HumanEval/12"
+    },
+    {
+      "completion_tokens": 320,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_13.json",
+      "raw_sha256": "b874c362c893029ab4af15912138031243d6ca20a214a1079273f0198e0443e8",
+      "task_id": "HumanEval/13"
+    },
+    {
+      "completion_tokens": 257,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_14.json",
+      "raw_sha256": "312cb7e713eb01d1ec4e20e009c9d5fdce7bd11fec48883e9652ca2bf758dc4b",
+      "task_id": "HumanEval/14"
+    },
+    {
+      "completion_tokens": 273,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_15.json",
+      "raw_sha256": "a74f73f6db652fbe4a060e105cc62e3e87f9510fef3c40e6bf53aa20ca150c7d",
+      "task_id": "HumanEval/15"
+    },
+    {
+      "completion_tokens": 168,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_16.json",
+      "raw_sha256": "169f7ae7122a76242239b63dd0f7dbabb07840e2f6e1bc8dba41807b1f9d0e0b",
+      "task_id": "HumanEval/16"
+    },
+    {
+      "completion_tokens": 770,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_17.json",
+      "raw_sha256": "186c641d123d4ae64dd09aaa0e595a9890b76f39b42e85a19d08cc8ceb699743",
+      "task_id": "HumanEval/17"
+    },
+    {
+      "completion_tokens": 391,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_18.json",
+      "raw_sha256": "5bd83c792732cafa88b309c3ae4042a95515d216e0565331853b90f1bf2ef712",
+      "task_id": "HumanEval/18"
+    },
+    {
+      "completion_tokens": 608,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_19.json",
+      "raw_sha256": "71c4d2f4260fadec92e0d789e7da4dda78c4d953a546d209d1af7ee9634c38f5",
+      "task_id": "HumanEval/19"
+    },
+    {
+      "completion_tokens": 627,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_20.json",
+      "raw_sha256": "4a872dc2b4ff6a9986df087eaf77c257638b525043f302604416ef51a88b5207",
+      "task_id": "HumanEval/20"
+    },
+    {
+      "completion_tokens": 448,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_21.json",
+      "raw_sha256": "1a02c9a54413941d6f5786e46fb9fc17892546fafc9511cb944eefbb36a7b2ad",
+      "task_id": "HumanEval/21"
+    },
+    {
+      "completion_tokens": 571,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_22.json",
+      "raw_sha256": "e64f5b811634a8970c748bd3314c428b4aa6ddce1d7b83fd7d14003edfb6b710",
+      "task_id": "HumanEval/22"
+    },
+    {
+      "completion_tokens": 290,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_23.json",
+      "raw_sha256": "e8fdfe954cf784b9acf34f5cfd46773ff9e44b07af26c9177ddf2b543bf077db",
+      "task_id": "HumanEval/23"
+    },
+    {
+      "completion_tokens": 769,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_24.json",
+      "raw_sha256": "26d4ac701eb65d7fd1663562757e933063d140c0f2d36e6d99db1c8ff7706198",
+      "task_id": "HumanEval/24"
+    },
+    {
+      "completion_tokens": 711,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_25.json",
+      "raw_sha256": "9baccb793dfd50da10bb4cb386618ca4ffffffa6d70866c873f6dc73ef541c71",
+      "task_id": "HumanEval/25"
+    },
+    {
+      "completion_tokens": 302,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_26.json",
+      "raw_sha256": "7f11d3f09f15e76a5ca69271080b771ab5031d83227fa2308515a2974b073ba7",
+      "task_id": "HumanEval/26"
+    },
+    {
+      "completion_tokens": 226,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_27.json",
+      "raw_sha256": "fefeb6a763bb8276a58a952fdc9a80dc9b19030dc3d65214206b5b48f6e71f43",
+      "task_id": "HumanEval/27"
+    },
+    {
+      "completion_tokens": 292,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_28.json",
+      "raw_sha256": "210f84b7445a0424d9dddb0fcbfed9eed513aa99fc657ae8fcf8ee59eab92700",
+      "task_id": "HumanEval/28"
+    },
+    {
+      "completion_tokens": 319,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_29.json",
+      "raw_sha256": "b67510c9ab2e6c48c91683fc0aba7531f24ad17a5610a73ac5dd60ec733173d7",
+      "task_id": "HumanEval/29"
+    },
+    {
+      "completion_tokens": 472,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_30.json",
+      "raw_sha256": "bb32c87c9af7c0a4fabdf600bbecc78220e75b174e6c91b2944fde281c81f249",
+      "task_id": "HumanEval/30"
+    },
+    {
+      "completion_tokens": 602,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_31.json",
+      "raw_sha256": "3bab02fcf3ff7e4de772e54fa43f585134a4b27fa2412c54747e142275a0c1e8",
+      "task_id": "HumanEval/31"
+    },
+    {
+      "completion_tokens": 2405,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_32.json",
+      "raw_sha256": "43cde5f13d93f14a1388885e25e8b12bf0749f1ccac328c04ad4348b9a1d7659",
+      "task_id": "HumanEval/32"
+    },
+    {
+      "completion_tokens": 849,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_33.json",
+      "raw_sha256": "57a3d656f727cd5d9bc414914ebcdc443d39bceef9ebd4214494fdc8a79dd14d",
+      "task_id": "HumanEval/33"
+    },
+    {
+      "completion_tokens": 411,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_34.json",
+      "raw_sha256": "c7e885142fec70a83272be7ff69b01b662b25c1142f56c647b41446b6a55f178",
+      "task_id": "HumanEval/34"
+    },
+    {
+      "completion_tokens": 237,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_35.json",
+      "raw_sha256": "c188df45120a9558710b5129844f296f78047e5c439b64e9d4f708cd05a8612b",
+      "task_id": "HumanEval/35"
+    },
+    {
+      "completion_tokens": 433,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_36.json",
+      "raw_sha256": "b3438dd11f6fa7d7a8eaee0623b81f41b35f9171f8f37bac30fe4093e784f6fa",
+      "task_id": "HumanEval/36"
+    },
+    {
+      "completion_tokens": 639,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_37.json",
+      "raw_sha256": "6444b9b869617156aaea4730b340c4c0f74b2fbbf2c248f52a55b095464e65b9",
+      "task_id": "HumanEval/37"
+    },
+    {
+      "completion_tokens": 744,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_38.json",
+      "raw_sha256": "1a7af4362e65ffff90b1686443a634d9ae42c783541ac4b109b9a23270de85d0",
+      "task_id": "HumanEval/38"
+    },
+    {
+      "completion_tokens": 1241,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_39.json",
+      "raw_sha256": "93b022f7b1f9301cd6e9248aa76bdf89c6b383df1d9c63d30e349a0081048d38",
+      "task_id": "HumanEval/39"
+    },
+    {
+      "completion_tokens": 1555,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_40.json",
+      "raw_sha256": "bd2324138ea545f4799009498255376b591b92b125e81f89e3dc6fb6058b8a53",
+      "task_id": "HumanEval/40"
+    },
+    {
+      "completion_tokens": 983,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_41.json",
+      "raw_sha256": "852e202e9083cbeeecc76e8f44d4b57334533d2dcdcf45d9da7a696fc068ec67",
+      "task_id": "HumanEval/41"
+    },
+    {
+      "completion_tokens": 465,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_42.json",
+      "raw_sha256": "76c741b3009da3b400a83664f7e216c609ef76dcf5b833ef0c1ec22be580d51a",
+      "task_id": "HumanEval/42"
+    },
+    {
+      "completion_tokens": 543,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_43.json",
+      "raw_sha256": "d931c2de00251ba980f72423e5fed1d4733f6128ee1dc093f857839e50362161",
+      "task_id": "HumanEval/43"
+    },
+    {
+      "completion_tokens": 338,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_44.json",
+      "raw_sha256": "4ab9620d69dc92e037dc90b091e44e2da6052754e7a5043e40f5eaf1a4f5a4a5",
+      "task_id": "HumanEval/44"
+    },
+    {
+      "completion_tokens": 209,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_45.json",
+      "raw_sha256": "47b88da3065b4e0820607173e6fadcc4d95a3701e20dab9f5e11c25e0985a93a",
+      "task_id": "HumanEval/45"
+    },
+    {
+      "completion_tokens": 812,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_46.json",
+      "raw_sha256": "42756273e08efd3ef1760a05bc695eac1ea68752a15860db6694d38a62bd77fe",
+      "task_id": "HumanEval/46"
+    },
+    {
+      "completion_tokens": 447,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_47.json",
+      "raw_sha256": "d12a2819bef50e9041f22a52d8dec9139f8d86654215a9040c6c87ad88fd63c5",
+      "task_id": "HumanEval/47"
+    },
+    {
+      "completion_tokens": 350,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_48.json",
+      "raw_sha256": "84afc0941c236e65cbb456a5e190537207a6b88454af04aa2a599dd686d830f4",
+      "task_id": "HumanEval/48"
+    },
+    {
+      "completion_tokens": 382,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_49.json",
+      "raw_sha256": "06140cf9fd701759732e8bbe13ac4076284db5bbdc0f1fa097755bccc00aff7f",
+      "task_id": "HumanEval/49"
+    },
+    {
+      "completion_tokens": 630,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_50.json",
+      "raw_sha256": "a110ae6b1f3767b190f006ad0aeefce63d6b68d5e364fa7b1ca17923adff67cc",
+      "task_id": "HumanEval/50"
+    },
+    {
+      "completion_tokens": 370,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_51.json",
+      "raw_sha256": "e5a0b66ee2bf862dd029a9744926addcfde7a95a159c02c4a7fe824a7fa9ddb1",
+      "task_id": "HumanEval/51"
+    },
+    {
+      "completion_tokens": 232,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_52.json",
+      "raw_sha256": "ee31ae4d82e8a1d6e5d6dc5a633db30456ed2703e251983132af58edde7633f4",
+      "task_id": "HumanEval/52"
+    },
+    {
+      "completion_tokens": 241,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_53.json",
+      "raw_sha256": "661d3a3075c0b458b0647f77972f11893fe4dcb287b565b13f1cb2261b8fd757",
+      "task_id": "HumanEval/53"
+    },
+    {
+      "completion_tokens": 1207,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_54.json",
+      "raw_sha256": "9bb72aa8d4b384cb706a6031e2fd86c0c65bb6b1a9aedc7aa909b1fb770eb00b",
+      "task_id": "HumanEval/54"
+    },
+    {
+      "completion_tokens": 777,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_55.json",
+      "raw_sha256": "4f8d24453f7488fdbb47644e54672cd08932ac4b7e9e2c51b389b34aaa91d778",
+      "task_id": "HumanEval/55"
+    },
+    {
+      "completion_tokens": 549,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_56.json",
+      "raw_sha256": "f789b0ff7eb6d927c363006fa43def9e03ef28218e6b1689f1b2bd6cdd086911",
+      "task_id": "HumanEval/56"
+    },
+    {
+      "completion_tokens": 452,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_57.json",
+      "raw_sha256": "18e4bf965dd4a2207f8df3b0f64c9895afa497f0d6b9ce45d3bed063a8e7cf82",
+      "task_id": "HumanEval/57"
+    },
+    {
+      "completion_tokens": 450,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_58.json",
+      "raw_sha256": "351625f995e3312f2854bacc3ae30d692e20b8ad4f284668c29f03286442731a",
+      "task_id": "HumanEval/58"
+    },
+    {
+      "completion_tokens": 1304,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_59.json",
+      "raw_sha256": "b709e664a4311c87a722beefc5b210c1d3925737750c1a693c15d630128304ed",
+      "task_id": "HumanEval/59"
+    },
+    {
+      "completion_tokens": 395,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_60.json",
+      "raw_sha256": "27dc030db9f05a4ca421164c914229c212c65c51d0382aad616232bc30c5c0fb",
+      "task_id": "HumanEval/60"
+    },
+    {
+      "completion_tokens": 633,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_61.json",
+      "raw_sha256": "f315dda6e8ae1e534165ac6945a8deb90b13eef08d689e33092139d5fcc711d5",
+      "task_id": "HumanEval/61"
+    },
+    {
+      "completion_tokens": 677,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_62.json",
+      "raw_sha256": "166355d070e1ef101e2f8167256e338e72d17eae0f7fc402037836e600a9e154",
+      "task_id": "HumanEval/62"
+    },
+    {
+      "completion_tokens": 758,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_63.json",
+      "raw_sha256": "81dcae847ed9bd6080c760e56e72f7c04a4a2350efb0dcaeb5021a100f837b39",
+      "task_id": "HumanEval/63"
+    },
+    {
+      "completion_tokens": 781,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_64.json",
+      "raw_sha256": "b8af2e89959eb3467001a5d21f3e61411c3eef47a8ecf939de9ecbd328303331",
+      "task_id": "HumanEval/64"
+    },
+    {
+      "completion_tokens": 674,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_65.json",
+      "raw_sha256": "78cc1f4b14318f8f48f914260dba2f6159edcd68092796e9338c612f6453ad1c",
+      "task_id": "HumanEval/65"
+    },
+    {
+      "completion_tokens": 317,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_66.json",
+      "raw_sha256": "91856bdaae9e54735996a04855ca354c04fbc1fa9ae932168cd12eea5ccc609d",
+      "task_id": "HumanEval/66"
+    },
+    {
+      "completion_tokens": 655,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_67.json",
+      "raw_sha256": "3ea1afa595b9f22e3d6a6c1b542b5dee0b7e08ce23e68b13d3ea3ac7f8c65be9",
+      "task_id": "HumanEval/67"
+    },
+    {
+      "completion_tokens": 616,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_68.json",
+      "raw_sha256": "c1595c27ab0f8b86889dfdde067dad87d75af2757f3af676009f8682b5409aef",
+      "task_id": "HumanEval/68"
+    },
+    {
+      "completion_tokens": 382,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_69.json",
+      "raw_sha256": "1bf3884c5f86a37441e5e5b2388b45932df3ef81d3ebfcf56201db6caaed22fb",
+      "task_id": "HumanEval/69"
+    },
+    {
+      "completion_tokens": 1070,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_70.json",
+      "raw_sha256": "e294ea7f8a7df800966d5029caffa08310dce0a88b6ade24580f199782eced9e",
+      "task_id": "HumanEval/70"
+    },
+    {
+      "completion_tokens": 645,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_71.json",
+      "raw_sha256": "b978e399fb5f5e7489f5ea84c7576c1ef9e702e2b54bde55e20eef03880e020d",
+      "task_id": "HumanEval/71"
+    },
+    {
+      "completion_tokens": 567,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_72.json",
+      "raw_sha256": "02180c9806fe171d8d531a0d8e141889f7c462d4b705cd0022a7638497b62f32",
+      "task_id": "HumanEval/72"
+    },
+    {
+      "completion_tokens": 507,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_73.json",
+      "raw_sha256": "9dc9305105d0a4f8073f1d55b0fe9429a142633ae1a3bed2c08e8d7025c72797",
+      "task_id": "HumanEval/73"
+    },
+    {
+      "completion_tokens": 683,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_74.json",
+      "raw_sha256": "85c017abeaad351fdaf8a268e002c581c6861c1e5bd585fe1e17f3f5a41f3599",
+      "task_id": "HumanEval/74"
+    },
+    {
+      "completion_tokens": 1161,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_75.json",
+      "raw_sha256": "56fc2e36cbaf804122f321ee8f82ff059df5f82a7c5411ebca47df3e684af29c",
+      "task_id": "HumanEval/75"
+    },
+    {
+      "completion_tokens": 1131,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_76.json",
+      "raw_sha256": "2a5cd6a117fb8905f7a57bb9d7aded14d39b7b4e01a00a1fc62f0b126c6f8c13",
+      "task_id": "HumanEval/76"
+    },
+    {
+      "completion_tokens": 960,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_77.json",
+      "raw_sha256": "014a0a22f24feb466b81492e7693051b1146c545667616fb6d95656eab7aafdb",
+      "task_id": "HumanEval/77"
+    },
+    {
+      "completion_tokens": 755,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_78.json",
+      "raw_sha256": "5e54d58494cab259b62a085a5448ae5957e04b152e082f18bc573c19716a3035",
+      "task_id": "HumanEval/78"
+    },
+    {
+      "completion_tokens": 420,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_79.json",
+      "raw_sha256": "c8ab625b655b60a84aaf5c88017d546fe3612f9155dbfbcd21fc0339127ad373",
+      "task_id": "HumanEval/79"
+    },
+    {
+      "completion_tokens": 496,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_80.json",
+      "raw_sha256": "138bd2256b9fb7fb73b5dc8034b0848136e434eb6d95da147723e760cb036009",
+      "task_id": "HumanEval/80"
+    },
+    {
+      "completion_tokens": 2229,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_81.json",
+      "raw_sha256": "26bc3dec6712ecbbdb1c2ccbde0e4e7fd2e3aae9d4c0dcdf8fe7a7c7d011b0f8",
+      "task_id": "HumanEval/81"
+    },
+    {
+      "completion_tokens": 491,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_82.json",
+      "raw_sha256": "e8b57e9161f0d67321512763a3e42005e13d8a899cb1cd51fea597b6eabc0244",
+      "task_id": "HumanEval/82"
+    },
+    {
+      "completion_tokens": 894,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_83.json",
+      "raw_sha256": "8d8b67132421462eafcfee4e9b1471df64ebfb98514de4b9c2a81ce9000a825f",
+      "task_id": "HumanEval/83"
+    },
+    {
+      "completion_tokens": 495,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_84.json",
+      "raw_sha256": "faae6d22ac8479e875fad717864dead36555ecf7e0cc7dab88247bf6d3cdeebe",
+      "task_id": "HumanEval/84"
+    },
+    {
+      "completion_tokens": 399,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_85.json",
+      "raw_sha256": "14e2818b513e405ba02ad31e49d63516b428ebeb0235f8bdb84ba43ba83eea26",
+      "task_id": "HumanEval/85"
+    },
+    {
+      "completion_tokens": 766,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_86.json",
+      "raw_sha256": "a60b0cce4111c72b6c30ce58835b7fdc304b11db9a156d7042becf6d9873864b",
+      "task_id": "HumanEval/86"
+    },
+    {
+      "completion_tokens": 613,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_87.json",
+      "raw_sha256": "322da302ebc2de5fc3685e5c3d619c30fa4e5a4ec96151ca2aa7ee3d05b826a0",
+      "task_id": "HumanEval/87"
+    },
+    {
+      "completion_tokens": 658,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_88.json",
+      "raw_sha256": "f4d6b0aea0bf61dd012c5bc30354c8b5e4ab8ddbf645aa01f0cd927b5cc1ac0d",
+      "task_id": "HumanEval/88"
+    },
+    {
+      "completion_tokens": 875,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_89.json",
+      "raw_sha256": "cf893da12511b496439dfbd3431e9741a6465f43a9fab326eeb962985fb00242",
+      "task_id": "HumanEval/89"
+    },
+    {
+      "completion_tokens": 1035,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_90.json",
+      "raw_sha256": "7d9e73758bd7b69893526d8c966ae126803eb2ed9f62738e0152d8e77cba1fb0",
+      "task_id": "HumanEval/90"
+    },
+    {
+      "completion_tokens": 1031,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_91.json",
+      "raw_sha256": "806680d1b55f665d814947a684c888c7b0c4d8506010c8c2dc7730102e2f86f9",
+      "task_id": "HumanEval/91"
+    },
+    {
+      "completion_tokens": 698,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_92.json",
+      "raw_sha256": "652554481b0b4fd080296ff239fd21f19e5afb6d2bc3ddd96c82a3de6c447aa7",
+      "task_id": "HumanEval/92"
+    },
+    {
+      "completion_tokens": 1390,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_93.json",
+      "raw_sha256": "ff8baf91e4aa0a014c56c70e57c57639ab45eb9b17a88228e861a01ab4eb644a",
+      "task_id": "HumanEval/93"
+    },
+    {
+      "completion_tokens": 1503,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_94.json",
+      "raw_sha256": "056fb2212db3d6902e504971d6a2a1d213ea407b5b3ab015eadb8e3bbfb12565",
+      "task_id": "HumanEval/94"
+    },
+    {
+      "completion_tokens": 1132,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_95.json",
+      "raw_sha256": "3a9a7a45dd2a73a57d94364e4f88d5e26d957cfa98acac28a787695fecf9bb80",
+      "task_id": "HumanEval/95"
+    },
+    {
+      "completion_tokens": 482,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_96.json",
+      "raw_sha256": "3a3392783885f8ac0b61a65ac6cc6d8ed7d2218213f1920048aeda5565b9c74a",
+      "task_id": "HumanEval/96"
+    },
+    {
+      "completion_tokens": 637,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_97.json",
+      "raw_sha256": "049eb9add203354badd69d2096935e26ce6f050840d55eb6b67ddcf3bdad18a4",
+      "task_id": "HumanEval/97"
+    },
+    {
+      "completion_tokens": 595,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_98.json",
+      "raw_sha256": "b369ba8e778d14bce2acee8345d6acc0e9b182df07b3c137a8e5ec228c525bbb",
+      "task_id": "HumanEval/98"
+    },
+    {
+      "completion_tokens": 827,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_99.json",
+      "raw_sha256": "5112e506a44c5dbebd9bc3c61e65718f381fdfd1a5c406a525f831c336eaa5c6",
+      "task_id": "HumanEval/99"
+    },
+    {
+      "completion_tokens": 641,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_100.json",
+      "raw_sha256": "631277726ff983a776abcbccb67256fdc3f45bb3671f3eb32e332c3c395e620c",
+      "task_id": "HumanEval/100"
+    },
+    {
+      "completion_tokens": 1102,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_101.json",
+      "raw_sha256": "8284ef0501937e073a251efc7a2996a333d0a50cb1ead556657a36e474fae1c5",
+      "task_id": "HumanEval/101"
+    },
+    {
+      "completion_tokens": 568,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_102.json",
+      "raw_sha256": "af7010dc81da13c7062d23a4071416b6763fb6faa0b5adcbc038c28637d176dd",
+      "task_id": "HumanEval/102"
+    },
+    {
+      "completion_tokens": 1244,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_103.json",
+      "raw_sha256": "cdd5256bfbd90e8ec81da3192354f3a7a68c0156ff9851af02b34c48ba3b4ab9",
+      "task_id": "HumanEval/103"
+    },
+    {
+      "completion_tokens": 835,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_104.json",
+      "raw_sha256": "aebaa31af0c81580588f97ed9ba042c9c61937f6491e89a1ff5c362eda81be67",
+      "task_id": "HumanEval/104"
+    },
+    {
+      "completion_tokens": 798,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_105.json",
+      "raw_sha256": "0bf206e8aa9b87ab4ddc8cb2f37479d8ba015f758a0a145cc24003f026dacad8",
+      "task_id": "HumanEval/105"
+    },
+    {
+      "completion_tokens": 1008,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_106.json",
+      "raw_sha256": "6d9422a4ce95ec7ecb5f9814dfb81026fafba887e11e2bb431aa74347b323395",
+      "task_id": "HumanEval/106"
+    },
+    {
+      "completion_tokens": 669,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_107.json",
+      "raw_sha256": "7df9ec7e651fa055fe56a30ba8857099b13efaa695b1d55d1c46f0dd33769092",
+      "task_id": "HumanEval/107"
+    },
+    {
+      "completion_tokens": 769,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_108.json",
+      "raw_sha256": "14fede93ab500fb9c30923761844a47928a6f8c02c7b8aa03bca3463a299d718",
+      "task_id": "HumanEval/108"
+    },
+    {
+      "completion_tokens": 827,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_109.json",
+      "raw_sha256": "dc1ae7add0b90b05e08496997ecf6c920a39e8bf50c909ae7a608973a5178721",
+      "task_id": "HumanEval/109"
+    },
+    {
+      "completion_tokens": 1135,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_110.json",
+      "raw_sha256": "d1b56aa353c8ddec758d2439f2ddbe4eaa814fe4e0e5af38ff188b39e0cc288d",
+      "task_id": "HumanEval/110"
+    },
+    {
+      "completion_tokens": 266,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_111.json",
+      "raw_sha256": "abc1f4232abf968c706e800dd24475d7083b2671703a2711a29aabde25f1a75b",
+      "task_id": "HumanEval/111"
+    },
+    {
+      "completion_tokens": 555,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_112.json",
+      "raw_sha256": "d0e304d52e0a5141867ed34fc271eb72e24f511526ea58b8f553efa5e8c202f0",
+      "task_id": "HumanEval/112"
+    },
+    {
+      "completion_tokens": 1076,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_113.json",
+      "raw_sha256": "0b4cfd909b6ee43a79ab1b21d411a934e3104235ff9edba416d2a5e10a589317",
+      "task_id": "HumanEval/113"
+    },
+    {
+      "completion_tokens": 881,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_114.json",
+      "raw_sha256": "96e63257fe0c777c40292c998d818b1d965d3af53e86fcbd1af945e060ab0942",
+      "task_id": "HumanEval/114"
+    },
+    {
+      "completion_tokens": 805,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_115.json",
+      "raw_sha256": "11040dd5c714e6fe035e539db55de1a8d1b2eff300b13072351bb6e5a7045e63",
+      "task_id": "HumanEval/115"
+    },
+    {
+      "completion_tokens": 4096,
+      "content_is_null": true,
+      "finish_reason": "length",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_116.json",
+      "raw_sha256": "5de71e4d3661c7f748da6027232dd7fe9c9b653b34bce906b0b6149a75b1ed3b",
+      "task_id": "HumanEval/116"
+    },
+    {
+      "completion_tokens": 392,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_117.json",
+      "raw_sha256": "e5e99183b84f1cc6b546ce0ab348654186880c010d2aba63413652905259ddb7",
+      "task_id": "HumanEval/117"
+    },
+    {
+      "completion_tokens": 911,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_118.json",
+      "raw_sha256": "250724140acc6e96836f9ad7cac3e0b26cfc92a3ac439221d2d4627c33a599b8",
+      "task_id": "HumanEval/118"
+    },
+    {
+      "completion_tokens": 865,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_119.json",
+      "raw_sha256": "91ecbc5a339ac79a3e9dd83a3adac3306ee9855722b6d0bf878ed2ee26c5dafb",
+      "task_id": "HumanEval/119"
+    },
+    {
+      "completion_tokens": 695,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_120.json",
+      "raw_sha256": "a4040a3741fe621b168eae8f79d8af0e7af874b4fccd1de019ecc94e564536ce",
+      "task_id": "HumanEval/120"
+    },
+    {
+      "completion_tokens": 508,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_121.json",
+      "raw_sha256": "dfed10cd5afa15f04fd8fa295399eb7ea03af678eb059a9486155e4d2a68231d",
+      "task_id": "HumanEval/121"
+    },
+    {
+      "completion_tokens": 750,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_122.json",
+      "raw_sha256": "242a4e4beaa677ef847c6def0cdae2fd66d8018b5c78fd55ac8fa210af563373",
+      "task_id": "HumanEval/122"
+    },
+    {
+      "completion_tokens": 1261,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_123.json",
+      "raw_sha256": "48c154dd930c8da5e6e292e96dc1494622e665f3eb70f214ca93ba2afe03f05b",
+      "task_id": "HumanEval/123"
+    },
+    {
+      "completion_tokens": 823,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_124.json",
+      "raw_sha256": "4cb6e5fe428bccc5726e70d1f1a4d9c7b377cf2357f7956163cfb66257fd9cf4",
+      "task_id": "HumanEval/124"
+    },
+    {
+      "completion_tokens": 974,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_125.json",
+      "raw_sha256": "55b13c78a5045aa9c0f78d0d7e1239eca8e8053cae27c2888eb3a09aeb564564",
+      "task_id": "HumanEval/125"
+    },
+    {
+      "completion_tokens": 827,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_126.json",
+      "raw_sha256": "38d445c00ddfe4c1c6112ef7c962f6d59e3fcd10165bad539897ebdaa22c094c",
+      "task_id": "HumanEval/126"
+    },
+    {
+      "completion_tokens": 991,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_127.json",
+      "raw_sha256": "a83b574364a8cb1023aa7b56b3ae73f9781ccb0c35bd6dbf9818529b610d6377",
+      "task_id": "HumanEval/127"
+    },
+    {
+      "completion_tokens": 586,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_128.json",
+      "raw_sha256": "c866225bef1eef7b0f9512ef711563a7369315182e9a4aae9ffcb9c82a3e7648",
+      "task_id": "HumanEval/128"
+    },
+    {
+      "completion_tokens": 2504,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_129.json",
+      "raw_sha256": "8fb6795a475f5ab6b89d905d0ee77d4e33fd87c5eb127949ff5967d04fe8223e",
+      "task_id": "HumanEval/129"
+    },
+    {
+      "completion_tokens": 1181,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_130.json",
+      "raw_sha256": "46bbf5719a9adfd374e46c9c461654dacc1504dbde582e89ec30042b6455eb68",
+      "task_id": "HumanEval/130"
+    },
+    {
+      "completion_tokens": 584,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_131.json",
+      "raw_sha256": "b2fe7830a6bafb0f3d7e463598fcef48c68f72cfd4891ac450e5f72694396566",
+      "task_id": "HumanEval/131"
+    },
+    {
+      "completion_tokens": 2850,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_132.json",
+      "raw_sha256": "71a638fc300d7c342247298bde4519ee83f6768f0a7e1dbdef4f6679ca9c03fd",
+      "task_id": "HumanEval/132"
+    },
+    {
+      "completion_tokens": 530,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_133.json",
+      "raw_sha256": "204d0814a8e1d6976e1683fbbec655fd6c70a0c0e25399a5d9b3faab9009574c",
+      "task_id": "HumanEval/133"
+    },
+    {
+      "completion_tokens": 2732,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_134.json",
+      "raw_sha256": "9bffc605e6127fcdeb628db607559a3e00a8c4f7a3c75ea4ed318ece0c612055",
+      "task_id": "HumanEval/134"
+    },
+    {
+      "completion_tokens": 443,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_135.json",
+      "raw_sha256": "91e02c2762a4720309e85797a3f82b4ca39f6214eacb82177600270d46e9d5c7",
+      "task_id": "HumanEval/135"
+    },
+    {
+      "completion_tokens": 660,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_136.json",
+      "raw_sha256": "ba17a74666e84097e5e98592cf225472a6701dd0ec491591865d6feb8213a3c5",
+      "task_id": "HumanEval/136"
+    },
+    {
+      "completion_tokens": 1027,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_137.json",
+      "raw_sha256": "a634716c0eb68a29371e00fa952edc2b3935de9a670c4f8e478fb911f5d5edcc",
+      "task_id": "HumanEval/137"
+    },
+    {
+      "completion_tokens": 943,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_138.json",
+      "raw_sha256": "144a6e0e5b943f0e152ee601c62e5a05e3ad6d63219d1b7067338478c0ac0a48",
+      "task_id": "HumanEval/138"
+    },
+    {
+      "completion_tokens": 645,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_139.json",
+      "raw_sha256": "0d32eea38269862549406baae0d9f251f0fbfaebc84040c7705e3fd97749fe6c",
+      "task_id": "HumanEval/139"
+    },
+    {
+      "completion_tokens": 1706,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_140.json",
+      "raw_sha256": "bf647581d306640d82008041e2c566fb2f9acdf8c412498d44aaa3b356164036",
+      "task_id": "HumanEval/140"
+    },
+    {
+      "completion_tokens": 487,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_141.json",
+      "raw_sha256": "e4830ff91f3b7b1b4092eb046dada3208c3ee44178195a832fa2dddfeb101047",
+      "task_id": "HumanEval/141"
+    },
+    {
+      "completion_tokens": 1639,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_142.json",
+      "raw_sha256": "a888e21baeb50e94292be460cd77078a4933c0754fe0603d26c4dbb8a5df131a",
+      "task_id": "HumanEval/142"
+    },
+    {
+      "completion_tokens": 711,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_143.json",
+      "raw_sha256": "c3791ac9861fa1abf93d4cd95f3e972bb150c8005cbab66a789997ff5d26cdf0",
+      "task_id": "HumanEval/143"
+    },
+    {
+      "completion_tokens": 766,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_144.json",
+      "raw_sha256": "3dad56d5bd115e3a04145b675af26cabcabc1285b99e9d00bf0fcf4a51a4abbf",
+      "task_id": "HumanEval/144"
+    },
+    {
+      "completion_tokens": 2144,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_145.json",
+      "raw_sha256": "1de5f37c1aa9f0415a42a87f817a1aceb234b4746565bad48ad346ffa5da11b5",
+      "task_id": "HumanEval/145"
+    },
+    {
+      "completion_tokens": 831,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_146.json",
+      "raw_sha256": "1bbaaebb127ce594db7657b7755563241222e85e2f0d2a0551bd0e49ac73e5a7",
+      "task_id": "HumanEval/146"
+    },
+    {
+      "completion_tokens": 1732,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_147.json",
+      "raw_sha256": "590ef5cee977b01a9094815a152d34ced871ab9551ba9d9ceab3a362bf3e65f8",
+      "task_id": "HumanEval/147"
+    },
+    {
+      "completion_tokens": 937,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_148.json",
+      "raw_sha256": "7990ce8a5b99dd0e939ec3320cfb0c69ffe9975becc93f6a3cdb67c2545198ff",
+      "task_id": "HumanEval/148"
+    },
+    {
+      "completion_tokens": 593,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_149.json",
+      "raw_sha256": "2e53c14e79ba6cfa24b8aa015c23fe92680b177b6b82e81360a28c1f6b5ceba6",
+      "task_id": "HumanEval/149"
+    },
+    {
+      "completion_tokens": 412,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_150.json",
+      "raw_sha256": "2e34e4f3b9253830c48a1969455479d90830811616a142ef0b8fce1911c13cda",
+      "task_id": "HumanEval/150"
+    },
+    {
+      "completion_tokens": 719,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_151.json",
+      "raw_sha256": "b84ae79a07b116755ff03a8f9a4ac0422c700568007a5226378a573d7a51946e",
+      "task_id": "HumanEval/151"
+    },
+    {
+      "completion_tokens": 489,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_152.json",
+      "raw_sha256": "021a9bcbaa7a0c3158238ca611bb95085ea46a8278b3ee63e0d669984538b410",
+      "task_id": "HumanEval/152"
+    },
+    {
+      "completion_tokens": 959,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_153.json",
+      "raw_sha256": "dda079997ffd0209732580344d286263da922f18dab451dc35a403df1d9f162d",
+      "task_id": "HumanEval/153"
+    },
+    {
+      "completion_tokens": 919,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_154.json",
+      "raw_sha256": "dbad232c1380fa2adc5a09c9943a64e520d40f10b06b21001ca8de1baee964dd",
+      "task_id": "HumanEval/154"
+    },
+    {
+      "completion_tokens": 538,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_155.json",
+      "raw_sha256": "980a7801e405510f41572fcead9fd974e0bd0936a21910dd1cbc2ce27dd71342",
+      "task_id": "HumanEval/155"
+    },
+    {
+      "completion_tokens": 599,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_156.json",
+      "raw_sha256": "d2649937f03be2c76cb47d307d53596bd17fdbbec3984eba44cc50230579352d",
+      "task_id": "HumanEval/156"
+    },
+    {
+      "completion_tokens": 761,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_157.json",
+      "raw_sha256": "fa3363476d38efe629a239b1a36284677ce4ac9dbdcb47d57650c9e274ece5f8",
+      "task_id": "HumanEval/157"
+    },
+    {
+      "completion_tokens": 1067,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_158.json",
+      "raw_sha256": "0d7cae9c234fbe6bc01a8b6795f798b51702be0e60213d3d652f1187e753dd14",
+      "task_id": "HumanEval/158"
+    },
+    {
+      "completion_tokens": 549,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_159.json",
+      "raw_sha256": "87db7a521253e2556e765d837077fce7a4b78c3dfae2a6781debe6bd928fcc3f",
+      "task_id": "HumanEval/159"
+    },
+    {
+      "completion_tokens": 709,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_160.json",
+      "raw_sha256": "f833388f227dc390f03fd3a3c8c7f4a8dea20981dfbbb95084df4dc4d55c197d",
+      "task_id": "HumanEval/160"
+    },
+    {
+      "completion_tokens": 634,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_161.json",
+      "raw_sha256": "39fe3cabad151653525814d41fd5e5d178bc37d886b9014ffd194319b95353ea",
+      "task_id": "HumanEval/161"
+    },
+    {
+      "completion_tokens": 315,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_162.json",
+      "raw_sha256": "893de96d471751ca6f5a8ae3cc48676b793e74923d7ec213b9fb5f29a50a9301",
+      "task_id": "HumanEval/162"
+    },
+    {
+      "completion_tokens": 873,
+      "content_is_null": false,
+      "finish_reason": "stop",
+      "raw_path": "${SPARK_HOME}/missions/CLEAN_HE164_TRANSFER8_t_93420eec_s8/results/generation/raw/HumanEval_163.json",
+      "raw_sha256": "6f87b85bbf998d95810368dddc8295abe41174d817a6df1a1a3c137309a1f532",
+      "task_id": "HumanEval/163"
+    }
+  ],
+  "schema": "clean-he164-transfer8-generation-manifest-v1",
+  "sealed_rows": 164,
+  "status": "PASS",
+  "system_fingerprint": "vllm-0.24.0-3f34bf12",
+  "task": "task-redacted"
+}

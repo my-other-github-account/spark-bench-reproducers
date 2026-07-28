@@ -1,0 +1,19 @@
+{
+  "schema": "banana-smasher-runtime-freeze-v1",
+  "architecture": "linux-aarch64-sm_121",
+  "runtime": {
+    "python": "3.12.3",
+    "torch": "2.11.0+cu130",
+    "triton": "3.6.0",
+    "vllm": "0.24.0",
+    "flashinfer-python": "0.6.13",
+    "transformers": "5.0.0rc3",
+    "tokenizers": "0.22.2"
+  },
+  "source_identity": {
+    "mixed_tier_backend.py": "db14f3603ff2372229d0b34ea290413ef26be6a08acf766006b48ade8633f1e8",
+    "mixed_tier_patch.py": "80696f626254fb3f2be6c95035e1ba13a17ae3ab7a8d50c366f8056cba66dd27",
+    "mixed_prefill_server.py": "ffe5224742cde697599f43ff56b5c37459e39da9cd60759607c8a5a40bf4edcc"
+  },
+  "drift_policy": "fail-closed"
+}

@@ -1,0 +1,40 @@
+{
+  "approval_sha256": "6cdd2baa22ad51e2b79297933ef4b28d528c8e36480b4405860c961d6e2fe4bb",
+  "approval_validation_sha256": "2b3da4a99f02666f523c6be9e42656f1afdf9b45e0b267f04a09f23e61a0386b",
+  "checkpoint": "${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/checkpoints/UPDATE_001.pt",
+  "checkpoint_sha256": "e3a32a8b3250f8bd34f22aef48ddda15ccb3ab7c8148142d4d8c89dbb4c4139c",
+  "claim_sha256": "6eb7d061bc57a364404eeaf1de22eb0f67e14bb59c888954337cbeb015593b8c",
+  "finite_loss": true,
+  "grad_norms": {
+    "codebooks": 0.0034564456436783075,
+    "norms": 0.31018689274787903,
+    "outputs": 0.0162795502692461
+  },
+  "learning_rates": {
+    "codebooks": 0.009994579552923277,
+    "norms": 9.994579552923277e-05,
+    "outputs": 0.009994579552923277
+  },
+  "loss": 0.05091032758355141,
+  "operation": "UPDATE_001",
+  "pack_fraction": 1.0,
+  "positive_finite_gradients": true,
+  "rollback_checkpoint": "${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/checkpoints/UPDATE_000.pt",
+  "rollback_checkpoint_sha256": "fa1f6e426dcbd2ecf670a05a449f4e237b6537f6ae7c00ec3f7fba46a9a95021",
+  "schema": "p911-update-acceptance-v1",
+  "sealed_unix": 1785261908.555841,
+  "sidecar": "${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/checkpoints/UPDATE_001.json",
+  "sidecar_sha256": "859fc3c57193fcdc9c5b538ada1a57164e7ce4712051777e885b50ff60423481",
+  "status": "PASS",
+  "task_id": "task-redacted",
+  "train_wins": [
+    0,
+    5,
+    21,
+    23
+  ],
+  "update": 1,
+  "update_plan_sha256": "357dc1d57c81ec5eac0ea7e80258b6a9dada9a42df3400b68d7c40ddb234a196",
+  "zero_quarantine": true,
+  "zero_substitution": true
+}

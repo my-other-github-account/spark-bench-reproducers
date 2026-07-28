@@ -1,0 +1,4 @@
+#!/usr/bin/env python3
+from banana_smasher.cli import main
+
+raise SystemExit(main())

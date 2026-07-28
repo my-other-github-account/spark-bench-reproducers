@@ -1,0 +1,16 @@
+{
+  "adapter_sha256": "e84efd6080806ca51bf8681e05e7e06aef6d2406bab29da4d4b68ff8d551415e",
+  "bytes": 2077863259,
+  "created_unix": 1785261316.0902963,
+  "elapsed_seconds": 3.0461604595184326,
+  "files": 315,
+  "host": "spark-1",
+  "layer": 0,
+  "p951_elapsed_seconds": 25.590428113937378,
+  "schema": "p963-batched-peer-stage-canary-v1",
+  "speedup": 8.40087987944764,
+  "stage_retired": true,
+  "status": "PASS",
+  "task_id": "task-redacted",
+  "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+}

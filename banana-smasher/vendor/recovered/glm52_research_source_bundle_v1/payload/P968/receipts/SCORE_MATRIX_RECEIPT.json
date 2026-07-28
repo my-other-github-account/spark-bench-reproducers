@@ -1,0 +1,55 @@
+{
+  "cells": {
+    "canonical": {
+      "path": "${SPARK_HOME}/missions/P968_CODE_AUDIT_t_a441d327_s8/scores/iq4_humaneval_greedy/canonical.eval_results.json",
+      "sha256": "367f97dc1e4a1b09ba580eac98e8b84ed474450643a44e9d98e6ee51e27893c8"
+    },
+    "factor8": {
+      "path": "${SPARK_HOME}/missions/P968_CODE_AUDIT_t_a441d327_s8/scores/iq4_humaneval_greedy/factor8.eval_results.json",
+      "sha256": "229528ae27f9d32171ecc99b1777a03878cc4cff9dc66bc27d678e2139f7bb6e"
+    },
+    "min8": {
+      "path": "${SPARK_HOME}/missions/P968_CODE_AUDIT_t_a441d327_s8/scores/iq4_humaneval_greedy/min8.eval_results.json",
+      "sha256": "dd858b1fab7c0d7305e077d18bd3d06c1bcd6d94ecd98caf25defaec254afb39"
+    },
+    "relaxed": {
+      "path": "${SPARK_HOME}/missions/P968_CODE_AUDIT_t_a441d327_s8/scores/iq4_humaneval_greedy/relaxed.eval_results.json",
+      "sha256": "9ec5cac89f6c883f851143c45c30ecf918b66e527e4b5fc3037fed124245d002"
+    }
+  },
+  "created_epoch": 1785264862.1244435,
+  "dataset": "humaneval",
+  "evalplus_commit": "26d6d00bb1fd0fa37f39c99d5290da67891d1c5e",
+  "image": "evalplus:26d6d00",
+  "image_id": "sha256:6d8ad646b126d7fc4fee41965e95a25d539ce5632b58146e036a89f7612bfb69",
+  "network": "none",
+  "raw": {
+    "path": "${SPARK_HOME}/missions/P968_CODE_AUDIT_t_a441d327_s8/raw/iq4_humaneval_greedy.jsonl",
+    "sha256": "e551333ec0870ac23e3b3a19ee84c9e7098ea8aa5dc48d9dde19fd838df716dd"
+  },
+  "sanitized": {
+    "path": "${SPARK_HOME}/missions/P968_CODE_AUDIT_t_a441d327_s8/raw/iq4_humaneval_greedy-sanitized.jsonl",
+    "sha256": "0c6fe046b9a7d128be5205fef88e84962bda8bbdc1d27ad8618fc7f8111974d2"
+  },
+  "schema": "p968-score-matrix-receipt-v1",
+  "status": "PASS",
+  "test_details": true,
+  "timing_cells": {
+    "canonical": {
+      "gt_time_limit_factor": 4.0,
+      "min_time_limit": 4.0
+    },
+    "factor8": {
+      "gt_time_limit_factor": 8.0,
+      "min_time_limit": 4.0
+    },
+    "min8": {
+      "gt_time_limit_factor": 4.0,
+      "min_time_limit": 8.0
+    },
+    "relaxed": {
+      "gt_time_limit_factor": 8.0,
+      "min_time_limit": 8.0
+    }
+  }
+}

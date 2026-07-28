@@ -1,0 +1,53 @@
+{
+  "canonical_codebook_count": 186,
+  "canonical_dropped_count": 70,
+  "canonical_seed": "${SPARK_HOME}/missions/P959_TRUE_C_REPAIR_t_8343707a_s3/seed/BASELINE_UPDATE_000.pt",
+  "canonical_seed_sha256": "7dc85cea3e784878b6b07dd49884062ec60f20c8ce70557e9249d442789bb5b2",
+  "claim_sha256": "e095527068f0474eb8ed6e93b0038643b8d1409cdd1b2a58e109df302334db48",
+  "gpu_apps": [],
+  "non_codebook_state_inherited_exact": true,
+  "old_to_new_alias_mapping_used": false,
+  "optimizer_scheduler_will_reset_on_state_only_load": true,
+  "p943_changed_surface_codebook_count": 184,
+  "p943_terminal_sha256": "90e6d6b131d14b353be2976848dc90e947cb6fc1cda376e03b760a63dce8d31c",
+  "prior_incomplete_terminal_seed": "${SPARK_HOME}/missions/P959_TRUE_C_REPAIR_t_8343707a_s3/rollback/TERMINAL_UPDATE_000.pt.pre_complete_inventory_1785264454",
+  "prior_incomplete_terminal_seed_sha256": "0bd644edc542460bf950b576e23480d89748398aab00831e3ea47a27933efca1",
+  "prior_rebuild_receipt_sha256": "94ebeadb1275710daaf0f8da9b793a2dd69e742a692709cdb8dc666656a905c5",
+  "runtime_negative_gate_stderr_sha256": "45559d0c95a5cd927c8a554120458058e8ef9c1ce19b21f17e3ad21235565135",
+  "schema": "p959-terminal-update-000-seed-rebuild-v2",
+  "scoped_processes": [],
+  "sealed_unix": 1785264454.2418323,
+  "shared_exact_count": 116,
+  "speculative_seed_used": false,
+  "status": "PASS_TERMINAL_UPDATE_000_REBUILT_FROM_WIRE",
+  "task_id": "task-redacted",
+  "terminal_added_from_authority_count": 80,
+  "terminal_codebook_count": 196,
+  "terminal_keyspace_exact": true,
+  "terminal_seed": "${SPARK_HOME}/missions/P959_TRUE_C_REPAIR_t_8343707a_s3/seed/TERMINAL_UPDATE_000.pt",
+  "terminal_seed_bytes": 11173131,
+  "terminal_seed_sha256": "08623d062e90340ee1997ce80764be4d9e72d48045903967299e8a1fd604edb3",
+  "terminal_values_exact": true,
+  "training_updates_run": 0,
+  "unchanged_base_inherited_codebook_count": 12,
+  "unchanged_base_inherited_keys": {
+    "L0": [
+      "f521_L000_down_d4_k2048_2884a418a4f09b2e03cddbdedecf6d448252d69798ad48f6f957fdce82f425d3",
+      "f521_L000_down_d4_k4096_47e3da20fe218117cf3d03472bab080d816d68a705fd079a13deac98aaa1d5f3",
+      "f521_L000_fused13_d4_k2048_d28ffacd339e24f8d0ced84409df735c566d247215bcb62b3f0c5b57d5441689",
+      "f521_L000_fused13_d4_k4096_9b33ce67107f8c40e2576d11a28d5eb27ce2c7defa5277a200c0168c717b3ebd"
+    ],
+    "L1": [
+      "f521_L001_down_d4_k2048_49b6ff40a16b4336c7a3cff6b23c238246c96a2dc9d83c39dad623c9318e63af",
+      "f521_L001_down_d4_k4096_cf0ec3be359fee1da56608b1cc19cda9900ba84ede549320cb823c5e8318f5bf",
+      "f521_L001_fused13_d4_k2048_3847dec2706194a97280a337fc4304bbf5d45a0f93f8825a7b1f930e8619e706",
+      "f521_L001_fused13_d4_k4096_4dbe93354758d474025b8216d85eea60af5e74c338d05d5ceadc9c035601be16"
+    ],
+    "L2": [
+      "f521_L002_down_d4_k2048_3da68d9628ddbbd7c82e4729ae7e8f9ac23b1b7d1f22137d2801f2d4a2c36032",
+      "f521_L002_down_d4_k4096_84f727c7f66b1cf2820201da85e3b56a7054551e3bde839d956145d066ff498b",
+      "f521_L002_fused13_d4_k2048_f77fd843fc6a11c0d2fca6c8c9279bf61277c920485bd9bd6089234da1b7b327",
+      "f521_L002_fused13_d4_k4096_bf87dd9d6f8608786c40806f5ba7532a00b79fd5e1b8a4c4ca8bb770d780c3fc"
+    ]
+  }
+}

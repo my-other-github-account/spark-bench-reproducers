@@ -1,0 +1,155 @@
+{
+  "claim_sha256": "9cd157d47158e5faeeeb9d0d41b6c0741db345ba6bb4bfc39da577099d225f5b",
+  "contract": {
+    "arm_A": {
+      "client_concurrency": 1,
+      "server_parallel": 1
+    },
+    "arm_B": {
+      "client_concurrency": 4,
+      "server_parallel": 4
+    },
+    "cache_type_k": "f16",
+    "cache_type_v": "f16",
+    "ctx_size": 17408,
+    "max_tokens": 4096,
+    "model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+    "n": 1,
+    "reasoning_budget": -1,
+    "reasoning_format": "deepseek",
+    "seed": 0,
+    "stream": false,
+    "temperature": 0.0,
+    "top_p": 1.0
+  },
+  "created_epoch": 1784708210.2725492,
+  "dataset_sha256": "42526ec0e7d5f3ee0b06d6ced98f8c8bae3d76519151bfb3d36f79010645bd7f",
+  "disk_floor_bytes": 42949672960,
+  "disk_free_bytes": 43254530048,
+  "host": "spark-4",
+  "mission": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1",
+  "model_checks": [
+    {
+      "match": true,
+      "name": "DeepSeek-V4-Flash-UD-IQ3_XXS-00001-of-00004.gguf",
+      "sha256": "efd54820d4124b88383e081504e480e8057ed1c20009f2002cd28884af658cd0",
+      "size_bytes": 5256864
+    },
+    {
+      "match": true,
+      "name": "DeepSeek-V4-Flash-UD-IQ3_XXS-00002-of-00004.gguf",
+      "sha256": "76c77826a6efe13a2cbe79e95973a3c7fc55f1de8b2fd235d7fa2d935b76f8fa",
+      "size_bytes": 49485728288
+    },
+    {
+      "match": true,
+      "name": "DeepSeek-V4-Flash-UD-IQ3_XXS-00003-of-00004.gguf",
+      "sha256": "bf5d5bfa9cf38334b98085249cfa11d29d3875607d34a6e82dadfa739f3f0e62",
+      "size_bytes": 49437886752
+    },
+    {
+      "match": true,
+      "name": "DeepSeek-V4-Flash-UD-IQ3_XXS-00004-of-00004.gguf",
+      "sha256": "9eea1aa152d81a689e01a0d3cd25d33b43fa92fe4dc473aa65ba8eaa88234e55",
+      "size_bytes": 4071015712
+    }
+  ],
+  "model_receipt": "${SPARK_HOME}/missions/COMPETITOR_LENGTH_t_8f0fc20e/receipts/IQ3_DOWNLOAD_VERIFY.json",
+  "model_receipt_sha256": "fd71923d010923a285dbd7168730ffdb6e72c296bdf604369481b80311e3422d",
+  "model_total_bytes": 102999887616,
+  "ordered_task_ids": [
+    "HumanEval/32",
+    "HumanEval/39",
+    "HumanEval/49",
+    "HumanEval/76",
+    "HumanEval/91",
+    "HumanEval/99",
+    "HumanEval/116",
+    "HumanEval/127",
+    "HumanEval/129",
+    "HumanEval/145"
+  ],
+  "rows": [
+    {
+      "dataset_prompt_sha256": "17c137edab480f3be30b47bb48eea2748f23b120a73b2bb80c7901112e1b223f",
+      "request_sha256": "4008be366676a4b5f93c0c7ef9658ad1b690744fe1d237f32158baed17bf93d9",
+      "task_id": "HumanEval/32",
+      "user_message_sha256": "a771da26c582709381b8a5e7420917b6b9c743a761764934706f1fce5dc85479"
+    },
+    {
+      "dataset_prompt_sha256": "cea0bfc2860c66d09a3951a13bbc0e37e9a9ec80dc7f01b422fe3e98a37520de",
+      "request_sha256": "88cf68bd47b520682ccc1a698efee7696068d6e4ab2095de13fe0acedbda8500",
+      "task_id": "HumanEval/39",
+      "user_message_sha256": "b2df0eb4ccf686462a92e5569272bdcc53a067cb64c76d64e2525ce833b8c7c4"
+    },
+    {
+      "dataset_prompt_sha256": "7fa135ecdebcf3c6c8f33792c00d14e0c217b26601e07eb795832c6c53f6a4b0",
+      "request_sha256": "fb309670963a2cf0298647ef494daa1ec1d8d032e69839e1391a843c5e8e4374",
+      "task_id": "HumanEval/49",
+      "user_message_sha256": "b5b80f4b082636afb1f32b5b32f9cf05bfc493cf8fef91b7094630f514ef3b4f"
+    },
+    {
+      "dataset_prompt_sha256": "e2fb7c4d52386eaa32a287de3dca3e92e6ee7f560b5fd0cc8f551400000a7669",
+      "request_sha256": "3d41279c472d493a7a246c3ec4344aef857886eba0c86065b7e5dab846364714",
+      "task_id": "HumanEval/76",
+      "user_message_sha256": "ea9b91c0ed3cfbf138b492c39c70e0f5fceb2640d89ee179171e690ffd29f9e8"
+    },
+    {
+      "dataset_prompt_sha256": "2c096e3d5c7e4e8ab079c677aef286fc21dd8a86ac607ce1b8c23906129b6044",
+      "request_sha256": "2090ecba38b6e1009635ad25fefa5e61af1fe18d35248c434cfcc5fae8ac2553",
+      "task_id": "HumanEval/91",
+      "user_message_sha256": "55c2e9567be047bb816d9c3126f0db9621ad64766edb0f9cd3994a3c659aafb6"
+    },
+    {
+      "dataset_prompt_sha256": "0b407cacf864be505fee934eef1d0b30d6946525c78b6316bf1a74ce619fb1e7",
+      "request_sha256": "b9e94ccf7c9f3f93b3cf42c92442539609aa10a592a8cad5e69b84ebb10d6e04",
+      "task_id": "HumanEval/99",
+      "user_message_sha256": "6f00729cb56eceb78b3a25a49c00db8bd608da2283315e7984f06d3e70aadb8e"
+    },
+    {
+      "dataset_prompt_sha256": "e99170758757bbb40cf130f26fd2a7e630fda64e44e25f81ecba706182cae020",
+      "request_sha256": "59a919e57421a066d2b49aca1aaf3d7a65b90f27af707ad70e80f131dc86e0ed",
+      "task_id": "HumanEval/116",
+      "user_message_sha256": "6273535439bdc3dcb737322da229a8d155c9787248007025b668f3c839ed9cfb"
+    },
+    {
+      "dataset_prompt_sha256": "f54f955f1d89e889dd8858c3da9a457719f4979f94fab8334678c9f47d55eaa1",
+      "request_sha256": "01323f0199d808553580da2ec2a4a8f8872b88b7e5e86536749c8398d4d03fba",
+      "task_id": "HumanEval/127",
+      "user_message_sha256": "abb70b7d1167f6e294a75ef9fc5f14add37d2cddd4f65e15b9fbfbed5f9cddcd"
+    },
+    {
+      "dataset_prompt_sha256": "43e0a53b950b3f06e1f44a532a8714ef36b83d0c4b95375242f60fd56b97f8f3",
+      "request_sha256": "6fab1bdc5371bc7d825f795ee14074c91dc54069ac12afda66d2ca7cd07d27bd",
+      "task_id": "HumanEval/129",
+      "user_message_sha256": "9da19c6f2b7787e3082cd47cbee0178b66daa9f43dd2284f68508acd48ca9cb3"
+    },
+    {
+      "dataset_prompt_sha256": "13086febaf36a862224bc746fd1a33e1f16162d131d47b05528fca7fe162b72e",
+      "request_sha256": "58a30d222ffcbf6a6c3aaf00a7eca4b4299074c2d1a8479ea47a12e1c7a1f74b",
+      "task_id": "HumanEval/145",
+      "user_message_sha256": "8af3badc694e8228c5d7ddc8c369feab8f619cec35e9e8eeed37041e71b3c8c6"
+    }
+  ],
+  "runtime": {
+    "libggml_cuda_sha256": "8be0ff6700699f575778b223b162dbb44d907465519a279d8428d0e8bc9c5ea6",
+    "libllama_sha256": "a1ddee968a96687e095a579143aace309e5b81f2d12888e2d30135fcc4c732c5",
+    "llama_server": "${SPARK_HOME}/missions/TOOLBENCH_IQ4XS_t_01020d79/bin/llama-server",
+    "llama_server_sha256": "8cbefd69a6d8b43e39357dc4f41f84b2550cacd572f21ccc58c813bc0d91a317"
+  },
+  "schema": "iq3-batching-invariance-preregistration-v1",
+  "selection_labels": [
+    "HE32",
+    "HE39",
+    "HE49",
+    "HE76",
+    "HE91",
+    "HE99",
+    "HE116",
+    "HE127",
+    "HE129",
+    "HE145"
+  ],
+  "status": "PASS",
+  "task": "task-redacted"
+}

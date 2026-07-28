@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:banana-smasher:stage-contracts:v1",
+  "title": "Stage isolation contracts",
+  "type": "object",
+  "required": ["schema", "contract_laws", "stages"],
+  "properties": {
+    "schema": {"const": "banana-smasher-stage-contracts-v1"},
+    "contract_laws": {"type": "object"},
+    "stages": {
+      "type": "object",
+      "minProperties": 16,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["prerequisites", "inputs", "outputs", "receipt", "write_scope", "vendor_capabilities"]
+      }
+    }
+  }
+}

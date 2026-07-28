@@ -1,0 +1,53 @@
+{
+  "schema": "banana-smasher-expected-perf-v1",
+  "target": {
+    "architecture": "GB10 sm_121",
+    "node_ram_gb_min": 128,
+    "prompt_tokens": 2048
+  },
+  "ready_gates": {
+    "prefill_tok_s_min": 1000.0,
+    "decode_tok_s_min": 15.0,
+    "ttft_seconds_max": 2.5,
+    "regression_floor_fraction": 0.8
+  },
+  "required_decode_kernel_classes": [
+    "_qtip_gemv",
+    "_truevq_d4_gemv",
+    "_truevq_d8_gemv",
+    "_native_mxfp4_gemv"
+  ],
+  "required_accelerations": [
+    "dense_all_prefill",
+    "kernel_cache_warmup",
+    "packed_qtip_shared_prefill",
+    "uma_128gb_residency_gate",
+    "accelerated_measurement_rail",
+    "bulk_mover_8_streams",
+    "hardlink_materialization",
+    "gpu_shards_4way",
+    "per_codebook_streaming",
+    "speculative_parallel_revoke",
+    "p963_true_c_mb2_bulk_stage",
+    "p959_terminal_seed_rebuild",
+    "p486_full164_eval",
+    "p968_audit_and_batching_gates"
+  ],
+  "historical_baselines": {
+    "uniform_qtip_decode_tok_s": {"value": 24.39, "validity": "historical-measurement"},
+    "mixed_decode_tok_s": {"value": 16.95, "validity": "historical-measurement"},
+    "integrated_decode_tok_s_at_2k": {"value": 17.2, "validity": "historical-measurement"},
+    "prefill_dense_all_tok_s_at_2k": {"value": 1137.0, "validity": "historical-measurement"}
+    ,"p530_systems_canary": {
+      "prefill_tok_s_at_2k": 988.854,
+      "decode_tok_s": 17.1765,
+      "ttft_seconds": 2.1337,
+      "boot_seconds": 704.622,
+      "resident_bytes": 101346700411,
+      "quality": false,
+      "synthetic": true,
+      "validity": "historical-speed-regression-precedent-only"
+    }
+  },
+  "truth_law": "READY requires fresh measured metrics at the declared prompt length; dry-run and historical values never satisfy readiness"
+}

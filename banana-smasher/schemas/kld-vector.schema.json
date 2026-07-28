@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:banana-smasher:kld-vector:v1",
+  "title": "Same-instrument KLD vector",
+  "type": "object",
+  "required": ["schema", "status", "validity", "instrument_sha256", "classes", "global"],
+  "properties": {
+    "schema": {"const": "banana-smasher-kld-vector-v1"},
+    "status": {"type": "string"},
+    "validity": {"const": "MEASURED"},
+    "instrument_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "classes": {"type": "object", "required": ["agentic", "chat", "code", "multilingual", "prose", "reasoning"]},
+    "global": {"type": "number"}
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "banana-smasher-evalplus-pin-v1",
+  "commit": "26d6d00bb1fd0fa37f39c99d5290da67891d1c5e",
+  "image_tag": "evalplus:26d6d00",
+  "humanevalplus": {
+    "release": "HumanEvalPlus-v0.1.10",
+    "tasks": 164,
+    "sha256": "42526ec0e7d5f3ee0b06d6ced98f8c8bae3d76519151bfb3d36f79010645bd7f"
+  },
+  "decode": {
+    "greedy": {"temperature": 0.0, "top_p": 1.0, "samples": 1},
+    "sampled": {"temperature": 0.2, "top_p": 0.95, "samples": 5}
+  },
+  "sanitization": "raw and sanitized rows remain paired by task identity and source SHA",
+  "scoring": {
+    "network": "none",
+    "cpus": 4,
+    "test_details": true,
+    "timing_cells": [[4.0, 4.0], [10.0, 4.0], [4.0, 10.0], [10.0, 10.0]]
+  }
+}

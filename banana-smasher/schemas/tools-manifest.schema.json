@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:banana-smasher:tools-manifest:v1",
+  "title": "Complete package inventory",
+  "type": "object",
+  "required": ["schema", "scope", "files", "aggregate_sha256"],
+  "properties": {
+    "schema": {"const": "banana-smasher-tools-manifest-v1"},
+    "scope": {"type": "string"},
+    "aggregate_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "bytes", "sha256"],
+        "properties": {
+          "path": {"type": "string"},
+          "bytes": {"type": "integer", "minimum": 0},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    }
+  }
+}

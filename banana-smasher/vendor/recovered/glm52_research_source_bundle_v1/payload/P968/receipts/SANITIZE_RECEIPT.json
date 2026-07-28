@@ -1,0 +1,11 @@
+{
+  "created_epoch": 1785264768.154669,
+  "image": "evalplus:26d6d00",
+  "image_id": "sha256:6d8ad646b126d7fc4fee41965e95a25d539ce5632b58146e036a89f7612bfb69",
+  "raw": "${SPARK_HOME}/missions/P968_CODE_AUDIT_t_a441d327_s8/raw/iq4_humaneval_greedy.jsonl",
+  "raw_sha256": "e551333ec0870ac23e3b3a19ee84c9e7098ea8aa5dc48d9dde19fd838df716dd",
+  "sanitized": "${SPARK_HOME}/missions/P968_CODE_AUDIT_t_a441d327_s8/raw/iq4_humaneval_greedy-sanitized.jsonl",
+  "sanitized_sha256": "0c6fe046b9a7d128be5205fef88e84962bda8bbdc1d27ad8618fc7f8111974d2",
+  "schema": "p968-sanitize-receipt-v1",
+  "status": "PASS"
+}

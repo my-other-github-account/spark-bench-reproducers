@@ -1,0 +1,8 @@
+{
+  "schema": "banana-smasher-p959-pin-v1",
+  "status": "CORRECTED_LOGIC_VENDORED",
+  "source_sha256": "8fb046b659aee2fb2ae798219ff10a9dacf42cc7a3ca9adda2727ad3761e39ab",
+  "update_count": 24,
+  "law": "every repair source is joined by exact cell identity, tier, and payload SHA from the sealed wire inventory",
+  "forbidden": ["ambient checkpoint fallback", "cross-tier source reuse", "duplicate targets", "missing source seals"]
+}

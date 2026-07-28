@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:banana-smasher:stage-receipt:v1",
+  "title": "Banana Smasher stage receipt",
+  "type": "object",
+  "required": ["schema", "stage", "status", "atomic", "resumable"],
+  "properties": {
+    "schema": {"const": "banana-smasher-stage-receipt-v1"},
+    "stage": {"enum": ["init", "capture", "anchors", "anchor-mix", "grid", "solve", "retrodict", "build", "measure", "calibrate", "resolve", "repair", "pack", "serve", "eval", "status"]},
+    "status": {"type": "string"},
+    "validity": {"enum": ["PROFILED", "PROJECTED", "UNMEASURED", "MEASURED", "LEDGER"]},
+    "invocation_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "inputs": {"type": "object"},
+    "outputs": {"type": "object", "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+    "atomic": {"const": true},
+    "resumable": {"const": true}
+  },
+  "additionalProperties": true
+}

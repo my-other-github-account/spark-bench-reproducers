@@ -1,0 +1,148 @@
+{
+  "schema": "banana-smasher-stage-contracts-v1",
+  "contract_laws": {
+    "read_scope": "sealed prerequisite receipts plus the current stage directory",
+    "write_scope": "the current stage directory only",
+    "commit": "fsync temporary file, atomic rename, receipt last",
+    "rerun": "matching sealed invocation returns without rewriting; drift refuses",
+    "validity": "plans and projections may never be relabeled as measurements"
+  },
+  "stages": {
+    "init": {
+      "prerequisites": [],
+      "inputs": ["local config.json or Hugging Face model identifier", "budget bytes", "node RAM GB"],
+      "outputs": ["workspace/init/MODEL_PROFILE.json", "workspace/init/MENU_TEMPLATE.json"],
+      "receipt": "workspace/init/RECEIPT.json",
+      "write_scope": "workspace/init",
+      "vendor_capabilities": ["receipt_schemas"]
+    },
+    "capture": {
+      "prerequisites": ["init"],
+      "inputs": ["workspace/init/RECEIPT.json", "window-bank selector"],
+      "outputs": ["workspace/capture/CAPTURE_INDEX.json", "workspace/capture/WINDOW_BANKS.json"],
+      "receipt": "workspace/capture/RECEIPT.json",
+      "write_scope": "workspace/capture",
+      "vendor_capabilities": ["fortress_measure"]
+    },
+    "anchors": {
+      "prerequisites": ["capture"],
+      "inputs": ["workspace/capture/RECEIPT.json", "tier list"],
+      "outputs": ["workspace/anchors/ANCHOR_PRICES.json", "workspace/anchors/CELL_RECEIPTS.jsonl"],
+      "receipt": "workspace/anchors/RECEIPT.json",
+      "write_scope": "workspace/anchors",
+      "vendor_capabilities": ["qtip_rep16", "vq_d4", "mxfp4", "fortress_measure"]
+    },
+    "anchor-mix": {
+      "prerequisites": ["anchors"],
+      "inputs": ["workspace/anchors/RECEIPT.json", "mixed-tier pattern"],
+      "outputs": ["workspace/anchor-mix/INTERACTION_TERM.json"],
+      "receipt": "workspace/anchor-mix/RECEIPT.json",
+      "write_scope": "workspace/anchor-mix",
+      "vendor_capabilities": ["calibration_p930"]
+    },
+    "grid": {
+      "prerequisites": ["anchors", "anchor-mix"],
+      "inputs": ["workspace/anchors/RECEIPT.json", "workspace/anchor-mix/RECEIPT.json"],
+      "outputs": ["workspace/grid/PRICED_GRID.json", "workspace/grid/SALIENCE_SHARES.json"],
+      "receipt": "workspace/grid/RECEIPT.json",
+      "write_scope": "workspace/grid",
+      "vendor_capabilities": ["calibration_p930"]
+    },
+    "solve": {
+      "prerequisites": ["grid"],
+      "inputs": ["workspace/grid/RECEIPT.json", "class weights", "budget envelope"],
+      "outputs": ["workspace/solve/ASSIGNMENT.json", "workspace/solve/PREDICTIONS.json"],
+      "receipt": "workspace/solve/RECEIPT.json",
+      "write_scope": "workspace/solve",
+      "vendor_capabilities": ["solver_scip"]
+    },
+    "retrodict": {
+      "prerequisites": ["solve"],
+      "inputs": ["workspace/solve/RECEIPT.json", "measured anchor receipts"],
+      "outputs": ["workspace/retrodict/RETRODICTION_GATE.json"],
+      "receipt": "workspace/retrodict/RECEIPT.json",
+      "write_scope": "workspace/retrodict",
+      "vendor_capabilities": ["calibration_p930"]
+    },
+    "build": {
+      "prerequisites": ["retrodict"],
+      "inputs": ["workspace/retrodict/RECEIPT.json", "workspace/solve/ASSIGNMENT.json"],
+      "outputs": ["workspace/build/WIRE_MANIFEST.json", "workspace/build/CELL_RECEIPTS.jsonl"],
+      "receipt": "workspace/build/RECEIPT.json",
+      "write_scope": "workspace/build",
+      "vendor_capabilities": ["qtip_rep16", "vq_d4", "mxfp4", "packers"]
+    },
+    "measure": {
+      "prerequisites": ["build", "capture"],
+      "inputs": ["workspace/build/RECEIPT.json", "workspace/capture/RECEIPT.json"],
+      "outputs": ["workspace/measure/KLD_VECTOR.json"],
+      "receipt": "workspace/measure/RECEIPT.json",
+      "write_scope": "workspace/measure",
+      "vendor_capabilities": ["fortress_measure"]
+    },
+    "calibrate": {
+      "prerequisites": ["measure", "grid"],
+      "inputs": ["workspace/measure/RECEIPT.json", "workspace/grid/RECEIPT.json", "all prior measured wire receipts"],
+      "outputs": ["workspace/calibrate/CORRECTED_GRID.json", "workspace/calibrate/CALIBRATION_REPORT.json"],
+      "receipt": "workspace/calibrate/RECEIPT.json",
+      "write_scope": "workspace/calibrate",
+      "vendor_capabilities": ["calibration_p930"]
+    },
+    "resolve": {
+      "prerequisites": ["calibrate"],
+      "inputs": ["workspace/calibrate/RECEIPT.json"],
+      "outputs": ["workspace/resolve/ASSIGNMENT.json", "workspace/resolve/PREDICTIONS.json"],
+      "receipt": "workspace/resolve/RECEIPT.json",
+      "write_scope": "workspace/resolve",
+      "vendor_capabilities": ["solver_scip"]
+    },
+    "repair": {
+      "prerequisites": ["resolve", "build"],
+      "inputs": ["workspace/resolve/RECEIPT.json", "workspace/build/WIRE_MANIFEST.json"],
+      "outputs": ["workspace/repair/UPDATE_SEALS.jsonl", "workspace/repair/REPAIRED_WIRE.json"],
+      "receipt": "workspace/repair/RECEIPT.json",
+      "write_scope": "workspace/repair",
+      "vendor_capabilities": ["repair_p959"]
+    },
+    "pack": {
+      "prerequisites": ["repair"],
+      "inputs": ["workspace/repair/RECEIPT.json"],
+      "outputs": ["workspace/pack/PACK_MANIFEST.json", "workspace/pack/PACK_COMPLETE"],
+      "receipt": "workspace/pack/RECEIPT.json",
+      "write_scope": "workspace/pack",
+      "vendor_capabilities": ["packers"]
+    },
+    "serve": {
+      "prerequisites": ["pack"],
+      "inputs": ["workspace/pack/RECEIPT.json", "container mode"],
+      "outputs": ["workspace/serve/READY.json", "workspace/serve/SERVING_METRICS.json", "workspace/serve/LOGIT_GATE.json"],
+      "receipt": "workspace/serve/RECEIPT.json",
+      "write_scope": "workspace/serve",
+      "vendor_capabilities": ["runtime", "kernel"]
+    },
+    "eval": {
+      "prerequisites": ["serve"],
+      "inputs": ["workspace/serve/RECEIPT.json", "suite", "sample count"],
+      "outputs": ["workspace/eval/RAW_GENERATIONS.jsonl", "workspace/eval/SANITIZED_GENERATIONS.jsonl", "workspace/eval/EVAL_RESULTS.json"],
+      "receipt": "workspace/eval/RECEIPT.json",
+      "write_scope": "workspace/eval",
+      "vendor_capabilities": ["evalplus"]
+    },
+    "status": {
+      "prerequisites": [],
+      "inputs": ["all present workspace stage receipts"],
+      "outputs": ["workspace/status/LEDGER.json"],
+      "receipt": "workspace/status/RECEIPT.json",
+      "write_scope": "workspace/status",
+      "vendor_capabilities": ["receipt_schemas"]
+    },
+    "verify": {
+      "prerequisites": [],
+      "inputs": ["package-local manifests and files"],
+      "outputs": ["stdout verification result; live verification is read-only"],
+      "receipt": "stdout only",
+      "write_scope": "workspace/verify",
+      "vendor_capabilities": ["receipt_schemas"]
+    }
+  }
+}

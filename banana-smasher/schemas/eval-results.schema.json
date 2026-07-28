@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:banana-smasher:eval-results:v1",
+  "title": "Endpoint EvalPlus result",
+  "type": "object",
+  "required": ["schema", "status", "suite", "endpoint", "decode", "raw_sha256", "sanitized_sha256", "scores"],
+  "properties": {
+    "schema": {"const": "banana-smasher-eval-results-v1"},
+    "status": {"type": "string"},
+    "suite": {"type": "string"},
+    "endpoint": {"type": "string"},
+    "decode": {"type": "object", "required": ["temperature", "samples"]},
+    "raw_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "sanitized_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "scores": {"type": "object"}
+  }
+}

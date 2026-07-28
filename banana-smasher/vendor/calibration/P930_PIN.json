@@ -1,0 +1,11 @@
+{
+  "schema": "banana-smasher-p930-pin-v1",
+  "status": "PINNED_SOURCE_IDENTITIES",
+  "fit_wire_calibration_source_sha256": "98e0877586cf3f209bbd7f95a98bdaa126c5be7a6878301461f9b4297dad4edb",
+  "pricing_v3_surface_source_sha256": "04b7d53935362b7d71622fba53e2d8170f51e70a74303e47081948d3203e0fc9",
+  "corrected_pricing_v3_sha256": "723f6b2cd3bfcffdcb708869f7f0f6732a7f8447862a258d3797078f967804bb",
+  "final_report_sha256": "ce351c01165f77f523d6d787596f8a0d1ac0d691cba86098a26e8355989a3d78",
+  "law": "all measured wires are fit as residual families; held-out diagnostics cannot be promoted to validation",
+  "retrodiction_gate_percent": 5.0,
+  "classes": ["agentic", "chat", "code", "multilingual", "prose", "reasoning"]
+}

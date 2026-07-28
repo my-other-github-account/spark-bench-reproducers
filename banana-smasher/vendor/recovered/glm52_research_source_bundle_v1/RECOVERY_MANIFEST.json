@@ -1,0 +1,1079 @@
+{
+  "bundle_id": "glm52_research_source_bundle_v1",
+  "files": [
+    {
+      "bytes": 12473,
+      "path": "ADOPTION_MAP.json",
+      "recovered_bundle_sha256": "efc37a19fc0acf4806e9b49e7d004206485c02215a9c15c6a547898f45e6589d",
+      "sha256": "c8d6a8d067d11fb87cef3948978f39252572cf068a6a2e82a96fc08389a909b0",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 19904,
+      "path": "BUNDLE_MANIFEST.json",
+      "recovered_bundle_sha256": "86af491a08eeded4b3ebd4f1409b3d0e664683d6208aba9e1c14e690957064f5",
+      "sha256": "86af491a08eeded4b3ebd4f1409b3d0e664683d6208aba9e1c14e690957064f5",
+      "transformed": false
+    },
+    {
+      "bytes": 3490,
+      "path": "LICENSE_PRIVACY_REVIEW.md",
+      "recovered_bundle_sha256": "4676ec536f78c4901c1c30f10b46d1f6eed313d0c6a25a82d4ec0132b815e95f",
+      "sha256": "4676ec536f78c4901c1c30f10b46d1f6eed313d0c6a25a82d4ec0132b815e95f",
+      "transformed": false
+    },
+    {
+      "bytes": 5673,
+      "path": "MISSING_SOURCE_LEDGER.json",
+      "recovered_bundle_sha256": "aee6716c5497e35fe006276e265bbaee0f63c1274ac2f10624ae53416e9fdcd2",
+      "sha256": "b64ffe879910b9b590dcded912023c0bb3d16d8bb16a5bde5bd3b90cd8ed6010",
+      "transformations": {
+        "kanban_task_id": 2
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 180,
+      "path": "PRIVACY_SCAN_RECEIPT.json",
+      "recovered_bundle_sha256": "ec503fa58b31160bfdc70ad14575d104d5afd213941770bbd13a3f83cec3edff",
+      "sha256": "ec503fa58b31160bfdc70ad14575d104d5afd213941770bbd13a3f83cec3edff",
+      "transformed": false
+    },
+    {
+      "bytes": 5269,
+      "path": "README.md",
+      "recovered_bundle_sha256": "ccd94a8a1c73e813c747fa6d2c59da1536ace842a9199352b237cb0494b09203",
+      "sha256": "ccd94a8a1c73e813c747fa6d2c59da1536ace842a9199352b237cb0494b09203",
+      "transformed": false
+    },
+    {
+      "bytes": 10817,
+      "path": "SHA256SUMS.txt",
+      "recovered_bundle_sha256": "e27b8f3ce6b210bf7912310691c2f2710ec7ab54a0bfc920d084b1669a81f9bb",
+      "sha256": "e27b8f3ce6b210bf7912310691c2f2710ec7ab54a0bfc920d084b1669a81f9bb",
+      "transformed": false
+    },
+    {
+      "bytes": 79570,
+      "path": "SOURCE_MANIFEST.json",
+      "recovered_bundle_sha256": "888f168818357d8ba832b2bb2a2103230dbd3251e1a211cf0a6d660ef5846813",
+      "sha256": "1e1b15f4a63711e128dac3d30a27cc5ca5eba1c4d7697639c4e997da486a551c",
+      "transformations": {
+        "kanban_task_id": 5
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 1711,
+      "path": "payload/P234/code/SCORE_EVALPLUS.sh",
+      "recovered_bundle_sha256": "478e18a53a675fdf98e99896f517fa65e9c4a9a8b4afb2bd2b2c15ef3b152ba3",
+      "sha256": "2461aa88e919a91ed1924c2e511b49de293da6af55d3fc4334959f4f99390842",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 1585,
+      "path": "payload/P234/code/evalplus_codegen_pinned.py",
+      "recovered_bundle_sha256": "4eb200cdd4b2eb434d861e42f1ad97dd887f3599906ecb257bcdeb8070b493b7",
+      "sha256": "dfb603c230974714758a099d846a3162d69181dac42c92e80acadc3477eda3b0",
+      "transformations": {
+        "private_ipv4": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 9097,
+      "path": "payload/P234/code/he164_generate.py",
+      "recovered_bundle_sha256": "0adb45c69f998bfd7d21e7500095aa067523df1ec74fb12a8178d85a6e8231b8",
+      "sha256": "cfcc70cd387be4ba6637c80b3889e12b8dd42f500f99660b5fc469efff38cd25",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 2216,
+      "path": "payload/P234/code/prepare_evalplus.py",
+      "recovered_bundle_sha256": "6b553142afaa99f36787f742be5de3c5214819ad69768fe8395699226c2f2193",
+      "sha256": "6b553142afaa99f36787f742be5de3c5214819ad69768fe8395699226c2f2193",
+      "transformed": false
+    },
+    {
+      "bytes": 1092,
+      "path": "payload/P234/code/sanitize_evalplus.py",
+      "recovered_bundle_sha256": "1a1a47687ec7ee7d44afe1fd0127e2ab140196b06dc47588c370afa0963bf02e",
+      "sha256": "1a1a47687ec7ee7d44afe1fd0127e2ab140196b06dc47588c370afa0963bf02e",
+      "transformed": false
+    },
+    {
+      "bytes": 5727,
+      "path": "payload/P234/code/seal_evalplus.py",
+      "recovered_bundle_sha256": "7af5bda149edd8c7bf67e7612ed70a6f3183ba9d163d509fba9e790dce8287bd",
+      "sha256": "4baa2207c71bb7392802cd71413d20eb2b668e38835df1764fe4c8be871c83f5",
+      "transformations": {
+        "kanban_task_id": 2
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 58038,
+      "path": "payload/P234/receipts/GENERATION_MANIFEST.json",
+      "recovered_bundle_sha256": "fd9a2a7228e1d466808200603e9f49e7059aac7c6de27ab203d9ef9a0c5093b9",
+      "sha256": "cd5beb6fe05974a32bb3fe2892cd8cd76346ae7c1e93a31b71e55aca07635d5e",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 753,
+      "path": "payload/P234/receipts/INPUT_RECEIPT.json",
+      "recovered_bundle_sha256": "c38a4d5519e535165c0e4c1733b2a6064c45b3487fadaea0f694202e0f737233",
+      "sha256": "c38a4d5519e535165c0e4c1733b2a6064c45b3487fadaea0f694202e0f737233",
+      "transformed": false
+    },
+    {
+      "bytes": 607711,
+      "path": "payload/P234/receipts/VERDICT.json",
+      "recovered_bundle_sha256": "2064de43021a3336170d1c127aa6652a7a3b32076c14fa5a36122c95382a560c",
+      "sha256": "926a3606195eb17d8296240da38e5e161a4773fa344dc6454d9ec7ab767dc397",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 802,
+      "path": "payload/P234/receipts/VERDICT.md",
+      "recovered_bundle_sha256": "c5f386630df92f284e6ffd45fe0b9a6c646eba7d00da4e096c38ceb257993f8e",
+      "sha256": "c5f386630df92f284e6ffd45fe0b9a6c646eba7d00da4e096c38ceb257993f8e",
+      "transformed": false
+    },
+    {
+      "bytes": 135234,
+      "path": "payload/P234/receipts/raw_solutions.jsonl",
+      "recovered_bundle_sha256": "90f0ab8d3af95f8fc419825feff152da0f4f9ff0164723f657bebabf8b07d9d6",
+      "sha256": "90f0ab8d3af95f8fc419825feff152da0f4f9ff0164723f657bebabf8b07d9d6",
+      "transformed": false
+    },
+    {
+      "bytes": 110312,
+      "path": "payload/P234/receipts/samples.jsonl",
+      "recovered_bundle_sha256": "ffdf58435febbd2710de0ca888cd68707d1bb5b1940443107ddefacc3488ef7a",
+      "sha256": "ffdf58435febbd2710de0ca888cd68707d1bb5b1940443107ddefacc3488ef7a",
+      "transformed": false
+    },
+    {
+      "bytes": 123,
+      "path": "payload/P234/receipts/sanitize.log",
+      "recovered_bundle_sha256": "fb34b7db1a4f2e0708610c1469f13d64a3c04435aa885c8f879f7fe13200cfe6",
+      "sha256": "fb34b7db1a4f2e0708610c1469f13d64a3c04435aa885c8f879f7fe13200cfe6",
+      "transformed": false
+    },
+    {
+      "bytes": 563,
+      "path": "payload/P234/receipts/seal.log",
+      "recovered_bundle_sha256": "804c5ca3ef14e9bbbddd92757ca2c0ec027b8570da6512f0fba465dcb350ba0b",
+      "sha256": "804c5ca3ef14e9bbbddd92757ca2c0ec027b8570da6512f0fba465dcb350ba0b",
+      "transformed": false
+    },
+    {
+      "bytes": 4195,
+      "path": "payload/P486/code/finalize_release.py",
+      "recovered_bundle_sha256": "1933aa18ca8fd0b0d4dd9e96e07b5c0706c719c12fe57eb555bac041875472dd",
+      "sha256": "a4d70c6ac4ad341fb4985c86082fcc07af4b31ea043d6bcede173d81d149ee58",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 20525,
+      "path": "payload/P486/code/run_full164.py",
+      "recovered_bundle_sha256": "b6e90f17f013203fd7a3f2c9379b943dc8c68fad9bd36039c9ddb5094b3d9fb2",
+      "sha256": "6ac5286a77c114338f022796442673a8259650b96a5ac0acf997e8bb133ad031",
+      "transformations": {
+        "kanban_task_id": 2
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 2827,
+      "path": "payload/P486/code/run_pipeline.sh",
+      "recovered_bundle_sha256": "3e9b22ee095313b9275d054c522765eda048812db5dcc20e09cc8559c95efd26",
+      "sha256": "1e1334d54e1dafdf9e8c6db54138f7720aab73851e186c7de4468dc31dc96163",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 4026,
+      "path": "payload/P486/code/score_batch.py",
+      "recovered_bundle_sha256": "31410c0766ecdc3af20ad90632121f8df41d0b4da9636a4fc8d0a75074722f26",
+      "sha256": "31410c0766ecdc3af20ad90632121f8df41d0b4da9636a4fc8d0a75074722f26",
+      "transformed": false
+    },
+    {
+      "bytes": 11119,
+      "path": "payload/P486/receipts/FINAL_ACTUAL_FULL164_RECEIPT.json",
+      "recovered_bundle_sha256": "335592db68091d2010cb8d5f4661e2d7a7cfecb5e0ecbe5f4b87b4185522f104",
+      "sha256": "030203dd4740f3f009a65d4490b250a40fde5788b083a6ec984689a0decdac99",
+      "transformations": {
+        "kanban_task_id": 2
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 153756,
+      "path": "payload/P486/receipts/raw_solutions.jsonl",
+      "recovered_bundle_sha256": "a0a0d5474e699fbcc09a3c530c8765e28a788a6583fd4b566e8cb5686741d128",
+      "sha256": "a0a0d5474e699fbcc09a3c530c8765e28a788a6583fd4b566e8cb5686741d128",
+      "transformed": false
+    },
+    {
+      "bytes": 116774,
+      "path": "payload/P486/receipts/samples.jsonl",
+      "recovered_bundle_sha256": "a33622bb53815978fe3569a41d2984aed4a59b51ec47a3882f00afdb586e4429",
+      "sha256": "a33622bb53815978fe3569a41d2984aed4a59b51ec47a3882f00afdb586e4429",
+      "transformed": false
+    },
+    {
+      "bytes": 8231,
+      "path": "payload/P526/code/bench_qtip_mbatched.py",
+      "recovered_bundle_sha256": "cf4e9d09a3be80e3059afeaa511800b79483dd5abf3fe8e64cb6aea8013556ce",
+      "sha256": "c10d9360015a4445cb8481d5b3ea9120cfd7b48d738964b9f5a0a3705ef04e26",
+      "transformations": {
+        "kanban_task_id": 2
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 2879,
+      "path": "payload/P526/code/mbatched_qtip.py",
+      "recovered_bundle_sha256": "655634773e941f6fa310235fe1adfbd1803eaa8d9207c9b51640b93d947e98a9",
+      "sha256": "655634773e941f6fa310235fe1adfbd1803eaa8d9207c9b51640b93d947e98a9",
+      "transformed": false
+    },
+    {
+      "bytes": 6701,
+      "path": "payload/P526/code/qtip_vq_backend_sealed.py",
+      "recovered_bundle_sha256": "5391a3ef62243188576c8f82346dc003b023470aea9fa1decb9376b70ae1f1fd",
+      "sha256": "5391a3ef62243188576c8f82346dc003b023470aea9fa1decb9376b70ae1f1fd",
+      "transformed": false
+    },
+    {
+      "bytes": 172,
+      "path": "payload/P526/code/run_p526.sh",
+      "recovered_bundle_sha256": "a6a0041c2916b93c528b57f0cd6e3220a258e4ca30b99b34757fa7a78012b609",
+      "sha256": "a6a0041c2916b93c528b57f0cd6e3220a258e4ca30b99b34757fa7a78012b609",
+      "transformed": false
+    },
+    {
+      "bytes": 1535,
+      "path": "payload/P526/receipts/DOMINANT_SUBPHASE.json",
+      "recovered_bundle_sha256": "ff1e0348aa338f2125caf301185fb8011ee0915c403da4e6816719bdc6d3bb20",
+      "sha256": "dee3a60b8fea02fc1bd50a04f0697500e03ec015e14373973eedede1ceffd524",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 443,
+      "path": "payload/P526/receipts/MISSION.md",
+      "recovered_bundle_sha256": "4d9389db6ce224dd2b40497c188a411bff2fdbe900bc87404a422894c087554a",
+      "sha256": "c5b0ea1288a9e5fa197a47e696062108710660ef3835f3e41140d6483273bd42",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 513,
+      "path": "payload/P526/receipts/RELEASE.json",
+      "recovered_bundle_sha256": "5876b1709ebf2fd5cb9fd018923d77a6b4d5b229421b23c3c19d001acdcfbda3",
+      "sha256": "06e15f42a8b59cc4ff471a6a0cf746f23a6256d2d83fca3956dd5613b85e8170",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 5783,
+      "path": "payload/P526/receipts/RESULT.json",
+      "recovered_bundle_sha256": "399584202cab05f27fc9b6cb6625940fa146ae4e2084ae42921786b43c9e9ee0",
+      "sha256": "31233eb08be90592e6d1f7b71b375013f2451ebd581ec9afd1aab083c6483ed5",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 4939,
+      "path": "payload/P530/code/finalize_result.py",
+      "recovered_bundle_sha256": "6c65f5e5c3590f9754312ba1bcbe014650182d88315bb03f97030103823a61d8",
+      "sha256": "d09423e6071cf4443e33b1299012295aaa3e313bca43890edc3bd8b782b6b153",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 1282,
+      "path": "payload/P530/code/launch_final_gate.sh",
+      "recovered_bundle_sha256": "2cd39bcfba26c5bda3730d2477b999fd5873454b9089eb190c33ca00312f554e",
+      "sha256": "2e83fb3fe3eb26fb93e4090ff47ed0e184d2ddca5c7db3f58f7ebbe429564255",
+      "transformations": {
+        "kanban_task_id": 2
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 37334,
+      "path": "payload/P530/code/mixed_prefill_server.py",
+      "recovered_bundle_sha256": "ffe52247a444acb3ba684761ec5601e2feea99b1216ac776cf81da079854ee8a",
+      "sha256": "7cc7276c11f506f5df79fb54f4e28c49c6a0539e56bebced21c7a5435b328f98",
+      "transformations": {
+        "kanban_task_id": 5
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 20543,
+      "path": "payload/P530/code/mixed_tier_backend.py",
+      "recovered_bundle_sha256": "db14f3607d539f03bb81201b662d44149ef78d3297625575f86057d4eaadfaf0",
+      "sha256": "db14f3607d539f03bb81201b662d44149ef78d3297625575f86057d4eaadfaf0",
+      "transformed": false
+    },
+    {
+      "bytes": 6223,
+      "path": "payload/P530/code/mixed_tier_patch.py",
+      "recovered_bundle_sha256": "80696f626254fb3f2be6c95035e1ba13a17ae3ab7a8d50c366f8056cba66dd27",
+      "sha256": "80696f626254fb3f2be6c95035e1ba13a17ae3ab7a8d50c366f8056cba66dd27",
+      "transformed": false
+    },
+    {
+      "bytes": 20241,
+      "path": "payload/P530/code/run_prefill_ladder.py",
+      "recovered_bundle_sha256": "ba28a697a9cd6891793f80efbcf7ada123cef3a5432a4b9d992b92feccdd1a74",
+      "sha256": "431cfe731dd5402baaa0f10ec5839c9437ff6297d65599d516387d4ae0314729",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 3818,
+      "path": "payload/P530/receipts/ARTIFACT_MANIFEST.json",
+      "recovered_bundle_sha256": "2578a7a9775db028550f1f9d5472ffa1b77b78778ca892f3b32cedd53ebbf3ea",
+      "sha256": "3828de27a0f775e6c13eaeb9b2390b9fe4951ae84f8c3672f29807d4969dc280",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 7599,
+      "path": "payload/P530/receipts/MIXED_PREFILL_LADDER_RESULT.json",
+      "recovered_bundle_sha256": "a271b444ef86ce92e36ca08858635feb8e17e6aef3b3ebf395d159e4000c98da",
+      "sha256": "85175f0c98eed286080c6dc2c00cb3eeeded0fc975e759dcba903d1781327327",
+      "transformations": {
+        "kanban_task_id": 2
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 5057,
+      "path": "payload/P530/receipts/P530_RESULT.json",
+      "recovered_bundle_sha256": "778231dc35e8f6b801cda0d7b201b6390542f3114a1e0347d691fdc4a368dfe2",
+      "sha256": "2b3779e7f59aa3625a2bcf4449d624c9420b8e00f84ad791208f79a120af0e0b",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 71680,
+      "path": "payload/P948/code/genesis_basic_repair.py",
+      "recovered_bundle_sha256": "766064fac575bbb3254d3f91c0162fa0ddbd336992e9bb9653c89e95196b4a84",
+      "sha256": "a9e419f8a46db2d5380b88acf621ff0e7776ba5dcab1b25fbb15499a5cff631d",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 16614,
+      "path": "payload/P948/code/prepare_p948.py",
+      "recovered_bundle_sha256": "3b5e034c98259e36f6c8c220d7125f1e4080aec66a697f69f82de106ef3e9800",
+      "sha256": "1976c2a18cf81ee964404b96c496bcef73f8b5529646cf874c8757c257c8feab",
+      "transformations": {
+        "kanban_task_id": 3
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 1668,
+      "path": "payload/P948/code/run_p948_controller.sh",
+      "recovered_bundle_sha256": "d464c2d4b27270766383aeee0b24ba251a562a1fe8705837fe27835f936afe73",
+      "sha256": "d464c2d4b27270766383aeee0b24ba251a562a1fe8705837fe27835f936afe73",
+      "transformed": false
+    },
+    {
+      "bytes": 8132,
+      "path": "payload/P948/code/run_p948_speculative_repair.sh",
+      "recovered_bundle_sha256": "391326ab9310632b990bd4f9ee3a0666c4a4ae49cc35d4925055bba4931e69fe",
+      "sha256": "a455c0c20d6ff60a9de70005f1314bcf4745513860ace936a538864f882c61d7",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 1664,
+      "path": "payload/P948/receipts/FIRST_UNIT_ACCEPTANCE.json",
+      "recovered_bundle_sha256": "d23c54ea2c7f6f7c7c5328ead9354d3f8c1fe25a08c92795625610d672d76ce5",
+      "sha256": "a32f9fbbf3b7cf828181dc0ce03e574ddaf239a6da4e8232b3b9d67e0b0a48c9",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 1605,
+      "path": "payload/P948/receipts/SPECULATIVE_REVOKED_CONTROLLER.stderr.log",
+      "recovered_bundle_sha256": "f238b7da6a441a6933bed718765baf91aaec6d055c182d06e6fa74ffa92b9d07",
+      "sha256": "f238b7da6a441a6933bed718765baf91aaec6d055c182d06e6fa74ffa92b9d07",
+      "transformed": false
+    },
+    {
+      "bytes": 300,
+      "path": "payload/P948/receipts/SPECULATIVE_REVOKED_CONTROLLER.stdout.log",
+      "recovered_bundle_sha256": "fbe3d247c8294f67b14b304d479c71a0c3c7f6fdaf8f68d3138663ab582e31d4",
+      "sha256": "fbe3d247c8294f67b14b304d479c71a0c3c7f6fdaf8f68d3138663ab582e31d4",
+      "transformed": false
+    },
+    {
+      "bytes": 1638,
+      "path": "payload/P948/receipts/UPDATE_ACCEPTANCE_001.json",
+      "recovered_bundle_sha256": "ca40c27a2574023ed8bc16c14c94f77e4dd3f6b80decea08c8d4b46f6fc09bcf",
+      "sha256": "4f73aa5a0dbbd8fa218a56deea86aa1327286f71b785f162da25cc0c4983ed11",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 24451,
+      "path": "payload/P950/code/p921_wire_a_balanced64.py",
+      "recovered_bundle_sha256": "3075c5762a13b9de4b28e0ce305f0b54e7f1af6bddfacab03fad6cbf6247034c",
+      "sha256": "330966f51011ed6f780c801ce12056adf9a34af6750daa129885c9ed25e94702",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 16875,
+      "path": "payload/P950/code/p921_wire_a_overlay_adapter.py",
+      "recovered_bundle_sha256": "75f460dd864a5ef19ee04b83255bfdce2da252595d528755be982595d497c558",
+      "sha256": "a30b2736c371261363b431f845f1157d20e96efeb1b1b7b1a9c055e2b4738ee0",
+      "transformations": {
+        "kanban_task_id": 8
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 3416,
+      "path": "payload/P950/receipts/P921_SCORER_BINDING_AUDIT.json",
+      "recovered_bundle_sha256": "d14fb411b177498263e25a682d078c7945dcb22ae99f629fa337da9c14c2aab9",
+      "sha256": "73460485e14d9ba02da0a69a447684c16fbeb1c807e3cb5c9a43db58e27aa0c7",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 14972,
+      "path": "payload/P950/receipts/P921_WIRE_A_BALANCED64_FINAL_SEAL.json",
+      "recovered_bundle_sha256": "fa6f781b23dccde3484dc829ec552aa3f6802eb8773ec992666828882f5bb196",
+      "sha256": "9934834435dd2008d99b8dd8f86d0d0d71c7996a11eaa74d5efdce28d39ea924",
+      "transformations": {
+        "kanban_task_id": 3
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 1748,
+      "path": "payload/P950/receipts/P950_CURRENT_SNAPSHOT_PIN.json",
+      "recovered_bundle_sha256": "1b4f5ab5b0d94a53c4973b023c02c2fc193430f9521d70b73e27ae6e4502fb4d",
+      "sha256": "1b4f5ab5b0d94a53c4973b023c02c2fc193430f9521d70b73e27ae6e4502fb4d",
+      "transformed": false
+    },
+    {
+      "bytes": 2192,
+      "path": "payload/P950/receipts/P950_PRODUCTIVE_LAUNCH.json",
+      "recovered_bundle_sha256": "20ef01eab61d2afb8c0f84c14878b06b6c4cb35617e2ade5d587251447d62cfb",
+      "sha256": "ecd4332a1c7dcd7d324a02d83c16885d1dc092b6de6e83bf986be726552fd3fa",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 25317,
+      "path": "payload/P951/code/p951_true_c_balanced64.py",
+      "recovered_bundle_sha256": "567e172ee6fefc644e7cdb62bbcf4b9f07ed425ca0bb550291267e3ab4cd2cc0",
+      "sha256": "11913706159113ea952a0e639d843e62e13975bcc944cf06eed06cd45acbebaa",
+      "transformations": {
+        "kanban_task_id": 2
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 15800,
+      "path": "payload/P951/code/p951_true_c_overlay_adapter.py",
+      "recovered_bundle_sha256": "149a2a280452174ca398baf682d2c45c8410221b9cd2e1ca792cd769f1524299",
+      "sha256": "b33251bb3206fff06349fe58d2899a22b50123c0a9187af89b75a5c8c83db0ab",
+      "transformations": {
+        "kanban_task_id": 7
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 67979,
+      "path": "payload/P951/receipts/P951_INDEPENDENT_TERMINAL_TRUE_C_80_OF_80.json",
+      "recovered_bundle_sha256": "b5f2db3885c9b09031ba7e328034c5091aa215d5b9c2ee88d82a35c456deed8e",
+      "sha256": "1a464090589729910803b8f3010449161d5e2ec0c33bc8b46accfd5d5845cfe8",
+      "transformations": {
+        "kanban_task_id": 89
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 14178,
+      "path": "payload/P959/code/complete_terminal_seed_actual_inventory.py",
+      "recovered_bundle_sha256": "7a5b081db1a1bfd8a01a99812a5a1515b6ed1b729c9b8ebe0f78d8dfb5d92819",
+      "sha256": "3076c02ea3a20fc304de7dd56f7d9a716f1ea66fd43124517001fe1655b0f512",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 76306,
+      "path": "payload/P959/code/genesis_basic_repair.py",
+      "recovered_bundle_sha256": "1cfd17213d3f4e1b215948f79872984c637fb1655769ee5ae6d3476e0c844cac",
+      "sha256": "35e75f9cc8a03442e53cff1dcab5b10d2a99d40ee4db1d7fe64fa0dab478f980",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 5188,
+      "path": "payload/P959/code/rebuild_p959_terminal_seed_v2.py",
+      "recovered_bundle_sha256": "f7aa49146a917f31e1057b2ba90ef448ea5e4af924b77dcff26478534a4c6b7a",
+      "sha256": "d7891f4bdbd4fe6f1b763ab4b8067d28a538aa3d8876965a60855b5d1d4847e6",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 7790,
+      "path": "payload/P959/code/run_p959_terminal_repair.sh",
+      "recovered_bundle_sha256": "1e8c3b8e441da84c0f9f80d6a6220e26bf2d211c4782316497e70d6cfb3144ec",
+      "sha256": "9b0e079dd548b612b0526c28e967cb016bdbdab5e338b4b91a3264e3f69b4c87",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 1284,
+      "path": "payload/P959/receipts/BASIC_REPAIR_STATUS.json",
+      "recovered_bundle_sha256": "c5e7ed1a4134dc90c62c3adc651d581240cab3e5076e9a05e390e5040ab7b6b3",
+      "sha256": "c5e7ed1a4134dc90c62c3adc651d581240cab3e5076e9a05e390e5040ab7b6b3",
+      "transformed": false
+    },
+    {
+      "bytes": 3238,
+      "path": "payload/P959/receipts/P959_P948_SPECULATIVE_BOUNDARY.json",
+      "recovered_bundle_sha256": "44a132c5ad2d5584e684ac3721d5ac59d609edeb2f81440e5747984dc6ac362a",
+      "sha256": "05a139ae94dd8a70e8ee26fe93f2451b73d3c30c1f88415c1447de6b44088ab6",
+      "transformations": {
+        "kanban_task_id": 2
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 29659,
+      "path": "payload/P959/receipts/P959_SEED_EXTENSION_INVENTORY.json",
+      "recovered_bundle_sha256": "1d45d4ebe8a7eebe90dee6ca174eb7da8ed47831590b8435fc307779917646da",
+      "sha256": "0c295d7ee004c019fbac02ec2704cfb8bb3db98e386e8afc77bc81b239fd873f",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 2685,
+      "path": "payload/P959/receipts/P959_TERMINAL_LAUNCH_READY.json",
+      "recovered_bundle_sha256": "288804de7a520f58f804413ad4ebecead14a567f50e1a72aee7deb2eaaf19d23",
+      "sha256": "82dd43184b18af4118eac500423fdda2f6511c4447db92da0d1de7a8163f9f71",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 2492,
+      "path": "payload/P959/receipts/P959_TERMINAL_REPAIR_BINDING.json",
+      "recovered_bundle_sha256": "7aaa6aaca0b81027719d72a35def164e8701e901a1db4c9d8c57a99768ca8333",
+      "sha256": "af5c1187618c86967ab55a4337667f67169792e23ee08ce4a28905015dbaa73e",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 1750,
+      "path": "payload/P959/receipts/P959_TERMINAL_UPDATE_000_ACTIVATED.json",
+      "recovered_bundle_sha256": "e7376d7b7f811da32946f0297ae561271589b3e262e71dbcac1dc5ce47ef0d2d",
+      "sha256": "8c6b8d4018cca642897f2f32fb0fba5cd66f514d8a5d2a900b1db32cc227f772",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 3168,
+      "path": "payload/P959/receipts/P959_TERMINAL_UPDATE_000_SEED_REBUILD.json",
+      "recovered_bundle_sha256": "2ccc5b33d229567d6d65455df0a94be3b94d7ab90ce6b194d45ae28d866eafdd",
+      "sha256": "ec085f8f3f54b2da563e3f1d608bf1b9798f02c06b65434346cb70fbe3ada692",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 575,
+      "path": "payload/P963/code/launch_p963.sh",
+      "recovered_bundle_sha256": "de3450226cdd7183c59903901ccc9dde07dbf16c3ea5f5aded9cf32b7eca647b",
+      "sha256": "de3450226cdd7183c59903901ccc9dde07dbf16c3ea5f5aded9cf32b7eca647b",
+      "transformed": false
+    },
+    {
+      "bytes": 27086,
+      "path": "payload/P963/code/p963_true_c_accel.py",
+      "recovered_bundle_sha256": "892f153e36381a5a49d08c7cfdf833017b77ac3b2eacb980af84390a8f4a4c26",
+      "sha256": "0570faa9ef58e8fd4e6714a2801b8cdf7bc2edda506fec8a19379c60a171380a",
+      "transformations": {
+        "kanban_task_id": 2
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 18859,
+      "path": "payload/P963/code/p963_true_c_overlay_adapter.py",
+      "recovered_bundle_sha256": "be8275dd26c3fffba0e1e79221b991ebcf2babc3ce296090af7b7f957b833362",
+      "sha256": "e325defb76e098e966628b3e1962a4e0a24f352d33adb3a16e5532ee55658083",
+      "transformations": {
+        "kanban_task_id": 7
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 1360,
+      "path": "payload/P963/receipts/INSTANCE_PARITY_GATE.json",
+      "recovered_bundle_sha256": "3600dd7f60f09572ef204680874faaac19856d7f3616d0acab9307f3033d54df",
+      "sha256": "b4a2ab5544fdb4466a7804b564656fd512a44c1da2f6baac7b437260e2e7a5e1",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 77211,
+      "path": "payload/P963/receipts/P963_ACCEL_EXACT_P951_BALANCED64_V3_MB2.json",
+      "recovered_bundle_sha256": "9d7fb9c454381d2990c51e2aa4e039b94e6ff18c83b884ca4561a47a8666fb1a",
+      "sha256": "6b895c87a95913c70c4caa689f20aa88a2c594a55793d8627d9231e09f523f7e",
+      "transformations": {
+        "kanban_task_id": 89
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 535,
+      "path": "payload/P963/receipts/P963_BATCHED_STAGE_L000_CANARY.json",
+      "recovered_bundle_sha256": "afe37a424266679edb5c50fb9fd2ad68ed9c1e8bf306ad7fd6ddafc286684831",
+      "sha256": "8e8cccb1cd916ddcdbba0a5f10e5b09457bc157a7a2137fb0fae0bf6eb6ce7f2",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 6428,
+      "path": "payload/P963/receipts/P963_EXACT_ACCELERATION_SEAL.json",
+      "recovered_bundle_sha256": "88952f6d37917b8bebc566c843ddebd4a900f49902335d20c3f41173dca8ebd7",
+      "sha256": "acaa7ec0d51270987d98ac7cce21fd1b427df448e38f2f765c0560ecb633897f",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 229,
+      "path": "payload/P963/receipts/P963_MB4_FAIL_CLOSED.json",
+      "recovered_bundle_sha256": "c2af3679e82b76db6f219e1eb5d163910c23f1a9932b90151f347128a9f0ad80",
+      "sha256": "5758ebfb48f7628969fcaf9073ef7cfd8c92b6fbcbc8106723e3e75b66cf49f0",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 10299,
+      "path": "payload/P968/code/analyze.py",
+      "recovered_bundle_sha256": "ff4c1f71155de93eef4e9479a693f5cc65fabc62bcc745151f916bb2a0222c1f",
+      "sha256": "ff4c1f71155de93eef4e9479a693f5cc65fabc62bcc745151f916bb2a0222c1f",
+      "transformed": false
+    },
+    {
+      "bytes": 2886,
+      "path": "payload/P968/code/export_evalplus.py",
+      "recovered_bundle_sha256": "182613826dc504fa7c83415d4d5d36541c15ab1207054d2d85b70c2133ef917b",
+      "sha256": "182613826dc504fa7c83415d4d5d36541c15ab1207054d2d85b70c2133ef917b",
+      "transformed": false
+    },
+    {
+      "bytes": 6570,
+      "path": "payload/P968/code/p968_common.py",
+      "recovered_bundle_sha256": "b72e11726d14ae9d9ffbcd2c3e7c62203123ff1bbcbe72766e98ab1c8b921a51",
+      "sha256": "b72e11726d14ae9d9ffbcd2c3e7c62203123ff1bbcbe72766e98ab1c8b921a51",
+      "transformed": false
+    },
+    {
+      "bytes": 4010,
+      "path": "payload/P968/code/score_evalplus.sh",
+      "recovered_bundle_sha256": "4cb77dd24bc89b28ffbbf586545143c53ead8b5d98855c27010b19cd14ffb5fc",
+      "sha256": "fe89aab6eb3e4b212e95329393d2d5154dd5147f1ebe56b487ee383c44e7df1e",
+      "transformations": {
+        "linux_home": 2
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 4386,
+      "path": "payload/P968/code/timing_adjudicate.py",
+      "recovered_bundle_sha256": "f6644f1e2e421f6169cb29f127bc2c31fa48e99d79a3e3abc05ae017ab228717",
+      "sha256": "f6644f1e2e421f6169cb29f127bc2c31fa48e99d79a3e3abc05ae017ab228717",
+      "transformed": false
+    },
+    {
+      "bytes": 81844,
+      "path": "payload/P968/receipts/IQ4_GENERATION_MANIFEST.json",
+      "recovered_bundle_sha256": "0edaad677e6224068fbfeaf2da1a77ffcde092e83a4f6d708776d514e3658038",
+      "sha256": "e562e300c528db13a99c41b3c1ea9d65f997026c4f3754e446c93043a2ed5f9b",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 603,
+      "path": "payload/P968/receipts/SANITIZE_RECEIPT.json",
+      "recovered_bundle_sha256": "c8531f1b4d753b41315773e4e5b848ca8dd2e6def8bf3b114f4c8928c02599e2",
+      "sha256": "c8531f1b4d753b41315773e4e5b848ca8dd2e6def8bf3b114f4c8928c02599e2",
+      "transformed": false
+    },
+    {
+      "bytes": 2080,
+      "path": "payload/P968/receipts/SCORE_MATRIX_RECEIPT.json",
+      "recovered_bundle_sha256": "86a1870ef164a5f5cc3e59b0b472310c4f43e2f13229aeb36aa62e51d7564f14",
+      "sha256": "86a1870ef164a5f5cc3e59b0b472310c4f43e2f13229aeb36aa62e51d7564f14",
+      "transformed": false
+    },
+    {
+      "bytes": 112582,
+      "path": "payload/P968/receipts/iq4_humaneval_greedy-sanitized.jsonl",
+      "recovered_bundle_sha256": "0c6fe046b9a7d128be5205fef88e84962bda8bbdc1d27ad8618fc7f8111974d2",
+      "sha256": "0c6fe046b9a7d128be5205fef88e84962bda8bbdc1d27ad8618fc7f8111974d2",
+      "transformed": false
+    },
+    {
+      "bytes": 3643,
+      "path": "payload/P968/supporting_batching_regression/code/compare_spot.py",
+      "recovered_bundle_sha256": "40a50ec01c1568d7f1da56899756a7309c7ece7ec0d693b6ab27b2f09852bbdc",
+      "sha256": "74f6c74c7cfe2a4c3ee14a469a24b91b003b724f393acba650ce5546d1e02024",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 5422,
+      "path": "payload/P968/supporting_batching_regression/code/run_pipeline.sh",
+      "recovered_bundle_sha256": "7fda8521a966d45a30b3508269667c6d789325da810837657c2357a16daeecb2",
+      "sha256": "ea9c28857169a803b57c7ce92127593e45c7f4de24a385f9b788ca91fdacb446",
+      "transformations": {
+        "kanban_task_id": 5
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 27372,
+      "path": "payload/P968/supporting_batching_regression/receipts/GENERATION_COMPARISON.json",
+      "recovered_bundle_sha256": "538459a73bf0fdba11dbdce70a9d452bb28687d85ffc09b83ca3d1c7bbc32d00",
+      "sha256": "fe45cb9ca000566a38839793e9ab83e0f61c60e0e6bca0513a09bb28c531c4f0",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 2290,
+      "path": "payload/P968/supporting_batching_regression/receipts/IQ3_BATCHING_INVARIANCE_FINAL.md",
+      "recovered_bundle_sha256": "1ea50ce3c3e313e17a075aa2142241dd40808c292c31137c7cdcd6dbf2ba7298",
+      "sha256": "1ea50ce3c3e313e17a075aa2142241dd40808c292c31137c7cdcd6dbf2ba7298",
+      "transformed": false
+    },
+    {
+      "bytes": 6208,
+      "path": "payload/P968/supporting_batching_regression/receipts/PRE_REGISTRATION.json",
+      "recovered_bundle_sha256": "2986920c2a69bcd9948821af80338c4f3654753db1377450dd7e0a6d6e9aab11",
+      "sha256": "b56b9fa4ffe0d46a2af138cb96defa490c2ab9ac55ab293339eb4de6f3941039",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 523,
+      "path": "payload/P968/supporting_batching_regression/receipts/REGRESSION_TEST.json",
+      "recovered_bundle_sha256": "724117ac3fb4b2f5c1a4f39acb32bd0c62745686bfdb7320a415ff03e99a2bd5",
+      "sha256": "1248f9eaf047368354b131d0c4923c46bd383a0f25a99a258e3354930bc27b52",
+      "transformations": {
+        "kanban_task_id": 1
+      },
+      "transformed": true
+    },
+    {
+      "bytes": 3917,
+      "path": "tools/privacy_scan.py",
+      "recovered_bundle_sha256": "31eb4cf140c023eefd1a163a298cfce3a2353bc645316b698f920bb221e77181",
+      "sha256": "31eb4cf140c023eefd1a163a298cfce3a2353bc645316b698f920bb221e77181",
+      "transformed": false
+    },
+    {
+      "bytes": 6838,
+      "path": "tools/verify_bundle.py",
+      "recovered_bundle_sha256": "c7732ebec64bad97c3d354ec003b90204fe3fe81b65c23aa53d8aa2675f24c41",
+      "sha256": "c7732ebec64bad97c3d354ec003b90204fe3fe81b65c23aa53d8aa2675f24c41",
+      "transformed": false
+    }
+  ],
+  "privacy_transformations": {
+    "counts": {
+      "ADOPTION_MAP.json": {
+        "kanban_task_id": 1
+      },
+      "MISSING_SOURCE_LEDGER.json": {
+        "kanban_task_id": 2
+      },
+      "SOURCE_MANIFEST.json": {
+        "kanban_task_id": 5
+      },
+      "payload/P234/code/SCORE_EVALPLUS.sh": {
+        "kanban_task_id": 1
+      },
+      "payload/P234/code/evalplus_codegen_pinned.py": {
+        "private_ipv4": 1
+      },
+      "payload/P234/code/he164_generate.py": {
+        "kanban_task_id": 1
+      },
+      "payload/P234/code/seal_evalplus.py": {
+        "kanban_task_id": 2
+      },
+      "payload/P234/receipts/GENERATION_MANIFEST.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P234/receipts/VERDICT.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P486/code/finalize_release.py": {
+        "kanban_task_id": 1
+      },
+      "payload/P486/code/run_full164.py": {
+        "kanban_task_id": 2
+      },
+      "payload/P486/code/run_pipeline.sh": {
+        "kanban_task_id": 1
+      },
+      "payload/P486/receipts/FINAL_ACTUAL_FULL164_RECEIPT.json": {
+        "kanban_task_id": 2
+      },
+      "payload/P526/code/bench_qtip_mbatched.py": {
+        "kanban_task_id": 2
+      },
+      "payload/P526/receipts/DOMINANT_SUBPHASE.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P526/receipts/MISSION.md": {
+        "kanban_task_id": 1
+      },
+      "payload/P526/receipts/RELEASE.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P526/receipts/RESULT.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P530/code/finalize_result.py": {
+        "kanban_task_id": 1
+      },
+      "payload/P530/code/launch_final_gate.sh": {
+        "kanban_task_id": 2
+      },
+      "payload/P530/code/mixed_prefill_server.py": {
+        "kanban_task_id": 5
+      },
+      "payload/P530/code/run_prefill_ladder.py": {
+        "kanban_task_id": 1
+      },
+      "payload/P530/receipts/ARTIFACT_MANIFEST.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P530/receipts/MIXED_PREFILL_LADDER_RESULT.json": {
+        "kanban_task_id": 2
+      },
+      "payload/P530/receipts/P530_RESULT.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P948/code/genesis_basic_repair.py": {
+        "kanban_task_id": 1
+      },
+      "payload/P948/code/prepare_p948.py": {
+        "kanban_task_id": 3
+      },
+      "payload/P948/code/run_p948_speculative_repair.sh": {
+        "kanban_task_id": 1
+      },
+      "payload/P948/receipts/FIRST_UNIT_ACCEPTANCE.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P948/receipts/UPDATE_ACCEPTANCE_001.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P950/code/p921_wire_a_balanced64.py": {
+        "kanban_task_id": 1
+      },
+      "payload/P950/code/p921_wire_a_overlay_adapter.py": {
+        "kanban_task_id": 8
+      },
+      "payload/P950/receipts/P921_SCORER_BINDING_AUDIT.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P950/receipts/P921_WIRE_A_BALANCED64_FINAL_SEAL.json": {
+        "kanban_task_id": 3
+      },
+      "payload/P950/receipts/P950_PRODUCTIVE_LAUNCH.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P951/code/p951_true_c_balanced64.py": {
+        "kanban_task_id": 2
+      },
+      "payload/P951/code/p951_true_c_overlay_adapter.py": {
+        "kanban_task_id": 7
+      },
+      "payload/P951/receipts/P951_INDEPENDENT_TERMINAL_TRUE_C_80_OF_80.json": {
+        "kanban_task_id": 89
+      },
+      "payload/P959/code/complete_terminal_seed_actual_inventory.py": {
+        "kanban_task_id": 1
+      },
+      "payload/P959/code/genesis_basic_repair.py": {
+        "kanban_task_id": 1
+      },
+      "payload/P959/code/rebuild_p959_terminal_seed_v2.py": {
+        "kanban_task_id": 1
+      },
+      "payload/P959/code/run_p959_terminal_repair.sh": {
+        "kanban_task_id": 1
+      },
+      "payload/P959/receipts/P959_P948_SPECULATIVE_BOUNDARY.json": {
+        "kanban_task_id": 2
+      },
+      "payload/P959/receipts/P959_SEED_EXTENSION_INVENTORY.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P959/receipts/P959_TERMINAL_LAUNCH_READY.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P959/receipts/P959_TERMINAL_REPAIR_BINDING.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P959/receipts/P959_TERMINAL_UPDATE_000_ACTIVATED.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P959/receipts/P959_TERMINAL_UPDATE_000_SEED_REBUILD.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P963/code/p963_true_c_accel.py": {
+        "kanban_task_id": 2
+      },
+      "payload/P963/code/p963_true_c_overlay_adapter.py": {
+        "kanban_task_id": 7
+      },
+      "payload/P963/receipts/INSTANCE_PARITY_GATE.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P963/receipts/P963_ACCEL_EXACT_P951_BALANCED64_V3_MB2.json": {
+        "kanban_task_id": 89
+      },
+      "payload/P963/receipts/P963_BATCHED_STAGE_L000_CANARY.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P963/receipts/P963_EXACT_ACCELERATION_SEAL.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P963/receipts/P963_MB4_FAIL_CLOSED.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P968/code/score_evalplus.sh": {
+        "linux_home": 2
+      },
+      "payload/P968/receipts/IQ4_GENERATION_MANIFEST.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P968/supporting_batching_regression/code/compare_spot.py": {
+        "kanban_task_id": 1
+      },
+      "payload/P968/supporting_batching_regression/code/run_pipeline.sh": {
+        "kanban_task_id": 5
+      },
+      "payload/P968/supporting_batching_regression/receipts/GENERATION_COMPARISON.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P968/supporting_batching_regression/receipts/PRE_REGISTRATION.json": {
+        "kanban_task_id": 1
+      },
+      "payload/P968/supporting_batching_regression/receipts/REGRESSION_TEST.json": {
+        "kanban_task_id": 1
+      }
+    },
+    "files_changed": 62,
+    "policy": "task identifiers, private addresses, and private home roots are replaced without changing executable logic"
+  },
+  "recovered_source_entries": 89,
+  "schema": "banana-smasher-recovered-source-manifest-v1",
+  "source_archive_sha256": "572b4ec1d04d512b4cab30ba47fa033cca63b2ab6ff8bcc2b66642fff3e882c4"
+}

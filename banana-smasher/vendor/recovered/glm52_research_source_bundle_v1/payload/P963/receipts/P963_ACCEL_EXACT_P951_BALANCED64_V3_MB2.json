@@ -1,0 +1,2829 @@
+{
+  "active_assignment": {
+    "path": "${SPARK_HOME}/missions/P963_ACCEL_TRUE_C_t_d78a699d_s1/inputs/ASSIGNMENT_WIRE_C_V2.json",
+    "sha256": "f521cf07e0dce3c39739c7493b6eda82cd78d6b1566fadb2101691321566ca39"
+  },
+  "active_overlay_manifest": {
+    "path": "${SPARK_HOME}/missions/P963_ACCEL_TRUE_C_t_d78a699d_s1/inputs/WIRE_C_TRUE_C_ACTIVE_OVERLAY.json",
+    "sha256": "9a4b709851c62c32f59b17556ef14d53e89cbbfc0fcc93686fc51530e4cf4d62"
+  },
+  "anchor": "qtip3",
+  "canonical_task_id": "task-redacted",
+  "claim_sha256": "7d7b2c566e8fa80a01197e63b2677d3a8478b2f5a22ab34de67c35ff481175e0",
+  "codebook_deviation_disclosure": {
+    "builder_sha256": "60b594ac38e4973eaaecb76c708b555418406eb697414d2563aeb1e978268a7e",
+    "p925_refit_delta_manifest": "${SPARK_HOME}/missions/P929_TRUE_C_REFIT_t_a2b3a979_s6/out/P925_REFIT_DELTA_MANIFEST.json",
+    "p925_refit_delta_manifest_sha256": "6d13b82d49c49c55c4215b662cad4c488a1b8c81fb39a32e03096562ba604dc6",
+    "p925_refit_delta_rows": 2860,
+    "p925_refit_unique_codebooks": 80,
+    "policy": "TRUE-C P925 exact refit overlay",
+    "restored_vq_cells_use_frozen_base_wire_codebooks": false
+  },
+  "compatibility_binding": {
+    "path": "${SPARK_HOME}/missions/P885_WIRE_C_PREREPAIR_t_3d5cd763_s6/f521_t_1a8b046b/inputs/P905_L004_E033_CODEBOOK_COMPATIBILITY_BINDING.json",
+    "sha256": "2cc519349e776c38cf31a21b6cc9e183ef22521eca871d43f9cb38ebabb0b34c"
+  },
+  "completed_unix": 1785264439.6527395,
+  "corrected_full512_equivalent": null,
+  "coverage": {
+    "changed_cells_applied": 21472,
+    "changed_cells_expected": 21472,
+    "completed_layers": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42
+    ],
+    "coverage_layers": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42
+    ],
+    "immutable_base_mutated": false,
+    "mmap_completed_layers": [
+      0,
+      1,
+      2
+    ],
+    "overlay_full_completed_layers": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42
+    ],
+    "overlay_stage_retired": true,
+    "overlay_stage_rows": [
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": false,
+        "bytes": 2077863259,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 311,
+        "elapsed_seconds": 2.992603302001953,
+        "files": 315,
+        "kinds": {
+          "genesis_vq": 311
+        },
+        "layer": 0,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": false,
+        "bytes": 1698870878,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 254,
+        "elapsed_seconds": 2.5832858085632324,
+        "files": 258,
+        "kinds": {
+          "genesis_vq": 254
+        },
+        "layer": 1,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": false,
+        "bytes": 2858104359,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 427,
+        "elapsed_seconds": 4.469817399978638,
+        "files": 429,
+        "kinds": {
+          "genesis_vq": 427
+        },
+        "layer": 2,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2559712256,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 3.8986454010009766,
+        "files": 518,
+        "kinds": {
+          "genesis_vq": 184,
+          "qtip2_exact": 142,
+          "qtip3_exact": 186
+        },
+        "layer": 3,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2675582134,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.207817792892456,
+        "files": 516,
+        "kinds": {
+          "genesis_vq": 238,
+          "native_mxfp4": 2,
+          "qtip2_exact": 130,
+          "qtip3_exact": 142
+        },
+        "layer": 4,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2527581262,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.615124940872192,
+        "files": 518,
+        "kinds": {
+          "genesis_vq": 177,
+          "qtip2_exact": 153,
+          "qtip3_exact": 182
+        },
+        "layer": 5,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2434117610,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.713130235671997,
+        "files": 518,
+        "kinds": {
+          "genesis_vq": 110,
+          "qtip2_exact": 130,
+          "qtip3_exact": 272
+        },
+        "layer": 6,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2350513796,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 5.95975136756897,
+        "files": 516,
+        "kinds": {
+          "genesis_vq": 70,
+          "qtip2_exact": 133,
+          "qtip3_exact": 309
+        },
+        "layer": 7,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2457494548,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 7.100736618041992,
+        "files": 516,
+        "kinds": {
+          "genesis_vq": 106,
+          "qtip2_exact": 110,
+          "qtip3_exact": 296
+        },
+        "layer": 8,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2570030934,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 7.343317031860352,
+        "files": 518,
+        "kinds": {
+          "genesis_vq": 176,
+          "qtip2_exact": 125,
+          "qtip3_exact": 211
+        },
+        "layer": 9,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2622888902,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 7.321666240692139,
+        "files": 514,
+        "kinds": {
+          "genesis_vq": 216,
+          "native_mxfp4": 4,
+          "qtip2_exact": 129,
+          "qtip3_exact": 163
+        },
+        "layer": 10,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2684885430,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 8.374144792556763,
+        "files": 518,
+        "kinds": {
+          "genesis_vq": 213,
+          "qtip2_exact": 98,
+          "qtip3_exact": 201
+        },
+        "layer": 11,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2653289574,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 8.812848567962646,
+        "files": 518,
+        "kinds": {
+          "genesis_vq": 213,
+          "qtip2_exact": 118,
+          "qtip3_exact": 181
+        },
+        "layer": 12,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2944991714,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 7.3856117725372314,
+        "files": 518,
+        "kinds": {
+          "genesis_vq": 272,
+          "native_mxfp4": 2,
+          "qtip3_exact": 238
+        },
+        "layer": 13,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2747099168,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.827200412750244,
+        "files": 517,
+        "kinds": {
+          "genesis_vq": 239,
+          "qtip2_exact": 91,
+          "qtip3_exact": 182
+        },
+        "layer": 14,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2558618996,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.551833152770996,
+        "files": 517,
+        "kinds": {
+          "genesis_vq": 182,
+          "native_mxfp4": 2,
+          "qtip2_exact": 134,
+          "qtip3_exact": 194
+        },
+        "layer": 15,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2492362816,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.661672592163086,
+        "files": 516,
+        "kinds": {
+          "genesis_vq": 120,
+          "native_mxfp4": 2,
+          "qtip2_exact": 99,
+          "qtip3_exact": 291
+        },
+        "layer": 16,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2375540210,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 5.917585134506226,
+        "files": 514,
+        "kinds": {
+          "genesis_vq": 56,
+          "native_mxfp4": 2,
+          "qtip2_exact": 94,
+          "qtip3_exact": 360
+        },
+        "layer": 17,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2410429664,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.265895366668701,
+        "files": 512,
+        "kinds": {
+          "genesis_vq": 52,
+          "native_mxfp4": 4,
+          "qtip2_exact": 60,
+          "qtip3_exact": 396
+        },
+        "layer": 18,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2631710674,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.216830253601074,
+        "files": 518,
+        "kinds": {
+          "genesis_vq": 145,
+          "qtip2_exact": 48,
+          "qtip3_exact": 319
+        },
+        "layer": 19,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2413654142,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 5.665645599365234,
+        "files": 512,
+        "kinds": {
+          "genesis_vq": 27,
+          "native_mxfp4": 2,
+          "qtip2_exact": 33,
+          "qtip3_exact": 450
+        },
+        "layer": 20,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2384576584,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.028512239456177,
+        "files": 516,
+        "kinds": {
+          "genesis_vq": 30,
+          "qtip2_exact": 62,
+          "qtip3_exact": 420
+        },
+        "layer": 21,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2369485656,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.0347514152526855,
+        "files": 508,
+        "kinds": {
+          "genesis_vq": 12,
+          "native_mxfp4": 6,
+          "qtip2_exact": 32,
+          "qtip3_exact": 462
+        },
+        "layer": 22,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2431424198,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 5.268253803253174,
+        "files": 516,
+        "kinds": {
+          "genesis_vq": 35,
+          "qtip2_exact": 38,
+          "qtip3_exact": 439
+        },
+        "layer": 23,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2392342640,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.757546901702881,
+        "files": 514,
+        "kinds": {
+          "genesis_vq": 34,
+          "native_mxfp4": 2,
+          "qtip2_exact": 56,
+          "qtip3_exact": 420
+        },
+        "layer": 24,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2397957510,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 5.435234069824219,
+        "files": 512,
+        "kinds": {
+          "genesis_vq": 24,
+          "native_mxfp4": 4,
+          "qtip2_exact": 34,
+          "qtip3_exact": 450
+        },
+        "layer": 25,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2444496794,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.297353029251099,
+        "files": 512,
+        "kinds": {
+          "genesis_vq": 33,
+          "native_mxfp4": 4,
+          "qtip2_exact": 16,
+          "qtip3_exact": 459
+        },
+        "layer": 26,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2408606258,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.603658437728882,
+        "files": 512,
+        "kinds": {
+          "genesis_vq": 13,
+          "native_mxfp4": 2,
+          "qtip2_exact": 20,
+          "qtip3_exact": 477
+        },
+        "layer": 27,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2437200032,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.649322509765625,
+        "files": 516,
+        "kinds": {
+          "genesis_vq": 16,
+          "qtip2_exact": 12,
+          "qtip3_exact": 484
+        },
+        "layer": 28,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2408070142,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.502372741699219,
+        "files": 512,
+        "kinds": {
+          "genesis_vq": 14,
+          "native_mxfp4": 2,
+          "qtip2_exact": 22,
+          "qtip3_exact": 474
+        },
+        "layer": 29,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2413415926,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.0342512130737305,
+        "files": 514,
+        "kinds": {
+          "genesis_vq": 9,
+          "native_mxfp4": 2,
+          "qtip2_exact": 12,
+          "qtip3_exact": 489
+        },
+        "layer": 30,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2423067048,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.530160665512085,
+        "files": 514,
+        "kinds": {
+          "genesis_vq": 12,
+          "native_mxfp4": 2,
+          "qtip2_exact": 10,
+          "qtip3_exact": 488
+        },
+        "layer": 31,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2421143698,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.748555421829224,
+        "files": 512,
+        "kinds": {
+          "genesis_vq": 16,
+          "native_mxfp4": 4,
+          "qtip2_exact": 9,
+          "qtip3_exact": 483
+        },
+        "layer": 32,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2435752730,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.633409738540649,
+        "files": 514,
+        "kinds": {
+          "genesis_vq": 24,
+          "native_mxfp4": 2,
+          "qtip2_exact": 16,
+          "qtip3_exact": 470
+        },
+        "layer": 33,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2461131412,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.7565484046936035,
+        "files": 514,
+        "kinds": {
+          "genesis_vq": 27,
+          "native_mxfp4": 2,
+          "qtip2_exact": 4,
+          "qtip3_exact": 479
+        },
+        "layer": 34,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2433296018,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 7.016640663146973,
+        "files": 516,
+        "kinds": {
+          "genesis_vq": 14,
+          "qtip2_exact": 12,
+          "qtip3_exact": 486
+        },
+        "layer": 35,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2423181948,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 7.255314826965332,
+        "files": 514,
+        "kinds": {
+          "genesis_vq": 4,
+          "qtip2_exact": 6,
+          "qtip3_exact": 502
+        },
+        "layer": 36,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2427118010,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 7.6054205894470215,
+        "files": 516,
+        "kinds": {
+          "genesis_vq": 6,
+          "qtip2_exact": 6,
+          "qtip3_exact": 500
+        },
+        "layer": 37,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2416892772,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.647287368774414,
+        "files": 514,
+        "kinds": {
+          "genesis_vq": 4,
+          "qtip2_exact": 10,
+          "qtip3_exact": 498
+        },
+        "layer": 38,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2424781214,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.085451602935791,
+        "files": 512,
+        "kinds": {
+          "qtip3_exact": 512
+        },
+        "layer": 39,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2437313216,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 6.665017604827881,
+        "files": 516,
+        "kinds": {
+          "genesis_vq": 8,
+          "qtip2_exact": 2,
+          "qtip3_exact": 502
+        },
+        "layer": 40,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2423102900,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 7.437175750732422,
+        "files": 516,
+        "kinds": {
+          "genesis_vq": 12,
+          "qtip2_exact": 16,
+          "qtip3_exact": 484
+        },
+        "layer": 41,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      },
+      {
+        "authority_binding": "expected SHA namespaced stage; mutable basenames cannot collide",
+        "base_skipped_exact_full_overlay": true,
+        "bytes": 2417743394,
+        "canonical_task_id": "task-redacted",
+        "changed_cells": 512,
+        "elapsed_seconds": 7.008217096328735,
+        "files": 516,
+        "kinds": {
+          "genesis_vq": 38,
+          "native_mxfp4": 2,
+          "qtip2_exact": 44,
+          "qtip3_exact": 428
+        },
+        "layer": 42,
+        "mode": "balanced64",
+        "schema": "p963-accelerated-true-c-layer-consumption-v1",
+        "stage_retired": true,
+        "status": "PASS",
+        "task_id": "task-redacted",
+        "transport": "batched one-session-per-peer QSFP rsync; expected-SHA namespace; no NAS"
+      }
+    ],
+    "qtip2_cells": 2266,
+    "qtip3_cells": 14979,
+    "unchanged_cells_bound_to_immutable_base": 544
+  },
+  "coverage_status": "WIRE_C_TRUE_C_F521_T_EXACT_21472_ON_IMMUTABLE_BASE",
+  "cutoff": 1024,
+  "direct_comparison": {
+    "delta_vs_predicted_first_feasible": -0.000837853723810511,
+    "delta_vs_prior_c": -0.04984385372381052,
+    "predicted_first_feasible": 0.069132,
+    "prior_c": 0.118138
+  },
+  "direct_true_c_measurement": true,
+  "direction": "KL(teacher||candidate)",
+  "exactness": {
+    "active_rows_sha256": "7f21caeb50401f931c86d443b1538c9deb400c69dc41fb43aff5250e488a504e",
+    "changed_cells": 21472,
+    "identity_set_sha256": "01ff3e72338f007592ad5b83b687a0e1e875c39a749246b7790eac294c132327",
+    "pack_fraction": 1.0,
+    "zero_quarantine": true,
+    "zero_substitution": true
+  },
+  "fast64_correction": null,
+  "first_window_sanity": {
+    "expected_window": 28,
+    "mean": 0.04871554481572421,
+    "observed_window": 28,
+    "rule": "exact first BALANCED64 id; finite nonnegative KL <=2.0",
+    "source_class": "prose",
+    "status": "PASS"
+  },
+  "full_wire": true,
+  "global": {
+    "mean": 0.06829414627618949,
+    "n_positions": 65536,
+    "n_windows": 64,
+    "source_class": "global",
+    "window_mean_ci95": [
+      0.05417328304221277,
+      0.08241500951016621
+    ],
+    "window_mean_se": 0.007204522058151387
+  },
+  "gpu_snapshot_before": {
+    "foreign_compute_apps": [],
+    "nvidia_reported_utilization": "0, 0",
+    "zero_util_required": true
+  },
+  "gpu_snapshot_before_child_exit": {
+    "foreign_compute_apps": [],
+    "nvidia_reported_utilization": "1, 0",
+    "zero_util_required": false
+  },
+  "host": "spark-1",
+  "instrument": {
+    "adapter_sha256": "e84efd6080806ca51bf8681e05e7e06aef6d2406bab29da4d4b68ff8d551415e",
+    "assignment_sha256": "f521cf07e0dce3c39739c7493b6eda82cd78d6b1566fadb2101691321566ca39",
+    "attention": "eager",
+    "base_assignment_sha256": "c9fb72e2bf7416ef48f33df229f9a3b5b5dd4f9e9b35a610d83fb1c49f4a050d",
+    "base_wire_manifest_sha256": "c24a1c0568a00fcb8460d7edfb7630187ef10c98e9d0c25c87aa0bccb1d89755",
+    "baseline_parity_receipt_sha256": "84eb3e0476a27b7843e5e150ed699d665420731bc4d25327fd14429a1dffa638",
+    "canonical_builder_sha256": "873a98a37a6cf854572983ebfdffc15e2292f6599a7fb3206c14cb866f2f8784",
+    "canonical_loader_sha256": "155310d1e6701d6cb2d1c04558514366a2304cb2a8d6d26402ed7c800b8b6c89",
+    "canonical_reader_sha256": "f5b17ab3a12a3b4d042d9fc712032d9007c6d99d76ad77f256830314900ee51e",
+    "chunk_size": 64,
+    "environment_contract": {
+      "ARM4_LOADER_FALLBACK": "torch-eager",
+      "ARM4_LOADER_MODE": "torch-mmap",
+      "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+      "CUDA_MODULE_LOADING": "EAGER",
+      "FULL512_LOADER_INPUT_SHA256": "c24a1c0568a00fcb8460d7edfb7630187ef10c98e9d0c25c87aa0bccb1d89755",
+      "FULL512_LOADER_SHA256": "155310d1e6701d6cb2d1c04558514366a2304cb2a8d6d26402ed7c800b8b6c89",
+      "FULL512_TASK_ID": "task-redacted",
+      "FULLMENU_ASSEMBLY_BATCH": "8",
+      "PYTHONHASHSEED": "0",
+      "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True",
+      "TWOBIN_ATTN_IMPL": "eager",
+      "TWOBIN_KLD_STREAM_OUT": "1",
+      "TWOBIN_LAYER_OVERLAP": "1"
+    },
+    "identity_set_sha256": "01ff3e72338f007592ad5b83b687a0e1e875c39a749246b7790eac294c132327",
+    "inventory_sha256": "9a4b709851c62c32f59b17556ef14d53e89cbbfc0fcc93686fc51530e4cf4d62",
+    "layer_overlap": true,
+    "lineage": "P963 pipeline-only acceleration of the sealed P951 exact TRUE-C candidate on the parity-proven BALANCED64 rail",
+    "microbatch": 2,
+    "p632_exact_scorer_sha256": "5c16e62c32e6936223c54e2b3cf9394a1d0f87833cc409360e82e0341954c12f",
+    "runner_sha256": "44ff2771fad236ad9d25fdbcd4ccdbfdb24b0725a27631650eb9748cb50cfdf8",
+    "torch_load_safety": {
+      "all_weights_only": true,
+      "calls": 21483,
+      "explicit_false_overridden": 64
+    }
+  },
+  "instrument_id_sha256": "ceebf24d779a004b965c318b56119fc12b55e57829a85b8c8af3619d7c874c67",
+  "loader_proof": {
+    "double_buffer": true,
+    "mode": "mixed exact full-overlay plus torch-mmap immutable base",
+    "progress": "${SPARK_HOME}/missions/P963_ACCEL_TRUE_C_t_d78a699d_s1/run/P963_ACCEL_EXACT_P951_BALANCED64_V3_MB2/CANONICAL_PROGRESS.json",
+    "progress_sha256": "f3e2447557685bdb3f15e224bce6536384414759faf1006a1f3207c9fff43acf",
+    "sentinel": "${SPARK_HOME}/missions/P963_ACCEL_TRUE_C_t_d78a699d_s1/run/P963_ACCEL_EXACT_P951_BALANCED64_V3_MB2/LOADER_SENTINEL.json",
+    "sentinel_sha256": "703cd3ff338d1c41d59de69b646b092e69756568f526669165bc5abe1224beeb"
+  },
+  "matched_delta_vs_measured_pre_repair": {
+    "global": {
+      "candidate_minus_pre_repair_mean": -0.061018857458387074,
+      "label": "global",
+      "n_windows": 64,
+      "window_ids": [
+        28,
+        56,
+        68,
+        71,
+        76,
+        99,
+        107,
+        122,
+        124,
+        130,
+        141,
+        156,
+        160,
+        171,
+        180,
+        183,
+        185,
+        186,
+        196,
+        210,
+        212,
+        213,
+        218,
+        228,
+        232,
+        235,
+        249,
+        270,
+        272,
+        273,
+        283,
+        288,
+        290,
+        295,
+        297,
+        306,
+        307,
+        309,
+        311,
+        328,
+        331,
+        357,
+        362,
+        365,
+        368,
+        374,
+        376,
+        380,
+        384,
+        385,
+        391,
+        396,
+        413,
+        429,
+        430,
+        437,
+        442,
+        447,
+        454,
+        462,
+        464,
+        475,
+        489,
+        499
+      ],
+      "window_mean_ci95": [
+        -0.07412353302956513,
+        -0.047914181887209015
+      ],
+      "window_mean_se": 0.006686058964886765
+    },
+    "six_classes": {
+      "agentic": {
+        "candidate_minus_pre_repair_mean": -0.08471477113385228,
+        "label": "agentic",
+        "n_windows": 19,
+        "window_ids": [
+          122,
+          130,
+          171,
+          180,
+          213,
+          235,
+          272,
+          273,
+          283,
+          288,
+          384,
+          391,
+          413,
+          429,
+          430,
+          437,
+          442,
+          464,
+          499
+        ],
+        "window_mean_ci95": [
+          -0.1145825298962762,
+          -0.054847012371428375
+        ],
+        "window_mean_se": 0.015238652429808118
+      },
+      "chat": {
+        "candidate_minus_pre_repair_mean": -0.04629260068690805,
+        "label": "chat",
+        "n_windows": 7,
+        "window_ids": [
+          141,
+          156,
+          186,
+          249,
+          295,
+          328,
+          447
+        ],
+        "window_mean_ci95": [
+          -0.05535235134114096,
+          -0.03723285003267514
+        ],
+        "window_mean_se": 0.004622321762363728
+      },
+      "code": {
+        "candidate_minus_pre_repair_mean": 0.002783225468490732,
+        "label": "code",
+        "n_windows": 9,
+        "window_ids": [
+          56,
+          124,
+          228,
+          311,
+          357,
+          368,
+          374,
+          396,
+          475
+        ],
+        "window_mean_ci95": [
+          -0.002684169107541107,
+          0.008250620044522572
+        ],
+        "window_mean_se": 0.002789487028587673
+      },
+      "multilingual": {
+        "candidate_minus_pre_repair_mean": -0.09811148528613385,
+        "label": "multilingual",
+        "n_windows": 10,
+        "window_ids": [
+          107,
+          183,
+          196,
+          232,
+          270,
+          297,
+          362,
+          365,
+          380,
+          489
+        ],
+        "window_mean_ci95": [
+          -0.12263045323551792,
+          -0.07359251733674978
+        ],
+        "window_mean_se": 0.012509677525195958
+      },
+      "prose": {
+        "candidate_minus_pre_repair_mean": -0.07684028326314873,
+        "label": "prose",
+        "n_windows": 10,
+        "window_ids": [
+          28,
+          68,
+          99,
+          218,
+          290,
+          307,
+          309,
+          331,
+          376,
+          385
+        ],
+        "window_mean_ci95": [
+          -0.09708971429445773,
+          -0.05659085223183974
+        ],
+        "window_mean_se": 0.01033134236291275
+      },
+      "reasoning": {
+        "candidate_minus_pre_repair_mean": -0.027456596078757046,
+        "label": "reasoning",
+        "n_windows": 9,
+        "window_ids": [
+          71,
+          76,
+          160,
+          185,
+          210,
+          212,
+          306,
+          454,
+          462
+        ],
+        "window_mean_ci95": [
+          -0.03238560396328532,
+          -0.02252758819422877
+        ],
+        "window_mean_se": 0.002514799941085855
+      }
+    }
+  },
+  "matched_delta_vs_prior_wire_a_projection_anchor": {
+    "global": {
+      "candidate_minus_pre_repair_mean": -0.04600619675606334,
+      "label": "global",
+      "n_windows": 64,
+      "window_ids": [
+        28,
+        56,
+        68,
+        71,
+        76,
+        99,
+        107,
+        122,
+        124,
+        130,
+        141,
+        156,
+        160,
+        171,
+        180,
+        183,
+        185,
+        186,
+        196,
+        210,
+        212,
+        213,
+        218,
+        228,
+        232,
+        235,
+        249,
+        270,
+        272,
+        273,
+        283,
+        288,
+        290,
+        295,
+        297,
+        306,
+        307,
+        309,
+        311,
+        328,
+        331,
+        357,
+        362,
+        365,
+        368,
+        374,
+        376,
+        380,
+        384,
+        385,
+        391,
+        396,
+        413,
+        429,
+        430,
+        437,
+        442,
+        447,
+        454,
+        462,
+        464,
+        475,
+        489,
+        499
+      ],
+      "window_mean_ci95": [
+        -0.05828988530240091,
+        -0.03372250820972578
+      ],
+      "window_mean_se": 0.006267188033845698
+    },
+    "six_classes": {
+      "agentic": {
+        "candidate_minus_pre_repair_mean": -0.04600619675606334,
+        "label": "agentic",
+        "n_windows": 64,
+        "window_ids": [
+          28,
+          56,
+          68,
+          71,
+          76,
+          99,
+          107,
+          122,
+          124,
+          130,
+          141,
+          156,
+          160,
+          171,
+          180,
+          183,
+          185,
+          186,
+          196,
+          210,
+          212,
+          213,
+          218,
+          228,
+          232,
+          235,
+          249,
+          270,
+          272,
+          273,
+          283,
+          288,
+          290,
+          295,
+          297,
+          306,
+          307,
+          309,
+          311,
+          328,
+          331,
+          357,
+          362,
+          365,
+          368,
+          374,
+          376,
+          380,
+          384,
+          385,
+          391,
+          396,
+          413,
+          429,
+          430,
+          437,
+          442,
+          447,
+          454,
+          462,
+          464,
+          475,
+          489,
+          499
+        ],
+        "window_mean_ci95": [
+          -0.05828988530240091,
+          -0.03372250820972578
+        ],
+        "window_mean_se": 0.006267188033845698
+      },
+      "chat": {
+        "candidate_minus_pre_repair_mean": -0.04600619675606334,
+        "label": "chat",
+        "n_windows": 64,
+        "window_ids": [
+          28,
+          56,
+          68,
+          71,
+          76,
+          99,
+          107,
+          122,
+          124,
+          130,
+          141,
+          156,
+          160,
+          171,
+          180,
+          183,
+          185,
+          186,
+          196,
+          210,
+          212,
+          213,
+          218,
+          228,
+          232,
+          235,
+          249,
+          270,
+          272,
+          273,
+          283,
+          288,
+          290,
+          295,
+          297,
+          306,
+          307,
+          309,
+          311,
+          328,
+          331,
+          357,
+          362,
+          365,
+          368,
+          374,
+          376,
+          380,
+          384,
+          385,
+          391,
+          396,
+          413,
+          429,
+          430,
+          437,
+          442,
+          447,
+          454,
+          462,
+          464,
+          475,
+          489,
+          499
+        ],
+        "window_mean_ci95": [
+          -0.05828988530240091,
+          -0.03372250820972578
+        ],
+        "window_mean_se": 0.006267188033845698
+      },
+      "code": {
+        "candidate_minus_pre_repair_mean": -0.04600619675606334,
+        "label": "code",
+        "n_windows": 64,
+        "window_ids": [
+          28,
+          56,
+          68,
+          71,
+          76,
+          99,
+          107,
+          122,
+          124,
+          130,
+          141,
+          156,
+          160,
+          171,
+          180,
+          183,
+          185,
+          186,
+          196,
+          210,
+          212,
+          213,
+          218,
+          228,
+          232,
+          235,
+          249,
+          270,
+          272,
+          273,
+          283,
+          288,
+          290,
+          295,
+          297,
+          306,
+          307,
+          309,
+          311,
+          328,
+          331,
+          357,
+          362,
+          365,
+          368,
+          374,
+          376,
+          380,
+          384,
+          385,
+          391,
+          396,
+          413,
+          429,
+          430,
+          437,
+          442,
+          447,
+          454,
+          462,
+          464,
+          475,
+          489,
+          499
+        ],
+        "window_mean_ci95": [
+          -0.05828988530240091,
+          -0.03372250820972578
+        ],
+        "window_mean_se": 0.006267188033845698
+      },
+      "multilingual": {
+        "candidate_minus_pre_repair_mean": -0.04600619675606334,
+        "label": "multilingual",
+        "n_windows": 64,
+        "window_ids": [
+          28,
+          56,
+          68,
+          71,
+          76,
+          99,
+          107,
+          122,
+          124,
+          130,
+          141,
+          156,
+          160,
+          171,
+          180,
+          183,
+          185,
+          186,
+          196,
+          210,
+          212,
+          213,
+          218,
+          228,
+          232,
+          235,
+          249,
+          270,
+          272,
+          273,
+          283,
+          288,
+          290,
+          295,
+          297,
+          306,
+          307,
+          309,
+          311,
+          328,
+          331,
+          357,
+          362,
+          365,
+          368,
+          374,
+          376,
+          380,
+          384,
+          385,
+          391,
+          396,
+          413,
+          429,
+          430,
+          437,
+          442,
+          447,
+          454,
+          462,
+          464,
+          475,
+          489,
+          499
+        ],
+        "window_mean_ci95": [
+          -0.05828988530240091,
+          -0.03372250820972578
+        ],
+        "window_mean_se": 0.006267188033845698
+      },
+      "prose": {
+        "candidate_minus_pre_repair_mean": -0.04600619675606334,
+        "label": "prose",
+        "n_windows": 64,
+        "window_ids": [
+          28,
+          56,
+          68,
+          71,
+          76,
+          99,
+          107,
+          122,
+          124,
+          130,
+          141,
+          156,
+          160,
+          171,
+          180,
+          183,
+          185,
+          186,
+          196,
+          210,
+          212,
+          213,
+          218,
+          228,
+          232,
+          235,
+          249,
+          270,
+          272,
+          273,
+          283,
+          288,
+          290,
+          295,
+          297,
+          306,
+          307,
+          309,
+          311,
+          328,
+          331,
+          357,
+          362,
+          365,
+          368,
+          374,
+          376,
+          380,
+          384,
+          385,
+          391,
+          396,
+          413,
+          429,
+          430,
+          437,
+          442,
+          447,
+          454,
+          462,
+          464,
+          475,
+          489,
+          499
+        ],
+        "window_mean_ci95": [
+          -0.05828988530240091,
+          -0.03372250820972578
+        ],
+        "window_mean_se": 0.006267188033845698
+      },
+      "reasoning": {
+        "candidate_minus_pre_repair_mean": -0.04600619675606334,
+        "label": "reasoning",
+        "n_windows": 64,
+        "window_ids": [
+          28,
+          56,
+          68,
+          71,
+          76,
+          99,
+          107,
+          122,
+          124,
+          130,
+          141,
+          156,
+          160,
+          171,
+          180,
+          183,
+          185,
+          186,
+          196,
+          210,
+          212,
+          213,
+          218,
+          228,
+          232,
+          235,
+          249,
+          270,
+          272,
+          273,
+          283,
+          288,
+          290,
+          295,
+          297,
+          306,
+          307,
+          309,
+          311,
+          328,
+          331,
+          357,
+          362,
+          365,
+          368,
+          374,
+          376,
+          380,
+          384,
+          385,
+          391,
+          396,
+          413,
+          429,
+          430,
+          437,
+          442,
+          447,
+          454,
+          462,
+          464,
+          475,
+          489,
+          499
+        ],
+        "window_mean_ci95": [
+          -0.05828988530240091,
+          -0.03372250820972578
+        ],
+        "window_mean_se": 0.006267188033845698
+      }
+    }
+  },
+  "measurement": "balanced64",
+  "measurement_label": "balanced64_v1",
+  "metric_basis": {
+    "primary": "mean KL(teacher||candidate) over exact BALANCED64_V1 windows, support=8192, cutoff=1024",
+    "top1": "not emitted by the canonical BALANCED64 scorer; no top1 value is inferred or fabricated"
+  },
+  "numerical_validation": {
+    "authority": "sealed P951 output tensors",
+    "authority_output_set_sha256": "3529d33893a12d92dda96beba29c1a0e21adec6d008f2b32ced7d0066662c451",
+    "maximum_absolute_kld_delta": 0.0,
+    "per_window": [
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 28
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 56
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 68
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 71
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 76
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 99
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 107
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 122
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 124
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 130
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 141
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 156
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 160
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 171
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 180
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 183
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 185
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 186
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 196
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 210
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 212
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 213
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 218
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 228
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 232
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 235
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 249
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 270
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 272
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 273
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 283
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 288
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 290
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 295
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 297
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 306
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 307
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 309
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 311
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 328
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 331
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 357
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 362
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 365
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 368
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 374
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 376
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 380
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 384
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 385
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 391
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 396
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 413
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 429
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 430
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 437
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 442
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 447
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 454
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 462
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 464
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 475
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 489
+      },
+      {
+        "maximum_absolute_kld_delta": 0.0,
+        "win": 499
+      }
+    ],
+    "tolerance": 1e-12
+  },
+  "outputs": {
+    "directory": "${SPARK_HOME}/missions/P963_ACCEL_TRUE_C_t_d78a699d_s1/out/P963_ACCEL_EXACT_P951_BALANCED64_V3_MB2",
+    "per_window": [
+      {
+        "bytes": 5964,
+        "mean": 0.04871554481572421,
+        "sha256": "cf7c46ef03a7ffae128c97a308f36396edd25979b92c9565ed341ad6864402b6",
+        "source_class": "prose",
+        "win": 28
+      },
+      {
+        "bytes": 5964,
+        "mean": 0.06309869134173077,
+        "sha256": "0f5ec38434b28595581eeae496987288d189e1cb65f4778f20cbbefb40053046",
+        "source_class": "code",
+        "win": 56
+      },
+      {
+        "bytes": 5964,
+        "mean": 0.13966681625190538,
+        "sha256": "907455a0b085f166a417a84c094814b4b44902f37d49eb6d7752ccbadd2581e2",
+        "source_class": "prose",
+        "win": 68
+      },
+      {
+        "bytes": 5964,
+        "mean": 0.012860182657709038,
+        "sha256": "d5b523759b11cd3c3c91fa0177113b9c1d18d224a43acb07e439fb441f9f110f",
+        "source_class": "reasoning",
+        "win": 71
+      },
+      {
+        "bytes": 5964,
+        "mean": 0.009497534357984033,
+        "sha256": "9a5e7316bcf20ba4130afa618f95acff7147a5f8b03dc948d969c350c7f1662a",
+        "source_class": "reasoning",
+        "win": 76
+      },
+      {
+        "bytes": 5964,
+        "mean": 0.1668187706867126,
+        "sha256": "460e7511d0b3379dfa7a85293b199a15acb9ed82ba1ae834bba66b10eec3230a",
+        "source_class": "prose",
+        "win": 99
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.08804662831681878,
+        "sha256": "9f89e6753a9c9311c7aa5869bf9761ce7e7a4e644670fb2e40824f46b5e484bf",
+        "source_class": "multilingual",
+        "win": 107
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.07371959240656964,
+        "sha256": "676000e0021f1afd615f0567b0eb8196decd15dbcf7c612a602ace2987850fed",
+        "source_class": "agentic",
+        "win": 122
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.06747579885621549,
+        "sha256": "5b5fd5d003ef8bccb082ba2abd220ea9b1a4f064de116e4eca84b9db47fd1c85",
+        "source_class": "code",
+        "win": 124
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.024926261719977943,
+        "sha256": "2a1983841f6c83dc2d847372812ebc5baf06cf4fd9dad17cdd6273e64e1805fd",
+        "source_class": "agentic",
+        "win": 130
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.018863632196064156,
+        "sha256": "ed32f782fd9034e1fbd69a315cec85000411b71c65e7ea614cc5441e778e34c8",
+        "source_class": "chat",
+        "win": 141
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.036207593966467055,
+        "sha256": "2c2098c65838059f171627347c25c658eac4f7e917b50291652b1b7b255cd2ea",
+        "source_class": "chat",
+        "win": 156
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.007947212167697108,
+        "sha256": "6a6b29d7afa4b902080808ef52a884df9b9c84115f3de722518bf5e8ebbfa17a",
+        "source_class": "reasoning",
+        "win": 160
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.020796222217105302,
+        "sha256": "08e75b047f3cc9d44aad3afa5138e73b013aad580cfd9859de0ad4d2fcae3b19",
+        "source_class": "agentic",
+        "win": 171
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.1846052223882825,
+        "sha256": "242c7c79d95f1ed669f88cf4f2e335c6a161b4fd686896346511f0b22fd5f19f",
+        "source_class": "agentic",
+        "win": 180
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.11289454025723109,
+        "sha256": "68d705445ef31f6bb5ae3c40b2d81c78382b28e31a8a366e82647b10977b9e55",
+        "source_class": "multilingual",
+        "win": 183
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.01230024101394376,
+        "sha256": "92d6dc09286089df5fb089613b9734f01657eea3e0d70ee6c980ba15572c6e93",
+        "source_class": "reasoning",
+        "win": 185
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.026887829681135404,
+        "sha256": "dbaa41b98963a1dc17df43ce3bcafdc84ec7fb2b485d9b860cc473b0dcbc57d2",
+        "source_class": "chat",
+        "win": 186
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.11308167305020185,
+        "sha256": "702aa4b3609a8495a394281414251a31c0026e485ba5d8db78b461df85c2f42f",
+        "source_class": "multilingual",
+        "win": 196
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.02856243791642984,
+        "sha256": "55964d049d8f46df4d0c6b7567864985634eae899bcdb6eef48e6dca74b3a7b6",
+        "source_class": "reasoning",
+        "win": 210
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.014167904018645948,
+        "sha256": "dc287efd9e0dd4c2a5411d02093279690ae3f004fc4dcef445f2ba17694c167d",
+        "source_class": "reasoning",
+        "win": 212
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.033947107038413665,
+        "sha256": "96cd3e4e8bebdf4b487f4c8b51ed586a9b5ec4d3216de26e3b06809ffa0e769a",
+        "source_class": "agentic",
+        "win": 213
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.11445342006735171,
+        "sha256": "b9fdef20b4a4395a3bd77d1d1fab0efa3de5c1b1a328889d15ca6674060ca738",
+        "source_class": "prose",
+        "win": 218
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.07003208226084712,
+        "sha256": "1b233d933ed28b6d0a9abcf75cc312dcfdcf0730560cd9fe03d5a20c3de1f7b5",
+        "source_class": "code",
+        "win": 228
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.0960900397181138,
+        "sha256": "529733990130d8724ab18a8fe3e71e8e8ad3e831604ecff44fbfc3031b3fbd88",
+        "source_class": "multilingual",
+        "win": 232
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.16743677266731533,
+        "sha256": "10eb4ab85131d7836866f14ad87fe3cddc8788956558f2456bf927dd5b2baece",
+        "source_class": "agentic",
+        "win": 235
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.02351418389461159,
+        "sha256": "6b120777a992d41eb7efc9bedfe3afaeee6001a2341cea43f11de669376246f8",
+        "source_class": "chat",
+        "win": 249
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.17179107081396805,
+        "sha256": "8d75507ff14e9d4dad37aa698cdcd45eab49cfc9ec6b3c61028a84fa791fcf37",
+        "source_class": "multilingual",
+        "win": 270
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.02200127467324097,
+        "sha256": "40d0b9819d6e1695885de3d3bd84088d92c43fd63123c7c067d8e7cde3aeac2d",
+        "source_class": "agentic",
+        "win": 272
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.025783611133671787,
+        "sha256": "80912d3643129d19328b618dc295c5ec3d6b2206e484c8dceaf5ac193a77b30b",
+        "source_class": "agentic",
+        "win": 273
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.05796901879205474,
+        "sha256": "c55a4f8e147253755b3b07f286b5fe9fa339ca6f4b49dcfd84fff248aab0468b",
+        "source_class": "agentic",
+        "win": 283
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.018336490125733254,
+        "sha256": "85e30cc494241a429854e49291829a58521d8e4b41ee414de02e8743a09f6061",
+        "source_class": "agentic",
+        "win": 288
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.08295760171883972,
+        "sha256": "f72418b5c6c3f3e61f3417ed71db4228416f922f7f34e7f3bf57c0c6e01e9ba6",
+        "source_class": "prose",
+        "win": 290
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.016027992490159848,
+        "sha256": "84b84ae54f426feec2ef36cf155b2d658f8cb4dc8d897d2c3449e5d8faf35951",
+        "source_class": "chat",
+        "win": 295
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.1268832057650418,
+        "sha256": "4218b6ba3bd33a81296453c831438d85f2a76cc41c1da5d58840e45978fd2b0c",
+        "source_class": "multilingual",
+        "win": 297
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.011695486291130361,
+        "sha256": "442680a69ce003893b9872b1b42efc220b68cd762f7b140ee4e082ecc594eb7f",
+        "source_class": "reasoning",
+        "win": 306
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.06768377689939822,
+        "sha256": "7aaab3df6b85703bd8de36daf786c5d05e791d5c133f8c8a446d963faeecc02e",
+        "source_class": "prose",
+        "win": 307
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.07573791618743549,
+        "sha256": "ef3a1652b04eaad0ce5d7ab4975cc87815fc1d059a6e36be25c02a453238e417",
+        "source_class": "prose",
+        "win": 309
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.07021325599036313,
+        "sha256": "ff8c9b1a15014e6afbdc4577ffcca5a537a1c7fea7e827a5f2dd8947d90afa1c",
+        "source_class": "code",
+        "win": 311
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.013726008206360135,
+        "sha256": "4ebc892539a7912c02fc21ca8baf8c63e38eea324a1b98d38bcd3a7bea50fc50",
+        "source_class": "chat",
+        "win": 328
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.04841202132770395,
+        "sha256": "abe97a5ed23af6b194c484dd78e1803641dc5b523fabf3782b52e44ba2d7bafc",
+        "source_class": "prose",
+        "win": 331
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.029998762545502263,
+        "sha256": "186d7319bb235a1bbbc01df8ed66b7d96986b29c37b48fa2022879eb05380f69",
+        "source_class": "code",
+        "win": 357
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.10979197695201484,
+        "sha256": "c8751bdbfa675735ae3f77cd76fc4c0bf9eb77893a9f1981700380e243ac12e9",
+        "source_class": "multilingual",
+        "win": 362
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.1014588579720077,
+        "sha256": "734c6359b31420c6c3af2cafb60efc2f3e2220d4b48e6c49519d741648acfc93",
+        "source_class": "multilingual",
+        "win": 365
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.030084889295677906,
+        "sha256": "0c35f20d01c3734a914336bad8386e0b0ced24acda6dd9720650015f37d26d7d",
+        "source_class": "code",
+        "win": 368
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.0280426039604853,
+        "sha256": "75167702f4f56d8b6632292dadef11b77a2023e4d948e6fe328b36e35e70ca22",
+        "source_class": "code",
+        "win": 374
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.09956657171640293,
+        "sha256": "f1bb6809643e5d6644af32c0b5fe705f31ed497ef84ccc4e643ba8d22c40c885",
+        "source_class": "prose",
+        "win": 376
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.07919560103862638,
+        "sha256": "f1dda9e6e935be3252cd9e42768d8ff1dd7c549b9c0de48959361fba82e804ea",
+        "source_class": "multilingual",
+        "win": 380
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.019638679319042587,
+        "sha256": "3b21324595f9402669e1cec65f3816e9f1bbf2d52f6846759d6b4431e638c891",
+        "source_class": "agentic",
+        "win": 384
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.13194290067889397,
+        "sha256": "6cf4c09262b5de75de1d1edb50f3080495597370a4568b871cf51c3b5fcc1ddb",
+        "source_class": "prose",
+        "win": 385
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.06776233360827869,
+        "sha256": "93bf634736fef86ddfa5e71835b2ed8034037aa877a05000398090ccb5ded58f",
+        "source_class": "agentic",
+        "win": 391
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.07896094757442368,
+        "sha256": "af88afd75e2fe606752c871f9501fb1b8864f06c08c1bcca00b1aa68ebd27b8d",
+        "source_class": "code",
+        "win": 396
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.21754563229615553,
+        "sha256": "78c567e9dbf1d9ce1d5c25ab0040955a51765413547258400d3195be0c3c1ef5",
+        "source_class": "agentic",
+        "win": 413
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.08309376825977471,
+        "sha256": "dc9d799a445b0cc81509ec0250579e00d558dee2e2aa4fef2637cbebc354b1d4",
+        "source_class": "agentic",
+        "win": 429
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.28555881087400714,
+        "sha256": "0161cfa855c18b5f4dfb942be960e7233dd95fdd9063a468f63f48b24ce9cbd4",
+        "source_class": "agentic",
+        "win": 430
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.01946444174076297,
+        "sha256": "d30b29ac681aafb2833d9c3f259fdcb96d4d94a55cd5b8acbd92269aff3df120",
+        "source_class": "agentic",
+        "win": 437
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.026343634668917766,
+        "sha256": "30f8255dbbfc607ffc884838e78b77c17b60eca18889180e3fa75f0d22a023eb",
+        "source_class": "agentic",
+        "win": 442
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.013054815753516845,
+        "sha256": "001fd819c8573d34aee9d70e166c2105fa2f1eb74ce32db2fb6b8c43dfb9c10e",
+        "source_class": "chat",
+        "win": 447
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.012395914770746207,
+        "sha256": "780647df7c2b0fa65e451c05f14df6e64daf1052dc06e80d276c9f32fcd6c7f8",
+        "source_class": "reasoning",
+        "win": 454
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.021029863333611155,
+        "sha256": "2bfbd9f7a082c87fbf7f71438a02722035510fa0f410a675f02aa38f4e2d46d9",
+        "source_class": "reasoning",
+        "win": 462
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.1070783875394308,
+        "sha256": "c69698700fe4b9a40edd8ca1f80eb5cca7d56619790cce06047e69c1c2f473ac",
+        "source_class": "agentic",
+        "win": 464
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.05724578336575238,
+        "sha256": "ab8955cecd3e7318e78e0edeea15e1d0d368b5ff784d13492e76204f17673941",
+        "source_class": "code",
+        "win": 475
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.12460995443890774,
+        "sha256": "b517ccd1a0cbcd2f380868940bf6d20a10d2a305ed7cb5a74e279cbe50aa45c9",
+        "source_class": "multilingual",
+        "win": 489
+      },
+      {
+        "bytes": 5971,
+        "mean": 0.041127563626881844,
+        "sha256": "069c4cc324911e1f61c7f8d810fb28f42207127e7ddbe7ff6f3fc47d7e7b58c1",
+        "source_class": "agentic",
+        "win": 499
+      }
+    ],
+    "window_output_set_sha256": "3529d33893a12d92dda96beba29c1a0e21adec6d008f2b32ced7d0066662c451"
+  },
+  "prior_wire_a_projection_anchor": {
+    "basis": "paired W0-127 projection; not a prior BALANCED64 physical read",
+    "global_mean": 0.11430034303225284,
+    "path": "${SPARK_HOME}/missions/P963_ACCEL_TRUE_C_t_d78a699d_s1/inputs/P783_OLD_CORRUPT_BALANCED64.json",
+    "sha256": "32643f906af59f2b5076ddf336a6115e7c172b0f021bcaaccc7e73eba53d9da3"
+  },
+  "repair_and_dosing_blocked": true,
+  "result_label": "P963_ACCELERATED_EXACT_P951_TRUE_C_80_OF_80",
+  "schema": "p963-accelerated-terminal-true-c-balanced64-v1",
+  "six_classes": {
+    "agentic": {
+      "mean": 0.07879656974187459,
+      "n_positions": 19456,
+      "n_windows": 19,
+      "source_class": "agentic",
+      "window_mean_ci95": [
+        0.04338859086063873,
+        0.11420454862311044
+      ],
+      "window_mean_se": 0.018065295347569316
+    },
+    "chat": {
+      "mean": 0.021183150884045005,
+      "n_positions": 7168,
+      "n_windows": 7,
+      "source_class": "chat",
+      "window_mean_ci95": [
+        0.015004703604817218,
+        0.027361598163272792
+      ],
+      "window_mean_se": 0.0031522690200141775
+    },
+    "code": {
+      "mean": 0.05501697946566645,
+      "n_positions": 9216,
+      "n_windows": 9,
+      "source_class": "code",
+      "window_mean_ci95": [
+        0.04188852536003566,
+        0.06814543357129724
+      ],
+      "window_mean_se": 0.006698190870219793
+    },
+    "multilingual": {
+      "mean": 0.11238435483229318,
+      "n_positions": 10240,
+      "n_windows": 10,
+      "source_class": "multilingual",
+      "window_mean_ci95": [
+        0.09641440183003669,
+        0.12835430783454968
+      ],
+      "window_mean_se": 0.008147935205232909
+    },
+    "prose": {
+      "mean": 0.09759553403503682,
+      "n_positions": 10240,
+      "n_windows": 10,
+      "source_class": "prose",
+      "window_mean_ci95": [
+        0.07278204654519906,
+        0.12240902152487458
+      ],
+      "window_mean_se": 0.012659942596855999
+    },
+    "reasoning": {
+      "mean": 0.014495197391988604,
+      "n_positions": 9216,
+      "n_windows": 9,
+      "source_class": "reasoning",
+      "window_mean_ci95": [
+        0.010310002889108829,
+        0.01868039189486838
+      ],
+      "window_mean_se": 0.002135303317795804
+    }
+  },
+  "source_physical_manifest": {
+    "path": "${SPARK_HOME}/missions/P885_WIRE_C_PREREPAIR_t_3d5cd763_s6/f521_t_1a8b046b/inputs/RESTORED_F521_PHYSICAL_MANIFEST.json",
+    "rows_sha256": "c2f1c56c7baad772d7e7927f65f4873590161e2c4600410b5ea1b40e848f75b1",
+    "sha256": "398441d16f1a251079b518a55095c568353b9f3e542f2ec55d4139e0ac6e7ffd",
+    "unique_files_sha256": "079955b65d3444740cd74fe3ad26d49cdc512d3df9631eff910d7db188550fa7"
+  },
+  "started_unix": 1785262943.8555655,
+  "status": "PASS_P963_ACCELERATED_EXACT_P951",
+  "support": 8192,
+  "task_id": "task-redacted",
+  "throughput": {
+    "elapsed_seconds": 1495.7971739768982,
+    "overlay_transferred_bytes": 105977442426,
+    "windows_per_minute": 2.567192976966613
+  },
+  "window_ids": [
+    28,
+    56,
+    68,
+    71,
+    76,
+    99,
+    107,
+    122,
+    124,
+    130,
+    141,
+    156,
+    160,
+    171,
+    180,
+    183,
+    185,
+    186,
+    196,
+    210,
+    212,
+    213,
+    218,
+    228,
+    232,
+    235,
+    249,
+    270,
+    272,
+    273,
+    283,
+    288,
+    290,
+    295,
+    297,
+    306,
+    307,
+    309,
+    311,
+    328,
+    331,
+    357,
+    362,
+    365,
+    368,
+    374,
+    376,
+    380,
+    384,
+    385,
+    391,
+    396,
+    413,
+    429,
+    430,
+    437,
+    442,
+    447,
+    454,
+    462,
+    464,
+    475,
+    489,
+    499
+  ],
+  "window_manifest": {
+    "name": "BALANCED64_V1",
+    "path": "${SPARK_HOME}/missions/P963_ACCEL_TRUE_C_t_d78a699d_s1/inputs/BALANCED64_V1.json",
+    "sha256": "7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad"
+  },
+  "windows": 64,
+  "wire_semantic_label": "WIRE_C_TRUE_C_f521_T_PRE_REPAIR_UNDOSED"
+}

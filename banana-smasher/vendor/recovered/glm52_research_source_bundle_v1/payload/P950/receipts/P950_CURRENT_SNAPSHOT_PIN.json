@@ -1,0 +1,40 @@
+{
+  "active_assignment": "${SPARK_HOME}/missions/P950_PRELIM_TRUE_C_BALANCED64_t_090f28e7_s7/inputs/P950_CURRENT_77_ACTIVE_ASSIGNMENT.json",
+  "active_assignment_sha256": "f521cf07e0dce3c39739c7493b6eda82cd78d6b1566fadb2101691321566ca39",
+  "current_vs_terminal_gap": {
+    "missing_codebooks": 3,
+    "missing_layer": 7,
+    "missing_rows": 52,
+    "terminal_result_pending": true
+  },
+  "label": "PRELIM_77_OF_80__NOT_DECISION_GRADE",
+  "manifest": "${SPARK_HOME}/missions/P950_PRELIM_TRUE_C_BALANCED64_t_090f28e7_s7/inputs/P950_CURRENT_77_ACTIVE_OVERLAY.json",
+  "manifest_sha256": "9fd49cf03b10b9d1a675afeb939cf9d3941357730f9b2b243b3cd16bad418285",
+  "nonterminal_groups": [
+    {
+      "expected_rows": 18,
+      "group": "L007.d4_k2048.fused13",
+      "inherited_bytes": "all 18 row payloads and prior d4_k2048/fused13 codebook remain byte-bound to immutable current Wire-C baseline",
+      "partial_rows_present_but_excluded": 10,
+      "strict_pass_rows": 0
+    },
+    {
+      "expected_rows": 18,
+      "group": "L007.d4_k4096.down",
+      "inherited_bytes": "all 18 row payloads and prior d4_k4096/down codebook remain byte-bound to immutable current Wire-C baseline",
+      "strict_pass_rows": 0
+    },
+    {
+      "expected_rows": 16,
+      "group": "L007.d4_k4096.fused13",
+      "inherited_bytes": "all 16 row payloads and prior d4_k4096/fused13 codebook remain byte-bound to immutable current Wire-C baseline",
+      "strict_pass_rows": 0
+    }
+  ],
+  "schema": "p950-current-snapshot-pin-v1",
+  "sealed_unix": 1785254563.014805,
+  "source_receipts_set_sha256": "3424b843565734ef2fb4c7ce25ca45024161329c1e2a6f55724a77c2679245f2",
+  "status": "PASS_PINNED_PRELIM_77_OF_80",
+  "strict_pass_codebooks": 77,
+  "strict_pass_rows": 2808
+}

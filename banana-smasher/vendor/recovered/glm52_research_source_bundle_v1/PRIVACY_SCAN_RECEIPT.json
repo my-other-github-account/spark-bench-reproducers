@@ -1,0 +1,8 @@
+{
+  "findings": [],
+  "scanned_bytes": 2320741,
+  "scanned_files": 95,
+  "schema": "glm52-privacy-scan-v1",
+  "self_source_excluded": "tools/privacy_scan.py",
+  "status": "PASS"
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:banana-smasher:assignment:v1",
+  "title": "Envelope-exact tier assignment",
+  "type": "object",
+  "required": ["schema", "status", "budget_bytes", "assigned_bytes", "assignment", "predictions"],
+  "properties": {
+    "schema": {"const": "banana-smasher-assignment-v1"},
+    "status": {"type": "string"},
+    "budget_bytes": {"type": "integer", "minimum": 1},
+    "assigned_bytes": {"type": "integer", "minimum": 0},
+    "assignment": {"type": "object"},
+    "predictions": {"type": "object"}
+  }
+}

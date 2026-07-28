@@ -1,0 +1,38 @@
+{
+  "card_created_utc": "2026-07-28T15:52:47Z",
+  "claim": {
+    "path": "${SPARK_HOME}/HOST_CLAIM.json",
+    "sha256": "2f8e45501a5a9b69fa1270b52159a0591c61b38c30c11a9758c187ce89bcf3c0"
+  },
+  "continuation_cmdline": "${SPARK_HOME}/humming_env/bin/python3 -u ${SPARK_HOME}/missions/P950_PRELIM_TRUE_C_BALANCED64_t_090f28e7_s7/code/p937_true_c_balanced64.py --anchor qtip3 --measurement balanced64",
+  "continuation_launch_utc": "2026-07-28T16:05:42Z",
+  "continuation_pid": 1841149,
+  "first_productive_delta_seconds": 678,
+  "first_productive_evidence": "GPU-resident and L000 physical materialization began; exited fail-closed on host-role copy assumption, no score row emitted",
+  "first_productive_launch_utc": "2026-07-28T16:04:05Z",
+  "first_productive_pid": 1839873,
+  "host": "spark-7",
+  "label": "PRELIM_77_OF_80__NOT_DECISION_GRADE",
+  "log": "${SPARK_HOME}/missions/P950_PRELIM_TRUE_C_BALANCED64_t_090f28e7_s7/logs/P950_PRELIM_77_OF_80_BALANCED64.log",
+  "parity_gate": {
+    "maximum_absolute_window_mean_delta": 0.0,
+    "path": "${SPARK_HOME}/missions/P950_PRELIM_TRUE_C_BALANCED64_t_090f28e7_s7/receipts/INSTANCE_PARITY_GATE.json",
+    "sha256": "da6c1a0023f509927cd68307fabb5ee6a5528863a977929b78a195d496a42b3c",
+    "status": "PASS_EXACT_SAME_HOST_INSTRUMENT"
+  },
+  "progress_root": "${SPARK_HOME}/missions/P950_PRELIM_TRUE_C_BALANCED64_t_090f28e7_s7/run/P950_PRELIM_77_OF_80_BALANCED64",
+  "schema": "p950-productive-launch-v1",
+  "scorer": {
+    "adapter_sha256": "10a60fa523547c2e31058a7b3ca4e726c9dfad5fc853c260176858be22ac1e61",
+    "p783_sha256": "a9e2548a146334c456cfe7e3fa7482ef614696ec4eb59c8d4db328c22498feda",
+    "p937_current_snapshot_runner_sha256": "944af510e1854e8386d8b73f3452486fcc6f0dc194bb0896bc05fed4d911f9be",
+    "run_score_sha256": "975408b30d96397550c76c8f26b1368e503fff061dae9e92920be721f00d431d"
+  },
+  "sealed_unix": 1785254849.160927,
+  "snapshot_pin": {
+    "path": "${SPARK_HOME}/missions/P950_PRELIM_TRUE_C_BALANCED64_t_090f28e7_s7/receipts/P950_CURRENT_SNAPSHOT_PIN.json",
+    "sha256": "6aa8de4a2c6fb151f72ccdaf9dd1ae25bdeb750dea8a16167e1c36a70f4bd419"
+  },
+  "status": "PASS_PRODUCTIVE_SCORER_CONTINUING",
+  "task_id": "task-redacted"
+}

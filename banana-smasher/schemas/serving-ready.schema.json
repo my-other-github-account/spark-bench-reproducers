@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:banana-smasher:serving-ready:v1",
+  "title": "Serving readiness receipt",
+  "type": "object",
+  "required": ["schema", "status", "endpoint", "pack_sha256", "residency", "throughput", "logit_gate"],
+  "properties": {
+    "schema": {"const": "banana-smasher-serving-ready-v1"},
+    "status": {"const": "READY"},
+    "endpoint": {"type": "string"},
+    "pack_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "residency": {"type": "object"},
+    "throughput": {"type": "object"},
+    "logit_gate": {"type": "object", "required": ["tasks", "temperature", "pass"]}
+  }
+}

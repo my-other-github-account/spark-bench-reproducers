@@ -1,0 +1,636 @@
+{
+  "arm_A_manifest_sha256": "738626a919ce11f02b82b7b637c3e8af0955b22166edeb38edeb0bb15177997a",
+  "arm_B_manifest_sha256": "de23f98ee1819ab408a2f5ac581967d4b41e9dca7dd091e0203db63c1c353a53",
+  "batching_invariant_visible_and_tokens": false,
+  "contract": {
+    "arm_A": {
+      "client_concurrency": 1,
+      "server_parallel": 1
+    },
+    "arm_B": {
+      "client_concurrency": 4,
+      "server_parallel": 4
+    },
+    "cache_type_k": "f16",
+    "cache_type_v": "f16",
+    "ctx_size": 17408,
+    "max_tokens": 4096,
+    "model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+    "n": 1,
+    "reasoning_budget": -1,
+    "reasoning_format": "deepseek",
+    "seed": 0,
+    "stream": false,
+    "temperature": 0.0,
+    "top_p": 1.0
+  },
+  "created_epoch": 1784712705.770189,
+  "differences_by_field": {
+    "completion_tokens": [
+      "HumanEval/32",
+      "HumanEval/39",
+      "HumanEval/49",
+      "HumanEval/76",
+      "HumanEval/91",
+      "HumanEval/99",
+      "HumanEval/116",
+      "HumanEval/127",
+      "HumanEval/129",
+      "HumanEval/145"
+    ],
+    "content_is_null": [],
+    "finish_reason": [
+      "HumanEval/76"
+    ],
+    "prompt_fingerprints": [],
+    "response_model": [],
+    "retokenized_visible_tokens": [
+      "HumanEval/32",
+      "HumanEval/39",
+      "HumanEval/49",
+      "HumanEval/76",
+      "HumanEval/91",
+      "HumanEval/99",
+      "HumanEval/116",
+      "HumanEval/127",
+      "HumanEval/129",
+      "HumanEval/145"
+    ],
+    "system_fingerprint": [],
+    "visible_bytes": [
+      "HumanEval/32",
+      "HumanEval/39",
+      "HumanEval/49",
+      "HumanEval/76",
+      "HumanEval/91",
+      "HumanEval/99",
+      "HumanEval/116",
+      "HumanEval/127",
+      "HumanEval/129",
+      "HumanEval/145"
+    ],
+    "visible_sha256": [
+      "HumanEval/32",
+      "HumanEval/39",
+      "HumanEval/49",
+      "HumanEval/76",
+      "HumanEval/91",
+      "HumanEval/99",
+      "HumanEval/116",
+      "HumanEval/127",
+      "HumanEval/129",
+      "HumanEval/145"
+    ]
+  },
+  "different_row_ids": [
+    "HumanEval/32",
+    "HumanEval/39",
+    "HumanEval/49",
+    "HumanEval/76",
+    "HumanEval/91",
+    "HumanEval/99",
+    "HumanEval/116",
+    "HumanEval/127",
+    "HumanEval/129",
+    "HumanEval/145"
+  ],
+  "ordered_task_ids": [
+    "HumanEval/32",
+    "HumanEval/39",
+    "HumanEval/49",
+    "HumanEval/76",
+    "HumanEval/91",
+    "HumanEval/99",
+    "HumanEval/116",
+    "HumanEval/127",
+    "HumanEval/129",
+    "HumanEval/145"
+  ],
+  "pre_registration_sha256": "c4e641cf7567a659d13822951b05d288881985816df25c51ed321a1c50ef8bbf",
+  "rows": [
+    {
+      "arm_A": {
+        "completion_tokens": 2103,
+        "content_is_null": false,
+        "finish_reason": "stop",
+        "prompt_fingerprints": {
+          "dataset_prompt_sha256": "17c137edab480f3be30b47bb48eea2748f23b120a73b2bb80c7901112e1b223f",
+          "request_sha256": "4008be366676a4b5f93c0c7ef9658ad1b690744fe1d237f32158baed17bf93d9",
+          "user_message_sha256": "a771da26c582709381b8a5e7420917b6b9c743a761764934706f1fce5dc85479"
+        },
+        "raw_path": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/results/arm_A/raw/HumanEval_32.json",
+        "raw_sha256": "740f9665c3dc62c8bead03e26252b67ce2bd0cab8d9629a939502504631bc8f4",
+        "response_model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+        "retokenized_visible_tokens": 836,
+        "system_fingerprint": "b10029-f6f12e43f",
+        "task_id": "HumanEval/32",
+        "visible_sha256": "aa307c579b2d28c9aede5a30b606a31c4e42d5ccaf998ade569bd5f8190bdd82",
+        "visible_utf8_bytes": 2893,
+        "wall_seconds": 162.39217877388
+      },
+      "arm_B": {
+        "completion_tokens": 2513,
+        "content_is_null": false,
+        "finish_reason": "stop",
+        "prompt_fingerprints": {
+          "dataset_prompt_sha256": "17c137edab480f3be30b47bb48eea2748f23b120a73b2bb80c7901112e1b223f",
+          "request_sha256": "4008be366676a4b5f93c0c7ef9658ad1b690744fe1d237f32158baed17bf93d9",
+          "user_message_sha256": "a771da26c582709381b8a5e7420917b6b9c743a761764934706f1fce5dc85479"
+        },
+        "raw_path": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/results/arm_B/raw/HumanEval_32.json",
+        "raw_sha256": "76176f0a3b7b8428c1c5634b0803396b75b1dd25a979645d72c840dfcb980f08",
+        "response_model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+        "retokenized_visible_tokens": 1011,
+        "system_fingerprint": "b10029-f6f12e43f",
+        "task_id": "HumanEval/32",
+        "visible_sha256": "a7dd9da0609e74d4e3cd40770e3e2ef7c2b167eb86a9fb76b8fe5e8742cc8933",
+        "visible_utf8_bytes": 3387,
+        "wall_seconds": 373.27014327049255
+      },
+      "equal": {
+        "completion_tokens": false,
+        "content_is_null": true,
+        "finish_reason": true,
+        "prompt_fingerprints": true,
+        "response_model": true,
+        "retokenized_visible_tokens": false,
+        "system_fingerprint": true,
+        "visible_bytes": false,
+        "visible_sha256": false
+      },
+      "task_id": "HumanEval/32"
+    },
+    {
+      "arm_A": {
+        "completion_tokens": 663,
+        "content_is_null": false,
+        "finish_reason": "stop",
+        "prompt_fingerprints": {
+          "dataset_prompt_sha256": "cea0bfc2860c66d09a3951a13bbc0e37e9a9ec80dc7f01b422fe3e98a37520de",
+          "request_sha256": "88cf68bd47b520682ccc1a698efee7696068d6e4ab2095de13fe0acedbda8500",
+          "user_message_sha256": "b2df0eb4ccf686462a92e5569272bdcc53a067cb64c76d64e2525ce833b8c7c4"
+        },
+        "raw_path": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/results/arm_A/raw/HumanEval_39.json",
+        "raw_sha256": "c35eab1ec5339ec7cf39389123eccde55ceb23568ec89fc667a30dffedcf511d",
+        "response_model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+        "retokenized_visible_tokens": 398,
+        "system_fingerprint": "b10029-f6f12e43f",
+        "task_id": "HumanEval/39",
+        "visible_sha256": "0e21146730ffec1176bb142cc0a9532608f9897e4c27127b9c18302ab18a0933",
+        "visible_utf8_bytes": 1298,
+        "wall_seconds": 51.09178328514099
+      },
+      "arm_B": {
+        "completion_tokens": 967,
+        "content_is_null": false,
+        "finish_reason": "stop",
+        "prompt_fingerprints": {
+          "dataset_prompt_sha256": "cea0bfc2860c66d09a3951a13bbc0e37e9a9ec80dc7f01b422fe3e98a37520de",
+          "request_sha256": "88cf68bd47b520682ccc1a698efee7696068d6e4ab2095de13fe0acedbda8500",
+          "user_message_sha256": "b2df0eb4ccf686462a92e5569272bdcc53a067cb64c76d64e2525ce833b8c7c4"
+        },
+        "raw_path": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/results/arm_B/raw/HumanEval_39.json",
+        "raw_sha256": "a7dbd5b63d6c772b95ad6526f957a5c415130ed478704f6b72ae05dec72a2b63",
+        "response_model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+        "retokenized_visible_tokens": 351,
+        "system_fingerprint": "b10029-f6f12e43f",
+        "task_id": "HumanEval/39",
+        "visible_sha256": "f43c56a90c8d6e8d20946877e3bc0f50ef7f2afb0d5dc24c397c54189b0411d5",
+        "visible_utf8_bytes": 1133,
+        "wall_seconds": 153.19573259353638
+      },
+      "equal": {
+        "completion_tokens": false,
+        "content_is_null": true,
+        "finish_reason": true,
+        "prompt_fingerprints": true,
+        "response_model": true,
+        "retokenized_visible_tokens": false,
+        "system_fingerprint": true,
+        "visible_bytes": false,
+        "visible_sha256": false
+      },
+      "task_id": "HumanEval/39"
+    },
+    {
+      "arm_A": {
+        "completion_tokens": 598,
+        "content_is_null": false,
+        "finish_reason": "stop",
+        "prompt_fingerprints": {
+          "dataset_prompt_sha256": "7fa135ecdebcf3c6c8f33792c00d14e0c217b26601e07eb795832c6c53f6a4b0",
+          "request_sha256": "fb309670963a2cf0298647ef494daa1ec1d8d032e69839e1391a843c5e8e4374",
+          "user_message_sha256": "b5b80f4b082636afb1f32b5b32f9cf05bfc493cf8fef91b7094630f514ef3b4f"
+        },
+        "raw_path": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/results/arm_A/raw/HumanEval_49.json",
+        "raw_sha256": "957677ccd578624530e0fe89f7c494606f8fb67c95e663f009ba7f400048df43",
+        "response_model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+        "retokenized_visible_tokens": 329,
+        "system_fingerprint": "b10029-f6f12e43f",
+        "task_id": "HumanEval/49",
+        "visible_sha256": "c925282b181549a68db23567315a559167a119d6336d2130654aeac050e57b0e",
+        "visible_utf8_bytes": 907,
+        "wall_seconds": 46.13579201698303
+      },
+      "arm_B": {
+        "completion_tokens": 599,
+        "content_is_null": false,
+        "finish_reason": "stop",
+        "prompt_fingerprints": {
+          "dataset_prompt_sha256": "7fa135ecdebcf3c6c8f33792c00d14e0c217b26601e07eb795832c6c53f6a4b0",
+          "request_sha256": "fb309670963a2cf0298647ef494daa1ec1d8d032e69839e1391a843c5e8e4374",
+          "user_message_sha256": "b5b80f4b082636afb1f32b5b32f9cf05bfc493cf8fef91b7094630f514ef3b4f"
+        },
+        "raw_path": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/results/arm_B/raw/HumanEval_49.json",
+        "raw_sha256": "4f80b8cefaf5688e6944927d8335beb1fb724a6da9fda51d56f1cac70d41ea53",
+        "response_model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+        "retokenized_visible_tokens": 317,
+        "system_fingerprint": "b10029-f6f12e43f",
+        "task_id": "HumanEval/49",
+        "visible_sha256": "627d518f50e56181657a911d242a2c9a4d4eeb02e0f9c99a4b84598d5c3eb79a",
+        "visible_utf8_bytes": 853,
+        "wall_seconds": 102.75690126419067
+      },
+      "equal": {
+        "completion_tokens": false,
+        "content_is_null": true,
+        "finish_reason": true,
+        "prompt_fingerprints": true,
+        "response_model": true,
+        "retokenized_visible_tokens": false,
+        "system_fingerprint": true,
+        "visible_bytes": false,
+        "visible_sha256": false
+      },
+      "task_id": "HumanEval/49"
+    },
+    {
+      "arm_A": {
+        "completion_tokens": 4096,
+        "content_is_null": false,
+        "finish_reason": "length",
+        "prompt_fingerprints": {
+          "dataset_prompt_sha256": "e2fb7c4d52386eaa32a287de3dca3e92e6ee7f560b5fd0cc8f551400000a7669",
+          "request_sha256": "3d41279c472d493a7a246c3ec4344aef857886eba0c86065b7e5dab846364714",
+          "user_message_sha256": "ea9b91c0ed3cfbf138b492c39c70e0f5fceb2640d89ee179171e690ffd29f9e8"
+        },
+        "raw_path": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/results/arm_A/raw/HumanEval_76.json",
+        "raw_sha256": "517937ba975619dbc481ac114f5c72f6158981595f43c1eafd209e9ad44f37d4",
+        "response_model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+        "retokenized_visible_tokens": 0,
+        "system_fingerprint": "b10029-f6f12e43f",
+        "task_id": "HumanEval/76",
+        "visible_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "visible_utf8_bytes": 0,
+        "wall_seconds": 312.35803866386414
+      },
+      "arm_B": {
+        "completion_tokens": 1879,
+        "content_is_null": false,
+        "finish_reason": "stop",
+        "prompt_fingerprints": {
+          "dataset_prompt_sha256": "e2fb7c4d52386eaa32a287de3dca3e92e6ee7f560b5fd0cc8f551400000a7669",
+          "request_sha256": "3d41279c472d493a7a246c3ec4344aef857886eba0c86065b7e5dab846364714",
+          "user_message_sha256": "ea9b91c0ed3cfbf138b492c39c70e0f5fceb2640d89ee179171e690ffd29f9e8"
+        },
+        "raw_path": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/results/arm_B/raw/HumanEval_76.json",
+        "raw_sha256": "e2bcf7acd6627051697048c400f81a15b9bd5a915cde28d4c0e9766ff8926a1a",
+        "response_model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+        "retokenized_visible_tokens": 481,
+        "system_fingerprint": "b10029-f6f12e43f",
+        "task_id": "HumanEval/76",
+        "visible_sha256": "6e39c7f03fdbef8842066a116929acb70b4001e334ef174e6ea78ebc7cc02e32",
+        "visible_utf8_bytes": 1318,
+        "wall_seconds": 286.61190485954285
+      },
+      "equal": {
+        "completion_tokens": false,
+        "content_is_null": true,
+        "finish_reason": false,
+        "prompt_fingerprints": true,
+        "response_model": true,
+        "retokenized_visible_tokens": false,
+        "system_fingerprint": true,
+        "visible_bytes": false,
+        "visible_sha256": false
+      },
+      "task_id": "HumanEval/76"
+    },
+    {
+      "arm_A": {
+        "completion_tokens": 1165,
+        "content_is_null": false,
+        "finish_reason": "stop",
+        "prompt_fingerprints": {
+          "dataset_prompt_sha256": "2c096e3d5c7e4e8ab079c677aef286fc21dd8a86ac607ce1b8c23906129b6044",
+          "request_sha256": "2090ecba38b6e1009635ad25fefa5e61af1fe18d35248c434cfcc5fae8ac2553",
+          "user_message_sha256": "55c2e9567be047bb816d9c3126f0db9621ad64766edb0f9cd3994a3c659aafb6"
+        },
+        "raw_path": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/results/arm_A/raw/HumanEval_91.json",
+        "raw_sha256": "7b1f4c68aad9a5133e84f2a4d655028f0ba128ba981569d3e1088b48b0a997a2",
+        "response_model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+        "retokenized_visible_tokens": 134,
+        "system_fingerprint": "b10029-f6f12e43f",
+        "task_id": "HumanEval/91",
+        "visible_sha256": "f0fec0c5f52366ee4e47a6931dcf6b397d22b9c5d1e0ec1a86dc1549c023762f",
+        "visible_utf8_bytes": 523,
+        "wall_seconds": 89.19890332221985
+      },
+      "arm_B": {
+        "completion_tokens": 780,
+        "content_is_null": false,
+        "finish_reason": "stop",
+        "prompt_fingerprints": {
+          "dataset_prompt_sha256": "2c096e3d5c7e4e8ab079c677aef286fc21dd8a86ac607ce1b8c23906129b6044",
+          "request_sha256": "2090ecba38b6e1009635ad25fefa5e61af1fe18d35248c434cfcc5fae8ac2553",
+          "user_message_sha256": "55c2e9567be047bb816d9c3126f0db9621ad64766edb0f9cd3994a3c659aafb6"
+        },
+        "raw_path": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/results/arm_B/raw/HumanEval_91.json",
+        "raw_sha256": "98f9ea1155becc5a9348c40fb13e157b14e8fd00ead83c55c46f7ed2df7fb477",
+        "response_model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+        "retokenized_visible_tokens": 211,
+        "system_fingerprint": "b10029-f6f12e43f",
+        "task_id": "HumanEval/91",
+        "visible_sha256": "373ffbcef5c6419f4d38f4c8886059ca76a66b46c075525139884712781edc0f",
+        "visible_utf8_bytes": 818,
+        "wall_seconds": 108.60842227935791
+      },
+      "equal": {
+        "completion_tokens": false,
+        "content_is_null": true,
+        "finish_reason": true,
+        "prompt_fingerprints": true,
+        "response_model": true,
+        "retokenized_visible_tokens": false,
+        "system_fingerprint": true,
+        "visible_bytes": false,
+        "visible_sha256": false
+      },
+      "task_id": "HumanEval/91"
+    },
+    {
+      "arm_A": {
+        "completion_tokens": 831,
+        "content_is_null": false,
+        "finish_reason": "stop",
+        "prompt_fingerprints": {
+          "dataset_prompt_sha256": "0b407cacf864be505fee934eef1d0b30d6946525c78b6316bf1a74ce619fb1e7",
+          "request_sha256": "b9e94ccf7c9f3f93b3cf42c92442539609aa10a592a8cad5e69b84ebb10d6e04",
+          "user_message_sha256": "6f00729cb56eceb78b3a25a49c00db8bd608da2283315e7984f06d3e70aadb8e"
+        },
+        "raw_path": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/results/arm_A/raw/HumanEval_99.json",
+        "raw_sha256": "10b1266d882250072c007dde89f80729f0155e8f33e79165a11a2b6c95375c62",
+        "response_model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+        "retokenized_visible_tokens": 79,
+        "system_fingerprint": "b10029-f6f12e43f",
+        "task_id": "HumanEval/99",
+        "visible_sha256": "3167eb9df8782a0bb1e87385aeb1ae84a46274658d1b150367b3d929687c584d",
+        "visible_utf8_bytes": 295,
+        "wall_seconds": 63.70974040031433
+      },
+      "arm_B": {
+        "completion_tokens": 766,
+        "content_is_null": false,
+        "finish_reason": "stop",
+        "prompt_fingerprints": {
+          "dataset_prompt_sha256": "0b407cacf864be505fee934eef1d0b30d6946525c78b6316bf1a74ce619fb1e7",
+          "request_sha256": "b9e94ccf7c9f3f93b3cf42c92442539609aa10a592a8cad5e69b84ebb10d6e04",
+          "user_message_sha256": "6f00729cb56eceb78b3a25a49c00db8bd608da2283315e7984f06d3e70aadb8e"
+        },
+        "raw_path": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/results/arm_B/raw/HumanEval_99.json",
+        "raw_sha256": "27f0eaf796df8631ca24760f84eb8071c4d397356eb7f406b3a440e236ce745c",
+        "response_model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+        "retokenized_visible_tokens": 123,
+        "system_fingerprint": "b10029-f6f12e43f",
+        "task_id": "HumanEval/99",
+        "visible_sha256": "f4d0b005c3e6380b5982e3d946ce00df8daaf399f5c9b3fd878924e3311555be",
+        "visible_utf8_bytes": 506,
+        "wall_seconds": 107.41369795799255
+      },
+      "equal": {
+        "completion_tokens": false,
+        "content_is_null": true,
+        "finish_reason": true,
+        "prompt_fingerprints": true,
+        "response_model": true,
+        "retokenized_visible_tokens": false,
+        "system_fingerprint": true,
+        "visible_bytes": false,
+        "visible_sha256": false
+      },
+      "task_id": "HumanEval/99"
+    },
+    {
+      "arm_A": {
+        "completion_tokens": 3942,
+        "content_is_null": false,
+        "finish_reason": "stop",
+        "prompt_fingerprints": {
+          "dataset_prompt_sha256": "e99170758757bbb40cf130f26fd2a7e630fda64e44e25f81ecba706182cae020",
+          "request_sha256": "59a919e57421a066d2b49aca1aaf3d7a65b90f27af707ad70e80f131dc86e0ed",
+          "user_message_sha256": "6273535439bdc3dcb737322da229a8d155c9787248007025b668f3c839ed9cfb"
+        },
+        "raw_path": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/results/arm_A/raw/HumanEval_116.json",
+        "raw_sha256": "5c64f24588514517e3048f4c620b3c40a7a9fb1038a6d5d9120025f61f36b0ae",
+        "response_model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+        "retokenized_visible_tokens": 215,
+        "system_fingerprint": "b10029-f6f12e43f",
+        "task_id": "HumanEval/116",
+        "visible_sha256": "ee18316f2405590d9c1237a3f3583aae8541d4e24ee14bbf21a794acc72cb97a",
+        "visible_utf8_bytes": 671,
+        "wall_seconds": 300.887393951416
+      },
+      "arm_B": {
+        "completion_tokens": 3953,
+        "content_is_null": false,
+        "finish_reason": "stop",
+        "prompt_fingerprints": {
+          "dataset_prompt_sha256": "e99170758757bbb40cf130f26fd2a7e630fda64e44e25f81ecba706182cae020",
+          "request_sha256": "59a919e57421a066d2b49aca1aaf3d7a65b90f27af707ad70e80f131dc86e0ed",
+          "user_message_sha256": "6273535439bdc3dcb737322da229a8d155c9787248007025b668f3c839ed9cfb"
+        },
+        "raw_path": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/results/arm_B/raw/HumanEval_116.json",
+        "raw_sha256": "9c8b4c7c3492b3a50642178f6ad96257566f72b26d10a64ad7e99a7eeeee5d84",
+        "response_model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+        "retokenized_visible_tokens": 284,
+        "system_fingerprint": "b10029-f6f12e43f",
+        "task_id": "HumanEval/116",
+        "visible_sha256": "cba0cf2ef4bd95f26ed03446aee14cd05af0b102be98c3196ba183fedcb84c3e",
+        "visible_utf8_bytes": 994,
+        "wall_seconds": 705.2214395999908
+      },
+      "equal": {
+        "completion_tokens": false,
+        "content_is_null": true,
+        "finish_reason": true,
+        "prompt_fingerprints": true,
+        "response_model": true,
+        "retokenized_visible_tokens": false,
+        "system_fingerprint": true,
+        "visible_bytes": false,
+        "visible_sha256": false
+      },
+      "task_id": "HumanEval/116"
+    },
+    {
+      "arm_A": {
+        "completion_tokens": 1228,
+        "content_is_null": false,
+        "finish_reason": "stop",
+        "prompt_fingerprints": {
+          "dataset_prompt_sha256": "f54f955f1d89e889dd8858c3da9a457719f4979f94fab8334678c9f47d55eaa1",
+          "request_sha256": "01323f0199d808553580da2ec2a4a8f8872b88b7e5e86536749c8398d4d03fba",
+          "user_message_sha256": "abb70b7d1167f6e294a75ef9fc5f14add37d2cddd4f65e15b9fbfbed5f9cddcd"
+        },
+        "raw_path": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/results/arm_A/raw/HumanEval_127.json",
+        "raw_sha256": "e9c00e0389de95216c938f5a5ee769e033f839be389e32feac955a360f41be59",
+        "response_model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+        "retokenized_visible_tokens": 288,
+        "system_fingerprint": "b10029-f6f12e43f",
+        "task_id": "HumanEval/127",
+        "visible_sha256": "dcc91635a4e2d3930d68e72e6c9fb3380630ddcbc1c6cad6b5c42fb3c097b4f6",
+        "visible_utf8_bytes": 1055,
+        "wall_seconds": 93.99871468544006
+      },
+      "arm_B": {
+        "completion_tokens": 813,
+        "content_is_null": false,
+        "finish_reason": "stop",
+        "prompt_fingerprints": {
+          "dataset_prompt_sha256": "f54f955f1d89e889dd8858c3da9a457719f4979f94fab8334678c9f47d55eaa1",
+          "request_sha256": "01323f0199d808553580da2ec2a4a8f8872b88b7e5e86536749c8398d4d03fba",
+          "user_message_sha256": "abb70b7d1167f6e294a75ef9fc5f14add37d2cddd4f65e15b9fbfbed5f9cddcd"
+        },
+        "raw_path": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/results/arm_B/raw/HumanEval_127.json",
+        "raw_sha256": "a49a4eef5ae73998d17aab75fb85f93584079bee3eec982f1fad7eaa0a063f9a",
+        "response_model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+        "retokenized_visible_tokens": 244,
+        "system_fingerprint": "b10029-f6f12e43f",
+        "task_id": "HumanEval/127",
+        "visible_sha256": "4a10a7ed42b1c16b82c53a788fd0878760f4522d0840611fe8b079be241d0cc9",
+        "visible_utf8_bytes": 808,
+        "wall_seconds": 118.32786107063293
+      },
+      "equal": {
+        "completion_tokens": false,
+        "content_is_null": true,
+        "finish_reason": true,
+        "prompt_fingerprints": true,
+        "response_model": true,
+        "retokenized_visible_tokens": false,
+        "system_fingerprint": true,
+        "visible_bytes": false,
+        "visible_sha256": false
+      },
+      "task_id": "HumanEval/127"
+    },
+    {
+      "arm_A": {
+        "completion_tokens": 2797,
+        "content_is_null": false,
+        "finish_reason": "stop",
+        "prompt_fingerprints": {
+          "dataset_prompt_sha256": "43e0a53b950b3f06e1f44a532a8714ef36b83d0c4b95375242f60fd56b97f8f3",
+          "request_sha256": "6fab1bdc5371bc7d825f795ee14074c91dc54069ac12afda66d2ca7cd07d27bd",
+          "user_message_sha256": "9da19c6f2b7787e3082cd47cbee0178b66daa9f43dd2284f68508acd48ca9cb3"
+        },
+        "raw_path": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/results/arm_A/raw/HumanEval_129.json",
+        "raw_sha256": "8d982f622328c19abcaf420075f8f1e7c63dcd000e62d1645c29ef9dbb18d9b1",
+        "response_model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+        "retokenized_visible_tokens": 775,
+        "system_fingerprint": "b10029-f6f12e43f",
+        "task_id": "HumanEval/129",
+        "visible_sha256": "4b3cf5cfcbd74871e41574018ac3774d9392657e9127f945409991c4bb1fb5e1",
+        "visible_utf8_bytes": 2510,
+        "wall_seconds": 213.91348147392273
+      },
+      "arm_B": {
+        "completion_tokens": 3687,
+        "content_is_null": false,
+        "finish_reason": "stop",
+        "prompt_fingerprints": {
+          "dataset_prompt_sha256": "43e0a53b950b3f06e1f44a532a8714ef36b83d0c4b95375242f60fd56b97f8f3",
+          "request_sha256": "6fab1bdc5371bc7d825f795ee14074c91dc54069ac12afda66d2ca7cd07d27bd",
+          "user_message_sha256": "9da19c6f2b7787e3082cd47cbee0178b66daa9f43dd2284f68508acd48ca9cb3"
+        },
+        "raw_path": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/results/arm_B/raw/HumanEval_129.json",
+        "raw_sha256": "d6087ce2d92f5e91ada766d47ee756261f6518fbe2ff282d9d08a37a464196ad",
+        "response_model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+        "retokenized_visible_tokens": 468,
+        "system_fingerprint": "b10029-f6f12e43f",
+        "task_id": "HumanEval/129",
+        "visible_sha256": "cbcfbe862188142ea107a6de6f3e5715b44522620906c880237b16e44311b618",
+        "visible_utf8_bytes": 1466,
+        "wall_seconds": 648.2348499298096
+      },
+      "equal": {
+        "completion_tokens": false,
+        "content_is_null": true,
+        "finish_reason": true,
+        "prompt_fingerprints": true,
+        "response_model": true,
+        "retokenized_visible_tokens": false,
+        "system_fingerprint": true,
+        "visible_bytes": false,
+        "visible_sha256": false
+      },
+      "task_id": "HumanEval/129"
+    },
+    {
+      "arm_A": {
+        "completion_tokens": 1348,
+        "content_is_null": false,
+        "finish_reason": "stop",
+        "prompt_fingerprints": {
+          "dataset_prompt_sha256": "13086febaf36a862224bc746fd1a33e1f16162d131d47b05528fca7fe162b72e",
+          "request_sha256": "58a30d222ffcbf6a6c3aaf00a7eca4b4299074c2d1a8479ea47a12e1c7a1f74b",
+          "user_message_sha256": "8af3badc694e8228c5d7ddc8c369feab8f619cec35e9e8eeed37041e71b3c8c6"
+        },
+        "raw_path": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/results/arm_A/raw/HumanEval_145.json",
+        "raw_sha256": "98b2d49a4b8df356a62702e52922ea46351d9c36e147cbc5f0f40c4361b40c9e",
+        "response_model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+        "retokenized_visible_tokens": 241,
+        "system_fingerprint": "b10029-f6f12e43f",
+        "task_id": "HumanEval/145",
+        "visible_sha256": "8c2843087861c6f7b068780ef0e1ad4bc7b97b63f303933069f8469483cfe4a6",
+        "visible_utf8_bytes": 907,
+        "wall_seconds": 102.52985572814941
+      },
+      "arm_B": {
+        "completion_tokens": 2795,
+        "content_is_null": false,
+        "finish_reason": "stop",
+        "prompt_fingerprints": {
+          "dataset_prompt_sha256": "13086febaf36a862224bc746fd1a33e1f16162d131d47b05528fca7fe162b72e",
+          "request_sha256": "58a30d222ffcbf6a6c3aaf00a7eca4b4299074c2d1a8479ea47a12e1c7a1f74b",
+          "user_message_sha256": "8af3badc694e8228c5d7ddc8c369feab8f619cec35e9e8eeed37041e71b3c8c6"
+        },
+        "raw_path": "${SPARK_HOME}/missions/IQ3_BATCH_INVARIANCE_t_fafb2fe1/results/arm_B/raw/HumanEval_145.json",
+        "raw_sha256": "c433d9a6dc18251a0d4748b30d16069a822b2b32062d4cf08a8c761140af7027",
+        "response_model": "DeepSeek-V4-Flash-UD-IQ3_XXS",
+        "retokenized_visible_tokens": 157,
+        "system_fingerprint": "b10029-f6f12e43f",
+        "task_id": "HumanEval/145",
+        "visible_sha256": "5ec07d3b858dacd7733ef98b5d304b0c9a2df9e7082a53c421831a41a09a0fd7",
+        "visible_utf8_bytes": 552,
+        "wall_seconds": 538.3918342590332
+      },
+      "equal": {
+        "completion_tokens": false,
+        "content_is_null": true,
+        "finish_reason": true,
+        "prompt_fingerprints": true,
+        "response_model": true,
+        "retokenized_visible_tokens": false,
+        "system_fingerprint": true,
+        "visible_bytes": false,
+        "visible_sha256": false
+      },
+      "task_id": "HumanEval/145"
+    }
+  ],
+  "runtime_fingerprint_note": "system_fingerprint is compared and reported but excluded from semantic batching-invariance decision; server parallel/client concurrency intentionally differ",
+  "schema": "iq3-batching-invariance-comparison-v1",
+  "status": "PASS",
+  "task": "task-redacted"
+}

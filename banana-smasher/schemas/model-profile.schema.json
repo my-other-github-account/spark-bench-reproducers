@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:banana-smasher:model-profile:v1",
+  "title": "Model profile",
+  "type": "object",
+  "required": ["schema", "model", "source", "architecture", "budget"],
+  "properties": {
+    "schema": {"const": "banana-smasher-model-profile-v1"},
+    "model": {"type": "string"},
+    "source": {"type": "object", "required": ["kind", "config_sha256"]},
+    "architecture": {"type": "object", "required": ["layers", "experts", "hidden_size", "projection_shapes"]},
+    "budget": {"type": "object", "required": ["bytes", "node_ram_gb"]}
+  }
+}

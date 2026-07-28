@@ -1,0 +1,11 @@
+{
+  "claim_preimage_sha256": "87e342978b327c0d3edc80e84d3b71ba3e4aeb9b3ca9ba22b90e089592c0ca8f",
+  "dominant_subphase_sha256": "ff1e0348aa338f2125caf301185fb8011ee0915c403da4e6816719bdc6d3bb20",
+  "gpu_apps": [],
+  "release_sha256": "d0ef9daa22b2cdaabe1267740296d0b822039c835517f17b2ec7c329b1d4617a",
+  "released_unix": 1784958973.8401484,
+  "result_sha256": "fb416f942b5469f4870a08f3aedf2579664ff138dc80286f7518ee0bcdd6a1d2",
+  "schema": "p526-release-v1",
+  "task_id": "task-redacted",
+  "task_processes": []
+}
