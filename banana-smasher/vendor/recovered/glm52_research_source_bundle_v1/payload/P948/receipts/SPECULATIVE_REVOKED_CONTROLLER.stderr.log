@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/code/prepare_p948.py", line 204, in <module>
+  File "${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/code/prepare_p948.py", line 94, in main
+  File "${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/code/prepare_p948.py", line 64, in remote_json_script
+  File "${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/code/prepare_p948.py", line 34, in sh
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['ssh', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=8', '${OPERATOR_USER}@${QSFP_HOST}', 'python3', '-c', "\nimport json,glob,hashlib\nR='${SPARK_HOME}/missions/P929_TRUE_C_REFIT_t_a2b3a979_s6'\nT='c9547a0b306701b23e07e1186b26c017c8fbb1efc0fa0b6250987f66bbb5872f'\nB='13d1f887f8e6055f1f579730c2cc37be1e6c0754dd02256cf35a3a9f8c2d0a2f'\nmissing={(7,'d4_k2048','fused13'),(7,'d4_k4096','down'),(7,'d4_k4096','fused13')}\nout=[]\nfor p in sorted(glob.glob(R+'/receipts/CODEBOOK_L*.json')):\n b=open(p,'rb').read()\n try:d=json.loads(b)\n except:continue\n g=tuple(d.get('codebook_group',()))\n if len(g)!=3 or g in missing or d.get('status')!='PASS':continue\n if d.get('target_contract_sha256')!=T or d.get('build_identity_sha256')!=B:continue\n if len(d.get('rows',[]))!=int(d.get('expected_rows',-1)):continue\n out.append({'path':p,'sha256':hashlib.sha256(b).hexdigest(),'document':d})\nprint(json.dumps(out,sort_keys=True))\n"]' returned non-zero exit status 2.

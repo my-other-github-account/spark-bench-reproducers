@@ -1,0 +1,1 @@
+{"binding_sha256": "9b3ca52eecd7fd94ccb575fcc5c2e8834d13810277eb9b57a461af7c97d75f43", "launcher": "${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3/code/run_p948_speculative_repair.sh", "root": "${SPARK_HOME}/missions/P948_SPECULATIVE_REPAIR_t_b1aa61d3_s3", "status": "READY_TO_LAUNCH"}
