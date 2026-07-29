@@ -17,6 +17,7 @@ This chronicle records what succeeded, what failed, and which receipts are autho
 11. P963 replayed the P951 scorer with exact-equal outputs at 2.435573x lower wall time.
 12. P936/P953 converted recurring receipt and path failures into structural negative tests. P957 canonicalization was still review-blocked at publication time and must not be reported as deployed.
 13. P967/P968 preregistered the binding n=5 sampled and three-repeat greedy functional evaluation; no paired outcome is claimed here.
+14. P987/P991/P993 separated grouped-loader correctness, runtime ABI closure, and endpoint readiness; P994 later supplied the first physical full endpoint, while P997 correctly withheld golden promotion.
 
 ## P841: accelerate only after bit-exactness is banked
 
@@ -192,6 +193,16 @@ P957 attempted canonical integration. Independent review found unresolved blocke
 6. the documented default test command failed on the stated older Python runtime.
 
 Therefore this package records the guard contract but does not claim P957 canonical deployment. Future measurement cards must require an expected-SHA manifest and must prove, through the production entrypoint, that wrong/duplicate bytes abort before GPU and that a sealed L000-L013 prefix resumes at L014 without recomputation.
+
+## P987/P991/P993/P994/P997: gates are not endpoints, and candidates are not golden
+
+P987 sealed the minimal full-43 grouped loader at commit `401ed71ec939a60dd813547b8905933b40dc8046`, with 32/32 tests, focused 15/15 tests, and physical L000/L004/L042 CUDA/HTTP gates. Its original image still failed closed before endpoint bind because the vLLM extension and torch runtime were ABI-incompatible; blocker receipt `8a71e05d27dd59f0597ef5742a4494325ddb8055afd8408e8b61b0bab4b96322`.
+
+P991 and P993 independently closed the ABI/runtime layer. P991 passed grouped gates and constructed all 43 layers but failed the strict residency gate before HTTP bind. P993 produced a transferable torch overlay and reproduced canonical L004, but did not claim a full endpoint.
+
+P994 supplied the first physical full endpoint: 43 active layers, `109,921,775,107` resident bytes, zero swap, all four routes nonzero, and HTTP health/models/completion PASS. The first-response receipt is `33a9f5408032c0969519e46ce2cc3282d2940234ddd999e7f96da5acb9ddc4ae`; the winner receipt is `4d5f9e75e5e94272719634c8528e558643eeb62ea2d3812cbb0b1ab20dadf343`. This is runtime proof, not a functional-quality result.
+
+P997 correctly withheld golden promotion. A candidate passed G1 import/CUDA, but the endpoint winner measured `111.5344773982364` prefill tok/s against the configured `1000` tok/s G6 floor. No golden tag moved. Full machine-readable status and receipt pins are in `artifacts/RUNTIME_CONTAINER_CLOSURE.public.json`.
 
 ## Reproducibility laws distilled from the campaign
 

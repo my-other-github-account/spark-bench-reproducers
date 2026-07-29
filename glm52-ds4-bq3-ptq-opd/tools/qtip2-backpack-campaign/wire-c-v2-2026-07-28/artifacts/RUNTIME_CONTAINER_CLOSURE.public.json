@@ -1,0 +1,140 @@
+{
+  "as_of_utc": "2026-07-29T00:55:19Z",
+  "schema": "wire-c-runtime-container-closure-public-v1",
+  "scope": "Receipt-backed point-in-time status for the P970/P987/P991/P993/P994/P997 serving and container chain. Status words describe the cited receipt state, not a live service guarantee.",
+  "source_authority": {
+    "full_pack_complete_sha256": "9bbdd1f236d2291c03cbd900263561817f248d38da2c28c979c360b35738619d",
+    "full_pack_manifest_sha256": "3650fe7e627b180a979fb8304f90e888333671cf03334e965fd5b14b7393b220",
+    "grouped_loader_bundle_sha256": "79c3725e8822a8863becc0b530e5a7e2ca0b599e51c26ba5eef881159a08e29d",
+    "grouped_loader_commit": "401ed71ec939a60dd813547b8905933b40dc8046"
+  },
+  "phases": [
+    {
+      "phase": "P970",
+      "board_parent_status": "BLOCKED_LEGACY_PARENT",
+      "current_product_status": "SUCCESSOR_ENDPOINT_PASS_P994__SEMANTIC_EVAL_RUNNING",
+      "truth": "The legacy parent card remained blocked, but the same product chain later reached a real 43-layer OpenAI-compatible endpoint in P994. The first response is an API/runtime proof only; no quality or EvalPlus result is inferred from it.",
+      "successor_receipts": {
+        "first_response_sha256": "33a9f5408032c0969519e46ce2cc3282d2940234ddd999e7f96da5acb9ddc4ae",
+        "winner_sha256": "4d5f9e75e5e94272719634c8528e558643eeb62ea2d3812cbb0b1ab20dadf343",
+        "launch_bundle_sha256": "1bf0cef247c28d8d8a7471d06e52c267e2088a6ab7f5e9c8679d8f5970912cb2"
+      },
+      "successor_runtime": {
+        "torch": "2.11.0+cu130",
+        "vllm": "0.20.2rc1.dev3+gcb03fee32",
+        "transformers": "5.7.0",
+        "active_layers": 43,
+        "all_four_routes_nonzero": true,
+        "resident_product_bytes": 109921775107,
+        "resident_within_110_gib": true,
+        "swap_total_bytes": 0,
+        "swap_used_bytes": 0,
+        "http_health_models_completion": "PASS",
+        "prefill_tok_s": 111.5344773982364,
+        "decode_tok_s": 27.269016424315677,
+        "ttft_seconds": 0.115520084000309
+      }
+    },
+    {
+      "phase": "P987",
+      "board_status": "BLOCKED_REVIEW_REQUIRED",
+      "verdict": "LOADER_AND_PACK_GATES_PASS__ORIGINAL_IMAGE_ENDPOINT_FAIL_CLOSED_PRE_CUDA_HTTP",
+      "tests": "32_OF_32_PASS__FOCUSED_15_OF_15_PASS",
+      "gate_receipts": {
+        "L000_cuda_http_sha256": "4688b03e90f99532b62b6425644efbc2adf1a521ae66039751fa174efd27b8cf",
+        "L004_cuda_http_sha256": "46e5864bf546dfccddb8d347a09440d3e98099087dc878932ae0b2a69ecba0bf",
+        "L042_cuda_http_sha256": "83e5f26bc7018fd88ec8c3c14f7188fe0b7c3e57d302bfc5490223065c1078dd"
+      },
+      "original_image_id": "sha256:0c6be8c3ef77298141af95187ccbdb72363e070ec676a0e41f5bcf7bac919629",
+      "blocker": "The original image paired a vLLM 0.24.0 extension requiring torch 2.11.0 with a torch 2.10.0 runtime; GPU import failed on undefined symbol torch_from_blob.",
+      "blocker_receipt_sha256": "8a71e05d27dd59f0597ef5742a4494325ddb8055afd8408e8b61b0bab4b96322",
+      "host_release_receipt_sha256": "0966b2b5e15b91bd509b51dddc78d79191dc0e73664398e1199fb9df0683abb6"
+    },
+    {
+      "phase": "P991",
+      "board_status": "DONE",
+      "verdict": "COMPATIBLE_RUNTIME_AND_GROUPED_CUDA_HTTP_PASS__FULL_ENDPOINT_RESIDENCY_FAIL_CLOSED",
+      "runtime": {
+        "torch": "2.11.0+cu130",
+        "vllm": "0.20.1rc1.dev23+gde3da0b97",
+        "humming": "0.1.6",
+        "cuda": "13.0",
+        "pip_check": "PASS"
+      },
+      "closure_receipts": {
+        "runtime_closure_sha256": "77265816f1453cc4767ead29e79a1270702ad7b0684d421ed5e667ee63d715e7",
+        "runtime_archive_sha256": "c7f4fe70ce713f525012de083a163d05f91871069ec2cbe5c2e004ffe4df7114",
+        "archive_import_cuda_smoke_sha256": "1fe5c6903487b4018bc435246311fe8c245a2ab64aef60e70aa0580f48eef663",
+        "sealed_L004_sha256": "fc3315ca9a828b233a710dd8329403ede61d25b3c6bbc110eee233ed98f46363",
+        "L000_cuda_http_sha256": "c90cce79180945ac41b171d3b190e668e9d90c05a1d8cbd15e9c82ab70fa0dd8",
+        "L004_cuda_http_sha256": "106de3df764b531c93ebb29e3578653500eac3eb90be8fe1dcbb5bfcc9df9677",
+        "L042_cuda_http_sha256": "00227d5e0b08b11568017317e868cc8e88ecbc5a140ccb7083a038670ef5bd5b"
+      },
+      "full_endpoint": {
+        "constructed_layers": 43,
+        "http_ready": false,
+        "resident_observed_bytes": 89551425418,
+        "resident_required_bytes": 102867186131,
+        "verdict": "FAIL_CLOSED_BEFORE_HTTP_BIND"
+      }
+    },
+    {
+      "phase": "P993",
+      "board_status": "DONE",
+      "verdict": "TRANSFERABLE_ABI_CLOSURE_AND_UNCHANGED_L004_PASS__NOT_A_FULL_ENDPOINT",
+      "source_commit": "401ed71ec939a60dd813547b8905933b40dc8046",
+      "source_bundle_sha256": "79c3725e8822a8863becc0b530e5a7e2ca0b599e51c26ba5eef881159a08e29d",
+      "receipts": {
+        "abi_closure_seal_sha256": "7fcacaeba2492b33af936abee3c595d80fa29e5084f662ccdea230d46cd607d9",
+        "torch_overlay_sha256": "21107495d56719a98f03346b3e2cf777b8943e3ec66080f347ae98d4fe8c9c1b",
+        "provider_libtorch_cpu_sha256": "af8453bb5bfffe061a27b21975467473b8f3e4daa86403c6d1259a7283e3ddb1",
+        "vllm_extension_sha256": "8b4fecd58b76e957dfc132e51db3382522fd2d12001010561ef71e865b2eaa6c",
+        "L004_cuda_http_sha256": "bcc1a9e863eeeb478b3c908a18454e20b853a112ead5703697fc5cd6b86c8c1b",
+        "stable_output_identity_sha256": "0d4dbc554f1c02329bbee2dd9a8e5321edc7dd82dc95d61e4433104ba628152d",
+        "adoption_recipe_sha256": "0de8f052df1aba8bf3c529a5cded85d32bee85960327ebc603cdee59dd6f4bc4",
+        "host_release_sha256": "5b6496dbf93823f7de902eeccd5a0438e32ad1ec92561ada77aaab726d9c3df9"
+      }
+    },
+    {
+      "phase": "P994",
+      "board_status": "DONE",
+      "verdict": "FIRST_PHYSICAL_FULL_ENDPOINT_PASS",
+      "winner_receipt_sha256": "4d5f9e75e5e94272719634c8528e558643eeb62ea2d3812cbb0b1ab20dadf343",
+      "first_response_receipt_sha256": "33a9f5408032c0969519e46ce2cc3282d2940234ddd999e7f96da5acb9ddc4ae",
+      "quality_status": "PENDING_CANONICAL_EVAL__FIRST_RESPONSE_IS_NOT_A_QUALITY_RESULT"
+    },
+    {
+      "phase": "P997",
+      "board_status": "BLOCKED_PARENT__SUCCESSOR_LANES_RUNNING_AT_SNAPSHOT",
+      "verdict": "NO_GOLDEN_PROMOTION__STABLE_EXTENSION_CANARY_ONLY__G1_INCOMPLETE__ENDPOINT_WINNER_MISSES_G6_PREFILL_FLOOR",
+      "approved_source_base_commit": "e924fc2f47615f5164fc17a1d47b7cc55f0ab385",
+      "environment_snapshot": {
+        "closure_manifest_sha256": "bc4db3273d9af7d761b3af972da642b3dc4640a94f937b32221754e674321a79",
+        "snapshot_sha256": "b72229871cacea25b8b34d962866e72b85f31a3cf768e9ceeeb89f4ceeaea4f6",
+        "extensions_manifest_sha256": "2681315898121a5a615980e480a991c395b95a349cb2768ff1da82ce329c4734",
+        "pip_freeze_sha256": "d65a279626f5ef05530075f722f557a9f2c741728400b70ccbb4258f3c0feec3",
+        "peer_fetch_sha256": "1b80846e63fc2741c5d098bb13b0fe249478bed91c5cc346d43c19fb18897f0c"
+      },
+      "candidate_g1": {
+        "image_id": "sha256:4ef72d6a00ec97458dd77349785a0d0912cd0337683ee818b48b0921af2a9c5e",
+        "receipt_sha256": "cb80f64381d79aa959bece211c0984ddf65aefda9835ae55dcce7aa6ffc25a83",
+        "stable_libtorch_import": "PASS",
+        "cuda_context": "PASS",
+        "legacy_vllm_C_import": "ABSENT",
+        "status": "INCOMPLETE_G1__LEGACY_VLLM_C_ABSENT"
+      },
+      "pipeline_status": "G1_G7_CONTRACT_AND_UPDATE_PROCESS_LANES_IN_PROGRESS__NO_FINAL_SHARED_RECEIPT_CONTRACT_OR_PROMOTION",
+      "promotion_gate": {
+        "required_prefill_tok_s": 1000.0,
+        "observed_winner_prefill_tok_s": 111.5344773982364,
+        "status": "FAIL_NO_TAG_MOVE"
+      }
+    }
+  ],
+  "publication_laws": [
+    "Do not infer a live endpoint from a gate-only closure.",
+    "Do not infer semantic quality from a first API response.",
+    "Do not call an image golden unless every configured promotion gate passes inside that image.",
+    "No unsealed repair-improvement claim is included in this artifact."
+  ]
+}

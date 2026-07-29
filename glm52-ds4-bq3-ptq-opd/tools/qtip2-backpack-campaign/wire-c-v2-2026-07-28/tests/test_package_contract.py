@@ -70,6 +70,30 @@ class PublicationMutationTests(unittest.TestCase):
         self.assertEqual(p968["protocol_preregistration"]["greedy_instability"]["repeats"], 3)
         self.assertFalse(p968["public_validity"]["true_c_paired_results_available"])
 
+    def test_direct_iq4_comparison_is_exact_and_discloses_population(self):
+        table = self.load("artifacts/CAMPAIGN_COMPARISON_TABLE.json")
+        direct = table["one_instrument_verdicts"]["terminal_true_c_vs_direct_iq4"]
+        self.assertEqual(direct["direct_iq4_global_kld"], 0.07204393760942278)
+        self.assertEqual(direct["terminal_true_c_global_kld"], 0.06829414627618949)
+        self.assertEqual(direct["delta_true_c_minus_iq4"], -0.0037497913332332905)
+        self.assertEqual(direct["true_c_lower_than_iq4_fraction"], 0.05204867276358931)
+        disclosure = direct["protocol_disclosure"]
+        self.assertIn("524288", disclosure)
+        self.assertIn("65536", disclosure)
+
+    def test_runtime_closure_keeps_gate_endpoint_and_golden_labels_separate(self):
+        document = self.load("artifacts/RUNTIME_CONTAINER_CLOSURE.public.json")
+        phases = {row["phase"]: row for row in document["phases"]}
+        self.assertEqual(phases["P987"]["board_status"], "BLOCKED_REVIEW_REQUIRED")
+        self.assertFalse(phases["P991"]["full_endpoint"]["http_ready"])
+        self.assertEqual(phases["P993"]["board_status"], "DONE")
+        self.assertEqual(phases["P994"]["verdict"], "FIRST_PHYSICAL_FULL_ENDPOINT_PASS")
+        self.assertEqual(
+            phases["P997"]["candidate_g1"]["status"],
+            "INCOMPLETE_G1__LEGACY_VLLM_C_ABSENT",
+        )
+        self.assertEqual(phases["P997"]["promotion_gate"]["status"], "FAIL_NO_TAG_MOVE")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

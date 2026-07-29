@@ -382,9 +382,21 @@ def validate_comparison(root: Path, failures: list[str]) -> None:
     expect(failures, "comparison campaign set", set(campaigns), {
         "A_forensic_reconstruction", "B_uniform_qtip2_baseline", "C_corrected_pricing_solver",
         "D_exact_refit_and_terminal_true_c", "E_exact_equal_scorer_acceleration", "F_inference_and_eval_protocol",
+        "G_direct_iq4_reference",
     })
     expect(failures, "P931/P951 comparability", table.get("one_instrument_verdicts", {}).get("p931_projection_vs_p951_measurement", {}).get("verdict"), "NOT_COMPARABLE")
     expect(failures, "functional evaluation result label", table.get("one_instrument_verdicts", {}).get("p967_p968", {}).get("verdict"), "NO_RESULT")
+    direct = table.get("one_instrument_verdicts", {}).get("terminal_true_c_vs_direct_iq4", {})
+    expect(failures, "direct IQ4 KLD", direct.get("direct_iq4_global_kld"), 0.07204393760942278)
+    expect(failures, "direct true-C KLD", direct.get("terminal_true_c_global_kld"), 0.06829414627618949)
+    expect(failures, "direct KLD delta", direct.get("delta_true_c_minus_iq4"), -0.0037497913332332905)
+    expect(failures, "direct relative reduction", direct.get("true_c_lower_than_iq4_fraction"), 0.05204867276358931)
+    expect(failures, "direct IQ4 receipt", direct.get("direct_iq4_receipt_sha256"), "abb2031865874c0025719889064f5b0e4f7c5a55cfb3ee2916a924ed348bdf07")
+    same = load(root, "artifacts/SAME_INSTRUMENT_RESULTS.json")
+    iq4 = next((row for row in same.get("rows", []) if row.get("key") == "iq4_reference"), {})
+    expect(failures, "registry IQ4 KLD", iq4.get("global_kld"), 0.07204393760942278)
+    expect(failures, "registry IQ4 receipt", iq4.get("receipt_sha256"), "abb2031865874c0025719889064f5b0e4f7c5a55cfb3ee2916a924ed348bdf07")
+    expect(failures, "registry IQ4 positions", iq4.get("sealed_finite_positions"), 524288)
     baseline = campaigns.get("B_uniform_qtip2_baseline", {}).get("global_kld")
     terminal = campaigns.get("D_exact_refit_and_terminal_true_c", {}).get("global_kld")
     verdict = table.get("one_instrument_verdicts", {}).get("balanced64_uniform_qtip2_vs_terminal_true_c", {})
@@ -392,6 +404,54 @@ def validate_comparison(root: Path, failures: list[str]) -> None:
         expect(failures, "comparison delta", verdict.get("delta_terminal_minus_baseline"), terminal - baseline)
         if not math.isclose(verdict.get("relative_kld_reduction", -1), (baseline - terminal) / baseline, rel_tol=0.0, abs_tol=1e-15):
             failures.append("comparison relative reduction arithmetic drift")
+
+
+def validate_runtime_closure(root: Path, failures: list[str]) -> None:
+    document = load(root, "artifacts/RUNTIME_CONTAINER_CLOSURE.public.json")
+    expect(failures, "runtime closure schema", document.get("schema"), "wire-c-runtime-container-closure-public-v1")
+    phases = {row.get("phase"): row for row in document.get("phases", [])}
+    expect(failures, "runtime closure phase set", set(phases), {"P970", "P987", "P991", "P993", "P994", "P997"})
+    expect(failures, "P987 status", phases.get("P987", {}).get("board_status"), "BLOCKED_REVIEW_REQUIRED")
+    expect(
+        failures,
+        "P987 blocker",
+        phases.get("P987", {}).get("blocker_receipt_sha256"),
+        "8a71e05d27dd59f0597ef5742a4494325ddb8055afd8408e8b61b0bab4b96322",
+    )
+    expect(failures, "P991 status", phases.get("P991", {}).get("board_status"), "DONE")
+    expect(failures, "P991 endpoint ready", phases.get("P991", {}).get("full_endpoint", {}).get("http_ready"), False)
+    expect(failures, "P993 status", phases.get("P993", {}).get("board_status"), "DONE")
+    expect(
+        failures,
+        "P993 ABI seal",
+        phases.get("P993", {}).get("receipts", {}).get("abi_closure_seal_sha256"),
+        "7fcacaeba2492b33af936abee3c595d80fa29e5084f662ccdea230d46cd607d9",
+    )
+    expect(failures, "P994 status", phases.get("P994", {}).get("board_status"), "DONE")
+    expect(
+        failures,
+        "P994 winner",
+        phases.get("P994", {}).get("winner_receipt_sha256"),
+        "4d5f9e75e5e94272719634c8528e558643eeb62ea2d3812cbb0b1ab20dadf343",
+    )
+    expect(
+        failures,
+        "P997 status",
+        phases.get("P997", {}).get("board_status"),
+        "BLOCKED_PARENT__SUCCESSOR_LANES_RUNNING_AT_SNAPSHOT",
+    )
+    expect(
+        failures,
+        "P997 G1 status",
+        phases.get("P997", {}).get("candidate_g1", {}).get("status"),
+        "INCOMPLETE_G1__LEGACY_VLLM_C_ABSENT",
+    )
+    expect(
+        failures,
+        "P997 no promotion",
+        phases.get("P997", {}).get("promotion_gate", {}).get("status"),
+        "FAIL_NO_TAG_MOVE",
+    )
 
 
 def validate_provenance(root: Path, manifest: dict[str, dict[str, Any]], failures: list[str]) -> None:
@@ -463,6 +523,28 @@ def validate_privacy(root: Path, failures: list[str]) -> None:
             failures.append(f"privacy token in {path.relative_to(root).as_posix()}")
 
 
+def validate_publication_safety(root: Path, failures: list[str]) -> None:
+    try:
+        namespace = runpy.run_path(str(root / "code/publication_safety.py"))
+        receipt = namespace["scan_package"](root)
+    except Exception as exc:
+        failures.append(f"strict publication-safety scan failed: {exc}")
+        return
+    expect(failures, "publication-safety status", receipt.get("status"), "PASS")
+    expect(
+        failures,
+        "publication-safety privacy status",
+        receipt.get("privacy_scan_status"),
+        "PASS_NO_PRIVATE_OR_SECRET_MATERIAL",
+    )
+    expect(
+        failures,
+        "publication-safety tree status",
+        receipt.get("tree_safety_status"),
+        "PASS_STRICT_TEXT_REGULAR_CONTAINED_MANIFEST_CLOSED",
+    )
+
+
 def verify(root: Path) -> list[str]:
     failures: list[str] = []
     manifest = validate_manifest(root, failures)
@@ -472,9 +554,11 @@ def verify(root: Path) -> list[str]:
         validate_p963(root, failures)
         validate_protocols(root, failures)
         validate_comparison(root, failures)
+        validate_runtime_closure(root, failures)
         validate_provenance(root, manifest, failures)
         validate_structural_sources(root, failures)
         validate_privacy(root, failures)
+        validate_publication_safety(root, failures)
     except (OSError, ValueError, KeyError, TypeError) as exc:
         failures.append(f"verification exception: {exc}")
     return failures

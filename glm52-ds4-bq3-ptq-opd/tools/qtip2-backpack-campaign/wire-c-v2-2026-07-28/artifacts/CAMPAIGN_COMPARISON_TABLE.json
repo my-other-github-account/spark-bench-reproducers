@@ -78,6 +78,15 @@
       "result_type": "PREREGISTERED_PROTOCOL_ONLY",
       "paired_results_available": false,
       "one_instrument_verdict": "No candidate-vs-IQ4 paired outcome is claimed by this package."
+    },
+    {
+      "campaign": "G_direct_iq4_reference",
+      "phases": ["direct IQ4 seal"],
+      "global_kld": 0.07204393760942278,
+      "metric_contract": "direct candidate/teacher KLD rail; sealed 512/512 and 524288 finite positions",
+      "receipt_sha256": "abb2031865874c0025719889064f5b0e4f7c5a55cfb3ee2916a924ed348bdf07",
+      "result_type": "MEASURED_DIRECT_REFERENCE",
+      "one_instrument_verdict": "Directly compare the KLD values while disclosing that IQ4 and terminal true-C use different sealed sample populations."
     }
   ],
   "one_instrument_verdicts": {
@@ -89,6 +98,17 @@
       "terminal_to_baseline_ratio": 0.3675301922676931,
       "verdict": "Terminal true-C is lower by 63.24698077323069% on the identical BALANCED64_V1 contract."
     },
+    "terminal_true_c_vs_direct_iq4": {
+      "delta_true_c_minus_iq4": -0.0037497913332332905,
+      "direct_iq4_global_kld": 0.07204393760942278,
+      "direct_iq4_receipt_sha256": "abb2031865874c0025719889064f5b0e4f7c5a55cfb3ee2916a924ed348bdf07",
+      "protocol_disclosure": "Direct matched candidate/teacher KLD rail, but different sealed sample populations: IQ4 512/512 and 524288 finite positions; true-C BALANCED64_V1 64 windows and 65536 positions.",
+      "terminal_true_c_global_kld": 0.06829414627618949,
+      "terminal_true_c_receipt_sha256": "25dc5d5965b6e0e6c11db69ae05b7d64ec158dd41698e84e551db35270f1e5f7",
+      "true_c_lower_than_iq4_fraction": 0.05204867276358931,
+      "true_c_lower_than_iq4_percent": 5.2048672763589305,
+      "verdict": "Terminal true-C is lower by 0.0037497913332332905 KLD (5.2048672763589305% relative to direct IQ4)."
+    },
     "p931_projection_vs_p951_measurement": {
       "verdict": "NOT_COMPARABLE",
       "reason": "P931 is a projected reweighted solver objective; P951 is a physical BALANCED64 measurement. No cross-protocol ratio or quality delta is reported."
@@ -99,6 +119,7 @@
     }
   },
   "sources": {
+    "direct_iq4_receipt": "artifacts/SAME_INSTRUMENT_RESULTS.json#rows[iq4_reference]",
     "same_instrument_registry": "artifacts/SAME_INSTRUMENT_RESULTS.json",
     "p931_projection": "artifacts/P931_V3_DEFINITIVE.public.json",
     "p943_terminal_identity": "artifacts/P943_TRUE_C_TERMINAL_SEAL.public.json",

@@ -130,6 +130,21 @@ def check(computed: dict[str, Any]) -> None:
     require_close("comparison reduction", balanced["relative_kld_reduction"], verdict["relative_kld_reduction"])
     require_close("comparison ratio", balanced["terminal_to_uniform_ratio"], verdict["terminal_to_baseline_ratio"])
 
+    direct = table["one_instrument_verdicts"]["terminal_true_c_vs_direct_iq4"]
+    iq4_kld = float(rows["iq4_reference"]["global_kld"])
+    true_c_kld = float(rows["wire_c_true_terminal_balanced64"]["global_kld"])
+    require_close("direct IQ4 delta", true_c_kld - iq4_kld, direct["delta_true_c_minus_iq4"], tolerance=0.0)
+    require_close(
+        "direct IQ4 relative reduction",
+        (iq4_kld - true_c_kld) / iq4_kld,
+        direct["true_c_lower_than_iq4_fraction"],
+        tolerance=0.0,
+    )
+    if rows["iq4_reference"]["receipt_sha256"] != "abb2031865874c0025719889064f5b0e4f7c5a55cfb3ee2916a924ed348bdf07":
+        raise RuntimeError("direct IQ4 receipt SHA drift")
+    if rows["iq4_reference"]["sealed_finite_positions"] != 524288:
+        raise RuntimeError("direct IQ4 population disclosure drift")
+
     estimate = computed["historical_estimate"]
     require_close(
         "historical mechanical point",

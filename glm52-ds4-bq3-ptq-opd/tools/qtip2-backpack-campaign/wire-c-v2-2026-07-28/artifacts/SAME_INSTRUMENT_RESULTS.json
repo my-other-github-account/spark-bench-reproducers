@@ -1,5 +1,17 @@
 {
-  "comparison_law": "Only rows with identical instrument contracts are apples-to-apples. P931 is a projected solver objective, not a BALANCED64 physical score. P951 is the terminal measured BALANCED64_V1 true-C result. IQ4 and Wire B remain explicitly different-instrument references.",
+  "comparison_law": "Direct measured KLD comparisons must disclose receipt population as well as scorer rail. P951 is the terminal measured BALANCED64_V1 true-C result. The direct IQ4 seal is on the campaign's matched candidate/teacher KLD rail but reports 512/512 and 524288 finite positions, whereas P951 reports 64 windows and 65536 positions; the direct delta is published, but the sample populations are not mislabeled as identical. P931 remains a projected solver objective, and Wire B remains a different-window reference.",
+  "direct_comparisons": {
+    "terminal_true_c_vs_direct_iq4": {
+      "delta_true_c_minus_iq4": -0.0037497913332332905,
+      "direct_iq4_global_kld": 0.07204393760942278,
+      "direct_iq4_higher_than_true_c_percent": 5.490648229306063,
+      "protocol_disclosure": "Same direct candidate/teacher KLD rail; different sealed sample populations: IQ4 512/512 and 524288 finite positions versus true-C BALANCED64_V1 64 windows and 65536 positions.",
+      "terminal_true_c_global_kld": 0.06829414627618949,
+      "true_c_lower_than_iq4_percent": 5.2048672763589305,
+      "true_c_to_iq4_ratio": 0.9479513272364107,
+      "verdict": "Terminal true-C is lower by 0.0037497913332332905 KLD, or 5.2048672763589305% relative to direct IQ4."
+    }
+  },
   "diagnostics": {
     "p922_substitution_penalty": {
       "ci95_kld": [
@@ -189,20 +201,25 @@
       "status": "MEASURED_DIFFERENT_128_WINDOW_INSTRUMENT"
     },
     {
-      "basis": "Different cell population from Wire C; retained only as a benchmark reference.",
-      "global_kld": 0.07204,
+      "basis": "Direct candidate/teacher KLD rail used by the campaign authority. The IQ4 seal reports 512/512 and 524288 finite positions; the terminal true-C seal reports BALANCED64_V1 with 64 windows and 65536 positions, so the direct delta is reported with this sample-population disclosure.",
+      "global_kld": 0.07204393760942278,
       "key": "iq4_reference",
-      "label": "IQ4 reference",
+      "label": "Direct matched IQ4 reference",
+      "per_class_sha256": "48977952f143f072457d5733aeb33a73f13fbd288a3721983fc4acf133cc769e",
+      "raw_kld_sha256": "af6987c70969f916b88e40b46200bf74934fdc840e5939c6d12cfe7525e68ed0",
+      "receipt_sha256": "abb2031865874c0025719889064f5b0e4f7c5a55cfb3ee2916a924ed348bdf07",
+      "sealed_finite_positions": 524288,
+      "sealed_units_passed": "512/512",
       "six_class_kld": {
-        "agentic": 0.10261,
-        "chat": 0.03042,
-        "code": 0.054216,
-        "multilingual": 0.09911,
-        "prose": 0.08502,
-        "reasoning": 0.01602
+        "agentic": 0.1026128883552147,
+        "chat": 0.030417556747097486,
+        "code": 0.054215965394205624,
+        "multilingual": 0.09910831449718625,
+        "prose": 0.08502454964643688,
+        "reasoning": 0.016024186240848306
       },
-      "source": "P910 canonical IQ4 receipt",
-      "status": "REFERENCE_DIFFERENT_CELL_POPULATION"
+      "source": "direct IQ4 measured receipt",
+      "status": "MEASURED_DIRECT_MATCHED_RAIL_DIFFERENT_SAMPLE_POPULATION"
     },
     {
       "global_kld": 0.06829414627618949,

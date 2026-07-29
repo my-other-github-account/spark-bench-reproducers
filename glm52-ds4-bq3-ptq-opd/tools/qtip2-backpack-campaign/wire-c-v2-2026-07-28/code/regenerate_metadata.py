@@ -20,6 +20,7 @@ EXPLICIT_SOURCE_SHA256 = {
     "acceleration/code/p963_true_c_accel.py": "44ff2771fad236ad9d25fdbcd4ccdbfdb24b0725a27631650eb9748cb50cfdf8",
     "acceleration/code/p963_true_c_overlay_adapter.py": "e84efd6080806ca51bf8681e05e7e06aef6d2406bab29da4d4b68ff8d551415e",
     "acceleration/code/launch_p963.sh": "393070f9b8c6184f062a9c5cf42f4712492174a7619f4768c3063305ed412c30",
+    "structural-guards/CANONICAL_SHA256.json": "6557c2bdffe42cc3b4d41c369c0a12100331d69c1ee0f1cf2bb5baa1f3fced67",
     "structural-guards/p936/authority/tests/test_authority_guard.py": "f93385fce041fcb96aa770b19be0cbbc92db1e58cb6ee2ffca5983c9d05c55c1",
     "evaluation/toolkit/score_evalplus.sh": "30d7e65bdef0471e0086ff05138d23c0d51e1dccd02c45ad06477990aad6058f",
 }
@@ -44,6 +45,19 @@ REQUIRED_SOURCE_PINS = {
     "p963_exact_acceleration": "11ed966638ac0c4641a28c8c4946599bdaeaaca1016d26f8a0ddb7cfb2373196",
     "p963_accelerated_receipt": "85566c504f23d2862ce4f5d1cc5c03797888e57fd090547b239b2ffa2890f6a2",
     "p963_runner": "44ff2771fad236ad9d25fdbcd4ccdbfdb24b0725a27631650eb9748cb50cfdf8",
+    "iq4_direct_receipt": "abb2031865874c0025719889064f5b0e4f7c5a55cfb3ee2916a924ed348bdf07",
+    "iq4_direct_per_class": "4897792f1d6b84732d8eaffde279675713ec7dfefc7f9fc0b2527a7501158f31",
+    "iq4_direct_raw_kld": "af698a5dc6d4e67fb8fd6fe0b2a4a0ad0e0337255a6586527368b2d56db854aa",
+    "p987_loader_commit": "401ed71ec939a60dd813547b8905933b40dc8046",
+    "p987_loader_bundle": "79c3725e8822a8863becc0b530e5a7e2ca0b599e51c26ba5eef881159a08e29d",
+    "p987_endpoint_blocker": "8a71e05d27dd59f0597ef5742a4494325ddb8055afd8408e8b61b0bab4b96322",
+    "p991_runtime_closure": "77265816f1453cc4767ead29e79a1270702ad7b0684d421ed5e667ee63d715e7",
+    "p991_runtime_archive": "c7f4fe70ce713f525012de083a163d05f91871069ec2cbe5c2e004ffe4df7114",
+    "p993_abi_closure": "7fcacaeba2492b33af936abee3c595d80fa29e5084f662ccdea230d46cd607d9",
+    "p993_torch_overlay": "21107495d56719a98f03346b3e2cf777b8943e3ec66080f347ae98d4fe8c9c1b",
+    "p994_endpoint_winner": "4d5f9e75e5e94272719634c8528e558643eeb62ea2d3812cbb0b1ab20dadf343",
+    "p994_first_response": "33a9f5408032c0969519e46ce2cc3282d2940234ddd999e7f96da5acb9ddc4ae",
+    "p997_candidate_g1": "cb80f64381d79aa959bece211c0984ddf65aefda9835ae55dcce7aa6ffc25a83",
     "qtip2_anchor": "96e09515e61e87669e5a378b714262184173b625844898a20f210838a3ed0b5b",
     "qtip3_anchor": "d79a79653f66067aee9255d95e0212013abae128df5c0ac2c7727ab899e44315",
 }
@@ -54,6 +68,7 @@ DERIVED_PUBLIC_SUMMARIES = {
     "artifacts/CAMPAIGN_COMPARISON_TABLE.json",
     "artifacts/P931_V3_DEFINITIVE.public.json",
     "artifacts/P963_EXACT_ACCELERATION_SEAL.public.json",
+    "artifacts/RUNTIME_CONTAINER_CLOSURE.public.json",
     "artifacts/SAME_INSTRUMENT_RESULTS.json",
     "acceleration/artifacts/P963_PROFILE_FIRST_SEAL.public.json",
     "acceleration/artifacts/P963_STAGE_CANARY.public.json",
@@ -63,9 +78,11 @@ DERIVED_PUBLIC_SUMMARIES = {
 # These are authored directly for this public package. Their own bytes are source.
 GENERATED_EXACT_PUBLIC_FILES = {
     "README.md", "CANONICAL_RECIPE.md", "EVALUATION_PROTOCOL.md", "OPERATIONS_FORENSICS.md",
-    "code/recompute_results.py", "code/regenerate_metadata.py", "code/verify_package.py",
+    "RUNTIME_CONTAINER_STATUS.md",
+    "code/publication_safety.py", "code/recompute_results.py", "code/regenerate_metadata.py", "code/verify_package.py",
     "evaluation/P967_INFERENCE_PROTOCOL.public.json",
-    "tests/test_package_contract.py", "tests/test_structural_guards.py",
+    "structural-guards/README.md",
+    "tests/test_package_contract.py", "tests/test_publication_safety.py", "tests/test_structural_guards.py",
 }
 
 
@@ -175,12 +192,28 @@ def derived_evidence(relative: str) -> dict[str, str]:
             "terminal_true_c_receipt": REQUIRED_SOURCE_PINS["p951_balanced64_true_c"],
             "p931_verification_receipt": REQUIRED_SOURCE_PINS["p931_independent_verification"],
             "p963_exact_acceleration_seal": REQUIRED_SOURCE_PINS["p963_exact_acceleration"],
+            "iq4_direct_receipt": REQUIRED_SOURCE_PINS["iq4_direct_receipt"],
         }
     if relative == "artifacts/SAME_INSTRUMENT_RESULTS.json":
         return {
             "uniform_qtip2_receipt": REQUIRED_SOURCE_PINS["qtip2_anchor"],
             "terminal_true_c_receipt": REQUIRED_SOURCE_PINS["p951_balanced64_true_c"],
             "p931_verification_receipt": REQUIRED_SOURCE_PINS["p931_independent_verification"],
+            "iq4_direct_receipt": REQUIRED_SOURCE_PINS["iq4_direct_receipt"],
+            "iq4_direct_per_class": REQUIRED_SOURCE_PINS["iq4_direct_per_class"],
+            "iq4_direct_raw_kld": REQUIRED_SOURCE_PINS["iq4_direct_raw_kld"],
+        }
+    if relative == "artifacts/RUNTIME_CONTAINER_CLOSURE.public.json":
+        return {
+            "p987_loader_bundle": REQUIRED_SOURCE_PINS["p987_loader_bundle"],
+            "p987_endpoint_blocker": REQUIRED_SOURCE_PINS["p987_endpoint_blocker"],
+            "p991_runtime_closure": REQUIRED_SOURCE_PINS["p991_runtime_closure"],
+            "p991_runtime_archive": REQUIRED_SOURCE_PINS["p991_runtime_archive"],
+            "p993_abi_closure": REQUIRED_SOURCE_PINS["p993_abi_closure"],
+            "p993_torch_overlay": REQUIRED_SOURCE_PINS["p993_torch_overlay"],
+            "p994_endpoint_winner": REQUIRED_SOURCE_PINS["p994_endpoint_winner"],
+            "p994_first_response": REQUIRED_SOURCE_PINS["p994_first_response"],
+            "p997_candidate_g1": REQUIRED_SOURCE_PINS["p997_candidate_g1"],
         }
     if relative == "evaluation/P968_AUTHORITY_MAP.public.json":
         return {
@@ -271,6 +304,14 @@ def build_manifest(sources: dict[str, str]) -> dict[str, Any]:
                 "wire_c_r_measured_global_kld": 0.1181380904588927,
             },
             "status": "MEASURED_TERMINAL_F521_T",
+            "direct_iq4_comparison": {
+                "iq4_global_kld": 0.07204393760942278,
+                "iq4_receipt_sha256": REQUIRED_SOURCE_PINS["iq4_direct_receipt"],
+                "iq4_sealed_finite_positions": 524288,
+                "terminal_true_c_minus_iq4": -0.0037497913332332905,
+                "true_c_lower_than_iq4_fraction": 0.05204867276358931,
+                "population_disclosure": "IQ4 receipt reports 512/512 and 524288 finite positions; terminal true-C reports BALANCED64 64 windows and 65536 positions.",
+            },
             "terminal_balanced64_global_kld": 0.06829414627618949,
             "terminal_measurement_source_sha256": REQUIRED_SOURCE_PINS["p951_balanced64_true_c"],
             "terminal_positions": 65536,

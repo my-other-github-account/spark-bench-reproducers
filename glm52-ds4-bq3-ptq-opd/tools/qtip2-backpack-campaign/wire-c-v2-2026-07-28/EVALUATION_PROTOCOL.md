@@ -74,6 +74,12 @@ Required IQ4 runtime:
 
 The preserved clean greedy reference is 161 base / 155 plus-and-both of 164. An older 161/152 row is superseded and must not be mixed into this audit.
 
+### Direct KLD comparator
+
+The sealed direct IQ4 KLD reference is `0.07204393760942278`, receipt SHA `abb2031865874c0025719889064f5b0e4f7c5a55cfb3ee2916a924ed348bdf07`. Terminal true-C is `0.06829414627618949`; true-C minus IQ4 is `-0.0037497913332332905`, and true-C is `0.05204867276358931` (`5.2048672763589305%`) lower relative to IQ4.
+
+The comparison is direct, but the receipt populations remain explicit: the IQ4 seal reports 512/512 and 524,288 finite positions, while terminal true-C BALANCED64 reports 64 windows and 65,536 positions. This package does not call those byte-identical sample populations.
+
 ## Scoring authority
 
 - EvalPlus commit: `26d6d00bb1fd0fa37f39c99d5290da67891d1c5e`;
