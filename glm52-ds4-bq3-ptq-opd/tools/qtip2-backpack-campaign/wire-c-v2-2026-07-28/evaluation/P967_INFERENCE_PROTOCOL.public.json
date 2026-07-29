@@ -1,0 +1,79 @@
+{
+  "candidate": {
+    "active_overlay_sha256": "9a4b709851c62c32f59b17556ef14d53e89cbbfc0fcc93686fc51530e4cf4d62",
+    "label": "P943 genuine-weight true-C f521-T",
+    "terminal_seal_sha256": "90e6d6b131d14b353be2976848dc90e947cb6fc1cda376e03b760a63dce8d31c"
+  },
+  "gates": [
+    "candidate object identity pinned before engine boot",
+    "no plain-Torch forward result accepted",
+    "coverage exactly 164/164 for greedy row",
+    "raw generations and scorer output hash-pinned",
+    "do not substitute historical P486 harness reference as P967 model result"
+  ],
+  "greedy_humaneval_plus": {
+    "concurrency": 4,
+    "dataset": "HumanEvalPlus-v0.1.10",
+    "dataset_sha256": "42526ec0e7d5f3ee0b06d6ced98f8c8bae3d76519151bfb3d36f79010645bd7f",
+    "max_completion_tokens": 4096,
+    "metric": "base and plus-and-both pass counts",
+    "tasks": 164,
+    "temperature": 0.0,
+    "top_p": 1.0
+  },
+  "greedy_instability": {
+    "max_completion_tokens": 4096,
+    "record_batching_configuration_per_repeat": true,
+    "repeats": 3,
+    "seed_ordinals": [
+      20000,
+      20002
+    ],
+    "temperature": 0.0,
+    "top_p": 1.0
+  },
+  "runtime": {
+    "architecture": "DeepseekV4ForCausalLM",
+    "block_size": 256,
+    "compilation": "NONE",
+    "decode_graph": true,
+    "decode_graph_max_t": 4,
+    "engine_contract_sha256": "c1c02debf6dbc0cceba8d76c259bf2914e4c935cb7c4bae230a1e5b3107ee036",
+    "gpu_memory_utilization": 0.8,
+    "graph": "official HF graph",
+    "kv_cache_dtype": "fp8",
+    "kv_cache_memory_bytes": 2415919104,
+    "max_model_len": 5120,
+    "max_num_batched_tokens": 8192,
+    "max_num_seqs": 4,
+    "prefix_caching": false,
+    "vllm": "0.24.0"
+  },
+  "sampled_extension": {
+    "max_completion_tokens": 4096,
+    "n_per_task": 5,
+    "operator_amendment": "binding sample count reduced from n=20 to n=5",
+    "paired_seed_ordinals": true,
+    "seed_ordinals": [
+      10000,
+      10004
+    ],
+    "temperature": 0.2,
+    "top_p": 0.95
+  },
+  "schema": "p967-public-inference-protocol-v1",
+  "scoring": {
+    "evalplus_commit": "26d6d00bb1fd0fa37f39c99d5290da67891d1c5e",
+    "gt_time_limit_factor": 4.0,
+    "min_time_limit_seconds": 4.0,
+    "network": "disabled",
+    "stage_order": [
+      "raw generation",
+      "pinned sanitization",
+      "cache removal",
+      "pinned scoring"
+    ],
+    "test_details": true
+  },
+  "status": "PREREGISTERED_NOT_EXECUTED_IN_THIS_PACKAGE"
+}

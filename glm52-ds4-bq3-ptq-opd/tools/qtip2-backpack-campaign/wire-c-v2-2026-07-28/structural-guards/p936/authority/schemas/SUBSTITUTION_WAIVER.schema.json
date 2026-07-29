@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "SUBSTITUTION_WAIVER.schema.json",
+  "title": "Measured codebook substitution waiver",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "expected_codebook_sha256",
+    "substitute_codebook_sha256",
+    "measured_delta",
+    "ci95",
+    "measurement_receipt_sha256",
+    "windows"
+  ],
+  "properties": {
+    "expected_codebook_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "substitute_codebook_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "measured_delta": {"type": "number"},
+    "ci95": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "prefixItems": [{"type": "number"}, {"type": "number"}]
+    },
+    "measurement_receipt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "windows": {"type": "integer", "minimum": 64}
+  }
+}

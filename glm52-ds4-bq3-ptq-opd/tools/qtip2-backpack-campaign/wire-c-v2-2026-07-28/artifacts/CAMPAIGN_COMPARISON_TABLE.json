@@ -1,0 +1,110 @@
+{
+  "schema": "wire-c-v2-campaign-comparison-v2",
+  "status": "PASS_EXPLICIT_COMPARABILITY_GROUPS",
+  "lower_kld_is_better": true,
+  "campaigns": [
+    {
+      "campaign": "A_forensic_reconstruction",
+      "phases": ["P922", "P928", "P930"],
+      "result": "The restored-VQ substitution penalty, non-additive interaction correction, and corrected pricing surface are hash-pinned diagnostics/model inputs.",
+      "metric_contract": "mixed measured diagnostics and retrodiction",
+      "one_instrument_verdict": "Do not rank this campaign as a candidate checkpoint. Its outputs feed the solver model."
+    },
+    {
+      "campaign": "B_uniform_qtip2_baseline",
+      "phases": ["P880"],
+      "global_kld": 0.18581914550967552,
+      "six_class_kld": {
+        "agentic": 0.2043961310512703,
+        "chat": 0.05768077877125761,
+        "code": 0.14066109358500276,
+        "multilingual": 0.33774107098551065,
+        "prose": 0.26494189643909616,
+        "reasoning": 0.03470598385946682
+      },
+      "metric_contract": "BALANCED64_V1/64_windows/65536_positions/support_8192/cutoff_1024/KL_teacher_candidate",
+      "result_type": "MEASURED_REFERENCE"
+    },
+    {
+      "campaign": "C_corrected_pricing_solver",
+      "phases": ["P930", "P931"],
+      "objective_reweighted": 0.035078633039490076,
+      "best_bound": 0.03507853638367621,
+      "relative_gap": 2.7554042339551337e-06,
+      "exact_bytes": 101346700382,
+      "slack_bytes": 29,
+      "result_type": "PROJECTED_SOLVER_RESULT",
+      "measured": false,
+      "optimality_proven": false,
+      "physical_checkpoint_scored": false,
+      "metric_contract": "P931_V3_projected_reweighted_objective",
+      "one_instrument_verdict": "Not directly comparable to BALANCED64 physical KLD; it is the canonical solver projection and supersedes the historical 0.06913222309403669 first-feasible projection."
+    },
+    {
+      "campaign": "D_exact_refit_and_terminal_true_c",
+      "phases": ["P936", "P943", "P951"],
+      "terminal_identity_status": "PASS_TERMINAL_F521_T",
+      "global_kld": 0.06829414627618949,
+      "six_class_kld": {
+        "agentic": 0.07879656974187459,
+        "chat": 0.021183150884045005,
+        "code": 0.05501697946566645,
+        "multilingual": 0.11238435483229318,
+        "prose": 0.09759553403503682,
+        "reasoning": 0.014495197391988604
+      },
+      "metric_contract": "BALANCED64_V1/64_windows/65536_positions/support_8192/cutoff_1024/KL_teacher_candidate",
+      "result_type": "MEASURED_TERMINAL_TRUE_C",
+      "coverage": "80/80 checks; 64/64 windows; zero quarantine; zero substitution"
+    },
+    {
+      "campaign": "E_exact_equal_scorer_acceleration",
+      "phases": ["P963"],
+      "baseline_elapsed_seconds": 3643.123103618622,
+      "accelerated_elapsed_seconds": 1495.7971739768982,
+      "speedup": 2.4355729286027437,
+      "wall_clock_reduction_percent": 58.94189871071991,
+      "raw_output_set_sha_exact": true,
+      "maximum_absolute_per_position_delta": 0.0,
+      "result_type": "MEASURED_EXACT_EQUAL_ACCELERATION",
+      "one_instrument_verdict": "Same output-set SHA and 64/64 bit-exact tensors; this changes scorer wall time, not model quality."
+    },
+    {
+      "campaign": "F_inference_and_eval_protocol",
+      "phases": ["P967", "P968"],
+      "sampled_n_per_task": 5,
+      "greedy_repeats": 3,
+      "datasets": ["HumanEvalPlus-v0.1.10", "MbppPlus-v0.2.0"],
+      "result_type": "PREREGISTERED_PROTOCOL_ONLY",
+      "paired_results_available": false,
+      "one_instrument_verdict": "No candidate-vs-IQ4 paired outcome is claimed by this package."
+    }
+  ],
+  "one_instrument_verdicts": {
+    "balanced64_uniform_qtip2_vs_terminal_true_c": {
+      "baseline_global_kld": 0.18581914550967552,
+      "terminal_true_c_global_kld": 0.06829414627618949,
+      "delta_terminal_minus_baseline": -0.11752499923348603,
+      "relative_kld_reduction": 0.6324698077323069,
+      "terminal_to_baseline_ratio": 0.3675301922676931,
+      "verdict": "Terminal true-C is lower by 63.24698077323069% on the identical BALANCED64_V1 contract."
+    },
+    "p931_projection_vs_p951_measurement": {
+      "verdict": "NOT_COMPARABLE",
+      "reason": "P931 is a projected reweighted solver objective; P951 is a physical BALANCED64 measurement. No cross-protocol ratio or quality delta is reported."
+    },
+    "p967_p968": {
+      "verdict": "NO_RESULT",
+      "reason": "The package publishes the binding n=5 sampled plus three-repeat greedy protocol, not completed paired scores."
+    }
+  },
+  "sources": {
+    "same_instrument_registry": "artifacts/SAME_INSTRUMENT_RESULTS.json",
+    "p931_projection": "artifacts/P931_V3_DEFINITIVE.public.json",
+    "p943_terminal_identity": "artifacts/P943_TRUE_C_TERMINAL_SEAL.public.json",
+    "p951_measurement": "artifacts/P951_TRUE_C_BALANCED64.public.json",
+    "p963_acceleration": "artifacts/P963_EXACT_ACCELERATION_SEAL.public.json",
+    "p967_protocol": "evaluation/P967_INFERENCE_PROTOCOL.public.json",
+    "p968_authority": "evaluation/P968_AUTHORITY_MAP.public.json"
+  }
+}

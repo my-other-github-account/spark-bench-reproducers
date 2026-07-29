@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ARCHIVE_FIRST.schema.json",
+  "title": "Archive-first exact readback receipt",
+  "type": "object",
+  "required": ["schema", "status", "entries"],
+  "properties": {
+    "schema": {"const": "p936-archive-first-v1"},
+    "status": {"const": "PASS"},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_path", "source_sha256", "nas_path", "archive_bytes", "readback_sha256"],
+        "properties": {
+          "source_path": {"type": "string"},
+          "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "nas_path": {"type": "string"},
+          "archive_bytes": {"type": "integer", "minimum": 0},
+          "readback_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    }
+  }
+}

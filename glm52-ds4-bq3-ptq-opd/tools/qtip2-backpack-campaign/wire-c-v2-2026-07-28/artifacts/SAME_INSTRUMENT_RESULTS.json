@@ -1,5 +1,5 @@
 {
-  "comparison_law": "Only BALANCED64 rows sharing the 64-window/65,536-position instrument are apples-to-apples. IQ4 is explicitly a different-cell-population reference. C-true is explicitly an estimate until the direct chain seals.",
+  "comparison_law": "Only rows with identical instrument contracts are apples-to-apples. P931 is a projected solver objective, not a BALANCED64 physical score. P951 is the terminal measured BALANCED64_V1 true-C result. IQ4 and Wire B remain explicitly different-instrument references.",
   "diagnostics": {
     "p922_substitution_penalty": {
       "ci95_kld": [
@@ -44,28 +44,6 @@
     "window_manifest_sha256": "7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad",
     "windows": 64
   },
-  "next_true_c_chain": [
-    {
-      "purpose": "preregister exact true-C chain and pins",
-      "stage": "P932"
-    },
-    {
-      "purpose": "direct pre-repair true-C BALANCED64",
-      "stage": "P937"
-    },
-    {
-      "purpose": "repair exact true-C",
-      "stage": "P938"
-    },
-    {
-      "purpose": "direct post-repair true-C BALANCED64",
-      "stage": "P939"
-    },
-    {
-      "purpose": "regenerate 3,803 true-C codebooks before P937",
-      "stage": "P930 refit prerequisite"
-    }
-  ],
   "p930_manifest_audit": {
     "actual_source_byte_hashes": {
       "grid": "49407ff0114c5bcf9f7a68fbfc2a4822fee1839852aff5d89b8ce12d1251c203",
@@ -225,7 +203,90 @@
       },
       "source": "P910 canonical IQ4 receipt",
       "status": "REFERENCE_DIFFERENT_CELL_POPULATION"
+    },
+    {
+      "global_kld": 0.06829414627618949,
+      "instrument": "BALANCED64_V1",
+      "key": "wire_c_true_terminal_balanced64",
+      "label": "Wire C true terminal f521-T",
+      "positions": 65536,
+      "receipt_sha256": "25dc5d5965b6e0e6c11db69ae05b7d64ec158dd41698e84e551db35270f1e5f7",
+      "six_class_kld": {
+        "agentic": 0.07879656974187459,
+        "chat": 0.021183150884045005,
+        "code": 0.05501697946566645,
+        "multilingual": 0.11238435483229318,
+        "prose": 0.09759553403503682,
+        "reasoning": 0.014495197391988604
+      },
+      "source": "P951_INDEPENDENT_TERMINAL_TRUE_C_80_OF_80",
+      "status": "MEASURED_TERMINAL_TRUE_C",
+      "windows": 64
     }
   ],
-  "schema": "wire-c-same-instrument-results-v2"
+  "schema": "wire-c-same-instrument-results-v2",
+  "solver_projections": {
+    "p931_v3_definitive": {
+      "artifact": "artifacts/P931_V3_DEFINITIVE.public.json",
+      "assignment_map_sha256": "c260b1a05ad1368a9aa11ee184fbe0a2734e781c7bbf4e1bf40c67821ea8786c",
+      "assignment_payload_redistributed": false,
+      "assignment_recovery_status": "HASHES_ONLY__DURABLE_EXACT_MAP_PUBLICATION_PENDING",
+      "assignment_recovery_status_url": "https://github.com/my-other-github-account/spark-bench-reproducers/blob/main/glm52-ds4-bq3-ptq-opd/tools/qtip2-backpack-campaign/wire-c-v2-2026-07-28/P958_ASSIGNMENT_RECOVERY_STATUS.md",
+      "assignment_sha256": "b8f07185e54f018af4bcc2b6831b457b1ada2c97ad166226ee19e3e8e91bbd8d",
+      "best_bound": 0.03507853638367621,
+      "changed_cell_count_vs_original": 20718,
+      "exact_bytes": 101346700382,
+      "integer_status": "FEASIBLE",
+      "manifest_sha256": "d13db9c39f2da6620c432ba75ec1a5c45b1852b766418cc2e8d8a2b09e9e312a",
+      "measured": false,
+      "objective_reweighted": 0.035078633039490076,
+      "optimality_proven": false,
+      "physical_checkpoint_scored": false,
+      "prediction_by_class": {
+        "agentic": 0.03958745712003608,
+        "chat": 0.008532822455696412,
+        "code": 0.05105645114446229,
+        "multilingual": 0.04864400347424909,
+        "prose": 0.0352992491602176,
+        "reasoning": 0.005687227334670042
+      },
+      "relative_gap": 2.7554042339551337e-06,
+      "result_type": "PROJECTED_SOLVER_RESULT",
+      "slack_bytes": 29,
+      "source_payloads_redistributed": false,
+      "status": "PROJECTED_DEFINITIVE_FEASIBLE__TIME_LIMIT_INCUMBENT__NOT_PHYSICAL_MEASUREMENT",
+      "termination_reason": "TIME_LIMIT_WITH_FEASIBLE_INCUMBENT",
+      "threads": 16,
+      "time_limit_seconds": 3600.0,
+      "true_c_measurement_status": "PENDING_DIRECT_P937_P939",
+      "verification_sha256": "60e6573f717e78fa8039a64938d7e444661e6583bd2c1549aa15906fcba4703a",
+      "wall_seconds": 4214.848067998886
+    }
+  },
+  "terminal_true_c_chain": [
+    {
+      "artifact": "artifacts/P931_V3_DEFINITIVE.public.json",
+      "purpose": "definitive corrected-pricing solver projection",
+      "stage": "P931",
+      "status": "PROJECTED_NOT_MEASURED"
+    },
+    {
+      "artifact": "artifacts/P943_TRUE_C_TERMINAL_SEAL.public.json",
+      "purpose": "genuine-weight terminal f521-T wire seal",
+      "stage": "P943",
+      "status": "PASS_TERMINAL"
+    },
+    {
+      "artifact": "artifacts/P951_TRUE_C_BALANCED64.public.json",
+      "purpose": "independent post-repair BALANCED64_V1 measurement",
+      "stage": "P951",
+      "status": "PASS_MEASURED_80_OF_80"
+    },
+    {
+      "artifact": "artifacts/P963_EXACT_ACCELERATION_SEAL.public.json",
+      "purpose": "exact-equal scorer acceleration",
+      "stage": "P963",
+      "status": "PASS_EXACT_EQUAL_GE_2X"
+    }
+  ]
 }

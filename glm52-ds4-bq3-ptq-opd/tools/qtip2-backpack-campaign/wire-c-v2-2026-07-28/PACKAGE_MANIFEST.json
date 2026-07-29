@@ -1,565 +1,1238 @@
 {
   "files": [
     {
+      "path": "CANONICAL_RECIPE.md",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_exact_public_file",
+      "public_copy_bytes": 11324,
+      "public_copy_sha256": "d911ef38d8461b391d157e5ae1cc83e6aee3845975c303c029562ca01bdf29df",
+      "role": "methodology",
+      "source_sha256": "d911ef38d8461b391d157e5ae1cc83e6aee3845975c303c029562ca01bdf29df",
+      "source_verification": "exact public-authored bytes"
+    },
+    {
+      "path": "EVALUATION_PROTOCOL.md",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_exact_public_file",
+      "public_copy_bytes": 7775,
+      "public_copy_sha256": "baeb49866fba41ee5c5dc14b3733806258a92f52304cc928fde9940a4d4e0a3b",
+      "role": "methodology",
+      "source_sha256": "baeb49866fba41ee5c5dc14b3733806258a92f52304cc928fde9940a4d4e0a3b",
+      "source_verification": "exact public-authored bytes"
+    },
+    {
+      "path": "OPERATIONS_FORENSICS.md",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_exact_public_file",
+      "public_copy_bytes": 13811,
+      "public_copy_sha256": "bfb3b680daf13f8afd8b92195e73348b7f9e8b53ebd2509423daa723d858d559",
+      "role": "methodology",
+      "source_sha256": "bfb3b680daf13f8afd8b92195e73348b7f9e8b53ebd2509423daa723d858d559",
+      "source_verification": "exact public-authored bytes"
+    },
+    {
+      "path": "P958_ASSIGNMENT_RECOVERY_STATUS.md",
+      "privacy_substitution_applied": false,
+      "provenance_type": "derived_public_summary",
+      "public_copy_bytes": 1811,
+      "public_copy_sha256": "1aa24ab69e064dbc31905db12b39b50c8f95ab89a6e1a2c69d86a2e8d9eaed51",
+      "role": "methodology",
+      "source_sha256": "1aa24ab69e064dbc31905db12b39b50c8f95ab89a6e1a2c69d86a2e8d9eaed51",
+      "source_verification": "reviewed evidence hashes recorded separately; summary is not a byte transform"
+    },
+    {
       "path": "README.md",
       "privacy_substitution_applied": false,
-      "public_copy_bytes": 4073,
-      "public_copy_sha256": "fab16e152a94d7c1684bf8662fc3fcefaf824576632cfbb933d3641dc76e952c",
-      "role": "package orientation and verification contract",
-      "source_sha256": "fab16e152a94d7c1684bf8662fc3fcefaf824576632cfbb933d3641dc76e952c",
-      "source_verification": "generated deterministically inside the public package"
+      "provenance_type": "generated_exact_public_file",
+      "public_copy_bytes": 6333,
+      "public_copy_sha256": "443ffa382b20f8c201ca64b6f17bd3730d2e8380f549c3d24d0d846b88a9272c",
+      "role": "methodology",
+      "source_sha256": "443ffa382b20f8c201ca64b6f17bd3730d2e8380f549c3d24d0d846b88a9272c",
+      "source_verification": "exact public-authored bytes"
+    },
+    {
+      "path": "acceleration/README.md",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 2507,
+      "public_copy_sha256": "60085d34cc95465778b834448bd58f2e202c5f5063dcbb05be9004a2cffb5ce4",
+      "role": "methodology",
+      "source_sha256": "60085d34cc95465778b834448bd58f2e202c5f5063dcbb05be9004a2cffb5ce4",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "acceleration/artifacts/P963_ACCEL_EXACT_P951_BALANCED64_V3_MB2.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 77112,
+      "public_copy_sha256": "269dfcc8fe7a98aa5a1e45a91a134f633e3d40ab2d07fe742090f763c9b490e1",
+      "role": "artifact",
+      "source_sha256": "85566c504f23d2862ce4f5d1cc5c03797888e57fd090547b239b2ffa2890f6a2",
+      "source_verification": "sealed predecessor SHA pinned before public copy"
+    },
+    {
+      "path": "acceleration/artifacts/P963_BATCHED_STAGE_L000_CANARY.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 540,
+      "public_copy_sha256": "7b3330fd4901ac8c3578f6638dec791fe5199f100e7a583abc878b6442e60909",
+      "role": "artifact",
+      "source_sha256": "afe37a424266679edb5c50fb9fd2ad68ed9c1e8bf306ad7fd6ddafc286684831",
+      "source_verification": "sealed predecessor SHA pinned before public copy"
+    },
+    {
+      "path": "acceleration/artifacts/P963_EXACT_ACCELERATION_SEAL.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 6482,
+      "public_copy_sha256": "f9cace89c6c88e03111e8ae7a9b6c394744c460938a12a27fa811e2321d2491e",
+      "role": "artifact",
+      "source_sha256": "11ed966638ac0c4641a28c8c4946599bdaeaaca1016d26f8a0ddb7cfb2373196",
+      "source_verification": "sealed predecessor SHA pinned before public copy"
+    },
+    {
+      "path": "acceleration/code/launch_p963.sh",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 595,
+      "public_copy_sha256": "c9a0464443025a8c722d78a0b6563460a2f982c932deb0adcfb4de52d2ecabe8",
+      "role": "implementation",
+      "source_sha256": "393070f9b8c6184f062a9c5cf42f4712492174a7619f4768c3063305ed412c30",
+      "source_verification": "sealed predecessor SHA pinned before public copy"
+    },
+    {
+      "path": "acceleration/code/p963_true_c_accel.py",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 27138,
+      "public_copy_sha256": "eef3d21c27df21097c467f781108885ee2fafd841bcb52d2c4a9062ca6e84f73",
+      "role": "implementation",
+      "source_sha256": "44ff2771fad236ad9d25fdbcd4ccdbfdb24b0725a27631650eb9748cb50cfdf8",
+      "source_verification": "sealed predecessor SHA pinned before public copy"
+    },
+    {
+      "path": "acceleration/code/p963_true_c_overlay_adapter.py",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 18946,
+      "public_copy_sha256": "db4384fa5024dfd0cb1680f15a1cd8106babf1db47bc21e9a3f8617bdea12707",
+      "role": "implementation",
+      "source_sha256": "e84efd6080806ca51bf8681e05e7e06aef6d2406bab29da4d4b68ff8d551415e",
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/ARTIFACT_PROVENANCE.json",
       "privacy_substitution_applied": false,
-      "public_copy_bytes": 5842,
-      "public_copy_sha256": "fac00d9befb0e1c1c46315be049a6adcaf468e384ea837a8c9880013af3d1f46",
-      "role": "compact P921/P922/P930 sealed-source to public-copy provenance index",
-      "source_sha256": "fac00d9befb0e1c1c46315be049a6adcaf468e384ea837a8c9880013af3d1f46",
-      "source_verification": "generated deterministically inside the public package"
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 22156,
+      "public_copy_sha256": "20d47f4eb25c4fb4dffd592ee0dba2474188ccbe245a7680954eee15673fa946",
+      "role": "artifact",
+      "source_sha256": "20d47f4eb25c4fb4dffd592ee0dba2474188ccbe245a7680954eee15673fa946",
+      "source_verification": "byte-identical predecessor/public copy"
     },
     {
       "path": "artifacts/BALANCED64_V1.json",
       "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 1509,
       "public_copy_sha256": "7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad",
-      "role": "canonical BALANCED64 instrument specification",
+      "role": "artifact",
       "source_sha256": "7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "byte-identical predecessor/public copy"
     },
     {
       "path": "artifacts/BASELINE_R_PHYSICAL_MANIFEST.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 17580981,
       "public_copy_sha256": "0deb8324bce70e344368f7959cbe856a3efad9499a16ed210ce753892d773d6e",
-      "role": "BASELINE_R restored physical manifest; source pin 398441d1",
+      "role": "artifact",
       "source_sha256": "398441d16f1a251079b518a55095c568353b9f3e542f2ec55d4139e0ac6e7ffd",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/BQ3_FULL512.public.json",
       "privacy_substitution_applied": true,
-      "public_copy_bytes": 375546,
-      "public_copy_sha256": "f915b05c77e80ae1b9ee418a1d07a96f2f325bb622440eb921352977484b47d3",
-      "role": "BQ3 control full512 receipt used for matched Wire B windows",
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 375556,
+      "public_copy_sha256": "b05f07c3db89083ac7fe65b9536d4b66b9f15ed2edad7204dcc0d883740a358f",
+      "role": "artifact",
       "source_sha256": "4823f90fb1df1f7d0351c585954799f1fd69a98f3709cfcb721f1c8e0183ef0c",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
+    },
+    {
+      "path": "artifacts/CAMPAIGN_COMPARISON_TABLE.json",
+      "privacy_substitution_applied": false,
+      "provenance_type": "derived_public_summary",
+      "public_copy_bytes": 5044,
+      "public_copy_sha256": "3d92819e36679bcd3277232f1f54cb72b8cdd5b19b21c0f9c1c78bc9a54f79a8",
+      "role": "artifact",
+      "source_sha256": "3d92819e36679bcd3277232f1f54cb72b8cdd5b19b21c0f9c1c78bc9a54f79a8",
+      "source_verification": "reviewed evidence hashes recorded separately; summary is not a byte transform"
     },
     {
       "path": "artifacts/CORRECTED_PRICING_GRID_PATCH.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 3337,
       "public_copy_sha256": "d4d29b2f89638a147d8f0f8b27afe9715c0682a1520be92209de2d530100909a",
-      "role": "P908 corrected-pricing patch receipt",
+      "role": "artifact",
       "source_sha256": "6f317b13723c6b7705f0add2def7d791635e5297e0a82ae5097af8180eee1fa4",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/CORRECTED_VERTICAL_GRID.csv",
       "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 1872,
       "public_copy_sha256": "74869b5f8e3ef4eb43dc98c6ee060c2d9ad048bb215cadd308fb2c9983933dda",
-      "role": "corrected vertical grid; exact source pin 74869b5f",
+      "role": "artifact",
       "source_sha256": "74869b5f8e3ef4eb43dc98c6ee060c2d9ad048bb215cadd308fb2c9983933dda",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "byte-identical predecessor/public copy"
     },
     {
       "path": "artifacts/DIRECT_SELECTED_CODE_PRICES.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 47852,
       "public_copy_sha256": "f815b3165e2268def49adb31caaf2e99f5853382eb0fd88137a2d870a90cf651",
-      "role": "P908 direct-pricing receipt",
+      "role": "artifact",
       "source_sha256": "abfa1495e201c33b12b9184606e1fae5d57d6c84560e66845ef51b17f28780f3",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/FULL_MENU_MANIFEST.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 75175,
       "public_copy_sha256": "ebc7a504f5d80365aae4c7ff87d1fcf7a34de3d80fd887fcca4fceec27215f1b",
-      "role": "complete QTIP3 menu inventory; source pin 854b85c6",
+      "role": "artifact",
       "source_sha256": "854b85c6216ae38682010b13ccd0348f52f1503ca8c568c61e43b829da361fcc",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/GLOBAL_ACCEPTANCE_WITNESS.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 3825,
       "public_copy_sha256": "299ade420ab47dfa7151d5f9da75d5688e3a0c5f01cc8da0f28bf930fdad655a",
-      "role": "physical build global acceptance witness",
+      "role": "artifact",
       "source_sha256": "b6170b084cc77e09f3ab2736dfd070c7b9b4e35fa926618d6bad6721f036cad4",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/GLOBAL_INDEPENDENT_VERIFICATION.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 1184,
       "public_copy_sha256": "17a3ebd5760385ef6c86a34712e7dbf7b9a9849254d352ec255094e2312705ae",
-      "role": "physical build independent verification",
+      "role": "artifact",
       "source_sha256": "233bec14db7fe0069a377e95e8fe623ff4cb02e31f8f9ebf7e71d13791d0d853",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/P819_QTIP3_UNIFORM_BALANCED64.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 63187,
       "public_copy_sha256": "e9b197e669f9800611ef5b83336c05ffdae28c2976da1e676b1a8cf46b126eb9",
-      "role": "QTIP3 BALANCED64 anchor receipt; source pin d79a7965",
+      "role": "artifact",
       "source_sha256": "d79a79653f66067aee9255d95e0212013abae128df5c0ac2c7727ab899e44315",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/P874_BINDING_SHAS.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 792,
       "public_copy_sha256": "b6e3d5c2fa381624f04b8bec6c649bf711db5655478806be277c231c54f222f7",
-      "role": "P874 checkpoint binding receipt",
+      "role": "artifact",
       "source_sha256": "0612ea1ef9a10e77c279647f2141f1ba99b2fe668cc23989aae3406c08b57659",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/P880_QTIP2_ASSEALED_BALANCED64.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 75751,
       "public_copy_sha256": "88015c7bcc5f312ee8223aa4a9590a203422082af2598a6f3f40ace979026be4",
-      "role": "QTIP2 as-sealed BALANCED64 anchor receipt; source pin 96e09515",
+      "role": "artifact",
       "source_sha256": "96e09515e61e87669e5a378b714262184173b625844898a20f210838a3ed0b5b",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/P921_RESULT_CELL.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 12646,
       "public_copy_sha256": "9fac2ded3656efa7ce799a89c11bc43288e9dfa029b79d93814e29945af0a263",
-      "role": "P921 standardized strict Wire A holdout result",
+      "role": "artifact",
       "source_sha256": "f73da5689938748e357de81750dd286467e77bb50cd8e6ad73a871995b648789",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/P921_WIRE_A_BALANCED64_FINAL_SEAL.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 14884,
       "public_copy_sha256": "69d012460abdffc5c3c38b09f9c8d87e83f51f5d055b29e2e847297f0a590854",
-      "role": "P921 final seal and terminal verification",
+      "role": "artifact",
       "source_sha256": "9b6c5efe6eb36bfedaa22d872d1753f33185eb77913484b7ce082f614fa295c6",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/P921_WIRE_A_BALANCED64_R2.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 56301,
       "public_copy_sha256": "b3ddc4f733e7e910705a34a663ad6a207d606f3fb91af539b8df638d97c6caa5",
-      "role": "P921 Wire A per-window BALANCED64 measurement",
+      "role": "artifact",
       "source_sha256": "e1d1b70792a7c8fe133a63b5e922359a24428f5d1281ddd804f0ee01711965ed",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/P922_EXACT_RELEASE.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 1651,
       "public_copy_sha256": "bc7a52b157ddc28737efe7e4db0a0c602172298b0f65d84fe4789ddb58c59f49",
-      "role": "P922 exact release receipt",
+      "role": "artifact",
       "source_sha256": "9e6a7f7bb609c67d8477e56be3faae198344de032f187fefed6d3d08f9874801",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/P922_PAYLOAD_METADATA_REGRESSION.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 594,
       "public_copy_sha256": "702346136a3d48562a93d4e7c754ef472dbc603ab11e5a47a91a1f468cb2a75c",
-      "role": "P922 four-schema payload regression gate",
+      "role": "artifact",
       "source_sha256": "141536858922adc75ca7c32054900789378dd601a56e3a3e5d969a4592196b9b",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/P922_RESTORED_VQ_BALANCED64_A2.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 61936,
       "public_copy_sha256": "4f86b3774717671531c3afb2a5b86937c8fffcd00c72f6ffadaf7978abb6d7d0",
-      "role": "P922 restored-VQ per-window BALANCED64 measurement",
+      "role": "artifact",
       "source_sha256": "c2604f6386e00c1ab38b238cd5940f85d1ab12ec20e18f43dfc9efcece29be8e",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/P922_RESULT_SUMMARY.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 5585,
       "public_copy_sha256": "99adbe75ac0a15878e1fa84ff70a0e9a7dfae0e5a4a2b047ebf2073eda0e0958",
-      "role": "P922 exact codebook-substitution standardized result",
+      "role": "artifact",
       "source_sha256": "f3360126f1951edccb05fc9d4626ccbada059efab679863f6a17745f6b84ccb1",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/P922_TERMINAL_VERIFICATION.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 3109,
       "public_copy_sha256": "4035305a84a5476651d5cd5d26726ee9fd81c89886d6944a1ab4510e5f1c579c",
-      "role": "P922 independent terminal verification",
+      "role": "artifact",
       "source_sha256": "d3cbae01335d4fb3809275d72d9f6201c439f2598cd7c41ba0e57d81b36733c5",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/P930_CORRECTED_PRICING_V3.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 29413,
       "public_copy_sha256": "723f6b2cd3bfcffdcb708869f7f0f6732a7f8447862a258d3797078f967804bb",
-      "role": "P930 final solver-consumable corrected pricing",
+      "role": "artifact",
       "source_sha256": "c8673867b0fb7626232721d4939a9fdf95ef6d1a3de69698fd2a3d42398606c0",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/P930_CORRECTED_VERTICAL_GRID_V3.csv",
       "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 1990,
       "public_copy_sha256": "49407ff0114c5bcf9f7a68fbfc2a4822fee1839852aff5d89b8ce12d1251c203",
-      "role": "P930 corrected 14-row nonnegative vertical grid",
+      "role": "artifact",
       "source_sha256": "49407ff0114c5bcf9f7a68fbfc2a4822fee1839852aff5d89b8ce12d1251c203",
-      "source_verification": "generated deterministically inside the public package"
+      "source_verification": "byte-identical predecessor/public copy"
     },
     {
       "path": "artifacts/P930_FINAL_ARTIFACT_SHA256.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 1369,
       "public_copy_sha256": "6ec3639ba1325d23671d5e346c89103c36db0258259bcf8f6d505715cce23a55",
-      "role": "P930 final artifact source hash manifest",
+      "role": "artifact",
       "source_sha256": "bcc9171608fbbf0b654acc79a18a6634b214ed3319a6255bc17661341dcc95c9",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/P930_FINAL_VALIDATION.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 2623,
       "public_copy_sha256": "62fcb19df8e537085ea8ca2247114091b67dae659501672656f993f2fbd3814e",
-      "role": "P930 final validator output",
+      "role": "artifact",
       "source_sha256": "9666d979b79ec576f55a4ea685bb1311b29910875fc227a24f470370e516b379",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/P930_P922_RESTORED_VQ_SELECTION_PINNED.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 6773384,
       "public_copy_sha256": "21b154bca098421733c4c326efb0a99ad9cdd83a7fe86016ae972cd4c7760706",
-      "role": "P930 exact P922 identity-selection pin",
+      "role": "artifact",
       "source_sha256": "e776c293be491f080a630f7ba1d066ea0cc420c773be6758de2b4c92a3fb9818",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/P930_P928_MIX_C_PATTERN_ASSIGNMENT_PINNED.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 968036,
       "public_copy_sha256": "0728c3c52c3a987ea09058c825477d8606a9c70b25a9b22c145099f97834151d",
-      "role": "P930 exact P928 mixed-tier assignment pin",
+      "role": "artifact",
       "source_sha256": "62c26b9ea8f53aa2a2be84ff55b0e444100625f900832e096624ea178d9f9122",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/P930_WIRE_CALIBRATION_FINAL_REPORT.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 55038,
       "public_copy_sha256": "ce351c01165f77f523d6d787596f8a0d1ac0d691cba86098a26e8355989a3d78",
-      "role": "P930 final four-wire calibration report",
+      "role": "artifact",
       "source_sha256": "6213107d728ac0df48be7121a082a6efa6f894d30c800e8db94315589c86a0d9",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
+    },
+    {
+      "path": "artifacts/P931_V3_DEFINITIVE.public.json",
+      "privacy_substitution_applied": false,
+      "provenance_type": "derived_public_summary",
+      "public_copy_bytes": 9197,
+      "public_copy_sha256": "b96af0bf80d06a2d19db6727774a21ddc6ebf92d1504be04eaee1100c1b63871",
+      "role": "artifact",
+      "source_sha256": "b96af0bf80d06a2d19db6727774a21ddc6ebf92d1504be04eaee1100c1b63871",
+      "source_verification": "reviewed evidence hashes recorded separately; summary is not a byte transform"
     },
     {
       "path": "artifacts/P931_V3_FIRST_FEASIBLE.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 10486,
       "public_copy_sha256": "4806ec12459012b4341e18da5abcbcd42ce6875601b995a2c6dc7789d26951f6",
-      "role": "P931 corrected-pricing V3 projected first-feasible receipt; final SCIP pending",
+      "role": "artifact",
       "source_sha256": "e84c6c5550eebc00df8b0f15d344c719864bbaf96cfdf5723bc696e839352772",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
+    },
+    {
+      "path": "artifacts/P943_TRUE_C_TERMINAL_SEAL.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 48946,
+      "public_copy_sha256": "7056ae6076b259401104ca0103e975818eb96a2782ec70492e982ecf4bc6726a",
+      "role": "artifact",
+      "source_sha256": "90e6d6b131d14b353be2976848dc90e947cb6fc1cda376e03b760a63dce8d31c",
+      "source_verification": "sealed predecessor SHA pinned before public copy"
+    },
+    {
+      "path": "artifacts/P951_TRUE_C_BALANCED64.public.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 68164,
+      "public_copy_sha256": "5bd69bc88cb0952329885d51d544b11e21f2fa587d5c615318ff23b2d21ba22c",
+      "role": "artifact",
+      "source_sha256": "25dc5d5965b6e0e6c11db69ae05b7d64ec158dd41698e84e551db35270f1e5f7",
+      "source_verification": "sealed predecessor SHA pinned before public copy"
+    },
+    {
+      "path": "artifacts/P963_EXACT_ACCELERATION_SEAL.public.json",
+      "privacy_substitution_applied": false,
+      "provenance_type": "derived_public_summary",
+      "public_copy_bytes": 5720,
+      "public_copy_sha256": "0d60c93f7b4ea7e6d80338c1f1e84d4f5c7b5258c83c3579c0a78f107934d6fe",
+      "role": "artifact",
+      "source_sha256": "0d60c93f7b4ea7e6d80338c1f1e84d4f5c7b5258c83c3579c0a78f107934d6fe",
+      "source_verification": "reviewed evidence hashes recorded separately; summary is not a byte transform"
     },
     {
       "path": "artifacts/PHYSICAL_BUILD_DETERMINISM.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 1069,
       "public_copy_sha256": "3bd0b6571161d76f779dd6dff87632c5d91cdfef1412acb0ca5373cb8f3937cd",
-      "role": "physical build determinism receipt",
+      "role": "artifact",
       "source_sha256": "58ac2a6a4c5c6828b1b5ef3279d53cbaf7a70c76259585a59f903eee5cda92c1",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/SAME_INSTRUMENT_RESULTS.json",
       "privacy_substitution_applied": false,
-      "public_copy_bytes": 7897,
-      "public_copy_sha256": "1727b78d8ee4e0e14746d3e549588b7f8c2e935a75f99ea6a7952b22d060f7dc",
-      "role": "machine-readable pre-repair comparison table",
-      "source_sha256": "1727b78d8ee4e0e14746d3e549588b7f8c2e935a75f99ea6a7952b22d060f7dc",
-      "source_verification": "generated deterministically inside the public package"
+      "provenance_type": "derived_public_summary",
+      "public_copy_bytes": 10958,
+      "public_copy_sha256": "5e0314d3438cbd0a7a3d4e24fce4f6ee86a825bad56cd0d3b810f99a5b19b153",
+      "role": "artifact",
+      "source_sha256": "5e0314d3438cbd0a7a3d4e24fce4f6ee86a825bad56cd0d3b810f99a5b19b153",
+      "source_verification": "reviewed evidence hashes recorded separately; summary is not a byte transform"
     },
     {
       "path": "artifacts/V2_REWEIGHTED_ASSIGNMENT.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 970949,
       "public_copy_sha256": "8fdb2b5624b4030fd0315eaa6738d53782ebb62859fab299fa0dddabe3e84ae1",
-      "role": "chosen reweighted solve assignment",
+      "role": "artifact",
       "source_sha256": "5e2730816074d0b19676835dd7a6ede5f0801b92d2db859890e9749cca800c20",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/V2_REWEIGHTED_DONE.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 9855,
       "public_copy_sha256": "eb0b233374fa3d7d09552c8e7df65278d3ab73e67a6e29ed3ad7df9cf89ab286",
-      "role": "chosen reweighted solve terminal receipt",
+      "role": "artifact",
       "source_sha256": "53c012627cfe0ee92757846e6bbce92d58913837be5015f1722facfe65f89c37",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/V2_SOLVER_INPUT_MANIFEST.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 28227,
       "public_copy_sha256": "43134efa5d671993e51c67f1c275aaef3e52d89d30be4c45f5313b1d286ef49d",
-      "role": "complete 154-file V2 solver input pin manifest",
+      "role": "artifact",
       "source_sha256": "ec9aa657179cb3de274392af88b2e1144205a7b22e1645389d5af26ded77796a",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/V2_SOLVE_READY.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 5771,
       "public_copy_sha256": "d01e5459483ba6fc87da451d9591a8875b60813c8b84dfd9e0f43710299b51a1",
-      "role": "V2 solver preflight and dry-run receipt",
+      "role": "artifact",
       "source_sha256": "720b6eb8969d596b08b431a1666103d9b9bc6999804ccadcc6d118f513ac4c1b",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/WIRE_B_W256_319_RECEIPT.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 72378,
       "public_copy_sha256": "3b3eb3bb03cc2f1485f6ab38c106411072592fb0e47133862d0599d23abd9a63",
-      "role": "Wire B measured slice receipt",
+      "role": "artifact",
       "source_sha256": "baefa805af9fd03f438fe06dbbad08b359fc305cd2bc922bbe535233f6953c8e",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/WIRE_B_W320_383_RECEIPT.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 85896,
       "public_copy_sha256": "11bfc22d57e513ddf824bf41c5ba9c1837551ac1f5edba81b1c1a21b1a7850c8",
-      "role": "Wire B measured slice receipt",
+      "role": "artifact",
       "source_sha256": "e215109ff6410aa48be7ae179f74a30f51eb05334c2ed31c7107087aadab3c69",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/WIRE_C_F521_BUILD_ASSIGNMENT.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 970969,
       "public_copy_sha256": "b96284684931eb39d2ff0e07da321f7dfc5eb33360701e9b29194666d71975c0",
-      "role": "physically built V2 assignment; source pin f521cf07",
+      "role": "artifact",
       "source_sha256": "f521cf07e0dce3c39739c7493b6eda82cd78d6b1566fadb2101691321566ca39",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/WIRE_C_F949_ASSIGNMENT.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 970981,
       "public_copy_sha256": "2162c3ee197fc798736e9a9f167f5bcd6f0d2bff964ceabf6b799e2a48de571b",
-      "role": "physical F949 baseline assignment; source pin f949b01a",
+      "role": "artifact",
       "source_sha256": "f949b01a29049b03c9dcba6fb1c9df775d414427aeb9f475cd176503f8ddd654",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "artifacts/WIRE_C_FULL_BALANCED64.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 6344,
       "public_copy_sha256": "e1f7078461e11304419b97eb5237ba57575da11c85865c463ba463729d1be18d",
-      "role": "Wire C BASELINE_R pre-repair BALANCED64 result",
+      "role": "artifact",
       "source_sha256": "29e021348412e7e5847c288ffe9deb84162a08594a4f04def7324fe8114ef7ef",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "code/V2_REWEIGHTED_CONFIG.public.json",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 4716,
       "public_copy_sha256": "70385a8eb373dc1b400691ca24397f84547454939a5a55211d07fef534ddf146",
-      "role": "chosen V2 reweighted solver configuration",
+      "role": "implementation",
       "source_sha256": "7bf451ff9d4cefc8a970ed462fcd9793c9d2d5588f4637bac4f322d7976ddcbc",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "code/bulk_transfer.py",
       "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 7787,
       "public_copy_sha256": "174da5de80e64733bba5589a6c31a1c3b65d5fb6a4c785af12f0fc7fed0041ba",
-      "role": "capacity-gated parallel immutable-object transfer helper",
+      "role": "implementation",
       "source_sha256": "174da5de80e64733bba5589a6c31a1c3b65d5fb6a4c785af12f0fc7fed0041ba",
-      "source_verification": "generated deterministically inside the public package"
+      "source_verification": "byte-identical predecessor/public copy"
     },
     {
       "path": "code/launch_v2_reweighted.sh",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 1540,
       "public_copy_sha256": "58838ad5f1aab5e06ee7bdc999d1644a6db83b0c1bd95f31d1bb0837ff46c56b",
-      "role": "chosen V2 reweighted launch wrapper",
+      "role": "implementation",
       "source_sha256": "7effc841e03252fc43ce37ab6ba92fed46bb5a193d7cba8239014f887747040a",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "code/p874_checkpoint_patch.py",
       "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 4962,
       "public_copy_sha256": "1d0101db7deaf3c15d9e3f47f32ea0d3348b80ad89ab210b14ea60c23e5405f3",
-      "role": "P874 checkpoint and resume patch",
+      "role": "implementation",
       "source_sha256": "1d0101db7deaf3c15d9e3f47f32ea0d3348b80ad89ab210b14ea60c23e5405f3",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "byte-identical predecessor/public copy"
     },
     {
       "path": "code/p908_direct_pricing.py",
       "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 1297,
       "public_copy_sha256": "71a7f2e2a873c118ad458f7f5e249558e6f99b1dbae8799c709b7282f2047d66",
-      "role": "portable P908 direct-pricing inspector",
+      "role": "implementation",
       "source_sha256": "71a7f2e2a873c118ad458f7f5e249558e6f99b1dbae8799c709b7282f2047d66",
-      "source_verification": "generated deterministically inside the public package"
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "code/p929_run_true_c_refit.public.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 60034,
+      "public_copy_sha256": "a946ee150fd3013755fd04b434a4aa6456115234f75e06c50ff086aca094a1b8",
+      "role": "implementation",
+      "source_sha256": "a946ee150fd3013755fd04b434a4aa6456115234f75e06c50ff086aca094a1b8",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "code/p929_true_c_overlay_adapter.public.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 15067,
+      "public_copy_sha256": "64cf863191516653120104d2b774ab49834845007bc56fc45108b5cd9ac79b06",
+      "role": "implementation",
+      "source_sha256": "64cf863191516653120104d2b774ab49834845007bc56fc45108b5cd9ac79b06",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "code/p951_true_c_balanced64.public.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 25320,
+      "public_copy_sha256": "154f4f371d239761f1886810f716239616556de2ae0e56e36d864d643cddf424",
+      "role": "implementation",
+      "source_sha256": "154f4f371d239761f1886810f716239616556de2ae0e56e36d864d643cddf424",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "code/p951_true_c_overlay_adapter.public.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 15879,
+      "public_copy_sha256": "4a8dfea5a98cab503ab07ab8f2511fb6a5ac5d818a1d6bdeafe08ea941a51f99",
+      "role": "implementation",
+      "source_sha256": "4a8dfea5a98cab503ab07ab8f2511fb6a5ac5d818a1d6bdeafe08ea941a51f99",
+      "source_verification": "byte-identical predecessor/public copy"
     },
     {
       "path": "code/rebuild_anchor_worker.public.py",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 4919,
       "public_copy_sha256": "0ec61b4d008eee833ca0c4215967155cf41ef00abeef21300f80194fd0313a03",
-      "role": "bounded takeover and rebuild reference script",
+      "role": "implementation",
       "source_sha256": "729646ad6d7e9b3ca1d26c4e9245b9845be2d028c176a67c7d07e0b5760ac2cd",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "code/recompute_results.py",
       "privacy_substitution_applied": false,
-      "public_copy_bytes": 6186,
-      "public_copy_sha256": "9cd5956376c62176426537037484bee83d8ae83988bda189ab15ff013d605c15",
-      "role": "portable same-instrument result recomputation",
-      "source_sha256": "9cd5956376c62176426537037484bee83d8ae83988bda189ab15ff013d605c15",
-      "source_verification": "generated deterministically inside the public package"
+      "provenance_type": "generated_exact_public_file",
+      "public_copy_bytes": 9174,
+      "public_copy_sha256": "2591eb62124c558e054f8d25eac17ed8da1d2b763e9c1cce39e21d27055c9203",
+      "role": "implementation",
+      "source_sha256": "2591eb62124c558e054f8d25eac17ed8da1d2b763e9c1cce39e21d27055c9203",
+      "source_verification": "exact public-authored bytes"
+    },
+    {
+      "path": "code/regenerate_metadata.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_exact_public_file",
+      "public_copy_bytes": 15268,
+      "public_copy_sha256": "400ff22d3fb2bdeeabf0381da4cab92f75c8aef1a97a00f5344270527d9db4de",
+      "role": "implementation",
+      "source_sha256": "400ff22d3fb2bdeeabf0381da4cab92f75c8aef1a97a00f5344270527d9db4de",
+      "source_verification": "exact public-authored bytes"
     },
     {
       "path": "code/restore_anchor_worker.public.py",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 6143,
       "public_copy_sha256": "e8bae0e0d4f45ad249929f43430329ffc3367400662959bd4e39c56c7d6957ca",
-      "role": "restore and productive-resume reference script",
+      "role": "implementation",
       "source_sha256": "d2c6c0b732f42b01bf6c540574ff80d0fa3b78384d694dfc7f4d86b0e2d9b84b",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "code/retrodict_wire_b.py",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 43061,
       "public_copy_sha256": "a5e6abd14a463b57124a0ea8aa71f31f303d3c64d9373a66eefb551d95786538",
-      "role": "pinned measured-anchor repricing dependency",
+      "role": "implementation",
       "source_sha256": "466bba58afd00cc12d6b157281eda8a5d06fb5807b89874b5a6497ee29c3047e",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "code/solve_p693_turbo.py",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 40817,
       "public_copy_sha256": "5c039c5e2250f4216661bf531cfd4864edaed362c5c1987d55f46af7b34f768a",
-      "role": "pinned P693 optimization core dependency",
+      "role": "implementation",
       "source_sha256": "a6052cabce24d218f7ba2161910f70e77abddf51d953a07a7132158b75dc2c04",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "code/solve_p760_turbo.py",
-      "privacy_substitution_applied": true,
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 14410,
       "public_copy_sha256": "db1cdc17dc9aae78d2283e26f7dff241d02b81b5a04af662ab213346dbcdf7a9",
-      "role": "pinned P760 full-menu solver dependency",
+      "role": "implementation",
       "source_sha256": "db1cdc17dc9aae78d2283e26f7dff241d02b81b5a04af662ab213346dbcdf7a9",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "byte-identical predecessor/public copy"
     },
     {
       "path": "code/solve_v2_reweighted.py",
       "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 44009,
       "public_copy_sha256": "900a3e9cb3621a87f6c8dbcb806282abb28e0e36fe2c020da905e41df710094f",
-      "role": "chosen V2 reweighted solver wrapper",
+      "role": "implementation",
       "source_sha256": "fc99323ecea76d52b3640e96894ded0ee684987d66abea38cde6cc8be4dfd355",
-      "source_verification": "SHA-256 computed from the sealed source before public path and identity substitution"
+      "source_verification": "sealed predecessor SHA pinned before public copy"
     },
     {
       "path": "code/verify_corrected_pricing.py",
       "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 4635,
       "public_copy_sha256": "7c14b813e1f1e7a16a13f5a20ad807eb580eaeb6888903b3ae37e787bd2b64cf",
-      "role": "fail-closed corrected-pricing verifier",
+      "role": "implementation",
       "source_sha256": "7c14b813e1f1e7a16a13f5a20ad807eb580eaeb6888903b3ae37e787bd2b64cf",
-      "source_verification": "generated deterministically inside the public package"
+      "source_verification": "byte-identical predecessor/public copy"
     },
     {
       "path": "code/verify_package.py",
       "privacy_substitution_applied": false,
-      "public_copy_bytes": 6314,
-      "public_copy_sha256": "5e2347132b54eddef71b05cceddd02df239f805d0c2ba5e87c7375a5bac063e8",
-      "role": "fail-closed package/hash/privacy/closure verifier",
-      "source_sha256": "5e2347132b54eddef71b05cceddd02df239f805d0c2ba5e87c7375a5bac063e8",
-      "source_verification": "generated deterministically inside the public package"
+      "provenance_type": "generated_exact_public_file",
+      "public_copy_bytes": 29931,
+      "public_copy_sha256": "b0c9c6b315ae3c0ae8830ddb7743b7c22904fcdf0c13914fa7d13a089daa7571",
+      "role": "implementation",
+      "source_sha256": "b0c9c6b315ae3c0ae8830ddb7743b7c22904fcdf0c13914fa7d13a089daa7571",
+      "source_verification": "exact public-authored bytes"
     },
     {
       "path": "doctrine/FROZEN_SCOPE.md",
       "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 708,
       "public_copy_sha256": "dde171abda7bc5a8bf7312e41f5e39e42e63b1eaa5741858dd6c5a2c7f94c2f4",
-      "role": "frozen publication and no-dose policy",
+      "role": "methodology",
       "source_sha256": "dde171abda7bc5a8bf7312e41f5e39e42e63b1eaa5741858dd6c5a2c7f94c2f4",
-      "source_verification": "generated deterministically inside the public package"
+      "source_verification": "byte-identical predecessor/public copy"
     },
     {
       "path": "doctrine/KASA_WEDGE_DOCTRINE.md",
       "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 1128,
       "public_copy_sha256": "56078826da36721f54176c6937f75ae46db213ba25dcf9915b6f53ecf2db362f",
-      "role": "recovery and stalled-worker doctrine",
+      "role": "methodology",
       "source_sha256": "56078826da36721f54176c6937f75ae46db213ba25dcf9915b6f53ecf2db362f",
-      "source_verification": "generated deterministically inside the public package"
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "evaluation/P967_INFERENCE_PROTOCOL.public.json",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_exact_public_file",
+      "public_copy_bytes": 2411,
+      "public_copy_sha256": "a12bd1aba6f3d52f7801637ee4bf4e45b5e6f74fe11c39ed0c9f8a6dca3566f5",
+      "role": "artifact",
+      "source_sha256": "a12bd1aba6f3d52f7801637ee4bf4e45b5e6f74fe11c39ed0c9f8a6dca3566f5",
+      "source_verification": "exact public-authored bytes"
+    },
+    {
+      "path": "evaluation/P968_AUTHORITY.md",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 2154,
+      "public_copy_sha256": "ff53357472fbac33fb68f713a7e3b144d0d06fd7375e1bbc7fc2817aa111a2f5",
+      "role": "methodology",
+      "source_sha256": "ff53357472fbac33fb68f713a7e3b144d0d06fd7375e1bbc7fc2817aa111a2f5",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "evaluation/P968_AUTHORITY_MAP.public.json",
+      "privacy_substitution_applied": false,
+      "provenance_type": "derived_public_summary",
+      "public_copy_bytes": 9504,
+      "public_copy_sha256": "ea5ddd35eb0c0a5c1ae2edf66ed03ff67015b88f317f8bee6e5aa3728a166c79",
+      "role": "artifact",
+      "source_sha256": "ea5ddd35eb0c0a5c1ae2edf66ed03ff67015b88f317f8bee6e5aa3728a166c79",
+      "source_verification": "reviewed evidence hashes recorded separately; summary is not a byte transform"
+    },
+    {
+      "path": "evaluation/toolkit/README.md",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 1144,
+      "public_copy_sha256": "50b3e155f4fa0c2575d09315623de6a78e523c04a432e6b4ac3bae294b1749dc",
+      "role": "methodology",
+      "source_sha256": "50b3e155f4fa0c2575d09315623de6a78e523c04a432e6b4ac3bae294b1749dc",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "evaluation/toolkit/analyze.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 10299,
+      "public_copy_sha256": "ff4c1f71155de93eef4e9479a693f5cc65fabc62bcc745151f916bb2a0222c1f",
+      "role": "implementation",
+      "source_sha256": "ff4c1f71155de93eef4e9479a693f5cc65fabc62bcc745151f916bb2a0222c1f",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "evaluation/toolkit/export_evalplus.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 2886,
+      "public_copy_sha256": "182613826dc504fa7c83415d4d5d36541c15ab1207054d2d85b70c2133ef917b",
+      "role": "implementation",
+      "source_sha256": "182613826dc504fa7c83415d4d5d36541c15ab1207054d2d85b70c2133ef917b",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "evaluation/toolkit/generate_http.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 10345,
+      "public_copy_sha256": "8c289a4ac1112cfd1ba42d7ead2d45e319dd8634d97f25a765d398f351df4ed6",
+      "role": "implementation",
+      "source_sha256": "8c289a4ac1112cfd1ba42d7ead2d45e319dd8634d97f25a765d398f351df4ed6",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "evaluation/toolkit/generate_vllm.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 11751,
+      "public_copy_sha256": "fd6e79f1dd408c4106beb6c133b7853789e0501fd4e120af853938289a203f34",
+      "role": "implementation",
+      "source_sha256": "fd6e79f1dd408c4106beb6c133b7853789e0501fd4e120af853938289a203f34",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "evaluation/toolkit/p968_common.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 6587,
+      "public_copy_sha256": "229998121fc0bd03140eb467a20cd19f6abc7be3e9335269b9430417bc5aab4f",
+      "role": "implementation",
+      "source_sha256": "229998121fc0bd03140eb467a20cd19f6abc7be3e9335269b9430417bc5aab4f",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "evaluation/toolkit/score_evalplus.sh",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 4068,
+      "public_copy_sha256": "61f8602dbbd21cbbfcdc04ab37975338403b87e258e1af4df40e8aa080751100",
+      "role": "implementation",
+      "source_sha256": "30d7e65bdef0471e0086ff05138d23c0d51e1dccd02c45ad06477990aad6058f",
+      "source_verification": "sealed predecessor SHA pinned before public copy"
+    },
+    {
+      "path": "evaluation/toolkit/tests/test_protocol.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 2308,
+      "public_copy_sha256": "eb4164b987a4330472a9db3260f99685e3203229170309c59af30967f0e4475f",
+      "role": "implementation",
+      "source_sha256": "eb4164b987a4330472a9db3260f99685e3203229170309c59af30967f0e4475f",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "evaluation/toolkit/timing_adjudicate.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 4386,
+      "public_copy_sha256": "f6644f1e2e421f6169cb29f127bc2c31fa48e99d79a3e3abc05ae017ab228717",
+      "role": "implementation",
+      "source_sha256": "f6644f1e2e421f6169cb29f127bc2c31fa48e99d79a3e3abc05ae017ab228717",
+      "source_verification": "byte-identical predecessor/public copy"
     },
     {
       "path": "specs/ACQUISITION_SPECS.public.json",
       "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 1346,
       "public_copy_sha256": "db6180484581dbfa82a8442c0c73c18363294f964ed68c98a0a3db04730793f9",
-      "role": "frozen public acquisition and staging contract",
+      "role": "methodology",
       "source_sha256": "db6180484581dbfa82a8442c0c73c18363294f964ed68c98a0a3db04730793f9",
-      "source_verification": "generated deterministically inside the public package"
+      "source_verification": "byte-identical predecessor/public copy"
     },
     {
       "path": "specs/BALANCED64_V1.public.json",
       "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 1509,
       "public_copy_sha256": "7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad",
-      "role": "canonical BALANCED64 instrument specification (spec layout)",
+      "role": "methodology",
       "source_sha256": "7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad",
-      "source_verification": "generated deterministically inside the public package"
+      "source_verification": "byte-identical predecessor/public copy"
     },
     {
       "path": "specs/WIRE_C_V2_MEASUREMENT_SPEC.public.json",
       "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
       "public_copy_bytes": 1589,
       "public_copy_sha256": "5e40fa56efdcf90b332230c9889d7c7b37151c1431b32bc9a3a236bab8e3aa2d",
-      "role": "frozen Wire C V2 measurement and validity contract",
+      "role": "methodology",
       "source_sha256": "5e40fa56efdcf90b332230c9889d7c7b37151c1431b32bc9a3a236bab8e3aa2d",
-      "source_verification": "generated deterministically inside the public package"
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/README.md",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 848,
+      "public_copy_sha256": "eaaad41b6ed4ad182f073d8698b5073749a6205c241ab3f9553143186e98cb55",
+      "role": "methodology",
+      "source_sha256": "eaaad41b6ed4ad182f073d8698b5073749a6205c241ab3f9553143186e98cb55",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p936/authority/README.md",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 2098,
+      "public_copy_sha256": "c60d428c6918b6bc94e43eea56534ee68e7bcd25d5688ab0bf2e06c7aced5ba2",
+      "role": "methodology",
+      "source_sha256": "fad5e3cb06551fc2def6dd07ad2941189a407e34d85085ac62c60f44ac04057e",
+      "source_verification": "sealed predecessor SHA pinned before public copy"
+    },
+    {
+      "path": "structural-guards/p936/authority/__init__.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 176,
+      "public_copy_sha256": "73e60b855d4953e5a447cac79f651a6616f01201ee3e39c921ff4ac5ed0ffc55",
+      "role": "implementation",
+      "source_sha256": "73e60b855d4953e5a447cac79f651a6616f01201ee3e39c921ff4ac5ed0ffc55",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p936/authority/authority_guard.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 23089,
+      "public_copy_sha256": "2d3921c9ee3ea4ad15675e088c82dd2ad8fdfea88e8c896f26ec0aab71aeb348",
+      "role": "implementation",
+      "source_sha256": "2d3921c9ee3ea4ad15675e088c82dd2ad8fdfea88e8c896f26ec0aab71aeb348",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p936/authority/cli.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 10822,
+      "public_copy_sha256": "2436136f339b7b7bce90c4f5d35bf32175d553ad18b92788ac6d628673c2d747",
+      "role": "implementation",
+      "source_sha256": "2436136f339b7b7bce90c4f5d35bf32175d553ad18b92788ac6d628673c2d747",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p936/authority/integrations/__init__.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 141,
+      "public_copy_sha256": "b11a1cc5de016dfe5c21010c377d43ff22ca2c225872869b228ea0fc7552efbf",
+      "role": "implementation",
+      "source_sha256": "b11a1cc5de016dfe5c21010c377d43ff22ca2c225872869b228ea0fc7552efbf",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p936/authority/integrations/f521.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 1793,
+      "public_copy_sha256": "b7ac29752ee3a3d41cc91d25ceba12b01f7bea8d05e97b95bd82ca689b05479c",
+      "role": "implementation",
+      "source_sha256": "b7ac29752ee3a3d41cc91d25ceba12b01f7bea8d05e97b95bd82ca689b05479c",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p936/authority/schemas/ARCHIVE_FIRST.schema.json",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 861,
+      "public_copy_sha256": "2b6807bce3fdcec3d0e7d042c076c59d756c6006e3693081301ff95af74afef9",
+      "role": "implementation",
+      "source_sha256": "2b6807bce3fdcec3d0e7d042c076c59d756c6006e3693081301ff95af74afef9",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p936/authority/schemas/MEASUREMENT_RECEIPT.schema.json",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 877,
+      "public_copy_sha256": "dcc099601720807a414f8e4e91881c1b26e8c24a7923964efbea69fa90e27646",
+      "role": "implementation",
+      "source_sha256": "dcc099601720807a414f8e4e91881c1b26e8c24a7923964efbea69fa90e27646",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p936/authority/schemas/SEAL_DEPENDENCIES.schema.json",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 917,
+      "public_copy_sha256": "ddbac5a324756615c180f94cc0fa3fc95ee8f1035d2182e63c4708293e04564a",
+      "role": "implementation",
+      "source_sha256": "ddbac5a324756615c180f94cc0fa3fc95ee8f1035d2182e63c4708293e04564a",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p936/authority/schemas/SUBSTITUTION_WAIVER.schema.json",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 892,
+      "public_copy_sha256": "a02b539230fa35a49373e9f892c31778ebcfa4aa1ff7342ca98c7b7ca06c3fe2",
+      "role": "implementation",
+      "source_sha256": "a02b539230fa35a49373e9f892c31778ebcfa4aa1ff7342ca98c7b7ca06c3fe2",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p936/authority/scripts/__init__.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 64,
+      "public_copy_sha256": "23936576fda0db3ef0fdf4d91ecea1c8a2c4de0fe714f618db3f947a1e3c4385",
+      "role": "implementation",
+      "source_sha256": "23936576fda0db3ef0fdf4d91ecea1c8a2c4de0fe714f618db3f947a1e3c4385",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p936/authority/scripts/build_fleet_index.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 4291,
+      "public_copy_sha256": "0aac329334b698b05ab857b9a25cb219220a7571f7743d7fd2f6902243961902",
+      "role": "implementation",
+      "source_sha256": "0aac329334b698b05ab857b9a25cb219220a7571f7743d7fd2f6902243961902",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p936/authority/scripts/merge_protected_indexes.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 3439,
+      "public_copy_sha256": "986a998d1643455048e18193696e1439701c1b9bc1ecbd4557a8cacc48f11bf5",
+      "role": "implementation",
+      "source_sha256": "986a998d1643455048e18193696e1439701c1b9bc1ecbd4557a8cacc48f11bf5",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p936/authority/scripts/populate_codebooks.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 3035,
+      "public_copy_sha256": "0ad241fb40ea65d1fb510798b5b8f9394cf726d7bd28ac11369e64af811abd07",
+      "role": "implementation",
+      "source_sha256": "0ad241fb40ea65d1fb510798b5b8f9394cf726d7bd28ac11369e64af811abd07",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p936/authority/scripts/run_negative_receipts.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 4891,
+      "public_copy_sha256": "47a05a73fb3c3db7c27b654c528349a1149869ae67aaa21e606e5f4708d6c4cc",
+      "role": "implementation",
+      "source_sha256": "47a05a73fb3c3db7c27b654c528349a1149869ae67aaa21e606e5f4708d6c4cc",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p936/authority/scripts/verify_store.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 2358,
+      "public_copy_sha256": "5344f4bc074b0d38b92ae0c8612f1b60bb053132e9877b2aa7027a0dc9df79b0",
+      "role": "implementation",
+      "source_sha256": "5344f4bc074b0d38b92ae0c8612f1b60bb053132e9877b2aa7027a0dc9df79b0",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p936/authority/tests/test_authority_guard.py",
+      "privacy_substitution_applied": true,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 13270,
+      "public_copy_sha256": "2096b59a32796e64ff57bfaec78e241f875d410ef520fec96491a23ff164e7f6",
+      "role": "implementation",
+      "source_sha256": "f93385fce041fcb96aa770b19be0cbbc92db1e58cb6ee2ffca5983c9d05c55c1",
+      "source_verification": "sealed predecessor SHA pinned before public copy"
+    },
+    {
+      "path": "structural-guards/p936/authority/tests/test_cli.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 1511,
+      "public_copy_sha256": "6d357c0f9447d4acfc5ddd4272ca28d97823122b4af97e598822896d67db8230",
+      "role": "implementation",
+      "source_sha256": "6d357c0f9447d4acfc5ddd4272ca28d97823122b4af97e598822896d67db8230",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p936/authority/tests/test_fleet_index.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 1634,
+      "public_copy_sha256": "0cbb5797b21fc298f200b3852358e11d6c644b94dda4db7a6a8ab3284f61d0f7",
+      "role": "implementation",
+      "source_sha256": "0cbb5797b21fc298f200b3852358e11d6c644b94dda4db7a6a8ab3284f61d0f7",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p936/authority/tests/test_reclaim_defaults.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 368,
+      "public_copy_sha256": "77a8912443a13f47b7c00f357664eb984aa11d3a17cc2e957b7a0abc4d2e0926",
+      "role": "implementation",
+      "source_sha256": "77a8912443a13f47b7c00f357664eb984aa11d3a17cc2e957b7a0abc4d2e0926",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p936/reclamation/safe_reclaim.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 2987,
+      "public_copy_sha256": "71fce522489d40a1f939a609983ff9c522615fc23e20e5a5873670ed26a77d4d",
+      "role": "implementation",
+      "source_sha256": "71fce522489d40a1f939a609983ff9c522615fc23e20e5a5873670ed26a77d4d",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p936/sealing/seal_with_authority.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 2807,
+      "public_copy_sha256": "f3ee685e0635b05f40baee2a2dd93b1a1186d633d48c524cf4fd9ac9bfc77b9d",
+      "role": "implementation",
+      "source_sha256": "f3ee685e0635b05f40baee2a2dd93b1a1186d633d48c524cf4fd9ac9bfc77b9d",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p953/README.md",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 989,
+      "public_copy_sha256": "248edaf109ab8c030235eeeaff7f2613be4a7c0818b5b27e2cae8e98d9bd6cd8",
+      "role": "methodology",
+      "source_sha256": "248edaf109ab8c030235eeeaff7f2613be4a7c0818b5b27e2cae8e98d9bd6cd8",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p953/immutable_sha_authority.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 12533,
+      "public_copy_sha256": "e2d9d1dbbaa06fb45bfb6b0aba693f77eed3ff1163d3e1aa15f5373f5fc4078c",
+      "role": "implementation",
+      "source_sha256": "e2d9d1dbbaa06fb45bfb6b0aba693f77eed3ff1163d3e1aa15f5373f5fc4078c",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "structural-guards/p953/test_immutable_sha_and_resume.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "sealed_source_public_copy",
+      "public_copy_bytes": 6680,
+      "public_copy_sha256": "67b37c9d131b63dccc3d1e01098f4629f2a8c3dcc779439b70a8f4b21601c6d0",
+      "role": "implementation",
+      "source_sha256": "67b37c9d131b63dccc3d1e01098f4629f2a8c3dcc779439b70a8f4b21601c6d0",
+      "source_verification": "byte-identical predecessor/public copy"
+    },
+    {
+      "path": "tests/test_package_contract.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_exact_public_file",
+      "public_copy_bytes": 3644,
+      "public_copy_sha256": "0a09e105dbd4c60d63ec99adbd076e4ac0c94d61e2ceb4ed0acc2b54b44e628d",
+      "role": "implementation",
+      "source_sha256": "0a09e105dbd4c60d63ec99adbd076e4ac0c94d61e2ceb4ed0acc2b54b44e628d",
+      "source_verification": "exact public-authored bytes"
+    },
+    {
+      "path": "tests/test_structural_guards.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "generated_exact_public_file",
+      "public_copy_bytes": 3646,
+      "public_copy_sha256": "0e9f223d6b99a1f0ed6b2515a5bc0a123881943940b98e27510c5e70d13a23c5",
+      "role": "implementation",
+      "source_sha256": "0e9f223d6b99a1f0ed6b2515a5bc0a123881943940b98e27510c5e70d13a23c5",
+      "source_verification": "exact public-authored bytes"
     }
   ],
   "hash_semantics": {
-    "public_copy_sha256": "hash of the file shipped in this repository",
-    "source_sha256": "sealed source hash before privacy substitution"
+    "public_copy_sha256": "SHA-256 of the exact file shipped in this repository.",
+    "source_sha256": "SHA-256 of predecessor bytes, or exact packaged bytes for generated/derived documents."
   },
   "physical_build": {
     "assignment_cells": 22016,
-    "assignment_label": "F521 V2",
+    "assignment_label": "F521 V2 physical candidate",
     "baseline_r_preserved": true,
     "changed_cells_built_and_read_back": 21472,
     "changed_cells_expected": 21472,
     "unchanged_cells_inherited": 544
+  },
+  "protocol_contract": {
+    "greedy_repeats": 3,
+    "paired_results_in_package": false,
+    "sampled_n_per_task": 5
   },
   "required_source_pins": {
     "baseline_r_physical_manifest": "398441d16f1a251079b518a55095c568353b9f3e542f2ec55d4139e0ac6e7ffd",
     "corrected_vertical_grid": "74869b5f8e3ef4eb43dc98c6ee060c2d9ad048bb215cadd308fb2c9983933dda",
     "f949_assignment": "f949b01a29049b03c9dcba6fb1c9df775d414427aeb9f475cd176503f8ddd654",
     "full_menu_manifest": "854b85c6216ae38682010b13ccd0348f52f1503ca8c568c61e43b829da361fcc",
-    "p921_wire_a_balanced64": "e1d1b70792a7c8fe133a63b5e922359a24428f5d1281ddd804f0ee01711965ed",
-    "p922_restored_vq_balanced64": "c2604f6386e00c1ab38b238cd5940f85d1ab12ec20e18f43dfc9efcece29be8e",
     "p922_terminal_verification": "d3cbae01335d4fb3809275d72d9f6201c439f2598cd7c41ba0e57d81b36733c5",
     "p930_corrected_grid_v3": "49407ff0114c5bcf9f7a68fbfc2a4822fee1839852aff5d89b8ce12d1251c203",
     "p930_corrected_pricing_v3": "c8673867b0fb7626232721d4939a9fdf95ef6d1a3de69698fd2a3d42398606c0",
@@ -568,33 +1241,45 @@
     "p930_p928_assignment": "62c26b9ea8f53aa2a2be84ff55b0e444100625f900832e096624ea178d9f9122",
     "p930_validator": "9666d979b79ec576f55a4ea685bb1311b29910875fc227a24f470370e516b379",
     "p931_first_feasible": "e84c6c5550eebc00df8b0f15d344c719864bbaf96cfdf5723bc696e839352772",
+    "p931_independent_verification": "60e6573f717e78fa8039a64938d7e444661e6583bd2c1549aa15906fcba4703a",
+    "p931_reviewed_artifact_manifest": "d13db9c39f2da6620c432ba75ec1a5c45b1852b766418cc2e8d8a2b09e9e312a",
+    "p943_terminal_true_c": "90e6d6b131d14b353be2976848dc90e947cb6fc1cda376e03b760a63dce8d31c",
+    "p951_balanced64_true_c": "25dc5d5965b6e0e6c11db69ae05b7d64ec158dd41698e84e551db35270f1e5f7",
+    "p963_accelerated_receipt": "85566c504f23d2862ce4f5d1cc5c03797888e57fd090547b239b2ffa2890f6a2",
+    "p963_exact_acceleration": "11ed966638ac0c4641a28c8c4946599bdaeaaca1016d26f8a0ddb7cfb2373196",
+    "p963_runner": "44ff2771fad236ad9d25fdbcd4ccdbfdb24b0725a27631650eb9748cb50cfdf8",
     "qtip2_anchor": "96e09515e61e87669e5a378b714262184173b625844898a20f210838a3ed0b5b",
     "qtip3_anchor": "d79a79653f66067aee9255d95e0212013abae128df5c0ac2c7727ab899e44315"
   },
-  "schema": "wire-c-v2-public-package-manifest-v2",
+  "schema": "wire-c-v2-package-manifest-v3",
   "selected_solve": {
     "accounting_closure": true,
     "envelope_bytes": 101346700411,
-    "exact_logical_bytes": 101346673727,
-    "label": "V2_REWEIGHTED_PRE_V3",
-    "objective": 0.03342201348200865,
-    "slack_bytes": 26684
+    "exact_logical_bytes": 101346700382,
+    "label": "P931_V3_DEFINITIVE_TIME_LIMIT_INCUMBENT",
+    "measured": false,
+    "objective": 0.035078633039490076,
+    "optimality_proven": false,
+    "slack_bytes": 29
   },
-  "status": "PASS_PUBLIC_SCRUBBED_CORRECTED_PRICING_CHAIN",
+  "status": "PASS_COMPLETE_PUBLIC_INVENTORY",
   "true_c_chain": {
-    "mechanical_point_kld": 0.08887845829694314,
-    "p922_measured_substitution_penalty_kld": 0.02925963216194956,
-    "pending": [
-      "refit codebooks",
-      "deterministic physical rebuild/readback",
-      "fresh BALANCED64 measurement",
-      "optional separately sealed dose"
-    ],
-    "planning_bracket_kld": [
-      0.089,
-      0.095
-    ],
-    "status": "ESTIMATE_NOT_MEASUREMENT",
-    "wire_c_r_measured_global_kld": 0.1181380904588927
+    "premeasurement_estimate": {
+      "mechanical_point_kld": 0.08887845829694314,
+      "p922_measured_substitution_penalty_kld": 0.02925963216194956,
+      "planning_bracket_kld": [
+        0.089,
+        0.095
+      ],
+      "status": "ESTIMATE_NOT_MEASUREMENT",
+      "wire_c_r_measured_global_kld": 0.1181380904588927
+    },
+    "status": "MEASURED_TERMINAL_F521_T",
+    "terminal_balanced64_global_kld": 0.06829414627618949,
+    "terminal_measurement_source_sha256": "25dc5d5965b6e0e6c11db69ae05b7d64ec158dd41698e84e551db35270f1e5f7",
+    "terminal_positions": 65536,
+    "terminal_windows": 64,
+    "zero_quarantine": true,
+    "zero_substitution": true
   }
 }

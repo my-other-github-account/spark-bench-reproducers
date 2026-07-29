@@ -1,0 +1,1209 @@
+{
+  "active_overlay": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/out/WIRE_C_TRUE_C_ACTIVE_OVERLAY.json",
+  "active_overlay_sha256": "9a4b709851c62c32f59b17556ef14d53e89cbbfc0fcc93686fc51530e4cf4d62",
+  "build_identity_sha256": "13d1f887f8e6055f1f579730c2cc37be1e6c0754dd02256cf35a3a9f8c2d0a2f",
+  "canonical_builder_sha256": "60b594ac38e4973eaaecb76c708b555418406eb697414d2563aeb1e978268a7e",
+  "canonical_runner_sha256": "e621a936a3a5d118caa61f7964f97064bb8a7888f54dcbea9a59548f3d09683b",
+  "canonical_task_id": "PUBLIC_TASK",
+  "claim_sha256": "399c9b959652bf186f18b0234e1ffbd1c2dba07179cc4b8f1d6732d5ac319123",
+  "codebook_ledger": [
+    {
+      "codebook_sha256": "17a3e727a945e036d6331b910a7285da7f1f003d73fd5ac398aaeeb0f0295dd3",
+      "group": [
+        0,
+        "d4_k2048",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L000.d4_k2048.down.json",
+      "receipt_sha256": "3f17acf5f693ead69c044deb87ea7a2d2359549c9075c7a09546001ddf11f0b2",
+      "rows": 81,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "0d0e1db3d2c63aac6cd3e892d5e3e78b4b1697d71ad38b9d172d6a793875afcf",
+      "group": [
+        0,
+        "d4_k2048",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L000.d4_k2048.fused13.json",
+      "receipt_sha256": "bb80ade3a376e4eaf66f5f2ffc7d3260756a2a71b009b49024b253c7427ff315",
+      "rows": 81,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "19abeeee418577c5df5971a6c3bbff60dd19d4a563978b1e0c068897eb7bd1ab",
+      "group": [
+        0,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L000.d4_k4096.down.json",
+      "receipt_sha256": "f201338b4d779bf246d0115bdbe4eb2683f7c0762432a7e56240681303b56188",
+      "rows": 75,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "eadbe5907cc3bf780de4d386e9a09f7b3c8af5cfed3c8645ebc9302a263ce02b",
+      "group": [
+        0,
+        "d4_k4096",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L000.d4_k4096.fused13.json",
+      "receipt_sha256": "73247f91aa0a6267e8527bbc69e1551a39b89c9fa8fdcb0afcf810a1ec745261",
+      "rows": 74,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "7ec3f0b7f9065ece5122ea18569e3c338989a08ab939fb53fad83761df04805d",
+      "group": [
+        1,
+        "d4_k2048",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L001.d4_k2048.down.json",
+      "receipt_sha256": "5a51b1ae87824de09f01481b219a96cc82a2c1ec457d2e4e58c222103bcaa042",
+      "rows": 58,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "1109f29bfb4def4a466c42c9bcc798f99d5f64ffb9370ee451195d1ed14a316d",
+      "group": [
+        1,
+        "d4_k2048",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L001.d4_k2048.fused13.json",
+      "receipt_sha256": "b42e694eb6132f987934538bba0f41a2273b8d134174582a839ffa1d706ecd9d",
+      "rows": 58,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "6c9ab01c8e06a9def985249b0d90dfe7137c2c580d33f5258e1cbf73e6ae0767",
+      "group": [
+        1,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L001.d4_k4096.down.json",
+      "receipt_sha256": "8b720ef21031cfa4bf3d6c51bc481909ffeee3706df28a36531b9f30cf735086",
+      "rows": 69,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "70134e0db69db7292e58442d5623ebc7a46b06c82fe500842ab487f916ebbeb8",
+      "group": [
+        1,
+        "d4_k4096",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L001.d4_k4096.fused13.json",
+      "receipt_sha256": "1c6423d7df734885ff42bbe80a22a9808cdb59cb05288ab70ceb941487df8b7f",
+      "rows": 69,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "645470cbb0b8bdb4181d2b1925015f08dbc2e36abd3966aac6928ba302c47c81",
+      "group": [
+        2,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L002.d4_k4096.down.json",
+      "receipt_sha256": "0d42e41744656c0488684a80118a25852d3ae8cf1caa4d15a66bd7fc9507c4bc",
+      "rows": 213,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "d3cce352e8057287f28b643fe90cc0c6c517d7a3dae74841267188d729b0901d",
+      "group": [
+        2,
+        "d4_k4096",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L002.d4_k4096.fused13.json",
+      "receipt_sha256": "d4e78f36b5d010434a65146327fccab3d54c0637b24f2f1574fd324b68380843",
+      "rows": 214,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "57884d902379750b81dd64eca1aad2e5d6039c19681de153319b726bad7fffc9",
+      "group": [
+        3,
+        "d4_k1024",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L003.d4_k1024.down.json",
+      "receipt_sha256": "0d238e2fead111364ab736fb901c28806cfa00e9a6717f0d3a30335ae91a6731",
+      "rows": 16,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "e59b86974b703663369c036d6d0fcb92129a66a5ecbd40170752ab7c667a6989",
+      "group": [
+        3,
+        "d4_k1024",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L003.d4_k1024.fused13.json",
+      "receipt_sha256": "7e50d31c3e22f9f9fca38de801b29aa1a9df2226edb3cf9d1f81288ce74f8e07",
+      "rows": 15,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "12b13a7e18329f56b015aac86bf3ca1c986d2d8f2894280ec3dc7cc9a2946c18",
+      "group": [
+        3,
+        "d4_k2048",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L003.d4_k2048.down.json",
+      "receipt_sha256": "82f5315b44198e0d9a965086f0efb1d340db9bc042dfecf28d8ddc3649df6c56",
+      "rows": 58,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "fcf1da32b3d8ff4f5c64d0301bb44aeb7d879e21ad51cd3cc0ceb2dc96957f42",
+      "group": [
+        3,
+        "d4_k2048",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L003.d4_k2048.fused13.json",
+      "receipt_sha256": "0ab8dda85fa556f7ca6353def8bc29d22a7135442c403eeb341cc0c6c20a42b1",
+      "rows": 58,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "7477c83cc805ab4527a998fc91bfc2afb36ca52fa728fcf59b682ee97465ee1d",
+      "group": [
+        3,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L003.d4_k4096.down.json",
+      "receipt_sha256": "699e0b9f5a0c426fffc5b18f4e79daccd4270ac7f173db564fa10e7266080905",
+      "rows": 18,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "bde31882084c63563c1fc78e67aff4d89d9b14f7de44246349f333df2c06f8ca",
+      "group": [
+        3,
+        "d4_k4096",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L003.d4_k4096.fused13.json",
+      "receipt_sha256": "ddb3bf52f9d5498f3955eee1d5ace5e9371cd68d26d2c8c64cdb4bcdea00bd0b",
+      "rows": 19,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "d835df01d1dbcc0e2c98b60e3b032e633d30fef352205f694ac16a195942cd19",
+      "group": [
+        4,
+        "d4_k1024",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L004.d4_k1024.down.json",
+      "receipt_sha256": "6bae2c3e04e0ee7c15ec012b96d647177d8ce2ed9750522024ce039fd8105efa",
+      "rows": 41,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "6599d283f82ec3941e9f662f06d5878570d9c05abc26700a0c45b0bbb672cd36",
+      "group": [
+        4,
+        "d4_k1024",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L004.d4_k1024.fused13.json",
+      "receipt_sha256": "e4293be0da59a6c85db2dbe76d70d115a16664af0f6f088a750259b682731552",
+      "rows": 41,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "1b4e1027362157a4402c538dd0e9d4d13badf0590df791b41cbdc06eefe8eadf",
+      "group": [
+        4,
+        "d4_k2048",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L004.d4_k2048.down.json",
+      "receipt_sha256": "258b29c09b96e53688caf179f280655dfdf5e16d5b86c74abbf7d61e9e5c46e5",
+      "rows": 62,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "f9a7bf266d1ca2ff7700f2517bfe185562309229a84b7ba4ec2dd2e8b1cbd237",
+      "group": [
+        4,
+        "d4_k2048",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L004.d4_k2048.fused13.json",
+      "receipt_sha256": "c2223b2de1992e7bb177504688930198f8ecf74f8b36dcaa16cf076eb99f5919",
+      "rows": 62,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "6e735d594773f189e31bfdb97af289d151471e46c8fb30132f9ba17b1c16524e",
+      "group": [
+        4,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L004.d4_k4096.down.json",
+      "receipt_sha256": "969569a0974c513d446ebdef46ee317803ce84853b78706350e60320a007f3f0",
+      "rows": 16,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "bf419bfbd99ac2ea4797cd915a13047ba841f0ebf483a7f6eab4a48fb94edeb9",
+      "group": [
+        4,
+        "d4_k4096",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L004.d4_k4096.fused13.json",
+      "receipt_sha256": "8252ff26f6da64eb4f2d4dfa85f29fd891b48ab239800fc3675cb92445577c7f",
+      "rows": 16,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "2040ce211459476a19cdc3f3fa05a78895766778e8d58e6c020b1de0248909a1",
+      "group": [
+        5,
+        "d4_k1024",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L005.d4_k1024.down.json",
+      "receipt_sha256": "66f5e176d5e2c5fd94947c97fc49ecde8bf9b29a85fb929b6a995b1a9bc90fd9",
+      "rows": 8,
+      "source_intake_receipt_sha256": "bb9e7795a3b2326a92414cd048aba9bcc1806e8075961293040a6eefafe33d6c"
+    },
+    {
+      "codebook_sha256": "9e2f680157a4b988ce3d9641815ae22ca5a3f23fb1093b5da22ec26647a99e1c",
+      "group": [
+        5,
+        "d4_k1024",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L005.d4_k1024.fused13.json",
+      "receipt_sha256": "aefaeb1f00ec3bd738c7b88d846975c0fd434cde35b4d0aacf25d806b80b052f",
+      "rows": 8,
+      "source_intake_receipt_sha256": "fd8bef6c514ac7b703336a0ca542db8cfa9bde18c9c4b7a756ce3b6b1a00ed1c"
+    },
+    {
+      "codebook_sha256": "9d65c0d96d9c56ab0e15b91e817ae21113f235fcc1427527830325e3a2ed93de",
+      "group": [
+        5,
+        "d4_k2048",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L005.d4_k2048.down.json",
+      "receipt_sha256": "9db6d1522ac97264e9a9e73fa37f5a5212e3864e54bc56faa8566870187b2b45",
+      "rows": 52,
+      "source_intake_receipt_sha256": "9f3eed5671f95dc6e1c240a4bfc5c76b340adf87b6863f2c8dd28ccdd71533fb"
+    },
+    {
+      "codebook_sha256": "4b3cf4d22c6e714ce1109d4d6cfa6ee2a9995d81c1b6c0a5c0d89ce8c8481f59",
+      "group": [
+        5,
+        "d4_k2048",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L005.d4_k2048.fused13.json",
+      "receipt_sha256": "5514d1e446ef93fa83d5c400647877ad1ebcaf3c8a2d568137cc14f6e73b34a3",
+      "rows": 52,
+      "source_intake_receipt_sha256": "aa99312896056c9af9b2ce447ccaa7bd438b0eff111b880780e7346b636f1031"
+    },
+    {
+      "codebook_sha256": "e2cf2efc09d9bcf338da4249aa6da94cbea89819d58739da1e5d54a3c0b64621",
+      "group": [
+        5,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L005.d4_k4096.down.json",
+      "receipt_sha256": "b0203e94f499f365437082fad4e153ddaffc4b1152b50926b5eb8142b4c9c150",
+      "rows": 29,
+      "source_intake_receipt_sha256": "06c72dd24f10dd716b1572c218d6e0593ff652540c25cf51ffabc5faf2c5a580"
+    },
+    {
+      "codebook_sha256": "cba23d9499f215dd3f8c94db2b68ea322bbb413185bb88a4670f3c5ed3e9dfa3",
+      "group": [
+        5,
+        "d4_k4096",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L005.d4_k4096.fused13.json",
+      "receipt_sha256": "3b103050d86de45a2f9f0740b17263c44088aad0e41589d4e403cf43cb93e425",
+      "rows": 28,
+      "source_intake_receipt_sha256": "d4dae1625ef8442b75f4709528c18130303727686f41ae78923ec9a9c92a4c64"
+    },
+    {
+      "codebook_sha256": "a0617940baba3e00adb32cdf4559655eaf1b05e6e62048db6e539f42dbcfdac4",
+      "group": [
+        6,
+        "d4_k1024",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L006.d4_k1024.down.json",
+      "receipt_sha256": "ae28b72bf50559e20bd88660198b362616761ef7a28da5d39b9fc0d692721683",
+      "rows": 3,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "7801e93c0a74d36d6d841d1aa691e5f58eee876fe0e50879e32fee175b3574d4",
+      "group": [
+        6,
+        "d4_k1024",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L006.d4_k1024.fused13.json",
+      "receipt_sha256": "a3083f486dfff01d555c51c09b9f2b067acc2ad85aad86f53162ad3d5cec3203",
+      "rows": 3,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "e21a208c6815ecb525d6cee3e78b1dff25bbd6b1c0724e0ba573e413c8162c34",
+      "group": [
+        6,
+        "d4_k2048",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L006.d4_k2048.down.json",
+      "receipt_sha256": "03936eb24e8ec299323432c33340dc76cd01ac8e2029e5f5f2df193af4c74111",
+      "rows": 38,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "4ff80d0b3b5114253cb32f39914be1750bf950c7e04d93f03c2fb5b52e900a4b",
+      "group": [
+        6,
+        "d4_k2048",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L006.d4_k2048.fused13.json",
+      "receipt_sha256": "e5783429e84af60da64a31685a9ebb780786205da83f9650433f6606229f49d6",
+      "rows": 38,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "a1332f224007a8a7792c40b935114f0ca0357ced52bfb6076d1906ccf84e4a11",
+      "group": [
+        6,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L006.d4_k4096.down.json",
+      "receipt_sha256": "fcb6fc57d68357863db3d5dde0b59806e3a73326639ae2435c7347a760192b1c",
+      "rows": 14,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "2268ab30fdc9020d44a0cf31bd8d8c05832af2b804450e9698e9c1a191458e4f",
+      "group": [
+        6,
+        "d4_k4096",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L006.d4_k4096.fused13.json",
+      "receipt_sha256": "7f3543b761821a2f84f109ac8b181304d53e9df73a9d5793ca54429e6d1183ad",
+      "rows": 14,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "1b5230dc4cce3b31a30c2cf5da11f4b5ac1573bf390863c5192d21b0222cf89b",
+      "group": [
+        7,
+        "d4_k2048",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": null,
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L007.d4_k2048.down.json",
+      "receipt_sha256": "c12bd1ef43e3df1ec70d750a8f1ab8bd0f67613d96f12715e0221bd681ebb9b4",
+      "rows": 18,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "58f3f21ab815a5193c728510900f22a30368f2aec7f16afe213c449e97c0c48b",
+      "group": [
+        7,
+        "d4_k2048",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "P944_PUBLIC_TASK_s4",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L007.d4_k2048.fused13.json",
+      "receipt_sha256": "f88e9ddde2a8e19fe779b278a80518e121a9385ccf6d2af9c6f0070073c76c45",
+      "rows": 18,
+      "source_intake_receipt_sha256": "b24da6685745f0d57ca7c626bd323d7bb751e7c709c321bccc4e038f212deb3f"
+    },
+    {
+      "codebook_sha256": "27539a4fa5d8b0f1546b5b7b2aa044c0c70705bd240193a4516e6f8975f87ab3",
+      "group": [
+        7,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "P944_PUBLIC_TASK_s4",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L007.d4_k4096.down.json",
+      "receipt_sha256": "ff2328e4c810f700ebfb05c7cbe141e84557afdd716fd0988823a36aeb6cab2f",
+      "rows": 18,
+      "source_intake_receipt_sha256": "fa95f44ab9da76f18e1283289e1e7182e69372761a4f5cd91cc626f5c0dc6c65"
+    },
+    {
+      "codebook_sha256": "d00749cc58fc38498902555b46fd99be16bb84baf93bf1b3978392826fe57e52",
+      "group": [
+        7,
+        "d4_k4096",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "P944_PUBLIC_TASK_s4",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L007.d4_k4096.fused13.json",
+      "receipt_sha256": "2d2034a845a810e0e8fd86d3534426516a5b59fcca6419b690a86f70ff36e928",
+      "rows": 16,
+      "source_intake_receipt_sha256": "b8147ee4240124cbe81c2250dc86938016a7f32fb1021b1440b8a3139ce89ab8"
+    },
+    {
+      "codebook_sha256": "4a23e0c5fdb147ee428d7b053e2573c6a49ee1d2b547b552579652164b4e6f2f",
+      "group": [
+        8,
+        "d4_k2048",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L008.d4_k2048.down.json",
+      "receipt_sha256": "24f2b19245453e8c7d663f229675d559f5faea82217ff2b65502efff995fa6b5",
+      "rows": 34,
+      "source_intake_receipt_sha256": "8615b913a9c881f7439683deb2445527aeccb5b5aa6f6e5775ef9be8b550a5e6"
+    },
+    {
+      "codebook_sha256": "118f2434682acddddc129840cc31aa51d14929e00bbb77fd5acf17e3cebe7108",
+      "group": [
+        8,
+        "d4_k2048",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L008.d4_k2048.fused13.json",
+      "receipt_sha256": "ad2b4a1cea102a6862a1039fd7e0a8a5f6f46ada184cbd0d56e8435cdc0bfd95",
+      "rows": 34,
+      "source_intake_receipt_sha256": "e1372bfb50f0d21681452dc6bb8789f2e9f35f64da72e3f200a58e7c4f7b53b6"
+    },
+    {
+      "codebook_sha256": "13b17dfd2e829ba1e3eec5524c16a23a3a2816d5316f384c8d463e79a286a8dc",
+      "group": [
+        8,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L008.d4_k4096.down.json",
+      "receipt_sha256": "317b09305c48c104a9121f97817644ac3b640f86d8c71d768d519f96172e4cd9",
+      "rows": 20,
+      "source_intake_receipt_sha256": "bf9f78d0fd6173cfd5f87ba15baaa7c4513851470c5b4c3d2619d1e259b27572"
+    },
+    {
+      "codebook_sha256": "d02b506cbffb1278a5319b960536ebe89c4fcd5a35bdf2080783cf78d7a271cc",
+      "group": [
+        8,
+        "d4_k4096",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L008.d4_k4096.fused13.json",
+      "receipt_sha256": "6191b61d2dc639f17d40e60a0603d01d085f75346a4b5f7a098accd4a87b7de6",
+      "rows": 18,
+      "source_intake_receipt_sha256": "e4a48aaf8c5a8c92ac1ffee580eb67518640a50631405dec8829b18c394b5acc"
+    },
+    {
+      "codebook_sha256": "2811ab6115a2a812424b151b4680de464d80faa6135e60fd2c7a2e7713bf56a2",
+      "group": [
+        9,
+        "d4_k1024",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L009.d4_k1024.down.json",
+      "receipt_sha256": "794d263316455d9b12e5b3e380c8ebbc3ead4e8c5ffa6fce97b212810dc7f1ce",
+      "rows": 5,
+      "source_intake_receipt_sha256": "2f2f139b89be8d7652054a979026fa84fa1c0bf2a4efb314c9acad61a58dc9a2"
+    },
+    {
+      "codebook_sha256": "6bf982974858a4c1dcc073c5376140a0413177b854b8095a10825668fea2d099",
+      "group": [
+        9,
+        "d4_k1024",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L009.d4_k1024.fused13.json",
+      "receipt_sha256": "d657f5be95df03bcf788dbcac86c7132d116021c875e7cca590cac546aeb5f66",
+      "rows": 5,
+      "source_intake_receipt_sha256": "0825c97242ae89f2de0a0e15e65a2a5210a308ee832123abb7d2d8a252a8f561"
+    },
+    {
+      "codebook_sha256": "4d2a1225b13fcc728429403a4c90cb906e23cfec4d2f46e4a9f81832a85c66db",
+      "group": [
+        9,
+        "d4_k2048",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L009.d4_k2048.down.json",
+      "receipt_sha256": "c761c9faaaacc875651f672af943b25e6466b4d7add63db2cf57f25d14ebd516",
+      "rows": 56,
+      "source_intake_receipt_sha256": "0b7ba7d40d3f90083bff74684116e0c5ecea54d68be099b2a0ebabccb3609306"
+    },
+    {
+      "codebook_sha256": "f1d5f84ce1120b11805bbfb0644ad9036bf2f2f472d707a992ca581fcab7544e",
+      "group": [
+        9,
+        "d4_k2048",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L009.d4_k2048.fused13.json",
+      "receipt_sha256": "af4dd2a73186e5651badbd687166a7b5b03c90cff87d579dffc35050c8f8b5da",
+      "rows": 56,
+      "source_intake_receipt_sha256": "204d5684b9a0c9b722937b3cc36ceee99e4868076fac0da2212df55195a0aeb0"
+    },
+    {
+      "codebook_sha256": "23cffafada9bdb2118fbd385757d215a6cb784efe7b2e61698efb947aa79e207",
+      "group": [
+        9,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L009.d4_k4096.down.json",
+      "receipt_sha256": "0431534a7218197a75efe93ded8b27b023f742de8f6b52541397c39c389b6973",
+      "rows": 28,
+      "source_intake_receipt_sha256": "9fd51cf0b106398899c1922e8a2a4e3ba8a628d1f208906c09a4360ab9366673"
+    },
+    {
+      "codebook_sha256": "cacd8dcdfe98d54fd5e7e6a74e89800d255575f77915fd66301f4dae132cd897",
+      "group": [
+        9,
+        "d4_k4096",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L009.d4_k4096.fused13.json",
+      "receipt_sha256": "180ad264d70298c9dca690727d66a0adca5c11613ea64ace610c41f3eec742d0",
+      "rows": 26,
+      "source_intake_receipt_sha256": "6507ad3ddee4a3384b1d6cf8a980bc1f02b0c1f735047c51c447172289fe4e64"
+    },
+    {
+      "codebook_sha256": "2dc56c93514dd84cffec7c50159824d6dc3f8eb4dac7609b2ef2fc8c1238526e",
+      "group": [
+        10,
+        "d4_k1024",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L010.d4_k1024.down.json",
+      "receipt_sha256": "bf056adaf7be49ac0d8273b77287d9628fb25243775b90c482b4b05b620206f8",
+      "rows": 7,
+      "source_intake_receipt_sha256": "03e42458d30ecbd2205a37616774c369141ed90ebd8eba808381e390462e49da"
+    },
+    {
+      "codebook_sha256": "81e862bd5a01073ae443b78d0d1653dab5ebc8da65dae3607e75ab2027d76021",
+      "group": [
+        10,
+        "d4_k1024",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L010.d4_k1024.fused13.json",
+      "receipt_sha256": "8b3a3c065cb43d83acd8904b58263a288a4850c8148c281d14434bca7a45e280",
+      "rows": 7,
+      "source_intake_receipt_sha256": "622df35abdac768c7db193785f81d6ebe3dfc4655e429641df51b47a1b7fed7f"
+    },
+    {
+      "codebook_sha256": "387e0d82c9862ac5d1a2e77e4458e83500fc85d962b87ed16bf58ae98e6bce5f",
+      "group": [
+        10,
+        "d4_k2048",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L010.d4_k2048.down.json",
+      "receipt_sha256": "de60223ba9fb69afec123e1b6c7a733d797b2b610071a5aea156e4d2938cc646",
+      "rows": 76,
+      "source_intake_receipt_sha256": "5cac45600cf95a06e3551e4bd06ec28ce9834841cd1291bea218cf089071a094"
+    },
+    {
+      "codebook_sha256": "6f728623fe39dbf840540ae9a4fb5d61bf91f16c057f2d18e45ef214f90fdb76",
+      "group": [
+        10,
+        "d4_k2048",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L010.d4_k2048.fused13.json",
+      "receipt_sha256": "6542b289f56bd55696dafd5e48c54c31230463075fb2378ba05db6dcb79b78c0",
+      "rows": 76,
+      "source_intake_receipt_sha256": "e495e6215d68b0ab863b6861d192f915c2fa5899b94b39564c7455e9fc57dea1"
+    },
+    {
+      "codebook_sha256": "b2604962a7f806a074ab3e8e5637576841586ba34276d129821e5fe17f3bf00a",
+      "group": [
+        10,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L010.d4_k4096.down.json",
+      "receipt_sha256": "6fb7a9738ca23b47732d6f3e74ea80923a52a38e8aafeef29dbf1691bb8fd9eb",
+      "rows": 26,
+      "source_intake_receipt_sha256": "f2fdc37df58b232f7cc794a605100dbe18b44db498b0d6fdb680c12c86289fdb"
+    },
+    {
+      "codebook_sha256": "007c166265d2b296f6c901ec18a1bc56dd9753fc06c13c98c2adc33a2b37211b",
+      "group": [
+        10,
+        "d4_k4096",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L010.d4_k4096.fused13.json",
+      "receipt_sha256": "d4871aa64abf5600421879033bc911a9e727d7962cd9b300cac37dc2a54ffc52",
+      "rows": 24,
+      "source_intake_receipt_sha256": "82511517161d30cb9713c7ac55cfbcde5508f30d3c41a857b125f345218d4599"
+    },
+    {
+      "codebook_sha256": "47f900d7b86f2d192c6ae8e6be363ff9d3b955fc8556349f40eda31da12b6d9a",
+      "group": [
+        11,
+        "d4_k1024",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L011.d4_k1024.down.json",
+      "receipt_sha256": "7be8bd8f66a54ff61ad04f0a717cdb649c7f1d72c5b67edc777d0cbff73adadd",
+      "rows": 7,
+      "source_intake_receipt_sha256": "769735e7490227251558fc1086919e47e50ae1bc1dc5f7d86a20763bff955b51"
+    },
+    {
+      "codebook_sha256": "e86e81e9d018dd957bdcdfbbab24021ec0b643e37f78d48424b0ba86612a93ea",
+      "group": [
+        11,
+        "d4_k1024",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L011.d4_k1024.fused13.json",
+      "receipt_sha256": "c61dde192b6bae08438c8c4049d36da62e998bd00b1f4196ec67e5d3d7115e6c",
+      "rows": 7,
+      "source_intake_receipt_sha256": "b9088e38e1ff8c04f9a052b8e848acdefc956c95d4b117f867f4d266028d3210"
+    },
+    {
+      "codebook_sha256": "eb8216f07105df1b32086babb429305b1de6af443920f6f0df1f47d4a2ffebd3",
+      "group": [
+        11,
+        "d4_k2048",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L011.d4_k2048.down.json",
+      "receipt_sha256": "2d8bb3381ba827164a7a33e069de17f2aab2613ec9af03e9c37aea97224ac88d",
+      "rows": 67,
+      "source_intake_receipt_sha256": "02f9e961ffb8e11bcb27a107f423cbf80723c3c7f9d3c41f5b223558d93e83ca"
+    },
+    {
+      "codebook_sha256": "db3d6aaaeb79a239860f1b74814cd1fe39e5cc79d6579454488c7f3c2062b1a0",
+      "group": [
+        11,
+        "d4_k2048",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L011.d4_k2048.fused13.json",
+      "receipt_sha256": "bf9bbd7d63ecba2e288ddd99b19d925e90d5f33f71a0b0df3908182601b0d26b",
+      "rows": 67,
+      "source_intake_receipt_sha256": "ca51d0af9475320a6193965490b3d18dd621b6fc6d3d7c0708b255eb1c186b74"
+    },
+    {
+      "codebook_sha256": "5af9fcee257238b90c9e26c763d0bc1e752b11cbc98b829c3df0014251b0da0d",
+      "group": [
+        11,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L011.d4_k4096.down.json",
+      "receipt_sha256": "9581556cd3a12d4c5045b5cfaa223fb4f2fe43ea1478bdde3c91005ba2e353b8",
+      "rows": 33,
+      "source_intake_receipt_sha256": "af65a0b95f9fe9bd41f68ec169be70ebd0bc41227385977e109f8afa168ea81c"
+    },
+    {
+      "codebook_sha256": "995bdb15dd4738665c3aafd30b3cc4e84d8ddd84d0323a665be0761cd5f63e2d",
+      "group": [
+        11,
+        "d4_k4096",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L011.d4_k4096.fused13.json",
+      "receipt_sha256": "9b3b1bff6b3eecb8078274f20799aa5b75c4cbd43ea04d639ec11819ca1c4ff7",
+      "rows": 32,
+      "source_intake_receipt_sha256": "831536b6d193c56d1030383ea0c8c135396c6dc35503242991258dc25258db5e"
+    },
+    {
+      "codebook_sha256": "a23ad4ab3a11a2d6eacb1ffcb62b6c184ed17bb5eedccfed2b012f975e5ced46",
+      "group": [
+        13,
+        "d4_k2048",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L013.d4_k2048.down.json",
+      "receipt_sha256": "da1694958025f09066cf9017073a67835b28ca000d7a33a90be12d4ac30dd09a",
+      "rows": 1,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "3323520d0a26dda93562fbb6b09cf72c6f74c82c330a0b5e1c500009aef2a99b",
+      "group": [
+        13,
+        "d4_k2048",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L013.d4_k2048.fused13.json",
+      "receipt_sha256": "90d1f1c5f3667af58e538f312c048b530ca652a0d1242779ff4adb8237f13b76",
+      "rows": 1,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "5e61d5ca05b605cfc040e8521cae3807a2f746d57b5890faf0e4028c4fb78bf7",
+      "group": [
+        13,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L013.d4_k4096.down.json",
+      "receipt_sha256": "6ded2254fcc947531906840d02127c59f1737bb77e5bdfbd702b863c16d19c0e",
+      "rows": 39,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "9fab7f0f9ab460bb4b503c4f277aad65598e19198334aeccd363efbab996ff48",
+      "group": [
+        14,
+        "d4_k2048",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L014.d4_k2048.down.json",
+      "receipt_sha256": "c3ddabfe5ca0750a4963131871b0fe6a540640947621094a43cd6369a8c13035",
+      "rows": 80,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "3e1dce5e5d63372fcfd2ff4df32dd8fc0eaa32d65943d7789258f7551f457a24",
+      "group": [
+        14,
+        "d4_k2048",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L014.d4_k2048.fused13.json",
+      "receipt_sha256": "26476ddc2705eb1bbabf5fdd0beff50142e73da258c9aefe306090137421bdcc",
+      "rows": 1,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "c746b426c637785143610524cb179b22f5f0828a7f8fad6e72bd8e2b6eb571c4",
+      "group": [
+        14,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L014.d4_k4096.down.json",
+      "receipt_sha256": "708feaecc492efc84a2c5c7cf55048dd1b63efc6fa83036c5c5871a7f73dabdf",
+      "rows": 40,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "4140a79deef18e89b3e08bdb5e0220bf774a77b10c11675b56ffcc78f897f6e7",
+      "group": [
+        15,
+        "d4_k2048",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L015.d4_k2048.down.json",
+      "receipt_sha256": "ee5dc4e186075d58fd6ce84a664b94620d16606e0ff17f6eeeff230d918843e9",
+      "rows": 53,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "c8954869e02619090b3c7226eae80d6c2432dc7b7a47fe5699ea3231417e0448",
+      "group": [
+        15,
+        "d4_k4096",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L015.d4_k4096.fused13.json",
+      "receipt_sha256": "5ce13c749ed7d3496383fc1268cad2090f51f342f5ff412a87f3f04294744bcb",
+      "rows": 1,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "88e97725b1050ff743fe222879fc747867443617061ad09dae438576c5b0d3e2",
+      "group": [
+        16,
+        "d4_k2048",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L016.d4_k2048.down.json",
+      "receipt_sha256": "f9bebf20656d43062f5afef2141e82e98ffb23b475c039fdb602b74a2358365f",
+      "rows": 38,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "4050d8e28b1d224bb5557ba653a3f95737800f23ee1bb6e0179a88eafc71bf94",
+      "group": [
+        16,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L016.d4_k4096.down.json",
+      "receipt_sha256": "5651355c0dba9c8d49c583af65e1dc6fef0d583bbf3f83ff675dff9cb0866879",
+      "rows": 20,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "e24566e5bb4a7812d8ddf7014105eb1ff67c27533a62eaf7556c4029d2618dcb",
+      "group": [
+        17,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L017.d4_k4096.down.json",
+      "receipt_sha256": "0892810f0ea7fc03fcd56c8863b53cdbe011a35b533fdade3d933522cd2743c7",
+      "rows": 13,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "c285b398474ebf416384f5a332105cd72c3513788c4ad3121abf44bfb96d5741",
+      "group": [
+        18,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L018.d4_k4096.down.json",
+      "receipt_sha256": "3349df7b10ed143fd3863a0d6e06cc337de79ceb69aceab3bfd92250e8ca27b5",
+      "rows": 20,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "9ceb7479ea17e8809d5f17ba723986fe8c8776c13598b9df8618e9ebd1d27eda",
+      "group": [
+        21,
+        "d4_k4096",
+        "fused13"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L021.d4_k4096.fused13.json",
+      "receipt_sha256": "66d4546ded6196eccd25b42a2f64a3716937acd3a0fd6edaa1da54741462eb6b",
+      "rows": 9,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "5915d8a1e343073b3f667a9af7e5a4fd41cafa03c84213ed590ed46c6c7db83a",
+      "group": [
+        26,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": "e5fbe4549eb6072ec45bdbadf40007015bc913ac5ddc588937608824e36ab8e5",
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L026.d4_k4096.down.json",
+      "receipt_sha256": "ad8ed18e9f89e6fe936aa0ad37f5e3824121a88c164a37fe5f841030ce9a6dab",
+      "rows": 16,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "7fc84f9ff776b2c9eb0340f8cd95016c0ce972343dcdabacba9a19e403138126",
+      "group": [
+        29,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": "c701b3814afda45cfab9c6d59f3214c5e72a86351c1a02ea007ea0ef630b74f6",
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L029.d4_k4096.down.json",
+      "receipt_sha256": "339b814c1e0c5ebc49d26a1060078a825e868fc47192b0e8d8827d106e47ca7a",
+      "rows": 7,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "a8a7e5fb420cbeb074f09880d52a9471a45946501b66e183b58a38d4ff3817c4",
+      "group": [
+        30,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": "9440200d0765fff334bd1955f6f3ccd4b521ef6f2660db875822e61fc329d856",
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L030.d4_k4096.down.json",
+      "receipt_sha256": "0cdce7dc7699514f45e55eeece68cde99b48e48ec57c2609dacf7dc2aef18353",
+      "rows": 4,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "3bc26e39efecf11a2aa548f165f72224ef4bf87ef05733c4d5dda8a5a642d003",
+      "group": [
+        33,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": "f1d5b8d9eb131323a06b11f11532d7789d5d0d4db593e7853ef10680d6f82528",
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L033.d4_k4096.down.json",
+      "receipt_sha256": "c43421e3793e03fbf0a080fedd3649d49c852eeed6d70bd18028b07fcce0a579",
+      "rows": 11,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "62f112d50f25282836fd8bc44a9305e8b1092b640ab526a675403904eaf9e292",
+      "group": [
+        33,
+        "d4_k4096",
+        "fused13"
+      ],
+      "producer_receipt_sha256": "387784f1022e3928b3a1f517b4dcd0a5c7aeefd1a1ce76b60fa9bd03e8da58dc",
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L033.d4_k4096.fused13.json",
+      "receipt_sha256": "a44d0d6685b507292400561d793db74580a2b100d92f2e20c852fab0b7ec33aa",
+      "rows": 9,
+      "source_intake_receipt_sha256": null
+    },
+    {
+      "codebook_sha256": "ed805702e0d61732373ab4502c282f6520a426d2ce72851473d9400074f83ea9",
+      "group": [
+        34,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L034.d4_k4096.down.json",
+      "receipt_sha256": "215427b116119ad5a7a528ee36d698012b106a079faa1e1d745debf1d7dd4abd",
+      "rows": 12,
+      "source_intake_receipt_sha256": "b68bb0a54b4e6dc67b285650dbdfd9008048196475cb5eddb091fa362a219bc8"
+    },
+    {
+      "codebook_sha256": "9ad790a9d186ae2382c38e69fe38f254138fe49b9ecda71e0abf16667c560a74",
+      "group": [
+        35,
+        "d4_k4096",
+        "down"
+      ],
+      "producer_receipt_sha256": null,
+      "producer_task_id": "PUBLIC_TASK",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/CODEBOOK_L035.d4_k4096.down.json",
+      "receipt_sha256": "ca4e2c594d1c7344862c5921f9ada59b7d0c7ce462faf28c9cc3f7c08997586e",
+      "rows": 3,
+      "source_intake_receipt_sha256": "7dc20bea1dc21938bf1e08c3038be798e475e94545fb4fa65bcd63fb05843178"
+    }
+  ],
+  "codebook_ledger_sha256": "9e0951984045880cd88b2f0a05091b7dc6fbbc20109700a936dd46ffee323e0c",
+  "codebooks": 80,
+  "completed_unix": 1785254557.6615543,
+  "delta_manifest": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/out/P925_REFIT_DELTA_MANIFEST.json",
+  "delta_manifest_sha256": "6d13b82d49c49c55c4215b662cad4c488a1b8c81fb39a32e03096562ba604dc6",
+  "dependency_census": {
+    "acceptance_stated_existing_refit_rows": 1289,
+    "canonical_codebooks_by_source_task": {
+      "P944_PUBLIC_TASK_s4": 3,
+      "PUBLIC_TASK": 2,
+      "canonical_s6": 29
+    },
+    "preserved_existing_refit_rows_measured": 1313,
+    "preserved_non_target_rows": 18612,
+    "preserved_non_target_rows_sha256": "011040d280ca5052a25c1b304b0e4ba3164140ffd5ae57d665b23709d574ab96",
+    "promotion_manifests": [
+      {
+        "path": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/P932_PROMOTE_P944_PUBLIC_TASK_s4.json",
+        "sha256": "63b6e0e6de308c3981985f290d2217eb84f125809931c3f8844833057fd60d35"
+      },
+      {
+        "path": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/P932_PROMOTE_PUBLIC_TASK.json",
+        "sha256": "4b6c7982bcc22ae2a350b031859db7749469f2a17f83600dc06dfd4260c5ad73"
+      },
+      {
+        "path": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/P932_PROMOTE_PUBLIC_TASK.json",
+        "sha256": "b09d57cab87ba07c6b6a5d95d358f3c9a05f0c5b95dfe910765806a48752084d"
+      },
+      {
+        "path": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/receipts/P932_PROMOTE_PUBLIC_TASK.json",
+        "sha256": "1e5061572bda5f808addd74ffd535120374c74b55da7bd82ac3197ea0243e15f"
+      }
+    ],
+    "replaced_target_rows": 2860,
+    "source_active_rows": 21472
+  },
+  "done": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/out/DONE.json",
+  "done_sha256": "e4688b5a3dae6ef2e099bab77ff79e21ca159e8f0438e2ea65e04b35f5be5690",
+  "gpu_apps": [],
+  "host": "compute-node-c",
+  "multi_host_authority": [
+    {
+      "codebooks": 18,
+      "host": "compute-node-b",
+      "peer_host": "compute-node-e",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/authority/P936_S3_HANDOFF.json",
+      "rows": 599,
+      "sha256": "aa0c18182687daa7f454fa4f26259327989c82a7183b667dcd140f422ec71de5"
+    },
+    {
+      "codebooks": 22,
+      "host": "compute-node-d",
+      "peer_host": "compute-node-f",
+      "peer_markers_sha256": "8eb1cad243bf3933e0dd70942b232c081f8253b2f6ebabd5cb34479ae20ef566",
+      "receipt": "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/authority/P936_S7_TERMINAL.json",
+      "rows": 711,
+      "sha256": "5a8182a357c88fe739a78c2142e87c4a9ff5464b5850955735d2974910094bfd"
+    }
+  ],
+  "pack_fraction": 1.0,
+  "public_validity": {
+    "scope": "80/80 codebooks, 2860/2860 rows, terminal f521-T authority",
+    "source_receipt_sha256_before_privacy_substitution": "90e6d6b131d14b353be2976848dc90e947cb6fc1cda376e03b760a63dce8d31c",
+    "status": "SEALED_REFIT_AUTHORITY"
+  },
+  "schema": "p943-true-c-terminal-seal-v1",
+  "scope": "fan-in and direct measurement only; no build compute",
+  "scoped_build_processes": [],
+  "status": "PASS_TERMINAL_F521_T",
+  "stop_sentinels": {
+    "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/STOP_REQUESTED": "0bd2e90de2ffb7782dbdbcdacdaf785a3f20576fdc102487b032081728c2cce7",
+    "$SOURCE_ROOT/missions/P929_TRUE_C_REFIT_PUBLIC_TASK_s6/run/STOP_REQUESTED": "2e6aa206b0cbeb431ad0759f10b72235dce42a5a1c287f04b0eae80c6fe0b0cd"
+  },
+  "target_contract_sha256": "c9547a0b306701b23e07e1186b26c017c8fbb1efc0fa0b6250987f66bbb5872f",
+  "target_rows": 2860,
+  "task_id": "PUBLIC_TASK",
+  "zero_quarantine": true,
+  "zero_substitution": true
+}

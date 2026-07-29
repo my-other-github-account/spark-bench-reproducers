@@ -1,86 +1,90 @@
-# Wire-C V2 Public Reproduction Package
+# Wire-C v2 / qtip2 backpack campaign reproduction package
 
-Public operator identity: **banana_bae**
+This directory is the publication-safe, hash-verifiable package for the corrected-pricing Wire-C campaign and its terminal true-C read. It separates four kinds of evidence that must not be conflated:
 
-This directory contains the public, deterministic evidence package for the 2026-07-27–28 QTIP2 backpack/Wire-C campaign.
+1. measured diagnostics and calibration (P922/P928/P930),
+2. the definitive P931 solver projection,
+3. the physical P943/P951 terminal true-C identity and BALANCED64 result, and
+4. the preregistered P967/P968 inference/evaluation protocol.
 
-It provides:
+## Canonical results
 
-- the frozen BALANCED64_V1 measurement specification;
-- frozen public acquisition/build/scoring specifications;
-- exact QTIP3 and QTIP2 BALANCED64 anchor receipts;
-- reduced P908/BQ3 reconstruction/pricing inputs;
-- same-instrument Genesis, Wire-A, Wire-C-R, P922, vertical, and IQ4 references;
-- sanitized P921 physical comparison receipts;
-- sanitized P922 diagnostic/selection receipts;
-- sanitized P930 corrected-pricing, calibration, and validation receipts;
-- sanitized P931 corrected-pricing V3 first-feasible receipt, explicitly labeled projected with the final SCIP run pending;
-- source-byte versus public-byte provenance hashes;
-- deterministic fail-closed verification scripts.
+| Result | Value | Validity |
+|---|---:|---|
+| Uniform QTIP2 BALANCED64 reference | `0.18581914550967552` global KLD | measured, same instrument as P951 |
+| P931 definitive V3 objective | `0.035078633039490076` | projected solver result; **not** a physical BALANCED64 score; feasible incumbent, 2.7554e-6 relative gap |
+| P951 terminal true-C BALANCED64 | `0.06829414627618949` global KLD | measured, 64/64 windows, 65,536 positions, zero quarantine/substitution |
+| P963 exact-equal scorer speedup | `2.4355729286027437x` | measured; identical output-set SHA, 64/64 bit-exact tensors, max per-position delta 0.0 |
+| P967/P968 paired evaluation | no result published | binding protocol only: sampled `n=5` per task plus 3 greedy repeats |
 
-It does not contain model weights or the campaign’s approximately terabyte-scale tensor payloads.
+On the identical BALANCED64_V1 instrument, terminal true-C reduces global KLD by `0.11752499923348603` (`63.24698077323069%`) relative to the uniform QTIP2 reference. No ratio is reported between the P931 projection and P951 measurement because their metric contracts differ.
 
-## Quick verification
+The historical P931 first-feasible projection (`0.06913222309403669`) remains in `artifacts/P931_V3_FIRST_FEASIBLE.public.json` for lineage only. It is superseded by `artifacts/P931_V3_DEFINITIVE.public.json`.
+
+## Verify in one command
+
+From this directory, using Python 3.10 or newer and only the standard library:
 
 ```bash
 python3 code/verify_package.py
-python3 code/recompute_results.py --check
-python3 code/p908_direct_pricing.py
-python3 code/verify_corrected_pricing.py
 ```
 
-Expected:
+The verifier fails closed on package-manifest bytes and hashes, P931 projection semantics and source-evidence maps, P943 terminal identity, P951 BALANCED64 coverage/means, P963 exact-equality/timing arithmetic, campaign comparability labels, and the binding n=5 P967/P968 protocol.
 
-```text
-WIRE_C_V2_PACKAGE_VERIFY_PASS files=<count>
-SAME_INSTRUMENT_RECOMPUTE_PASS rows=6 true_c=ESTIMATE_NOT_MEASURED
-CORRECTED_PRICING_VERIFY_PASS rows=14 classes=6 p922=EXPLICIT p928=EXPLICIT
+Recompute the derived public comparisons:
+
+```bash
+python3 code/recompute_results.py
+python3 code/regenerate_metadata.py --check
 ```
 
-`p908_direct_pricing.py` prints the source-bound direct-pricing JSON view rather than a pass marker.
+Run the structural guard unit and negative tests:
 
-## Results at a glance
+```bash
+python3 -m unittest discover -s tests -v
+(cd structural-guards/p936 && python3 -m unittest discover -s authority/tests -v)
+(cd structural-guards/p953 && python3.13 test_immutable_sha_and_resume.py)
+```
 
-| row | status | global KLD |
-|---|---|---:|
-| Genesis/BQ3 | measured | 0.1293130 |
-| Wire A | measured | 0.1159266 |
-| Wire C-R | measured | 0.1181381 |
-| P922 restored-VQ diagnostic | measured diagnostic, not TRUE-C | 0.1466261 |
-| Wire C-true | estimate pending direct chain | 0.089–0.095 |
-| QTIP3 vertical | measured reference | 0.0658810 |
-| QTIP2 vertical | measured reference | 0.1858191 |
-| IQ4 | different-cell-population reference | 0.0720400 |
+Before publication, run the strict P958 scanner from its audited workspace path against this directory. The package verifier includes a second independent forbidden-token pass.
 
-The direct TRUE-C P932→P937→P938→P939 chain is dependency-gated and is not represented as complete.
-The measured P928 additive interaction anchor is `+0.0000782525 KLD` (`+0.0000783` rounded) and is applied once in the corrected grid. P931's first feasible is a projected solver receipt, not a physical measurement or a final SCIP result.
+## Package map
 
-## Integrity model
+- `CANONICAL_RECIPE.md` — end-to-end recipe: uniform QTIP2 build, forensic correction, solver reconstruction, exact refit, terminal true-C, and verification.
+- `EVALUATION_PROTOCOL.md` — BALANCED64 scoring contract, P963 exact-equal acceleration protocol, and binding P967/P968 EvalPlus protocol.
+- `OPERATIONS_FORENSICS.md` — incident analysis and P936/P953 structural controls.
+- `artifacts/SAME_INSTRUMENT_RESULTS.json` — measured rows plus an explicitly separate solver-projection section.
+- `artifacts/CAMPAIGN_COMPARISON_TABLE.json` — all six campaigns with explicit comparability groups and one-instrument verdicts.
+- `artifacts/P931_V3_DEFINITIVE.public.json` — derived public summary of the reviewed P931 solver evidence; `measured=false`.
+- `artifacts/P943_TRUE_C_TERMINAL_SEAL.public.json` — publication-safe terminal f521-T identity seal.
+- `artifacts/P951_TRUE_C_BALANCED64.public.json` — publication-safe independent physical true-C measurement.
+- `artifacts/P963_EXACT_ACCELERATION_SEAL.public.json` — concise publication-safe exact-equal acceleration summary.
+- `acceleration/` — source-hash-bound public copies of the P963 full receipt, terminal seal, canary, runner, adapter, launcher, and guarded adoption path.
+- `evaluation/` — pinned P967 runtime identity and P968 EvalPlus preregistration/toolkit.
+- `structural-guards/p936/` — append-only SHA store, measured-waiver gate, protected-SHA reclaim guard, seal-time two-node dependency census, schemas, CLI integrations, and 12 tests.
+- `structural-guards/p953/` — byte-identical sealed immutable-SHA/resume module and 7 privacy-safe negative regressions; explicitly ready-to-adopt/not-deployed.
+- `code/recompute_results.py`, `code/regenerate_metadata.py`, and `code/verify_package.py` — standard-library recomputation, deterministic metadata generation, and fail-closed package verification.
+- `PACKAGE_MANIFEST.json` — byte length and SHA-256 for every shipped file except itself.
 
-- `PACKAGE_MANIFEST.json` binds every package file’s public bytes.
-- `TOOLS_MANIFEST.json` and `.md` provide repository-facing inventory.
-- `ARTIFACT_PROVENANCE.json` binds original source hashes and sanitized public hashes for P921/P922/P930/P931 imports.
-- `SAME_INSTRUMENT_RESULTS.json` is the machine-readable result table and validity ledger.
-- `P930_FINAL_ARTIFACT_SHA256.public.json` carries the internally closed P930 payload pins.
+## Reproduction boundaries
 
-The P930 parent comment contained conflicting transcription hashes. They are not trusted as
-integrity pins; the package uses hashes recomputed from attached bytes and cross-checks them
-against the internally closed P930 manifest. See `REPRO.md` and `SAME_INSTRUMENT_RESULTS.json`.
+The public package contains the scripts, schemas, measurements, public receipts, and source-evidence hashes needed to audit the published claims. It does not redistribute the 100+ GB model/checkpoint payloads or the lost private P931 assignment payload. `P958_ASSIGNMENT_RECOVERY_STATUS.md` records that limitation. The P931 summary is therefore a derived public summary bound to reviewed verification and artifact-manifest hashes—not a byte-for-byte privacy transform of one source receipt.
 
-## Bulk immutable transfer helper
+P943/P951 are the physical terminal candidate and score. P931 is a solver projection. P967/P968 publish a protocol, not completed paired evaluation results. These labels are enforced by the verifier.
 
-`code/bulk_transfer.py` implements the capacity-gated campaign recipe: independent immutable
-objects, eight workers when the measured topology permits it, source and destination SHA-256,
-temporary writes, fsync, atomic rename, and a per-object/aggregate throughput receipt. The
-observed roughly 2 GB/s campaign point is not a universal fabric guarantee.
+## Publication safety
 
-## Documentation
+Public JSON uses generic paths/hosts/task labels where operational values were private. `artifacts/ARTIFACT_PROVENANCE.json` distinguishes sealed-source public copies, generated exact-public files, and derived public summaries. Never infer source-byte identity from a derived summary's public file hash.
 
-- `../../../qtip2-backpack-campaign/UPDATE_2026-07-27_28.md` — full 24-hour chronicle.
-- `../../../qtip2-backpack-campaign/PROCEDURES.md` — operating laws.
-- `../../../qtip2-backpack-campaign/RESULTS.md` — measured/estimated/pending tables.
-- `../../../qtip2-backpack-campaign/REPRO.md` — complete verifier and physical-rerun guidance.
+## Fresh-clone check
 
-## Privacy
-
-Public artifacts replace private paths, local usernames, private host labels, LAN addresses, and internal task identifiers. Scientific numbers and arrays are unchanged. Run the repository publication audit before release.
+```bash
+git clone https://github.com/my-other-github-account/spark-bench-reproducers.git
+cd spark-bench-reproducers/glm52-ds4-bq3-ptq-opd/tools/qtip2-backpack-campaign/wire-c-v2-2026-07-28
+python3 code/verify_package.py
+python3 code/recompute_results.py
+python3 code/regenerate_metadata.py --check
+python3 -m unittest discover -s tests -v
+(cd structural-guards/p936 && python3 -m unittest discover -s authority/tests -v)
+(cd structural-guards/p953 && python3.13 test_immutable_sha_and_resume.py)
+```

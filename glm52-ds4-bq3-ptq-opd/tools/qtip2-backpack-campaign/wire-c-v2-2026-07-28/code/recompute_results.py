@@ -1,179 +1,199 @@
 #!/usr/bin/env python3
-"""Recompute all public comparison rows from bundled receipts."""
+"""Recompute the package's public numeric claims from bundled receipts."""
 from __future__ import annotations
 
 import argparse
 import json
 import math
 from pathlib import Path
+from typing import Any
 
-CLASSES = ("agentic", "chat", "code", "multilingual", "prose", "reasoning")
 ROOT = Path(__file__).resolve().parents[1]
-A = ROOT / "artifacts"
+ARTIFACTS = ROOT / "artifacts"
+CLASSES = ("agentic", "chat", "code", "multilingual", "prose", "reasoning")
 
 
-def load(name: str) -> dict:
-    return json.loads((A / name).read_text())
+def load(name: str) -> dict[str, Any]:
+    return json.loads((ARTIFACTS / name).read_text(encoding="utf-8"))
+
+
+def class_means(document: dict[str, Any], key: str = "six_classes") -> dict[str, float]:
+    values = document[key]
+    result: dict[str, float] = {}
+    for class_name in CLASSES:
+        value = values[class_name]
+        result[class_name] = float(value["mean"] if isinstance(value, dict) else value)
+    return result
 
 
 def weighted(values: dict[str, float], counts: dict[str, int]) -> float:
-    return math.fsum(float(values[c]) * int(counts[c]) for c in CLASSES) / sum(
-        int(counts[c]) for c in CLASSES
-    )
+    denominator = sum(int(counts[name]) for name in CLASSES)
+    return math.fsum(float(values[name]) * int(counts[name]) for name in CLASSES) / denominator
 
 
-def close(name: str, got: float, expected: float, tolerance: float = 1e-14) -> None:
-    if not math.isclose(float(got), float(expected), rel_tol=0.0, abs_tol=tolerance):
-        raise SystemExit(f"mismatch {name}: got={got!r} expected={expected!r}")
+def require_close(name: str, actual: float, expected: float, tolerance: float = 1e-14) -> None:
+    if not math.isclose(float(actual), float(expected), rel_tol=0.0, abs_tol=tolerance):
+        raise RuntimeError(f"{name} mismatch: actual={actual!r} expected={expected!r}")
 
 
-def build() -> dict:
-    quota = load("BALANCED64_V1.json")["quota"]
-    direct = load("DIRECT_SELECTED_CODE_PRICES.public.json")
-    bq3 = {
-        c: float(direct["canonical_sanity"]["control_mean_kld_vector"][c])
-        for c in CLASSES
-    }
-
+def build() -> dict[str, Any]:
+    quota = {key: int(value) for key, value in load("BALANCED64_V1.json")["quota"].items()}
+    qtip2_doc = load("P880_QTIP2_ASSEALED_BALANCED64.public.json")
+    p951_doc = load("P951_TRUE_C_BALANCED64.public.json")
+    p931_doc = load("P931_V3_DEFINITIVE.public.json")
+    p963_doc = load("P963_EXACT_ACCELERATION_SEAL.public.json")
+    p922_doc = load("P922_RESULT_SUMMARY.public.json")
     wire_c_doc = load("WIRE_C_FULL_BALANCED64.public.json")
-    wire_c = {c: float(wire_c_doc["six_class_kld"][c]) for c in CLASSES}
 
-    p921 = load("P921_RESULT_CELL.public.json")
-    wire_a = {c: float(p921["wire_a_p637"]["six_class_kld"][c]) for c in CLASSES}
+    qtip2 = class_means(qtip2_doc)
+    terminal = class_means(p951_doc)
+    qtip2_global = weighted(qtip2, quota)
+    terminal_global = weighted(terminal, quota)
 
-    q3_doc = load("P819_QTIP3_UNIFORM_BALANCED64.public.json")
-    q3 = {c: float(q3_doc["six_classes"][c]["mean"]) for c in CLASSES}
+    baseline_seconds = float(p963_doc["baseline"]["elapsed_seconds"])
+    accelerated_seconds = float(p963_doc["accelerated"]["elapsed_seconds"])
+    speedup = baseline_seconds / accelerated_seconds
+    reduction_percent = (baseline_seconds - accelerated_seconds) / baseline_seconds * 100.0
 
-    q2_doc = load("P880_QTIP2_ASSEALED_BALANCED64.public.json")
-    q2 = {c: float(q2_doc["six_classes"][c]["mean"]) for c in CLASSES}
-
-    wire_b_receipts = [
-        load("WIRE_B_W256_319_RECEIPT.public.json"),
-        load("WIRE_B_W320_383_RECEIPT.public.json"),
-    ]
-    wire_b_counts = {
-        c: sum(int(d["six_classes"][c]["n_windows"]) for d in wire_b_receipts)
-        for c in CLASSES
-    }
-    wire_b = {
-        c: math.fsum(
-            float(d["six_classes"][c]["mean"])
-            * int(d["six_classes"][c]["n_windows"])
-            for d in wire_b_receipts
-        )
-        / wire_b_counts[c]
-        for c in CLASSES
-    }
-    base_windows = load("BQ3_FULL512.public.json")["per_window"]
-    wire_b_control = {
-        c: math.fsum(
-            float(row["mean"])
-            for row in base_windows
-            if 256 <= int(row["win"]) < 384 and row["source_class"] == c
-        )
-        / sum(
-            1
-            for row in base_windows
-            if 256 <= int(row["win"]) < 384 and row["source_class"] == c
-        )
-        for c in CLASSES
-    }
-
-    p922 = load("P922_RESULT_SUMMARY.public.json")
-    penalty = float(
-        p922["parsed_metrics"]["measured_minus_priced_substitution_penalty_kld"]
+    wire_c_r = {name: float(wire_c_doc["six_class_kld"][name]) for name in CLASSES}
+    wire_c_r_global = weighted(wire_c_r, quota)
+    p922_penalty = float(
+        p922_doc["parsed_metrics"]["measured_minus_priced_substitution_penalty_kld"]
     )
 
+    solver = p931_doc["solver"]
     return {
-        "rows": {
-            "bq3_balanced64_control": {
-                "kld_by_class": bq3,
-                "global_kld": weighted(bq3, quota),
+        "balanced64": {
+            "uniform_qtip2": {"global_kld": qtip2_global, "six_class_kld": qtip2},
+            "terminal_true_c": {
+                "global_kld": terminal_global,
+                "receipt_global_kld": float(p951_doc["global"]["mean"]),
+                "six_class_kld": terminal,
             },
-            "wire_a_balanced64": {
-                "kld_by_class": wire_a,
-                "global_kld": weighted(wire_a, quota),
-            },
-            "wire_c_r_balanced64": {
-                "kld_by_class": wire_c,
-                "global_kld": weighted(wire_c, quota),
-            },
-            "uniform_qtip3_balanced64": {
-                "kld_by_class": q3,
-                "global_kld": weighted(q3, quota),
-            },
-            "uniform_qtip2_balanced64": {
-                "kld_by_class": q2,
-                "global_kld": weighted(q2, quota),
-            },
-            "wire_b_w256_383": {
-                "kld_by_class": wire_b,
-                "global_kld": weighted(wire_b, wire_b_counts),
-                "matched_bq3_global_kld": weighted(wire_b_control, wire_b_counts),
-            },
+            "terminal_minus_uniform_delta": terminal_global - qtip2_global,
+            "relative_kld_reduction": (qtip2_global - terminal_global) / qtip2_global,
+            "terminal_to_uniform_ratio": terminal_global / qtip2_global,
         },
-        "p922_penalty_kld": penalty,
-        "mechanical_true_c_point_kld": weighted(wire_c, quota) - penalty,
+        "historical_estimate": {
+            "wire_c_r_global_kld": wire_c_r_global,
+            "p922_substitution_penalty_kld": p922_penalty,
+            "mechanical_true_c_point_kld": wire_c_r_global - p922_penalty,
+        },
+        "p931_projection": {
+            "objective_reweighted": float(solver["objective_reweighted"]),
+            "best_bound": float(solver["best_bound"]),
+            "relative_gap": float(solver["relative_gap"]),
+            "exact_bytes": int(solver["exact_bytes"]),
+            "slack_bytes": int(solver["slack_bytes"]),
+            "prediction_by_class": {name: float(p931_doc["prediction_by_class"][name]) for name in CLASSES},
+        },
+        "p963_acceleration": {
+            "baseline_elapsed_seconds": baseline_seconds,
+            "accelerated_elapsed_seconds": accelerated_seconds,
+            "speedup": speedup,
+            "wall_clock_reduction_percent": reduction_percent,
+            "seconds_saved": baseline_seconds - accelerated_seconds,
+        },
     }
+
+
+def check(computed: dict[str, Any]) -> None:
+    same = load("SAME_INSTRUMENT_RESULTS.json")
+    rows = {row["key"]: row for row in same["rows"]}
+    table = load("CAMPAIGN_COMPARISON_TABLE.json")
+    campaigns = {row["campaign"]: row for row in table["campaigns"]}
+    verdict = table["one_instrument_verdicts"]["balanced64_uniform_qtip2_vs_terminal_true_c"]
+    p931 = load("P931_V3_DEFINITIVE.public.json")
+    p963 = load("P963_EXACT_ACCELERATION_SEAL.public.json")
+
+    balanced = computed["balanced64"]
+    for computed_key, registry_key in (
+        ("uniform_qtip2", "qtip2_vertical"),
+        ("terminal_true_c", "wire_c_true_terminal_balanced64"),
+    ):
+        actual = balanced[computed_key]
+        expected = rows[registry_key]
+        require_close(f"{registry_key}.global_kld", actual["global_kld"], expected["global_kld"])
+        for class_name in CLASSES:
+            require_close(
+                f"{registry_key}.{class_name}",
+                actual["six_class_kld"][class_name],
+                expected["six_class_kld"][class_name],
+            )
+
+    require_close(
+        "P951 receipt global",
+        balanced["terminal_true_c"]["global_kld"],
+        balanced["terminal_true_c"]["receipt_global_kld"],
+    )
+    require_close("comparison delta", balanced["terminal_minus_uniform_delta"], verdict["delta_terminal_minus_baseline"])
+    require_close("comparison reduction", balanced["relative_kld_reduction"], verdict["relative_kld_reduction"])
+    require_close("comparison ratio", balanced["terminal_to_uniform_ratio"], verdict["terminal_to_baseline_ratio"])
+
+    estimate = computed["historical_estimate"]
+    require_close(
+        "historical mechanical point",
+        estimate["mechanical_true_c_point_kld"],
+        rows["wire_c_true_estimate"]["global_kld_point_estimate"],
+    )
+    if rows["wire_c_true_estimate"]["status"] != "ESTIMATE_NOT_MEASURED":
+        raise RuntimeError("historical estimate lost ESTIMATE_NOT_MEASURED label")
+
+    projection = computed["p931_projection"]
+    campaign_projection = campaigns["C_corrected_pricing_solver"]
+    for key in ("objective_reweighted", "best_bound", "relative_gap"):
+        require_close(f"P931 {key}", projection[key], campaign_projection[key])
+    for key in ("exact_bytes", "slack_bytes"):
+        if projection[key] != campaign_projection[key]:
+            raise RuntimeError(f"P931 {key} mismatch")
+    if p931["public_validity"] != {
+        "measured": False,
+        "optimality_proven": False,
+        "physical_checkpoint_scored": False,
+        "result_type": "PROJECTED_SOLVER_RESULT",
+        "source_payloads_redistributed": False,
+        "status": "PROJECTED_DEFINITIVE_FEASIBLE__TIME_LIMIT_INCUMBENT__NOT_PHYSICAL_MEASUREMENT",
+        "true_c_measurement_status": "PENDING_DIRECT_P937_P939",
+    }:
+        raise RuntimeError("P931 public-validity contract drift")
+
+    acceleration = computed["p963_acceleration"]
+    campaign_acceleration = campaigns["E_exact_equal_scorer_acceleration"]
+    for key in ("baseline_elapsed_seconds", "accelerated_elapsed_seconds", "speedup", "wall_clock_reduction_percent"):
+        require_close(f"P963 {key}", acceleration[key], campaign_acceleration[key], tolerance=1e-12)
+    require_close("P963 sealed speedup", acceleration["speedup"], p963["comparison"]["speedup"], tolerance=1e-12)
+    if p963["baseline"]["output_set_sha256"] != p963["accelerated"]["output_set_sha256"]:
+        raise RuntimeError("P963 output-set SHA mismatch")
+    if p963["exactness"]["maximum_absolute_per_position_delta"] != 0.0:
+        raise RuntimeError("P963 per-position exactness drift")
+
+    if table["one_instrument_verdicts"]["p931_projection_vs_p951_measurement"]["verdict"] != "NOT_COMPARABLE":
+        raise RuntimeError("P931/P951 comparability label drift")
+    if campaigns["F_inference_and_eval_protocol"]["sampled_n_per_task"] != 5:
+        raise RuntimeError("binding sampled n drift")
+    if campaigns["F_inference_and_eval_protocol"]["greedy_repeats"] != 3:
+        raise RuntimeError("binding greedy-repeat count drift")
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--check", action="store_true")
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--check", action="store_true", help="retained for compatibility; checking is the default")
+    parser.add_argument("--json", action="store_true", help="print recomputed values after checking")
     args = parser.parse_args()
-    got = build()
-    if not args.check:
-        print(json.dumps(got, indent=2, sort_keys=True))
-        return
-
-    expected = load("SAME_INSTRUMENT_RESULTS.json")
-    expected_rows = {row["key"]: row for row in expected["rows"]}
-    key_map = {
-        "bq3_balanced64_control": "genesis_base",
-        "wire_a_balanced64": "wire_a",
-        "wire_c_r_balanced64": "wire_c_r",
-        "uniform_qtip3_balanced64": "qtip3_vertical",
-        "uniform_qtip2_balanced64": "qtip2_vertical",
-        "wire_b_w256_383": "wire_b",
-    }
-    for name, row in got["rows"].items():
-        expected_row = expected_rows[key_map[name]]
-        close(f"{name}.global_kld", row["global_kld"], expected_row["global_kld"])
-        for class_name in CLASSES:
-            close(
-                f"{name}.{class_name}",
-                row["kld_by_class"][class_name],
-                expected_row["six_class_kld"][class_name],
-            )
-
-    diagnostic = expected["diagnostics"]["p922_substitution_penalty"]
-    estimate = expected_rows["wire_c_true_estimate"]
-    close("p922_penalty", got["p922_penalty_kld"], diagnostic["global_kld"])
-    close(
-        "mechanical_true_c_point",
-        got["mechanical_true_c_point_kld"],
-        estimate["global_kld_point_estimate"],
-    )
-    if estimate["status"] != "ESTIMATE_NOT_MEASURED":
-        raise SystemExit("true-C row lost ESTIMATE_NOT_MEASURED label")
-
-    # Bind receipt-level global rows independently of class-weighted recomputation.
-    close(
-        "P921 Wire A receipt",
-        got["rows"]["wire_a_balanced64"]["global_kld"],
-        load("P921_RESULT_CELL.public.json")["wire_a_p637"]["global_kld"]["mean"],
-    )
-    close(
-        "P819 QTIP3 receipt",
-        got["rows"]["uniform_qtip3_balanced64"]["global_kld"],
-        load("P819_QTIP3_UNIFORM_BALANCED64.public.json")["global"]["mean"],
-    )
-    close(
-        "P880 QTIP2 receipt",
-        got["rows"]["uniform_qtip2_balanced64"]["global_kld"],
-        load("P880_QTIP2_ASSEALED_BALANCED64.public.json")["global"]["mean"],
-    )
-    print("SAME_INSTRUMENT_RECOMPUTE_PASS rows=6 true_c=ESTIMATE_NOT_MEASURED")
+    computed = build()
+    try:
+        check(computed)
+    except (KeyError, TypeError, ValueError, RuntimeError) as exc:
+        raise SystemExit(f"WIRE_C_V2_RECOMPUTE_FAIL: {exc}") from exc
+    if args.json:
+        print(json.dumps(computed, indent=2, sort_keys=True))
+    else:
+        print(
+            "WIRE_C_V2_RECOMPUTE_PASS "
+            f"terminal_true_c={computed['balanced64']['terminal_true_c']['global_kld']:.17g} "
+            f"p931_projected={computed['p931_projection']['objective_reweighted']:.17g} "
+            f"p963_speedup={computed['p963_acceleration']['speedup']:.15g}"
+        )
 
 
 if __name__ == "__main__":

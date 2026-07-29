@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MEASUREMENT_RECEIPT.schema.json",
+  "title": "Codebook substitution measurement receipt",
+  "type": "object",
+  "required": [
+    "schema",
+    "status",
+    "expected_codebook_sha256",
+    "substitute_codebook_sha256",
+    "measured_delta",
+    "ci95",
+    "windows"
+  ],
+  "properties": {
+    "schema": {"const": "p936-codebook-substitution-measurement-v1"},
+    "status": {"const": "PASS"},
+    "expected_codebook_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "substitute_codebook_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "measured_delta": {"type": "number"},
+    "ci95": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "prefixItems": [{"type": "number"}, {"type": "number"}]
+    },
+    "windows": {"type": "integer", "minimum": 64}
+  }
+}

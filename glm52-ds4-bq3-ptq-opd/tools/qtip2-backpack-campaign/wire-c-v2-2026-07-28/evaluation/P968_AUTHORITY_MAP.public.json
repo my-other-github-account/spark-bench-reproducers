@@ -1,0 +1,213 @@
+{
+  "instrument": {
+    "canonical_gt_time_limit_factor": 4.0,
+    "canonical_min_time_limit_seconds": 4.0,
+    "evalplus_commit": "26d6d00bb1fd0fa37f39c99d5290da67891d1c5e",
+    "evalplus_short_commit": "26d6d00",
+    "humaneval_dataset_sha256": "42526ec0e7d5f3ee0b06d6ced98f8c8bae3d76519151bfb3d36f79010645bd7f",
+    "humaneval_internal_hash": "fe585eb4df8c88d844eeb463ea4d0302",
+    "humaneval_release": "HumanEvalPlus-v0.1.10",
+    "humaneval_tasks": 164,
+    "mbpp_dataset_sha256": "b54e762755248ca411b523c917fa9f93c07b5ff2966bf60b3917b853926a3dad",
+    "mbpp_internal_hash": "ee43ecabebf20deef4bb776a405ac5b1",
+    "mbpp_release": "MbppPlus-v0.2.0",
+    "mbpp_tasks": 378,
+    "network": "none during scoring",
+    "pinned_cpus": 4,
+    "prepare_sanitize_score_order": [
+      "prepare canonical raw rows",
+      "sanitize in pinned container",
+      "delete cached eval results",
+      "evaluate in pinned container"
+    ],
+    "test_details": true,
+    "timing_matrix": [
+      [
+        4.0,
+        4.0
+      ],
+      [
+        10.0,
+        4.0
+      ],
+      [
+        4.0,
+        10.0
+      ],
+      [
+        10.0,
+        10.0
+      ]
+    ]
+  },
+  "iq4": {
+    "authority_task": "PUBLIC_TASK",
+    "head": "compute-node-f",
+    "invalid_historical_receipt": {
+      "path": "workspaces/PUBLIC_TASK/receipts/HUMANEVAL_PLUS_IQ4_TRUE4096.json",
+      "reason": "older compute-node-work/compute-node-f topology and 161/152 score; superseded by the clean homogeneous f16-KV PUBLIC_TASK 161/155 row",
+      "sha256": "82237887fcbdffe60b02c0c12840e0a1126cccebe39c641e4c0a42633ac4aac6"
+    },
+    "label": "DeepSeek-V4-Flash UD-IQ4_XS clean f16-KV matched comparator",
+    "live_observation": {
+      "head_claim_owner": "PUBLIC_TASK",
+      "head_gpu_compute_apps": [],
+      "launch_allowed_now": false,
+      "model_shards_present_on_head": true,
+      "reason": "both required hosts have live foreign claims; exact comparator launch must wait or obtain explicit takeover authority",
+      "rpc_claim_owner": "PUBLIC_TASK",
+      "rpc_gpu_compute_apps": []
+    },
+    "model_dir": "$SOURCE_ROOT/missions/IQ4_CLEAN_RERUN_PUBLIC_TASK_head_s4/models/UD-IQ4_XS",
+    "model_receipt_sha256": "962d4c4903f64fb3d5b56d2bb6a5228a7b457a4d8507e2355ca2bdbbf2c2cc2b",
+    "model_total_bytes": 137903959808,
+    "preserved_greedy_row": {
+      "base_passes": 161,
+      "denominator": 164,
+      "eval_results_sha256": "566135b05205d01a61c0c8bd00c527b550f1eff9cb71e177d27ac139dd29e67b",
+      "generation_manifest_sha256": "fdce7814127670ac1710cb64e5397c4ff67989c4cea27e68a0fcf4a84e9e4d94",
+      "plus_and_both_passes": 155
+    },
+    "rpc_donor": "compute-node-b",
+    "runtime": {
+      "batch_size": 2048,
+      "cache_type_k": "f16",
+      "cache_type_v": "f16",
+      "client_concurrency": 4,
+      "ctx_size": 17408,
+      "flash_attention": true,
+      "libggml_cuda_sha256": "d99a77b189af4e500604c464b810682d58b321cb129704d04adc97b39372ce0b",
+      "libllama_sha256": "c59967dacfb38dc5319fac232c4c17b02f0e6e6743956ad77ae9b00e240122a4",
+      "llama_server_sha256": "21c64670e31eb533a0c81c3b05896425324af6ed769c576654788d7b27af8abf",
+      "rpc_binary_sha256": "a21656cb7537949ab58b5ea7ca89aff53a9a98790d999fa98b2b3b95ae2c14cf",
+      "server_parallel": 4,
+      "transport": "QSFP PUBLIC_NODE_B_ADDRESS:50059",
+      "ubatch_size": 512
+    },
+    "shards": [
+      {
+        "bytes": 5256864,
+        "name": "DeepSeek-V4-Flash-UD-IQ4_XS-00001-of-00004.gguf",
+        "sha256": "9a1a0122a788a9c7cd4d7f866341a101a959df759e1e3cc22d11b7c0f6db735f"
+      },
+      {
+        "bytes": 49431060672,
+        "name": "DeepSeek-V4-Flash-UD-IQ4_XS-00002-of-00004.gguf",
+        "sha256": "56d47c47e5fe8146fcda887d8d22429d0550d5c98f5714953079103831026a70"
+      },
+      {
+        "bytes": 49160711776,
+        "name": "DeepSeek-V4-Flash-UD-IQ4_XS-00003-of-00004.gguf",
+        "sha256": "2399d4c493508822c9dfa681dd01f500ed32f05e24275166c6fc801b81263303"
+      },
+      {
+        "bytes": 39306930496,
+        "name": "DeepSeek-V4-Flash-UD-IQ4_XS-00004-of-00004.gguf",
+        "sha256": "3051c7dd3b5614fb8f8bf86f16eac88b31cff15339a9a98ab558b23cc092766b"
+      }
+    ]
+  },
+  "protocol_preregistration": {
+    "batching": "canonical dataset order, four concurrent task requests, resumable atomic row sealing",
+    "greedy_instability": {
+      "batching_configuration_recorded_per_repeat": true,
+      "max_tokens": 4096,
+      "repeats": 3,
+      "seed_start": 20000,
+      "temperature": 0.0,
+      "top_p": 1.0
+    },
+    "prompt": "one user message using exact EvalPlus OpenAIChatDecoder prefix and raw problem prompt",
+    "sampled": {
+      "max_tokens": 4096,
+      "n_per_task": 5,
+      "operator_amendment": "n=20 reduced to n=5",
+      "paired_seed_ordinals": true,
+      "seed_start": 10000,
+      "temperature": 0.2,
+      "top_p": 0.95
+    },
+    "statistics": "task-cluster bootstrap confidence intervals plus task-level paired sign/permutation tests; seed ordinals are labels, not common random-number equivalence across different RNG implementations",
+    "uncertainty": "top-5 token logprobs when both runtimes expose them; otherwise response-distribution and prefix divergence diagnostics are explicitly labeled"
+  },
+  "public_validity": {
+    "note": "Live host observations are historical provenance, not launch authority.",
+    "status": "PREREGISTERED_PROTOCOL_ONLY",
+    "true_c_paired_results_available": false
+  },
+  "schema": "p968-authority-map-v1",
+  "status": "PINNED_WITH_LIVE_RESOURCE_CONSTRAINTS",
+  "task_id": "PUBLIC_TASK",
+  "true_c": {
+    "authority_tasks": [
+      "PUBLIC_TASK",
+      "PUBLIC_TASK"
+    ],
+    "host": "compute-node-g",
+    "label": "P967 serving of the P943 genuine-weight true-C wire through the exact P486 official-graph harness",
+    "live_observation": {
+      "active_work": "P967 true-C official-graph QTIP runtime construction and serve boot; the amended P968 n=5 scope requires fresh execution authority",
+      "claim_owner": "PUBLIC_TASK",
+      "claim_state": "CLAIMED",
+      "gpu_compute_apps": [],
+      "interpretation": "active foreign claim; coordinate through task PUBLIC_TASK and do not adopt or mutate compute-node-g",
+      "launch_allowed_by_p968_now": false,
+      "model_tree_present": true,
+      "owner_task_is_terminal": false,
+      "owner_task_status": "running",
+      "root_free_bytes": 4905775104
+    },
+    "model_path": "$SOURCE_ROOT/missions/TAILFIX_BASELINE_OWNGEN_PUBLIC_TASK/model_view",
+    "p486_base_tree_identity": {
+      "architecture": "DeepseekV4ForCausalLM",
+      "dense_patch_sha256": "efef5162b4f26d6c7319f7cd2b5123fd6023493d1e693d7a8fdc615ab3f73dee",
+      "layers": 43,
+      "model_config_sha256": "b628e63398a645abc711d92207f8737dd8140f7a4ef1e0a5b3616019e0ddd818",
+      "model_index_sha256": "7e975ba3bef8947a94e7da0abd60888375b232b4dfad883d59653e65c6ba522a",
+      "tokenizer_config_sha256": "6ac8c8dc065ed118161d02dd532749ae3f52c243deac27872134fae2f50d8547",
+      "tokenizer_sha256": "8f9f37ca37fdc4f5fd36d5cf4d3b0e8392edb4e894fd10cc0d70b4957c8633cf",
+      "wire_checkpoint_sha256": "fae41d519193269aec4b2221c97a1dc00e0b00d3d66074d917a78489fac2149c",
+      "wire_complete_sha256": "e6be6796bc2f91fa60defe2e93e4bde096f2ab2f200dc3d6bd4c96a579b797d7",
+      "wire_manifest_sha256": "de88c68c221e6e6af7bc93d2b1b3f7af64fad6bea0c598738b7d09f80b8223df"
+    },
+    "preserved_p486_harness_reference_row_not_p967_model_result": {
+      "base_passes": 152,
+      "denominator": 164,
+      "final_receipt_sha256": "913988e8fca752d35b2f8594a52d0112f6010eef1a9e1ae7c932dbbd5796e2cf",
+      "plus_and_both_passes": 144,
+      "raw_solutions_sha256": "a0a0d5474e699fbcc09a3c530c8765e28a788a6583fd4b566e8cb5686741d128",
+      "sanitized_samples_sha256": "a33622bb53815978fe3569a41d2984aed4a59b51ec47a3882f00afdb586e4429",
+      "task_contract_sha256": "c59c088da26d2acdd1e62174750385ca053c7a9be5f68d57212026bdb2bc9316"
+    },
+    "runtime": {
+      "block_size": 256,
+      "compilation": "VLLM_COMPILE/CUDA graph mode NONE",
+      "decode_graph": true,
+      "decode_graph_max_t": 4,
+      "engine_contract_sha256": "c1c02debf6dbc0cceba8d76c259bf2914e4c935cb7c4bae230a1e5b3107ee036",
+      "gpu_memory_utilization": 0.8,
+      "graph": "official HF DeepseekV4ForCausalLM",
+      "kv_cache_dtype": "fp8",
+      "kv_cache_memory_bytes": 2415919104,
+      "max_model_len": 5120,
+      "max_num_batched_tokens": 8192,
+      "max_num_seqs": 4,
+      "plain_torch_adapter": false,
+      "prefix_caching": false,
+      "python": "3.12.3",
+      "vllm": "0.24.0"
+    },
+    "true_c_wire_authority": {
+      "active_overlay_path": "$SOURCE_ROOT/missions/P967_TRUE_C_HE164_EVALPLUS_PUBLIC_TASK_s2/inputs/p943/WIRE_C_TRUE_C_ACTIVE_OVERLAY.json",
+      "active_overlay_sha256": "9a4b709851c62c32f59b17556ef14d53e89cbbfc0fcc93686fc51530e4cf4d62",
+      "refit_delta_manifest_sha256": "6d13b82d49c49c55c4215b662cad4c488a1b8c81fb39a32e03096562ba604dc6",
+      "stage_receipt_sha256": "c67a58d3ab2b9f65b34fb7a2a6359fe6255c87a6b685c532815e7eab702863c8",
+      "staged_aggregate_row_sha256": "6f3e7bbe3cb7a47c114c20638563c52e5dbfe715bd8f268c5936954fd9b8b4e3",
+      "staged_cells": 2860,
+      "staged_payload_bytes": 18357031044,
+      "terminal_seal_path": "$SOURCE_ROOT/missions/P967_TRUE_C_HE164_EVALPLUS_PUBLIC_TASK_s2/inputs/p943/P943_TRUE_C_TERMINAL_SEAL.json",
+      "terminal_seal_sha256": "90e6d6b131d14b353be2976848dc90e947cb6fc1cda376e03b760a63dce8d31c",
+      "terminal_status": "PASS_TERMINAL_F521_T"
+    }
+  }
+}

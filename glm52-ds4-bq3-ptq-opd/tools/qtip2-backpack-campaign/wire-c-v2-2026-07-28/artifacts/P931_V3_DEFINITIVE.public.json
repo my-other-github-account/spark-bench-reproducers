@@ -1,0 +1,157 @@
+{
+  "assignment": {
+    "assignment_payload_redistributed": false,
+    "assignment_recovery_status": "HASHES_ONLY__DURABLE_EXACT_MAP_PUBLICATION_PENDING",
+    "assignment_map_sha256": "c260b1a05ad1368a9aa11ee184fbe0a2734e781c7bbf4e1bf40c67821ea8786c",
+    "assignment_sha256": "b8f07185e54f018af4bcc2b6831b457b1ada2c97ad166226ee19e3e8e91bbd8d",
+    "recovery_status_url": "https://github.com/my-other-github-account/spark-bench-reproducers/blob/main/glm52-ds4-bq3-ptq-opd/tools/qtip2-backpack-campaign/wire-c-v2-2026-07-28/P958_ASSIGNMENT_RECOVERY_STATUS.md",
+    "cell_count": 22016,
+    "changed_cell_count_vs_original": 20718,
+    "tier_counts": {
+      "d4_k1024": 1370,
+      "d4_k2048": 4520,
+      "d4_k256": 2,
+      "d4_k4096": 1478,
+      "d4_k512": 4,
+      "d4_k8192": 16,
+      "d8_k1024": 0,
+      "d8_k2048": 0,
+      "d8_k256": 0,
+      "d8_k4096": 0,
+      "d8_k512": 0,
+      "native_mxfp4": 39,
+      "qtip15_1.509117": 0,
+      "qtip2_2.0117": 1829,
+      "qtip3_3.0117": 12758
+    }
+  },
+  "historical_first_feasible": {
+    "exact_bytes": 101346700411,
+    "objective_reweighted": 0.06913222309403669,
+    "public_receipt": "artifacts/P931_V3_FIRST_FEASIBLE.public.json",
+    "source_sha256": "e84c6c5550eebc00df8b0f15d344c719864bbaf96cfdf5723bc696e839352772",
+    "status_at_emission": "PROJECTED_FIRST_FEASIBLE__FINAL_SCIP_PENDING"
+  },
+  "p930_lineage": {
+    "input_shas": {
+      "p922_selection": "e776c293be491f080a630f7ba1d066ea0cc420c773be6758de2b4c92a3fb9818",
+      "p928_assignment": "62c26b9ea8f53aa2a2be84ff55b0e444100625f900832e096624ea178d9f9122",
+      "p930_final_report": "6213107d728ac0df48be7121a082a6efa6f894d30c800e8db94315589c86a0d9",
+      "pre_v3_grid": "74869b5f8e3ef4eb43dc98c6ee060c2d9ad048bb215cadd308fb2c9983933dda",
+      "pricing_v3": "c8673867b0fb7626232721d4939a9fdf95ef6d1a3de69698fd2a3d42398606c0",
+      "v3_grid": "49407ff0114c5bcf9f7a68fbfc2a4822fee1839852aff5d89b8ce12d1251c203",
+      "v3_validation": "9666d979b79ec576f55a4ea685bb1311b29910875fc227a24f470370e516b379"
+    },
+    "p922_joined_rows": 3803,
+    "p928_additive_interaction_kld": 0.00007825254366380929,
+    "p928_interaction_application": "ALREADY_BAKED_INTO_THE_THREE_V3_GRID_ROWS__NOT_ADDED_TWICE"
+  },
+  "pre_v3_comparison": {
+    "class_delta_v3_minus_pre_v3": {
+      "agentic": 0.001719541747149167,
+      "chat": 0.001718857071429077,
+      "code": 0.0008774987309812105,
+      "multilingual": 0.0031618526678374587,
+      "prose": 0.0007202123825385681,
+      "reasoning": 0.0010942856353186184
+    },
+    "exact_bytes_pre_v3": 101346673727,
+    "exact_bytes_v3": 101346700382,
+    "objective_delta_v3_minus_pre_v3": 0.001656619557481441,
+    "objective_pre_v3": 0.033422013482008635,
+    "objective_v3": 0.035078633039490076
+  },
+  "prediction_by_class": {
+    "agentic": 0.03958745712003608,
+    "chat": 0.008532822455696412,
+    "code": 0.05105645114446229,
+    "multilingual": 0.04864400347424909,
+    "prose": 0.0352992491602176,
+    "reasoning": 0.005687227334670042
+  },
+  "public_identity": "banana_bae",
+  "public_validity": {
+    "measured": false,
+    "optimality_proven": false,
+    "physical_checkpoint_scored": false,
+    "result_type": "PROJECTED_SOLVER_RESULT",
+    "source_payloads_redistributed": false,
+    "status": "PROJECTED_DEFINITIVE_FEASIBLE__TIME_LIMIT_INCUMBENT__NOT_PHYSICAL_MEASUREMENT",
+    "true_c_measurement_status": "PENDING_DIRECT_P937_P939"
+  },
+  "schema": "p931-v3-definitive-public-summary-v1",
+  "solver": {
+    "backend": "OR-Tools MPSolver SCIP",
+    "best_bound": 0.03507853638367621,
+    "envelope_bytes": 101346700411,
+    "exact_bytes": 101346700382,
+    "integer_status": "FEASIBLE",
+    "objective_reweighted": 0.035078633039490076,
+    "relative_gap": 0.0000027554042339551337,
+    "slack_bytes": 29,
+    "termination_reason": "TIME_LIMIT_WITH_FEASIBLE_INCUMBENT",
+    "threads": 16,
+    "time_limit_seconds": 3600.0,
+    "wall_seconds": 4214.848067998886
+  },
+  "source_code_shas": {
+    "launch_p931_v3": "bc2cc6a9775f361ad75532a62b1edebf6e127765f01a4f74517418e7f8bbe6ef",
+    "pricing_v3_surface": "04b7d53935362b7d71622fba53e2d8170f51e70a74303e47081948d3203e0fc9",
+    "retrodiction_pricing": "466bba58afd00cc12d6b157281eda8a5d06fb5807b89874b5a6497ee29c3047e",
+    "solve_p693_turbo": "a6052cabce24d218f7ba2161910f70e77abddf51d953a07a7132158b75dc2c04",
+    "solve_p760_turbo": "db1cdc17dc9aae78d2283e26f7dff241d02b81b5a04af662ab213346dbcdf7a9",
+    "solve_p924_reweighted_unchanged_step1": "fc99323ecea76d52b3640e96894ded0ee684987d66abea38cde6cc8be4dfd355",
+    "solve_p931_v3": "c70985c1b35bae48b09945db6c343c9d6099550c409006e5694b4b9a8aced1eb",
+    "verify_p931_v3": "7dca34898869db1d2501ba1761b4a3429062659b7f32fd1f7ea281430959838a"
+  },
+  "status": "PASS_DEFINITIVE_V3_ASSIGNMENT_REPLAY_AND_COMPARISON",
+  "verification": {
+    "artifact_manifest": {
+      "entry_count": 13,
+      "entry_coverage": "exact reviewed 13-entry artifact manifest: 12 solver outputs plus the independent verification receipt; three source-output identities are explicitly alias-mapped",
+      "rehash_pass": true,
+      "sha256": "d13db9c39f2da6620c432ba75ec1a5c45b1852b766418cc2e8d8a2b09e9e312a"
+    },
+    "gates_passed": 17,
+    "gates_total": 17,
+    "reviewed_manifest_artifact_shas": {
+      "outputs/P931_V3_DEFINITIVE/ASSIGNMENT_QTIP2_QTIP3.json": "b8f07185e54f018af4bcc2b6831b457b1ada2c97ad166226ee19e3e8e91bbd8d",
+      "outputs/P931_V3_DEFINITIVE/DOMINANCE_PRUNING.json": "5f6f35d8ec5aaa7e26d9b882df22732688bab46d86661b2942e699cc8a616e76",
+      "outputs/P931_V3_DEFINITIVE/DONE.json": "a469a4aa27279b24348bed4d7b68f9355a78f026fb4b566c8adf3737d3f84068",
+      "outputs/P931_V3_DEFINITIVE/FIRST_FEASIBLE_PREVIEW.json": "e84c6c5550eebc00df8b0f15d344c719864bbaf96cfdf5723bc696e839352772",
+      "outputs/P931_V3_DEFINITIVE/P931_DEFINITIVE_VERIFICATION.json": "60e6573f717e78fa8039a64938d7e444661e6583bd2c1549aa15906fcba4703a",
+      "outputs/P931_V3_DEFINITIVE/PAIRED_GREEDY_LEDGER.json": "b295eef46adcc2010579ec5b88d5d51ad224ccfde17743ca5b385fd5ab32f0d1",
+      "outputs/P931_V3_DEFINITIVE/PROGRESS.json": "540c186662cf0813aee2d1bba7607041f933bf5ab6d45642087bde13edca4805",
+      "outputs/P931_V3_DEFINITIVE/PURCHASE_TABLE.json": "1825ded640a86d421895f8d727f89fae955728817a394678976037b87e692eca",
+      "outputs/P931_V3_DEFINITIVE/RESULT.json": "b61a3bcd955d8ce62141abb71a3307e5be72be74deb575358d1d1e9867dcee08",
+      "outputs/P931_V3_DEFINITIVE/SANITY.json": "d2ee4af35212cbf78cba7ae9efc1999685a5b774d65c96710cdb47e8d501b342",
+      "outputs/P931_V3_DEFINITIVE/SCIP.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "outputs/P931_V3_DEFINITIVE/STDOUT.jsonl": "f8a811a3a57fec8d3f64aa2beb8bc948b7b04456c12ca5a8152dc19ddfd0acae",
+      "outputs/P931_V3_DEFINITIVE/WIRE_C_V3_DEFINITIVE_PAIRED_GREEDY_SEED.json": "d478665266aae5b2efa6583b6a5acae0502d5c2c4acc463883c1a85f6e15e927"
+    },
+    "source_receipt_sha256": "60e6573f717e78fa8039a64938d7e444661e6583bd2c1549aa15906fcba4703a",
+    "source_receipt_path": "outputs/P931_V3_DEFINITIVE/P931_DEFINITIVE_VERIFICATION.json",
+    "source_step1_sha256": "d832b888e698df146730de6a370d3790084e3a634724f2ce7f78f0d8badf7eb3",
+    "source_to_reviewed_manifest_aliases": {
+      "outputs/P931_V3_DEFINITIVE/FIRST_FEASIBLE.json": "outputs/P931_V3_DEFINITIVE/FIRST_FEASIBLE_PREVIEW.json",
+      "outputs/P931_V3_DEFINITIVE/PAIRED_GREEDY_LEDGER.jsonl": "outputs/P931_V3_DEFINITIVE/PAIRED_GREEDY_LEDGER.json",
+      "outputs/P931_V3_DEFINITIVE/PAIRED_GREEDY_SEED.json": "outputs/P931_V3_DEFINITIVE/WIRE_C_V3_DEFINITIVE_PAIRED_GREEDY_SEED.json"
+    },
+    "source_output_shas": {
+      "outputs/P931_V3_DEFINITIVE/ASSIGNMENT_QTIP2_QTIP3.json": "b8f07185e54f018af4bcc2b6831b457b1ada2c97ad166226ee19e3e8e91bbd8d",
+      "outputs/P931_V3_DEFINITIVE/DOMINANCE_PRUNING.json": "5f6f35d8ec5aaa7e26d9b882df22732688bab46d86661b2942e699cc8a616e76",
+      "outputs/P931_V3_DEFINITIVE/DONE.json": "a469a4aa27279b24348bed4d7b68f9355a78f026fb4b566c8adf3737d3f84068",
+      "outputs/P931_V3_DEFINITIVE/FIRST_FEASIBLE.json": "e84c6c5550eebc00df8b0f15d344c719864bbaf96cfdf5723bc696e839352772",
+      "outputs/P931_V3_DEFINITIVE/PAIRED_GREEDY_LEDGER.jsonl": "b295eef46adcc2010579ec5b88d5d51ad224ccfde17743ca5b385fd5ab32f0d1",
+      "outputs/P931_V3_DEFINITIVE/PAIRED_GREEDY_SEED.json": "d478665266aae5b2efa6583b6a5acae0502d5c2c4acc463883c1a85f6e15e927",
+      "outputs/P931_V3_DEFINITIVE/PROGRESS.json": "540c186662cf0813aee2d1bba7607041f933bf5ab6d45642087bde13edca4805",
+      "outputs/P931_V3_DEFINITIVE/PURCHASE_TABLE.json": "1825ded640a86d421895f8d727f89fae955728817a394678976037b87e692eca",
+      "outputs/P931_V3_DEFINITIVE/RESULT.json": "b61a3bcd955d8ce62141abb71a3307e5be72be74deb575358d1d1e9867dcee08",
+      "outputs/P931_V3_DEFINITIVE/SANITY.json": "d2ee4af35212cbf78cba7ae9efc1999685a5b774d65c96710cdb47e8d501b342",
+      "outputs/P931_V3_DEFINITIVE/SCIP.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "outputs/P931_V3_DEFINITIVE/STDOUT.jsonl": "f8a811a3a57fec8d3f64aa2beb8bc948b7b04456c12ca5a8152dc19ddfd0acae"
+    },
+    "status": "PASS_DEFINITIVE_V3_ASSIGNMENT_REPLAY_AND_COMPARISON",
+    "source_output_count": 12
+  }
+}

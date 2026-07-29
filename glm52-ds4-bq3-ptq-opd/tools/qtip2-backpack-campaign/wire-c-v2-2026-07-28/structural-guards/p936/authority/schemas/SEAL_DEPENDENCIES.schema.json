@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "SEAL_DEPENDENCIES.schema.json",
+  "title": "Seal dependency copy census",
+  "type": "object",
+  "required": ["schema", "status", "min_copies", "dependency_count", "dependencies"],
+  "properties": {
+    "schema": {"const": "p936-seal-dependency-census-v1"},
+    "status": {"const": "PASS"},
+    "min_copies": {"type": "integer", "minimum": 2},
+    "dependency_count": {"type": "integer", "minimum": 0},
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["sha256", "bytes", "copy_count", "copies"],
+        "properties": {
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "bytes": {"type": "integer", "minimum": 0},
+          "copy_count": {"type": "integer", "minimum": 2},
+          "copies": {"type": "array", "minItems": 2}
+        }
+      }
+    }
+  }
+}

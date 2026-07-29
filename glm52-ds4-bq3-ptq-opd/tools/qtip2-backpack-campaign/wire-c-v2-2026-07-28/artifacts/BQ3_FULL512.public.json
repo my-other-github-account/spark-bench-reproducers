@@ -7974,7 +7974,7 @@
     "paired_tolerance": 5e-06,
     "status": "PHYSICAL_MATCHES_STREAMED"
   },
-  "physical_package": "192.0.2.1:$SOURCE_ROOT/wire43",
+  "physical_package": "PUBLIC_NODE_ADDRESS:$SOURCE_ROOT/wire43",
   "physical_reader": "$SOURCE_ROOT/genesis_remote_full512.py",
   "physical_reader_history": [
     {

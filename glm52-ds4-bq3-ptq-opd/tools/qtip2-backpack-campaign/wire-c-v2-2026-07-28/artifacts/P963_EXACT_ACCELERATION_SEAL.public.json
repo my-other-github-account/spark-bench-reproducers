@@ -1,0 +1,215 @@
+{
+  "accelerated": {
+    "elapsed_seconds": 1495.7971739768982,
+    "label": "P963_ACCELERATED_EXACT_P951_TRUE_C_80_OF_80",
+    "output_set_sha256": "3529d33893a12d92dda96beba29c1a0e21adec6d008f2b32ced7d0066662c451",
+    "receipt_sha256": "85566c504f23d2862ce4f5d1cc5c03797888e57fd090547b239b2ffa2890f6a2",
+    "windows_per_minute": 2.567192976966613
+  },
+  "accelerated_profile": {
+    "forward_seconds": 701.0,
+    "layers": 43,
+    "prep_seconds": 1454.5,
+    "wait_seconds": 743.8
+  },
+  "baseline": {
+    "elapsed_seconds": 3643.123103618622,
+    "label": "INDEPENDENT_TERMINAL_TRUE_C_80_OF_80",
+    "output_set_sha256": "3529d33893a12d92dda96beba29c1a0e21adec6d008f2b32ced7d0066662c451",
+    "receipt_sha256": "25dc5d5965b6e0e6c11db69ae05b7d64ec158dd41698e84e551db35270f1e5f7",
+    "windows_per_minute": 1.054040692774237
+  },
+  "comparison": {
+    "minutes_saved_per_post_repair_read": 35.78876549402873,
+    "seconds_saved_per_read": 2147.3259296417236,
+    "speedup": 2.4355729286027437,
+    "wall_clock_reduction_percent": 58.94189871071991
+  },
+  "coverage": {
+    "completed_layers": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42
+    ],
+    "exact_full_overlay_skipped_base_layers": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42
+    ],
+    "mmap_partial_layers": [
+      0,
+      1,
+      2
+    ],
+    "overlay_stage_retired": true
+  },
+  "exactness": {
+    "balanced64": "BALANCED64_V1",
+    "cutoff": 1024,
+    "direction": "KL(teacher||candidate)",
+    "global_mean": 0.06829414627618949,
+    "maximum_absolute_per_position_delta": 0.0,
+    "pack_fraction": 1.0,
+    "positions": 65536,
+    "raw_output_set_sha_exact": true,
+    "six_class_means": {
+      "agentic": 0.07879656974187459,
+      "chat": 0.021183150884045005,
+      "code": 0.05501697946566645,
+      "multilingual": 0.11238435483229318,
+      "prose": 0.09759553403503682,
+      "reasoning": 0.014495197391988604
+    },
+    "support": 8192,
+    "tensor_exact_windows": "64/64",
+    "windows": 64,
+    "zero_quarantine": true,
+    "zero_substitution": true
+  },
+  "implementation": {
+    "adapter_sha256": "e84efd6080806ca51bf8681e05e7e06aef6d2406bab29da4d4b68ff8d551415e",
+    "canonical_builder_sha256": "873a98a37a6cf854572983ebfdffc15e2292f6599a7fb3206c14cb866f2f8784",
+    "canonical_loader_sha256": "155310d1e6701d6cb2d1c04558514366a2304cb2a8d6d26402ed7c800b8b6c89",
+    "canonical_scorer_sha256": "5c16e62c32e6936223c54e2b3cf9394a1d0f87833cc409360e82e0341954c12f",
+    "launcher_sha256": "393070f9b8c6184f062a9c5cf42f4712492174a7619f4768c3063305ed412c30",
+    "runner_sha256": "44ff2771fad236ad9d25fdbcd4ccdbfdb24b0725a27631650eb9748cb50cfdf8",
+    "stage_canary_sha256": "afe37a424266679edb5c50fb9fd2ad68ed9c1e8bf306ad7fd6ddafc286684831"
+  },
+  "levers": [
+    {
+      "lever": "resident-once",
+      "order": 1,
+      "result": "preserved canonical resident codebook/scales and one QTIP decoder instance; no scorer semantics changed"
+    },
+    {
+      "lever": "mmap",
+      "order": 2,
+      "result": "preserved canonical torch-mmap for the three partial layers L000-L002"
+    },
+    {
+      "lever": "batched peer stage",
+      "order": 3,
+      "result": "one SSH/rsync session per peer with expected-SHA namespace; L000 canary 8.40087987944764x"
+    },
+    {
+      "lever": "overlap and double buffer",
+      "order": 4,
+      "result": "peer staging overlaps base fill and prefetches next overlay while current overlay decodes"
+    },
+    {
+      "lever": "exact-full-overlay skip",
+      "order": 5,
+      "result": "40 exact 512/512 layers L003-L042 skip redundant immutable-base fill; partial layers remain canonical"
+    },
+    {
+      "lever": "highest numerically safe microbatch",
+      "order": 6,
+      "result": "mb4 completed faster but failed the <=1e-12 decision gate and was rejected; mb2 is exact and therefore the highest safe setting"
+    }
+  ],
+  "profile_first": {
+    "baseline_log_sha256": "9312ae7dee14f92680f5f946b0a7ae41435a801a0318fcd7228c9a2bc0cbb8b7",
+    "forward_seconds": 557.4,
+    "overlap_disclosure": "prep, wait, and physical-overlay counters overlap; they name measured sinks rather than additive wall partitions",
+    "source": "canonical P951 physical log",
+    "top_measured_sinks": [
+      {
+        "seconds": 3602.6,
+        "sink": "layer preparation critical path"
+      },
+      {
+        "seconds": 3010.2,
+        "sink": "prefetch wait"
+      },
+      {
+        "seconds": 834.6,
+        "sink": "physical overlay fill"
+      }
+    ]
+  },
+  "public_validity": {
+    "claim_scope": "The accelerated scorer reproduced the baseline raw output-set SHA exactly and reduced wall time; this is scorer acceleration, not a new model-quality measurement.",
+    "source_artifact_sha256": "11ed966638ac0c4641a28c8c4946599bdaeaaca1016d26f8a0ddb7cfb2373196",
+    "source_paths_hosts_and_task_ids_omitted": true,
+    "status": "MEASURED_EXACT_EQUAL_ACCELERATION"
+  },
+  "schema": "p963-exact-acceleration-public-v1",
+  "status": "PASS_EXACT_EQUAL_ACCELERATION_GE_2X"
+}
