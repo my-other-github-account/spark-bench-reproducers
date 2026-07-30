@@ -44,6 +44,12 @@ vs a +23.1% post-repair lead over IQ4 — projected post-dose lead ~20%.
 - `LESSONS.md` — laws + failure catalog (solver calibration, scorer instruments, fleet ops).
 
 - `UPDATE_2026-07-26.md` — overnight menu campaign, turbo full-menu wire (−32.9% solve, build, composition), dosed-wire first results (code76 0.04204), pricing science (anchors doctrine, class-scaling, BALANCED64), leakage protocol, current plan.
+- `UPDATE_2026-07-27_28.md` — Wire-C V2 solve/build/read chronicle and corrected-pricing chain.
+- `UPDATE_2026-07-29.md` — TRUE-C U004, serving forensics, product receipt, concurrency state, leakage correction, and grand-table status.
+- `MEASUREMENT_INTEGRITY.md` — EVAL512/BALANCED64 contamination findings and the standing HOLDOUT512_V1 law.
+- `BANANA_PACK_SPEC.md` — frozen repeatable descent protocol for 2.75/2.50/2.25/2.00-bpw targets.
+- `PUBLICATION_STATUS_2026-07-29.json` — machine-readable exact pins, metrics, validity labels, and unavailable cells.
+- `../NEW_MODEL_CHECKLIST.md` — fail-closed canon, serving-format export, planes preflight, clean-bank, and publication checklist.
 - `PROCEDURES.md` — the process manual: 10 recipes (solve, overlay build, rail, fast reads, anchors, pricing, dose, acceleration adoption, fleet ops, eval integrity).
 - `BALANCED64_V1.json` — the standard fast-read window set (design method, error budget, governance).
 

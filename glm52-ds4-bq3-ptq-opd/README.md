@@ -43,6 +43,12 @@ This directory documents a July 2026 campaign on DeepSeek-V4-Flash that started 
 - [`FAILURES.md`](FAILURES.md) — off-policy, static-weighting, resume, monitoring, and measurement failures.
 - [`NEXT.md`](NEXT.md) — open experiments after the transfer verdict.
 - [`qtip2-backpack-campaign/UPDATE_2026-07-27_28.md`](qtip2-backpack-campaign/UPDATE_2026-07-27_28.md) — definitive 24-hour Wire C solve/build/read chronicle, true-C correction chain, and operational laws.
+- [`qtip2-backpack-campaign/UPDATE_2026-07-29.md`](qtip2-backpack-campaign/UPDATE_2026-07-29.md) — direct TRUE-C U004, July-29 serving forensics, 18/18 product receipt, concurrency NO-GO, leakage audit, standing holdout, and explicit grand-table gaps.
+- [`CURRENT_BEST.md`](CURRENT_BEST.md) — compact artifact, quality, serving, and validity ledger.
+- [`SERVE_RUNBOOK.md`](SERVE_RUNBOOK.md) — fail-closed TRUE-C launch, warmup, client measurement, concurrency, and failure-signature protocol.
+- [`NEW_MODEL_CHECKLIST.md`](NEW_MODEL_CHECKLIST.md) — check-canon-first, wire/serving-export, planes preflight, holdout, and publication gates.
+- [`qtip2-backpack-campaign/MEASUREMENT_INTEGRITY.md`](qtip2-backpack-campaign/MEASUREMENT_INTEGRITY.md) — scoring/design-time leakage findings and HOLDOUT512_V1 standing-asset law.
+- [`qtip2-backpack-campaign/BANANA_PACK_SPEC.md`](qtip2-backpack-campaign/BANANA_PACK_SPEC.md) — reproducible 2.75/2.50/2.25/2.00-bpw iso-byte descent specification.
 - [`tools/qtip2-backpack-campaign/wire-c-v2-2026-07-28/`](tools/qtip2-backpack-campaign/wire-c-v2-2026-07-28/) — privacy-scrubbed receipts, source/public hashes, solver references, and executable verification.
 - [`reference/`](reference/) — scrubbed source used for bank validation, FP32 divergence, durable checkpointing, static gates, and the 43-layer adapter.
 - [`receipts/SEALED_RESULTS.json`](receipts/SEALED_RESULTS.json) — scrubbed machine-readable headline rows and receipt identities.

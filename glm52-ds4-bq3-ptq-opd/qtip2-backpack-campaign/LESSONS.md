@@ -88,7 +88,7 @@ Companion: SOLVER_CALIBRATION.md (5-term error decomposition + new-model recipe)
 26. **Duplicated full-scope lanes are not redundancy, they're waste** — 4× all-512 "race"
     lanes converted to slices saved ~5 host-hours. Backstop = at most one.
 27. **Transcript-first triage before any requeue**; workers that ignore two direct orders
-    get replaced, not re-goosed (s7 all-512 protocol violation).
+    get replaced, not re-goosed (`spark-N` all-512 protocol violation).
 28. **Interim results early:** EARLY_8 → INTERIM_64 → FINAL_512 staged drops meant the
     operator had directional evidence 3+ hours before the seal. Never hold results for
     the merge.

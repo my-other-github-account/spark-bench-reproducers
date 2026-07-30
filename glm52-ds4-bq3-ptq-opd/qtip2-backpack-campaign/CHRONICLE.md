@@ -70,7 +70,7 @@ grows only by burning encode-hours (~1.5× rep-16 GPU-time for the remaining 24 
 ## 4. Scoring (the rail): failure catalog then results
 
 Instrument = sealed-parity full-512 rail: MUST reproduce the sealed U030 baseline rows before
-its numbers count (scorer-instrument law). s6 instance reproduced global 0.08394998 and every
+its numbers count (scorer-instrument law). A `spark-N` instance reproduced global 0.08394998 and every
 class to 5 decimals. Anti-fake gates that fired correctly today:
 - LOADER_SENTINEL missing → scorer refused (proves candidate wire actually staged, not base).
 - retire_scratch survivors → refused (overlay staging dirs `overlay_layer_*` missed by the
@@ -80,7 +80,7 @@ class to 5 decimals. Anti-fake gates that fired correctly today:
 - once-only run_id guard → refused duplicate launches twice (incl. parent's own duplicate).
 - second-SSH liveness handshake → FAIL_CLOSED when absent.
 
-**EARLY_8 (windows 0–7, P656/s6→s7 compute, sealed 18:53):** global 0.08679 (8w),
+**EARLY_8 (windows 0–7, P656/`spark-N`→`spark-N` compute, sealed 18:53):** global 0.08679 (8w),
 1,411/1,411 changed cells applied, immutable pack un-mutated, per-class:
 agentic 0.12223(n=3) / code 0.03858(n=3) / prose 0.16967(n=1) / reasoning 0.04220(n=1).
 vs TRUE pre-repair class means: agentic −26%, code −26%, prose ~flat(n=1).
@@ -88,9 +88,9 @@ NOTE: receipt field `delta_vs_pre_repair` PAIRS AGAINST THE DOSED U030 VIEW (mis
 true pre-repair pairing must use PRE_REPAIR_FULL512.json per-window bank.
 
 **Full-512 attempts:** mb=16 OOM → mb=8 OOM at L003 (host RAM watermark; receipts) → mb=4
-degraded (L04 fwd 459s thrash) → mb=2 restart → **s6 WEDGED** (both fabrics, sshd starvation,
-kasa cycle 9067/6, 90s recovery). s6 banned from serial full-512 (proved twice it can't hold
-resident base + 512-window activations). s1 also wedged mid-slice (no mem-guard) → kasa 9067/1.
+degraded (L04 fwd 459s thrash) → mb=2 restart → **`spark-N` WEDGED** (both fabrics, sshd starvation,
+power cycle, 90s recovery). That `spark-N` role was banned from serial full-512 (proved twice it could not hold
+resident base + 512-window activations). Another `spark-N` role also wedged mid-slice without the memory guard.
 
 **64-window slice shape (operator order — the winning shape):** full 43-layer walk over a
 64-window slice: load ~35s/layer invariant + fwd ~10-16s → ~23-24 min/slice/host. Distinct
@@ -99,8 +99,8 @@ run_id per slice (P640_SLICE_W<start>_<end>) avoids once-only collisions.
 **Cluster results (paired same-window vs TRUE pre-repair bank):**
 | Cluster | QTIP | non-QTIP | paired Δ | improved | host |
 |---|---|---|---|---|---|
-| W064–127 | 0.11760 | 0.12959 | −0.01199 (SE 0.00218) | 51/64 | s8 |
-| W000–063 | 0.10856 | 0.12474 | −0.01618 (SE 0.00292) | 53/64 | s6 |
+| W064–127 | 0.11760 | 0.12959 | −0.01199 (SE 0.00218) | 51/64 | `spark-N` |
+| W000–063 | 0.10856 | 0.12474 | −0.01618 (SE 0.00292) | 53/64 | `spark-N` |
 Per-class (both clusters agree): mult −11.2/−20.1%, prose −13.9/−15.1%, chat −13.3/−14.7%,
 agentic −7.2/−7.5%, reasoning −1.3/−2.4%, code +3.1/+2.8% (ceiling-protected).
 Combined 128w paired mean −0.01408 → projected full-512 pre-repair global ≈ 0.1143
@@ -109,15 +109,15 @@ Prediction validated: my pre-repair pred band was 0.111–0.118.
 
 ## 5. Dose ledger (repair training)
 
-- Dose-1 (registered 24-update, canonical single-host, ~8.6-8.7 min/update, s8):
+- Dose-1 (registered 24-update, canonical single-host, ~8.6-8.7 min/update, `spark-N`):
   0.12837 → 0.08395 = **−34.6% global** (chat −43.3 / agentic −38.7 / reasoning −36.8 /
   prose −33.0 / mult −30.7 / code −20.3).
 - Dose-2 (class-reweighted 4×mult/3×prose/2×reasoning/1×chat/2×code-guard, 24 updates,
   U024): vs U030 on same 64 windows: global 0.08288 → 0.08194 = **−1.1%**; reasoning −10.6,
   code −4.2, mult −1.0, prose −0.2, chat +0.8. VERDICT: repair returns cliff ~30× after
   dose-1; residual mult/prose damage is allocation-structural. U024 = new shipping baseline
-  for the non-QTIP artifact (full-512 terminal pending; INTERIM_64 sealed on s7).
-- Dose-on-QTIP-wire (P680, s8, in flight): dose-2 recipe rebased onto assignment c030883f;
+  for the non-QTIP artifact (full-512 terminal pending; INTERIM_64 sealed on `spark-N`).
+- Dose-on-QTIP-wire (P680, `spark-N`, in flight): dose-2 recipe rebased onto assignment c030883f;
   act-caches rebuilt with the P613/P662-validated accelerated builder (5.22× cold-build,
   exact-equal rows contract); mem-guard mandatory; code-guard gate (checkpoint+report if
   code trends >0.045-equivalent). Projection: 0.1143 × dose-1 recovery (×0.654) ≈ 0.0748.
@@ -134,18 +134,18 @@ Prediction validated: my pre-repair pred band was 0.111–0.118.
 
 ## 7. Fleet incidents (ops history, one line each)
 
-s7 wedge (sshd starvation; kasa 8B0E/4) · s6 wedge (mb-retry thrash; kasa 9067/6) ·
-s1 wedge (guard-less slice walk; kasa 9067/1) · Hermes restart mid-campaign (all 9 workers
+`spark-N` wedge (sshd starvation) · `spark-N` wedge (mb-retry thrash) ·
+`spark-N` wedge (guard-less slice walk) · Hermes restart mid-campaign (all 9 workers
 respawned clean; detached spark processes unaffected — setsid/flock discipline) ·
-launch-collision on s8 (parent duplicate vs worker launch; once-only guard killed the
+launch-collision on `spark-N` (parent duplicate vs worker launch; once-only guard killed the
 full-512, worker adopted surviving PID into slice plan — netting the first sealed cluster) ·
-s7 worker protocol violation (ran all-512 against 64-window order; blocked, replaced) ·
+`spark-N` worker protocol violation (ran all-512 against 64-window order; blocked, replaced) ·
 driver spawned 4× duplicated all-512 "race" lanes (converted to slices; ~5 host-hours saved).
 
 ## 8. Where things stand at 21:45 PDT (writing time)
 
-DONE: honest solve · assembled+hash-bound wire · parity-proven instruments (s6+s7-compute,
-s8) · EARLY_8 · clusters W000-063 + W064-127 (5.5σ each) · dose-2 verdict (interim) ·
-dose-on-QTIP launched. IN FLIGHT: remaining slices (192-255 s3; 320-383 s6; 128-191 s1;
+DONE: honest solve · assembled+hash-bound wire · parity-proven instruments (`spark-N` roles) ·
+EARLY_8 · clusters W000-063 + W064-127 (5.5σ each) · dose-2 verdict (interim) ·
+dose-on-QTIP launched. IN FLIGHT: remaining slices (192-255, 320-383, and 128-191 on distinct `spark-N` roles;
 256-319, 448-511 queued) · P680 dose (24/24 ≈ 00:45) · post-dose rail. TBD: post-repair
 QTIP column; full-512 dose-2 terminal; HumanEval+ rows; prefill ladder on QTIP wire.
