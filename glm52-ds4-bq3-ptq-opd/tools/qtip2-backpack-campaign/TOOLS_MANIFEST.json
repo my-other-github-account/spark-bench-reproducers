@@ -2275,7 +2275,7 @@
       "privacy_substitution_applied": false,
       "provenance_type": "generated_or_exact_public_copy",
       "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
-      "shipped_sha256": "00f8e021edb3e53917329cd53853b6afe343e8171553d89de254033c0ff419ed",
+      "shipped_sha256": "07809e562094a8e5088bc8010971fa38930c2cb902d347b164d1233fcc7f8f35",
       "source_sha256": "2d2f690ee1d427148e5b3094e8782a3d9eb5f506357c7a8959398eef2ef65cc0",
       "source_verification": {
         "method": "source hash captured before public substitution; shipped hash independently recomputed",
@@ -3482,6 +3482,111 @@
         "status": "match"
       },
       "stage": "wire-c-v2"
+    },
+    {
+      "origin": {
+        "mission": "P957 structural-guard publication",
+        "node": "control-plane",
+        "note": "public git source with goal-alignment text privacy-scrubbed",
+        "receipt": "git:2b17e7e4379852b8796d26f3c795ef83df655415",
+        "relative_source": "wire-c-v2-2026-07-28/structural-guards/CANONICAL_SHA256.json"
+      },
+      "path": "wire-c-v2-2026-07-28/structural-guards/CANONICAL_SHA256.json",
+      "privacy_substitution_applied": true,
+      "provenance_type": "public_git_source",
+      "repro_stage": "Stage 0 — immutable identity and resume guards",
+      "shipped_sha256": "e0b7a9d0eda7ab669c1cbfe74bfb77fd679f05a426be757726efb8858cba2d85",
+      "source_sha256": "6557c2bdffe42cc3b4d41c369c0a12100331d69c1ee0f1cf2bb5baa1f3fced67",
+      "source_verification": {
+        "method": "git object rehash; privacy-scrubbed goal-alignment text only",
+        "status": "privacy_substituted"
+      },
+      "stage": "structural-guards"
+    },
+    {
+      "origin": {
+        "mission": "P957 structural-guard publication",
+        "node": "control-plane",
+        "note": "authored directly in the public reproducer",
+        "receipt": "git:2b17e7e4379852b8796d26f3c795ef83df655415",
+        "relative_source": "wire-c-v2-2026-07-28/structural-guards/MEASUREMENT_CARD_TEMPLATE.md"
+      },
+      "path": "wire-c-v2-2026-07-28/structural-guards/MEASUREMENT_CARD_TEMPLATE.md",
+      "privacy_substitution_applied": false,
+      "provenance_type": "public_git_source",
+      "repro_stage": "Stage 0 — immutable identity and resume guards",
+      "shipped_sha256": "8897ac091c8a5a7ae0ae35639243fd3122746fa2d5f70bccf886bf35d42e1336",
+      "source_sha256": "8897ac091c8a5a7ae0ae35639243fd3122746fa2d5f70bccf886bf35d42e1336",
+      "source_verification": {"method": "git object and shipped file rehash", "status": "match"},
+      "stage": "structural-guards"
+    },
+    {
+      "origin": {
+        "mission": "P957 structural-guard publication",
+        "node": "control-plane",
+        "note": "authored directly in the public reproducer",
+        "receipt": "git:2b17e7e4379852b8796d26f3c795ef83df655415",
+        "relative_source": "wire-c-v2-2026-07-28/structural-guards/MIGRATION.md"
+      },
+      "path": "wire-c-v2-2026-07-28/structural-guards/MIGRATION.md",
+      "privacy_substitution_applied": false,
+      "provenance_type": "public_git_source",
+      "repro_stage": "Stage 0 — immutable identity and resume guards",
+      "shipped_sha256": "c0348281292623f2ee973c1f511e63ce979505677141af45b310c48dfb74a80e",
+      "source_sha256": "c0348281292623f2ee973c1f511e63ce979505677141af45b310c48dfb74a80e",
+      "source_verification": {"method": "git object and shipped file rehash", "status": "match"},
+      "stage": "structural-guards"
+    },
+    {
+      "origin": {
+        "mission": "P957 structural-guard publication",
+        "node": "control-plane",
+        "note": "authored directly in the public reproducer",
+        "receipt": "git:2b17e7e4379852b8796d26f3c795ef83df655415",
+        "relative_source": "wire-c-v2-2026-07-28/structural-guards/README.md"
+      },
+      "path": "wire-c-v2-2026-07-28/structural-guards/README.md",
+      "privacy_substitution_applied": false,
+      "provenance_type": "public_git_source",
+      "repro_stage": "Stage 0 — immutable identity and resume guards",
+      "shipped_sha256": "aee5e6c8699038b7ec01c1df421c31319ff276ae5eff7a1bddd10e82fb9ece75",
+      "source_sha256": "aee5e6c8699038b7ec01c1df421c31319ff276ae5eff7a1bddd10e82fb9ece75",
+      "source_verification": {"method": "git object and shipped file rehash", "status": "match"},
+      "stage": "structural-guards"
+    },
+    {
+      "origin": {
+        "mission": "P957 structural-guard publication",
+        "node": "control-plane",
+        "note": "authored directly in the public reproducer",
+        "receipt": "git:2b17e7e4379852b8796d26f3c795ef83df655415",
+        "relative_source": "wire-c-v2-2026-07-28/structural-guards/immutable_sha_authority.py"
+      },
+      "path": "wire-c-v2-2026-07-28/structural-guards/immutable_sha_authority.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "public_git_source",
+      "repro_stage": "Stage 0 — immutable identity and resume guards",
+      "shipped_sha256": "e6f4cd212dcf7d784746b3400fb6f9b717e553c51db3e5a9b4c728cde6f7d7aa",
+      "source_sha256": "e6f4cd212dcf7d784746b3400fb6f9b717e553c51db3e5a9b4c728cde6f7d7aa",
+      "source_verification": {"method": "git object and shipped file rehash", "status": "match"},
+      "stage": "structural-guards"
+    },
+    {
+      "origin": {
+        "mission": "P957 structural-guard publication",
+        "node": "control-plane",
+        "note": "authored directly in the public reproducer",
+        "receipt": "git:2b17e7e4379852b8796d26f3c795ef83df655415",
+        "relative_source": "wire-c-v2-2026-07-28/structural-guards/test_structural_guards.py"
+      },
+      "path": "wire-c-v2-2026-07-28/structural-guards/test_structural_guards.py",
+      "privacy_substitution_applied": false,
+      "provenance_type": "public_git_source",
+      "repro_stage": "Stage 0 — immutable identity and resume guards",
+      "shipped_sha256": "db3f333fa101304401e5240699ea1825271215911bc0a521525c955a2dbf6fad",
+      "source_sha256": "db3f333fa101304401e5240699ea1825271215911bc0a521525c955a2dbf6fad",
+      "source_verification": {"method": "git object and shipped file rehash", "status": "match"},
+      "stage": "structural-guards"
     }
   ],
   "hash_semantics": {
@@ -3504,6 +3609,7 @@
     "misc": 6,
     "rail": 17,
     "solver": 17,
+    "structural-guards": 6,
     "wire-c-v2": 61
   }
 }

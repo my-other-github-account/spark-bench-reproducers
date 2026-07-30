@@ -539,6 +539,60 @@
       "role": "frozen Wire C V2 measurement and validity contract",
       "source_sha256": "5e40fa56efdcf90b332230c9889d7c7b37151c1431b32bc9a3a236bab8e3aa2d",
       "source_verification": "generated deterministically inside the public package"
+    },
+    {
+      "path": "structural-guards/CANONICAL_SHA256.json",
+      "privacy_substitution_applied": true,
+      "public_copy_bytes": 1222,
+      "public_copy_sha256": "e0b7a9d0eda7ab669c1cbfe74bfb77fd679f05a426be757726efb8858cba2d85",
+      "role": "public canonical runtime and guard SHA authority",
+      "source_sha256": "6557c2bdffe42cc3b4d41c369c0a12100331d69c1ee0f1cf2bb5baa1f3fced67",
+      "source_verification": "git object rehash before goal-alignment privacy substitution"
+    },
+    {
+      "path": "structural-guards/MEASUREMENT_CARD_TEMPLATE.md",
+      "privacy_substitution_applied": false,
+      "public_copy_bytes": 2070,
+      "public_copy_sha256": "8897ac091c8a5a7ae0ae35639243fd3122746fa2d5f70bccf886bf35d42e1336",
+      "role": "structural measurement-card template",
+      "source_sha256": "8897ac091c8a5a7ae0ae35639243fd3122746fa2d5f70bccf886bf35d42e1336",
+      "source_verification": "public git object and shipped-file rehash"
+    },
+    {
+      "path": "structural-guards/MIGRATION.md",
+      "privacy_substitution_applied": false,
+      "public_copy_bytes": 1355,
+      "public_copy_sha256": "c0348281292623f2ee973c1f511e63ce979505677141af45b310c48dfb74a80e",
+      "role": "structural-guard migration guide",
+      "source_sha256": "c0348281292623f2ee973c1f511e63ce979505677141af45b310c48dfb74a80e",
+      "source_verification": "public git object and shipped-file rehash"
+    },
+    {
+      "path": "structural-guards/README.md",
+      "privacy_substitution_applied": false,
+      "public_copy_bytes": 1200,
+      "public_copy_sha256": "aee5e6c8699038b7ec01c1df421c31319ff276ae5eff7a1bddd10e82fb9ece75",
+      "role": "structural-guard package orientation",
+      "source_sha256": "aee5e6c8699038b7ec01c1df421c31319ff276ae5eff7a1bddd10e82fb9ece75",
+      "source_verification": "public git object and shipped-file rehash"
+    },
+    {
+      "path": "structural-guards/immutable_sha_authority.py",
+      "privacy_substitution_applied": false,
+      "public_copy_bytes": 19828,
+      "public_copy_sha256": "e6f4cd212dcf7d784746b3400fb6f9b717e553c51db3e5a9b4c728cde6f7d7aa",
+      "role": "immutable source-SHA and resume authority",
+      "source_sha256": "e6f4cd212dcf7d784746b3400fb6f9b717e553c51db3e5a9b4c728cde6f7d7aa",
+      "source_verification": "public git object and shipped-file rehash"
+    },
+    {
+      "path": "structural-guards/test_structural_guards.py",
+      "privacy_substitution_applied": false,
+      "public_copy_bytes": 6704,
+      "public_copy_sha256": "db3f333fa101304401e5240699ea1825271215911bc0a521525c955a2dbf6fad",
+      "role": "structural authority and resume regression tests",
+      "source_sha256": "db3f333fa101304401e5240699ea1825271215911bc0a521525c955a2dbf6fad",
+      "source_verification": "public git object and shipped-file rehash"
     }
   ],
   "hash_semantics": {

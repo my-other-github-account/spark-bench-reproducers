@@ -107,7 +107,7 @@
 | `solver/p637/update_progress.py` | solver | `ff7cb8aee1ae2aadb3bbcfa5f3615716fb87706c932b65b0a108ce5676dcaac0` | `ff7cb8aee1ae2aadb3bbcfa5f3615716fb87706c932b65b0a108ce5676dcaac0` |
 | `solver/p637/verify_actual.py` | solver | `a42ad89422766be5614c970480244928a42fd598d358d562b2b6edca920ef1f8` | `a42ad89422766be5614c970480244928a42fd598d358d562b2b6edca920ef1f8` |
 | `solver/p637/verify_respend.py` | solver | `6a644441f056c4bb8ca102ec6af1294e275884c540c47937e67ef01611edf173` | `ade13cf4e0298b878bee8773b90d4f980a56102c8d6e16e13f24096d3fce22b5` |
-| `wire-c-v2-2026-07-28/PACKAGE_MANIFEST.json` | wire-c-v2 | `00f8e021edb3e53917329cd53853b6afe343e8171553d89de254033c0ff419ed` | `2d2f690ee1d427148e5b3094e8782a3d9eb5f506357c7a8959398eef2ef65cc0` |
+| `wire-c-v2-2026-07-28/PACKAGE_MANIFEST.json` | wire-c-v2 | `07809e562094a8e5088bc8010971fa38930c2cb902d347b164d1233fcc7f8f35` | `2d2f690ee1d427148e5b3094e8782a3d9eb5f506357c7a8959398eef2ef65cc0` |
 | `wire-c-v2-2026-07-28/README.md` | wire-c-v2 | `fab16e152a94d7c1684bf8662fc3fcefaf824576632cfbb933d3641dc76e952c` | `8ed8ef53ec780af74d497c811bf46a44fa3900d90903009b6458bec14032b440` |
 | `wire-c-v2-2026-07-28/artifacts/ARTIFACT_PROVENANCE.json` | wire-c-v2 | `fac00d9befb0e1c1c46315be049a6adcaf468e384ea837a8c9880013af3d1f46` | `51a526b89eb32d654a1d7065a0f6b10c2c28ec37f88f593bb2518e535bc86a09` |
 | `wire-c-v2-2026-07-28/artifacts/BALANCED64_V1.json` | wire-c-v2 | `7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad` | `7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad` |
@@ -167,4 +167,10 @@
 | `wire-c-v2-2026-07-28/doctrine/KASA_WEDGE_DOCTRINE.md` | wire-c-v2 | `56078826da36721f54176c6937f75ae46db213ba25dcf9915b6f53ecf2db362f` | `56078826da36721f54176c6937f75ae46db213ba25dcf9915b6f53ecf2db362f` |
 | `wire-c-v2-2026-07-28/specs/ACQUISITION_SPECS.public.json` | wire-c-v2 | `db6180484581dbfa82a8442c0c73c18363294f964ed68c98a0a3db04730793f9` | `db6180484581dbfa82a8442c0c73c18363294f964ed68c98a0a3db04730793f9` |
 | `wire-c-v2-2026-07-28/specs/BALANCED64_V1.public.json` | wire-c-v2 | `7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad` | `7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad` |
+| `wire-c-v2-2026-07-28/structural-guards/CANONICAL_SHA256.json` | structural-guards | `e0b7a9d0eda7ab669c1cbfe74bfb77fd679f05a426be757726efb8858cba2d85` | `6557c2bdffe42cc3b4d41c369c0a12100331d69c1ee0f1cf2bb5baa1f3fced67` |
+| `wire-c-v2-2026-07-28/structural-guards/MEASUREMENT_CARD_TEMPLATE.md` | structural-guards | `8897ac091c8a5a7ae0ae35639243fd3122746fa2d5f70bccf886bf35d42e1336` | `8897ac091c8a5a7ae0ae35639243fd3122746fa2d5f70bccf886bf35d42e1336` |
+| `wire-c-v2-2026-07-28/structural-guards/MIGRATION.md` | structural-guards | `c0348281292623f2ee973c1f511e63ce979505677141af45b310c48dfb74a80e` | `c0348281292623f2ee973c1f511e63ce979505677141af45b310c48dfb74a80e` |
+| `wire-c-v2-2026-07-28/structural-guards/README.md` | structural-guards | `aee5e6c8699038b7ec01c1df421c31319ff276ae5eff7a1bddd10e82fb9ece75` | `aee5e6c8699038b7ec01c1df421c31319ff276ae5eff7a1bddd10e82fb9ece75` |
+| `wire-c-v2-2026-07-28/structural-guards/immutable_sha_authority.py` | structural-guards | `e6f4cd212dcf7d784746b3400fb6f9b717e553c51db3e5a9b4c728cde6f7d7aa` | `e6f4cd212dcf7d784746b3400fb6f9b717e553c51db3e5a9b4c728cde6f7d7aa` |
+| `wire-c-v2-2026-07-28/structural-guards/test_structural_guards.py` | structural-guards | `db3f333fa101304401e5240699ea1825271215911bc0a521525c955a2dbf6fad` | `db3f333fa101304401e5240699ea1825271215911bc0a521525c955a2dbf6fad` |
 | `wire-c-v2-2026-07-28/specs/WIRE_C_V2_MEASUREMENT_SPEC.public.json` | wire-c-v2 | `5e40fa56efdcf90b332230c9889d7c7b37151c1431b32bc9a3a236bab8e3aa2d` | `5e40fa56efdcf90b332230c9889d7c7b37151c1431b32bc9a3a236bab8e3aa2d` |
