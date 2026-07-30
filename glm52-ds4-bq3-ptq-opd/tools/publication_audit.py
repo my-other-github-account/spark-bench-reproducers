@@ -109,6 +109,29 @@ REQUIRED_FILES = {
     "misc/KASA_RECOVERY.md",
 }
 
+CAMPAIGN_SYNC_FILES = {
+    "CURRENT_BEST.md",
+    "NEW_MODEL_CHECKLIST.md",
+    "SERVE_RUNBOOK.md",
+    "qtip2-backpack-campaign/UPDATE_2026-07-29.md",
+    "qtip2-backpack-campaign/MEASUREMENT_INTEGRITY.md",
+    "qtip2-backpack-campaign/BANANA_PACK_SPEC.md",
+    "qtip2-backpack-campaign/PUBLICATION_STATUS_2026-07-29.json",
+}
+STATUS_PATH = ROOT / "qtip2-backpack-campaign/PUBLICATION_STATUS_2026-07-29.json"
+TRUE_C_PINS = {
+    "byte_envelope": 101346700411,
+    "overlay_sha256": "9a4b709851c62c32f59b17556ef14d53e89cbbfc0fcc93686fc51530e4cf4d62",
+    "pack_manifest_sha256": "3650fe7e627b180a979fb8304f90e888333671cf03334e965fd5b14b7393b220",
+    "planes_manifest_sha256": "b524c5a67bbcad6aef14d70b464b46097302bf004bb75c1265f2ff683bae083d",
+}
+HOLDOUT_PINS = {
+    "manifest_sha256": "063b7552deeda0494ef623b048a325e271671867df7501ffdc79faca6708fe1b",
+    "windows_sha256": "2de3ac4110ade4efe7c1b9f1482ef920352142cbee549cffb475f0aa91cc7896",
+    "disjointness_receipt_sha256": "79943e7398c665c88a223e5eb41f4958787d3cd10b1da845fe99b567f456492e",
+    "seal_sha256": "9480ded58b214d09f3c71c000b79b9a72d3ce20b7c674f412bd933ce8c44f5d5",
+}
+
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -185,6 +208,104 @@ def audit_manifest() -> list[str]:
     return failures
 
 
+def audit_campaign_sync() -> list[str]:
+    """Bind the Jul-29 narrative to machine-readable pins and validity labels."""
+    failures: list[str] = []
+    for relative in sorted(CAMPAIGN_SYNC_FILES):
+        if not (ROOT / relative).is_file():
+            failures.append(f"campaign sync file absent: {relative}")
+    if failures or not STATUS_PATH.is_file():
+        return failures
+
+    try:
+        status = json.loads(STATUS_PATH.read_text(encoding="utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as error:
+        return [f"invalid PUBLICATION_STATUS_2026-07-29.json: {error}"]
+
+    if status.get("schema") != "banana_bae.publication_status.v1":
+        failures.append("unexpected campaign publication-status schema")
+    if status.get("public_operator") != "banana_bae":
+        failures.append("campaign publication operator is not banana_bae")
+    artifact = status.get("artifact", {})
+    for field, expected in TRUE_C_PINS.items():
+        if artifact.get(field) != expected:
+            failures.append(f"TRUE-C status pin mismatch: {field}")
+
+    quality = status.get("quality", {})
+    if quality.get("global_kld") != 0.06484517121688964:
+        failures.append("U004 BALANCED64 global KLD mismatch")
+    if quality.get("validity") != "MEASURED_DEVELOPMENT_READ__DESIGN_AND_SELECTION_LEAKAGE":
+        failures.append("U004 validity does not disclose design/selection leakage")
+    if quality.get("final_holdout_score") is not None:
+        failures.append("unsealed HOLDOUT512 score must remain null")
+
+    serving = status.get("serving", {})
+    if serving.get("validity") != "MEASURED_PRODUCT_PASS":
+        failures.append("serving result is not labeled MEASURED_PRODUCT_PASS")
+    if serving.get("receipt_sha256") != "3117274cf826804437509475a2294ea773d9ee5e64723df9f657c0123c28a413":
+        failures.append("serving receipt SHA mismatch")
+    if serving.get("decode256_tok_s") != [15.897619, 15.902757, 16.044741, 15.928163, 15.969125]:
+        failures.append("serving five-row decode vector mismatch")
+    for field, expected in {
+        "exact_2048_prefill_tok_s": 864.804416,
+        "warm_ttft_s": 2.368165,
+        "exact_8192_prefill_tok_s": 840.413577,
+        "vm_swap_bytes": 0,
+        "gates_passed": 18,
+        "gates_total": 18,
+    }.items():
+        if serving.get(field) != expected:
+            failures.append(f"serving status mismatch: {field}")
+
+    concurrency = status.get("concurrency", {})
+    if concurrency.get("validity") != "MEASURED_NO_GO__NO_VALID_C1_C2_C4_C8_MATRIX":
+        failures.append("concurrency must remain labeled measured NO-GO")
+    for field, expected in {
+        "c1_aggregate_tok_s": 15.351984064,
+        "c1_exact_2048_prefill_tok_s": 838.865555757,
+        "c2_aggregate_tok_s": 2.845162,
+        "c2_over_c1_ratio": 0.185329,
+        "c4_c8_release_gate": "same-method C2 > 1.2x C1",
+    }.items():
+        if concurrency.get(field) != expected:
+            failures.append(f"concurrency status mismatch: {field}")
+    if concurrency.get("c4_aggregate_tok_s") is not None or concurrency.get("c8_aggregate_tok_s") is not None:
+        failures.append("unmeasured C4/C8 cells must remain null")
+
+    comparators = status.get("comparators", {})
+    for name in ("UD-IQ4_XS", "UD-IQ3_XXS"):
+        row = comparators.get(name, {})
+        for field in ("exact_common_byte_accounting", "holdout512_v1", "same_method_serve"):
+            if row.get(field) != "TBD":
+                failures.append(f"{name} pending comparator cell must be TBD: {field}")
+
+    holdout = status.get("holdout", {})
+    for field, expected in HOLDOUT_PINS.items():
+        if holdout.get(field) != expected:
+            failures.append(f"HOLDOUT512 status pin mismatch: {field}")
+    if holdout.get("windows") != 512 or holdout.get("tokens_per_window") != 1024:
+        failures.append("HOLDOUT512 shape mismatch")
+    if holdout.get("seed") != 20260730:
+        failures.append("HOLDOUT512 seed mismatch")
+    if holdout.get("validity") != "ADOPTED_STANDING_SCORING_ONLY_ASSET":
+        failures.append("HOLDOUT512 standing-asset validity missing")
+
+    required_markers = {
+        "CURRENT_BEST.md": ["MEASURED NO-GO", "HOLDOUT512_V1", "18 product gates"],
+        "NEW_MODEL_CHECKLIST.md": ["Check canon before claiming absence", "wire is not done until its serving-format export", "planes13", "TBD"],
+        "SERVE_RUNBOOK.md": ["usage.completion_tokens", "KeyError: planes13", "No valid actual-Wire-C monotonic ladder"],
+        "qtip2-backpack-campaign/UPDATE_2026-07-29.md": ["Grand table", "strict-C1 HumanEval", "FLAG_DESIGN_TIME_AND_SELECTION_LEAKAGE", "0.185329", "TBD"],
+        "qtip2-backpack-campaign/MEASUREMENT_INTEGRITY.md": ["scoring-only forever", "bank itself remains private", "no full HOLDOUT512_V1 quality score"],
+        "qtip2-backpack-campaign/BANANA_PACK_SPEC.md": ["BANANA_PACK_SPEC v1", "Genesis instance", "`smash`", "BANANA-2.75", "BANANA-2.50", "BANANA-2.25", "BANANA-2.00"],
+    }
+    for relative, markers in required_markers.items():
+        text = (ROOT / relative).read_text(encoding="utf-8")
+        for marker in markers:
+            if marker not in text:
+                failures.append(f"{relative} missing campaign marker: {marker}")
+    return failures
+
+
 def text_files() -> list[Path]:
     files = []
     for path in ROOT.rglob("*"):
@@ -201,7 +322,7 @@ def text_files() -> list[Path]:
 
 
 def main() -> None:
-    failures = audit_manifest()
+    failures = audit_manifest() + audit_campaign_sync()
     files = text_files()
     for path in files:
         try:
