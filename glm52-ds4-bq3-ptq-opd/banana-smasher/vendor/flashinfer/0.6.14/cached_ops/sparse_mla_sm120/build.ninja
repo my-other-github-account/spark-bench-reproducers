@@ -1,0 +1,76 @@
+ninja_required_version = 1.3
+name = sparse_mla_sm120
+cuda_home = /usr/local/cuda
+cxx = c++
+nvcc = $cuda_home/bin/nvcc
+cxx_launcher = 
+nvcc_launcher = 
+
+common_cflags = -DPy_LIMITED_API=0x03090000 $
+    -D_GLIBCXX_USE_CXX11_ABI=1 $
+    -I/home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cccl/cub $
+    -I/home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cccl/libcudacxx/include $
+    -I/home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cccl/thrust $
+    -isystem /usr/include/python3.12 $
+    -isystem $cuda_home/include $
+    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/tvm_ffi/include $
+    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/tvm_ffi/include $
+    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/include $
+    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc $
+    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cutlass/include $
+    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cutlass/tools/util/include $
+    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/spdlog/include
+cflags = $common_cflags $
+    -fPIC $
+    -std=c++17 $
+    -Wno-switch-bool $
+    -DNDEBUG $
+    -O3
+post_cflags =
+cuda_cflags = $common_cflags $
+    --compiler-options=-fPIC $
+    --expt-relaxed-constexpr $
+    -static-global-template-stub=false $
+    -DFLASHINFER_ENABLE_FP8_E8M0 $
+    -DFLASHINFER_ENABLE_FP4_E2M1 $
+    -std=c++17 $
+    --threads=1 $
+    -use_fast_math $
+    -Xfatbin=-compress-all $
+    -DFLASHINFER_ENABLE_F16 $
+    -DFLASHINFER_ENABLE_BF16 $
+    -DFLASHINFER_ENABLE_FP8_E4M3 $
+    -DFLASHINFER_ENABLE_FP8_E5M2 $
+    -DNDEBUG $
+    -O3 $
+    -gencode=arch=compute_121a,code=sm_121a $
+    -DFLASHINFER_ENABLE_FP8_E8M0 $
+    -DFLASHINFER_ENABLE_FP4_E2M1
+cuda_post_cflags =
+ldflags = -shared $
+    -L$cuda_home/lib64 $
+    -L$cuda_home/lib64/stubs $
+    -lcudart $
+    -lcuda
+
+rule compile
+  command = $cxx_launcher $cxx -MMD -MF $out.d $cflags -c $in -o $out $post_cflags
+  depfile = $out.d
+  deps = gcc
+
+rule cuda_compile
+  command = $nvcc_launcher $nvcc --generate-dependencies-with-compile -MF $out.d $cuda_cflags -c $in -o $out $cuda_post_cflags
+  depfile = $out.d
+  deps = gcc
+
+rule link
+  command = $cxx $in $ldflags -o $out
+
+build /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120.cuda.o: cuda_compile /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/sparse_mla_sm120.cu
+build /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_decode_dsv3_2.cuda.o: cuda_compile /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/sparse_mla_sm120_decode_dsv3_2.cu
+build /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_decode_dsv4.cuda.o: cuda_compile /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/sparse_mla_sm120_decode_dsv4.cu
+build /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_prefill.cuda.o: cuda_compile /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/sparse_mla_sm120_prefill.cu
+build /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_jit_binding.cuda.o: cuda_compile /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/sparse_mla_sm120_jit_binding.cu
+
+build /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/sparse_mla_sm120.so: link /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120.cuda.o /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_decode_dsv3_2.cuda.o /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_decode_dsv4.cuda.o /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_prefill.cuda.o /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_jit_binding.cuda.o
+default /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/sparse_mla_sm120.so

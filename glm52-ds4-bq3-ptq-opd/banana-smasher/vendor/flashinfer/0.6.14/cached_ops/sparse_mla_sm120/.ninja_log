@@ -1,0 +1,7 @@
+# ninja log v7
+0	3358	1783931329883336497	/home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120.cuda.o	5fc21e13cd136508
+1	3942	1783931329885247143	/home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_decode_dsv4.cuda.o	3f78f2692c8da937
+1	6142	1783931329885556566	/home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_jit_binding.cuda.o	e59620d71db213fb
+0	8580	1783931329884764810	/home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_decode_dsv3_2.cuda.o	19b5a9008f36f38e
+1	12285	1783931329885457350	/home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_prefill.cuda.o	9da4e79fbd4b6880
+12285	12325	1783931342168184653	/home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/sparse_mla_sm120.so	f273015edbdb67ce

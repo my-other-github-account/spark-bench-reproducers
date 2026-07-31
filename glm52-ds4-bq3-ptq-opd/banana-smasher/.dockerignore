@@ -1,0 +1,12 @@
+.git
+.venv
+.pytest_cache
+.ruff_cache
+__pycache__
+*.pyc
+BUILD.log
+BUILD_RECEIPT.json
+IMAGE_INSPECT.json
+dist
+receipts
+vendor/p1321/receipts/failed_attempts

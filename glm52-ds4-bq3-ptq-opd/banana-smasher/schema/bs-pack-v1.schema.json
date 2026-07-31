@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://banana-smasher.local/schema/bs-pack-v1.schema.json",
+  "title": "bs-pack v1 manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema_version",
+    "source_format",
+    "model_id",
+    "instance_id",
+    "quant_method",
+    "layers",
+    "experts_per_layer",
+    "expert_partitions",
+    "tier_codes",
+    "tensor_layout_sha256",
+    "tensor_index",
+    "files",
+    "link_mode_requested",
+    "links",
+    "container",
+    "provenance"
+  ],
+  "properties": {
+    "schema": {"const": "bs-pack"},
+    "schema_version": {"const": 1},
+    "source_format": {"enum": ["canonical-npy-v1", "genesis-materialized-layer-v1"]},
+    "model_id": {"type": "string", "minLength": 1},
+    "instance_id": {"type": "string", "minLength": 1},
+    "quant_method": {"const": "bs-mixed-tier"},
+    "layers": {"type": "array", "items": {"type": "integer", "minimum": 0}, "uniqueItems": true},
+    "experts_per_layer": {"const": 256},
+    "expert_partitions": {"const": [64, 64, 64, 64]},
+    "tier_codes": {
+      "const": {"qtip2": 0, "qtip3": 1, "truevq_d4": 2, "truevq_d8": 3, "native_mxfp4": 4}
+    },
+    "tensor_layout_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "tensor_index": {"type": "object", "minProperties": 1},
+    "files": {"type": "array", "minItems": 1},
+    "link_mode_requested": {"enum": ["hardlink", "copy", "auto"]},
+    "links": {"type": "array"},
+    "container": {"type": ["object", "null"]},
+    "provenance": {"type": "object"}
+  }
+}

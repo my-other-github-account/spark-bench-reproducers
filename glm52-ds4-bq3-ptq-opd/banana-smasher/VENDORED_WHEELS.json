@@ -1,0 +1,48 @@
+{
+  "schema": "banana-smasher-wheel-inputs-v1",
+  "status": "SEALED",
+  "base_image": {
+    "reference": "vllm/vllm-openai:v0.24.0",
+    "linux_arm64_manifest_sha256": "32445b36556244d8a721cd21a2b47a7915bc6408432d05aaeab205bb223ced8b"
+  },
+  "wheel_inputs": [
+    {
+      "name": "banana-smasher",
+      "version": "1.0.0",
+      "mode": "vendored-wheel",
+      "path": "wheels/banana_smasher-1.0.0-py3-none-any.whl",
+      "bytes": 72315,
+      "sha256": "aab56660e25b81bfe3ae58faba7acee25186e05031a79a5c44cb4a88b3d7f3b7",
+      "approved_source_commit": "05016b598ae45f7b162277710f6076ef76cf31c2"
+    },
+    {
+      "name": "deep-gemm",
+      "mode": "aot-wheel-built-in-container",
+      "source": "https://github.com/deepseek-ai/DeepGEMM.git",
+      "source_commit": "a6b593d2826719dcf4892609af7b84ee23aaf32a"
+    },
+    {
+      "name": "vq-warp-gemv",
+      "version": "0.2.0",
+      "mode": "aot-wheel-built-in-container",
+      "source_path": "vendor/p1321/vq_warp_m4",
+      "cuda_source_sha256": "4ff296f7e42e2a906543aa4563fc50e1e04d58e6d41de46cda9bce4ae686fef5",
+      "target": "sm_120"
+    }
+  ],
+  "runtime_pins": {
+    "flashinfer-python": "0.6.14",
+    "pybind11": "3.0.2",
+    "setuptools": "80.10.2",
+    "wheel": "0.46.3",
+    "packaging": "26.0"
+  },
+  "p1336": {
+    "image_id": "sha256:b8669a5984dee524e082d0cc0bdfcbb20e98305b32b3aaf254f7fa434e88d257",
+    "receipt_sha256": "a3af06014c073d04dee70978d98a32e302c3e77a647dd6dc6881e777f3d6d4d5",
+    "readme_sha256": "45ed5dbfe6cd758e4c4665808405cb74e2bc96d5f2e28485b0beb1b04f8e53ca",
+    "receipt_index_sha256": "2b6d9c65d26db7ddd8201c4989bc1bf97dfeba1bd61c7afaa3d416a8c865c829",
+    "embedded_wheel_manifest_sha256": "0dc1805626ac58d3020a95472d55456fc8bbd393f97bc5a605bd02bf6675762c",
+    "embedded_wheel_manifest_bytes": 21478567
+  }
+}

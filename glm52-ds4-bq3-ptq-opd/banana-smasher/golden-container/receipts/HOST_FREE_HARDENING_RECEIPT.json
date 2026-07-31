@@ -1,0 +1,114 @@
+{
+  "created_unix": 1785439170.8930402,
+  "external_pack": {
+    "manifest_sha256": "4a4c15a52eaa8f87e4eb2f436da1580cb5e9addb15713d41bd9a74276731578a",
+    "path": "/home/dnola/releases/bs-pack-p1268-canon-iq3",
+    "receipt_sha256": "34fdcf6174c09f3db6823c1dc01f91e61543c45a39646d7d8f41a12da21a2654"
+  },
+  "files": [
+    {
+      "bytes": 4636,
+      "path": "Dockerfile",
+      "sha256": "31badf8fc403341f798373d70bce13972d4478f7a26dab8e2abdb77ae0323172"
+    },
+    {
+      "bytes": 7587,
+      "path": "SERVE_RUNBOOK.md",
+      "sha256": "2d1e32d3da6f348111fbf4f58c60a2edfdcae11dd0b9a8c5e5fb1a2965c815ae"
+    },
+    {
+      "bytes": 7230,
+      "path": "build_golden.sh",
+      "sha256": "033bf54e505449a23f04deceec0b0c8d9146605aa71807c8b083f22787f21104"
+    },
+    {
+      "bytes": 10625,
+      "path": "golden_perf_check.py",
+      "sha256": "449958032a73c5d0e72fc2c18f44e72a1d2156d21657fcc1c8870303b018a00b"
+    },
+    {
+      "bytes": 1580,
+      "path": "healthcheck.py",
+      "sha256": "55cf80236c92c9fced60ab783ef54eff601dccb67e21595a65d9482f602064a5"
+    },
+    {
+      "bytes": 2425,
+      "path": "make_runtime_cache_manifest.py",
+      "sha256": "aa6cff20b019eb09a4e2ab65596426110c93d484513d4ad59316fb5b20adfb9c"
+    },
+    {
+      "bytes": 4105,
+      "path": "make_wheel_manifest.py",
+      "sha256": "051a79bc7921c4ef647861a88ddce50300bc5b3d5f0b0402561f8f733b71addf"
+    },
+    {
+      "bytes": 7518,
+      "path": "patch_quant_method_defaults.py",
+      "sha256": "f4d3ffafe6b4e533820e4d2f0f9836cb98c9d81f828094d43314fffe7b30f866"
+    },
+    {
+      "bytes": 4673,
+      "path": "prepare_external_pack.py",
+      "sha256": "44a495c148a9d1d5a90f050700b7f2dd2204b2054ca586bc1a564a7f6d4562b0"
+    },
+    {
+      "bytes": 2965,
+      "path": "push_local_registry_via_ssh.sh",
+      "sha256": "c9944a5ceacf5578b2561b6e88b6547b71faf7de44f754b09e73e4ecb6e28e49"
+    },
+    {
+      "bytes": 9578,
+      "path": "validate_golden.sh",
+      "sha256": "6df94a1b10b62ebf5313b348bd4543563c17cf453170fb4d93dd93bcc7f667b6"
+    },
+    {
+      "bytes": 4016,
+      "path": "verify_image_static.py",
+      "sha256": "3a2493feee8797e1ccee767fcfaaf8a00bb32e1fc824b5e828afa793cca252a3"
+    },
+    {
+      "bytes": 2556,
+      "path": "RECIPE_MANIFEST.json",
+      "sha256": "b5bac9e1ef555eaf2b31b78de182838c3abd72f99871b1ecd86fbd52e593ace9"
+    }
+  ],
+  "physical_build_remediations": [
+    "BUILD-01: pinned closure lacks /usr/bin/python3; materialized venv python3 link now targets pinned /usr/bin/python3.12",
+    "BUILD-02: preserve sealed venv symlink rows; add pinned /usr/bin/python3 -> /usr/bin/python3.12 compatibility link in image root"
+  ],
+  "physical_build_validation_push": "PENDING_PARENT_t_05b575dc_EXACT_RELEASE",
+  "post_claim_corrections": [
+    "validator runtime dense-patch receipt now binds /model/bs_runtime_assets/dense_patch.safetensors",
+    "validation receipt now binds BS_PACK_MANIFEST.json unconditionally"
+  ],
+  "provenance": "P943 overlay 9a4b7098 / pack 3650fe7e / planes b524c5a; image truth label PUBLIC_CANON_IQ3_WIRE, NOT P943 native TRUE-C",
+  "recipe_manifest_sha256": "b5bac9e1ef555eaf2b31b78de182838c3abd72f99871b1ecd86fbd52e593ace9",
+  "resolved": {
+    "LOGIC-02": "generated manifests omit host paths/timestamps; full copied closure is deterministic and hash-sealed",
+    "LOGIC-03": "every final venv/overlay/M4/runtime-cache row is verified inside image build",
+    "LOGIC-05": "exact 2048-token input, authoritative usage, HTTP/[DONE], and decode-overlap are mandatory",
+    "LOGIC-07": "all Python asserts replaced with explicit fail-closed checks",
+    "LOGIC-08": "validator binds image build receipt and exact pack manifest; cleanup trap and preflight added",
+    "LOGIC-09": "inline unbound push disabled; SSH publication binds remote RepoDigest to fetched digest",
+    "LOGIC-10": "GPU/port preflight and exact-container cleanup trap added",
+    "SEC-01": "dense patch removed from image; quant default points to /model/bs_runtime_assets/dense_patch.safetensors",
+    "SEC-02": "SSH publication uses fixed stdin script and positional argv; PORT range checked",
+    "SEC-03": "box-6 manifest digest pinned in image and every payload row verified before allocation",
+    "SEC-04": "moe_pack_root absolute/parent escapes rejected; pack builder rejects symlinks/overlap"
+  },
+  "schema": "genesis-golden-host-free-hardening-v1",
+  "status": "PASS",
+  "task_id": "t_8ad5e4bb",
+  "tests": {
+    "bash_n": "PASS",
+    "deterministic_wheel_manifest_two_roots": "PASS",
+    "pack_valid_overlap_symlink_fixtures": "PASS",
+    "performance_missing_usage_and_decode_overlap_fixtures": "PASS",
+    "python_compile": "PASS",
+    "quant_patch_preimage_fixture": "PASS postimage 1aba10984028c85e27726ad2902010387df97076fce78b4fa9e1efd8b4f78b9a",
+    "recipe_rows_reverified": "PASS",
+    "runtime_manifest_fixture": "PASS",
+    "shellcheck": "PASS"
+  },
+  "updated_unix": 1785439965.507493
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://banana-smasher.local/schema/bs-kernel-cache-v1.schema.json",
+  "title": "bs-kernel-cache v1 manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema_version",
+    "quant_method",
+    "pack_schema",
+    "pack_schema_version",
+    "tensor_layout_sha256",
+    "families",
+    "architectures",
+    "files"
+  ],
+  "properties": {
+    "schema": {"const": "bs-kernel-cache"},
+    "schema_version": {"const": 1},
+    "quant_method": {"const": "bs-mixed-tier"},
+    "pack_schema": {"const": "bs-pack"},
+    "pack_schema_version": {"const": 1},
+    "tensor_layout_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "families": {"type": "array", "items": {"enum": ["qtip2", "qtip3", "truevq_d4", "truevq_d8", "native_mxfp4"]}, "uniqueItems": true},
+    "architectures": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "files": {"type": "array", "minItems": 1}
+  }
+}

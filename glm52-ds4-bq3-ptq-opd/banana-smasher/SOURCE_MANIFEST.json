@@ -1,0 +1,659 @@
+{
+  "attribution": "@banana_baeee",
+  "base_image": {
+    "linux_arm64_manifest_sha256": "32445b36556244d8a721cd21a2b47a7915bc6408432d05aaeab205bb223ced8b",
+    "manifest_list_sha256": "251eba5cc7c12fed0b75da22a9240e582b1c9e39f6fbc064f86781b963bd814f",
+    "reference": "vllm/vllm-openai:v0.24.0"
+  },
+  "created_unix": 1785476428.882903,
+  "deepgemm_ref": "a6b593d2826719dcf4892609af7b84ee23aaf32a",
+  "files": {
+    ".dockerignore": {
+      "bytes": 155,
+      "sha256": "08407db4731f8e6aad6420040799a6cf33cca9a4642e23181b8cfd20f086a169"
+    },
+    ".gitignore": {
+      "bytes": 96,
+      "sha256": "284c01022a668899b0c7390598ffe2e0a3ced8356c051225b0d8c4e9bcb6deb9"
+    },
+    "BANANA_PACK_SPEC.md": {
+      "bytes": 15051,
+      "sha256": "014abd096edb6566b67310b4c96d114401b7e0244082c06ee3fc234cc086e083"
+    },
+    "Dockerfile": {
+      "bytes": 6637,
+      "sha256": "e28ed179821723fb6a2146de1e8b74497104411b401edf6b41a2a693e5eef323"
+    },
+    "PACK_FORMAT.md": {
+      "bytes": 2885,
+      "sha256": "8cb695271ef8286f2b0c6eef8a0f6b88b6008e764445b874c34261ecca229ac4"
+    },
+    "README.md": {
+      "bytes": 2440,
+      "sha256": "e62ce716a12773bc4f3b8af87594fc4b4de263e7c41bfae43e9a9c81cdf3e749"
+    },
+    "VENDORED_WHEELS.json": {
+      "bytes": 1807,
+      "sha256": "19110e45fd6d1f2d5ce99122ced18190c7833148bc792219c74c54e249027fef"
+    },
+    "build.sh": {
+      "bytes": 3697,
+      "sha256": "d105f0501edd1c8426f0beacbe2be8c544056d6b1a69e9904f71fa739d47689f"
+    },
+    "golden-container/.dockerignore": {
+      "bytes": 253,
+      "sha256": "edf75b0117b66e78e9c62059b8da562edd6009083d965bafa3a383c15b707220"
+    },
+    "golden-container/Dockerfile": {
+      "bytes": 6194,
+      "sha256": "3b20381de014f2acb00aa80e9a16c8843265b816e68a2a53d21af9d9aff8c909"
+    },
+    "golden-container/RECIPE_MANIFEST.json": {
+      "bytes": 3218,
+      "sha256": "c5139e23529a6acc30e40f8a6b9f0883e1fb1a5c750828ebb4660c54b75c87bf"
+    },
+    "golden-container/SERVE_RUNBOOK.md": {
+      "bytes": 7587,
+      "sha256": "2d1e32d3da6f348111fbf4f58c60a2edfdcae11dd0b9a8c5e5fb1a2965c815ae"
+    },
+    "golden-container/build_golden.sh": {
+      "bytes": 10936,
+      "sha256": "04f2fb0e0f9bba36deabe1f150fd96b777685690fafb3bca2f6a40fc07df059e"
+    },
+    "golden-container/golden_perf_check.py": {
+      "bytes": 12626,
+      "sha256": "7de3e8af4afca946803ef73711ec05c7b31dc7a7bb5f212b6feff6e91e3ddeb3"
+    },
+    "golden-container/healthcheck.py": {
+      "bytes": 4051,
+      "sha256": "4751dfcabea46185bb62c885a918906b9b7882093647989452d81bc1ec251491"
+    },
+    "golden-container/make_runtime_cache_manifest.py": {
+      "bytes": 2425,
+      "sha256": "aa6cff20b019eb09a4e2ab65596426110c93d484513d4ad59316fb5b20adfb9c"
+    },
+    "golden-container/make_wheel_manifest.py": {
+      "bytes": 5596,
+      "sha256": "a1ff777f551bfeb00a5f0188a730852bd2dcd24fba7325730429cccd5bc03dde"
+    },
+    "golden-container/patch_flashinfer_cache_load.py": {
+      "bytes": 3317,
+      "sha256": "9c5cf2e11547b53ffc1e4757a2a0c1eff7c0f33b3679ddd34a0f442459c2a8b8"
+    },
+    "golden-container/patch_quant_method_defaults.py": {
+      "bytes": 9893,
+      "sha256": "00398c02d220fa1fdf4dc2f8a9495d8d83fcca3555241256c841b756859d9db8"
+    },
+    "golden-container/prepare_external_pack.py": {
+      "bytes": 4673,
+      "sha256": "44a495c148a9d1d5a90f050700b7f2dd2204b2054ca586bc1a564a7f6d4562b0"
+    },
+    "golden-container/publish_local_registry.sh": {
+      "bytes": 1309,
+      "sha256": "2a26bec648f8e9d3e8592c28bea02ada5e1c266dbfe0084b773396295ddd6d1a"
+    },
+    "golden-container/push_local_registry_via_ssh.sh": {
+      "bytes": 2965,
+      "sha256": "c9944a5ceacf5578b2561b6e88b6547b71faf7de44f754b09e73e4ecb6e28e49"
+    },
+    "golden-container/receipts/HOST_FREE_HARDENING_RECEIPT.json": {
+      "bytes": 4930,
+      "sha256": "4044b006452d6e0e2391bc71a176165d6cdab214afb6dc676bbc67016b6a1352"
+    },
+    "golden-container/seal_recipe.py": {
+      "bytes": 1738,
+      "sha256": "aeec1a56d912d154d2f067353603d3fb391a57440c06eb2d47e7e6061249ede7"
+    },
+    "golden-container/validate_golden.sh": {
+      "bytes": 11699,
+      "sha256": "d52232653fc7a60d4dee0ffb64883a49cdf69c9cb76510a98f70df45fd4eb530"
+    },
+    "golden-container/verify_image_static.py": {
+      "bytes": 5392,
+      "sha256": "938896301f24127c9160a8da012a2235ce7b8212981b219b59a98bb511363228"
+    },
+    "kernels/cubins-e43/moe_w3_mm_k2048.cubin": {
+      "bytes": 19520,
+      "sha256": "329ead7686b64a0b38a73a28ef2877e432da8ee8558d7a2c69b2ea563276d68f"
+    },
+    "kernels/cubins-e43/moe_w3_mm_k4096.cubin": {
+      "bytes": 31200,
+      "sha256": "923812fc229524465af15869e5e16ad570dd0610bb8413feb43f3630e2245751"
+    },
+    "kernels/cubins-e43/moe_w3_mm_mc4_k2048.cubin": {
+      "bytes": 20096,
+      "sha256": "7fb4f67af94d88d40ca7f42e13fc89b281335cf8b4db037dd943e219daac237b"
+    },
+    "kernels/cubins-e43/moe_w3_mm_mc4_k4096.cubin": {
+      "bytes": 32320,
+      "sha256": "f9f8cd5f207da23440ea420a7e13068ca10291a181cb05435417f95085db0402"
+    },
+    "kernels/cubins-e43/moe_w3_mm_mc4afrag_k2048.cubin": {
+      "bytes": 19696,
+      "sha256": "5feb524786cd38ffc7c91bd22b76cbf63472ba1e49f88cc70249c9f28b5db903"
+    },
+    "kernels/cubins-e43/moe_w3_mm_mc4afrag_k4096.cubin": {
+      "bytes": 31536,
+      "sha256": "7d628b0656ce24fac21276aeab21ca26d3674570f07bce3d328548a249624a3a"
+    },
+    "kernels/cubins-sm120/mla_prefill_state.cubin": {
+      "bytes": 11616,
+      "sha256": "e4ad2dc0ceb162c66ffaff33f20b454cfe34c65dc004e6bfe263e176e5b5d748"
+    },
+    "kernels/cubins-sm120/moe_w2_mm_k1024.cubin": {
+      "bytes": 11264,
+      "sha256": "3a75e609012b658b32bc284f8451f5392bb7600f6429194987a15499c248b437"
+    },
+    "kernels/cubins-sm120/moe_w2_mm_k2048.cubin": {
+      "bytes": 14768,
+      "sha256": "bcd715fb04bb7efb75a65594e8d96bba24452ba82da9bdec3b5db34be3366b1f"
+    },
+    "kernels/cubins-sm120/moe_w2_mm_k4096.cubin": {
+      "bytes": 21776,
+      "sha256": "19570b90424162e9f22b86ebdb0cd521ba9143013e7d284fef257d7724da3e11"
+    },
+    "kernels/cubins-sm120/moe_w2_mm_k512.cubin": {
+      "bytes": 11632,
+      "sha256": "6ce2965080048b8b82218ce6762150315e1dce5c1277b5683e193cd7849dc932"
+    },
+    "kernels/cubins-sm120/moe_w2_mm_k6144.cubin": {
+      "bytes": 28784,
+      "sha256": "1b0b39b9d89a56ecf0b08b871879e7d684b93594e12571e55548f1f95627b4aa"
+    },
+    "kernels/cubins-sm120/moe_w2_mm_mc2_k1024.cubin": {
+      "bytes": 13456,
+      "sha256": "727c80cad157b9716df8a94cf86fb1be169ef1d792804e355f5a8ffd8ad7f154"
+    },
+    "kernels/cubins-sm120/moe_w2_mm_mc2_k2048.cubin": {
+      "bytes": 18000,
+      "sha256": "f2e1093d106c79c122548c32d22f8ef95d5f844d0f83a483c9dee1ce58c65452"
+    },
+    "kernels/cubins-sm120/moe_w2_mm_mc2_k4096.cubin": {
+      "bytes": 27088,
+      "sha256": "100a3255fcfd5947ab9ad593bccb37433b5c70aeff65995334973a97dd11071c"
+    },
+    "kernels/cubins-sm120/moe_w2_mm_mc2_k512.cubin": {
+      "bytes": 14208,
+      "sha256": "ff99d3141a6503419cdec82efddde804ee24004035a79176d2057810b2a06998"
+    },
+    "kernels/cubins-sm120/moe_w2_mm_mc2_k6144.cubin": {
+      "bytes": 36176,
+      "sha256": "385f71df93b5b04d5634c84e7f9593bc340b375663ae59e600bf38fcf1a7ba18"
+    },
+    "kernels/cubins-sm120/moe_w2_mm_mc4_k1024.cubin": {
+      "bytes": 11568,
+      "sha256": "8744ab7a2c4184d36b8d5a09b65a0a434cea227505f6fb435a886322163e3e96"
+    },
+    "kernels/cubins-sm120/moe_w2_mm_mc4_k2048.cubin": {
+      "bytes": 15344,
+      "sha256": "f5c6db6eb4cfd2c9706a51f9303c68adaeabb123d8fb43cbb4d54f09fce6b829"
+    },
+    "kernels/cubins-sm120/moe_w2_mm_mc4_k4096.cubin": {
+      "bytes": 22896,
+      "sha256": "ac24c451d25f9e0cad4fc4f1cd05bba36eeaebc81a3552da7fff71187bc15e31"
+    },
+    "kernels/cubins-sm120/moe_w2_mm_mc4_k512.cubin": {
+      "bytes": 11936,
+      "sha256": "6576d059924a9824f6b8260ac662dc3eaf31a14c7a09d99708e1458615450b90"
+    },
+    "kernels/cubins-sm120/moe_w2_mm_mc4_k6144.cubin": {
+      "bytes": 30448,
+      "sha256": "8cbb0337a2c9180e3a412221cc57e57ee62d5a5e8797666542bbc778e6cfa724"
+    },
+    "kernels/cubins-sm120/moe_w2_mm_mc4afrag_k1024.cubin": {
+      "bytes": 11360,
+      "sha256": "4c7c1f513ff32411f0eba5c3b05a1b4d65bee74c1b0ac4b43f237717366d32e9"
+    },
+    "kernels/cubins-sm120/moe_w2_mm_mc4afrag_k2048.cubin": {
+      "bytes": 14944,
+      "sha256": "6e7eff0157ca2964d84b2d7ea30066babb81076cce0575272186d3e8412202e3"
+    },
+    "kernels/cubins-sm120/moe_w2_mm_mc4afrag_k4096.cubin": {
+      "bytes": 22112,
+      "sha256": "fcbe9b106139a10c9dbca07499adaaddc0fccdcff6ccfa87daaf8873b225e0b8"
+    },
+    "kernels/cubins-sm120/moe_w2_mm_mc4afrag_k512.cubin": {
+      "bytes": 11728,
+      "sha256": "47bb62018c969088ae3051b7b845c431577510d189ec0959e3d0704f3ffeacf5"
+    },
+    "kernels/cubins-sm120/moe_w2_mm_mc4afrag_k6144.cubin": {
+      "bytes": 29280,
+      "sha256": "bcce10f64998bc4f789b02ced4e907aa3ff2a3b8dab4ef9c9122e0b67925831a"
+    },
+    "kernels/cubins-sm120/moe_w4_mm_k1024.cubin": {
+      "bytes": 12128,
+      "sha256": "562f38acd649113b2b30e799f17d2a6d0a8ea5056f62c4ad359d6a1eba845371"
+    },
+    "kernels/cubins-sm120/moe_w4_mm_k2048.cubin": {
+      "bytes": 15984,
+      "sha256": "f8eac7c80f6abcd933f359f7ab5ebba7ddabbcc55ad7fc9d5ce4f5ab4069a7de"
+    },
+    "kernels/cubins-sm120/moe_w4_mm_k4096.cubin": {
+      "bytes": 25040,
+      "sha256": "f8668076b860030c628af8965e6465e65a43cc3b3764a6f54712b1ee99ad13be"
+    },
+    "kernels/cubins-sm120/moe_w4_mm_k512.cubin": {
+      "bytes": 12496,
+      "sha256": "44f98dfa84aaab7daca195b53027ec97aa76698336f18ecb840fd397a0972fc6"
+    },
+    "kernels/cubins-sm120/moe_w4_mm_k6144.cubin": {
+      "bytes": 34768,
+      "sha256": "1c2c6c8d157717c15a25999684fd552e4c074e623bad81f50e6d424f2a7de7f1"
+    },
+    "patch/vllm-moet-v0.24.0.patch": {
+      "bytes": 312983,
+      "sha256": "97f2fde1a14a1d7cf8f194bbf6f7cfacd2e8e378efe438a8d5fd32c41f2d4f99"
+    },
+    "pyproject.toml": {
+      "bytes": 837,
+      "sha256": "91d86c3a885a665d85c33d2408f45b4867e7f58ea3ebf1089dd85de67c854271"
+    },
+    "schema/bs-kernel-cache-v1.schema.json": {
+      "bytes": 1021,
+      "sha256": "2d01a22a767be23ccbed3ac45ab0b37edcaf84fa241fddd74a736e3701124b48"
+    },
+    "schema/bs-pack-layer-meta-v1.schema.json": {
+      "bytes": 1103,
+      "sha256": "50e246f52cb0b77fc31a08e1cb461c6a5c9be729d277938cee27a19756d25376"
+    },
+    "schema/bs-pack-v1.schema.json": {
+      "bytes": 1586,
+      "sha256": "3ece614e5f60061d0610a73d3b3c51f587738f6c88ae31707220c7a98b47c3cf"
+    },
+    "src/banana_smasher/__init__.py": {
+      "bytes": 323,
+      "sha256": "5fdbde4d09c5f292f8546e12a5bc6850ea1078e0d991d27010119ff14df25ff6"
+    },
+    "src/banana_smasher/bootstrap.py": {
+      "bytes": 6581,
+      "sha256": "8d7d785e03c4eabdf5d5f82db1ec91b25847509ad351bca8034653668adaf6dd"
+    },
+    "src/banana_smasher/cli.py": {
+      "bytes": 6403,
+      "sha256": "f12da94541fb083db9e9ff094c6c1ac5221893d7b68247a6edfc1f91ddd26535"
+    },
+    "src/banana_smasher/contract.py": {
+      "bytes": 41568,
+      "sha256": "a1e437d42f879ed4e40f13034dfcfad018878e7d8a555b6480b0e6f84fd97fac"
+    },
+    "src/banana_smasher/loader.py": {
+      "bytes": 7474,
+      "sha256": "1b6243a6bce410ba5439d5b212efeefcba7a1b6b4e3b9d7e0b2264eea945f2ee"
+    },
+    "src/banana_smasher/repack.py": {
+      "bytes": 15073,
+      "sha256": "7069bf05c03248b0aa0bbccbe99c7f1bbc05a41e08832c10044fe4034e57d0f0"
+    },
+    "src/banana_smasher/validation.py": {
+      "bytes": 13162,
+      "sha256": "d9eabb861cd6623152caffdbc74404a46886f831f7d5263c269fc0f2ddbebcb0"
+    },
+    "tests/test_bootstrap.py": {
+      "bytes": 4661,
+      "sha256": "9214a2a90fe19475a957a724757f9d6d83a4b43670727009f1c93c57cdd3ba2e"
+    },
+    "tests/test_cli.py": {
+      "bytes": 3018,
+      "sha256": "cb22e1e80fd24a6cf41e6b111f508c5ecfbbdc08531d9155107822f47bc1fb6a"
+    },
+    "tests/test_contract.py": {
+      "bytes": 10059,
+      "sha256": "5784da17c02930ba46da62807379eca9381261c0d8dca6807a194ef565a389c1"
+    },
+    "tests/test_genesis_wire.py": {
+      "bytes": 5180,
+      "sha256": "3aec765334f9a0aa7696c7b839b7fae58a79fd9d659765ab769d7a495669abd4"
+    },
+    "tests/test_loader.py": {
+      "bytes": 2940,
+      "sha256": "3aec3d345738eaab9c925f1af8d845d3dfa4033e9f0915101cd2f308292cdb9f"
+    },
+    "tests/test_repack.py": {
+      "bytes": 1623,
+      "sha256": "6e18374c05ce6af6f5510a4d7d85e79f4f89fd2bf9752efb6d610e2d56d4f87e"
+    },
+    "tests/test_unified_repo_contract.py": {
+      "bytes": 4220,
+      "sha256": "f85d85cc0e5e6bb6a9c514d06f3b420fc36a28c8eaefd6eafa4b83d00812788e"
+    },
+    "tests/test_validation.py": {
+      "bytes": 3357,
+      "sha256": "b798402a3d5b6d39f0b1af9c7d8af50ccb31b59caa485fd181d7851edc1e3f06"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/085e5a49c2b6da4f96f9ccb8d12519ddaaa0f82a5fd0d67e05e238c3432db3e8/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/0af24237d28b539371d322acb8997755fa17cdd3af230f1131279ad5071ca43d/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/0f42d2e04f2ebb2f1f79cf54593a7f33fe14f30e6631c4624ebba546f8643840/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c921b67f244a8240706dfca40dff152201880f6bc87f03f41e1c4ad21b9efcd1"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/145d88f9f1c2aeafb931e5454acd0030e318c02aab6eae75fda6b69bba55b4c6/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/30bf96a9bebd7b7554f8cc32c73973efe91d7ff2bd321941aa5c4092b64a44b4/autotune_configs.json": {
+      "bytes": 4683,
+      "sha256": "47aff426b0eda74d3922fa027b5d8b3ea547d7a1ddda39d6d81ff967d353fa46"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/319ae924887a56f4ce857ef2dc6212b9f738b51bad8326c48e0bfd2e2e8940e5/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/35df21a068b911317b78b46c6af4562612a3d06c60dc2b881be1d6c1955215b8/autotune_configs.json": {
+      "bytes": 4682,
+      "sha256": "f05a85b3dbb34471a005e478d335d85279ad1d9e010ee5b4ea573ee65c9e4569"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/36ac803258ea28c155c2c18f329c608c6c2e706d8c054248b99ac89d3f8727ec/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "4aaf38051c5c2c405f47dd6c4dc161dd700daf83c62293490a2905889e13bd4f"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/3a8aedac158c9a88e29eabf08e6d380cdab40f51529e6ec9209767aff3e52bf2/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/4dd23b285a75dd2a8a6396e4064fc0ad0b98b60d973efdbca54811b5ed60ae30/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/5028ca158fafffd826ea4715487f579fc270f65191084b0075c0ff0607b9a8aa/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/51a795d4418d7767ffad826578737298569f264badf668e35a732d2797071db3/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/5597f3a58dd2ec2cac6db941dc4dcee2bbef787de965f35439f6b97480c25026/autotune_configs.json": {
+      "bytes": 6138,
+      "sha256": "a2a4a9fefcd6f928384a5ab177c13152d422a827bc6f5f69430f54c6dd514854"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/5fd01e60908c7e3105912f7e619057cd3f061fca07a61394c55792c90294413c/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/6024efa17f001c13aed9d432af238bf8139f67b4e5a18d4071963d3d2332c331/autotune_configs.json": {
+      "bytes": 4653,
+      "sha256": "b7f2436926e44d369ed33ee50d85db504c2fed617130105dfe89321d45693fe2"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/62ab171c9057a2067b3417eb2867389270a8ce2313af584516c7e6087fd6b7db/autotune_configs.json": {
+      "bytes": 4683,
+      "sha256": "1960562588217f922aa7a1fc91ebd9d505b16f45c8f63e1d9a11240e450c80a4"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/67759ad82857464020049b1d301b4b261bb8b3367d015dc934160cedfc395469/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/7838c7199f8632b739f51be82cdcc8c7a16b7b1e954cc6360d4d5db6dd0a9b84/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "b454281806543991cb1aedc10d770765643493545bf04f7ac602503b068991d7"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/7c7a5fc88054677f99c644e95535688709ba53ce2c473a5cdc54056dc047551c/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "bb641af14260f89a53bc8988138d85bacbb7fdf180e797aac19aac8955157554"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/7e2fb0d356ac970b7b89016b58f11e4881b2ad6dd20b75e8316d67c8a1780c58/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/87590b40c1e14df59ee2c21ead8d62ef6ea407bd51ed8c1b68c6437b250842fc/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/8fd52cd5918d4f6e5b294dd0d20ede2377dadfbf9526597ba8595b682249e9ee/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "1a9f1594c421f248b576cca62683fa0ab349805a46bf9ede51dc6ad11098caee"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/92b792d9b61c99bb5b763c2fd05c6b0acec90a5e6c225f757ffca80c2edf98c6/autotune_configs.json": {
+      "bytes": 4683,
+      "sha256": "1bb61d0ae261aea9743053e6adef84095fde3147562ed029f9f4217fb2fc6873"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/9795db2f8d235e35cd36066743bd4aaeb6ce5e1e7484031b664b26c0c86087fb/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/a7e2f0c95e370180026b43d0437828d840bdd8a0d8155666393a107918ca3051/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/adecfc204e3eecb71874bf7a585c7984625c10104d0e2b868027ed7a18151505/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/b0edc62c9f291e8c22de2d349559651c139f70e6040747f32a64e006cb0a7175/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/bcc9447ae77a4df06e73dfd7373c587f463f0b711e12fcdb0f9f9972cd45ea0b/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/c0e9941f02b83a58f0d4cb2db4b884137952bedd534eda575117f1449cf188d3/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/c17ebbe8b5aebac2da8a024668806d42b49a418a582fa310afdd4269b7720f01/autotune_configs.json": {
+      "bytes": 4683,
+      "sha256": "5225b39d0dd6cd652e0919a8815e9206f846a965cf7625058e2cb4e7e8bf5a45"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/da5c2be19cb7b20ae14c2b6b4b0202eb12ba953a1061ec6787df50134df0ac40/autotune_configs.json": {
+      "bytes": 4683,
+      "sha256": "de532086b129945272361baf2b87194d13e6839cb3cf05aa7f15075aa4ca2058"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/daf0dedb9834223b48906ec2beae5f781e7b49aed53b661ebdf60ab1d8e7fc0c/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/e528088bf2df5515939855f340585a9c4906ca2444c8fa1db8342d53f9582925/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/ea894f3915f2d213be21208779b2766f533309536b68af637b34de77c2b9a679/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    "vendor/flashinfer-autotune/0.6.14/121a/f99305f1600e2445761e84c06ca10099e54d3618084027243ce9df09fd40c813/autotune_configs.json": {
+      "bytes": 4654,
+      "sha256": "286aa3881efc810729df84936d0102a5a98eec419f8985e98d341393c693ddc8"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/sampling/.ninja_deps": {
+      "bytes": 181468,
+      "sha256": "d62ccdb91e0944c46f8550a1507c1facc61429f737a5035639f4a79bb60cc16f"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/sampling/.ninja_log": {
+      "bytes": 539,
+      "sha256": "27f3847892f77f280c9573a8a01da6272f802d4781c9e4960471f8bd073657af"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/sampling/build.ninja": {
+      "bytes": 3399,
+      "sha256": "3beb5715ab8813ed3f5910c0e163087e4ef17b81d09985d976ef03a2b535d997"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/sampling/csrc_flashinfer_sampling_binding.cuda.o": {
+      "bytes": 856464,
+      "sha256": "5a33adeb044dc3dc1a1d8fedaee4d6e5bdac5d2e68f672c48160bee794d1f4eb"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/sampling/csrc_renorm.cuda.o": {
+      "bytes": 916704,
+      "sha256": "934a2119dadd2b2301ddc767e4f987a8239dbd6f5aa8c672b87230dabd556a5a"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/sampling/csrc_sampling.cuda.o": {
+      "bytes": 2279632,
+      "sha256": "98d655cd1cd76d47693ea124fefd7bbf1fc13e34bfb22d0dc65637f7640e0f88"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/sampling/sampling.so": {
+      "bytes": 2483720,
+      "sha256": "7e98456cb877ca5644ba8e462087d843eaf90f34a9b726d4289a42116ac62dd5"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/sparse_mla_sm120/.ninja_deps": {
+      "bytes": 30168,
+      "sha256": "36773caa8d854236298881bd335e5c9e0ff65dde279addc6a550508fc6c6a86c"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/sparse_mla_sm120/.ninja_log": {
+      "bytes": 916,
+      "sha256": "358579f1f24c949f7ef7889d3e42a47d5d9f63c7610e640a5b6907fba22e83f9"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/sparse_mla_sm120/build.ninja": {
+      "bytes": 4348,
+      "sha256": "583c4870f5aee56c9ed83013c3d7ca83c353e362e923d6df7e5118bd114a0d47"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120.cuda.o": {
+      "bytes": 210128,
+      "sha256": "c3f2f5e532efe1a4fb9cf5f5ec98e48ace967ad650429a1eebe21c081e0241dc"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_decode_dsv3_2.cuda.o": {
+      "bytes": 303288,
+      "sha256": "b038011076c01015ae7c84fb97d78f5aabae0a49ff337d7b6b47340f03a38712"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_decode_dsv4.cuda.o": {
+      "bytes": 122992,
+      "sha256": "866bccabad0579d5a2cbb7b25603acf5672481877cda6cdfe65f524e840a2e2e"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_jit_binding.cuda.o": {
+      "bytes": 413336,
+      "sha256": "b4c636425ed197213d981480139e6dc38352cb426a3489d8994d2a6d50e17533"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_prefill.cuda.o": {
+      "bytes": 411464,
+      "sha256": "b6865259c5d5e781c0a889ede6666a837d74e034f37fb43e1f1ff688a9887c22"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/sparse_mla_sm120/sparse_mla_sm120.so": {
+      "bytes": 858264,
+      "sha256": "fe9228637b686a4b266d3baf915eca92b7080bd36e7607113e4de0a360a17867"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/tmp/sampling.lock": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/tmp/sparse_mla_sm120.lock": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/tmp/trtllm_utils.lock": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/trtllm_utils/.ninja_deps": {
+      "bytes": 26452,
+      "sha256": "424f7752b39c6c22f1ac82c2125679c6144f9dbd2048fdccb3dcc201c0840929"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/trtllm_utils/.ninja_log": {
+      "bytes": 796,
+      "sha256": "7049a5d9d64d6743e8f824ea3c526202728d360d9834b728d0441ef1fd47c239"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/trtllm_utils/build.ninja": {
+      "bytes": 4698,
+      "sha256": "03b37c93e2f109d926d7b9adc5ae927126451d4acf1d900a9baad0cb4b11a126"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/trtllm_utils/common_envUtils.o": {
+      "bytes": 204216,
+      "sha256": "73d9e27c9c007842bf30d700cb8ae69c2fda13157bd2d90660febd4cc841a09a"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/trtllm_utils/common_logger.o": {
+      "bytes": 161784,
+      "sha256": "7fc48321e2163967663e1054bb4056f8dad062ee7de7b978f564189caf4fb5b4"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/trtllm_utils/common_stringUtils.o": {
+      "bytes": 16504,
+      "sha256": "ef9e9b066628ffb400ad89cbcf6b668bae08e37464af6d91c117b1a1262e5377"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/trtllm_utils/common_tllmException.o": {
+      "bytes": 15632,
+      "sha256": "f02c16dd5141311a991a36a72a028f3f95202bf3a7c22d5a58e8d2e1b1140aee"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/trtllm_utils/kernels_delayStream.cuda.o": {
+      "bytes": 194968,
+      "sha256": "839f905255ccee1e6ab618f18fcfe46cfc62f4b1bf69b1e1821df52ca00617de"
+    },
+    "vendor/flashinfer/0.6.14/cached_ops/trtllm_utils/trtllm_utils.so": {
+      "bytes": 232784,
+      "sha256": "2deb43e9bc30d095274c877104315b2fe77edc66a0e4914d1f24633f16089c05"
+    },
+    "vendor/flashinfer/0.6.14/flashinfer_jit.log": {
+      "bytes": 146666,
+      "sha256": "7b7a84d9a7ae9fc97bd9ab7838d59efb445658a0f4d85a90ed874214b32b4a30"
+    },
+    "vendor/p1321/kernel/__init__.py": {
+      "bytes": 956,
+      "sha256": "56b36196ec0e1db8af60b51d02bb488c10171d4eec7bda842bc623a454c2ade8"
+    },
+    "vendor/p1321/kernel/vq_warp_gemv.cu": {
+      "bytes": 22402,
+      "sha256": "4ff296f7e42e2a906543aa4563fc50e1e04d58e6d41de46cda9bce4ae686fef5"
+    },
+    "vendor/p1321/receipts/BOOT_CONFIG_FREEZE.json": {
+      "bytes": 19600,
+      "sha256": "cff72b34c5cd9d29a17d9a1842005febf5402141f6709c10f85a25cd8a61d707"
+    },
+    "vendor/p1321/receipts/C_LADDER_FULL_SEAL.be0453e1.json": {
+      "bytes": 194516,
+      "sha256": "be0453e1d6081a87a0288c8611b9ee5ec33a4b2ba927cb68c358e71a10b242f7"
+    },
+    "vendor/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json": {
+      "bytes": 2544,
+      "sha256": "4e100694739cd73ca9e2d1611a91d75143b9167bfd1c73882b460c82ef1712de"
+    },
+    "vendor/p1321/receipts/WINNING_BOOT_CONFIG.json": {
+      "bytes": 7200,
+      "sha256": "091e8eb3e4caa9793454f4a529d8c1f5fc0af0fcb4fa28cc89e34c8a4c314da2"
+    },
+    "vendor/p1321/runtime/moe_vq_triton.py": {
+      "bytes": 31189,
+      "sha256": "7b25bf83a0e6a36a50af2eab2c4a5305b7f146824e2acf183dcbd82ca760f13a"
+    },
+    "vendor/p1321/runtime/moe_w2_cubit.py": {
+      "bytes": 95036,
+      "sha256": "b5532974081e73c7abeda61d9b6e2460ea2a2a50958bf0f1e89a678a204be1d7"
+    },
+    "vendor/p1321/vq_warp_m4/CARD.md": {
+      "bytes": 1152,
+      "sha256": "b45e3511c6ca08e4d2773154cb28b8ac3f9f4e59125ec8277e4213a17489b3e5"
+    },
+    "vendor/p1321/vq_warp_m4/README.md": {
+      "bytes": 2117,
+      "sha256": "6633647fc1c5c6d1c14a9729c33a50d154bd03ca870dd4f5ece8f9acc3507fdb"
+    },
+    "vendor/p1321/vq_warp_m4/build.toml": {
+      "bytes": 176,
+      "sha256": "7ed201dc3a6119aa9a694d3d01929f30cdb5abf459f5b4481a0530e75ae0dfc9"
+    },
+    "vendor/p1321/vq_warp_m4/csrc/vq_warp_gemv.cu": {
+      "bytes": 22402,
+      "sha256": "4ff296f7e42e2a906543aa4563fc50e1e04d58e6d41de46cda9bce4ae686fef5"
+    },
+    "vendor/p1321/vq_warp_m4/pyproject.toml": {
+      "bytes": 103,
+      "sha256": "86feaab01afb308e05fd484dd7eef4df5aad8c228ba5ef76770016769095d466"
+    },
+    "vendor/p1321/vq_warp_m4/setup.py": {
+      "bytes": 696,
+      "sha256": "7b921d5b0c7eddb2663c032746a6da1eb49746077a772623e9711f731614e097"
+    },
+    "vendor/p1321/vq_warp_m4/vq_warp_gemv/__init__.py": {
+      "bytes": 956,
+      "sha256": "56b36196ec0e1db8af60b51d02bb488c10171d4eec7bda842bc623a454c2ade8"
+    },
+    "wheels/banana_smasher-1.0.0-py3-none-any.whl": {
+      "bytes": 72315,
+      "sha256": "aab56660e25b81bfe3ae58faba7acee25186e05031a79a5c44cb4a88b3d7f3b7"
+    }
+  },
+  "flashinfer_cache_runtime_path": "/root/.cache/flashinfer/0.6.14/cached_ops",
+  "p1321_admission": "scalar valid_m<4; vector valid_m==4",
+  "p1321_boot_freeze_sha256": "cff72b34c5cd9d29a17d9a1842005febf5402141f6709c10f85a25cd8a61d707",
+  "p1321_canonical_ladder_seal_sha256": "be0453e1d6081a87a0288c8611b9ee5ec33a4b2ba927cb68c358e71a10b242f7",
+  "p1321_winning_boot_sha256": "091e8eb3e4caa9793454f4a529d8c1f5fc0af0fcb4fa28cc89e34c8a4c314da2",
+  "p1336": {
+    "image_id": "sha256:b8669a5984dee524e082d0cc0bdfcbb20e98305b32b3aaf254f7fa434e88d257",
+    "readme_sha256": "45ed5dbfe6cd758e4c4665808405cb74e2bc96d5f2e28485b0beb1b04f8e53ca",
+    "receipt_index_sha256": "2b6d9c65d26db7ddd8201c4989bc1bf97dfeba1bd61c7afaa3d416a8c865c829",
+    "receipt_sha256": "a3af06014c073d04dee70978d98a32e302c3e77a647dd6dc6881e777f3d6d4d5"
+  },
+  "parent_hand_ladder_seal_sha256": "ea7df6435fa0fe6e574a20d2506abb09832591bf23f45bc3ff82a5dfb1a0e3e5",
+  "schema": "banana-smasher-source-manifest-v1",
+  "status": "SEALED_REPRO_KIT",
+  "task_id": "t_829143ff"
+}
