@@ -29,9 +29,9 @@ def test_readme_has_exactly_three_copy_paste_commands() -> None:
         if line.strip() and not line.lstrip().startswith("#")
     ]
     assert commands == [
-        "git clone https://github.com/my-other-github-account/spark-bench-reproducers.git && cd spark-bench-reproducers/glm52-ds4-bq3-ptq-opd/banana-smasher",
-        "./build.sh",
-        "docker run --gpus all -v <pack>:/model:ro -p 8000:8000 genesis-serve:golden vllm serve /model",
+        "smash export --source-root /path/to/quantizer-output --output /model --model-id MODEL --instance-id PACK_INSTANCE --link-mode copy",
+        "smash validate-pack /model",
+        "vllm serve /model",
     ]
 
 
@@ -66,7 +66,7 @@ def test_p1321_vendor_hashes_are_exact() -> None:
 
 def test_pack_format_and_validate_pack_surface_exist() -> None:
     spec = (ROOT / "PACK_FORMAT.md").read_text()
-    assert "bs-pack-v1" in spec
+    assert "bs-pack v1" in spec
     assert "meta.json" in spec
     assert "SHA-256" in spec
     completed = subprocess.run(
