@@ -110,6 +110,12 @@ def _parser() -> argparse.ArgumentParser:
             "defaults to --window only"
         ),
     )
+    update.add_argument("--local-input-preflight", type=Path)
+    update.add_argument("--local-input-preflight-sha256")
+    update.add_argument("--local-input-manifest-sha256")
+    update.add_argument("--migration-receipt", type=Path)
+    update.add_argument("--migration-receipt-sha256")
+    update.add_argument("--preflight-task-id")
     update.add_argument("--tokens", type=int, default=1024)
     update.add_argument("--layers", type=int, choices=(1, 43), default=43)
     update.add_argument("--learning-rate", type=float, default=1e-4)
@@ -217,6 +223,12 @@ def main(argv: Sequence[str] | None = None) -> int:
                     receipt=args.receipt,
                     window=args.window,
                     source_windows=args.source_windows,
+                    local_input_preflight=args.local_input_preflight,
+                    local_input_preflight_sha256=args.local_input_preflight_sha256,
+                    local_input_manifest_sha256=args.local_input_manifest_sha256,
+                    migration_receipt=args.migration_receipt,
+                    migration_receipt_sha256=args.migration_receipt_sha256,
+                    preflight_task_id=args.preflight_task_id,
                     tokens=args.tokens,
                     learning_rate=args.learning_rate,
                     hard_abort_seconds=args.hard_abort_seconds,

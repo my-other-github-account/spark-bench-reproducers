@@ -305,6 +305,54 @@ def _build_student(
     return student
 
 
+def _activate_local_preflight(
+    f521: Any,
+    preflight_runtime: Any,
+    *,
+    receipt_path: str | Path | None,
+    expected_receipt_sha256: str | None,
+    expected_manifest_sha256: str | None,
+    migration_receipt_path: str | Path | None,
+    expected_migration_receipt_sha256: str | None,
+    expected_task_id: str | None,
+) -> dict[str, Any]:
+    bindings = {
+        "receipt_path": receipt_path,
+        "expected_receipt_sha256": expected_receipt_sha256,
+        "expected_manifest_sha256": expected_manifest_sha256,
+        "migration_receipt_path": migration_receipt_path,
+        "expected_migration_receipt_sha256": expected_migration_receipt_sha256,
+        "expected_task_id": expected_task_id,
+    }
+    missing = sorted(name for name, value in bindings.items() if value is None)
+    if missing:
+        raise RuntimeError(
+            "sealed local-input preflight bindings are required before model materialization: "
+            + ", ".join(missing)
+        )
+    receipt = Path(receipt_path).resolve()
+    migration = Path(migration_receipt_path).resolve()
+    authority = preflight_runtime.assert_preflight_sealed_structural(
+        receipt,
+        expected_receipt_sha256=str(expected_receipt_sha256),
+        expected_manifest_sha256=str(expected_manifest_sha256),
+        migration_receipt_path=migration,
+        expected_migration_receipt_sha256=str(expected_migration_receipt_sha256),
+        expected_task_id=str(expected_task_id),
+    )
+    f521.activate_local_only(receipt, authority)
+    return {
+        "receipt": str(receipt),
+        "receipt_sha256": authority.receipt_sha256,
+        "manifest_sha256": authority.manifest_sha256,
+        "migration_receipt": str(migration),
+        "migration_receipt_sha256": str(expected_migration_receipt_sha256),
+        "cache_root": str(authority["cache_root"]),
+        "ordered_window_ids": list(map(int, authority["ordered_window_ids"])),
+        "network_forbidden_during_update": authority["network_forbidden_during_update"],
+    }
+
+
 def run_minimal_update(
     *,
     runtime_root: str | Path,
@@ -313,6 +361,12 @@ def run_minimal_update(
     receipt: str | Path,
     window: int = 27,
     source_windows: Sequence[int] | None = None,
+    local_input_preflight: str | Path | None = None,
+    local_input_preflight_sha256: str | None = None,
+    local_input_manifest_sha256: str | None = None,
+    migration_receipt: str | Path | None = None,
+    migration_receipt_sha256: str | None = None,
+    preflight_task_id: str | None = None,
     tokens: int = 1024,
     learning_rate: float = 1e-4,
     hard_abort_seconds: float = 250.0,
@@ -373,8 +427,20 @@ def run_minimal_update(
     import genesis_physical_surface as surface
     import kmajor_autograd
     import lp4_train as runtime
+    import p1270_runtime as preflight_runtime
 
     _install_bounded_qtip(f521)
+    preflight_identity = _activate_local_preflight(
+        f521,
+        preflight_runtime,
+        receipt_path=local_input_preflight,
+        expected_receipt_sha256=local_input_preflight_sha256,
+        expected_manifest_sha256=local_input_manifest_sha256,
+        migration_receipt_path=migration_receipt,
+        expected_migration_receipt_sha256=migration_receipt_sha256,
+        expected_task_id=preflight_task_id,
+    )
+    base.T.TEACH = Path(preflight_identity["cache_root"]) / "teacher_by_win"
     surface.reset_real10x_dispatch_trace()
     fwht_stats(reset=True)
     resident_mode = layers == 1
@@ -467,6 +533,9 @@ def run_minimal_update(
         "model_config": _sha256(model_root / "config.json"),
         "host_claim": _sha256(claim),
         "aot": aot_sha,
+        "local_input_preflight_receipt": preflight_identity["receipt_sha256"],
+        "local_input_preflight_manifest": preflight_identity["manifest_sha256"],
+        "migration_receipt": preflight_identity["migration_receipt_sha256"],
     }
     snapshots.append(_memory_snapshot(torch, "inputs_and_teacher_preloaded"))
 
@@ -747,6 +816,7 @@ def run_minimal_update(
             "mode": preload_mode,
             "inputs_and_teacher_preloaded": True,
             "all_routed_planes_resident": resident_mode,
+            "local_input_preflight": preflight_identity,
         },
         "phase_seconds": {
             "segments": segment_phases,

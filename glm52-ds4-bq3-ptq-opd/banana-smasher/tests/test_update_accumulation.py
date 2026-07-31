@@ -3,10 +3,69 @@ from __future__ import annotations
 import pytest
 
 from banana_smasher.update import (
+    _activate_local_preflight,
     _logical_segment_bounds,
     _logical_source_plan,
     _set_logical_training_extent,
 )
+
+
+class _Authority(dict):
+    receipt_sha256 = "a" * 64
+    manifest_sha256 = "b" * 64
+
+
+class _PreflightRuntime:
+    def __init__(self) -> None:
+        self.call = None
+
+    def assert_preflight_sealed_structural(self, receipt, **kwargs):
+        self.call = (receipt, kwargs)
+        return _Authority(
+            cache_root="/cas",
+            ordered_window_ids=[27, 38, 39, 43],
+            network_forbidden_during_update=True,
+        )
+
+
+class _Overlay:
+    def __init__(self) -> None:
+        self.call = None
+
+    def activate_local_only(self, receipt, authority) -> None:
+        self.call = (receipt, authority)
+
+
+def test_activate_local_preflight_authenticates_and_activates_before_compute() -> None:
+    preflight, overlay = _PreflightRuntime(), _Overlay()
+    identity = _activate_local_preflight(
+        overlay,
+        preflight,
+        receipt_path="/tmp/preflight.json",
+        expected_receipt_sha256="a" * 64,
+        expected_manifest_sha256="b" * 64,
+        migration_receipt_path="/tmp/migration.json",
+        expected_migration_receipt_sha256="c" * 64,
+        expected_task_id="t_source",
+    )
+    assert preflight.call is not None
+    assert overlay.call is not None
+    assert identity["ordered_window_ids"] == [27, 38, 39, 43]
+    assert identity["network_forbidden_during_update"] is True
+
+
+def test_activate_local_preflight_requires_every_pin() -> None:
+    with pytest.raises(RuntimeError, match="expected_receipt_sha256"):
+        _activate_local_preflight(
+            _Overlay(),
+            _PreflightRuntime(),
+            receipt_path="/tmp/preflight.json",
+            expected_receipt_sha256=None,
+            expected_manifest_sha256="b" * 64,
+            migration_receipt_path="/tmp/migration.json",
+            expected_migration_receipt_sha256="c" * 64,
+            expected_task_id="t_source",
+        )
 
 
 def test_logical_8192_window_is_exactly_eight_contiguous_1024_segments() -> None:

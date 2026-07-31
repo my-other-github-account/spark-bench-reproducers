@@ -41,6 +41,7 @@ def test_smash_update_requires_explicit_runtime_inputs() -> None:
     assert args.layers == 43
     assert args.accumulation_segments == 8
     assert args.source_windows is None
+    assert args.local_input_preflight is None
     assert args.hard_abort_seconds == 250.0
 
 
@@ -55,6 +56,30 @@ def test_smash_update_parses_explicit_logical_source_windows() -> None:
         ]
     )
     assert args.source_windows == (27, 38, 39, 43)
+
+
+def test_smash_update_parses_sealed_preflight_bindings() -> None:
+    args = _parser().parse_args(
+        [
+            "update",
+            "--receipt",
+            "/receipt.json",
+            "--local-input-preflight",
+            "/preflight.json",
+            "--local-input-preflight-sha256",
+            "a" * 64,
+            "--local-input-manifest-sha256",
+            "b" * 64,
+            "--migration-receipt",
+            "/migration.json",
+            "--migration-receipt-sha256",
+            "c" * 64,
+            "--preflight-task-id",
+            "t_source",
+        ]
+    )
+    assert args.local_input_preflight == Path("/preflight.json")
+    assert args.preflight_task_id == "t_source"
 
 
 def test_smash_update_seals_accumulation_audit(tmp_path: Path, capsys) -> None:
