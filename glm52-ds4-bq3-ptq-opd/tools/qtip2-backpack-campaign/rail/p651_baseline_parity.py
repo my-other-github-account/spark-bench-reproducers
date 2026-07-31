@@ -113,7 +113,7 @@ def run() -> dict:
     sys.path.insert(0, str(p.PACKAGE))
     import t8192_ds4_build_v3 as builder
 
-    class LocalPhysicalTierSource(base.GenesisTierSource):
+    class LocalPhysicalTierSource(base.BananaSmasherTierSource):
         """Exact P632 source-local receipt-first stage, without any overlay."""
         def _stage_remote(self, layer: int, row: dict) -> Path:
             self._cleanup_stage()
@@ -137,7 +137,7 @@ def run() -> dict:
                 raise RuntimeError(f"L{layer} receipt SHA drift after source-local stage")
             receipt = json.loads(receipt_path.read_text())
             if (
-                receipt.get("schema") != "genesis-materialized-layer-v1"
+                receipt.get("schema") != "banana_smasher-materialized-layer-v1"
                 or receipt.get("status") != "PASS"
                 or int(receipt.get("layer", -1)) != layer
                 or receipt.get("assignment_sha256") != p.ASSIGNMENT_SHA

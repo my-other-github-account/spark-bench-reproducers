@@ -8,7 +8,7 @@ exactly where the solver spent the freed bytes (multilingual −11/−20%, prose
 
 ## Headline numbers (all measured, sealed receipts)
 
-| Stage | non-QTIP (GENESIS) | QTIP backpack wire |
+| Stage | non-QTIP (BANANA_SMASHER) | QTIP backpack wire |
 |---|---|---|
 | Prediction (nomination basis, six-class mean) | 0.06236 | 0.05363 (−14%) |
 | Pre-repair measured, windows 0–63   | 0.12474 | **0.10856 (−13.0%)** |

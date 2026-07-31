@@ -189,10 +189,10 @@
     ]
   },
   "expert_runtime_env": {
-    "GENESIS_REPAIR_DEQ_CHUNK": "1",
-    "GENESIS_REPAIR_EVICT": "1",
-    "GENESIS_REPAIR_EXPERT_RESIDENT_SCOPE": "4",
-    "GENESIS_REPAIR_NATIVE_CHUNK": "1",
+    "BANANA_SMASHER_REPAIR_DEQ_CHUNK": "1",
+    "BANANA_SMASHER_REPAIR_EVICT": "1",
+    "BANANA_SMASHER_REPAIR_EXPERT_RESIDENT_SCOPE": "4",
+    "BANANA_SMASHER_REPAIR_NATIVE_CHUNK": "1",
     "P649_DEQ_CHUNK": "1",
     "P649_EXPERT_RESIDENT_SCOPE": "4",
     "P649_NATIVE_CHUNK": "1",
@@ -212,7 +212,7 @@
     "wall_best_stream_count": 8,
     "wall_speedup_vs_stream1": 1.0989200213419896
   },
-  "genesis_sha256": "991370498c153988dda7df3fc5a23c40a4d58a48ba3d8bb4d596a3d9fa6a17cc",
+  "banana_smasher_sha256": "991370498c153988dda7df3fc5a23c40a4d58a48ba3d8bb4d596a3d9fa6a17cc",
   "host": "compute-node-5-work",
   "lever_adjudication": {
     "async_cache_save_coalescing": "not selected: only 6.264730 s/64 saves versus 61.264327 s attention",
@@ -234,7 +234,7 @@
     "control_delta_seconds": 4.650189438341158,
     "control_full43_routed_seconds": 323.2162587742787,
     "control_path": "$HOME/run-bundles/P649_ROUTED_EXPERTS_PUBLIC_TASK_s5w/candidate_gate_r4_postimage/FINAL_GATE.json",
-    "control_sha256": "804a47fb600ac381a5d6b323af2495a689deab2dd504545c6321f64770f57d81",
+    "control_sha256": "6714fb8df38d7eed2c7282caea691545ab2bdf51284d2fe8c40ceba7d8b5a398",
     "expected_call_parity_enforced": true,
     "instrumented_full43_routed_seconds": 318.5660693359375,
     "method": "deferred CUDA event pairs with one terminal sync per stage",

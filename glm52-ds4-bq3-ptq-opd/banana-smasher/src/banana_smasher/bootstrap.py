@@ -48,8 +48,8 @@ def _verify_recipe_manifest(root: Path) -> dict[str, Any] | None:
     except Exception as exc:
         raise ValueError(f"cannot read recipe manifest: {exc}") from exc
     if manifest.get("schema") not in {
-        "genesis-golden-recipe-manifest-v1",
-        "genesis-golden-recipe-manifest-v2",
+        "banana_smasher-golden-recipe-manifest-v1",
+        "banana_smasher-golden-recipe-manifest-v2",
     }:
         raise ValueError(f"unsupported recipe manifest schema: {manifest.get('schema')!r}")
     rows = manifest.get("files")

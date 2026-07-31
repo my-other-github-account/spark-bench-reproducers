@@ -69,7 +69,7 @@ def _parser() -> argparse.ArgumentParser:
     bootstrap.add_argument("--recipe", type=Path)
     bootstrap.add_argument("--context", type=Path, default=Path.cwd())
     bootstrap.add_argument(
-        "--image", default="genesis-serve:banana-smasher-candidate"
+        "--image", default="banana_smasher-serve:banana-smasher-candidate"
     )
     bootstrap.add_argument("--docker-bin", default="docker")
     bootstrap.add_argument("--pull", action="store_true")

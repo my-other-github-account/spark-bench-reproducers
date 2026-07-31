@@ -15,8 +15,8 @@ CUBINS_W3="${CUBINS_W3:-/work/build/ds4w3/cubins_e43}"
 TRITON_CACHE="${TRITON_CACHE:-/work/build/.triton/cache}"
 FLASHINFER_CACHE="${FLASHINFER_CACHE:-/work/build/.cache/vllm/flashinfer_autotune_cache}"
 FLASHINFER_JIT_CACHE="${FLASHINFER_JIT_CACHE:-/work/build/.cache/flashinfer}"
-IMAGE="${IMAGE:-genesis-serve:golden}"
-BASE_ALIAS="genesis-serve:p1135n-b66edfa3-closure"
+IMAGE="${IMAGE:-banana_smasher-serve:golden}"
+BASE_ALIAS="banana_smasher-serve:p1135n-b66edfa3-closure"
 BASE_ID="sha256:b66edfa3811486df5ad61f513861a08e99b7b7ffe18edf5c1f4ed494567631fe"
 OUT="${OUT:-$HERE/receipts}"
 REGISTRY="${REGISTRY:-}"
@@ -57,7 +57,7 @@ PY
   echo "P1321 vector-M4 extension hash drift" >&2; exit 3;
 }
 
-actual_base="$(sudo -n docker image inspect genesis-serve:golden-bare --format '{{.Id}}')"
+actual_base="$(sudo -n docker image inspect banana_smasher-serve:golden-bare --format '{{.Id}}')"
 [[ "$actual_base" == "$BASE_ID" ]] || { echo "base drift: $actual_base != $BASE_ID" >&2; exit 4; }
 sudo -n docker tag "$BASE_ID" "$BASE_ALIAS"
 
@@ -109,7 +109,7 @@ rows={name: row(path) for name,path in critical.items() if name != "base_image_i
 # Context directory identity is represented by exact roots plus critical manifests;
 # the image build itself seals every resulting layer by immutable image digest.
 out={
- "schema":"genesis-golden-source-manifest-v3",
+ "schema":"banana_smasher-golden-source-manifest-v3",
  "task_id":"BOX10-BUILD",
  "truth_label":"PUBLIC_CANON_IQ3_WIRE; NOT P943 native TRUE-C",
  "base_image_id":critical["base_image_id"],
@@ -163,16 +163,16 @@ if config.get("Entrypoint") not in (None, []):
 if config.get("Cmd",[])[:3] != ["vllm","serve","/model"]:
     raise SystemExit(f"non-stock command: {config.get('Cmd')}")
 labels=config.get("Labels") or {}
-if labels.get("io.genesis.no-model-bytes") != "true":
+if labels.get("io.banana_smasher.no-model-bytes") != "true":
     raise SystemExit("no-model label missing")
-if labels.get("io.genesis.external-pack.manifest.sha256") != "4a4c15a52eaa8f87e4eb2f436da1580cb5e9addb15713d41bd9a74276731578a":
+if labels.get("io.banana_smasher.external-pack.manifest.sha256") != "4a4c15a52eaa8f87e4eb2f436da1580cb5e9addb15713d41bd9a74276731578a":
     raise SystemExit("external pack digest label mismatch")
-if labels.get("io.genesis.p1321.ladder-seal.sha256") != "be0453e1d6081a87a0288c8611b9ee5ec33a4b2ba927cb68c358e71a10b242f7":
+if labels.get("io.banana_smasher.p1321.ladder-seal.sha256") != "be0453e1d6081a87a0288c8611b9ee5ec33a4b2ba927cb68c358e71a10b242f7":
     raise SystemExit("P1321 ladder seal label mismatch")
-if labels.get("io.genesis.p1321.winning-boot.sha256") != "091e8eb3e4caa9793454f4a529d8c1f5fc0af0fcb4fa28cc89e34c8a4c314da2":
+if labels.get("io.banana_smasher.p1321.winning-boot.sha256") != "091e8eb3e4caa9793454f4a529d8c1f5fc0af0fcb4fa28cc89e34c8a4c314da2":
     raise SystemExit("P1321 winning boot label mismatch")
 receipt={
- "schema":"genesis-golden-image-build-v2","status":"PASS","created_unix":time.time(),
+ "schema":"banana_smasher-golden-image-build-v2","status":"PASS","created_unix":time.time(),
  "task_id":"BOX10-BUILD","provenance":"P943 overlay 9a4b7098 / pack 3650fe7e / planes b524c5a",
  "image":image,"image_id":inspect["Id"],"repo_digests":inspect.get("RepoDigests") or [],
  "size":inspect["Size"],"architecture":inspect["Architecture"],"compute_capability":cap,

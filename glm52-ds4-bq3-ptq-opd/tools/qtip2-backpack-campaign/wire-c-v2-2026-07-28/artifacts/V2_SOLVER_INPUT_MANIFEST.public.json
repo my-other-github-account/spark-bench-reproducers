@@ -213,7 +213,7 @@
     },
     {
       "bytes": 9013,
-      "path": "solver_root/inputs/canonical/GENESIS.md",
+      "path": "solver_root/inputs/canonical/BANANA_SMASHER.md",
       "sha256": "ba9070a1dc7ab49ca702f2fa883d12d97bbbaf3c2f5a1a482916f4af379903db"
     },
     {
@@ -568,12 +568,12 @@
     },
     {
       "bytes": 81777,
-      "path": "solver_root/inputs/rung1/GENESIS_RUNG1.json",
+      "path": "solver_root/inputs/rung1/BANANA_SMASHER_RUNG1.json",
       "sha256": "19e232501982e279897f469a2ca8faebc5c002b4f38033df10d665c743f896cd"
     },
     {
       "bytes": 4469,
-      "path": "solver_root/inputs/rung1/GENESIS_RUNG1_REPORT.md",
+      "path": "solver_root/inputs/rung1/BANANA_SMASHER_RUNG1_REPORT.md",
       "sha256": "56d913b66a65a0c94075ea41d8bca5eba95ea9656e7ae935298888c2090043ea"
     },
     {
@@ -673,7 +673,7 @@
     },
     {
       "bytes": 26238,
-      "path": "solver_root/lineage/original_genesis_code_solve.py",
+      "path": "solver_root/lineage/original_banana_smasher_code_solve.py",
       "sha256": "81e2c5eb54a14c978c8324373be6d4c0a2f96e518427b8f26c5e44a33c39a68d"
     },
     {

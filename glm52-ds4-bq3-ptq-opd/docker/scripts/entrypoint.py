@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Container entrypoint for a mounted GENESIS export pack."""
+"""Container entrypoint for a mounted BANANA_SMASHER export pack."""
 from __future__ import annotations
 
 import json
@@ -18,10 +18,10 @@ from pack_contract import SCHEMA_VERSION, PackValidationError, validate_pack
 
 
 def pack_hash_workers() -> int:
-    workers = int(os.environ.get("GENESIS_PACK_HASH_WORKERS", "32"))
+    workers = int(os.environ.get("BANANA_SMASHER_PACK_HASH_WORKERS", "32"))
     if not 1 <= workers <= 64:
         raise PackValidationError(
-            f"GENESIS_PACK_HASH_WORKERS must be in [1,64], got {workers}"
+            f"BANANA_SMASHER_PACK_HASH_WORKERS must be in [1,64], got {workers}"
         )
     return workers
 
@@ -70,7 +70,7 @@ def verify(pack_source: str | Path) -> dict[str, object]:
     )
     result: dict[str, object] = {
         "status": "PASS",
-        "schema": "genesis-container-verification-v1",
+        "schema": "banana_smasher-container-verification-v1",
         "container_schema_version": SCHEMA_VERSION,
         "pack": pack,
     }
@@ -84,7 +84,7 @@ def build_server_command(
     mission: str | Path,
     *,
     port: int,
-    runtime_root: str | Path = "/opt/genesis/runtime",
+    runtime_root: str | Path = "/opt/banana_smasher/runtime",
 ) -> tuple[list[str], dict[str, str]]:
     pack = Path(pack_root).resolve()
     run_root = Path(mission).resolve()
@@ -101,19 +101,19 @@ def build_server_command(
         "--port", str(port),
     ]
     environment = {
-        "GENESIS_PRODUCT_BYTES": str(envelope["bytes"]),
-        "GENESIS_PRODUCT_FILES": str(envelope["files"]),
-        "GENESIS_PRODUCT_INVENTORY_SHA256": str(
+        "BANANA_SMASHER_PRODUCT_BYTES": str(envelope["bytes"]),
+        "BANANA_SMASHER_PRODUCT_FILES": str(envelope["files"]),
+        "BANANA_SMASHER_PRODUCT_INVENTORY_SHA256": str(
             envelope["sealed_source_inventory_sha256"]
         ),
-        "GENESIS_MODEL_ID": str(validation["model_id"]),
-        "GENESIS_MANIFEST_PATH": str(pack / "MANIFEST.json"),
+        "BANANA_SMASHER_MODEL_ID": str(validation["model_id"]),
+        "BANANA_SMASHER_MANIFEST_PATH": str(pack / "MANIFEST.json"),
         "P530_FILE_BACKED_ENVELOPE": "1",
         "P530_PREFILL_MODE": os.environ.get("P530_PREFILL_MODE", "dense_all"),
         "P525_DENSE_THRESHOLD": os.environ.get("P525_DENSE_THRESHOLD", "64"),
         "P525_DENSE_CHUNK_ROWS": os.environ.get("P525_DENSE_CHUNK_ROWS", "1024"),
         "TRITON_CACHE_DIR": os.environ.get(
-            "TRITON_CACHE_DIR", "/opt/genesis/triton-cache"
+            "TRITON_CACHE_DIR", "/opt/banana_smasher/triton-cache"
         ),
     }
     return command, environment
@@ -131,7 +131,7 @@ def build_startup_receipt(
     ttft = float(metrics["ttft_seconds"])
     return {
         "status": "PASS",
-        "schema": "genesis-container-startup-smoke-v1",
+        "schema": "banana_smasher-container-startup-smoke-v1",
         "id": response.get("id"),
         "model": response.get("model"),
         "bind_seconds": models_ready_at - started_at,
@@ -167,7 +167,7 @@ def _http_json(url: str, payload: dict[str, Any] | None = None) -> dict[str, Any
 
 def serve(pack_source: str) -> int:
     started_at = time.monotonic()
-    mission = Path(os.environ.get("GENESIS_MISSION", "/run/genesis")).resolve()
+    mission = Path(os.environ.get("BANANA_SMASHER_MISSION", "/run/banana_smasher")).resolve()
     receipts = mission / "receipts"
     pack = prepare_pack(pack_source, mission / "downloads")
     validation = validate_pack(
@@ -176,7 +176,7 @@ def serve(pack_source: str) -> int:
         workers=pack_hash_workers(),
     )
     _write_json(receipts / "PACK_VALIDATION.json", validation)
-    port = int(os.environ.get("GENESIS_PORT", "8000"))
+    port = int(os.environ.get("BANANA_SMASHER_PORT", "8000"))
     command, overrides = build_server_command(pack, validation, mission, port=port)
     environment = dict(os.environ)
     environment.update(overrides)
@@ -196,7 +196,7 @@ def serve(pack_source: str) -> int:
     signal.signal(signal.SIGTERM, forward)
     signal.signal(signal.SIGINT, forward)
     try:
-        deadline = started_at + float(os.environ.get("GENESIS_START_TIMEOUT", "60"))
+        deadline = started_at + float(os.environ.get("BANANA_SMASHER_START_TIMEOUT", "60"))
         models_url = f"http://127.0.0.1:{port}/v1/models"
         while True:
             if process.poll() is not None:
@@ -208,7 +208,7 @@ def serve(pack_source: str) -> int:
             except Exception:
                 pass
             if time.monotonic() >= deadline:
-                raise TimeoutError("/v1/models was not ready within GENESIS_START_TIMEOUT")
+                raise TimeoutError("/v1/models was not ready within BANANA_SMASHER_START_TIMEOUT")
             time.sleep(0.25)
         models_ready_at = time.monotonic()
         request_started_at = time.monotonic()
@@ -216,7 +216,7 @@ def serve(pack_source: str) -> int:
             f"http://127.0.0.1:{port}/v1/completions",
             {
                 "model": validation["model_id"],
-                "prompt": "Hello from the GENESIS deployment smoke test.",
+                "prompt": "Hello from the BANANA_SMASHER deployment smoke test.",
                 "max_tokens": 16,
                 "temperature": 0,
                 "stream": False,
@@ -231,7 +231,7 @@ def serve(pack_source: str) -> int:
             response=response,
         )
         _write_json(receipts / "STARTUP_SMOKE.json", smoke)
-        print("GENESIS_STARTUP_SMOKE " + json.dumps(smoke, sort_keys=True), flush=True)
+        print("BANANA_SMASHER_STARTUP_SMOKE " + json.dumps(smoke, sort_keys=True), flush=True)
         return process.wait()
     except BaseException:
         if process.poll() is None:

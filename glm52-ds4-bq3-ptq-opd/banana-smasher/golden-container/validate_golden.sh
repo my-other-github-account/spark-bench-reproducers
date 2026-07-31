@@ -5,7 +5,7 @@ set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PACK="${PACK:?set PACK to the sealed external model+wire artifact}"
-IMAGE="${IMAGE:-genesis-serve:golden}"
+IMAGE="${IMAGE:-banana_smasher-serve:golden}"
 BUILD_RECEIPT="${BUILD_RECEIPT:-$HERE/receipts/IMAGE_BUILD_RECEIPT.json}"
 MISSION="${MISSION:-/work/build/artifacts/P1321_BOX10_GOLDEN_BOX10-BUILD_s8}"
 EXPECTED_OWNER="${EXPECTED_OWNER:-BOX10-BUILD}"
@@ -68,7 +68,7 @@ sudo -n docker rm -f "$BAD" "$GOOD" >/dev/null 2>&1 || true
 rm -rf "$BAD_PACK"
 cp -al "$PACK" "$BAD_PACK"
 rm -f "$BAD_PACK/wire_v4-step32/PACK_COMPLETE"
-sudo -n docker run -d --name "$BAD" --label io.genesis.task=BOX10-BUILD \
+sudo -n docker run -d --name "$BAD" --label io.banana_smasher.task=BOX10-BUILD \
   --device nvidia.com/gpu=0 --ipc=host --ulimit memlock=-1:-1 \
   --memory 110g --memory-swap 110g -v "$BAD_PACK:/model:ro" "$IMAGE" >/dev/null
 for _ in $(seq 1 180); do
@@ -96,7 +96,7 @@ sudo -n docker rm "$BAD" >/dev/null
 rm -rf "$BAD_PACK"
 
 # Happy path: ordinary image CMD == `vllm serve /model ...`.
-sudo -n docker run -d --name "$GOOD" --label io.genesis.task=BOX10-BUILD \
+sudo -n docker run -d --name "$GOOD" --label io.banana_smasher.task=BOX10-BUILD \
   --device nvidia.com/gpu=0 --ipc=host --ulimit memlock=-1:-1 \
   --memory 110g --memory-swap 110g -p 8000:8000 \
   -v "$PACK:/model:ro" "$IMAGE" >/dev/null
@@ -119,7 +119,7 @@ import hashlib, json
 from pathlib import Path
 import torch, vllm
 rows={}
-for raw in ['/opt/genesis/runtime_cubins/vq_warp_gemv/_C.so','/model/bs_runtime_assets/dense_patch.safetensors','/opt/genesis/WHEEL_MANIFEST.json','/opt/genesis/RUNTIME_CACHE_MANIFEST.json']:
+for raw in ['/opt/banana_smasher/runtime_cubins/vq_warp_gemv/_C.so','/model/bs_runtime_assets/dense_patch.safetensors','/opt/banana_smasher/WHEEL_MANIFEST.json','/opt/banana_smasher/RUNTIME_CACHE_MANIFEST.json']:
  p=Path(raw); rows[raw]={'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
 print(json.dumps({'python':__import__('sys').version,'torch':torch.__version__,'vllm':vllm.__version__,'critical':rows},sort_keys=True))
 PY
@@ -153,7 +153,7 @@ for index, prompt in enumerate(prompts, 1):
         raise SystemExit(f"raw generation {index} was empty")
     rows.append({"index": index, "prompt": prompt, "http_status": 200, "text": text[:300]})
 receipt = {
-    "schema": "genesis-golden-first3-raw-v1",
+    "schema": "banana_smasher-golden-first3-raw-v1",
     "created_unix": time.time(),
     "task_id": "BOX10-BUILD",
     "image_id": image_id,
@@ -165,14 +165,14 @@ print(json.dumps(receipt, sort_keys=True))
 PY
 
 # Excluded in-container warmups, then mark the Docker-log boundary.
-sudo -n docker exec "$GOOD" python /opt/genesis/bin/golden_perf_check.py \
+sudo -n docker exec "$GOOD" python /opt/banana_smasher/bin/golden_perf_check.py \
   --warm-only --output /tmp/GOLDEN_WARMUPS.json
 sudo -n docker cp "$GOOD:/tmp/GOLDEN_WARMUPS.json" "$MISSION/receipts/GOLDEN_WARMUPS.json" >/dev/null
 sudo -n docker logs "$GOOD" > "$MISSION/logs/server-before-measured.log" 2>&1
 measure_line="$(wc -l < "$MISSION/logs/server-before-measured.log" | tr -d ' ')"
 
 set +e
-sudo -n docker exec "$GOOD" python /opt/genesis/bin/golden_perf_check.py \
+sudo -n docker exec "$GOOD" python /opt/banana_smasher/bin/golden_perf_check.py \
   --c1-warmups 0 --c2-warmups 0 --c4-warmups 0 \
   --c1-rows 3 --c2-rows 3 --c4-rows 3 \
   --output /tmp/GOLDEN_IN_CONTAINER_C1X3_C2X3_C4X3.json
@@ -211,7 +211,7 @@ checks={
  'stock_vllm_cmd':config.get('Cmd',[])[:3]==['vllm','serve','/model'],
 }
 receipt={
- 'schema':'genesis-golden-in-container-validation-v1','status':'PASS' if all(checks.values()) else 'FAIL',
+ 'schema':'banana_smasher-golden-in-container-validation-v1','status':'PASS' if all(checks.values()) else 'FAIL',
  'created_unix':time.time(),'task_id':'BOX10-BUILD','host':__import__('socket').gethostname(),
  'provenance':'P943 overlay 9a4b7098 / pack 3650fe7e / planes b524c5a',
  'truth_label':'PUBLIC_CANON_IQ3_WIRE; NOT P943 native TRUE-C',

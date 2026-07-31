@@ -132,7 +132,7 @@
         "elapsed_seconds": 0.2560563087463379,
         "files_verified": 315,
         "kinds": {
-          "restored_genesis_vq": 311
+          "restored_banana_smasher_vq": 311
         },
         "layer": 0,
         "mode": "balanced64",
@@ -157,7 +157,7 @@
         "elapsed_seconds": 0.5403907299041748,
         "files_verified": 258,
         "kinds": {
-          "restored_genesis_vq": 254
+          "restored_banana_smasher_vq": 254
         },
         "layer": 1,
         "mode": "balanced64",
@@ -182,7 +182,7 @@
         "elapsed_seconds": 1.4531662464141846,
         "files_verified": 429,
         "kinds": {
-          "restored_genesis_vq": 427
+          "restored_banana_smasher_vq": 427
         },
         "layer": 2,
         "mode": "balanced64",
@@ -206,7 +206,7 @@
         "elapsed_seconds": 0.6018586158752441,
         "files_verified": 190,
         "kinds": {
-          "restored_genesis_vq": 184
+          "restored_banana_smasher_vq": 184
         },
         "layer": 3,
         "mode": "balanced64",
@@ -232,7 +232,7 @@
         "elapsed_seconds": 0.7994961738586426,
         "files_verified": 243,
         "kinds": {
-          "restored_genesis_vq": 237
+          "restored_banana_smasher_vq": 237
         },
         "layer": 4,
         "mode": "balanced64",
@@ -258,7 +258,7 @@
         "elapsed_seconds": 0.6450903415679932,
         "files_verified": 183,
         "kinds": {
-          "restored_genesis_vq": 177
+          "restored_banana_smasher_vq": 177
         },
         "layer": 5,
         "mode": "balanced64",
@@ -284,7 +284,7 @@
         "elapsed_seconds": 0.3716602325439453,
         "files_verified": 115,
         "kinds": {
-          "restored_genesis_vq": 109
+          "restored_banana_smasher_vq": 109
         },
         "layer": 6,
         "mode": "balanced64",
@@ -310,7 +310,7 @@
         "elapsed_seconds": 0.25836682319641113,
         "files_verified": 72,
         "kinds": {
-          "restored_genesis_vq": 68
+          "restored_banana_smasher_vq": 68
         },
         "layer": 7,
         "mode": "balanced64",
@@ -335,7 +335,7 @@
         "elapsed_seconds": 0.3038322925567627,
         "files_verified": 110,
         "kinds": {
-          "restored_genesis_vq": 106
+          "restored_banana_smasher_vq": 106
         },
         "layer": 8,
         "mode": "balanced64",
@@ -360,7 +360,7 @@
         "elapsed_seconds": 0.6257867813110352,
         "files_verified": 182,
         "kinds": {
-          "restored_genesis_vq": 176
+          "restored_banana_smasher_vq": 176
         },
         "layer": 9,
         "mode": "balanced64",
@@ -386,7 +386,7 @@
         "elapsed_seconds": 0.7234244346618652,
         "files_verified": 222,
         "kinds": {
-          "restored_genesis_vq": 216
+          "restored_banana_smasher_vq": 216
         },
         "layer": 10,
         "mode": "balanced64",
@@ -412,7 +412,7 @@
         "elapsed_seconds": 0.6987326145172119,
         "files_verified": 219,
         "kinds": {
-          "restored_genesis_vq": 213
+          "restored_banana_smasher_vq": 213
         },
         "layer": 11,
         "mode": "balanced64",
@@ -438,7 +438,7 @@
         "elapsed_seconds": 0.6597917079925537,
         "files_verified": 219,
         "kinds": {
-          "restored_genesis_vq": 213
+          "restored_banana_smasher_vq": 213
         },
         "layer": 12,
         "mode": "balanced64",
@@ -464,7 +464,7 @@
         "elapsed_seconds": 0.9211857318878174,
         "files_verified": 277,
         "kinds": {
-          "restored_genesis_vq": 270
+          "restored_banana_smasher_vq": 270
         },
         "layer": 13,
         "mode": "balanced64",
@@ -490,7 +490,7 @@
         "elapsed_seconds": 0.8081305027008057,
         "files_verified": 241,
         "kinds": {
-          "restored_genesis_vq": 236
+          "restored_banana_smasher_vq": 236
         },
         "layer": 14,
         "mode": "balanced64",
@@ -515,7 +515,7 @@
         "elapsed_seconds": 0.566213846206665,
         "files_verified": 188,
         "kinds": {
-          "restored_genesis_vq": 181
+          "restored_banana_smasher_vq": 181
         },
         "layer": 15,
         "mode": "balanced64",
@@ -541,7 +541,7 @@
         "elapsed_seconds": 0.40465855598449707,
         "files_verified": 124,
         "kinds": {
-          "restored_genesis_vq": 118
+          "restored_banana_smasher_vq": 118
         },
         "layer": 16,
         "mode": "balanced64",
@@ -567,7 +567,7 @@
         "elapsed_seconds": 0.19297575950622559,
         "files_verified": 59,
         "kinds": {
-          "restored_genesis_vq": 55
+          "restored_banana_smasher_vq": 55
         },
         "layer": 17,
         "mode": "balanced64",
@@ -592,7 +592,7 @@
         "elapsed_seconds": 0.20328569412231445,
         "files_verified": 55,
         "kinds": {
-          "restored_genesis_vq": 51
+          "restored_banana_smasher_vq": 51
         },
         "layer": 18,
         "mode": "balanced64",
@@ -617,7 +617,7 @@
         "elapsed_seconds": 0.5832369327545166,
         "files_verified": 151,
         "kinds": {
-          "restored_genesis_vq": 145
+          "restored_banana_smasher_vq": 145
         },
         "layer": 19,
         "mode": "balanced64",
@@ -643,7 +643,7 @@
         "elapsed_seconds": 0.09165501594543457,
         "files_verified": 29,
         "kinds": {
-          "restored_genesis_vq": 27
+          "restored_banana_smasher_vq": 27
         },
         "layer": 20,
         "mode": "balanced64",
@@ -667,7 +667,7 @@
         "elapsed_seconds": 0.09128451347351074,
         "files_verified": 33,
         "kinds": {
-          "restored_genesis_vq": 29
+          "restored_banana_smasher_vq": 29
         },
         "layer": 21,
         "mode": "balanced64",

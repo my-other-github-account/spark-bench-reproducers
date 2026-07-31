@@ -107,7 +107,7 @@
   },
   "command_receipt": "$SOURCE_ROOT/RESUME_COMMAND.json",
   "command_receipt_sha256": "c458a99f6a50cfb0eb8d9065b18c84abdb1ebc4ccf49901eedb699efadb16475",
-  "compact_manifest": "$SOURCE_ROOT/GENESIS_COMPACT_FANIN.json",
+  "compact_manifest": "$SOURCE_ROOT/BANANA_SMASHER_COMPACT_FANIN.json",
   "compact_manifest_sha256": "d9421f1f6d0e696608bb0ce9b09131e63790c18e9cd536e440b1884b727db00d",
   "completed_unix": 1784899429.5552766,
   "contract": "once-only physical-package pre-repair full512",
@@ -7975,7 +7975,7 @@
     "status": "PHYSICAL_MATCHES_STREAMED"
   },
   "physical_package": "192.0.2.1:$SOURCE_ROOT/wire43",
-  "physical_reader": "$SOURCE_ROOT/genesis_remote_full512.py",
+  "physical_reader": "$SOURCE_ROOT/banana_smasher_remote_full512.py",
   "physical_reader_history": [
     {
       "command_sha256": "a5ceec2c136d6b740d5222950609e01bac9141fb81ae963db609a72b04382f02",
@@ -8001,7 +8001,7 @@
   "resume_authorization_sha256": "98d8596c4b9a66cd3b241526f5af0b51addc7ad61dc68e68887aa9d96a884c3d",
   "resume_launch_once": "$SOURCE_ROOT/RESUME_LAUNCH_ONCE.json",
   "resume_launch_once_sha256": "ecb18a27d5bf88b4129b4aa6c0b40942f6ef7a252e180fac67fe46aeb7e092fe",
-  "schema": "genesis-pre-repair-physical-full512-v2",
+  "schema": "banana_smasher-pre-repair-physical-full512-v2",
   "source_replay_exact_fraction": 1.0,
   "source_replay_exact_gate": true,
   "status": "PASS_FULL512_MEASURED",

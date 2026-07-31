@@ -3,7 +3,7 @@
 
 The numerical builder/reader/reducer remain byte-pinned.  This adapter only binds
 P651's sparse changed-cell mechanics to compute-node-6's sealed P653 manifest and streams
-the immutable current-GENESIS base from compute-node-8 one layer at a time.
+the immutable current-BANANA_SMASHER base from compute-node-8 one layer at a time.
 """
 from __future__ import annotations
 
@@ -25,8 +25,8 @@ from typing import Any, Mapping
 TASK = "PUBLIC_TASK"
 ROOT = Path("$HOME/run-bundles/P656_EARLY8_PUBLIC_TASK_s6")
 CLAIM = Path("$HOME/HOST_CLAIM.json")
-P640 = Path("$HOME/run-bundles/P640_GENESIS_QTIP2_WIRE_PUBLIC_TASK_s6")
-P623 = Path("$HOME/run-bundles/P623_GENESIS_BASELINE_PUBLIC_TASK_s6")
+P640 = Path("$HOME/run-bundles/P640_BANANA_SMASHER_QTIP2_WIRE_PUBLIC_TASK_s6")
+P623 = Path("$HOME/run-bundles/P623_BANANA_SMASHER_BASELINE_PUBLIC_TASK_s6")
 P492 = Path("$HOME/run-bundles/P492_SWAP_LADDER_PUBLIC_TASK_s6")
 P653 = P640 / "WIRE_STREAM_IN/P647_RESPENT/P653_ASSEMBLY/P653_EXACT_ASSEMBLED_WIRE_MANIFEST.json"
 ASSIGNMENT = P640 / "inputs/ASSIGNMENT_RESPENT.json"
@@ -40,7 +40,7 @@ QTIP_SOURCE = Path("$HOME/run-bundles/P605R_QTIP2_ANCHORS_C_PUBLIC_TASK_s6/code/
 QTIP_KERNEL = Path("$HOME/run-bundles/P532_QTIP2_SHARD_B_PUBLIC_TASK_s6/inputs/qtip-canonical/lib/utils/kernel_decompress.py")
 QTIP_TLUT = Path("$HOME/run-bundles/P532_QTIP2_SHARD_B_PUBLIC_TASK_s6/inputs/tlut/PINNED_TLUT.pt")
 BASE_SOURCE_HOST = "203.0.113.9"
-BASE_REMOTE_PACKAGE = "$HOME/run-bundles/GENESIS_FANIN_PUBLIC_TASK_s8/package/wire43"
+BASE_REMOTE_PACKAGE = "$HOME/run-bundles/BANANA_SMASHER_FANIN_PUBLIC_TASK_s8/package/wire43"
 MODEL = Path("$HOME/models/hf/DeepSeek-V4-Flash")
 TEACHER = Path("$HOME/run-bundles/DS4_TEACHER")
 
@@ -180,7 +180,7 @@ def preflight_p653() -> dict[str, Any]:
         artifact_path = Path(str(artifact.get("consumer_source_path_spark6")))
         if not artifact_path.is_relative_to(P640):
             raise RuntimeError(f"artifact escaped P640 root: {artifact_path}")
-        kind = "qtip2_exact" if raw["new"] == "qtip2_2.0117" else "genesis_vq"
+        kind = "qtip2_exact" if raw["new"] == "qtip2_2.0117" else "banana_smasher_vq"
         row = {
             "layer": layer, "expert": expert, "projection": projection,
             "old_tier": str(raw["old"]), "new_tier": str(raw["new"]), "kind": kind,
@@ -192,7 +192,7 @@ def preflight_p653() -> dict[str, Any]:
             "codebook": None, "codebook_source_abs": None, "codebook_source_rel": None,
             "codebook_sha256": None, "codebook_physical_bytes": 0,
         }
-        if kind == "genesis_vq":
+        if kind == "banana_smasher_vq":
             cb = raw.get("codebook")
             if not isinstance(cb, dict):
                 raise RuntimeError(f"VQ codebook missing {key}")
@@ -359,9 +359,9 @@ def install_remote_stream_source(p651: Any, base: Any, manifest: Mapping[str, An
     applied: dict[tuple[int, int, str], dict[str, Any]] = {}
     decoder_holder: dict[str, Any] = {}
 
-    class P640StreamSource(base.GenesisTierSource):
+    class P640StreamSource(base.BananaSmasherTierSource):
         def _stage_remote(self, layer: int, row: dict) -> Path:
-            return base.GenesisTierSource._stage_remote(self, layer, row)
+            return base.BananaSmasherTierSource._stage_remote(self, layer, row)
 
         def fill_layer(self, layer: int, gate_up: Any, down: Any) -> None:
             super().fill_layer(layer, gate_up, down)
@@ -385,7 +385,7 @@ def install_remote_stream_source(p651: Any, base: Any, manifest: Mapping[str, An
                         meta = payload.get("meta")
                         if (
                             not isinstance(meta, dict)
-                            or meta.get("schema") != "p640-genesis-vq-overlay-cell-v1"
+                            or meta.get("schema") != "p640-banana_smasher-vq-overlay-cell-v1"
                             or meta.get("assignment_sha256") != PINS["assignment"]
                             or meta.get("canonical_builder_sha256") != "60b594ac38e4973eaaecb76c708b555418406eb697414d2563aeb1e978268a7e"
                             or int(meta.get("layer", -1)) != row["layer"]
@@ -403,7 +403,7 @@ def install_remote_stream_source(p651: Any, base: Any, manifest: Mapping[str, An
                         scales = payload["scales"].unsqueeze(0)
                         if not bool(p651.torch.isfinite(codebook).all()) or int(codes.min()) < 0 or int(codes.max()) >= k:
                             raise RuntimeError(f"VQ overlay numerical surface drift: {artifact}")
-                        base.GenesisTierSource._launch_vq(codes, scales, codebook, [row["expert"]], gate_up if row["projection"] == "fused13" else down, d)
+                        base.BananaSmasherTierSource._launch_vq(codes, scales, codebook, [row["expert"]], gate_up if row["projection"] == "fused13" else down, d)
                         decode_info = {"d": d, "k": k, "finite_codebook": True, "fp16_codebook_replay_exact": True}
                         del payload, codebook, codes, scales
                     key = (row["layer"], row["expert"], row["projection"])
@@ -445,13 +445,13 @@ def configure_p632(p: Any) -> None:
     p.TEACHER = TEACHER
     p.CORPUS = TEACHER / "static/windows_ds4_eval.json"
     p.INPUTS = inputs
-    p.COMPACT_MANIFEST = inputs / "GENESIS_COMPACT_FANIN.json"
+    p.COMPACT_MANIFEST = inputs / "BANANA_SMASHER_COMPACT_FANIN.json"
     p.ASSIGNMENT = inputs / "NOMINATED_ASSIGNMENT.json"
     p.LABELS = inputs / "BQ3_STEP0_PER_CLASS.json"
     p.WINDOW_CONTRACT = inputs / "WINDOW_CONTRACT.json"
     p.WIRE_MANIFEST = inputs / "WIRE_43_MANIFEST.json"
     p.BASELINE_FULL512 = P623_VIEW
-    p.CANONICAL_READER = ROOT / "code/genesis_remote_full512.py"
+    p.CANONICAL_READER = ROOT / "code/banana_smasher_remote_full512.py"
     p.CANONICAL_BUILDER = package / "t8192_ds4_build_v3.py"
     p.CANONICAL_DELTA = package / "delta_pack_sources.py"
     p.CANONICAL_LP4_PACK = package / "lp4_pack.py"
@@ -576,7 +576,7 @@ def main() -> int:
         "status": "PASS_VALIDATED_PRELIMINARY_RECEIPT",
         "task_id": TASK,
         "host": "compute-node-6",
-        "source_host": "immutable current-GENESIS base from compute-node-8 over direct QSFP; sealed P653 sparse overlays local on compute-node-6",
+        "source_host": "immutable current-BANANA_SMASHER base from compute-node-8 over direct QSFP; sealed P653 sparse overlays local on compute-node-6",
         "measurement_label": "PRE_REPAIR_UNDOSED_WIRE / EARLY_8 / PRELIM_NOT_DECISION_GRADE",
         "decision_grade": False,
         "canonical_p651_mechanical_receipt": str(raw_path),
@@ -585,7 +585,7 @@ def main() -> int:
         "pre_repair_baseline_receipt_sha256": PINS["p623_source"],
     })
     final["prediction_vs_measurement"].update({
-        "prediction_basis": "P623 sealed current-GENESIS full512 anchor plus P637/P653 raw solver delta; EARLY_8 comparison is preliminary only",
+        "prediction_basis": "P623 sealed current-BANANA_SMASHER full512 anchor plus P637/P653 raw solver delta; EARLY_8 comparison is preliminary only",
         "measured_pre_repair_baseline_global": BASELINE_FULL512,
         "predicted_measured_global": PREDICTED_FULL512,
         "raw_solver_delta": RAW_WITH - RAW_WITHOUT,

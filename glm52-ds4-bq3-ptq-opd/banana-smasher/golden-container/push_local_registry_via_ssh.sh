@@ -2,14 +2,14 @@
 set -euo pipefail
 
 HOST="${HOST:-build-8}"
-SOURCE_IMAGE="${SOURCE_IMAGE:-genesis-serve:golden}"
+SOURCE_IMAGE="${SOURCE_IMAGE:-banana_smasher-serve:golden}"
 PORT="${PORT:-5050}"
 OUT="${OUT:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/receipts}"
 if ! [[ "$PORT" =~ ^[0-9]+$ ]] || (( PORT < 1 || PORT > 65535 )); then
   echo "PORT must be an integer in 1..65535" >&2
   exit 2
 fi
-REMOTE_REPO="localhost:${PORT}/genesis-serve"
+REMOTE_REPO="localhost:${PORT}/banana_smasher-serve"
 REMOTE_IMAGE="${REMOTE_REPO}:golden"
 mkdir -p "$OUT"
 curl -fsS "http://127.0.0.1:${PORT}/v2/" >/dev/null
@@ -37,7 +37,7 @@ sudo -n docker image inspect "$remote_image"
 REMOTE
 
 digest="$(curl -fsSI -H 'Accept: application/vnd.oci.image.manifest.v1+json, application/vnd.docker.distribution.manifest.v2+json' \
-  "http://127.0.0.1:${PORT}/v2/genesis-serve/manifests/golden" | tr -d '\r' | awk -F': ' 'tolower($1)=="docker-content-digest"{print $2}')"
+  "http://127.0.0.1:${PORT}/v2/banana_smasher-serve/manifests/golden" | tr -d '\r' | awk -F': ' 'tolower($1)=="docker-content-digest"{print $2}')"
 [[ "$digest" == sha256:* ]] || { echo "registry returned no immutable digest" >&2; exit 3; }
 python3 - "$OUT/SSH_TUNNEL_REGISTRY_PUSH_AND_INSPECT.log" "$OUT/LOCAL_REGISTRY_RECEIPT.json" "$HOST" "$REMOTE_IMAGE" "$REMOTE_REPO" "$digest" <<'PY'
 import hashlib,json,sys,time
@@ -54,7 +54,7 @@ repo_digests=inspect.get('RepoDigests') or []
 if expected not in repo_digests:
     raise SystemExit(f'remote inspect is not bound to fetched registry digest: {expected} not in {repo_digests}')
 receipt={
- 'schema':'genesis-golden-local-registry-via-ssh-v2','status':'PASS','created_unix':time.time(),
+ 'schema':'banana_smasher-golden-local-registry-via-ssh-v2','status':'PASS','created_unix':time.time(),
  'source_host':host,'registry_image':image,'manifest_digest':digest,
  'repo_digest':expected,'image_id':inspect['Id'],'size':inspect['Size'],
  'remote_repo_digests':repo_digests,

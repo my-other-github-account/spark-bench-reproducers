@@ -31,10 +31,10 @@ def test_runtime_reads_product_identity_from_validated_pack_environment() -> Non
     )
     environment = dict(os.environ)
     environment.update({
-        "GENESIS_PRODUCT_BYTES": "1234",
-        "GENESIS_PRODUCT_FILES": "7",
-        "GENESIS_MODEL_ID": "mounted-export",
-        "GENESIS_PRODUCT_INVENTORY_SHA256": "a" * 64,
+        "BANANA_SMASHER_PRODUCT_BYTES": "1234",
+        "BANANA_SMASHER_PRODUCT_FILES": "7",
+        "BANANA_SMASHER_MODEL_ID": "mounted-export",
+        "BANANA_SMASHER_PRODUCT_INVENTORY_SHA256": "a" * 64,
     })
 
     completed = subprocess.run(

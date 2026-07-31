@@ -97,8 +97,8 @@
     "mean_abs": 0.0
   },
   "overall_pass": true,
-  "p649_reference_sha256": "c561530422356701694ab10e121c2d51b2a7ef8c34c7457f15493785204ac184",
-  "p672_candidate_sha256": "fac49a646b9bc38b1b8dd5ec46e3a005544fede26e7dfdd40d958e24ea1c16d8",
+  "p649_reference_sha256": "7b075170e405ad54b0487f6649923cba4abcaf8592eeaadfde942409b2270a9f",
+  "p672_candidate_sha256": "6d86f2e7ac658d365adfe20f04502e0697bc97a0fff8c972abb947d98c2c0661",
   "parameter_gradients": [
     {
       "decision_precision_pass_1e_5": true,

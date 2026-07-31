@@ -102,9 +102,9 @@ The supported operator knobs are:
 - `P530_PREFILL_MODE=dense_all` (promoted) or the alternate mixed prefill route;
 - `P525_DENSE_THRESHOLD=64` routed rows;
 - `P525_DENSE_CHUNK_ROWS=1024` rows per dense GEMM chunk;
-- `GENESIS_PACK_HASH_WORKERS=32` for fail-closed pack verification inside the 60 s cold-start budget;
-- `GENESIS_START_TIMEOUT=60` hard readiness/first-token budget;
-- `TRITON_CACHE_DIR=/opt/genesis/triton-cache`, immutable in the final image.
+- `BANANA_SMASHER_PACK_HASH_WORKERS=32` for fail-closed pack verification inside the 60 s cold-start budget;
+- `BANANA_SMASHER_START_TIMEOUT=60` hard readiness/first-token budget;
+- `TRITON_CACHE_DIR=/opt/banana_smasher/triton-cache`, immutable in the final image.
 
 Changing a shape or mode outside the baked cache is fail-visible: the final image
 has no compiler, and the cache manifest is checked before server launch.
@@ -149,7 +149,7 @@ The entrypoint exposes:
 - `GET /v1/models`
 - `POST /v1/completions` with standard non-stream JSON or OpenAI-compatible SSE.
 
-At startup it writes `PACK_VALIDATION.json`, `SERVER_READY.json`, and `STARTUP_SMOKE.json` under `/run/genesis/receipts`. `STARTUP_SMOKE.json` records bind time, first-token time from container start, response time, TTFT, prefill/decode rates, and resident product bytes.
+At startup it writes `PACK_VALIDATION.json`, `SERVER_READY.json`, and `STARTUP_SMOKE.json` under `/run/banana_smasher/receipts`. `STARTUP_SMOKE.json` records bind time, first-token time from container start, response time, TTFT, prefill/decode rates, and resident product bytes.
 
 ## No first-request JIT
 

@@ -110,7 +110,7 @@
         "elapsed_seconds": 3.930196523666382,
         "files": 46,
         "kinds": {
-          "genesis_vq": 15,
+          "banana_smasher_vq": 15,
           "native_mxfp4": 3,
           "qtip2_exact": 27
         },
@@ -153,7 +153,7 @@
         "elapsed_seconds": 0.7555298805236816,
         "files": 8,
         "kinds": {
-          "genesis_vq": 6
+          "banana_smasher_vq": 6
         },
         "layer": 1,
         "mode": "full512",
@@ -202,7 +202,7 @@
         "elapsed_seconds": 11.422381162643433,
         "files": 158,
         "kinds": {
-          "genesis_vq": 101,
+          "banana_smasher_vq": 101,
           "qtip3_exact": 44
         },
         "layer": 3,
@@ -244,7 +244,7 @@
         "elapsed_seconds": 13.505177974700928,
         "files": 182,
         "kinds": {
-          "genesis_vq": 123,
+          "banana_smasher_vq": 123,
           "native_mxfp4": 3,
           "qtip3_exact": 46
         },
@@ -287,7 +287,7 @@
         "elapsed_seconds": 15.253002643585205,
         "files": 186,
         "kinds": {
-          "genesis_vq": 136,
+          "banana_smasher_vq": 136,
           "native_mxfp4": 5,
           "qtip3_exact": 38
         },
@@ -330,7 +330,7 @@
         "elapsed_seconds": 12.260745525360107,
         "files": 262,
         "kinds": {
-          "genesis_vq": 46,
+          "banana_smasher_vq": 46,
           "qtip2_exact": 168,
           "qtip3_exact": 36
         },
@@ -373,7 +373,7 @@
         "elapsed_seconds": 11.825956344604492,
         "files": 136,
         "kinds": {
-          "genesis_vq": 74,
+          "banana_smasher_vq": 74,
           "qtip3_exact": 47
         },
         "layer": 7,
@@ -415,7 +415,7 @@
         "elapsed_seconds": 14.926984310150146,
         "files": 174,
         "kinds": {
-          "genesis_vq": 100,
+          "banana_smasher_vq": 100,
           "native_mxfp4": 3,
           "qtip3_exact": 59
         },
@@ -458,7 +458,7 @@
         "elapsed_seconds": 17.16347312927246,
         "files": 215,
         "kinds": {
-          "genesis_vq": 148,
+          "banana_smasher_vq": 148,
           "native_mxfp4": 2,
           "qtip3_exact": 55
         },
@@ -501,7 +501,7 @@
         "elapsed_seconds": 16.334502458572388,
         "files": 215,
         "kinds": {
-          "genesis_vq": 152,
+          "banana_smasher_vq": 152,
           "native_mxfp4": 3,
           "qtip3_exact": 52
         },
@@ -544,7 +544,7 @@
         "elapsed_seconds": 18.39628791809082,
         "files": 232,
         "kinds": {
-          "genesis_vq": 169,
+          "banana_smasher_vq": 169,
           "native_mxfp4": 2,
           "qtip3_exact": 49
         },
@@ -587,7 +587,7 @@
         "elapsed_seconds": 16.01783275604248,
         "files": 229,
         "kinds": {
-          "genesis_vq": 175,
+          "banana_smasher_vq": 175,
           "native_mxfp4": 2,
           "qtip3_exact": 43
         },
@@ -630,7 +630,7 @@
         "elapsed_seconds": 21.52618145942688,
         "files": 286,
         "kinds": {
-          "genesis_vq": 219,
+          "banana_smasher_vq": 219,
           "qtip3_exact": 50
         },
         "layer": 13,
@@ -672,7 +672,7 @@
         "elapsed_seconds": 17.75441002845764,
         "files": 250,
         "kinds": {
-          "genesis_vq": 189,
+          "banana_smasher_vq": 189,
           "native_mxfp4": 1,
           "qtip3_exact": 48
         },
@@ -715,7 +715,7 @@
         "elapsed_seconds": 15.712208271026611,
         "files": 214,
         "kinds": {
-          "genesis_vq": 156,
+          "banana_smasher_vq": 156,
           "native_mxfp4": 3,
           "qtip3_exact": 43
         },
@@ -758,7 +758,7 @@
         "elapsed_seconds": 14.519405603408813,
         "files": 433,
         "kinds": {
-          "genesis_vq": 52,
+          "banana_smasher_vq": 52,
           "native_mxfp4": 3,
           "qtip2_exact": 342,
           "qtip3_exact": 25
@@ -802,7 +802,7 @@
         "elapsed_seconds": 11.365484476089478,
         "files": 126,
         "kinds": {
-          "genesis_vq": 70,
+          "banana_smasher_vq": 70,
           "native_mxfp4": 5,
           "qtip3_exact": 41
         },
@@ -845,7 +845,7 @@
         "elapsed_seconds": 10.906734704971313,
         "files": 131,
         "kinds": {
-          "genesis_vq": 59,
+          "banana_smasher_vq": 59,
           "native_mxfp4": 4,
           "qtip3_exact": 58
         },
@@ -888,7 +888,7 @@
         "elapsed_seconds": 17.0117244720459,
         "files": 186,
         "kinds": {
-          "genesis_vq": 127,
+          "banana_smasher_vq": 127,
           "qtip3_exact": 45
         },
         "layer": 19,
@@ -930,7 +930,7 @@
         "elapsed_seconds": 6.1514105796813965,
         "files": 69,
         "kinds": {
-          "genesis_vq": 18,
+          "banana_smasher_vq": 18,
           "native_mxfp4": 4,
           "qtip3_exact": 45
         },
@@ -973,7 +973,7 @@
         "elapsed_seconds": 9.540412664413452,
         "files": 89,
         "kinds": {
-          "genesis_vq": 38,
+          "banana_smasher_vq": 38,
           "native_mxfp4": 2,
           "qtip3_exact": 38
         },
@@ -1016,7 +1016,7 @@
         "elapsed_seconds": 0.46590113639831543,
         "files": 77,
         "kinds": {
-          "genesis_vq": 18,
+          "banana_smasher_vq": 18,
           "native_mxfp4": 1,
           "qtip2_exact": 2,
           "qtip3_exact": 50
@@ -1060,7 +1060,7 @@
         "elapsed_seconds": 0.3107573986053467,
         "files": 95,
         "kinds": {
-          "genesis_vq": 40,
+          "banana_smasher_vq": 40,
           "qtip3_exact": 47
         },
         "layer": 23,
@@ -1102,7 +1102,7 @@
         "elapsed_seconds": 0.3463587760925293,
         "files": 100,
         "kinds": {
-          "genesis_vq": 35,
+          "banana_smasher_vq": 35,
           "qtip3_exact": 55
         },
         "layer": 24,
@@ -1144,7 +1144,7 @@
         "elapsed_seconds": 0.33923768997192383,
         "files": 99,
         "kinds": {
-          "genesis_vq": 35,
+          "banana_smasher_vq": 35,
           "qtip3_exact": 52
         },
         "layer": 25,
@@ -1186,7 +1186,7 @@
         "elapsed_seconds": 0.3509824275970459,
         "files": 111,
         "kinds": {
-          "genesis_vq": 32,
+          "banana_smasher_vq": 32,
           "qtip3_exact": 68
         },
         "layer": 26,
@@ -1228,7 +1228,7 @@
         "elapsed_seconds": 1.1355273723602295,
         "files": 101,
         "kinds": {
-          "genesis_vq": 19,
+          "banana_smasher_vq": 19,
           "qtip3_exact": 77
         },
         "layer": 27,
@@ -1270,7 +1270,7 @@
         "elapsed_seconds": 0.9668748378753662,
         "files": 114,
         "kinds": {
-          "genesis_vq": 34,
+          "banana_smasher_vq": 34,
           "qtip3_exact": 69
         },
         "layer": 28,
@@ -1312,7 +1312,7 @@
         "elapsed_seconds": 0.6738836765289307,
         "files": 106,
         "kinds": {
-          "genesis_vq": 25,
+          "banana_smasher_vq": 25,
           "qtip3_exact": 72
         },
         "layer": 29,
@@ -1354,7 +1354,7 @@
         "elapsed_seconds": 0.42826223373413086,
         "files": 106,
         "kinds": {
-          "genesis_vq": 17,
+          "banana_smasher_vq": 17,
           "qtip3_exact": 80
         },
         "layer": 30,
@@ -1396,7 +1396,7 @@
         "elapsed_seconds": 0.4672374725341797,
         "files": 117,
         "kinds": {
-          "genesis_vq": 18,
+          "banana_smasher_vq": 18,
           "qtip3_exact": 91
         },
         "layer": 31,
@@ -1438,7 +1438,7 @@
         "elapsed_seconds": 0.4752326011657715,
         "files": 126,
         "kinds": {
-          "genesis_vq": 29,
+          "banana_smasher_vq": 29,
           "qtip3_exact": 86
         },
         "layer": 32,
@@ -1480,7 +1480,7 @@
         "elapsed_seconds": 0.5973072052001953,
         "files": 140,
         "kinds": {
-          "genesis_vq": 28,
+          "banana_smasher_vq": 28,
           "qtip3_exact": 101
         },
         "layer": 33,
@@ -1522,7 +1522,7 @@
         "elapsed_seconds": 0.6045053005218506,
         "files": 170,
         "kinds": {
-          "genesis_vq": 28,
+          "banana_smasher_vq": 28,
           "qtip3_exact": 134
         },
         "layer": 34,
@@ -1564,7 +1564,7 @@
         "elapsed_seconds": 0.4926762580871582,
         "files": 155,
         "kinds": {
-          "genesis_vq": 22,
+          "banana_smasher_vq": 22,
           "qtip3_exact": 124
         },
         "layer": 35,
@@ -1606,7 +1606,7 @@
         "elapsed_seconds": 2.285552740097046,
         "files": 169,
         "kinds": {
-          "genesis_vq": 24,
+          "banana_smasher_vq": 24,
           "qtip3_exact": 138
         },
         "layer": 36,
@@ -1648,7 +1648,7 @@
         "elapsed_seconds": 1.9673528671264648,
         "files": 147,
         "kinds": {
-          "genesis_vq": 22,
+          "banana_smasher_vq": 22,
           "qtip3_exact": 118
         },
         "layer": 37,
@@ -1690,7 +1690,7 @@
         "elapsed_seconds": 2.1618659496307373,
         "files": 148,
         "kinds": {
-          "genesis_vq": 14,
+          "banana_smasher_vq": 14,
           "qtip3_exact": 132
         },
         "layer": 38,
@@ -1732,7 +1732,7 @@
         "elapsed_seconds": 2.9104156494140625,
         "files": 225,
         "kinds": {
-          "genesis_vq": 24,
+          "banana_smasher_vq": 24,
           "qtip3_exact": 198
         },
         "layer": 39,
@@ -1774,7 +1774,7 @@
         "elapsed_seconds": 2.6261301040649414,
         "files": 179,
         "kinds": {
-          "genesis_vq": 17,
+          "banana_smasher_vq": 17,
           "qtip3_exact": 156
         },
         "layer": 40,
@@ -1816,7 +1816,7 @@
         "elapsed_seconds": 2.093050003051758,
         "files": 145,
         "kinds": {
-          "genesis_vq": 23,
+          "banana_smasher_vq": 23,
           "qtip3_exact": 115
         },
         "layer": 41,
@@ -1858,7 +1858,7 @@
         "elapsed_seconds": 1.4124116897583008,
         "files": 136,
         "kinds": {
-          "genesis_vq": 42,
+          "banana_smasher_vq": 42,
           "qtip3_exact": 81
         },
         "layer": 42,
@@ -2743,7 +2743,7 @@
       "window_mean_se": 0.003126061106623219
     }
   },
-  "source_host": "immutable Genesis base from compute-node; sealed P653+P760 sparse overlays from compute-node/compute-node",
+  "source_host": "immutable BananaSmasher base from compute-node; sealed P653+P760 sparse overlays from compute-node/compute-node",
   "started_unix": 1785082080.6953099,
   "status": "PASS_VALIDATED_FULL512_COMPONENT_RECEIPT",
   "support": 8192,

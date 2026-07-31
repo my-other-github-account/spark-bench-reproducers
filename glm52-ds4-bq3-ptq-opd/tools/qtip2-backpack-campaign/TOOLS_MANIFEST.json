@@ -124,7 +124,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 2 \u2014 Build the wire",
-      "shipped_sha256": "620f10df072080bd7658d85c2d335fe144b57c8f6ca29403fda01336b476c20f",
+      "shipped_sha256": "5f74aecf37c288abf7df9180064f458105aec7450b458ac8239784ccc87b0642",
       "source_sha256": "d56677ed63711aac24181463d7ef8ac45499c4b507919b3ad4d5dcb63da205bb",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -420,7 +420,7 @@
     },
     {
       "origin": {
-        "mission": "P640_GENESIS_QTIP2_WIRE",
+        "mission": "P640_BANANA_SMASHER_QTIP2_WIRE",
         "node": "node-6",
         "note": "live fleet working copy",
         "receipt": "P640/receipts/SEAL.json",
@@ -432,7 +432,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 2 \u2014 Build the wire",
-      "shipped_sha256": "f02e564f768e9054f09a22d0872561b26b59aa1596cb86555447090fb3d871b5",
+      "shipped_sha256": "98eb1c857d6366134162b902b372ad14045284ff704f6fa14e0c4e7f74bcb6f4",
       "source_sha256": "5e32cf2c4837ccdabf2288e5536f766c05afbca545ec7454f9e447382ae93fd7",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -442,7 +442,7 @@
     },
     {
       "origin": {
-        "mission": "P640_GENESIS_QTIP2_WIRE",
+        "mission": "P640_BANANA_SMASHER_QTIP2_WIRE",
         "node": "node-6",
         "note": "live fleet working copy",
         "receipt": "P640/receipts/SEAL.json",
@@ -454,7 +454,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 2 \u2014 Build the wire",
-      "shipped_sha256": "6fa605d5d2d8b19a6a21bb2cf1ceb433ad32ba55850be62783928618c66151de",
+      "shipped_sha256": "16a73c1aada66f3925f58ef4a4ade2bb1f0228c491d3c21489a9450d947132fe",
       "source_sha256": "bd5c5903ab0419a2ff089830983ba4f0ab7576eb4f3fe6724eb1730ca997e766",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -464,7 +464,7 @@
     },
     {
       "origin": {
-        "mission": "P640_GENESIS_QTIP2_WIRE",
+        "mission": "P640_BANANA_SMASHER_QTIP2_WIRE",
         "node": "node-6",
         "note": "live fleet working copy",
         "receipt": "P640/receipts/SEAL.json",
@@ -476,7 +476,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 2 \u2014 Build the wire",
-      "shipped_sha256": "77970d0ba49bc3a444e6b9ccd4854343fa8ee6b1ec2bcd907e0f6fc97880705d",
+      "shipped_sha256": "de318d653a862da1be6f903c50bde7964daac99f30b68cab71ab5add674aa68c",
       "source_sha256": "926ba40eea1c5894432035b76435702d9c98d6fd47bd00dced8cec400a365b89",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -486,7 +486,7 @@
     },
     {
       "origin": {
-        "mission": "P640_GENESIS_QTIP2_WIRE",
+        "mission": "P640_BANANA_SMASHER_QTIP2_WIRE",
         "node": "node-6",
         "note": "live fleet working copy",
         "receipt": "P640/receipts/SEAL.json",
@@ -508,7 +508,7 @@
     },
     {
       "origin": {
-        "mission": "P640_GENESIS_QTIP2_WIRE",
+        "mission": "P640_BANANA_SMASHER_QTIP2_WIRE",
         "node": "node-6",
         "note": "live fleet working copy",
         "receipt": "P640/receipts/SEAL.json",
@@ -530,7 +530,7 @@
     },
     {
       "origin": {
-        "mission": "P640_GENESIS_QTIP2_WIRE",
+        "mission": "P640_BANANA_SMASHER_QTIP2_WIRE",
         "node": "node-6",
         "note": "live fleet working copy",
         "receipt": "P640/receipts/SEAL.json",
@@ -552,7 +552,7 @@
     },
     {
       "origin": {
-        "mission": "P640_GENESIS_QTIP2_WIRE",
+        "mission": "P640_BANANA_SMASHER_QTIP2_WIRE",
         "node": "node-6",
         "note": "live fleet working copy",
         "receipt": "P640/receipts/SEAL.json",
@@ -564,7 +564,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 2 \u2014 Build the wire",
-      "shipped_sha256": "8256deb42b9f879fba15f96f8156f7219c6abec690b341b65d7c4a91abdd8de5",
+      "shipped_sha256": "5863e48c8d12228a0ac05c727f659d0214dd6fe2c51e17fe86d1b9f613fc4cb8",
       "source_sha256": "17dea7dd7a8fd98b985a6135dc1e028979f6e1849e427bd78b8acbddfa5b89eb",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -586,7 +586,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "0adda8b7bb659f317876e23eb95fc9a8f9b24457e179db901818fdfa47e06a47",
+      "shipped_sha256": "2a36eadea16209e7c9b137b1732da4f6e2b072b791df37d83f70b5531af51a30",
       "source_sha256": "40ca68a04c48650dcc515e902dd2fb6edff09f459e237dbb1800d35b6adaf283",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -601,14 +601,14 @@
         "note": "live fleet working copy",
         "receipt": "P600/receipts/TRAIN8_DIRECTIONAL_UPDATE_024.json",
         "receipt_sha256": "24ad37a46cac1ff815676756b40072d90272eced6bb3733869036e2e77695568",
-        "relative_source": "p600_genesis_basic_repair.py"
+        "relative_source": "p600_banana_smasher_basic_repair.py"
       },
       "patch_whitespace_normalization_applied": false,
-      "path": "dose/p600/genesis_basic_repair.py",
+      "path": "dose/p600/banana_smasher_basic_repair.py",
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "b1ebd56215713c4d1dd03ed71642a6e1719d42ccbaf9d5651e90aba2351429c0",
+      "shipped_sha256": "753b3a23eb9b2c18766789e15ec3d6fbba6716dfdf867637b80c3180ea457071",
       "source_sha256": "3ef78e3fe12e9e6d10e067df05a49fd0ed23827d4c38d242f19968dbf68eebf0",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -630,7 +630,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "a4dc09ee866dac0ca902e81bdeab88b43c8a3981e2d0d45168a6256469f4c46b",
+      "shipped_sha256": "a590910e009f00b80ce21c2dfdbcc148d8a3b0a462295d496ebd82d52b7c8ca0",
       "source_sha256": "32f273632048964b5c60ff720987e0ed2e731448dc48f776d1717fcc58fb1bca",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -652,7 +652,7 @@
       "privacy_substitution_applied": false,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "f6d473d3bb1a9f9b93fd9e0f23d0858bac85527369c2d86d55d8229ebfe4d2eb",
+      "shipped_sha256": "0b198334a7af57d205d46b6dc85d1caf5258a1771483a6c2c154f8e2e717e041",
       "source_sha256": "02b0b11aac20c8445756b16b15fde0221849ca1a843512e29e880edb4b6e543d",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -674,7 +674,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "426132b1370325b63534f8a253330f1bd2a85dbb68b7ccd2d44206d42f9fbd55",
+      "shipped_sha256": "2bb6561592f33d1a4cb28896a26ba4e55673517cdee570edd2ca7bdde8a4da8a",
       "source_sha256": "78bbe1b264011d1875ee2c57f16f94b97886af86b4385e098958497da420c87b",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -689,14 +689,14 @@
         "note": "diagnosed accelerated act-cache source",
         "receipt": "P613/DIAGNOSIS_FIX.json",
         "receipt_sha256": "10c4bca5104ff84fc5160b5c2100347e54e34d6d9565f4827ab5cbe522fe0457",
-        "relative_source": "genesis_basic_repair_accel.py"
+        "relative_source": "banana_smasher_basic_repair_accel.py"
       },
       "patch_whitespace_normalization_applied": false,
-      "path": "dose/p613-acceleration/genesis_basic_repair_accel.py",
+      "path": "dose/p613-acceleration/banana_smasher_basic_repair_accel.py",
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "6e32b4a1fe500e68b95c7830b6f2fcc182d065c57faca8a0766e4c5191a01c8b",
+      "shipped_sha256": "a40eb7be7ab96e36e2aa1a0409348b0c173a737aedf112f8567e7ec06caf3593",
       "source_sha256": "207d58101dbcf8d1b6c83f63bfe88bc5f8133a41c8c91dd82bb8b7d87cab6401",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -718,7 +718,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "1d2212c0a69ac4c4fb83eafbf6e0d51b8f511133184ec893b14fa76ee157b974",
+      "shipped_sha256": "f2e063d2c01e52f07bf967c4ee22788976c38ffa57c6aec6e5e4dd9a53ddce5b",
       "source_sha256": "e1e57e6c59a4fca3df74abf1f3854354b774c44be81c01275e8f0bfaa711163c",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -740,7 +740,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "bf80ca427bd1c030455cb10eca5add15ca0aaaa2052ee20c71572e10e46944a7",
+      "shipped_sha256": "5257b97ff8c2c07494c20bad9da8c1b0c308ca4e03d0e2b879d27b47fdcb519e",
       "source_sha256": "c580e9b8c6499dd9a259c3a46f27170d8a548ac7b4fe7dbe2a48f4a303cffd61",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -762,7 +762,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "dc25367b5afdcf246dc83b5431769476d17efe8ebffc0f57002a5505e1449fd7",
+      "shipped_sha256": "934913ea6714e1aac8c10865e1babe82046c10eb8848adc191365a031568fd07",
       "source_sha256": "b0a4b9c0facd54c849661ff7fade32bc20fb55aba686ed11c3738d37d7489be1",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -784,7 +784,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "59cacb05b547c58329809b8f1d7c3a52011ecdd58b2eddb2302c0e3cb521125d",
+      "shipped_sha256": "1d8d726e0079481e456b4263c4eb5f05f170c7c7b298415cf0f998b41d11936b",
       "source_sha256": "92880bbfb7b3f1b3d368f8475257a8971a7567bf81ad3799e8c5066fc9b5063f",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -806,7 +806,7 @@
       "privacy_substitution_applied": false,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "4ce65fab1ec75775d88ff53d73a1c2a15d13723865a2ffc4047561cb732eb840",
+      "shipped_sha256": "5850caafaaba60502899da3ec713ed813a53505898cbeb410eef4e0a276e29d8",
       "source_sha256": "4ce65fab1ec75775d88ff53d73a1c2a15d13723865a2ffc4047561cb732eb840",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -821,14 +821,14 @@
         "note": "P662 candidate source; executed and sealed by P672 continuation",
         "receipt": "P672/receipts/FINAL_GATE.json",
         "receipt_sha256": "0531561d3711a6b6e1be7ea7d7151d1d61aef7569c6d918a7403a0a28b06a2cd",
-        "relative_source": "genesis_basic_repair.py"
+        "relative_source": "banana_smasher_basic_repair.py"
       },
       "patch_whitespace_normalization_applied": false,
-      "path": "dose/p662-candidate/genesis_basic_repair.py",
+      "path": "dose/p662-candidate/banana_smasher_basic_repair.py",
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "991370498c153988dda7df3fc5a23c40a4d58a48ba3d8bb4d596a3d9fa6a17cc",
+      "shipped_sha256": "8f5569dee946e7a216a81504752603e4a715431654a20535ee22e162e7a43606",
       "source_sha256": "10937e73a5c6b8987b097cf1980aa3a3a8c39f2f3ac6c47731f45e6616adc572",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -843,14 +843,14 @@
         "note": "P662 candidate source; executed and sealed by P672 continuation",
         "receipt": "P672/receipts/FINAL_GATE.json",
         "receipt_sha256": "0531561d3711a6b6e1be7ea7d7151d1d61aef7569c6d918a7403a0a28b06a2cd",
-        "relative_source": "genesis_physical_surface.py"
+        "relative_source": "banana_smasher_physical_surface.py"
       },
       "patch_whitespace_normalization_applied": false,
-      "path": "dose/p662-candidate/genesis_physical_surface.py",
+      "path": "dose/p662-candidate/banana_smasher_physical_surface.py",
       "privacy_substitution_applied": false,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "9a7536599060903d378c14269329ad7a9887b8edda021708ae0ca415dd8c05a9",
+      "shipped_sha256": "249e0a1268b8fe950f51ffdccaab4523d63720bc7b1c6b4cae4b5fedeef706d9",
       "source_sha256": "9a7536599060903d378c14269329ad7a9887b8edda021708ae0ca415dd8c05a9",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -872,7 +872,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "1ff1a3cb0afcbf8a4b6aa931da1887e32297876d45a0ac0574f8539edfcffb04",
+      "shipped_sha256": "4cea0665dc227147f7d1db5f34a04e70d47a6032d59c4f1b4a5763e593e9ba5c",
       "source_sha256": "2fc585683e3eb81ad5fa0795b43a28db7a76af5e7b5c9cd8726069d5c9b9ac0d",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -894,7 +894,7 @@
       "privacy_substitution_applied": false,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "4d4fdbcd1a1cebc5cf0d6d37923a4be6ebd98a0e986f4e1069b28b4607eae40e",
+      "shipped_sha256": "32ab71c613e0aff5dee1a1accc408c2ab19d8fd9b2abccffeb5765822f61b8cb",
       "source_sha256": "4d4fdbcd1a1cebc5cf0d6d37923a4be6ebd98a0e986f4e1069b28b4607eae40e",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -916,7 +916,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "2fc4b4d25d0ba3bfd2584df8892900d90be5eb70216fe9083d5037b22faa6120",
+      "shipped_sha256": "6877b5090da9a49f9464e85b2ff158a372633523bd3e641327afeb0920981711",
       "source_sha256": "31430e211dc91b1448016c125c352ce426dbb64a263e795709e29275e54b3bb7",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -938,7 +938,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "27a6a5748dd568c6250cb297babe0f37e3a69336319390a82a361e7ff2c59f5d",
+      "shipped_sha256": "701257aadc8daf40bf60c7dfbddda5b3b2bc885bc3833bb1671eb56101959e54",
       "source_sha256": "2354d87c7e1baa8049d3675cc75be03d2f2ab8721012802d06ce836960806836",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -960,7 +960,7 @@
       "privacy_substitution_applied": false,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "4ec821ccf01d212e80ba6afb6768d873cccb59adf5f23abea547c5fcf07c0a97",
+      "shipped_sha256": "7c1f19621f0939841af6267d8ebe6c21298bab1e4ecef8342c97ba4177253c6e",
       "source_sha256": "60c6d64f7d5b38a88d5f1390a9468f50d1a21f345d843c4121c307df39982c38",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -982,7 +982,7 @@
       "privacy_substitution_applied": false,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "b1798eebeb1c5fff02ab1e0f818c555d48eac82112e98dbca9cfc6462a9261a9",
+      "shipped_sha256": "f58d534fe1a66f473e5cc114199b18070b773b584bb6108e208fd7b25bf3517c",
       "source_sha256": "980ce7b634737dd56423e6e1b8be0a3a98c38943dbab006f6eb41e22bf6d5dc8",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -997,14 +997,14 @@
         "note": "portable apply/rollback package and exact/floor-safe final gate",
         "receipt": "P672/ADOPTION.json",
         "receipt_sha256": "2fc585683e3eb81ad5fa0795b43a28db7a76af5e7b5c9cd8726069d5c9b9ac0d",
-        "relative_source": "genesis_physical_surface.py"
+        "relative_source": "banana_smasher_physical_surface.py"
       },
       "patch_whitespace_normalization_applied": false,
-      "path": "dose/p672-package/payload/genesis_physical_surface.py",
+      "path": "dose/p672-package/payload/banana_smasher_physical_surface.py",
       "privacy_substitution_applied": false,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "fac49a646b9bc38b1b8dd5ec46e3a005544fede26e7dfdd40d958e24ea1c16d8",
+      "shipped_sha256": "6d86f2e7ac658d365adfe20f04502e0697bc97a0fff8c972abb947d98c2c0661",
       "source_sha256": "fac49a646b9bc38b1b8dd5ec46e3a005544fede26e7dfdd40d958e24ea1c16d8",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1048,7 +1048,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "e983ef6a5f669af031f72b18915e11d69f1ac85f4e45cfd17a70c3a0de843d1e",
+      "shipped_sha256": "34858523c6667f8c1b5f9c80a227d54ef9b365502c4b1bac4ce7a35c7e29f0ea",
       "source_sha256": "0531561d3711a6b6e1be7ea7d7151d1d61aef7569c6d918a7403a0a28b06a2cd",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1070,7 +1070,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "62f9e76080f0333ad24d0c7b740def71799906306e83c103b768e3b7bc045552",
+      "shipped_sha256": "0582529912899648f4d5839e6bb683c4b9eeb463d062f8d82f27520a805bb3da",
       "source_sha256": "ad59bccb7cdb1d27f8580046cdc1151722509c87bd05c7de7eb978b5d809aa34",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1092,7 +1092,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "3803cde086fdf77d8d59918a6fb527eb42bdf63e6237dc36b6c7b08be135d70a",
+      "shipped_sha256": "65630ba0a004ea688e9d3ded65b15e632a2443bea0aae8c02e8d386f2172ddcb",
       "source_sha256": "6e13e40cbc40e09e01030cdfa0fbb687ac702099c0669909825f7a4b470c44c4",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1114,7 +1114,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "d5eb4eaace53a445152e82f97bb55c84461ad5bca05dd3d7433d2da684d5f0e1",
+      "shipped_sha256": "0edcd76ad9f6415ec773eb60f33c21869aaad9b3607c431cc78f1a0d38829056",
       "source_sha256": "44d12b7a56363713239d97dcc345ffc16a6945582b4b51dbb3c06f10b1b73f26",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1136,7 +1136,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "804a47fb600ac381a5d6b323af2495a689deab2dd504545c6321f64770f57d81",
+      "shipped_sha256": "6714fb8df38d7eed2c7282caea691545ab2bdf51284d2fe8c40ceba7d8b5a398",
       "source_sha256": "e8abb5b28b4bd023b5d5d2b279df5bd322403244ef4f2528039e28a07cfb4728",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1180,7 +1180,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "5dd55209bd495172dba2985372ff64e6dc0ec1cff9195d8e69a80eecc8780046",
+      "shipped_sha256": "53cf8af1b29d2d37730ad5ddae8d803551e472c32fbc8bf2c35a92b3a5a60efc",
       "source_sha256": "afcd603ebb636ea599f14a6379e3d16a529a838c536f0ca0dab425c2f19b7084",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1195,14 +1195,14 @@
         "note": "portable apply/rollback package and exact/floor-safe final gate",
         "receipt": "P672/ADOPTION.json",
         "receipt_sha256": "2fc585683e3eb81ad5fa0795b43a28db7a76af5e7b5c9cd8726069d5c9b9ac0d",
-        "relative_source": "genesis_physical_surface.py"
+        "relative_source": "banana_smasher_physical_surface.py"
       },
       "patch_whitespace_normalization_applied": false,
-      "path": "dose/p672-package/rollback/genesis_physical_surface.py",
+      "path": "dose/p672-package/rollback/banana_smasher_physical_surface.py",
       "privacy_substitution_applied": false,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "c561530422356701694ab10e121c2d51b2a7ef8c34c7457f15493785204ac184",
+      "shipped_sha256": "7b075170e405ad54b0487f6649923cba4abcaf8592eeaadfde942409b2270a9f",
       "source_sha256": "c561530422356701694ab10e121c2d51b2a7ef8c34c7457f15493785204ac184",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1224,7 +1224,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "851eeb8cd94e7e7a24dd9edf904c8f109e44e7caa08b366644352a51f1a6ee31",
+      "shipped_sha256": "f3f19486c4a446177164f8ec5bf2f33120bc00f5b15303bb864afad24c35e7ec",
       "source_sha256": "8bffa2e8f8808ffae608e6762b8bdf79fac23ee00bda437bdc2fa20c725b3396",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1246,7 +1246,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "5d954c801587782f26b1b0a4dd9f26a6cb34a24c4e0c77db4999e25f018cf0e9",
+      "shipped_sha256": "0a081a138582d4409b59a5780203478e977d85daab2455fdd91554334e069639",
       "source_sha256": "d40fc308ba5e303bb1f1936f42cdbeb156a76960205278fc14a82adeccd3c794",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1268,7 +1268,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "82cb56e4d88546cb85db5d156ea16b3a5aec065a904c139ebbdc477489af3a2b",
+      "shipped_sha256": "1cb0e188b2ce499a7953f4ba014ca6aca0b304ed1f6b4c25c22902330b5038ef",
       "source_sha256": "a37a39f03aba40d98dba30e419c3f63853ba4376cce085b14ed3cedad77e941f",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1290,7 +1290,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "bc1a74ad4e3530eb7321a38d3e5091c11e1a163ea71e64af6e75d18b1caa4380",
+      "shipped_sha256": "f7cedf3b25f6946b72c432392ac70d54867c07c3ef32694c52072eb0220d06e2",
       "source_sha256": "a01ea9e299ca17ed16b138da96d19d2c1b2f6ce5146efef966f86548cb2ff568",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1312,7 +1312,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "47a1d479de91a5a46641a1176a4ad34914b4a5fc084a8b080036fa9517b8201b",
+      "shipped_sha256": "145cf2dca9250ab288b25d7a6f49d6c00e89a8ad9ed5fe2bb39e96625fa32743",
       "source_sha256": "f64f73954cec263699a18571e6bb24c820b1d19255f7aff2d1bfad0f3f466308",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1334,7 +1334,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "dd04cca35add759a5e34d217fdd785376aac41237db93820f1891a73970a61d0",
+      "shipped_sha256": "d5e442397f82688b58aeb976073b060cd9caefcf691b7003aa88ae262d34020d",
       "source_sha256": "ff387a23938c985de84aeb1057d34d1990d893ab380f8c33b3f11973410b2322",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1356,7 +1356,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "47a1d479de91a5a46641a1176a4ad34914b4a5fc084a8b080036fa9517b8201b",
+      "shipped_sha256": "145cf2dca9250ab288b25d7a6f49d6c00e89a8ad9ed5fe2bb39e96625fa32743",
       "source_sha256": "f64f73954cec263699a18571e6bb24c820b1d19255f7aff2d1bfad0f3f466308",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1378,7 +1378,7 @@
       "privacy_substitution_applied": false,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 4 \u2014 Dose",
-      "shipped_sha256": "6f85bff930d6554784b17b9fa8a2352b7e994d04da2a7f66ad9806f394c1fcb2",
+      "shipped_sha256": "ced9bce225c8082bd94519da595876a34cfe7a0aabc470c1c6bee6c46a257012",
       "source_sha256": "c846f13709b596a9eec6dd01c4fbb35e4e250543c4ad7d9aeac2eb15caa0fae9",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1421,7 +1421,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stages 3 and 5 \u2014 Rail scoring/merge support",
-      "shipped_sha256": "a986373cd169e40c95fdf81740f805e52b45cae45128cb58feddd0624bf539ae",
+      "shipped_sha256": "2f2d46e3971afe29cb42276dde0bf6a79dd9ed9f7c73d5fd3bb2ef69ef09d9d0",
       "source_sha256": "844d7e06c5c221e4138a4be931f61e9616ec6ac46123aba1bdd02902b58dffb9",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1443,7 +1443,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stages 2\u20135 \u2014 QSFP staging support",
-      "shipped_sha256": "eba1e71eff13c2e2afd94371f1f823215da163e8c57eef21ed787b3927dac996",
+      "shipped_sha256": "f8750772ff8963f10d6033bef337d972e189113df7159caf7a724db78e66ee4f",
       "source_sha256": "8754e3a1a5d467704b89f26c867e3b05c79be65e6769d5c4f69a5f3aeb557eae",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1465,7 +1465,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stages 2\u20135 \u2014 QSFP staging support",
-      "shipped_sha256": "288f480007f39c85e7bce94efd2618dc146e00fc504a5df4e4806186ee67b3e8",
+      "shipped_sha256": "50801b9d3ab367853a4591a4e8239a48768c4b233aff66bc54ae726ddebaf7ce",
       "source_sha256": "8705cee3d83139ab5fb4e5d6f0495ba6792bea35757ba1572c44c1ead19a1b7b",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1531,7 +1531,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stages 3 and 5 \u2014 Pre/post-repair rail",
-      "shipped_sha256": "038b1e4efcdfc22daffc9a219f5b8fe763b65a5de53197884cea943d6729561c",
+      "shipped_sha256": "f99b4ab6ba737f2c12949e1744987c6e1cd1ceeb3648c92ea1e01e49e8d9f5e9",
       "source_sha256": "4ff2d24fcf6711b79b38f54f41b73d39a0bc15434ca13a8eb63974d926d701ea",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1553,7 +1553,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stages 3 and 5 \u2014 Pre/post-repair rail",
-      "shipped_sha256": "fc69b54a52364d11d1e7ace535330054ddcae712aa7310e86278b2932a7c6d73",
+      "shipped_sha256": "684be44945702d8dc00ebc9508c16b83f8c935837717ccbdf5dc327ec2abadc3",
       "source_sha256": "b45f6eef933ac51d2c5f1693f21f1859945a9ad9d18741dd0732fa3956275e0c",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1568,14 +1568,14 @@
         "note": "live fleet working copy",
         "receipt": "P656/receipts/P656_EARLY8_SEAL.json",
         "receipt_sha256": "d88e5eaf99085f0e95b0b6a0d6ba8a86fa52a1f7a5b9364e629196237d08be49",
-        "relative_source": "genesis_remote_full512.py"
+        "relative_source": "banana_smasher_remote_full512.py"
       },
       "patch_whitespace_normalization_applied": false,
-      "path": "rail/genesis_remote_full512.py",
+      "path": "rail/banana_smasher_remote_full512.py",
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stages 3 and 5 \u2014 Pre/post-repair rail",
-      "shipped_sha256": "6cd330da4d9bd412d24250c7cc5914a2a8d4663abfd2654ef52adb6acc03dc41",
+      "shipped_sha256": "21a399acd1d7e7ca3e3bab84347edc4ec37c7211a5d5b166a97860ae6915cee2",
       "source_sha256": "bc0920b8865376463e58d11686e888524122b9bc995668fca23fa1ec24312b42",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1619,7 +1619,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stages 3 and 5 \u2014 Pre/post-repair rail",
-      "shipped_sha256": "3f43d5a07ee9c620d4598bcf25bd4d013515c82eacad09d33b4afc8b3613613e",
+      "shipped_sha256": "bc3ec934390cf4481824396e13252d0d0c57235e7d5c98e4003ab682a41cf67f",
       "source_sha256": "5c16e62c32e6936223c54e2b3cf9394a1d0f87833cc409360e82e0341954c12f",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1641,7 +1641,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stages 3 and 5 \u2014 Pre/post-repair rail",
-      "shipped_sha256": "96bd69c4c309e7446c2ffe0684ede8ec2333c15f5380ccc208811d60d3f97551",
+      "shipped_sha256": "9c3db8ad993d70ff868e81587535bd48dabf985e480fe3a0010ae8bbd1dbffe3",
       "source_sha256": "c6f13c3e82a9d1a21ac7f50a3ab0f59239158b7736cd077f28c751087fca725c",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1663,7 +1663,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stages 3 and 5 \u2014 Pre/post-repair rail",
-      "shipped_sha256": "8e1c563e0c54f2dd3d802ce68f41b12dea7eb16c02fddcaa0a7b77e71ed89f1d",
+      "shipped_sha256": "13c71f2bd7124a16c1f88b1837228d6b90fc1e6313a66331889ecb88b390bdcd",
       "source_sha256": "2170cabd7e240e89bce8ecd1778d9cbc1a498f2aaf783beaa5e119bc19591430",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1685,7 +1685,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stages 3 and 5 \u2014 Pre/post-repair rail",
-      "shipped_sha256": "e53423444a4752e61c4e7a43cb487b5f6e7b019adf044be3d7f9c7b7ada95bfb",
+      "shipped_sha256": "df3d86e5b18a4a854bee271a2c345336612270b370d4f34ce4b5fa33e936d1fe",
       "source_sha256": "987e905cc33eab4d4bd2a1cd3e624929e25cffc52ed3757edef7e81cf6f90b21",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1707,7 +1707,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stages 3 and 5 \u2014 Pre/post-repair rail",
-      "shipped_sha256": "20dab6547863694f02aad7320d9dc4855611cb7e4c33e0228f7c37f5f43a8b18",
+      "shipped_sha256": "898a4ef8cce73b3e8f4b5166873e2b24301965e894bf48eaf21cd5e146b7551a",
       "source_sha256": "bf777d7bf380d8338f831ef442d8c247aedfe44d317e2bb8eca99e5a719fa637",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1729,7 +1729,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stages 3 and 5 \u2014 Pre/post-repair rail",
-      "shipped_sha256": "d4b3a3ae2b674b6c6104671c246e69c9c66ee4c382200c5780ead4b13af48e7d",
+      "shipped_sha256": "f573ac9528e3a5c81f6852efdcbaa9101fa18299cfd9cf94f94cbc4946d4ada2",
       "source_sha256": "79ca3e52a0b5b20eb7430d634d52b429479432ebb176b0cd450d2efbab7ad0c8",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1751,7 +1751,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stages 3 and 5 \u2014 Pre/post-repair rail",
-      "shipped_sha256": "064d9d366593e6b6b1c913f864afd5ffc1895805988b76fc6223728b48a21e61",
+      "shipped_sha256": "6f81f8da8262771f13f53ff20a992e5f3ecc1b62be540d3e6ae6f58926e41579",
       "source_sha256": "4f77ddb1a695852649d2e18cd4bc6e4787cd0875fc030424d1568b90d5866e7f",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1794,7 +1794,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stages 3 and 5 \u2014 Pre/post-repair rail",
-      "shipped_sha256": "d96d61f77feaec1e0ea4bb2c7cb7c0fd864e85e2c6506470bb11a0c2bf8c79c2",
+      "shipped_sha256": "60416eba8c9b59a369920b59cef80e2889c48ce6bc6dec67782ab0bc596f4c12",
       "source_sha256": "46b3f9fcd71d74e56b033a03d5bf27321da0b6c307be2a34c9f73828ebdca9a7",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -1816,7 +1816,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stages 3 and 5 \u2014 Pre/post-repair rail",
-      "shipped_sha256": "c4ff060e69dc500a3f4fa9f762635eececaf60afc2e8ccc81077087e304f3bdf",
+      "shipped_sha256": "f586dc4160be1c0fceb2c103c84bde7572c4d3ad9c6c2487ba0f50f4f9123bad",
       "source_sha256": "7d66a248786e0847a5071a23faba526fad649418dc57a0fbba1f83b83ae2a58d",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -2035,7 +2035,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 1 \u2014 The solve",
-      "shipped_sha256": "b13c352ae27a329893554b4bd85363978e78bf30984cde4a735e86e61015b80a",
+      "shipped_sha256": "a090ac301d148ae476cc752c8abd0cd640ef01728502abcc27d6198e3bfe2025",
       "source_sha256": "9f14c5f1a8529fb7c55d5270bf321b09cffd625f1be150b3537dd8526e95cad2",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -2145,7 +2145,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 1 \u2014 The solve",
-      "shipped_sha256": "e139a243d71c6bbc547391731577d50dec116a7cec997313602e55dc771a73c3",
+      "shipped_sha256": "435b679df9de0446c968dda377faf76d6e9d7b7176304957eed3f2f4704376db",
       "source_sha256": "e4a56312f13359f709edff0611eabb36c7b6792e828c584fd745d34363370a9d",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -2167,7 +2167,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 1 \u2014 The solve",
-      "shipped_sha256": "0c86457adad268ad8b16c74f8b16250ca88df636116f4fc0fc85911b0cf3f964",
+      "shipped_sha256": "dbb74f0065e561a956af2a9dd0d7cf030acf46515fdd11f615b6bd77ed457d46",
       "source_sha256": "d53c25d0c7dc49dd5bb85b47e08d22f123d15f39378d2d4ef9e024df478b11bb",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -2189,7 +2189,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 1 \u2014 The solve",
-      "shipped_sha256": "0b2aa507ae4469395482887589a4edd3428fd4af0fe69cc63349774655662e56",
+      "shipped_sha256": "7f487723e4107548c598d3a8dc25406c77deaf1a04c2b3e2c301311986134a85",
       "source_sha256": "c6b718002f9ee042dc9cd630c4f9880577eceddbd0734942e9c2c7a61b63b7ac",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -2295,7 +2295,7 @@
       "privacy_substitution_applied": false,
       "provenance_type": "generated_or_exact_public_copy",
       "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
-      "shipped_sha256": "fab16e152a94d7c1684bf8662fc3fcefaf824576632cfbb933d3641dc76e952c",
+      "shipped_sha256": "f8936fe9496d63bcfa46d878e81693bbd9546d948e4f2827e93588cb558f19dd",
       "source_sha256": "8ed8ef53ec780af74d497c811bf46a44fa3900d90903009b6458bec14032b440",
       "source_verification": {
         "method": "source hash captured before public substitution; shipped hash independently recomputed",
@@ -2335,7 +2335,7 @@
       "privacy_substitution_applied": false,
       "provenance_type": "generated_or_exact_public_copy",
       "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
-      "shipped_sha256": "7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad",
+      "shipped_sha256": "ca82fe2ec59c73140b966d635168cee298243d9a8c153d6ea1ead0b23644442b",
       "source_sha256": "7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad",
       "source_verification": {
         "method": "source hash captured before public substitution; shipped hash independently recomputed",
@@ -2375,7 +2375,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "sealed_source_public_copy",
       "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
-      "shipped_sha256": "f915b05c77e80ae1b9ee418a1d07a96f2f325bb622440eb921352977484b47d3",
+      "shipped_sha256": "1ae106a97034adf5b87aa2ff22d8517f41ed255510dc56f47386d95d56f8724a",
       "source_sha256": "4823f90fb1df1f7d0351c585954799f1fd69a98f3709cfcb721f1c8e0183ef0c",
       "source_verification": {
         "method": "source hash captured before public substitution; shipped hash independently recomputed",
@@ -2615,7 +2615,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "sealed_source_public_copy",
       "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
-      "shipped_sha256": "b3ddc4f733e7e910705a34a663ad6a207d606f3fb91af539b8df638d97c6caa5",
+      "shipped_sha256": "1a91838a613debb800a3da72ebe4c10f65d0550f6280355cd9d400694bacd077",
       "source_sha256": "e1d1b70792a7c8fe133a63b5e922359a24428f5d1281ddd804f0ee01711965ed",
       "source_verification": {
         "method": "source hash captured before public substitution; shipped hash independently recomputed",
@@ -2655,7 +2655,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "sealed_source_public_copy",
       "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
-      "shipped_sha256": "702346136a3d48562a93d4e7c754ef472dbc603ab11e5a47a91a1f468cb2a75c",
+      "shipped_sha256": "49ee5077ed44baf0ef3f679edec97e8e3181d0e4b7cf9df250f9d9ac9c35cc56",
       "source_sha256": "141536858922adc75ca7c32054900789378dd601a56e3a3e5d969a4592196b9b",
       "source_verification": {
         "method": "source hash captured before public substitution; shipped hash independently recomputed",
@@ -2675,7 +2675,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "sealed_source_public_copy",
       "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
-      "shipped_sha256": "4f86b3774717671531c3afb2a5b86937c8fffcd00c72f6ffadaf7978abb6d7d0",
+      "shipped_sha256": "8990c769e2d8f6ea2b6970b897d66a9d06b64b72a4ead86f93008a7036304fde",
       "source_sha256": "c2604f6386e00c1ab38b238cd5940f85d1ab12ec20e18f43dfc9efcece29be8e",
       "source_verification": {
         "method": "source hash captured before public substitution; shipped hash independently recomputed",
@@ -2695,7 +2695,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "sealed_source_public_copy",
       "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
-      "shipped_sha256": "99adbe75ac0a15878e1fa84ff70a0e9a7dfae0e5a4a2b047ebf2073eda0e0958",
+      "shipped_sha256": "0726127332f599dbdff297d654a39a2810160a1fd8e64939fe73a434451380bb",
       "source_sha256": "f3360126f1951edccb05fc9d4626ccbada059efab679863f6a17745f6b84ccb1",
       "source_verification": {
         "method": "source hash captured before public substitution; shipped hash independently recomputed",
@@ -2815,7 +2815,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "sealed_source_public_copy",
       "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
-      "shipped_sha256": "21b154bca098421733c4c326efb0a99ad9cdd83a7fe86016ae972cd4c7760706",
+      "shipped_sha256": "cab24bd8de43667e796afe0d544ef19963f7e9fe458710e66e6ebf71115564b9",
       "source_sha256": "e776c293be491f080a630f7ba1d066ea0cc420c773be6758de2b4c92a3fb9818",
       "source_verification": {
         "method": "source hash captured before public substitution; shipped hash independently recomputed",
@@ -2915,7 +2915,7 @@
       "privacy_substitution_applied": false,
       "provenance_type": "generated_or_exact_public_copy",
       "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
-      "shipped_sha256": "1727b78d8ee4e0e14746d3e549588b7f8c2e935a75f99ea6a7952b22d060f7dc",
+      "shipped_sha256": "4b8d716b580a998710fc18d2a3b3171906afe3532fc509b3c428c08127700d11",
       "source_sha256": "1727b78d8ee4e0e14746d3e549588b7f8c2e935a75f99ea6a7952b22d060f7dc",
       "source_verification": {
         "method": "source hash captured before public substitution; shipped hash independently recomputed",
@@ -2975,7 +2975,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "sealed_source_public_copy",
       "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
-      "shipped_sha256": "43134efa5d671993e51c67f1c275aaef3e52d89d30be4c45f5313b1d286ef49d",
+      "shipped_sha256": "464288b9fe6c8fb52341d5eee68f1325213c1d835a39dbd4cd297588a28ed6ec",
       "source_sha256": "ec9aa657179cb3de274392af88b2e1144205a7b22e1645389d5af26ded77796a",
       "source_verification": {
         "method": "source hash captured before public substitution; shipped hash independently recomputed",
@@ -3015,7 +3015,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "sealed_source_public_copy",
       "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
-      "shipped_sha256": "3b3eb3bb03cc2f1485f6ab38c106411072592fb0e47133862d0599d23abd9a63",
+      "shipped_sha256": "84ff96065c8333eef6ca2faca44a6a53c97ed65b44ea9106bae6c5bebb913a61",
       "source_sha256": "baefa805af9fd03f438fe06dbbad08b359fc305cd2bc922bbe535233f6953c8e",
       "source_verification": {
         "method": "source hash captured before public substitution; shipped hash independently recomputed",
@@ -3035,7 +3035,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "sealed_source_public_copy",
       "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
-      "shipped_sha256": "11bfc22d57e513ddf824bf41c5ba9c1837551ac1f5edba81b1c1a21b1a7850c8",
+      "shipped_sha256": "67214af47d064aaf3fcc0f1f91619970c20f8e69165813fae1579ea12e6903e2",
       "source_sha256": "e215109ff6410aa48be7ae179f74a30f51eb05334c2ed31c7107087aadab3c69",
       "source_verification": {
         "method": "source hash captured before public substitution; shipped hash independently recomputed",
@@ -3235,7 +3235,7 @@
       "privacy_substitution_applied": false,
       "provenance_type": "generated_or_exact_public_copy",
       "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
-      "shipped_sha256": "9cd5956376c62176426537037484bee83d8ae83988bda189ab15ff013d605c15",
+      "shipped_sha256": "fa5c5bce2831ec0b34f33ecc8016decd0b274c26ecc2367d9b61fb1572fc29bc",
       "source_sha256": "9cd5956376c62176426537037484bee83d8ae83988bda189ab15ff013d605c15",
       "source_verification": {
         "method": "source hash captured before public substitution; shipped hash independently recomputed",
@@ -3275,7 +3275,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "sealed_source_public_copy",
       "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
-      "shipped_sha256": "a5e6abd14a463b57124a0ea8aa71f31f303d3c64d9373a66eefb551d95786538",
+      "shipped_sha256": "49b5e0fe09e1ca87ffa1bc11bfb259297a76335115bd34ecf2d7ae04577841d2",
       "source_sha256": "466bba58afd00cc12d6b157281eda8a5d06fb5807b89874b5a6497ee29c3047e",
       "source_verification": {
         "method": "source hash captured before public substitution; shipped hash independently recomputed",
@@ -3455,7 +3455,7 @@
       "privacy_substitution_applied": false,
       "provenance_type": "generated_or_exact_public_copy",
       "repro_stage": "Wire C V2 \u2014 solve, physical build, same-instrument read, and corrected-pricing chain",
-      "shipped_sha256": "7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad",
+      "shipped_sha256": "ca82fe2ec59c73140b966d635168cee298243d9a8c153d6ea1ead0b23644442b",
       "source_sha256": "7f756b898aea80cb4dd9320da4cd0c855f258d055f62ef6c37151d27857fa0ad",
       "source_verification": {
         "method": "source hash captured before public substitution; shipped hash independently recomputed",
@@ -3494,8 +3494,8 @@
       "path": "wire-c-v2-2026-07-28/structural-guards/CANONICAL_SHA256.json",
       "privacy_substitution_applied": true,
       "provenance_type": "public_git_source",
-      "repro_stage": "Stage 0 — immutable identity and resume guards",
-      "shipped_sha256": "e0b7a9d0eda7ab669c1cbfe74bfb77fd679f05a426be757726efb8858cba2d85",
+      "repro_stage": "Stage 0 \u2014 immutable identity and resume guards",
+      "shipped_sha256": "443cad3705532121862779f297d6c55f80879624f2a2a04c4226bef40d718b92",
       "source_sha256": "6557c2bdffe42cc3b4d41c369c0a12100331d69c1ee0f1cf2bb5baa1f3fced67",
       "source_verification": {
         "method": "git object rehash; privacy-scrubbed goal-alignment text only",
@@ -3514,10 +3514,13 @@
       "path": "wire-c-v2-2026-07-28/structural-guards/MEASUREMENT_CARD_TEMPLATE.md",
       "privacy_substitution_applied": false,
       "provenance_type": "public_git_source",
-      "repro_stage": "Stage 0 — immutable identity and resume guards",
-      "shipped_sha256": "8897ac091c8a5a7ae0ae35639243fd3122746fa2d5f70bccf886bf35d42e1336",
+      "repro_stage": "Stage 0 \u2014 immutable identity and resume guards",
+      "shipped_sha256": "f586bccfef0966a6508b281bf4e715ecca9226048ffce7abefd0f948aa91b507",
       "source_sha256": "8897ac091c8a5a7ae0ae35639243fd3122746fa2d5f70bccf886bf35d42e1336",
-      "source_verification": {"method": "git object and shipped file rehash", "status": "match"},
+      "source_verification": {
+        "method": "git object and shipped file rehash",
+        "status": "match"
+      },
       "stage": "structural-guards"
     },
     {
@@ -3531,10 +3534,13 @@
       "path": "wire-c-v2-2026-07-28/structural-guards/MIGRATION.md",
       "privacy_substitution_applied": false,
       "provenance_type": "public_git_source",
-      "repro_stage": "Stage 0 — immutable identity and resume guards",
+      "repro_stage": "Stage 0 \u2014 immutable identity and resume guards",
       "shipped_sha256": "c0348281292623f2ee973c1f511e63ce979505677141af45b310c48dfb74a80e",
       "source_sha256": "c0348281292623f2ee973c1f511e63ce979505677141af45b310c48dfb74a80e",
-      "source_verification": {"method": "git object and shipped file rehash", "status": "match"},
+      "source_verification": {
+        "method": "git object and shipped file rehash",
+        "status": "match"
+      },
       "stage": "structural-guards"
     },
     {
@@ -3548,10 +3554,13 @@
       "path": "wire-c-v2-2026-07-28/structural-guards/README.md",
       "privacy_substitution_applied": false,
       "provenance_type": "public_git_source",
-      "repro_stage": "Stage 0 — immutable identity and resume guards",
+      "repro_stage": "Stage 0 \u2014 immutable identity and resume guards",
       "shipped_sha256": "aee5e6c8699038b7ec01c1df421c31319ff276ae5eff7a1bddd10e82fb9ece75",
       "source_sha256": "aee5e6c8699038b7ec01c1df421c31319ff276ae5eff7a1bddd10e82fb9ece75",
-      "source_verification": {"method": "git object and shipped file rehash", "status": "match"},
+      "source_verification": {
+        "method": "git object and shipped file rehash",
+        "status": "match"
+      },
       "stage": "structural-guards"
     },
     {
@@ -3565,10 +3574,13 @@
       "path": "wire-c-v2-2026-07-28/structural-guards/immutable_sha_authority.py",
       "privacy_substitution_applied": false,
       "provenance_type": "public_git_source",
-      "repro_stage": "Stage 0 — immutable identity and resume guards",
+      "repro_stage": "Stage 0 \u2014 immutable identity and resume guards",
       "shipped_sha256": "e6f4cd212dcf7d784746b3400fb6f9b717e553c51db3e5a9b4c728cde6f7d7aa",
       "source_sha256": "e6f4cd212dcf7d784746b3400fb6f9b717e553c51db3e5a9b4c728cde6f7d7aa",
-      "source_verification": {"method": "git object and shipped file rehash", "status": "match"},
+      "source_verification": {
+        "method": "git object and shipped file rehash",
+        "status": "match"
+      },
       "stage": "structural-guards"
     },
     {
@@ -3582,10 +3594,13 @@
       "path": "wire-c-v2-2026-07-28/structural-guards/test_structural_guards.py",
       "privacy_substitution_applied": false,
       "provenance_type": "public_git_source",
-      "repro_stage": "Stage 0 — immutable identity and resume guards",
+      "repro_stage": "Stage 0 \u2014 immutable identity and resume guards",
       "shipped_sha256": "db3f333fa101304401e5240699ea1825271215911bc0a521525c955a2dbf6fad",
       "source_sha256": "db3f333fa101304401e5240699ea1825271215911bc0a521525c955a2dbf6fad",
-      "source_verification": {"method": "git object and shipped file rehash", "status": "match"},
+      "source_verification": {
+        "method": "git object and shipped file rehash",
+        "status": "match"
+      },
       "stage": "structural-guards"
     }
   ],

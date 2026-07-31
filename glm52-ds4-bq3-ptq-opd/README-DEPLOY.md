@@ -1,6 +1,6 @@
 # Build and deploy the mixed-tier container
 
-Prerequisites: one Linux aarch64 NVIDIA GB10 (`sm_121`) Spark with Docker, NVIDIA Container Toolkit, and Buildx; the frozen serving virtualenv in `docker/provenance/`; and a validated `genesis-pack` from `EXPORT.md`. Container boot is offline.
+Prerequisites: one Linux aarch64 NVIDIA GB10 (`sm_121`) Spark with Docker, NVIDIA Container Toolkit, and Buildx; the frozen serving virtualenv in `docker/provenance/`; and a validated `banana_smasher-pack` from `EXPORT.md`. Container boot is offline.
 
 ## Three commands
 
@@ -8,12 +8,12 @@ Prerequisites: one Linux aarch64 NVIDIA GB10 (`sm_121`) Spark with Docker, NVIDI
 sudo docker buildx build --load \
   --build-context vllm_runtime=/opt/vllm-runtime \
   --build-arg REQUIRE_KERNEL_CACHE=1 \
-  -t genesis-dsv4-mixed-tier:sm121 docker
+  -t banana_smasher-dsv4-mixed-tier:sm121 docker
 
 sudo docker run --rm --gpus all \
-  -v /path/to/genesis-pack:/model:ro \
+  -v /path/to/banana_smasher-pack:/model:ro \
   -p 8000:8000 \
-  genesis-dsv4-mixed-tier:sm121
+  banana_smasher-dsv4-mixed-tier:sm121
 
 curl -sS http://127.0.0.1:8000/v1/completions \
   -H 'content-type: application/json' \
@@ -28,7 +28,7 @@ A normal build requires committed `docker/triton-cache/CACHE_MANIFEST.json` and 
 
 ```bash
 cd glm52-ds4-bq3-ptq-opd
-VLLM_RUNTIME=/opt/vllm-runtime IMAGE=genesis-dsv4-mixed-tier:sm121 \
+VLLM_RUNTIME=/opt/vllm-runtime IMAGE=banana_smasher-dsv4-mixed-tier:sm121 \
   docker/scripts/build.sh
 ```
 
@@ -40,8 +40,8 @@ Follow `EXPORT.md`, then run:
 
 ```bash
 sudo docker run --rm \
-  -v /path/to/genesis-pack:/model:ro \
-  genesis-dsv4-mixed-tier:sm121 verify /model
+  -v /path/to/banana_smasher-pack:/model:ro \
+  banana_smasher-dsv4-mixed-tier:sm121 verify /model
 ```
 
 The pack must contain exactly 1,645 plane files and 101,346,700,411 resident bytes. Validation recomputes a canonical pack inventory from exact pack-relative paths, byte counts, and per-file SHA-256 values; the manifest separately preserves the upstream sealed source inventory identity.
@@ -50,8 +50,8 @@ The pack must contain exactly 1,645 plane files and 101,346,700,411 resident byt
 
 ```bash
 docker/scripts/validate_spark7.sh \
-  genesis-dsv4-mixed-tier:sm121 \
-  /path/to/genesis-pack \
+  banana_smasher-dsv4-mixed-tier:sm121 \
+  /path/to/banana_smasher-pack \
   /path/to/validation-output
 ```
 
@@ -59,7 +59,7 @@ This runs two fresh container processes, executes the canonical 2K/8K prefill la
 
 ## Expected startup receipt
 
-`/run/genesis/receipts/STARTUP_SMOKE.json` and the `GENESIS_STARTUP_SMOKE` log line contain:
+`/run/banana_smasher/receipts/STARTUP_SMOKE.json` and the `BANANA_SMASHER_STARTUP_SMOKE` log line contain:
 
 - `bind_seconds`
 - `first_token_seconds_from_container_start`

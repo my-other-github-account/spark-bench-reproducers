@@ -16,7 +16,7 @@ Every solver error therefore decomposes into FIVE NAMED TERMS, each with its own
 | T1 | Price scale | Is each tier family's damage scale right? | ONE family anchor (uniform wire or few pure swaps) vs FP teacher (~1-2h) | VQ: OG grid ✅; QTIP2: swap-basis ⚠️ |
 | T2 | Price ranking | Do proxies rank cells within a family? | rank-correlate proxy vs a handful of measured cells (free w/ T1 data) | SSE ranking assumed, spot-checked |
 | T3 | Additivity | Do N simultaneous cell changes sum? | MICRO-BUILD: ~100 diverse changed cells, copy-through build, paired score (~1h) | NEVER MEASURED — gap |
-| T4 | Build-chain tax | Does the BUILT wire match the predicted assignment? | one (nomination, sealed) pair per builder version | GENESIS: code 1.04x, non-code ~2x ANOMALY |
+| T4 | Build-chain tax | Does the BUILT wire match the predicted assignment? | one (nomination, sealed) pair per builder version | BANANA_SMASHER: code 1.04x, non-code ~2x ANOMALY |
 
 RULE: a prediction is quotable only with its per-term status attached. T0-T2 green = trust RANKING.
 T3+T4 green (ratios ~1.0) = trust ABSOLUTES. Otherwise absolutes go through the measured ratio bank
@@ -24,7 +24,7 @@ and are labeled RATIO_CALIBRATED with the pair count that produced the ratios.
 
 ## 2. The T4 anomaly is a BUG, not a constant
 
-The GENESIS non-code 2x miss (nom 0.067 -> sealed 0.1284 while code hit 4%) is *untracked damage in
+The BANANA_SMASHER non-code 2x miss (nom 0.067 -> sealed 0.1284 while code hit 4%) is *untracked damage in
 the build chain*, not solver noise. Standing policy: each new (pred, sealed) pair updates the ratio
 bank AND narrows the root-cause search. Candidate mechanisms (unfalsified): shared-codebook
 interaction across cells changed together; layer-boundary effects the per-cell paired instrument

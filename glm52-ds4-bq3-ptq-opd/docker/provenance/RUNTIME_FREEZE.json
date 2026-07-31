@@ -12,7 +12,7 @@
     "vllm": "0.20.2rc1.dev3+gcb03fee32"
   },
   "sanitized_pip_freeze_sha256": "5d7bab9403a7e0de23736e1c3439a1b83f413b839ccaba2493aa909a2c766616",
-  "schema": "genesis-runtime-freeze-v1",
+  "schema": "banana_smasher-runtime-freeze-v1",
   "validation_only_packages_excluded": [
     "llama-benchy",
     "vq-warp-gemv"

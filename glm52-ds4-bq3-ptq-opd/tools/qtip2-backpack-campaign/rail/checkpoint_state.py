@@ -10,7 +10,7 @@ from typing import Any, Mapping
 
 import torch
 
-FORMAT = "genesis-basic-repair-v1"
+FORMAT = "banana_smasher-basic-repair-v1"
 MECHANISM = "physical-vq-codebooks-plus-all-rmsnorms-plus-attention-output-gains"
 N_LAYERS = 43
 N_CODEBOOK_PARAMS = 2_535_424
@@ -238,7 +238,7 @@ def validate_state(payload: Mapping[str, Any], sidecar: Mapping[str, Any], updat
 def load_checkpoint(path: Path, sidecar_path: Path, update: int) -> tuple[dict[str, Any], dict[str, Any]]:
     sidecar_raw = sidecar_path.read_bytes()
     sidecar = json.loads(sidecar_raw)
-    if sidecar.get("schema") != "genesis-basic-checkpoint-v1" or sidecar.get("update") != update:
+    if sidecar.get("schema") != "banana_smasher-basic-checkpoint-v1" or sidecar.get("update") != update:
         raise RuntimeError("checkpoint sidecar schema/update drift")
     expected_sha = sidecar.get("checkpoint_sha256")
     if sha256_file(path) != expected_sha:

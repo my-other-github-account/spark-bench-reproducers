@@ -255,7 +255,7 @@
     "overall_pass": false,
     "path": "$HOME/run-bundles/P672_ACTCACHE_P13_PUBLIC_TASK_s5w/final_gate/FINAL_GATE_RAW_OVERLAP_EVENTS.json",
     "reason": "direct dedicated-stream intervals overlap unchanged expert compute; their sum is preserved but is not an additive target-sink wall",
-    "sha256": "62f9e76080f0333ad24d0c7b740def71799906306e83c103b768e3b7bc045552"
+    "sha256": "0582529912899648f4d5839e6bb683c4b9eeb463d062f8d82f27520a805bb3da"
   },
   "routed_total": {
     "after_seconds": {
@@ -275,13 +275,13 @@
   "selected_p13_group": 1,
   "source_identity": {
     "base_binrepair_sha256": "59cacb05b547c58329809b8f1d7c3a52011ecdd58b2eddb2302c0e3cb521125d",
-    "fused_expert_linear_sha256": "4ce65fab1ec75775d88ff53d73a1c2a15d13723865a2ffc4047561cb732eb840",
+    "fused_expert_linear_sha256": "5850caafaaba60502899da3ec713ed813a53505898cbeb410eef4e0a276e29d8",
     "ladder_path": "$HOME/run-bundles/P672_ACTCACHE_P13_PUBLIC_TASK_s5w/experiments/p13_pipeline_ladder/P13_PIPELINE_LADDER.json",
     "ladder_sha256": "44d12b7a56363713239d97dcc345ffc16a6945582b4b51dbb3c06f10b1b73f26",
     "p649_final_gate_path": "$HOME/run-bundles/P649_ROUTED_EXPERTS_PUBLIC_TASK_s5w/candidate_gate_r4_postimage/FINAL_GATE.json",
-    "p649_final_gate_sha256": "804a47fb600ac381a5d6b323af2495a689deab2dd504545c6321f64770f57d81",
-    "p649_physical_sha256": "c561530422356701694ab10e121c2d51b2a7ef8c34c7457f15493785204ac184",
-    "p672_physical_sha256": "fac49a646b9bc38b1b8dd5ec46e3a005544fede26e7dfdd40d958e24ea1c16d8",
+    "p649_final_gate_sha256": "6714fb8df38d7eed2c7282caea691545ab2bdf51284d2fe8c40ceba7d8b5a398",
+    "p649_physical_sha256": "7b075170e405ad54b0487f6649923cba4abcaf8592eeaadfde942409b2270a9f",
+    "p672_physical_sha256": "6d86f2e7ac658d365adfe20f04502e0697bc97a0fff8c972abb947d98c2c0661",
     "profile_path": "$HOME/run-bundles/P672_ACTCACHE_P13_PUBLIC_TASK_s5w/profile/INNER_PROFILE.json",
     "profile_sha256": "6e13e40cbc40e09e01030cdfa0fbb687ac702099c0669909825f7a4b470c44c4"
   },
@@ -320,8 +320,8 @@
     "source_isolation": {
       "fused_expert_linear_equal": true,
       "only_timed_forward_delta": "projection13 payload staging/decode/overlap",
-      "p649_physical_sha256": "c561530422356701694ab10e121c2d51b2a7ef8c34c7457f15493785204ac184",
-      "p672_physical_sha256": "fac49a646b9bc38b1b8dd5ec46e3a005544fede26e7dfdd40d958e24ea1c16d8",
+      "p649_physical_sha256": "7b075170e405ad54b0487f6649923cba4abcaf8592eeaadfde942409b2270a9f",
+      "p672_physical_sha256": "6d86f2e7ac658d365adfe20f04502e0697bc97a0fff8c972abb947d98c2c0661",
       "projection2_forward_tail_equal": true,
       "unchanged_methods_ast_equal": [
         "_vq_payloads",

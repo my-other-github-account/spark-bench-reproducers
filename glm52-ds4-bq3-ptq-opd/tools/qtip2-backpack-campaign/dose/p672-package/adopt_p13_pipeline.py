@@ -14,14 +14,14 @@ import time
 SCHEMA = "p672-p13-pipeline-adoption-v1"
 SOURCE_TASK = "PUBLIC_TASK"
 BASE_SHA = "59cacb05b547c58329809b8f1d7c3a52011ecdd58b2eddb2302c0e3cb521125d"
-GENESIS_BASIC_SHA = "991370498c153988dda7df3fc5a23c40a4d58a48ba3d8bb4d596a3d9fa6a17cc"
-FUSED_SHA = "4ce65fab1ec75775d88ff53d73a1c2a15d13723865a2ffc4047561cb732eb840"
-P649_PHYSICAL_SHA = "c561530422356701694ab10e121c2d51b2a7ef8c34c7457f15493785204ac184"
-P672_PHYSICAL_SHA = "fac49a646b9bc38b1b8dd5ec46e3a005544fede26e7dfdd40d958e24ea1c16d8"
+BANANA_SMASHER_BASIC_SHA = "991370498c153988dda7df3fc5a23c40a4d58a48ba3d8bb4d596a3d9fa6a17cc"
+FUSED_SHA = "5850caafaaba60502899da3ec713ed813a53505898cbeb410eef4e0a276e29d8"
+P649_PHYSICAL_SHA = "7b075170e405ad54b0487f6649923cba4abcaf8592eeaadfde942409b2270a9f"
+P672_PHYSICAL_SHA = "6d86f2e7ac658d365adfe20f04502e0697bc97a0fff8c972abb947d98c2c0661"
 SAFE_BOUNDARY = (
     "Apply or rollback only while the target mission is stopped and already uses "
     "the exact P649 r4_c1_p2_m64n32w8 postimage. P672 changes only "
-    "genesis_physical_surface.py. Enable with P672_P13_PIPELINE=1 and "
+    "banana_smasher_physical_surface.py. Enable with P672_P13_PIPELINE=1 and "
     "P672_P13_GROUP=1; P649 p2 tile/grouping and P643 B32/eight-stream attention "
     "remain unchanged. B40, CONFIGS49, and multi-host PROOF-1 are forbidden."
 )
@@ -34,7 +34,7 @@ RUNTIME_ENV = {
     "P649_P2_BLOCK_M": "64",
     "P649_P2_BLOCK_N": "32",
     "P649_P2_NUM_WARPS": "8",
-    "GENESIS_REPAIR_MEM_FLOOR_BYTES": str(32 * 1024**3),
+    "BANANA_SMASHER_REPAIR_MEM_FLOOR_BYTES": str(32 * 1024**3),
 }
 
 
@@ -72,8 +72,8 @@ def root() -> Path:
 
 def verify_payloads() -> dict[str, str]:
     expected = {
-        "payload/genesis_physical_surface.py": P672_PHYSICAL_SHA,
-        "rollback/genesis_physical_surface.py": P649_PHYSICAL_SHA,
+        "payload/banana_smasher_physical_surface.py": P672_PHYSICAL_SHA,
+        "rollback/banana_smasher_physical_surface.py": P649_PHYSICAL_SHA,
     }
     actual: dict[str, str] = {}
     for relative, wanted in expected.items():
@@ -91,8 +91,8 @@ def verify_payloads() -> dict[str, str]:
 def target_hashes(mission: Path) -> dict[str, str]:
     paths = {
         "base_binrepair_e2e.py": mission / "code/base_binrepair_e2e.py",
-        "genesis_basic_repair.py": mission / "code/genesis_basic_repair.py",
-        "genesis_physical_surface.py": mission / "code/genesis_physical_surface.py",
+        "banana_smasher_basic_repair.py": mission / "code/banana_smasher_basic_repair.py",
+        "banana_smasher_physical_surface.py": mission / "code/banana_smasher_physical_surface.py",
         "fused_expert_linear.py": mission / "code/fused_expert_linear.py",
     }
     for path in paths.values():
@@ -104,11 +104,11 @@ def target_hashes(mission: Path) -> dict[str, str]:
 def classify(hashes: dict[str, str]) -> str:
     if hashes.get("base_binrepair_e2e.py") != BASE_SHA:
         return "unknown"
-    if hashes.get("genesis_basic_repair.py") != GENESIS_BASIC_SHA:
+    if hashes.get("banana_smasher_basic_repair.py") != BANANA_SMASHER_BASIC_SHA:
         return "unknown"
     if hashes.get("fused_expert_linear.py") != FUSED_SHA:
         return "unknown"
-    physical = hashes.get("genesis_physical_surface.py")
+    physical = hashes.get("banana_smasher_physical_surface.py")
     if physical == P649_PHYSICAL_SHA:
         return "p649_routed_experts"
     if physical == P672_PHYSICAL_SHA:
@@ -165,11 +165,11 @@ def apply(mission: Path) -> dict[str, object]:
         }
     backup_dir = mission / ".p672_p13_pipeline_rollback"
     backup_dir.mkdir(parents=True, exist_ok=True)
-    backup = backup_dir / "genesis_physical_surface.py"
+    backup = backup_dir / "banana_smasher_physical_surface.py"
     if backup.exists() and sha256(backup) != P649_PHYSICAL_SHA:
         raise RuntimeError(f"rollback backup collision: {backup}")
     if not backup.exists():
-        atomic_copy(mission / "code/genesis_physical_surface.py", backup)
+        atomic_copy(mission / "code/banana_smasher_physical_surface.py", backup)
     atomic_json(
         backup_dir / "MANIFEST.json",
         {
@@ -182,8 +182,8 @@ def apply(mission: Path) -> dict[str, object]:
         },
     )
     atomic_copy(
-        root() / "payload/genesis_physical_surface.py",
-        mission / "code/genesis_physical_surface.py",
+        root() / "payload/banana_smasher_physical_surface.py",
+        mission / "code/banana_smasher_physical_surface.py",
     )
     after = target_hashes(mission)
     if classify(after) != "p672_p13_pipeline":
@@ -224,7 +224,7 @@ def rollback(mission: Path) -> dict[str, object]:
             + json.dumps(before, sort_keys=True)
         )
     backup_dir = mission / ".p672_p13_pipeline_rollback"
-    backup = backup_dir / "genesis_physical_surface.py"
+    backup = backup_dir / "banana_smasher_physical_surface.py"
     manifest_path = backup_dir / "MANIFEST.json"
     if not manifest_path.is_file() or not backup.is_file():
         raise RuntimeError(f"missing rollback material: {backup_dir}")
@@ -235,7 +235,7 @@ def rollback(mission: Path) -> dict[str, object]:
         or sha256(backup) != P649_PHYSICAL_SHA
     ):
         raise RuntimeError("invalid rollback material")
-    atomic_copy(backup, mission / "code/genesis_physical_surface.py")
+    atomic_copy(backup, mission / "code/banana_smasher_physical_surface.py")
     after = target_hashes(mission)
     if classify(after) != "p649_routed_experts":
         raise RuntimeError(f"rollback verification failed: {after}")

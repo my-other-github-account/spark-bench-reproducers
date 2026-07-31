@@ -315,15 +315,15 @@
          h = fast_forward(student, hidden, ids, False)
          values = [float(loss_window(student, h[j], rls[j], k))
                    for j, k in enumerate(wins)]
---- genesis_basic_repair.py
-+++ genesis_basic_repair_accel.py
+--- banana_smasher_basic_repair.py
++++ banana_smasher_basic_repair_accel.py
 @@ -1000,9 +1000,11 @@
          if any(int(win) < 0 or int(win) >= 256 for win in wins):
              raise RuntimeError(f"{class_name} references non-TRAIN combined window")
      directional_spec_sha = sha256_file(directional_spec_path)
 +    # Keep scorer batches at the sealed optimizer batch shape. Larger batches
 +    # choose different dense-GEMM reductions and move decision-scale KLD rows.
-     directional_batch = int(os.environ.get("GENESIS_REPAIR_DIRECTIONAL_BATCH", "4"))
+     directional_batch = int(os.environ.get("BANANA_SMASHER_REPAIR_DIRECTIONAL_BATCH", "4"))
      if directional_batch <= 0 or directional_batch > batch:
 -        raise RuntimeError("directional batch must be in [1, canonical batch]")
 +        raise RuntimeError(f"directional batch must be in [1,{batch}]")

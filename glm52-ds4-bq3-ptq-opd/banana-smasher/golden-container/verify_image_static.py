@@ -9,11 +9,11 @@ import os
 from pathlib import Path
 
 EXPECTED = {
-    "/opt/genesis/runtime_cubins/vq_warp_gemv/_C.so": "b98e7917881bc846b4f3ad3d1da8671a87fb9021f28ce6bd33f6c3b97c4135e5",
-    "/opt/genesis/P1268_C1_C2_RESULT.json": "9b1d42fe3f4dcb28e7f8660b37f800fdbfdcd7f721fb4bc57ca31a0dda313860",
-    "/opt/genesis/C_LADDER_FULL_SEAL.json": "be0453e1d6081a87a0288c8611b9ee5ec33a4b2ba927cb68c358e71a10b242f7",
-    "/opt/genesis/WINNING_BOOT_CONFIG.json": "091e8eb3e4caa9793454f4a529d8c1f5fc0af0fcb4fa28cc89e34c8a4c314da2",
-    "/opt/genesis/BOOT_CONFIG_FREEZE.json": "cff72b34c5cd9d29a17d9a1842005febf5402141f6709c10f85a25cd8a61d707",
+    "/opt/banana_smasher/runtime_cubins/vq_warp_gemv/_C.so": "b98e7917881bc846b4f3ad3d1da8671a87fb9021f28ce6bd33f6c3b97c4135e5",
+    "/opt/banana_smasher/P1268_C1_C2_RESULT.json": "9b1d42fe3f4dcb28e7f8660b37f800fdbfdcd7f721fb4bc57ca31a0dda313860",
+    "/opt/banana_smasher/C_LADDER_FULL_SEAL.json": "be0453e1d6081a87a0288c8611b9ee5ec33a4b2ba927cb68c358e71a10b242f7",
+    "/opt/banana_smasher/WINNING_BOOT_CONFIG.json": "091e8eb3e4caa9793454f4a529d8c1f5fc0af0fcb4fa28cc89e34c8a4c314da2",
+    "/opt/banana_smasher/BOOT_CONFIG_FREEZE.json": "cff72b34c5cd9d29a17d9a1842005febf5402141f6709c10f85a25cd8a61d707",
 }
 
 
@@ -50,20 +50,20 @@ for name, expected in EXPECTED.items():
     if actual != expected:
         raise SystemExit(f"static hash mismatch {name}: {actual} != {expected}")
 
-wheel = json.loads(Path("/opt/genesis/WHEEL_MANIFEST.json").read_text())
-if wheel.get("schema") != "genesis-golden-wheel-manifest-v2" or not wheel.get("files"):
+wheel = json.loads(Path("/opt/banana_smasher/WHEEL_MANIFEST.json").read_text())
+if wheel.get("schema") != "banana_smasher-golden-wheel-manifest-v2" or not wheel.get("files"):
     raise SystemExit("wheel manifest schema/rows mismatch")
 wheel_root = Path(wheel["destination_root"])
 for row in wheel["files"]:
     verify_row(wheel_root, row, "wheel")
 
-runtime = json.loads(Path("/opt/genesis/RUNTIME_CACHE_MANIFEST.json").read_text())
-if runtime.get("schema") != "genesis-golden-runtime-cache-manifest-v1" or not runtime.get("files"):
+runtime = json.loads(Path("/opt/banana_smasher/RUNTIME_CACHE_MANIFEST.json").read_text())
+if runtime.get("schema") != "banana_smasher-golden-runtime-cache-manifest-v1" or not runtime.get("files"):
     raise SystemExit("runtime-cache manifest schema/rows mismatch")
 runtime_roots = {
-    "cubins_w2": Path("/opt/genesis/runtime_cubins/cubins-sm120"),
-    "cubins_w3": Path("/opt/genesis/runtime_cubins/cubins_e43"),
-    "triton_cache": Path("/opt/genesis/cache/triton"),
+    "cubins_w2": Path("/opt/banana_smasher/runtime_cubins/cubins-sm120"),
+    "cubins_w3": Path("/opt/banana_smasher/runtime_cubins/cubins_e43"),
+    "triton_cache": Path("/opt/banana_smasher/cache/triton"),
     "flashinfer_cache": Path("/root/.cache/vllm/flashinfer_autotune_cache"),
     "flashinfer_jit_cache": Path("/root/.cache/flashinfer"),
 }

@@ -9,10 +9,10 @@ from pathlib import Path
 import sys
 
 ROOT = Path(__file__).resolve().parent
-P649_FINAL_SHA = "804a47fb600ac381a5d6b323af2495a689deab2dd504545c6321f64770f57d81"
-P649_PHYSICAL_SHA = "c561530422356701694ab10e121c2d51b2a7ef8c34c7457f15493785204ac184"
-P672_PHYSICAL_SHA = "fac49a646b9bc38b1b8dd5ec46e3a005544fede26e7dfdd40d958e24ea1c16d8"
-FUSED_SHA = "4ce65fab1ec75775d88ff53d73a1c2a15d13723865a2ffc4047561cb732eb840"
+P649_FINAL_SHA = "6714fb8df38d7eed2c7282caea691545ab2bdf51284d2fe8c40ceba7d8b5a398"
+P649_PHYSICAL_SHA = "7b075170e405ad54b0487f6649923cba4abcaf8592eeaadfde942409b2270a9f"
+P672_PHYSICAL_SHA = "6d86f2e7ac658d365adfe20f04502e0697bc97a0fff8c972abb947d98c2c0661"
+FUSED_SHA = "5850caafaaba60502899da3ec713ed813a53505898cbeb410eef4e0a276e29d8"
 
 
 def sha256(path: Path) -> str:
@@ -148,7 +148,7 @@ def main() -> int:
     require(runtime.get("P672_P13_PIPELINE") == "1", "pipeline env missing")
     require(runtime.get("P672_P13_GROUP") == "1", "G1 env missing")
     require(runtime.get("P649_EXPERT_RESIDENT_SCOPE") == "4", "P649 grouping drift")
-    require(runtime.get("GENESIS_REPAIR_MEM_FLOOR_BYTES") == str(32 * 1024**3), "memory floor env drift")
+    require(runtime.get("BANANA_SMASHER_REPAIR_MEM_FLOOR_BYTES") == str(32 * 1024**3), "memory floor env drift")
 
     roundtrip = {
         name: json.loads((ROOT / "roundtrip" / f"{name}.json").read_text())
@@ -173,7 +173,7 @@ def main() -> int:
         "rollback did not restore P649 preimage",
     )
     require(
-        roundtrip["STATUS_POSTIMAGE"]["target_shas"]["genesis_physical_surface.py"]
+        roundtrip["STATUS_POSTIMAGE"]["target_shas"]["banana_smasher_physical_surface.py"]
         == P672_PHYSICAL_SHA,
         "apply postimage drift",
     )

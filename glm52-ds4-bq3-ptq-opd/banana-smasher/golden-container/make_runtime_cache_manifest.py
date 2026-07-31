@@ -46,7 +46,7 @@ def main() -> int:
         rows = list(pool.map(lambda args: row(*args), work))
     rows.sort(key=lambda item: (item["context"], item["path"]))
     payload = {
-        "schema": "genesis-golden-runtime-cache-manifest-v1",
+        "schema": "banana_smasher-golden-runtime-cache-manifest-v1",
         "truth_label": "PUBLIC_CANON_IQ3_WIRE; NOT P943 native TRUE-C",
         "contexts": sorted(roots),
         "file_count": len(rows),

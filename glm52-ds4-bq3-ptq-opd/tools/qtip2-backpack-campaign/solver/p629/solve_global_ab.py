@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""P629 compute-node-1 canonical GENESIS class-balanced GLOBAL A/B solve.
+"""P629 compute-node-1 canonical BANANA_SMASHER class-balanced GLOBAL A/B solve.
 
-Uses the sealed rung-2 GENESIS inputs and immutable c9fb72... assignment as the
+Uses the sealed rung-2 BANANA_SMASHER inputs and immutable c9fb72... assignment as the
 feasible incumbent. The objective is the uniform arithmetic mean of the six
 per-class predicted KLDs. The WITH arm adds exactly one all-512
 qtip2_2.0117 layer option on the existing rep-16 layers. Measured layers retain
@@ -62,10 +62,10 @@ def atomic_json(path: Path, obj: Any) -> str:
 
 
 def load_original():
-    p = LINEAGE / "original_genesis_code_solve.py"
+    p = LINEAGE / "original_banana_smasher_code_solve.py"
     if sha256(p) != EXPECTED_ORIGINAL_SOLVER_SHA:
         raise RuntimeError("original solver SHA drift")
-    spec = importlib.util.spec_from_file_location("genesis_original", p)
+    spec = importlib.util.spec_from_file_location("banana_smasher_original", p)
     mod = importlib.util.module_from_spec(spec)
     assert spec.loader
     spec.loader.exec_module(mod)
@@ -462,7 +462,7 @@ def main() -> int:
         "input_receipts": {
             "manifest": {"path": str(INPUTS / "INPUT_MANIFEST.json"), "sha256": EXPECTED_INPUT_MANIFEST_SHA},
             "verified_manifest_files": verified_inputs,
-            "original_solver": {"path": str(LINEAGE / "original_genesis_code_solve.py"), "sha256": EXPECTED_ORIGINAL_SOLVER_SHA},
+            "original_solver": {"path": str(LINEAGE / "original_banana_smasher_code_solve.py"), "sha256": EXPECTED_ORIGINAL_SOLVER_SHA},
             "incumbent_assignment": {"path": str(LINEAGE / "NOMINATED_ASSIGNMENT.json"), "sha256": EXPECTED_ASSIGNMENT_SHA},
             "anchors": measured_rows,
         },

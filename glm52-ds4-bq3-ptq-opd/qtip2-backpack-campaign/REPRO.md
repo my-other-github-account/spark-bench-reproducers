@@ -44,7 +44,7 @@ python3 glm52-ds4-bq3-ptq-opd/tools/publication_audit.py
 
 ### `recompute_results.py --check`
 
-- Genesis/BQ3, Wire A, Wire C-R, QTIP2, and QTIP3 rows equal their shipped source receipts;
+- BananaSmasher/BQ3, Wire A, Wire C-R, QTIP2, and QTIP3 rows equal their shipped source receipts;
 - the P922 diagnostic and substitution penalty equal the shipped P922 receipt;
 - the TRUE-C point estimate recomputes as Wire C-R minus the measured surcharge;
 - the published 0.089–0.095 range remains explicitly labeled estimated;

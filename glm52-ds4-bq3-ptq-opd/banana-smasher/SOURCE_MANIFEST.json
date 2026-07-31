@@ -17,112 +17,112 @@
       "sha256": "284c01022a668899b0c7390598ffe2e0a3ced8356c051225b0d8c4e9bcb6deb9"
     },
     "BANANA_PACK_SPEC.md": {
-      "bytes": 15053,
-      "sha256": "9527503d1a8bcde9bbe0bb94d4a4d7adb5a381318f5bb961a7c397c7c1b3cd66"
+      "bytes": 15122,
+      "sha256": "d2a09e6873289b6098a437c3970b022eb5a04bb93b7d2ccff370291d5e250c97"
     },
     "Dockerfile": {
-      "bytes": 7174,
-      "sha256": "82577f76b4dba298076d425d4e367c04c0b3b999528282345de6948f89145b85"
+      "bytes": 7335,
+      "sha256": "b1dddd9bddfe31bf6a9f95dadbd6c4906fbef509d3059020737470792032b518"
     },
     "NIGHTLY_SEALED_RESULTS.md": {
       "bytes": 4572,
       "sha256": "676cb00b9fb9488123440191cd29ef61e29166a61c4559a75c154dda62c98e2c"
     },
     "PACK_FORMAT.md": {
-      "bytes": 14992,
-      "sha256": "6de567b51ff5acf7ae73cee95a0f3500b7710c725bfc5c88b75867b5ef11a03a"
+      "bytes": 15054,
+      "sha256": "5b1de24fd1a2577a2822bc908aba237a793da39bc3fd7c0a8e9a9d4f15606f0c"
     },
     "PUBLICATION_TRANSFORM.json": {
       "bytes": 19064,
-      "sha256": "d44116739f571b9ca8100f7d3fa2ee1df9bdee4928c28f01cb31082a6be22e52"
+      "sha256": "933087da9449f470deac8c3c4a7356f605f15bd7c087bb4224a0c156d37ab21c"
     },
     "README.md": {
-      "bytes": 1996,
-      "sha256": "68c044a66beb22244ce0802838a47cdba49011eab83adf3aecf8aa5566fe04a1"
+      "bytes": 2002,
+      "sha256": "79c1086a4b206528109cc7a50b725f3071ba6bb9f8c37ac2f0fd8f834569b013"
     },
     "RELEASE_PRESEAL.md": {
-      "bytes": 4437,
-      "sha256": "c09675e4ae84376fd10542cec54fb8784aa762ef7c3d5531daa53aac186bf08f"
+      "bytes": 4451,
+      "sha256": "2db9c249653e8df34e0c631950e1f3deed0f8e3dfdbefd64f56fad7dfc768f14"
     },
     "VENDORED_WHEELS.json": {
       "bytes": 2197,
       "sha256": "b01a95bb62fd8a6fc65f7f493f78ab1b9f688d374a53185e0023dc581338c724"
     },
     "build.sh": {
-      "bytes": 3707,
-      "sha256": "afb6585d1b5e0599b7b7ca4737b87e70f64bdd96f6b6707971e3ac0a4c4f38d4"
+      "bytes": 3728,
+      "sha256": "53fd08ee87e8e7a86ce5c663a99c93d13755ff047074308fc62ff1560d1ed53e"
     },
     "golden-container/.dockerignore": {
       "bytes": 253,
       "sha256": "edf75b0117b66e78e9c62059b8da562edd6009083d965bafa3a383c15b707220"
     },
     "golden-container/Dockerfile": {
-      "bytes": 6195,
-      "sha256": "8a8144dc35ca87810a230a9e3c1c41ed77308770bb85f5df7db425c1ae1c4943"
+      "bytes": 6517,
+      "sha256": "a35e0b699683224d5bef3fca1b78ebde039c18170043d47ec3f3336a858d89f8"
     },
     "golden-container/RECIPE_MANIFEST.json": {
-      "bytes": 3219,
-      "sha256": "2cd4778770e5d8f1005ff0cea2ca51d7f9433195b16482c64a6833a02a8483a1"
+      "bytes": 3226,
+      "sha256": "bc05b14b1e4fe07c005ef9d0e6e63b8d794f4de61da4493e3c1166c9e715d3ed"
     },
     "golden-container/SERVE_RUNBOOK.md": {
-      "bytes": 7587,
-      "sha256": "947ab0757a1674fe29bb45a5e911e0b0a1fa30935d5c34b4d7486bb2d7e9bef1"
+      "bytes": 7621,
+      "sha256": "b0b8907885a7c3f0c66e5c4e7b4bb06ec6a00887480dae63e5f0f7afb1c1cb65"
     },
     "golden-container/build_golden.sh": {
-      "bytes": 10885,
-      "sha256": "1f64a4674bec1e157ab6b4163d231e88db94eb7520bcf34e9aa52e5c591e27f1"
+      "bytes": 10948,
+      "sha256": "5fcb663a55187af63fff79282034ef46fd5dffbf6bd401ca0017d08478446403"
     },
     "golden-container/golden_perf_check.py": {
-      "bytes": 12626,
-      "sha256": "7de3e8af4afca946803ef73711ec05c7b31dc7a7bb5f212b6feff6e91e3ddeb3"
+      "bytes": 12640,
+      "sha256": "0a5ce53724827b8a8cf2f389052821f014572da406e6480c65ce591f6649498e"
     },
     "golden-container/healthcheck.py": {
-      "bytes": 4051,
-      "sha256": "4751dfcabea46185bb62c885a918906b9b7882093647989452d81bc1ec251491"
+      "bytes": 4065,
+      "sha256": "801f862fafa8d97f637a1ebce17953247facff01eb81d6f409bb4d3b3d048b59"
     },
     "golden-container/make_runtime_cache_manifest.py": {
-      "bytes": 2425,
-      "sha256": "aa6cff20b019eb09a4e2ab65596426110c93d484513d4ad59316fb5b20adfb9c"
+      "bytes": 2432,
+      "sha256": "940e55132388fa45ec960042c872a43bfb1edb0df360bd0c99433ca7bd5f4087"
     },
     "golden-container/make_wheel_manifest.py": {
-      "bytes": 5596,
-      "sha256": "dd92de8784204e387604c36cd7b2726055704e430355fa32888166373d77ef5b"
+      "bytes": 5603,
+      "sha256": "c70b0316c2a6cbc9e7cfae125d68b15f141d880b1dfe03f7a4e27aafc89a65ee"
     },
     "golden-container/patch_flashinfer_cache_load.py": {
-      "bytes": 3317,
-      "sha256": "9c5cf2e11547b53ffc1e4757a2a0c1eff7c0f33b3679ddd34a0f442459c2a8b8"
+      "bytes": 3324,
+      "sha256": "76d62b8f5e7d87522d1d5e56f19d3b7c72c039496195621aae4c0aec150bf121"
     },
     "golden-container/patch_quant_method_defaults.py": {
-      "bytes": 9855,
-      "sha256": "2c8b41675c2f45c23cb1c673e0b5539709451de5ebfc2a3c37e0905597f7a80c"
+      "bytes": 9869,
+      "sha256": "34f40520b7d320005683457f14717185855f70f1db75418c1d8e5a739a7690fd"
     },
     "golden-container/prepare_external_pack.py": {
-      "bytes": 4673,
-      "sha256": "44a495c148a9d1d5a90f050700b7f2dd2204b2054ca586bc1a564a7f6d4562b0"
+      "bytes": 4680,
+      "sha256": "1e7680195489f9e44d47d065b1ac87663f52ebbc154bf9cece99a266e50f6e13"
     },
     "golden-container/publish_local_registry.sh": {
-      "bytes": 1309,
-      "sha256": "2a26bec648f8e9d3e8592c28bea02ada5e1c266dbfe0084b773396295ddd6d1a"
+      "bytes": 1330,
+      "sha256": "64b9e2b156c4a2df2522e9890a1b3568922ab0e34ef405b3783dbfad1a68a339"
     },
     "golden-container/push_local_registry_via_ssh.sh": {
-      "bytes": 2965,
-      "sha256": "d61ca78873fed896fe4770a210809cbdeb39c39b544d78c0c5e3b1e898fb5b2c"
+      "bytes": 2993,
+      "sha256": "2d9f5a81fc9946a53374eaa07b6c61eaa6d770964a7c7b78e8caae2c347f3afe"
     },
     "golden-container/receipts/HOST_FREE_HARDENING_RECEIPT.json": {
-      "bytes": 4938,
-      "sha256": "c00ab6a691e35696fbcc5ef045815b67a3a844f6ca3c9b777a687c63ea8019ee"
+      "bytes": 4945,
+      "sha256": "86886c874cc9a4e5be4241e9fafe0d72f05bd05776d04e216109e2d0c2f78245"
     },
     "golden-container/seal_recipe.py": {
-      "bytes": 1739,
-      "sha256": "36f67df5695186c537bbf67e741ded4b0a84f1d9d9405f9b2e89a29a087eba9f"
+      "bytes": 1746,
+      "sha256": "bb11824b7768199db8c96ca334812f4b654ceb67645f086f768e69279ae42cbd"
     },
     "golden-container/validate_golden.sh": {
-      "bytes": 11709,
-      "sha256": "5c45e5fff5e7b8ae6ae418f04d3f55b3627178f641ac274563781b574d7898a5"
+      "bytes": 11779,
+      "sha256": "9be4baed123cb85ad440df474dad5ce06b569849e2013e81d06b0ba91dcb6599"
     },
     "golden-container/verify_image_static.py": {
-      "bytes": 5392,
-      "sha256": "52cfdb086d86e46b3086e99ef44e60fcaae746a463c72c504b086b1fed8545f9"
+      "bytes": 5476,
+      "sha256": "a3544aa7349d2ab23c4ae506514b3695a680433121e8203d0151ec4db86968cf"
     },
     "kernels/cubins-e43/moe_w3_mm_k2048.cubin": {
       "bytes": 19520,
@@ -269,24 +269,24 @@
       "sha256": "548b0c8cd5fc944a9269042ca87f0b7e9bae96a95424c7b29105af4f5ed27de7"
     },
     "schema/bs-pack-v1.schema.json": {
-      "bytes": 1588,
-      "sha256": "be3f3f396baa950f597dd359fb223a6321414a97d66ebc445daff153066108e9"
+      "bytes": 1595,
+      "sha256": "b8ae6ff71aa51f4bd9bc431fc86ea6bb525d80e8f3016d41d6e8460d416b3c26"
     },
     "src/banana_smasher/__init__.py": {
       "bytes": 323,
       "sha256": "5fdbde4d09c5f292f8546e12a5bc6850ea1078e0d991d27010119ff14df25ff6"
     },
     "src/banana_smasher/bootstrap.py": {
-      "bytes": 6581,
-      "sha256": "8d7d785e03c4eabdf5d5f82db1ec91b25847509ad351bca8034653668adaf6dd"
+      "bytes": 6595,
+      "sha256": "702b2d0e57d0c58e612a6179676e8b358c87a5dfb5eaab591f4807587dbb8a5c"
     },
     "src/banana_smasher/cli.py": {
-      "bytes": 6403,
-      "sha256": "f12da94541fb083db9e9ff094c6c1ac5221893d7b68247a6edfc1f91ddd26535"
+      "bytes": 6410,
+      "sha256": "8bc84fbe0e95d60b0289582fa235f3fc43425cb25dc46c3bd66dcd1eeb5c3988"
     },
     "src/banana_smasher/contract.py": {
-      "bytes": 41568,
-      "sha256": "a1e437d42f879ed4e40f13034dfcfad018878e7d8a555b6480b0e6f84fd97fac"
+      "bytes": 41897,
+      "sha256": "a1b5838b94ca03a9479ba4751a17445861b1de7b10a23094ccc70b4b4eec050a"
     },
     "src/banana_smasher/loader.py": {
       "bytes": 7474,
@@ -300,21 +300,21 @@
       "bytes": 13162,
       "sha256": "d9eabb861cd6623152caffdbc74404a46886f831f7d5263c269fc0f2ddbebcb0"
     },
+    "tests/test_banana_smasher_wire.py": {
+      "bytes": 5264,
+      "sha256": "f5b669360d854daa27bdfd9c64beb1659f0d91cd736ae93793689dbd6f13e78b"
+    },
     "tests/test_bootstrap.py": {
-      "bytes": 4661,
-      "sha256": "9214a2a90fe19475a957a724757f9d6d83a4b43670727009f1c93c57cdd3ba2e"
+      "bytes": 4724,
+      "sha256": "12151d6f3a91355ed5f160b43f3666acce46a11ef8ff3ac5d40c0e9a682332ad"
     },
     "tests/test_cli.py": {
-      "bytes": 3018,
-      "sha256": "cb22e1e80fd24a6cf41e6b111f508c5ecfbbdc08531d9155107822f47bc1fb6a"
+      "bytes": 3025,
+      "sha256": "9a24ff8cce11c1e1aacd5fabc00150626b4ec33bdc6da3b4fad33ab78808d1f0"
     },
     "tests/test_contract.py": {
       "bytes": 10059,
       "sha256": "5784da17c02930ba46da62807379eca9381261c0d8dca6807a194ef565a389c1"
-    },
-    "tests/test_genesis_wire.py": {
-      "bytes": 5180,
-      "sha256": "3aec765334f9a0aa7696c7b839b7fae58a79fd9d659765ab769d7a495669abd4"
     },
     "tests/test_loader.py": {
       "bytes": 2940,
@@ -325,8 +325,8 @@
       "sha256": "6e18374c05ce6af6f5510a4d7d85e79f4f89fd2bf9752efb6d610e2d56d4f87e"
     },
     "tests/test_unified_repo_contract.py": {
-      "bytes": 6939,
-      "sha256": "fc714235e3368ac0f0ace3f4bb793a47ad18fc0b54425ff5713e6fa99682d2b3"
+      "bytes": 6953,
+      "sha256": "c67c9100aeb035d006a65d7655e2f87bb34983db8c0d44f56d9310691b4f05f7"
     },
     "tests/test_validation.py": {
       "bytes": 3357,
@@ -684,7 +684,7 @@
     "transform_receipt": "PUBLICATION_TRANSFORM.json",
     "transform_receipt_sha256": "d44116739f571b9ca8100f7d3fa2ee1df9bdee4928c28f01cb31082a6be22e52"
   },
+  "release_role": "publication-reproducer",
   "schema": "banana-smasher-source-manifest-v1",
-  "status": "RELEASE_CANDIDATE_PENDING_FULL_PACK_GATE",
-  "release_role": "publication-reproducer"
+  "status": "RELEASE_CANDIDATE_PENDING_FULL_PACK_GATE"
 }

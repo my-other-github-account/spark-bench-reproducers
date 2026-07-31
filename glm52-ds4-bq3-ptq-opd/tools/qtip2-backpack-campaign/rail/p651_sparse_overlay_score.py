@@ -252,7 +252,7 @@ class OverlayTransfer:
 
 
 class DirectCurrentWireSource:
-    """Mixin behavior installed around the exact P632 GenesisTierSource."""
+    """Mixin behavior installed around the exact P632 BananaSmasherTierSource."""
 
     def _direct_init(self, p: Any, base: Any, baseline: dict[str, Any], run_id: str) -> None:
         self._p651_p = p
@@ -342,7 +342,7 @@ class SparseOverlaySource(DirectCurrentWireSource):
                     meta = payload.get("meta") or {}
                     expected_identity = [int(row["layer"]), int(row["expert"]), row["projection"]]
                     if (
-                        meta.get("schema") != "p647-genesis-overlay-cell-v1"
+                        meta.get("schema") != "p647-banana_smasher-overlay-cell-v1"
                         or meta.get("identity") != expected_identity
                         or meta.get("assignment_sha256") != ASSIGNMENT_SHA
                         or meta.get("assignment_map_sha256") != MAP_SHA
@@ -397,7 +397,7 @@ class SparseOverlaySource(DirectCurrentWireSource):
         super().fill_layer(layer, gate_up, down)
         stage = stage_future.result()
         rows = layer_spec["rows"]
-        vq_rows = [x for x in rows if x["kind"] == "genesis_vq_rebuilt_cell"]
+        vq_rows = [x for x in rows if x["kind"] == "banana_smasher_vq_rebuilt_cell"]
         qtip_rows = [x for x in rows if x["kind"] == "qtip2_exact_copy"]
         started = time.time()
         vq_applied = self._apply_vq(stage, vq_rows, gate_up, down)
@@ -457,7 +457,7 @@ def checked_preflight(p: Any, mode: str) -> tuple[dict[str, Any], dict[str, Any]
         or index.get("assignment_map_sha256") != MAP_SHA
         or index.get("base_wire_manifest_sha256") != WIRE_SHA
         or int(index.get("row_count", -1)) != 1411
-        or index.get("kind_counts") != {"genesis_vq_rebuilt_cell": 1005, "qtip2_exact_copy": 406}
+        or index.get("kind_counts") != {"banana_smasher_vq_rebuilt_cell": 1005, "qtip2_exact_copy": 406}
     ):
         raise RuntimeError("sparse resolver index authority/count drift")
     if not BASELINE_RECEIPT.is_file():
@@ -506,14 +506,14 @@ def evaluate(mode: str) -> dict[str, Any]:
     base.PHYSICAL_PACKAGE = Path(p.REMOTE_PACKAGE)
     base.DISK_FLOOR = p.DISK_FLOOR
 
-    class BoundSparseOverlaySource(SparseOverlaySource, base.GenesisTierSource):
+    class BoundSparseOverlaySource(SparseOverlaySource, base.BananaSmasherTierSource):
         pass
 
     source = BoundSparseOverlaySource(p, base, baseline, index, run_id, claim_raw)
     artifact_rows, keys, run_indices = p.preflight_artifacts(mode)
     baseline_rows = p.selected_baseline_rows(run_indices)
     p.assert_gpu_only_source("pre_builder")
-    builder = base.GENESISBuilder({"nocache": True, "precise": True, "source": source})
+    builder = base.BANANA_SMASHERBuilder({"nocache": True, "precise": True, "source": source})
     p.assert_gpu_only_source("post_builder")
     wins = p.load_windows(run_indices)
     chunk_size = len(wins)

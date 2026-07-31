@@ -1,4 +1,4 @@
-# FAST PIPELINE BASELINE — GENESIS from-scratch quantization (v2, 2026-07-24)
+# FAST PIPELINE BASELINE — BANANA_SMASHER from-scratch quantization (v2, 2026-07-24)
 
 **This directory is the frozen fast baseline.** Every stage below has a sealed wall-clock
 receipt from the 2026-07-24 acceleration campaign. All future research starts from these
@@ -50,7 +50,7 @@ A **uniform QTIP placeholder** at the exact product envelope (101,360,840,912 B)
 43/43 layers fully resident on ONE Spark at **24.390 tok/s** over an uninterrupted
 4096-token OpenAI request (MemAvailable drop 102.7 GB, VmHWM 102.0 GB, dedup factor 1,
 physical:logical kernel calls exactly 1.0). This clears the ≥10 tok/s bar for the QTIP
-path. **It is NOT a mixed-tier product row** — the real GENESIS wire (w-dial knapsack over
+path. **It is NOT a mixed-tier product row** — the real BANANA_SMASHER wire (w-dial knapsack over
 trueVQ d4/d8 + native tiers) serve is unmeasured. Any serving perf row without the
 residency evidence in [REGRESSION_GATES.md §serving](REGRESSION_GATES.md#serving-anti-fake-law)
 is void (a 121.5 tok/s row was revoked same day at 1.17 GB RSS).

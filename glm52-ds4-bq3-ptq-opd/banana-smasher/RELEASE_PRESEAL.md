@@ -14,7 +14,7 @@ Place the complete artifact at `$PWD/bs-pack-v1`, then run the image-contained v
 
 ```text
 PACK="$PWD/bs-pack-v1"
-docker run --rm -v "$PACK:/model:ro" genesis-serve:golden smash validate-pack /model
+docker run --rm -v "$PACK:/model:ro" banana_smasher-serve:golden smash validate-pack /model
 ```
 
 A nonzero exit is terminal for this candidate. Do not launch, benchmark, or relabel the image after a validation failure.
@@ -25,7 +25,7 @@ The following uses only standard `vllm serve` flags; banana-smasher adds no laun
 
 ```text
 docker run --rm --name banana-smasher --gpus all --ipc=host \
-  -v "$PACK:/model:ro" -p 8000:8000 genesis-serve:golden \
+  -v "$PACK:/model:ro" -p 8000:8000 banana_smasher-serve:golden \
   vllm serve /model --host 0.0.0.0 --port 8000 \
   --max-model-len 8192 --max-num-seqs 16
 ```

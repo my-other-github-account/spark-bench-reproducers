@@ -7,7 +7,7 @@ if (( $# != 0 )); then
 fi
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-IMAGE="${IMAGE:-genesis-serve:golden}"
+IMAGE="${IMAGE:-banana_smasher-serve:golden}"
 SEAL="ea7df6435fa0fe6e574a20d2506abb09832591bf23f45bc3ff82a5dfb1a0e3e5"
 RECEIPT="$ROOT/BUILD_RECEIPT.json"
 LOG="$ROOT/BUILD.log"
@@ -62,7 +62,7 @@ inspect_path = root / "IMAGE_INSPECT.json"
 inspect = json.loads(inspect_path.read_text())[0]
 config = inspect["Config"]
 labels = config.get("Labels") or {}
-if labels.get("io.genesis.parent-hand.ladder-seal.sha256") != seal:
+if labels.get("io.banana_smasher.parent-hand.ladder-seal.sha256") != seal:
     raise SystemExit("built image ladder-seal label mismatch")
 if config.get("Entrypoint") not in (None, []):
     raise SystemExit(f"stock contract requires null entrypoint: {config.get('Entrypoint')}")
@@ -79,7 +79,7 @@ receipt = {
     "image": image,
     "image_id": image_id,
     "parent_hand_ladder_seal_sha256": seal,
-    "p1321_ladder_seal_sha256": labels.get("io.genesis.p1321.ladder-seal.sha256"),
+    "p1321_ladder_seal_sha256": labels.get("io.banana_smasher.p1321.ladder-seal.sha256"),
     "cmd": config.get("Cmd"),
     "entrypoint": config.get("Entrypoint"),
     "healthcheck": config.get("Healthcheck"),

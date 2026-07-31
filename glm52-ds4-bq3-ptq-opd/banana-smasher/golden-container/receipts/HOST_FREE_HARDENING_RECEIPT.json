@@ -96,7 +96,7 @@
     "SEC-03": "box-6 manifest digest pinned in image and every payload row verified before allocation",
     "SEC-04": "moe_pack_root absolute/parent escapes rejected; pack builder rejects symlinks/overlap"
   },
-  "schema": "genesis-golden-host-free-hardening-v1",
+  "schema": "banana_smasher-golden-host-free-hardening-v1",
   "status": "PASS",
   "task_id": "BOX10-PREDECESSOR",
   "tests": {

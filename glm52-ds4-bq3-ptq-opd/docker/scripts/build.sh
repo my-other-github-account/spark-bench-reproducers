@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
-IMAGE=${IMAGE:-genesis-dsv4-mixed-tier:sm121}
+IMAGE=${IMAGE:-banana_smasher-dsv4-mixed-tier:sm121}
 SEED_IMAGE=${SEED_IMAGE:-${IMAGE}-cache-seed}
 VLLM_RUNTIME=${VLLM_RUNTIME:?set VLLM_RUNTIME to the frozen validation venv}
 CACHE_DIR=${CACHE_DIR:-$ROOT/triton-cache}
@@ -22,7 +22,7 @@ sudo docker run --rm --gpus all --user 0:0 \
   -e TRITON_CACHE_DIR=/bake-cache \
   -v "$CACHE_DIR:/bake-cache" \
   --entrypoint /opt/vllm-runtime/bin/python \
-  "$SEED_IMAGE" /opt/genesis/scripts/warmup_kernels.py
+  "$SEED_IMAGE" /opt/banana_smasher/scripts/warmup_kernels.py
 
 TRITON_CACHE_DIR="$CACHE_DIR" "$VLLM_RUNTIME/bin/python" \
   "$ROOT/scripts/verify_kernel_cache.py"
@@ -35,7 +35,7 @@ sudo docker buildx build --load \
 
 sudo docker run --rm \
   --entrypoint /opt/vllm-runtime/bin/python \
-  "$IMAGE" /opt/genesis/scripts/verify_kernel_cache.py
+  "$IMAGE" /opt/banana_smasher/scripts/verify_kernel_cache.py
 
 sudo docker image rm "$SEED_IMAGE" >/dev/null 2>&1 || true
 sudo docker image inspect "$IMAGE" --format '{{json .Id}}'

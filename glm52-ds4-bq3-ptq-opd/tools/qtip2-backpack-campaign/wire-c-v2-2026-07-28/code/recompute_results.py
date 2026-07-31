@@ -129,7 +129,7 @@ def main() -> None:
     expected = load("SAME_INSTRUMENT_RESULTS.json")
     expected_rows = {row["key"]: row for row in expected["rows"]}
     key_map = {
-        "bq3_balanced64_control": "genesis_base",
+        "bq3_balanced64_control": "banana_smasher_base",
         "wire_a_balanced64": "wire_a",
         "wire_c_r_balanced64": "wire_c_r",
         "uniform_qtip3_balanced64": "qtip3_vertical",

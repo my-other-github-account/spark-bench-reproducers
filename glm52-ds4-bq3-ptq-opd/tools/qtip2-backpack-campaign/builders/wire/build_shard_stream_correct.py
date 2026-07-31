@@ -44,7 +44,7 @@ MANIFEST = RECEIPTS / f"BUILD_SHARD_{SHARD}_MANIFEST.json"
 DONE = RECEIPTS / f"BUILD_SHARD_{SHARD}_DONE.json"
 PLANE_DONE_DIR = RECEIPTS / "PLANE_DONE"
 RAIL_HOST = os.environ.get("P640_RAIL_HOST", "fleet-user@203.0.113.6")
-RAIL_ROOT = Path("$HOME/run-bundles/P640_GENESIS_QTIP2_WIRE_PUBLIC_TASK_s6/WIRE_STREAM_IN")
+RAIL_ROOT = Path("$HOME/run-bundles/P640_BANANA_SMASHER_QTIP2_WIRE_PUBLIC_TASK_s6/WIRE_STREAM_IN")
 ASSIGNMENT_MAP_SHA256 = "36d0841986d5781186f766b3815e4b3c6332eece2090d3e6d73e7e3ffa33dc07"
 EXPECTED = {
     ASSIGNMENT: "c030883fddb1217529d67444d08257c4a1df18e2adbc93be092aba3d3611bc65",
@@ -193,7 +193,7 @@ def preflight(assignment: dict) -> dict:
     if free - peak_projected < DISK_FLOOR:
         raise RuntimeError(f"streaming disk gate fail free={free} peak_layer={peak_projected} floor={DISK_FLOOR}")
     obj = {
-        "schema": "genesis-build-shard-preflight-v1",
+        "schema": "banana_smasher-build-shard-preflight-v1",
         "status": "PASS",
         "task": TASK,
         "host": HOST,
@@ -344,7 +344,7 @@ def build_tier_layer(assignment: dict, layer: int, tier: str, command_sha: str) 
     if exact_fraction != 1.0:
         raise RuntimeError(f"fp16 replay fraction {exact_fraction}")
     data["meta"] = {
-        "schema": "genesis-nominated-selected-vq-tier-v1",
+        "schema": "banana_smasher-nominated-selected-vq-tier-v1",
         "task": TASK,
         "host": HOST,
         "shard": SHARD,
@@ -372,7 +372,7 @@ def build_tier_layer(assignment: dict, layer: int, tier: str, command_sha: str) 
     os.replace(tmp, out)
     digest = sha256_file(out)
     mark = {
-        "schema": "genesis-tier-layer-build-receipt-v1",
+        "schema": "banana_smasher-tier-layer-build-receipt-v1",
         "status": "PASS",
         "task": TASK,
         "host": HOST,
@@ -518,7 +518,7 @@ def update_progress(active_layer: int | None = None, active_tier: str | None = N
             except Exception:
                 pass
     atomic_json(PROGRESS, {
-        "schema": "genesis-shard-progress-v1", "task": TASK, "host": HOST, "shard": SHARD,
+        "schema": "banana_smasher-shard-progress-v1", "task": TASK, "host": HOST, "shard": SHARD,
         "expected_layers": LAYERS, "completed_layers": [x["layer"] for x in rows if x["status"] == "PASS"],
         "completed_count": sum(x["status"] == "PASS" for x in rows), "active_layer": active_layer,
         "active_tier": active_tier, "layers": rows, "updated_epoch": time.time(),
@@ -541,7 +541,7 @@ def finalize(assignment: dict, command_sha: str) -> None:
     if layers != LAYERS or len(set(layers)) != len(LAYERS):
         raise RuntimeError(f"final exact layer set fail {layers}")
     manifest = {
-        "schema": "genesis-build-shard-manifest-v1", "status": "PASS", "task": TASK,
+        "schema": "banana_smasher-build-shard-manifest-v1", "status": "PASS", "task": TASK,
         "host": HOST, "shard": SHARD, "layers": layers, "layer_count": len(layers),
         "missing_layers": sorted(set(LAYERS) - set(layers)), "extra_layers": sorted(set(layers) - set(LAYERS)),
         "placeholders": [], "assignment_sha256": EXPECTED[ASSIGNMENT], "assignment_map_sha256": ASSIGNMENT_MAP_SHA256, "input_manifest_sha256": EXPECTED[INPUT_MANIFEST],
@@ -553,11 +553,11 @@ def finalize(assignment: dict, command_sha: str) -> None:
     }
     atomic_json(MANIFEST, manifest)
     done = {
-        "schema": "genesis-build-shard-done-v1", "status": "PASS", "task": TASK, "host": HOST,
+        "schema": "banana_smasher-build-shard-done-v1", "status": "PASS", "task": TASK, "host": HOST,
         "shard": SHARD, "layers": layers, "layer_count": len(layers), "manifest": str(MANIFEST),
         "manifest_sha256": sha256_file(MANIFEST), "assignment_sha256": EXPECTED[ASSIGNMENT], "assignment_map_sha256": ASSIGNMENT_MAP_SHA256,
         "canonical_shared_builder_sha256": EXPECTED[BUILDER], "all_fp16_codebook_replay_exact_fraction": 1.0,
-        "all_finite": True, "consumer": "PUBLIC_TASK P0 GENESIS FAN-IN", "completed_epoch": time.time(),
+        "all_finite": True, "consumer": "PUBLIC_TASK P0 BANANA_SMASHER FAN-IN", "completed_epoch": time.time(),
     }
     atomic_json(DONE, done)
     (RUN / "DONE").write_text("PASS\n")
@@ -607,7 +607,7 @@ def run() -> int:
             raise RuntimeError(f"layer aggregate replay fail {layer} {frac}")
         proj = projections(assignment, layer)
         receipt = {
-            "schema": "genesis-shard-layer-receipt-v1", "status": "PASS", "task": TASK,
+            "schema": "banana_smasher-shard-layer-receipt-v1", "status": "PASS", "task": TASK,
             "host": HOST, "shard": SHARD, "layer": layer, "assignment_sha256": EXPECTED[ASSIGNMENT],
             "input_manifest_sha256": EXPECTED[INPUT_MANIFEST], "checkpoint_index_sha256": EXPECTED[CKPT_INDEX],
             "source_shard_sha256": source_sha, "shared_fix_receipt_sha256": EXPECTED[FIX_RECEIPT],

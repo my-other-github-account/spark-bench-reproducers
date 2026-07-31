@@ -96,7 +96,7 @@ def main() -> int:
         rows = list(pool.map(lambda p: sha_row(p, temp), files))
     rows.sort(key=lambda row: row["path"])
     manifest = {
-        "schema": "genesis-golden-external-pack-v1",
+        "schema": "banana_smasher-golden-external-pack-v1",
         "truth_label": "PUBLIC_CANON_IQ3_WIRE; NOT P943 native TRUE-C",
         "model_source": str(model),
         "wire_source": str(wire),

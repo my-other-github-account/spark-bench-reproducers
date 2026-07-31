@@ -57,7 +57,7 @@ except Exception as exc:
     print(f"NOT_READY: {exc}", file=sys.stderr)
     raise SystemExit(1)
 
-receipt_path = Path(os.environ.get("GENESIS_PERF_HEALTH_RECEIPT", "/tmp/GOLDEN_PERF_HEALTH.json"))
+receipt_path = Path(os.environ.get("BANANA_SMASHER_PERF_HEALTH_RECEIPT", "/tmp/GOLDEN_PERF_HEALTH.json"))
 lock_path = Path("/tmp/GOLDEN_PERF_HEALTH.lock")
 current_start = pid_start_ticks(1)
 
@@ -86,7 +86,7 @@ with lock_path.open("r+") as lock:
     if not receipt_ready():
         command = [
             sys.executable,
-            "/opt/genesis/bin/golden_perf_check.py",
+            "/opt/banana_smasher/bin/golden_perf_check.py",
             "--base", base,
             "--model-root", "/model",
             "--c1-warmups", "1",

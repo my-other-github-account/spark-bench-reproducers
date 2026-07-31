@@ -33,7 +33,7 @@ def _seal_recipe(root: Path, paths: tuple[Path, ...]) -> None:
     ]
     (root / "RECIPE_MANIFEST.json").write_text(
         json.dumps(
-            {"schema": "genesis-golden-recipe-manifest-v1", "files": rows}
+            {"schema": "banana_smasher-golden-recipe-manifest-v1", "files": rows}
         )
     )
 
@@ -48,18 +48,18 @@ def test_bootstrap_builds_stock_vllm_image_and_seals_receipt(tmp_path: Path) -> 
     receipt = bootstrap_container(
         recipe=recipe,
         context=tmp_path,
-        image="genesis-serve:test",
+        image="banana_smasher-serve:test",
         docker_bin=str(docker),
         receipt_path=receipt_path,
     )
 
     assert receipt["status"] == "PASS"
-    assert receipt["image"] == "genesis-serve:test"
+    assert receipt["image"] == "banana_smasher-serve:test"
     assert receipt["image_id"] == "sha256:fixture-image-id"
     calls = log.read_text().splitlines()
     assert calls[0].startswith("build --file ")
-    assert "--tag genesis-serve:test" in calls[0]
-    assert calls[1] == "image inspect --format {{.Id}} genesis-serve:test"
+    assert "--tag banana_smasher-serve:test" in calls[0]
+    assert calls[1] == "image inspect --format {{.Id}} banana_smasher-serve:test"
     assert json.loads(receipt_path.read_text())["image_id"] == "sha256:fixture-image-id"
 
 
@@ -82,7 +82,7 @@ def test_bootstrap_uses_recipe_build_script_when_present(tmp_path: Path) -> None
     receipt = bootstrap_container(
         recipe=recipe,
         context=tmp_path,
-        image="genesis-serve:candidate",
+        image="banana_smasher-serve:candidate",
         docker_bin=str(docker),
         receipt_path=receipt_path,
     )
@@ -90,7 +90,7 @@ def test_bootstrap_uses_recipe_build_script_when_present(tmp_path: Path) -> None
     assert receipt["status"] == "PASS"
     assert receipt["command"] == [str(build_script.resolve())]
     assert script_log.read_text().strip() == (
-        f"genesis-serve:candidate|{receipt_path.parent.resolve()}"
+        f"banana_smasher-serve:candidate|{receipt_path.parent.resolve()}"
     )
 
 
@@ -109,7 +109,7 @@ def test_bootstrap_refuses_manifest_sealed_recipe_drift(tmp_path: Path) -> None:
         bootstrap_container(
             recipe=recipe,
             context=tmp_path,
-            image="genesis-serve:candidate",
+            image="banana_smasher-serve:candidate",
             docker_bin=str(_fake_docker(tmp_path, tmp_path / "docker.log")),
             receipt_path=tmp_path / "BOOTSTRAP.json",
         )
@@ -128,5 +128,5 @@ def test_packaged_recipe_preserves_normal_vllm_entrypoint() -> None:
     assert 'quant_cfg.get("moe_pack_root"' in patch_source
 
     manifest = json.loads((recipe.parent / "RECIPE_MANIFEST.json").read_text())
-    assert manifest["schema"] == "genesis-golden-recipe-manifest-v2"
+    assert manifest["schema"] == "banana_smasher-golden-recipe-manifest-v2"
     assert manifest["truth_label"] == "PUBLIC_CANON_IQ3_WIRE; NOT P943 native TRUE-C"

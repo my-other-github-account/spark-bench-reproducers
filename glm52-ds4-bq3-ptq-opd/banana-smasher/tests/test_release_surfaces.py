@@ -37,7 +37,7 @@ def _bash_commands(markdown: str) -> list[str]:
 def test_release_readme_is_literal_three_command_path() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     assert _bash_commands(readme) == EXPECTED_RELEASE_COMMANDS
-    assert "Genesis is only the proper name of the first sealed model instance" in readme
+    assert "BananaSmasher is only the proper name of the first sealed model instance" in readme
 
 
 def test_pack_format_documents_versioned_layout_and_auto_detection() -> None:

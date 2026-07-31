@@ -35,7 +35,7 @@ def test_export_pack_is_self_describing_and_validates(tmp_path: Path) -> None:
     )
     validation = validate_pack(output)
 
-    assert manifest["schema"] == "genesis-pack"
+    assert manifest["schema"] == "banana_smasher-pack"
     assert manifest["container_schema_version"] == 1
     assert manifest["validation_scope"] == "systems-serving-only"
     assert manifest["quality_validated"] is False

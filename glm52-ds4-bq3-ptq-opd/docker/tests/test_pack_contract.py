@@ -34,7 +34,7 @@ def _write_valid_pack(root: Path) -> Path:
         rows.append({"path": relative, "bytes": len(data), "sha256": _sha(data), "role": role})
     plane_rows = [row for row in rows if row["role"] == "plane"]
     manifest = {
-        "schema": "genesis-pack",
+        "schema": "banana_smasher-pack",
         "schema_version": 1,
         "model_id": "fixture-model",
         "validation_scope": "systems-serving-only",
@@ -67,7 +67,7 @@ def test_validate_pack_accepts_exact_schema_layout_and_hashes(tmp_path: Path) ->
     result = validate_pack(_write_valid_pack(tmp_path / "pack"), expected_schema_version=1)
 
     assert result["status"] == "PASS"
-    assert result["schema"] == "genesis-pack-validation-v1"
+    assert result["schema"] == "banana_smasher-pack-validation-v1"
     assert result["model_id"] == "fixture-model"
     assert result["resident_envelope"]["bytes"] == len(b"plane-data")
     assert result["serving"]["artifact"] == "overlay/mixed_tier_compact.pt"

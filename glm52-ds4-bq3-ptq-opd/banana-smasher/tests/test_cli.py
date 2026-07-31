@@ -71,7 +71,7 @@ def test_smash_bootstrap_defaults_to_candidate_tag(
         )
         == 0
     )
-    assert captured["image"] == "genesis-serve:banana-smasher-candidate"
+    assert captured["image"] == "banana_smasher-serve:banana-smasher-candidate"
     assert json.loads(capsys.readouterr().out)["status"] == "PASS"
 
 

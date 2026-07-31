@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed validation shared by the GENESIS full512 waiter and evaluator."""
+"""Fail-closed validation shared by the BANANA_SMASHER full512 waiter and evaluator."""
 from __future__ import annotations
 
 import hashlib
@@ -14,7 +14,7 @@ from collections import Counter, defaultdict
 from typing import Mapping
 
 HEX64 = re.compile(r"[0-9a-f]{64}")
-CLAIM_SCHEMA = "genesis-pre-repair-full512-remediation-host-claim-v1"
+CLAIM_SCHEMA = "banana_smasher-pre-repair-full512-remediation-host-claim-v1"
 EXPECTED_HOST = "compute-node-1"
 EXPECTED_SOURCE = "203.0.113.9"
 EXPECTED_TRANSPORT = "QSFP only, source read-only"
@@ -207,7 +207,7 @@ def validate_resumed_window_loader_proof(
     except (OSError, json.JSONDecodeError) as exc:
         raise ValueError("loader live sentinel unreadable") from exc
     exact_sentinel = {
-        "schema": "genesis-arm4-mmap-sentinel-v1",
+        "schema": "banana_smasher-arm4-mmap-sentinel-v1",
         "status": "ACTIVE_ON_PATH",
         "task_id": expected_task,
         "mode": "torch-mmap",
@@ -244,7 +244,7 @@ def validate_resumed_window_loader_proof(
         except (OSError, json.JSONDecodeError) as exc:
             raise ValueError(f"loader chunk receipt unreadable chunk{chunk_index}") from exc
         exact_chunk = {
-            "schema": "genesis-arm4-mmap-chunk-v1",
+            "schema": "banana_smasher-arm4-mmap-chunk-v1",
             "status": "PASS_ON_PATH",
             "task_id": expected_task,
             "mode": "torch-mmap",
@@ -349,7 +349,7 @@ def validate_gate_bundle(
         _hex(hashes.get(key), key)
         if hashes.get(key) != _hex(expected_artifact_hashes.get(key), f"expected {key}"):
             raise ValueError(f"authoritative {key} mismatch")
-    if passed.get("schema") != "genesis-physical-code76-pass-v1" or passed.get("status") != "PASS":
+    if passed.get("schema") != "banana_smasher-physical-code76-pass-v1" or passed.get("status") != "PASS":
         raise ValueError("physical PASS marker status/schema invalid")
     if passed.get("task_id") != "PUBLIC_TASK" or passed.get("package_mutated") is not False:
         raise ValueError("physical PASS marker owner/package state invalid")
@@ -365,7 +365,7 @@ def validate_gate_bundle(
     if pass_mean != expected_code or streamed != expected_code or paired_delta != 0.0:
         raise ValueError("physical PASS numerical identity mismatch")
 
-    if receipt.get("schema") != "genesis-physical-code76-v1" or receipt.get("status") != "PHYSICAL_MATCHES_STREAMED":
+    if receipt.get("schema") != "banana_smasher-physical-code76-v1" or receipt.get("status") != "PHYSICAL_MATCHES_STREAMED":
         raise ValueError("physical receipt status/schema invalid")
     if receipt.get("task_id") != "PUBLIC_TASK" or receipt.get("host") != "compute-node-8" or receipt.get("measurement_label") != "MEASURED":
         raise ValueError("physical receipt identity invalid")
@@ -386,7 +386,7 @@ def validate_gate_bundle(
     if any(abs(value - expected_code) > tolerance for value in (measured, physical, streamed_mean)) or abs(delta) > tolerance or se > tolerance:
         raise ValueError("physical code76 values exceed tolerance")
 
-    if wire.get("schema") != "genesis-materialized-wire43-v1" or wire.get("status") != "PASS_MATERIALIZED":
+    if wire.get("schema") != "banana_smasher-materialized-wire43-v1" or wire.get("status") != "PASS_MATERIALIZED":
         raise ValueError("wire status/schema invalid")
     if wire.get("task_id") != "PUBLIC_TASK" or wire.get("host") != "compute-node-8" or wire.get("source_graph_all_declared_size_sha_verified") is not True:
         raise ValueError("wire identity invalid")
@@ -567,7 +567,7 @@ def validate_ready_receipt(
     expected_claim_sha256: str,
     expected_script: str,
 ) -> None:
-    if ready.get("schema") != "genesis-full512-waiter-ready-v1" or ready.get("state") != "READY_WAITING":
+    if ready.get("schema") != "banana_smasher-full512-waiter-ready-v1" or ready.get("state") != "READY_WAITING":
         raise ValueError("waiter readiness state/schema invalid")
     _hex(expected_claim_sha256, "expected claim hash")
     for key in ("pid", "start_ticks", "cmdline", "task_id", "claim_sha256"):
@@ -616,7 +616,7 @@ def validate_result_receipt(
     resume_validation: Mapping[str, object] | None = None,
     loader_validation: Mapping[str, object] | None = None,
 ) -> None:
-    if result.get("schema") != "genesis-pre-repair-physical-full512-v2" or result.get("status") != "PASS_FULL512_MEASURED":
+    if result.get("schema") != "banana_smasher-pre-repair-physical-full512-v2" or result.get("status") != "PASS_FULL512_MEASURED":
         raise ValueError("result schema/status invalid")
     if result.get("measurement_label") != "MEASURED" or result.get("task_id") != expected_task or result.get("host") != "compute-node-1":
         raise ValueError("result identity invalid")
@@ -817,7 +817,7 @@ def validate_done_receipt(
     loader_sentinel_sha256: str | None = None,
 ) -> None:
     exact = {
-        "schema": "genesis-full512-done-v2",
+        "schema": "banana_smasher-full512-done-v2",
         "task_id": expected_task,
         "status": "PASS",
         "result_sha256": _hex(result_sha256, "expected result hash"),

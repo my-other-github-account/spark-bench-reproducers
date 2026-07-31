@@ -434,7 +434,7 @@ def build_preexec_pin_manifest(args: argparse.Namespace) -> dict[str, Any]:
         (root / "code/solve_p760.py", "p760_code", root),
         (root / "code/solve_p693.py", "p693_code", root),
         (root / "code/solve_actual.py", "p637_surface_code", root),
-        (root / "lineage/original_genesis_code_solve.py", "genesis_surface_code", root),
+        (root / "lineage/original_banana_smasher_code_solve.py", "banana_smasher_surface_code", root),
         (root / "inputs/INPUT_MANIFEST.json", "p760_input_manifest", root),
         (root / "lineage/NOMINATED_ASSIGNMENT.json", "frozen_incumbent_assignment", root),
         (root / "lineage/FRONTIER.json", "frozen_frontier_config", root),

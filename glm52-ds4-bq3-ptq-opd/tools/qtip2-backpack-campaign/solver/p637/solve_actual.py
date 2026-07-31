@@ -92,10 +92,10 @@ def atomic_json(path: Path, obj: Any) -> str:
 
 
 def load_original():
-    p = LINEAGE / "original_genesis_code_solve.py"
+    p = LINEAGE / "original_banana_smasher_code_solve.py"
     if sha256(p) != EXPECTED_ORIGINAL_SOLVER_SHA:
         raise RuntimeError("original solver SHA drift")
-    spec = importlib.util.spec_from_file_location("genesis_original", p)
+    spec = importlib.util.spec_from_file_location("banana_smasher_original", p)
     mod = importlib.util.module_from_spec(spec)
     assert spec.loader
     spec.loader.exec_module(mod)
@@ -203,7 +203,7 @@ def weighted_global_weights(step0_doc, classes):
 
 
 def build_qtip_surface(gs, importance, corrections, delta_surface, global_weights):
-    """Apportion each measured layer row by the existing GENESIS mass law."""
+    """Apportion each measured layer row by the existing BANANA_SMASHER mass law."""
     class_increment = {}
     global_increment = {}
     closure = []
@@ -734,7 +734,7 @@ def main() -> int:
         "input_receipts": {
             "manifest": {"path": str(INPUTS / "INPUT_MANIFEST.json"), "sha256": EXPECTED_INPUT_MANIFEST_SHA},
             "verified_manifest_files": verified_inputs,
-            "original_solver": {"path": str(LINEAGE / "original_genesis_code_solve.py"), "sha256": EXPECTED_ORIGINAL_SOLVER_SHA},
+            "original_solver": {"path": str(LINEAGE / "original_banana_smasher_code_solve.py"), "sha256": EXPECTED_ORIGINAL_SOLVER_SHA},
             "incumbent_assignment": {"path": str(LINEAGE / "NOMINATED_ASSIGNMENT.json"), "sha256": EXPECTED_ASSIGNMENT_SHA},
             "p620_result": {"path": str(p620_result_path), "sha256": EXPECTED_P620_RESULT_SHA},
             "p629_without_reproduction": {"path": str(step1_path), "sha256": step1_sha},

@@ -5,7 +5,7 @@ Card IDs refer to the Hermes Kanban board `glm52-humming-w3`. Public identity: b
 
 ## 0. Starting state (from the prior campaign)
 
-- Shipped artifact: GENESIS wire, assignment SHA `c9fb72e2…`, 101,346,700,411 B resident,
+- Shipped artifact: BANANA_SMASHER wire, assignment SHA `c9fb72e2…`, 101,346,700,411 B resident,
   tier mix per expert-projection cell: d4_k2048 ×9,923 / d4_k1024 ×4,781 / d4_k4096 ×4,056 /
   d4_k256 ×2,744 / native_mxfp4 ×506 / d8_k256 ×6.
 - Sealed chain (full-512, KL(teacher||candidate), 1024-pos/window, class window counts
@@ -25,7 +25,7 @@ Card IDs refer to the Hermes Kanban board `glm52-humming-w3`. Public identity: b
 | # | Run | Config error | Verdict | Tell |
 |---|---|---|---|---|
 | 1 | P614 | novel objective built from stale step0 grid; missing tier components | garbage | ARM-1 "baseline" 0.1858 vs canon 0.08395; 86.5GB wire w/ 14.8GB unspent; 30 self-checks all green (self-verification theater) |
-| 2 | P620 | canonical solver BUT (a) inherited P0-era pure_code objective, (b) whole-layer all-or-nothing QTIP column | no-take (0 cells) | objective name in receipt: "GENESIS pure_code normalized predicted code KLD"; byte harvest worth 0 to a code-only buyer |
+| 2 | P620 | canonical solver BUT (a) inherited P0-era pure_code objective, (b) whole-layer all-or-nothing QTIP column | no-take (0 cells) | objective name in receipt: "BANANA_SMASHER pure_code normalized predicted code KLD"; byte harvest worth 0 to a code-only buyer |
 | 3 | P629 | right objective (class-balanced global) but STILL whole-layer; then "code ceiling" implemented as penalty weight code=32,401.1 vs others 1.0 | no-take, bound open −0.0163 | weights vector in DUAL_SEARCH_PROGRESS.json — penalty method ≡ pure_code again |
 | 4 | P634 | per-expert (right) but pure_code objective (wrong) | bought 54 cells, wrong exam | warm-start seed receipt: L2:48 + L22:6, obj −0.113 code-basis |
 
@@ -55,7 +55,7 @@ grows only by burning encode-hours (~1.5× rep-16 GPU-time for the remaining 24 
 1. **Wrong builder pinned by parent** (SHA 60b594ac = INNER VQ3-uniform plane builder, not
    assignment-aware). Caught by an execute-only worker that probed `--help` and refused:
    "launching it would execute the unrelated VQ3 uniform builder." Real harness = the
-   GENESIS_BUILD_SHARD mission pattern (build_shard.py + pilot_code/ module dir).
+   BANANA_SMASHER_BUILD_SHARD mission pattern (build_shard.py + pilot_code/ module dir).
 2. **Full-tier rebuild fallacy**: 40 touched layers × full tier planes = re-encoding ~131k
    cells/tier-layer to change a handful (one L023 d4_k2048 codebook fit >8 min → hours/shard
    + disk-fill risk). A worker ran the arithmetic: the respent assignment is a **1,406-cell
@@ -127,7 +127,7 @@ Prediction validated: my pre-repair pred band was 0.111–0.118.
 - Uniform QTIP placeholder serve: 24.390 tok/s ×4096, 43/43 layers, resident
   101,360,840,912 B exact (quality_claim:false — placeholder values).
 - Mixed-tier backpack serve (four kernels/token incl. _qtip_gemv + native MXFP4):
-  16.954 tok/s ×4096, resident 101,346,700,411 B (real GENESIS bytes), MTP off.
+  16.954 tok/s ×4096, resident 101,346,700,411 B (real BANANA_SMASHER bytes), MTP off.
 - Prefill (real wire): 2048→1,142 tok/s; 8192→2,167 tok/s (bar 200). Decode 17.1–17.2.
 - Container: pack-in/tokens-out Docker, ×2 cold restarts, prefill/decode/TTFT within
   0.6–1.4% of sealed rows (chmod-on-triton-cache false-FAIL fixed by baking cache into image).

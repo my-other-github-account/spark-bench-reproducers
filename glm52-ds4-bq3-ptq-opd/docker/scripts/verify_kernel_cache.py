@@ -17,10 +17,10 @@ def sha256(path: Path) -> str:
 
 
 def main() -> int:
-    root = Path(os.environ.get("TRITON_CACHE_DIR", "/opt/genesis/triton-cache"))
+    root = Path(os.environ.get("TRITON_CACHE_DIR", "/opt/banana_smasher/triton-cache"))
     manifest_path = root / "CACHE_MANIFEST.json"
     manifest = json.loads(manifest_path.read_text())
-    if manifest.get("schema") != "genesis-triton-cache-v1":
+    if manifest.get("schema") != "banana_smasher-triton-cache-v1":
         raise RuntimeError(f"wrong Triton cache schema: {manifest.get('schema')!r}")
     if manifest.get("status") != "PASS" or manifest.get("architecture") != "sm_121":
         raise RuntimeError("Triton cache was not baked and verified for sm_121")

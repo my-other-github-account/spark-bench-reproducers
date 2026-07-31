@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-IMAGE=${1:-genesis-dsv4-mixed-tier:sm121}
+IMAGE=${1:-banana_smasher-dsv4-mixed-tier:sm121}
 PACK=${2:?usage: validate_spark7.sh IMAGE PACK OUTPUT_DIR}
 OUT=${3:?usage: validate_spark7.sh IMAGE PACK OUTPUT_DIR}
 PACK=$(cd "$PACK" && pwd)
@@ -22,14 +22,14 @@ runtime_compiler_absence=$(sudo -n docker run --rm --entrypoint /bin/sh "$IMAGE"
 [[ "$runtime_compiler_absence" == "PASS" ]] || exit 2
 
 cleanup() {
-  for n in genesis-cold-1 genesis-cold-2; do
+  for n in banana_smasher-cold-1 banana_smasher-cold-2; do
     sudo -n docker rm -f "$n" >/dev/null 2>&1 || true
   done
 }
 trap cleanup EXIT
 
 for run in 1 2; do
-  name="genesis-cold-$run"
+  name="banana_smasher-cold-$run"
   run_out="$OUT/run-$run"
   sudo -n rm -rf "$run_out"
   mkdir -p "$run_out"
@@ -37,14 +37,14 @@ for run in 1 2; do
   sudo -n docker rm -f "$name" >/dev/null 2>&1 || true
   cid=$(sudo -n docker run -d --name "$name" --gpus all \
     --ulimit core=0 \
-    -e GENESIS_START_TIMEOUT=60 \
-    -e GENESIS_PACK_HASH_WORKERS=32 \
-    -e GENESIS_DISTRIBUTED_BACKEND=gloo \
+    -e BANANA_SMASHER_START_TIMEOUT=60 \
+    -e BANANA_SMASHER_PACK_HASH_WORKERS=32 \
+    -e BANANA_SMASHER_DISTRIBUTED_BACKEND=gloo \
     -e CUDA_MODULE_LOADING=LAZY \
     -e CUDA_LAUNCH_BLOCKING=1 \
     -e PYTHONFAULTHANDLER=1 \
     -v "$PACK:/model:ro" \
-    -v "$run_out:/run/genesis" \
+    -v "$run_out:/run/banana_smasher" \
     -p 8000:8000 \
     "$IMAGE" /model)
 
@@ -73,10 +73,10 @@ for run in 1 2; do
   done
 
   sudo -n docker exec "$name" /opt/vllm-runtime/bin/python \
-    /opt/genesis/runtime/run_prefill_ladder.py \
+    /opt/banana_smasher/runtime/run_prefill_ladder.py \
     --base http://127.0.0.1:8000 \
     --tokenizer-json /model/tokenizer/tokenizer.json \
-    --out "/run/genesis/ladder" \
+    --out "/run/banana_smasher/ladder" \
     --targets 2048,8192 --rows 1 --decode-tokens 128 \
     --task public-validation --variant packaged-container
 
@@ -86,7 +86,7 @@ for run in 1 2; do
 done
 
 cache_sha=$(sudo -n docker run --rm --entrypoint /opt/vllm-runtime/bin/python "$IMAGE" -c \
-  'import hashlib;print(hashlib.sha256(open("/opt/genesis/triton-cache/CACHE_MANIFEST.json","rb").read()).hexdigest())')
+  'import hashlib;print(hashlib.sha256(open("/opt/banana_smasher/triton-cache/CACHE_MANIFEST.json","rb").read()).hexdigest())')
 pack_sha=$(python3 -c 'import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],"rb").read()).hexdigest())' "$PACK/MANIFEST.json")
 
 python3 - "$OUT" "$image_id" "$cache_sha" "$pack_sha" "$runtime_compiler_absence" <<'PY'
@@ -192,7 +192,7 @@ if not all(
     raise SystemExit(f"sealed throughput/TTFT gate failed: {comparisons}")
 
 receipt = {
-    "schema": "genesis-deploy-validation-v1",
+    "schema": "banana_smasher-deploy-validation-v1",
     "status": "PASS",
     "validation_host": "single-sm121-spark",
     "container_cold_starts": 2,

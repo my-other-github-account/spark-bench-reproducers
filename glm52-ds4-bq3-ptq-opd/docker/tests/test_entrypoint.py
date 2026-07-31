@@ -40,7 +40,7 @@ def _write_pack(root: Path) -> Path:
         })
     planes = [row for row in rows if row["role"] == "plane"]
     (root / "MANIFEST.json").write_text(json.dumps({
-        "schema": "genesis-pack",
+        "schema": "banana_smasher-pack",
         "schema_version": 1,
         "model_id": "fixture",
         "validation_scope": "systems-serving-only",
@@ -99,13 +99,13 @@ def test_server_command_uses_only_the_mounted_pack(tmp_path: Path) -> None:
     assert command[command.index("--artifact") + 1] == str(pack.resolve() / "overlay/mixed_tier_compact.pt")
     assert command[command.index("--tokenizer-json") + 1] == str(pack.resolve() / "tokenizer/tokenizer.json")
     assert command[command.index("--port") + 1] == "8000"
-    assert environment["GENESIS_PRODUCT_BYTES"] == str(len(b"plane"))
-    assert environment["GENESIS_PRODUCT_FILES"] == "1"
-    assert environment["GENESIS_PRODUCT_INVENTORY_SHA256"] == "a" * 64
-    assert environment["GENESIS_MODEL_ID"] == "fixture"
-    assert environment["GENESIS_MANIFEST_PATH"] == str(pack.resolve() / "MANIFEST.json")
+    assert environment["BANANA_SMASHER_PRODUCT_BYTES"] == str(len(b"plane"))
+    assert environment["BANANA_SMASHER_PRODUCT_FILES"] == "1"
+    assert environment["BANANA_SMASHER_PRODUCT_INVENTORY_SHA256"] == "a" * 64
+    assert environment["BANANA_SMASHER_MODEL_ID"] == "fixture"
+    assert environment["BANANA_SMASHER_MANIFEST_PATH"] == str(pack.resolve() / "MANIFEST.json")
     assert environment["P530_FILE_BACKED_ENVELOPE"] == "1"
-    assert "GENESIS_SOURCE_HOST" not in environment
+    assert "BANANA_SMASHER_SOURCE_HOST" not in environment
 
 
 def test_prepare_pack_keeps_a_local_read_only_mount_in_place(tmp_path: Path) -> None:
@@ -118,7 +118,7 @@ def test_prepare_pack_keeps_a_local_read_only_mount_in_place(tmp_path: Path) -> 
 
 
 def test_pack_hashing_defaults_to_accelerated_parallel_read(monkeypatch) -> None:
-    monkeypatch.delenv("GENESIS_PACK_HASH_WORKERS", raising=False)
+    monkeypatch.delenv("BANANA_SMASHER_PACK_HASH_WORKERS", raising=False)
 
     assert pack_hash_workers() == 32
 

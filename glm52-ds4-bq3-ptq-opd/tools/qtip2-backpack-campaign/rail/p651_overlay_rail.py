@@ -35,11 +35,11 @@ ROOT = Path("$HOME/run-bundles/P651_STREAM_CONSUMER_PUBLIC_TASK_s7")
 CLAIM = Path("$HOME/HOST_CLAIM.json")
 P632_ROOT = Path("$HOME/run-bundles/P632_DIRECTIONAL_PUBLIC_TASK_s7")
 P632_SCORE = P632_ROOT / "code/p632_score.py"
-P640_ROOT = Path("$HOME/run-bundles/P640_GENESIS_QTIP2_WIRE_PUBLIC_TASK_s6")
+P640_ROOT = Path("$HOME/run-bundles/P640_BANANA_SMASHER_QTIP2_WIRE_PUBLIC_TASK_s6")
 P640_HOST = "203.0.113.6"
 META = ROOT / "inputs/P640_FINAL_META"
 ASSIGNMENT = META / "inputs/ASSIGNMENT_RESPENT.json"
-BASE_ASSIGNMENT = META / "inputs/CURRENT_GENESIS_ASSIGNMENT.json"
+BASE_ASSIGNMENT = META / "inputs/CURRENT_BANANA_SMASHER_ASSIGNMENT.json"
 BASELINE_PARITY = ROOT / "receipts/BASELINE_PARITY_CODE76.json"
 QTIP_SOURCE = ROOT / "code/run_qtip2_anchor_pinned.py"
 QTIP_KERNEL = ROOT / "code/qtip2_kernel_decompress_pinned.py"
@@ -192,7 +192,7 @@ def normalize_row(row: Mapping[str, Any], group: Mapping[str, Any]) -> dict[str,
     artifact_sha = str(row.get("artifact_sha256"))
     artifact_bytes = int(row.get("artifact_physical_bytes") or row.get("artifact_bytes") or row.get("bytes") or 0)
     raw_kind = str(row.get("kind"))
-    kind = "qtip2_exact" if raw_kind == "qtip2_exact_copy" else "genesis_vq" if raw_kind == "genesis_vq_rebuilt_cell" else raw_kind
+    kind = "qtip2_exact" if raw_kind == "qtip2_exact_copy" else "banana_smasher_vq" if raw_kind == "banana_smasher_vq_rebuilt_cell" else raw_kind
     old_tier = str(row.get("old_tier", row.get("old")))
     new_tier = str(row.get("new_tier", row.get("new")))
     if projection not in ("fused13", "down") or layer not in group["layers"]:
@@ -204,7 +204,7 @@ def normalize_row(row: Mapping[str, Any], group: Mapping[str, Any]) -> dict[str,
             raise RuntimeError(f"QTIP2 selection drift: {row}")
         codebook = codebook_sha = None
         codebook_bytes = 0
-    elif kind == "genesis_vq":
+    elif kind == "banana_smasher_vq":
         codebook = Path(str(row.get("codebook") or row.get("codebook_name"))).name
         codebook_sha = str(row.get("codebook_sha256"))
         try:
@@ -294,7 +294,7 @@ def preflight_manifests() -> dict[str, Any]:
         "changed_cells": len(rows),
         "unchanged_cells": len(final) - len(rows),
         "qtip2_cells": sum(1 for r in rows if r["kind"] == "qtip2_exact"),
-        "vq_cells": sum(1 for r in rows if r["kind"] == "genesis_vq"),
+        "vq_cells": sum(1 for r in rows if r["kind"] == "banana_smasher_vq"),
         "identity_set_sha256": canonical_json_sha256(sorted(identity)),
     }
 
@@ -432,7 +432,7 @@ def validate_base_layer(base: Any, source: Any, layer: int, row: Mapping[str, An
     receipt = json.loads(receipt_path.read_text())
     required = int(row["physical_wire_bytes"])
     if (
-        receipt.get("schema") != "genesis-materialized-layer-v1"
+        receipt.get("schema") != "banana_smasher-materialized-layer-v1"
         or receipt.get("status") != "PASS"
         or int(receipt.get("layer", -1)) != layer
         or receipt.get("assignment_sha256") != BASE_ASSIGNMENT_SHA
@@ -458,7 +458,7 @@ def install_stream_source(base: Any, manifest: Mapping[str, Any], cache: Path, m
     applied: dict[tuple[int, int, str], dict[str, Any]] = {}
     decoder_holder: dict[str, Qtip2Decoder] = {}
 
-    class P640StreamSource(base.GenesisTierSource):
+    class P640StreamSource(base.BananaSmasherTierSource):
         def _stage_remote(self, layer: int, row: dict) -> Path:
             return validate_base_layer(base, self, layer, row)
 
@@ -484,7 +484,7 @@ def install_stream_source(base: Any, manifest: Mapping[str, Any], cache: Path, m
                         meta = payload.get("meta")
                         if (
                             not isinstance(meta, dict)
-                            or meta.get("schema") != "p640-genesis-vq-overlay-cell-v1"
+                            or meta.get("schema") != "p640-banana_smasher-vq-overlay-cell-v1"
                             or meta.get("assignment_sha256") != FINAL_ASSIGNMENT_SHA
                             or meta.get("canonical_builder_sha256") != CANONICAL_BUILDER_SHA
                             or int(meta.get("layer", -1)) != row["layer"]
@@ -502,7 +502,7 @@ def install_stream_source(base: Any, manifest: Mapping[str, Any], cache: Path, m
                         scales = payload["scales"].unsqueeze(0)
                         if not bool(torch.isfinite(codebook).all()) or int(codes.min()) < 0 or int(codes.max()) >= k:
                             raise RuntimeError(f"VQ overlay numerical surface drift: {artifact}")
-                        base.GenesisTierSource._launch_vq(codes, scales, codebook, [row["expert"]], gate_up if row["projection"] == "fused13" else down, d)
+                        base.BananaSmasherTierSource._launch_vq(codes, scales, codebook, [row["expert"]], gate_up if row["projection"] == "fused13" else down, d)
                         decode_info = {"d": d, "k": k, "finite_codebook": True, "fp16_codebook_replay_exact": True}
                         del payload, codebook, codes, scales
                     key = (row["layer"], row["expert"], row["projection"])

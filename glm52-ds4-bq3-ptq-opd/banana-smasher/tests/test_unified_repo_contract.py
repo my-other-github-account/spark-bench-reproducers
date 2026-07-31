@@ -39,7 +39,7 @@ def test_root_dockerfile_is_multistage_stock_vllm_and_seal_labeled() -> None:
     text = (ROOT / "Dockerfile").read_text()
     assert len(re.findall(r"^FROM ", text, flags=re.M)) >= 2
     assert "vllm/vllm-openai:v0.24.0" in text
-    assert f'io.genesis.parent-hand.ladder-seal.sha256="{PARENT_HAND_SEAL}"' in text
+    assert f'io.banana_smasher.parent-hand.ladder-seal.sha256="{PARENT_HAND_SEAL}"' in text
     assert 'ENTRYPOINT []' in text
     assert 'CMD ["vllm", "serve", "/model"]' in text
     assert "HEALTHCHECK" in text
@@ -49,7 +49,7 @@ def test_root_dockerfile_is_multistage_stock_vllm_and_seal_labeled() -> None:
 
 def test_build_script_is_zero_argument_and_writes_digest_receipt() -> None:
     text = (ROOT / "build.sh").read_text()
-    assert "genesis-serve:golden" in text
+    assert "banana_smasher-serve:golden" in text
     assert "docker build" in text
     assert "BUILD_RECEIPT.json" in text
     assert "image inspect" in text

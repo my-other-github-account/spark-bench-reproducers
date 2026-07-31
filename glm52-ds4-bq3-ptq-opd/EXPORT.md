@@ -1,4 +1,4 @@
-# Exporting a GENESIS model pack
+# Exporting a BANANA_SMASHER model pack
 
 The serving image never embeds the 101 GB model package. `docker/scripts/export_pack.py` creates a separately publishable directory with a fail-closed manifest.
 
@@ -6,7 +6,7 @@ The serving image never embeds the 101 GB model package. `docker/scripts/export_
 
 You need:
 
-- the exact 1,645-file GENESIS plane tree;
+- the exact 1,645-file BANANA_SMASHER plane tree;
 - the mixed-tier compact overlay;
 - the matching tokenizer JSON;
 - enough destination capacity, or a destination on the same filesystem where hard links can be used safely.
@@ -24,10 +24,10 @@ sealed_source_inventory_sha256   cb00fc4e783ab97018bbe0642556820596a7846816fb0bc
 ```bash
 cd glm52-ds4-bq3-ptq-opd
 python3 docker/scripts/export_pack.py \
-  --source-root /data/genesis/wire43 \
-  --overlay /data/genesis/mixed_tier_compact.pt \
-  --tokenizer /data/genesis/tokenizer.json \
-  --output /data/releases/genesis-mixed-tier-pack \
+  --source-root /data/banana_smasher/wire43 \
+  --overlay /data/banana_smasher/mixed_tier_compact.pt \
+  --tokenizer /data/banana_smasher/tokenizer.json \
+  --output /data/releases/banana_smasher-mixed-tier-pack \
   --model-id deepseek-v4-mixed-tier-prefill-ladder \
   --expected-bytes 101346700411 \
   --expected-files 1645 \
@@ -40,14 +40,14 @@ The output directory must be empty. On one filesystem, payload files may be hard
 ## Layout
 
 ```text
-genesis-mixed-tier-pack/
+banana_smasher-mixed-tier-pack/
   MANIFEST.json
   planes/...
   overlay/mixed_tier_compact.pt
   tokenizer/tokenizer.json
 ```
 
-`MANIFEST.json` uses schema `genesis-pack`, version 1. It binds:
+`MANIFEST.json` uses schema `banana_smasher-pack`, version 1. It binds:
 
 - model ID and systems-only quality scope;
 - resident plane byte/file counts and a canonical pack inventory SHA-256 over
@@ -67,15 +67,15 @@ With source Python:
 
 ```bash
 PYTHONPATH=docker/scripts python3 docker/scripts/entrypoint.py verify \
-  /data/releases/genesis-mixed-tier-pack
+  /data/releases/banana_smasher-mixed-tier-pack
 ```
 
 With the final image:
 
 ```bash
 docker run --rm --read-only \
-  -v /data/releases/genesis-mixed-tier-pack:/model:ro \
-  spark-bench/genesis-p602:2026-07-25 verify /model
+  -v /data/releases/banana_smasher-mixed-tier-pack:/model:ro \
+  spark-bench/banana_smasher-p602:2026-07-25 verify /model
 ```
 
 Both commands emit a JSON PASS receipt. Publish the pack as its own release asset or Hugging Face repository; do not commit the 101 GB plane tree to Git. A tar archive is also accepted by the serving entrypoint when provided as an HTTP(S) URL. The archive must contain exactly one `MANIFEST.json`, may not contain links, and is revalidated after extraction.

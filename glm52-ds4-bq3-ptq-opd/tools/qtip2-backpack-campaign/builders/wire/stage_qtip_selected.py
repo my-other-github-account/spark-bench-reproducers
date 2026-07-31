@@ -10,8 +10,8 @@ HOSTS = {
     "compute-node-5-work": "fleet-user@203.0.113.7",
 }
 ROOTS = {
-    "s6": Path("$HOME/run-bundles/P640_GENESIS_QTIP2_WIRE_PUBLIC_TASK_s6"),
-    "s8": Path("$HOME/run-bundles/P640_GENESIS_QTIP2_WIRE_PUBLIC_TASK_s8"),
+    "s6": Path("$HOME/run-bundles/P640_BANANA_SMASHER_QTIP2_WIRE_PUBLIC_TASK_s6"),
+    "s8": Path("$HOME/run-bundles/P640_BANANA_SMASHER_QTIP2_WIRE_PUBLIC_TASK_s8"),
 }
 EXPECTED_ASSIGNMENT = "c030883fddb1217529d67444d08257c4a1df18e2adbc93be092aba3d3611bc65"
 

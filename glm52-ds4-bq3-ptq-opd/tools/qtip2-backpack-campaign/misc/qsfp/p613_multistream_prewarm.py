@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Four-stream direct-QSFP read/prefetch of immutable GENESIS wire package."""
+"""Four-stream direct-QSFP read/prefetch of immutable BANANA_SMASHER wire package."""
 from concurrent.futures import ProcessPoolExecutor
 import hashlib
 import json
@@ -8,7 +8,7 @@ from pathlib import Path
 import time
 
 ROOT = Path("$HOME/run-bundles/P613_ACTCACHE_ACCEL_PUBLIC_TASK_s5w")
-SOURCE = Path("$HOME/run-bundles/GENESIS_FANIN_PUBLIC_TASK_s8/package/wire43")
+SOURCE = Path("$HOME/run-bundles/BANANA_SMASHER_FANIN_PUBLIC_TASK_s8/package/wire43")
 OUT = ROOT / "TRANSFER_PROFILE.json"
 STREAMS = 4
 CHUNK = 16 * 1024 * 1024

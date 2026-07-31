@@ -135,7 +135,7 @@ layers.N.experts.tier_map
 
 It is C-contiguous `uint8[256]`. `tier_map[e]` selects the family used by global expert `e` for that layer. Expert IDs are never renumbered.
 
-When `truevq_d4` is sourced from a GENESIS materialized layer, the layer also has `layers.N.experts.subtier_map`, a C-contiguous `uint16[256]`. Its value is the exact codebook cardinality (`256`, `1024`, `2048`, or `4096`) for each expert. It is derived only from the receipt-bound `*.expert_ids.i16.bin` partitions; fused13 and down partitions must be byte-identical. Missing, overlapping, incomplete, or projection-disagreeing partitions fail closed.
+When `truevq_d4` is sourced from a BANANA_SMASHER materialized layer, the layer also has `layers.N.experts.subtier_map`, a C-contiguous `uint16[256]`. Its value is the exact codebook cardinality (`256`, `1024`, `2048`, or `4096`) for each expert. It is derived only from the receipt-bound `*.expert_ids.i16.bin` partitions; fused13 and down partitions must be byte-identical. Missing, overlapping, incomplete, or projection-disagreeing partitions fail closed.
 
 The four 64-expert partitions are fixed half-open ranges:
 
@@ -168,7 +168,7 @@ layers.N.native_mxfp4.expert_ids
 layers.N.native_mxfp4.tensor_offsets
 ```
 
-The sealed GENESIS wire encoding has production names that preserve its existing subtype, projection, and byte encoding without inventing an offset table:
+The sealed BANANA_SMASHER wire encoding has production names that preserve its existing subtype, projection, and byte encoding without inventing an offset table:
 
 ```text
 layers.N.truevq_d4.d4_kK.fused13.codes
@@ -208,13 +208,13 @@ scalar rows admit `valid_m<4` (`1,2,3`) and the vector-M4 row admits only
 `valid_m==4`. These are metadata/readback values, not launch environment
 requirements.
 
-`smash export` also auto-detects a sealed `genesis-materialized-layer-v1` source when `SOURCE/LAYER_RECEIPT.json` exists. It first verifies the receipt's PASS identity and exact file set, bytes, and SHA-256 values, then accepts only the canonical `d4_k{256,1024,2048,4096}.{fused13,down}.{codebook.fp16,codes.leB,expert_ids.i16,scales.e8m0}.bin` names. It generates only the family and subtier index maps in the new pack and copies the source receipt into `provenance/`; it never writes to the source layer.
+`smash export` also auto-detects a sealed `banana_smasher-materialized-layer-v1` source when `SOURCE/LAYER_RECEIPT.json` exists. It first verifies the receipt's PASS identity and exact file set, bytes, and SHA-256 values, then accepts only the canonical `d4_k{256,1024,2048,4096}.{fused13,down}.{codebook.fp16,codes.leB,expert_ids.i16,scales.e8m0}.bin` names. It generates only the family and subtier index maps in the new pack and copies the source receipt into `provenance/`; it never writes to the source layer.
 
 The implementation is a direct institutionalization of the canonical `glm52-ds4-bq3-ptq-opd/docker/scripts/export_pack.py` approach: immutable source inputs, hard-link/copy staging, complete file hashes, atomic manifest-last publication, and post-export self-verification.
 
 ## 7. Safetensors repack and zero-loss definition
 
-`smash export --safetensors` writes the safetensors header first and then streams each `.npy` C-order data range or headerless GENESIS raw range into the destination. It does not materialize all planes in RAM. Tensor names become safetensors keys exactly as specified in §5.
+`smash export --safetensors` writes the safetensors header first and then streams each `.npy` C-order data range or headerless BANANA_SMASHER raw range into the destination. It does not materialize all planes in RAM. Tensor names become safetensors keys exactly as specified in §5.
 
 "Byte-exact round trip" in bs-pack v1 means equality of all four properties:
 
@@ -223,7 +223,7 @@ The implementation is a direct institutionalization of the canonical `glm52-ds4-
 3. shape;
 4. SHA-256 of the raw C-order tensor payload bytes.
 
-NumPy container headers are not semantic tensor data and are intentionally canonicalized away. GENESIS raw planes have no header, so their entire source file is semantic payload and must retain its exact SHA-256. Fortran-order arrays are rejected rather than reordered. The safetensors file remains mmap/lazy-load compatible; `PackLoader.open_layer()` holds the `safe_open` mapping for the entire layer view lifetime.
+NumPy container headers are not semantic tensor data and are intentionally canonicalized away. BANANA_SMASHER raw planes have no header, so their entire source file is semantic payload and must retain its exact SHA-256. Fortran-order arrays are rejected rather than reordered. The safetensors file remains mmap/lazy-load compatible; `PackLoader.open_layer()` holds the `safe_open` mapping for the entire layer view lifetime.
 
 ## 8. Kernel-cache compatibility gate
 
@@ -239,12 +239,12 @@ A serving preflight requires `BS_KERNEL_CACHE_MANIFEST.json` with:
 
 `smash serve-check PACK --kernel-cache CACHE --architecture sm_120` verifies the pack first, then this ABI. Any mismatch is fatal before vLLM allocates expert weights.
 
-## 9. Genesis instance #1 and `d4_k2048`
+## 9. BananaSmasher instance #1 and `d4_k2048`
 
-The sealed GENESIS export is bs-pack instance #1 and must use:
+The sealed BANANA_SMASHER export is bs-pack instance #1 and must use:
 
 ```text
-instance_id = bs-pack-0001-genesis
+instance_id = bs-pack-0001-banana_smasher
 ```
 
 The legacy source label `d4_k2048` has this exact correspondence:
@@ -257,9 +257,9 @@ projection  -> unchanged fused13/down record
 payload     -> unchanged codes/scales/codebook bytes
 ```
 
-`d4_k2048` is not a sixth v1 family and is never rewritten as QTIP2. Its `k=2048` source parameter belongs in provenance/tensor metadata while the serving family remains `truevq_d4`. Repacking may change only the outer container and name the payload; it may not requantize, reorder, pad, deduplicate, or regenerate the sealed GENESIS data.
+`d4_k2048` is not a sixth v1 family and is never rewritten as QTIP2. Its `k=2048` source parameter belongs in provenance/tensor metadata while the serving family remains `truevq_d4`. Repacking may change only the outer container and name the payload; it may not requantize, reorder, pad, deduplicate, or regenerate the sealed BANANA_SMASHER data.
 
-The layer-000 qualification receipt must record the sealed input path `/work/build/artifacts/GENESIS_FANIN_INTERNAL-ID_s8/package/wire43/layer_000`, source `LAYER_RECEIPT.json` SHA-256, and pre/post payload hashes while writing only to a new output directory. The sealed receipt is the authority for all four d4 subtiers; the `d4_k2048` rows retain their original `le11`, `e8m0`, fp16-codebook, and int16-expert payload bytes.
+The layer-000 qualification receipt must record the sealed input path `/work/build/artifacts/BANANA_SMASHER_FANIN_INTERNAL-ID_s8/package/wire43/layer_000`, source `LAYER_RECEIPT.json` SHA-256, and pre/post payload hashes while writing only to a new output directory. The sealed receipt is the authority for all four d4 subtiers; the `d4_k2048` rows retain their original `le11`, `e8m0`, fp16-codebook, and int16-expert payload bytes.
 
 ## 10. Loader/serving rule
 

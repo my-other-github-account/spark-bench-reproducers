@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SOURCE_IMAGE="${SOURCE_IMAGE:-genesis-serve:golden}"
+SOURCE_IMAGE="${SOURCE_IMAGE:-banana_smasher-serve:golden}"
 REGISTRY="${REGISTRY:-localhost:5050}"
-REMOTE_IMAGE="${REGISTRY%/}/genesis-serve:golden"
+REMOTE_IMAGE="${REGISTRY%/}/banana_smasher-serve:golden"
 OUT="${OUT:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/receipts}"
 mkdir -p "$OUT"
 
@@ -20,7 +20,7 @@ digests=inspect.get("RepoDigests") or []
 if not digests:
     raise SystemExit("registry push produced no RepoDigest")
 receipt={
- "schema":"genesis-golden-local-registry-v1","status":"PASS","created_unix":time.time(),
+ "schema":"banana_smasher-golden-local-registry-v1","status":"PASS","created_unix":time.time(),
  "image":image,"image_id":inspect["Id"],"repo_digests":digests,"size":inspect["Size"],
  "inspect_sha256":hashlib.sha256(open(source,"rb").read()).hexdigest(),
  "truth_label":"PUBLIC_CANON_IQ3_WIRE; NOT P943 native TRUE-C",

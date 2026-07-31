@@ -668,7 +668,7 @@ def fast_forward(student, hidden, ids, requires_grad):
             past_key_values=DynamicCache(config=config))
 
     use_activation_checkpoint = (
-        requires_grad and os.environ.get("GENESIS_REPAIR_CHECKPOINT", "1") == "1"
+        requires_grad and os.environ.get("BANANA_SMASHER_REPAIR_CHECKPOINT", "1") == "1"
     )
     for Li in range(FIRST_TRAIN, config.num_hidden_layers):
         if use_activation_checkpoint:

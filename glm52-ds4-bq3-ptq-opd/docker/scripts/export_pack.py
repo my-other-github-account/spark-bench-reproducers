@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Assemble a self-describing, fail-closed GENESIS checkpoint export pack."""
+"""Assemble a self-describing, fail-closed BANANA_SMASHER checkpoint export pack."""
 from __future__ import annotations
 
 import argparse
@@ -118,7 +118,7 @@ def export_pack(
             continue
         _install_file(path, destination / relative)
     manifest = {
-        "schema": "genesis-pack",
+        "schema": "banana_smasher-pack",
         "schema_version": SCHEMA_VERSION,
         "container_schema_version": SCHEMA_VERSION,
         "model_id": model_id,

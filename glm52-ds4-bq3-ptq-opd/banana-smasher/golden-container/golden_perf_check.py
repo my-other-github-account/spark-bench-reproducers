@@ -218,7 +218,7 @@ def main() -> int:
         errors.append(f"{type(exc).__name__}: {exc}")
     if args.warm_only and not errors:
         receipt = {
-            "schema": "genesis-golden-perf-warmup-v2", "status": "WARMED",
+            "schema": "banana_smasher-golden-perf-warmup-v2", "status": "WARMED",
             "created_unix": created, "pid1_start_ticks": pid_start_ticks(), "model": model, "provenance": PROVENANCE,
             "prompt_tokens_exact": len(prompt_ids), "max_tokens": args.max_tokens,
             "excluded_warmups": {"c1": c1_warmups, "c2": c2_warmups, "c4": c4_warmups}, "errors": [],
@@ -259,7 +259,7 @@ def main() -> int:
     }
     ready = not errors and all(gates.values())
     receipt = {
-        "schema": "genesis-golden-perf-health-v3", "status": "READY" if ready else "DEGRADED",
+        "schema": "banana_smasher-golden-perf-health-v3", "status": "READY" if ready else "DEGRADED",
         "created_unix": created, "pid1_start_ticks": pid_start_ticks(), "model": model, "provenance": PROVENANCE,
         "contract": {"prompt_tokens": args.prompt_tokens, "max_tokens": args.max_tokens, "endpoint": "/v1/completions", "aggregate_formula": "completion_tokens/batch_wall", "warmups_excluded": True, "shape_gates": "C1x3/C2x3/C4x3 medians"},
         "bars": {"c1": args.c1_bar, "c2": args.c2_bar, "c4": args.c4_bar, "ttft_s": args.ttft_bar},

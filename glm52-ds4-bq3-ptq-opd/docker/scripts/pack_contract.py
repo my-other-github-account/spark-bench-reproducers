@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed validator for GENESIS export packs."""
+"""Fail-closed validator for BANANA_SMASHER export packs."""
 from __future__ import annotations
 
 from concurrent.futures import ThreadPoolExecutor
@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 from typing import Any, Iterable
 
-SCHEMA_NAME = "genesis-pack"
+SCHEMA_NAME = "banana_smasher-pack"
 SCHEMA_VERSION = 1
 EXPECTED_SERVING = {
     "layers": 43,
@@ -162,7 +162,7 @@ def validate_pack(
 
     return {
         "status": "PASS",
-        "schema": "genesis-pack-validation-v1",
+        "schema": "banana_smasher-pack-validation-v1",
         "schema_version": actual_version,
         "model_id": manifest.get("model_id"),
         "manifest_sha256": _file_sha256(manifest_path),

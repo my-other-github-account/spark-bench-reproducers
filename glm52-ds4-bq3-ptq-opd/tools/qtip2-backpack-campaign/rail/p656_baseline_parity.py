@@ -15,7 +15,7 @@ import torch
 
 TASK = "PUBLIC_TASK"
 ROOT = Path("$HOME/run-bundles/P656_EARLY8_PUBLIC_TASK_s6")
-P623 = Path("$HOME/run-bundles/P623_GENESIS_BASELINE_PUBLIC_TASK_s6")
+P623 = Path("$HOME/run-bundles/P623_BANANA_SMASHER_BASELINE_PUBLIC_TASK_s6")
 P623_SCORER = ROOT / "code/score_p623.py"
 P651_READER = ROOT / "code/p651_baseline_parity.py"
 OUT = ROOT / "receipts/P623_BASELINE_PARITY_EARLY8.json"

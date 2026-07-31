@@ -114,7 +114,7 @@ print(json.dumps(out, sort_keys=True))
         rows = list(pool.map(hash_row, merged.values()))
     rows.sort(key=lambda row: row["path"])
     meta.update({
-        "schema": "genesis-golden-wheel-manifest-v2",
+        "schema": "banana_smasher-golden-wheel-manifest-v2",
         "destination_root": "/work/build/venvs/vllm-moet",
         "file_count": len(rows), "files": rows,
         "truth_label": "PUBLIC_CANON_IQ3_WIRE; NOT P943 native TRUE-C",

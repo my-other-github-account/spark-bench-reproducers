@@ -1,6 +1,6 @@
 {
   "failure_recovery_disclosure": {
-    "attempt_1": "FAIL_CLOSED at L000 because the prepared adapter omitted the 20 historical p760-genesis-vq-overlay-cell-v1 rows and expected the later canonical_builder_sha256 key instead of P760's builder_sha256 key.",
+    "attempt_1": "FAIL_CLOSED at L000 because the prepared adapter omitted the 20 historical p760-banana_smasher-vq-overlay-cell-v1 rows and expected the later canonical_builder_sha256 key instead of P760's builder_sha256 key.",
     "attempt_2": "PASS after exact four-schema validation of all 3,803 payload headers; no data, model, scoring, or expected-metric changes.",
     "regression_gate": "PASS_EXACT_FOUR_SCHEMA_SURFACE",
     "regression_receipt_sha256": "141536858922adc75ca7c32054900789378dd601a56e3a3e5d969a4592196b9b",

@@ -35,8 +35,8 @@ def main():
     profile = json.loads((ROOT / "PROFILE.json").read_text())
     legacy = P.load_module("p613_diag_legacy", CODE / "base_binrepair_e2e.py")
     accel = P.load_module("p613_diag_accel", CODE / "base_binrepair_e2e_accel.py")
-    from genesis_physical_surface import GenesisPhysicalExperts
-    legacy.T.TrainableExperts = GenesisPhysicalExperts
+    from banana_smasher_physical_surface import BananaSmasherPhysicalExperts
+    legacy.T.TrainableExperts = BananaSmasherPhysicalExperts
     legacy.T.PILOT = tuple(range(43))
     student = legacy.T.Student()
     corpus = legacy.T.load_corpus()

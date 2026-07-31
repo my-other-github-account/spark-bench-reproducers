@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Build only assignment-changed GENESIS/QTIP2 cells for one P640 layer shard.
+"""Build only assignment-changed BANANA_SMASHER/QTIP2 cells for one P640 layer shard.
 
-Unchanged cells are immutable copy-through references to the sealed current GENESIS
+Unchanged cells are immutable copy-through references to the sealed current BANANA_SMASHER
 wire. Changed VQ cells are rebuilt with canonical shared builder SHA 60b594ac...;
 QTIP2 cells are copied byte-for-byte from the sealed REP16 manifests; native cells
 remain verbatim checkpoint references. The output is a compact overlay shard, not a
@@ -111,7 +111,7 @@ def main() -> int:
         p.mkdir(parents=True, exist_ok=True)
 
     final_path = inputs / "ASSIGNMENT_RESPENT.json"
-    base_path = inputs / "CURRENT_GENESIS_ASSIGNMENT.json"
+    base_path = inputs / "CURRENT_BANANA_SMASHER_ASSIGNMENT.json"
     plan_path = inputs / "BUILD_PLAN.json"
     qtip_expected_path = inputs / "QTIP_SELECTED_EXPECTED.json"
     builder_path = code / "canonical_shared_builder.py"
@@ -324,7 +324,7 @@ def main() -> int:
                 payload = {
                     "codes": codes.to(target_dtype).cpu(), "scales": scales.cpu(),
                     "meta": {
-                        "schema": "p640-genesis-vq-overlay-cell-v1", "task": TASK,
+                        "schema": "p640-banana_smasher-vq-overlay-cell-v1", "task": TASK,
                         "layer": layer_i, "expert": expert, "projection": projection,
                         "tier": target, "d": d, "k": k, "assignment_sha256": ASSIGNMENT_SHA,
                         "canonical_builder_sha256": BUILDER_SHA, "codebook_sha256": cb_sha,
@@ -337,7 +337,7 @@ def main() -> int:
                 with tmp.open("rb") as f: os.fsync(f.fileno())
                 os.replace(tmp, dst)
                 result = {
-                    **base_result, "kind": "genesis_vq_rebuilt_cell", "artifact": str(dst),
+                    **base_result, "kind": "banana_smasher_vq_rebuilt_cell", "artifact": str(dst),
                     "artifact_bytes": dst.stat().st_size, "artifact_sha256": sha256_file(dst),
                     "codebook": str(cb_path), "codebook_sha256": cb_sha,
                     "d": d, "k": k, "codes_dtype": str(target_dtype),
@@ -372,15 +372,15 @@ def main() -> int:
     if len(set(identities)) != len(identities):
         raise RuntimeError("duplicate changed-cell identity")
     manifest = {
-        "schema": "p640-genesis-qtip2-overlay-shard-manifest-v1", "status": "PASS",
+        "schema": "p640-banana_smasher-qtip2-overlay-shard-manifest-v1", "status": "PASS",
         "task": TASK, "host": args.host, "shard": args.shard, "layers": layers,
         "assignment_sha256": ASSIGNMENT_SHA, "base_assignment_sha256": BASE_ASSIGNMENT_SHA,
         "canonical_shared_builder_sha256": BUILDER_SHA, "expected_final_wire_bytes": EXPECTED_WIRE_BYTES,
         "changed_cells": len(manifest_rows), "qtip2_cells": sum(r["new"] == QTIP_TIER for r in manifest_rows),
-        "vq_cells": sum(r["kind"] == "genesis_vq_rebuilt_cell" for r in manifest_rows),
+        "vq_cells": sum(r["kind"] == "banana_smasher_vq_rebuilt_cell" for r in manifest_rows),
         "native_reference_cells": sum(r["kind"] == "native_checkpoint_reference" for r in manifest_rows),
         "unchanged_copythrough_cells": len(layers) * 512 - len(manifest_rows),
-        "copythrough_policy": "all unchanged cells resolve byte-for-byte from immutable current GENESIS wire c24a2205 lineage; no re-fit/re-encode",
+        "copythrough_policy": "all unchanged cells resolve byte-for-byte from immutable current BANANA_SMASHER wire c24a2205 lineage; no re-fit/re-encode",
         "rows": sorted(manifest_rows, key=lambda r: (r["layer"], r["expert"], r["projection"])),
         "completed_unix": time.time(),
     }

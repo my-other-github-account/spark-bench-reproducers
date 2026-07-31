@@ -78,8 +78,8 @@ def main():
     base = load_module(
         "p613_diagnosis_base", CODE / "base_binrepair_e2e_accel.py"
     )
-    from genesis_physical_surface import GenesisPhysicalExperts
-    base.T.TrainableExperts = GenesisPhysicalExperts
+    from banana_smasher_physical_surface import BananaSmasherPhysicalExperts
+    base.T.TrainableExperts = BananaSmasherPhysicalExperts
     base.T.PILOT = tuple(range(43))
 
     assembled_started = time.perf_counter()

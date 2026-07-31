@@ -17,7 +17,7 @@
     "schema": "mixed-tier-compact-artifact-v1",
     "source_manifest_sha256": "b52e248ffe8925ab0fec6113f0fe595a5076055187cf8de4d32d5ded248beb83",
     "sources": {
-      "genesis_package": {
+      "banana_smasher_package": {
         "bytes": 101346700411,
         "files": 1645,
         "inventory_sha256": "cb00fc4e783ab97018bbe0642556820596a7846816fb0bcc55bd9f27b223b3bd"

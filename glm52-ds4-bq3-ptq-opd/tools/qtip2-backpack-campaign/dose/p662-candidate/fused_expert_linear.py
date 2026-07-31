@@ -1,4 +1,4 @@
-"""Triton fused dequantize+linear operators for GENESIS expert weights.
+"""Triton fused dequantize+linear operators for BANANA_SMASHER expert weights.
 
 The kernels form only one weight tile in SRAM/registers at a time. They never
 materialize a dense expert weight in global memory. Custom autograd recomputes

@@ -5,7 +5,7 @@
     "tokenizer.json": "8f9f37ca37fdc4f5fd36d5cf4d3b0e8392edb4e894fd10cc0d70b4957c8633cf"
   },
   "collected_utc": "2026-07-25T15:23:28Z",
-  "genesis_package": {
+  "banana_smasher_package": {
     "bytes": 101346700411,
     "files": 1645,
     "inventory_sha256": "cb00fc4e783ab97018bbe0642556820596a7846816fb0bcc55bd9f27b223b3bd"
@@ -42,7 +42,7 @@
     "triton": "3.6.0",
     "vllm": "0.20.2rc1.dev3+gcb03fee32"
   },
-  "schema": "genesis-container-source-freeze-v1",
+  "schema": "banana_smasher-container-source-freeze-v1",
   "upstream_source_sha256": {
     "mixed_prefill_server.py": "ffe52247a444acb3ba684761ec5601e2feea99b1216ac776cf81da079854ee8a",
     "mixed_tier_backend.py": "db14f3607d539f03bb81201b662d44149ef78d3297625575f86057d4eaadfaf0",

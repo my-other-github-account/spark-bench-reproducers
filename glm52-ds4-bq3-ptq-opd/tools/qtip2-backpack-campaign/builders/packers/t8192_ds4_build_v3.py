@@ -862,7 +862,7 @@ def main():
                     f"ARM4_MMAP_CHUNK_{wins[0]:03d}_{wins[-1]:03d}.json",
                 )
                 chunk_receipt = {
-                    "schema": "genesis-arm4-mmap-chunk-v1",
+                    "schema": "banana_smasher-arm4-mmap-chunk-v1",
                     "status": "PASS_ON_PATH",
                     "task_id": loader_task_id,
                     "mode": "torch-mmap",

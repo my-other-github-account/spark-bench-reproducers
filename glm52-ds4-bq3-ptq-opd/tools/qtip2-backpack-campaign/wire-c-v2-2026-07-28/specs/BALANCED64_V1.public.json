@@ -75,7 +75,7 @@
   "prose": 10,
   "reasoning": 9
  },
- "design": "class-stratified selection minimizing per-class+global bias vs full-512 jointly on BOTH sealed reference wires (pre-repair GENESIS 0.12837 + dosed U030 0.08395); 20k random starts + greedy swap refinement",
+ "design": "class-stratified selection minimizing per-class+global bias vs full-512 jointly on BOTH sealed reference wires (pre-repair BANANA_SMASHER 0.12837 + dosed U030 0.08395); 20k random starts + greedy swap refinement",
  "in_sample_bias": "per-class <=0.6%, global <=0.8% (both wires)",
  "holdout_error_budget": "per-class \u00b14% (est. from single-wire-design cross-validation showing \u00b18% worst-case; dual-wire design halves it), global \u00b11-2%",
  "usage_law": "BALANCED64 rows are labeled balanced64_v1; NEVER silently mixed with 512w grid rows; every future full-512 run on any wire MUST log BALANCED64-subset-vs-full512 residuals as a free ongoing holdout audit; set is FROZEN (no reselection without version bump)",

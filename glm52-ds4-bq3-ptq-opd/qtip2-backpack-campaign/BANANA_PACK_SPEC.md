@@ -9,7 +9,7 @@ BANANA-SMASHER is the reusable search/build/measure loop for producing smaller m
 - System name: `BANANA-SMASHER`.
 - Spec authority: `BANANA_PACK_SPEC v1` (this file; future incompatible contracts increment the version).
 - Target family: `BANANA-<bpw>` such as `BANANA-2.75`.
-- Genesis instance: `BANANA-<bpw>-G<NNN>` such as `BANANA-2.75-G001`. `G001` is the first fully bound candidate created from the accepted TRUE-C genesis assignment; retries that preserve every source/assignment pin retain the instance and add a receipt attempt, while any changed assignment increments `G`.
+- BananaSmasher instance: `BANANA-<bpw>-G<NNN>` such as `BANANA-2.75-G001`. `G001` is the first fully bound candidate created from the accepted TRUE-C banana_smasher assignment; retries that preserve every source/assignment pin retain the instance and add a receipt attempt, while any changed assignment increments `G`.
 
 The smash plan uses seven verbs with one-way evidence boundaries:
 
@@ -21,7 +21,7 @@ The smash plan uses seven verbs with one-way evidence boundaries:
 6. `serve` — seal serial product and, only when eligible, concurrency receipts;
 7. `seal` — publish pins, validity, TBD cells, and negative results.
 
-No verb may borrow an identity or measurement from another genesis instance.
+No verb may borrow an identity or measurement from another banana_smasher instance.
 
 ## Current baseline and target ladder
 

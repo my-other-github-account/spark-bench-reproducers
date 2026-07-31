@@ -15,7 +15,7 @@ A measurement card is not runnable without an expected-SHA manifest binding. Rec
 
 - Canonical code commit: `<commit>`
 - `immutable_sha_authority.py` SHA-256: `<sha>`
-- `genesis_remote_full512.py` SHA-256: `<sha>`
+- `banana_smasher_remote_full512.py` SHA-256: `<sha>`
 - `p937_true_c_overlay_adapter.py` SHA-256: `<sha>`
 - `p937_true_c_balanced64.py` SHA-256: `<sha>`
 - `p874_ckpt.py` SHA-256: `<sha>`

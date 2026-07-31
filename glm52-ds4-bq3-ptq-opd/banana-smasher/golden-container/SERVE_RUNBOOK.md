@@ -1,4 +1,4 @@
-# Genesis golden vLLM container (P1268 public-canon IQ3 wire)
+# BananaSmasher golden vLLM container (P1268 public-canon IQ3 wire)
 
 Truth label: this image captures the P1268 public-manifest canonical IQ3 wire runtime. It is NOT the P943/P1016 native TRUE-C format. P1268 authority: `P1268_C1_C2_RESULT.json` SHA-256 `9b1d42fe3f4dcb28e7f8660b37f800fdbfdcd7f721fb4bc57ca31a0dda313860`.
 
@@ -34,7 +34,7 @@ OpenSSH makes a temporary reverse tunnel, so the remote Docker daemon sees an or
 
 ```bash
 ssh -o ExitOnForwardFailure=yes -R 127.0.0.1:5050:127.0.0.1:5050 build-1 \
-  'sudo docker pull localhost:5050/genesis-serve@sha256:DIGEST'
+  'sudo docker pull localhost:5050/banana_smasher-serve@sha256:DIGEST'
 ```
 
 If the image has already been loaded in the controller Docker daemon, `REGISTRY=localhost:5050 ./publish_local_registry.sh` is the equivalent local-only path.
@@ -68,13 +68,13 @@ The original FP8 keys remain intact; vLLM auto-selects the existing registered D
 Default image command (the exact P1268 normal vLLM flags are the image CMD):
 
 ```bash
-docker run --rm --device nvidia.com/gpu=0 --ipc=host --memory 110g --memory-swap 110g -v /path/to/deepseek-v4-flash-p1268-pack:/model:ro -p 8000:8000 genesis-serve:golden
+docker run --rm --device nvidia.com/gpu=0 --ipc=host --memory 110g --memory-swap 110g -v /path/to/deepseek-v4-flash-p1268-pack:/model:ro -p 8000:8000 banana_smasher-serve:golden
 ```
 
 Explicit stock command, proving there is no wrapper boundary:
 
 ```bash
-docker run --rm --device nvidia.com/gpu=0 --ipc=host --memory 110g --memory-swap 110g -v /path/to/deepseek-v4-flash-p1268-pack:/model:ro -p 8000:8000 genesis-serve:golden vllm serve /model --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 2 --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs '{"enable_thinking":true}' --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 0.0.0.0 --port 8000
+docker run --rm --device nvidia.com/gpu=0 --ipc=host --memory 110g --memory-swap 110g -v /path/to/deepseek-v4-flash-p1268-pack:/model:ro -p 8000:8000 banana_smasher-serve:golden vllm serve /model --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 2 --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs '{"enable_thinking":true}' --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 0.0.0.0 --port 8000
 ```
 
 Every ordinary `vllm serve` flag keeps stock meaning. A user may replace the CMD with another normal `vllm serve /model ...` command. The fast IQ3 wire path activates from model config, not a launcher.
@@ -86,7 +86,7 @@ Docker `HEALTHCHECK` checks only `/health` plus `/v1/models`; it never gates or 
 Run the optional one-shot self-check inside the running container:
 
 ```bash
-docker exec CONTAINER python /opt/genesis/bin/golden_perf_check.py --output /tmp/GOLDEN_PERF_HEALTH.json
+docker exec CONTAINER python /opt/banana_smasher/bin/golden_perf_check.py --output /tmp/GOLDEN_PERF_HEALTH.json
 ```
 
 It performs excluded C1×3 and C2×2 warmups, then fresh measured C1×3 and C2×3. `READY` requires:

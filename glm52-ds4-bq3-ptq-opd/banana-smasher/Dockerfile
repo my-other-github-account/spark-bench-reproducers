@@ -64,35 +64,35 @@ RUN set -eux; \
     python3 -c "from vllm.model_executor.layers.quantization import get_quantization_config; assert get_quantization_config('bs-mixed-tier').get_name() == 'bs-mixed-tier'"
 
 # Exact SM120 prebuilt cubins and exact P1321 vector-M4 extension.
-COPY kernels/cubins-sm120 /opt/genesis/runtime_cubins/cubins-sm120
-COPY kernels/cubins-e43 /opt/genesis/runtime_cubins/cubins_e43
-RUN mkdir -p /cubit-share && cp -a /opt/genesis/runtime_cubins/cubins-sm120/. /cubit-share/
+COPY kernels/cubins-sm120 /opt/banana_smasher/runtime_cubins/cubins-sm120
+COPY kernels/cubins-e43 /opt/banana_smasher/runtime_cubins/cubins_e43
+RUN mkdir -p /cubit-share && cp -a /opt/banana_smasher/runtime_cubins/cubins-sm120/. /cubit-share/
 
 # FlashInfer 0.6.14 expects cached_ops directly below 0.6.14. The source host
 # had an extra architecture directory (/121a); this repository deliberately
 # removes it and vendors the sealed cache at the exact runtime path.
 COPY vendor/flashinfer/0.6.14 /root/.cache/flashinfer/0.6.14
 COPY vendor/flashinfer-autotune /root/.cache/vllm/flashinfer_autotune_cache
-COPY golden-container/patch_flashinfer_cache_load.py /opt/genesis/bin/patch_flashinfer_cache_load.py
-RUN python3 /opt/genesis/bin/patch_flashinfer_cache_load.py \
+COPY golden-container/patch_flashinfer_cache_load.py /opt/banana_smasher/bin/patch_flashinfer_cache_load.py
+RUN python3 /opt/banana_smasher/bin/patch_flashinfer_cache_load.py \
       "$(python3 -c 'import importlib.util, pathlib; spec = importlib.util.find_spec("flashinfer.jit.core"); origin = pathlib.Path(spec.origin) if spec is not None and spec.origin is not None else None; assert origin is not None and origin.name == "core.py" and origin.parent.name == "jit" and origin.is_file() and not origin.is_symlink(), f"invalid flashinfer.jit.core origin: {origin}"; print(origin.resolve())')" \
-      --receipt /opt/genesis/FLASHINFER_CACHE_LOAD_PATCH.json \
+      --receipt /opt/banana_smasher/FLASHINFER_CACHE_LOAD_PATCH.json \
     && test -f /root/.cache/flashinfer/0.6.14/cached_ops/sampling/sampling.so \
     && test -f /root/.cache/flashinfer/0.6.14/cached_ops/sparse_mla_sm120/sparse_mla_sm120.so \
     && test -f /root/.cache/flashinfer/0.6.14/cached_ops/trtllm_utils/trtllm_utils.so \
     && test ! -e /root/.cache/flashinfer/0.6.14/121a
 
-COPY golden-container/patch_quant_method_defaults.py /opt/genesis/bin/patch_quant_method_defaults.py
-RUN python3 /opt/genesis/bin/patch_quant_method_defaults.py \
+COPY golden-container/patch_quant_method_defaults.py /opt/banana_smasher/bin/patch_quant_method_defaults.py
+RUN python3 /opt/banana_smasher/bin/patch_quant_method_defaults.py \
       "$(python3 -c 'import pathlib, vllm; print(pathlib.Path(vllm.__file__).parent / "models/deepseek_v4/quant_config.py")')" \
       --attention-target "$(python3 -c 'import pathlib, vllm; print(pathlib.Path(vllm.__file__).parent / "models/deepseek_v4/attention.py")')" \
-      --receipt /opt/genesis/QUANT_METHOD_DEFAULTS_PATCH.json
+      --receipt /opt/banana_smasher/QUANT_METHOD_DEFAULTS_PATCH.json
 
-COPY golden-container/golden_perf_check.py /opt/genesis/bin/golden_perf_check.py
-COPY golden-container/healthcheck.py /opt/genesis/bin/healthcheck.py
-COPY SOURCE_MANIFEST.json /opt/genesis/SOURCE_MANIFEST.json
-COPY VENDORED_WHEELS.json /opt/genesis/VENDORED_WHEELS.json
-COPY vendor/p1321/receipts /opt/genesis/p1321-receipts
+COPY golden-container/golden_perf_check.py /opt/banana_smasher/bin/golden_perf_check.py
+COPY golden-container/healthcheck.py /opt/banana_smasher/bin/healthcheck.py
+COPY SOURCE_MANIFEST.json /opt/banana_smasher/SOURCE_MANIFEST.json
+COPY VENDORED_WHEELS.json /opt/banana_smasher/VENDORED_WHEELS.json
+COPY vendor/p1321/receipts /opt/banana_smasher/p1321-receipts
 
 ENV PYTHONNOUSERSITE=1 \
     PYTHONUNBUFFERED=1 \
@@ -106,17 +106,17 @@ ENV PYTHONNOUSERSITE=1 \
 LABEL org.opencontainers.image.title="banana-smasher stock vLLM" \
       org.opencontainers.image.version="P1321-box10" \
       org.opencontainers.image.authors="banana_bae" \
-      io.genesis.release-role="reproducer" \
-      io.genesis.parent-hand.ladder-seal.sha256="ea7df6435fa0fe6e574a20d2506abb09832591bf23f45bc3ff82a5dfb1a0e3e5" \
-      io.genesis.p1321.ladder-seal.sha256="be0453e1d6081a87a0288c8611b9ee5ec33a4b2ba927cb68c358e71a10b242f7" \
-      io.genesis.p1321.winning-boot.sha256="091e8eb3e4caa9793454f4a529d8c1f5fc0af0fcb4fa28cc89e34c8a4c314da2" \
-      io.genesis.p1321.admission="scalar-valid_m-lt4_vector-valid_m-eq4" \
-      io.genesis.p1321.vector-cu.sha256="cbb9dcf660b051c6aac66ecf65c503c2c37191f52412fd878e368005a1830081" \
-      io.genesis.stock-vllm-command-semantics="true" \
-      io.genesis.runtime-health-bars="C1>=13,C4>=27,C4>C2"
+      io.banana_smasher.release-role="reproducer" \
+      io.banana_smasher.parent-hand.ladder-seal.sha256="ea7df6435fa0fe6e574a20d2506abb09832591bf23f45bc3ff82a5dfb1a0e3e5" \
+      io.banana_smasher.p1321.ladder-seal.sha256="be0453e1d6081a87a0288c8611b9ee5ec33a4b2ba927cb68c358e71a10b242f7" \
+      io.banana_smasher.p1321.winning-boot.sha256="091e8eb3e4caa9793454f4a529d8c1f5fc0af0fcb4fa28cc89e34c8a4c314da2" \
+      io.banana_smasher.p1321.admission="scalar-valid_m-lt4_vector-valid_m-eq4" \
+      io.banana_smasher.p1321.vector-cu.sha256="cbb9dcf660b051c6aac66ecf65c503c2c37191f52412fd878e368005a1830081" \
+      io.banana_smasher.stock-vllm-command-semantics="true" \
+      io.banana_smasher.runtime-health-bars="C1>=13,C4>=27,C4>C2"
 
 EXPOSE 8000
-HEALTHCHECK --interval=10m --timeout=30m --start-period=20m --retries=1 CMD ["python3", "/opt/genesis/bin/healthcheck.py"]
+HEALTHCHECK --interval=10m --timeout=30m --start-period=20m --retries=1 CMD ["python3", "/opt/banana_smasher/bin/healthcheck.py"]
 WORKDIR /
 ENTRYPOINT []
 CMD ["vllm", "serve", "/model"]

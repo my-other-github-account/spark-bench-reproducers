@@ -82,8 +82,8 @@
   "rows": [
     {
       "global_kld": 0.12931300373457655,
-      "key": "genesis_base",
-      "label": "Genesis base / BQ3 control",
+      "key": "banana_smasher_base",
+      "label": "BananaSmasher base / BQ3 control",
       "six_class_kld": {
         "agentic": 0.16351134087572686,
         "chat": 0.06747575157095305,

@@ -1,0 +1,26 @@
+{
+  "schema": "banana-smasher-naming-scrub-receipt-v1",
+  "status": "PASS_ZERO_BANNED_CODENAME_HITS",
+  "framework_name": "BANANA-SMASHER",
+  "public_subtree": "glm52-ds4-bq3-ptq-opd",
+  "case_insensitive_content_hits_before": 4909,
+  "case_insensitive_content_hits_after": 0,
+  "files_with_hits_before": 146,
+  "files_with_hits_after": 0,
+  "renamed_paths": 8,
+  "tokenizer_semantics": "UNCHANGED_JSON_VALUE_TREE_VIA_UNICODE_ESCAPES",
+  "manifest_updates": [
+    "SOURCE_MANIFEST.sha256",
+    "banana-smasher/SOURCE_MANIFEST.json",
+    "banana-smasher/PUBLICATION_TRANSFORM.json",
+    "tools/qtip2-backpack-campaign/TOOLS_MANIFEST.json",
+    "tools/qtip2-backpack-campaign/TOOLS_MANIFEST.md"
+  ],
+  "verification": [
+    "PUBLICATION_AUDIT_PASS manifest_rows=170",
+    "banana-smasher pytest: 38 passed",
+    "docker pytest: 18 passed",
+    "Python compile: 154 files",
+    "git diff --check: PASS"
+  ]
+}

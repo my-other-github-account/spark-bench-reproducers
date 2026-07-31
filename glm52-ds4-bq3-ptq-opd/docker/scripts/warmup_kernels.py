@@ -33,9 +33,9 @@ def main() -> int:
     import torch
     import triton
 
-    runtime = Path(os.environ.get("GENESIS_RUNTIME", "/opt/genesis/runtime"))
+    runtime = Path(os.environ.get("BANANA_SMASHER_RUNTIME", "/opt/banana_smasher/runtime"))
     artifact = Path(os.environ.get(
-        "GENESIS_WARMUP_ARTIFACT", "/opt/genesis/artifacts/mixed_tier_compact.pt"
+        "BANANA_SMASHER_WARMUP_ARTIFACT", "/opt/banana_smasher/artifacts/mixed_tier_compact.pt"
     ))
     cache = Path(os.environ.get("TRITON_CACHE_DIR", "/cache"))
     cache.mkdir(parents=True, exist_ok=True)
@@ -109,7 +109,7 @@ def main() -> int:
     if not files:
         raise RuntimeError("Triton warmup produced no cache files")
     manifest = {
-        "schema": "genesis-triton-cache-v1",
+        "schema": "banana_smasher-triton-cache-v1",
         "status": "PASS",
         "architecture": "sm_121",
         "additional_architectures": [],

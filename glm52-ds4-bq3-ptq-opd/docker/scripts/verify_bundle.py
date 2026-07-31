@@ -37,8 +37,8 @@ def main() -> int:
     checks = {
         "all_files_present": not missing,
         "all_hashes_exact": not failed,
-        "package_bytes": manifest["sources"]["genesis_package"]["bytes"] == 101_346_700_411,
-        "package_files": manifest["sources"]["genesis_package"]["files"] == 1_645,
+        "package_bytes": manifest["sources"]["banana_smasher_package"]["bytes"] == 101_346_700_411,
+        "package_files": manifest["sources"]["banana_smasher_package"]["files"] == 1_645,
         "four_kernel_classes": len(manifest["kernel_classes"]) == 4,
         "four_tiers_64_each": set(manifest["tier_map_counts"].values()) == {64},
         "no_quality_claim": manifest["quality_claim"] is False,

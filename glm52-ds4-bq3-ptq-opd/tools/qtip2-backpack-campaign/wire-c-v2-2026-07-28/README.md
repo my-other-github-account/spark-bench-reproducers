@@ -10,7 +10,7 @@ It provides:
 - frozen public acquisition/build/scoring specifications;
 - exact QTIP3 and QTIP2 BALANCED64 anchor receipts;
 - reduced P908/BQ3 reconstruction/pricing inputs;
-- same-instrument Genesis, Wire-A, Wire-C-R, P922, vertical, and IQ4 references;
+- same-instrument BananaSmasher, Wire-A, Wire-C-R, P922, vertical, and IQ4 references;
 - sanitized P921 physical comparison receipts;
 - sanitized P922 diagnostic/selection receipts;
 - sanitized P930 corrected-pricing, calibration, and validation receipts;
@@ -43,7 +43,7 @@ CORRECTED_PRICING_VERIFY_PASS rows=14 classes=6 p922=EXPLICIT p928=EXPLICIT
 
 | row | status | global KLD |
 |---|---|---:|
-| Genesis/BQ3 | measured | 0.1293130 |
+| BananaSmasher/BQ3 | measured | 0.1293130 |
 | Wire A | measured | 0.1159266 |
 | Wire C-R | measured | 0.1181381 |
 | P922 restored-VQ diagnostic | measured diagnostic, not TRUE-C | 0.1466261 |

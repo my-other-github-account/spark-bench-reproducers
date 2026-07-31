@@ -133,7 +133,7 @@
     }
   ],
   "runtime_compiler_absence": "PASS",
-  "schema": "genesis-deploy-validation-v1",
+  "schema": "banana_smasher-deploy-validation-v1",
   "status": "PASS",
   "validation_host": "single-sm121-spark"
 }

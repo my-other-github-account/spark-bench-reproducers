@@ -24,7 +24,7 @@ WIRE_SHA = "c24a1c0568a00fcb8460d7edfb7630187ef10c98e9d0c25c87aa0bccb1d89755"
 WIRE_BYTES = 101346521679
 P632_SCORER_SHA = "5c16e62c32e6936223c54e2b3cf9394a1d0f87833cc409360e82e0341954c12f"
 SOURCE_HOST = "203.0.113.6"
-SOURCE_ROOT = Path("$HOME/run-bundles/P640_GENESIS_QTIP2_WIRE_PUBLIC_TASK_s6/WIRE_STREAM_IN/P647_RESPENT")
+SOURCE_ROOT = Path("$HOME/run-bundles/P640_BANANA_SMASHER_QTIP2_WIRE_PUBLIC_TASK_s6/WIRE_STREAM_IN/P647_RESPENT")
 
 MANIFESTS = [
     {
@@ -115,7 +115,7 @@ def main() -> int:
         raise RuntimeError(f"once-only sparse index exists: {OUTPUT}")
     claim_raw, _ = exact_claim()
     assignment_path = META / "inputs/ASSIGNMENT_RESPENT.json"
-    base_path = META / "inputs/CURRENT_GENESIS_ASSIGNMENT.json"
+    base_path = META / "inputs/CURRENT_BANANA_SMASHER_ASSIGNMENT.json"
     plan_path = META / "inputs/BUILD_PLAN.json"
     qtip_path = META / "inputs/QTIP_SELECTED_EXPECTED.json"
     if sha256(assignment_path) != ASSIGNMENT_SHA or sha256(base_path) != BASE_ASSIGNMENT_SHA:
@@ -195,7 +195,7 @@ def main() -> int:
                 "old": old, "new": new, "kind": kind,
                 "source_root": str(source_root), "artifact": artifact,
             }
-            if kind == "genesis_vq_rebuilt_cell":
+            if kind == "banana_smasher_vq_rebuilt_cell":
                 try:
                     d_text, k_text = new.split("_k", 1)
                     d, k = int(d_text[1:]), int(k_text)
@@ -238,7 +238,7 @@ def main() -> int:
     identities = [(r["layer"], r["expert"], r["projection"]) for r in rows]
     if len(rows) != 1411 or len(set(identities)) != 1411 or set(identities) != set(expected_diff):
         raise RuntimeError("sparse row exact coverage/uniqueness drift")
-    if Counter(r["kind"] for r in rows) != Counter({"genesis_vq_rebuilt_cell": 1005, "qtip2_exact_copy": 406}):
+    if Counter(r["kind"] for r in rows) != Counter({"banana_smasher_vq_rebuilt_cell": 1005, "qtip2_exact_copy": 406}):
         raise RuntimeError("sparse row kind counts drift")
 
     by_layer: dict[str, Any] = {}
@@ -261,7 +261,7 @@ def main() -> int:
         by_layer[str(layer)] = {
             "layer": layer,
             "changed_cells": len(layer_rows),
-            "vq_cells": sum(r["kind"] == "genesis_vq_rebuilt_cell" for r in layer_rows),
+            "vq_cells": sum(r["kind"] == "banana_smasher_vq_rebuilt_cell" for r in layer_rows),
             "qtip2_cells": sum(r["kind"] == "qtip2_exact_copy" for r in layer_rows),
             "unchanged_copythrough_cells": 512 - len(layer_rows),
             "source_root": next(iter(roots)) if roots else None,

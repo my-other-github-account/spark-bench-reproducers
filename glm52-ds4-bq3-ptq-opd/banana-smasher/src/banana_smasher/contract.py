@@ -49,14 +49,14 @@ TENSOR_RE = re.compile(
     r"(?:qtip2|qtip3|truevq_d4|truevq_d8|native_mxfp4)\."
     r"((?:[a-z0-9_]+\.)*[a-z0-9_]+))$"
 )
-GENESIS_LAYER_RE = re.compile(r"^layer_(\d{3})$")
-GENESIS_PLANE_RE = re.compile(
+BANANA_SMASHER_LAYER_RE = re.compile(r"^layer_(\d{3})$")
+BANANA_SMASHER_PLANE_RE = re.compile(
     r"^(d4_k(256|1024|2048|4096))\.(down|fused13)\."
     r"(codebook\.fp16|codes\.le(8|10|11|12)|expert_ids\.i16|scales\.e8m0)\.bin$"
 )
-GENESIS_SUBTIERS = (256, 1024, 2048, 4096)
-GENESIS_PROJECTIONS = ("down", "fused13")
-GENESIS_ROLES = ("codebooks", "codes", "expert_ids", "scales")
+BANANA_SMASHER_SUBTIERS = (256, 1024, 2048, 4096)
+BANANA_SMASHER_PROJECTIONS = ("down", "fused13")
+BANANA_SMASHER_ROLES = ("codebooks", "codes", "expert_ids", "scales")
 
 
 class PackValidationError(ValueError):
@@ -140,10 +140,10 @@ def _raw_metadata(
     }
 
 
-def _genesis_plane_descriptor(path: Path, *, layer: int) -> dict[str, Any]:
-    match = GENESIS_PLANE_RE.fullmatch(path.name)
+def _banana_smasher_plane_descriptor(path: Path, *, layer: int) -> dict[str, Any]:
+    match = BANANA_SMASHER_PLANE_RE.fullmatch(path.name)
     if match is None:
-        raise PackValidationError(f"unsupported genesis plane name: {path.name}")
+        raise PackValidationError(f"unsupported banana_smasher plane name: {path.name}")
     tier_name = match.group(1)
     subtier = int(match.group(2))
     projection = match.group(3)
@@ -182,83 +182,83 @@ def _genesis_plane_descriptor(path: Path, *, layer: int) -> dict[str, Any]:
     }
 
 
-def _verify_genesis_source(source_root: Path) -> tuple[int, list[Path], str]:
+def _verify_banana_smasher_source(source_root: Path) -> tuple[int, list[Path], str]:
     receipt_path = source_root / "LAYER_RECEIPT.json"
     try:
         receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
     except Exception as exc:
         raise PackValidationError(
-            f"cannot read genesis LAYER_RECEIPT.json: {exc}"
+            f"cannot read banana_smasher LAYER_RECEIPT.json: {exc}"
         ) from exc
     if not isinstance(receipt, dict) or receipt.get("status") != "PASS":
-        raise PackValidationError("genesis LAYER_RECEIPT.json must be a PASS object")
-    layer_match = GENESIS_LAYER_RE.fullmatch(source_root.name)
+        raise PackValidationError("banana_smasher LAYER_RECEIPT.json must be a PASS object")
+    layer_match = BANANA_SMASHER_LAYER_RE.fullmatch(source_root.name)
     receipt_layer = receipt.get("layer")
     if layer_match is None or receipt_layer != int(layer_match.group(1)):
         raise PackValidationError(
-            f"genesis layer identity mismatch: directory={source_root.name!r}, receipt={receipt_layer!r}"
+            f"banana_smasher layer identity mismatch: directory={source_root.name!r}, receipt={receipt_layer!r}"
         )
     rows = receipt.get("files")
     if not isinstance(rows, list) or not rows:
-        raise PackValidationError("genesis receipt files must be a non-empty list")
+        raise PackValidationError("banana_smasher receipt files must be a non-empty list")
     expected: set[str] = set()
     for row in rows:
         if not isinstance(row, dict) or not isinstance(row.get("path"), str):
-            raise PackValidationError("malformed genesis receipt file row")
+            raise PackValidationError("malformed banana_smasher receipt file row")
         relative = Path(row["path"])
         if relative.is_absolute() or len(relative.parts) != 1 or ".." in relative.parts:
-            raise PackValidationError(f"unsafe genesis receipt path: {relative}")
+            raise PackValidationError(f"unsafe banana_smasher receipt path: {relative}")
         path = source_root / relative
         if not path.is_file() or path.is_symlink():
             raise PackValidationError(
-                f"missing/non-regular genesis source file: {relative}"
+                f"missing/non-regular banana_smasher source file: {relative}"
             )
         actual_bytes = path.stat().st_size
         if actual_bytes != row.get("bytes"):
             raise PackValidationError(
-                f"genesis source byte count mismatch for {relative}: "
+                f"banana_smasher source byte count mismatch for {relative}: "
                 f"expected {row.get('bytes')}, got {actual_bytes}"
             )
         actual_sha = _sha256_file(path)
         if actual_sha != row.get("sha256"):
             raise PackValidationError(
-                f"genesis source sha256 mismatch for {relative}: "
+                f"banana_smasher source sha256 mismatch for {relative}: "
                 f"expected {row.get('sha256')}, got {actual_sha}"
             )
-        if GENESIS_PLANE_RE.fullmatch(relative.name) is None:
-            raise PackValidationError(f"unsupported genesis receipt plane: {relative}")
+        if BANANA_SMASHER_PLANE_RE.fullmatch(relative.name) is None:
+            raise PackValidationError(f"unsupported banana_smasher receipt plane: {relative}")
         expected.add(relative.name)
     actual = {path.name for path in source_root.glob("*.bin") if path.is_file()}
     if actual != expected:
         raise PackValidationError(
-            f"genesis source file-set mismatch: extras={sorted(actual - expected)}, "
+            f"banana_smasher source file-set mismatch: extras={sorted(actual - expected)}, "
             f"missing={sorted(expected - actual)}"
         )
     planes = [source_root / name for name in sorted(expected)]
     return int(receipt_layer), planes, _sha256_file(receipt_path)
 
 
-def _genesis_tier_maps(planes: list[Path]) -> tuple[np.ndarray, np.ndarray]:
+def _banana_smasher_tier_maps(planes: list[Path]) -> tuple[np.ndarray, np.ndarray]:
     tier_map = np.full(256, TIER_CODES["truevq_d4"], dtype=np.uint8)
     subtier_map = np.zeros(256, dtype=np.uint16)
     seen_by_projection: dict[str, set[int]] = {
-        projection: set() for projection in GENESIS_PROJECTIONS
+        projection: set() for projection in BANANA_SMASHER_PROJECTIONS
     }
     ids_by_tier_projection: dict[tuple[int, str], np.ndarray] = {}
     for path in planes:
-        descriptor = _genesis_plane_descriptor(path, layer=0)
+        descriptor = _banana_smasher_plane_descriptor(path, layer=0)
         if descriptor["role"] != "expert_ids":
             continue
         ids = np.fromfile(path, dtype="<i2")
         if np.any(ids < 0) or np.any(ids >= 256) or len(np.unique(ids)) != len(ids):
-            raise PackValidationError(f"invalid/duplicate genesis expert ids: {path}")
+            raise PackValidationError(f"invalid/duplicate banana_smasher expert ids: {path}")
         projection = str(descriptor["projection"])
         overlap = seen_by_projection[projection].intersection(
             int(value) for value in ids
         )
         if overlap:
             raise PackValidationError(
-                f"genesis tier expert overlap for {projection}: {sorted(overlap)}"
+                f"banana_smasher tier expert overlap for {projection}: {sorted(overlap)}"
             )
         seen_by_projection[projection].update(int(value) for value in ids)
         key = (int(descriptor["subtier"]), projection)
@@ -268,15 +268,15 @@ def _genesis_tier_maps(planes: list[Path]) -> tuple[np.ndarray, np.ndarray]:
     for projection, seen in seen_by_projection.items():
         if seen != expected_ids:
             raise PackValidationError(
-                f"genesis {projection} expert partition is incomplete: "
+                f"banana_smasher {projection} expert partition is incomplete: "
                 f"missing={sorted(expected_ids - seen)}, extras={sorted(seen - expected_ids)}"
             )
-    for subtier in GENESIS_SUBTIERS:
+    for subtier in BANANA_SMASHER_SUBTIERS:
         down = ids_by_tier_projection.get((subtier, "down"))
         fused = ids_by_tier_projection.get((subtier, "fused13"))
         if down is None or fused is None or not np.array_equal(down, fused):
             raise PackValidationError(
-                f"genesis expert ids disagree across projections for d4_k{subtier}"
+                f"banana_smasher expert ids disagree across projections for d4_k{subtier}"
             )
     return tier_map, subtier_map
 
@@ -327,13 +327,13 @@ def _layout_contract() -> dict[str, Any]:
         "truevq_subtier_map": {
             "dtype": "<u2",
             "shape": [256],
-            "allowed_values": list(GENESIS_SUBTIERS),
+            "allowed_values": list(BANANA_SMASHER_SUBTIERS),
             "semantics": "subtier_map[e] stores trueVQ d4 codebook cardinality K for expert e",
         },
-        "genesis_raw_tensor_name": (
+        "banana_smasher_raw_tensor_name": (
             "layers.{layer}.truevq_d4.d4_k{K}.{projection}.{role}"
         ),
-        "genesis_raw_storage": "headerless little-endian source bytes, manifest-bound dtype/shape/encoding",
+        "banana_smasher_raw_storage": "headerless little-endian source bytes, manifest-bound dtype/shape/encoding",
         "required_family_fields": {
             family: sorted(fields) for family, fields in REQUIRED_FAMILY_FIELDS.items()
         },
@@ -389,19 +389,19 @@ def export_pack(
     instance_id: str,
     link_mode: Literal["hardlink", "copy", "auto"] = "hardlink",
 ) -> dict[str, Any]:
-    """Export canonical npy planes or a sealed GENESIS layer as bs-pack v1."""
+    """Export canonical npy planes or a sealed BANANA_SMASHER layer as bs-pack v1."""
     source_root = Path(source_root).resolve()
     output = Path(output).resolve()
     if output.exists():
         raise FileExistsError(f"output already exists: {output}")
 
     config_source = source_root / "config.json"
-    genesis_receipt = source_root / "LAYER_RECEIPT.json"
+    banana_smasher_receipt = source_root / "LAYER_RECEIPT.json"
     source_receipt_sha256: str | None = None
-    if genesis_receipt.is_file():
-        layer, planes, source_receipt_sha256 = _verify_genesis_source(source_root)
-        tier_map, subtier_map = _genesis_tier_maps(planes)
-        source_format = "genesis-materialized-layer-v1"
+    if banana_smasher_receipt.is_file():
+        layer, planes, source_receipt_sha256 = _verify_banana_smasher_source(source_root)
+        tier_map, subtier_map = _banana_smasher_tier_maps(planes)
+        source_format = "banana_smasher-materialized-layer-v1"
     else:
         if not config_source.is_file():
             raise PackValidationError(
@@ -445,7 +445,7 @@ def export_pack(
                 raise PackValidationError("source config.json must contain an object")
         else:
             for source in planes:
-                descriptor = _genesis_plane_descriptor(source, layer=layer)
+                descriptor = _banana_smasher_plane_descriptor(source, layer=layer)
                 name = str(descriptor["name"])
                 if name in tensor_index:
                     raise PackValidationError(f"duplicate tensor name: {name}")
@@ -476,7 +476,7 @@ def export_pack(
                     {
                         "path": relative.as_posix(),
                         "mode": actual_mode,
-                        "role": "genesis_raw_plane",
+                        "role": "banana_smasher_raw_plane",
                     }
                 )
             generated = {
@@ -507,7 +507,7 @@ def export_pack(
                 )
             provenance_relative = Path("provenance/LAYER_RECEIPT.json")
             (output / provenance_relative).parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(genesis_receipt, output / provenance_relative)
+            shutil.copy2(banana_smasher_receipt, output / provenance_relative)
             config = {
                 "_name_or_path": model_id,
                 "model_type": "deepseek_v4",
@@ -568,7 +568,7 @@ def export_pack(
         file_entries.extend(
             _file_entry(output, Path(row["path"]), row["role"]) for row in linked
         )
-        if source_format == "genesis-materialized-layer-v1":
+        if source_format == "banana_smasher-materialized-layer-v1":
             file_entries.append(
                 _file_entry(
                     output,
@@ -841,7 +841,7 @@ def _verify_tensors(root: Path, manifest: dict[str, Any]) -> tuple[int, list[int
                     f"{name} must be uint16[256], got {array.dtype}{tuple(array.shape)}"
                 )
             invalid = sorted(
-                {int(value) for value in np.unique(array)} - set(GENESIS_SUBTIERS)
+                {int(value) for value in np.unique(array)} - set(BANANA_SMASHER_SUBTIERS)
             )
             if invalid:
                 raise PackValidationError(
@@ -867,9 +867,9 @@ def _verify_tensors(root: Path, manifest: dict[str, Any]) -> tuple[int, list[int
             ):
                 expected = {
                     f"d4_k{subtier}.{projection}.{role}"
-                    for subtier in GENESIS_SUBTIERS
-                    for projection in GENESIS_PROJECTIONS
-                    for role in GENESIS_ROLES
+                    for subtier in BANANA_SMASHER_SUBTIERS
+                    for projection in BANANA_SMASHER_PROJECTIONS
+                    for role in BANANA_SMASHER_ROLES
                 }
                 missing = sorted(expected - fields)
                 if not layer_fields[layer].get("__subtier_map__"):

@@ -67,7 +67,7 @@ def main() -> int:
     after = patched_bytes(args.target)
     args.target.write_bytes(after)
     receipt = {
-        "schema": "genesis-flashinfer-sealed-cache-load-patch-v1",
+        "schema": "banana_smasher-flashinfer-sealed-cache-load-patch-v1",
         "target": str(args.target),
         "preimage_sha256": sha256_bytes(before),
         "postimage_sha256": sha256_bytes(after),

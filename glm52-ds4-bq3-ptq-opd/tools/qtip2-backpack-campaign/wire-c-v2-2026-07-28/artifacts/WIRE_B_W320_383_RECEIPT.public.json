@@ -3293,7 +3293,7 @@
       "window_mean_se": 0.0018266322748588077
     }
   },
-  "source_host": "sealed Genesis base plus exact P653/P760 parent overlays",
+  "source_host": "sealed BananaSmasher base plus exact P653/P760 parent overlays",
   "started_unix": 1785082145.0386453,
   "status": "PASS_VALIDATED_FULL512_COMPONENT_RECEIPT",
   "support": 8192,

@@ -66,7 +66,7 @@ SOURCE_MANIFEST = INPUTS / "SOURCE_MANIFEST.json"
 TEACHER_MANIFEST = INPUTS / "TEACHER_MANIFEST.json"
 MODEL_MANIFEST = INPUTS / "MODEL_MANIFEST.json"
 WINDOW_CONTRACT = INPUTS / "WINDOW_CONTRACT.json"
-COMPACT_MANIFEST = INPUTS / "GENESIS_COMPACT_FANIN.json"
+COMPACT_MANIFEST = INPUTS / "BANANA_SMASHER_COMPACT_FANIN.json"
 ASSIGNMENT = INPUTS / "NOMINATED_ASSIGNMENT.json"
 LABELS = INPUTS / "BQ3_STEP0_PER_CLASS.json"
 PHYSICAL_MARKER = INPUTS / "PHYSICAL_CODE76.json"
@@ -76,7 +76,7 @@ BASELINE_FULL512 = INPUTS / "PRE_REPAIR_FULL512.json"
 PREPARE_RECEIPT = ROOT / "receipts/PREPARE_MISSION.json"
 SOURCE_RELEASE_INPUT = ROOT / "inputs/P600_HOST_CLAIM.json"
 SOURCE_RELEASE_SHA256 = "a104adfe0f3e9171b3bf14e12ff6c6e6d0bf2b87eeaf5064a91c50b6c4da5ac7"
-CANONICAL_READER = ROOT / "code/genesis_remote_full512.py"
+CANONICAL_READER = ROOT / "code/banana_smasher_remote_full512.py"
 CANONICAL_BUILDER = PACKAGE / "t8192_ds4_build_v3.py"
 CANONICAL_DELTA = PACKAGE / "delta_pack_sources.py"
 CANONICAL_LP4_PACK = PACKAGE / "lp4_pack.py"
@@ -115,8 +115,8 @@ TRAIN_DONE_SHA = "e7dc46a2069386a372f7b5f1f1ed78c3a5335ea635a4f58264e44065cdadfd
 DISK_FLOOR = 6 * (1 << 30)
 HELDOUT_PREFIX_COUNTS = {"early8": 8, "interim64": 64, "full512": 512}
 FROZEN_CLASSES = ("agentic", "chat", "code", "multilingual", "prose", "reasoning")
-CURRENT_GENESIS_GLOBAL = 0.08394998423027422
-CURRENT_GENESIS_CODE = 0.0417040064907229
+CURRENT_BANANA_SMASHER_GLOBAL = 0.08394998423027422
+CURRENT_BANANA_SMASHER_CODE = 0.0417040064907229
 
 
 def canonical_json_sha256(value: object) -> str:
@@ -171,7 +171,7 @@ def force_weights_only_torch_loads():
 
 def validate_artifact_manifests(mode: str) -> dict[str, Any]:
     source = json.loads(SOURCE_MANIFEST.read_text())
-    if source.get("schema") != "genesis-repair-second-host-source-manifest-v2":
+    if source.get("schema") != "banana_smasher-repair-second-host-source-manifest-v2":
         raise RuntimeError("source manifest schema drift")
     teacher = json.loads(TEACHER_MANIFEST.read_text())
     model = json.loads(MODEL_MANIFEST.read_text())
@@ -182,7 +182,7 @@ def validate_artifact_manifests(mode: str) -> dict[str, Any]:
         raise RuntimeError("artifact manifest binding drift")
     teacher_rows = teacher.get("rows")
     if (
-        teacher.get("schema") != "genesis-repair-teacher-manifest-v1"
+        teacher.get("schema") != "banana_smasher-repair-teacher-manifest-v1"
         or teacher.get("status") != "PASS_FULL_CONTENT_REHASH"
         or not isinstance(teacher_rows, list)
         or [row.get("win") for row in teacher_rows] != list(range(512))
@@ -220,7 +220,7 @@ def validate_artifact_manifests(mode: str) -> dict[str, Any]:
             train_rows.append({"win": win, "bytes": path.stat().st_size, "sha256": actual_sha})
     model_rows = model.get("rows")
     if (
-        model.get("schema") != "genesis-repair-model-manifest-v1"
+        model.get("schema") != "banana_smasher-repair-model-manifest-v1"
         or model.get("status") != "PASS_INDEX_AND_FILE_SURFACE"
         or not isinstance(model_rows, list)
         or len(model_rows) != 46
@@ -286,7 +286,7 @@ def source_claim(expected_sha: str) -> tuple[bytes, dict[str, Any]]:
     if hashlib.sha256(raw).hexdigest() == expected_sha:
         claim = current
     elif (
-        current.get("schema") == "genesis-seams-basic-repair-host-claim-v1"
+        current.get("schema") == "banana_smasher-seams-basic-repair-host-claim-v1"
         and current.get("host") == "compute-node-8"
         and current.get("owner") == SOURCE_TASK
         and current.get("task") == SOURCE_TASK
@@ -307,7 +307,7 @@ def source_claim(expected_sha: str) -> tuple[bytes, dict[str, Any]]:
             raise RuntimeError("source claim does not match checkpoint identity or exact source-task release")
         claim = current["previous_claim"]
     exact = {
-        "schema": "genesis-seams-basic-repair-host-claim-v1",
+        "schema": "banana_smasher-seams-basic-repair-host-claim-v1",
         "host": "compute-node-8",
         "owner": claim.get("owner"),
         "task": claim.get("task"),
@@ -364,9 +364,9 @@ def preflight_contract(mode: str) -> dict[str, Any]:
     source_manifest = json.loads(SOURCE_MANIFEST.read_text())
     prepare = json.loads(PREPARE_RECEIPT.read_text())
     if (
-        source_manifest.get("schema") != "genesis-repair-second-host-source-manifest-v2"
+        source_manifest.get("schema") != "banana_smasher-repair-second-host-source-manifest-v2"
         or source_manifest.get("status") != "PASS_SEALED_LOCAL_INPUTS"
-        or prepare.get("schema") != "genesis-repair-second-host-prepare-receipt-v2"
+        or prepare.get("schema") != "banana_smasher-repair-second-host-prepare-receipt-v2"
         or prepare.get("status") != "PASS"
     ):
         raise RuntimeError("source preparation status drift")
@@ -473,7 +473,7 @@ def install_overlay(
     norm_seen: set[str] = set()
     output_seen: set[str] = set()
 
-    class CheckpointTierSource(base.GenesisTierSource):
+    class CheckpointTierSource(base.BananaSmasherTierSource):
         def _stage_remote(self, layer: int, row: dict) -> Path:
             # Source-local relocation of the canonical receipt-first allowlist stage.
             # The staged bytes and downstream torch-mmap numerical path are unchanged.
@@ -498,7 +498,7 @@ def install_overlay(
                 raise RuntimeError(f"L{layer} receipt SHA drift after source-local stage")
             receipt = json.loads(receipt_path.read_text())
             if (
-                receipt.get("schema") != "genesis-materialized-layer-v1"
+                receipt.get("schema") != "banana_smasher-materialized-layer-v1"
                 or receipt.get("status") != "PASS"
                 or int(receipt.get("layer", -1)) != layer
                 or receipt.get("assignment_sha256") != ASSIGNMENT_SHA
@@ -526,7 +526,7 @@ def install_overlay(
             os.replace(temp, stage)
             self.active_stage = stage
             atomic_json(ROOT / f"run/LAYER_{layer:03d}_STAGE.json", {
-                "schema": "genesis-full512-layer-stage-v2", "task_id": TASK, "layer": layer,
+                "schema": "banana_smasher-full512-layer-stage-v2", "task_id": TASK, "layer": layer,
                 "receipt_sha256": wire_row["receipt_sha256"], **stage_accounting,
                 "allowed_files": allowed_paths, "stage": str(stage),
                 "transport": "source-local receipt-first allowlist copy; canonical torch-mmap path unchanged",
@@ -580,16 +580,16 @@ def install_overlay(
         key = f"model.layers.{layer}.self_attn.o_b_proj.output_log_gain"
         gain_master = state["outputs"][key]
         projection = module.self_attn.o_b_proj
-        if not hasattr(projection, "_genesis_repair_gain_hook"):
+        if not hasattr(projection, "_banana_smasher_repair_gain_hook"):
             captured = gain_master.detach().clone()
 
             def output_gain_hook(_module, _inputs, output, *, log_gain=captured):
                 gain = torch.exp(log_gain.to(output.device).clamp(-GAIN_CLAMP, GAIN_CLAMP)).to(output.dtype)
                 return output * gain
 
-            projection._genesis_repair_gain_hook = projection.register_forward_hook(output_gain_hook)
-            projection._genesis_repair_gain_value = float(gain_master)
-        elif projection._genesis_repair_gain_value != float(gain_master):
+            projection._banana_smasher_repair_gain_hook = projection.register_forward_hook(output_gain_hook)
+            projection._banana_smasher_repair_gain_value = float(gain_master)
+        elif projection._banana_smasher_repair_gain_value != float(gain_master):
             raise RuntimeError(f"output gain changed during run L{layer}")
         output_seen.add(key)
         return module
@@ -794,7 +794,7 @@ def main() -> int:
             "--out", str(out), "--cand-pos-limit", "1024",
             "--count", str(len(wins)), "--chunk", str(chunk), "--mb", "2",
             "--windows", ",".join(map(str, wins)),
-            "--tag", f"GENESIS_REPAIR_CHECKPOINT_{run_id}",
+            "--tag", f"BANANA_SMASHER_REPAIR_CHECKPOINT_{run_id}",
         ]
         os.chdir(TEACHER)
         with force_weights_only_torch_loads() as weights_only_stats:
@@ -893,7 +893,7 @@ def main() -> int:
             for label in FROZEN_CLASSES
         }
         terminal_comparison = {
-            "label": "candidate-minus-current-GENESIS paired ordered-window mean",
+            "label": "candidate-minus-current-BANANA_SMASHER paired ordered-window mean",
             "global": paired_delta(per_window, baseline["per_window"], wins, "global"),
             "code76": (
                 paired_delta(per_window, baseline["per_window"], list(EXPECTED_CODE76_IDS), "code76")
@@ -916,8 +916,8 @@ def main() -> int:
             },
             "baseline_receipt": str(BASELINE_FULL512),
             "baseline_receipt_sha256": EXPECTED_INPUT_SHA256[BASELINE_FULL512],
-            "baseline_anchor_global_full512": CURRENT_GENESIS_GLOBAL,
-            "baseline_anchor_code_full512": CURRENT_GENESIS_CODE,
+            "baseline_anchor_global_full512": CURRENT_BANANA_SMASHER_GLOBAL,
+            "baseline_anchor_code_full512": CURRENT_BANANA_SMASHER_CODE,
         }
 
     claim_raw_after, _ = current_claim()
@@ -959,8 +959,8 @@ def main() -> int:
     }
     receipt = {
         "schema": (
-            "genesis-repair-train-directional-v1" if mode == "train"
-            else "genesis-repair-checkpoint-score-v1" if mode == "fast"
+            "banana_smasher-repair-train-directional-v1" if mode == "train"
+            else "banana_smasher-repair-checkpoint-score-v1" if mode == "fast"
             else "p632-p600-p623-whole-wire-prefix-v1"
         ),
         "status": "PASS_VALIDATED_RECEIPT",

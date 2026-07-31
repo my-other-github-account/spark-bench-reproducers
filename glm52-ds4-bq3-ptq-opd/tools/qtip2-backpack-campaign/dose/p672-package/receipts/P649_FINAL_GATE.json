@@ -209,9 +209,9 @@
     "wall_best_stream_count": 8,
     "wall_speedup_vs_stream1": 1.0989200213419896
   },
-  "fused_expert_linear_sha256": "4ce65fab1ec75775d88ff53d73a1c2a15d13723865a2ffc4047561cb732eb840",
-  "genesis_physical_surface_sha256": "c561530422356701694ab10e121c2d51b2a7ef8c34c7457f15493785204ac184",
-  "genesis_sha256": "991370498c153988dda7df3fc5a23c40a4d58a48ba3d8bb4d596a3d9fa6a17cc",
+  "fused_expert_linear_sha256": "5850caafaaba60502899da3ec713ed813a53505898cbeb410eef4e0a276e29d8",
+  "banana_smasher_physical_surface_sha256": "7b075170e405ad54b0487f6649923cba4abcaf8592eeaadfde942409b2270a9f",
+  "banana_smasher_sha256": "991370498c153988dda7df3fc5a23c40a4d58a48ba3d8bb4d596a3d9fa6a17cc",
   "grouped_sweep_path": "$HOME/run-bundles/P649_ROUTED_EXPERTS_PUBLIC_TASK_s5w/grouped_sweep/GROUPED_SWEEP.json",
   "grouped_sweep_sha256": "829d696fec5fde44b08fd803a2bd231a1414b2ec75fc28e977171e9ae919d22a",
   "host": "compute-node-5-work",
@@ -223,7 +223,7 @@
     "highest_safe_batching": "B32 remains the sealed highest safe batch; B40 crossed the 32-GiB floor",
     "mmap": "packed files and scales retain the sealed mmap/ranged-read path; grouping changes read granularity only",
     "multi_stream_cuda_overlap": "not selected: routed experts feed an ordered index_add accumulation; changing launch/accumulation order is ineligible under the exact gate",
-    "resident_once_expert_metadata_codebooks": "already resident from GenesisPhysicalExperts.__init__; codebooks remain fp32 masters and group/id metadata is built once"
+    "resident_once_expert_metadata_codebooks": "already resident from BananaSmasherPhysicalExperts.__init__; codebooks remain fp32 masters and group/id metadata is built once"
   },
   "overall_pass": true,
   "pass_bar": {

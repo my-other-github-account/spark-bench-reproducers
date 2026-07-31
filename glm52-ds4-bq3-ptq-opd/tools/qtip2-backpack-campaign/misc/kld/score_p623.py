@@ -13,7 +13,7 @@ import time
 import torch
 
 TASK = "PUBLIC_TASK"
-LABEL = "current-GENESIS-WITHOUT-QTIP2"
+LABEL = "current-BANANA_SMASHER-WITHOUT-QTIP2"
 CLASSES = ("agentic", "chat", "code", "multilingual", "prose", "reasoning")
 SOURCE_HOST = "203.0.113.9"
 SOURCE_ROOT = Path("$HOME/run-bundles/P537_TERMINAL_PUBLIC_TASK_s8")
@@ -99,7 +99,7 @@ def validate_claim(mission: Path) -> str:
 
 def write_progress(mission: Path, *, state: str, completed: int, started: float, detail: dict | None = None) -> None:
     payload = {
-        "schema": "p623-current-genesis-baseline-progress-v1",
+        "schema": "p623-current-banana_smasher-baseline-progress-v1",
         "task_id": TASK,
         "label": LABEL,
         "host": "compute-node-6",
@@ -121,7 +121,7 @@ def identity_canary(mission: Path, source: dict, source_score_path: Path, checkp
     checks: list[tuple[str, object, object]] = [
         ("source_score_sha256", sha256(source_score_path), EXPECTED["source_score_sha256"]),
         ("source.status", source.get("status"), "PASS_VALIDATED_RECEIPT"),
-        ("source.schema", source.get("schema"), "genesis-repair-terminal-full512-v1"),
+        ("source.schema", source.get("schema"), "banana_smasher-repair-terminal-full512-v1"),
         ("source.direction", source.get("direction"), "KL(teacher||candidate)"),
         ("source.windows", source.get("windows"), 512),
         ("source.support", source.get("support"), 8192),
@@ -163,7 +163,7 @@ def identity_canary(mission: Path, source: dict, source_score_path: Path, checkp
         except Exception as exc:
             first_diff = {"json_path": "sealed_baseline_numeric", "expected": {"global": SEALED_GLOBAL, "by_class": SEALED_BY_CLASS}, "observed": str(exc)}
     canary = {
-        "schema": "p623-current-genesis-instrument-canary-v1",
+        "schema": "p623-current-banana_smasher-instrument-canary-v1",
         "status": "PASS_IDENTITY_BASELINE_CANARY" if first_diff is None else "FAIL_IDENTITY_BASELINE_CANARY",
         "task_id": TASK,
         "label": LABEL,
@@ -242,7 +242,7 @@ def make_table(mission: Path, source: dict, rows: list[dict], tensors: list[torc
     subset_manifest_sha = hashlib.sha256(json.dumps(subset_manifest, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
     scorer_sha = sha256(Path(__file__))
     payload = {
-        "schema": "p623-current-genesis-matched-baseline-v1",
+        "schema": "p623-current-banana_smasher-matched-baseline-v1",
         "status": "PASS_MEASURED_RAW_ARTIFACT_REDUCTION",
         "task_id": TASK,
         "label": LABEL,
@@ -373,7 +373,7 @@ def main() -> int:
     for cls in CLASSES:
         exact_float(float(final["by_class"][cls]["mean_kld"]), SEALED_BY_CLASS[cls], f"reduced final class {cls}")
     receipt = {
-        "schema": "p623-current-genesis-baseline-seal-v1",
+        "schema": "p623-current-banana_smasher-baseline-seal-v1",
         "status": "PASS_FINAL_512_MATCHED_BASELINE",
         "task_id": TASK,
         "label": LABEL,
@@ -402,7 +402,7 @@ if __name__ == "__main__":
         try:
             mission = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else Path(".").resolve()
             atomic_json(mission / "receipts/FAILED.json", {
-                "schema": "p623-current-genesis-baseline-failure-v1",
+                "schema": "p623-current-banana_smasher-baseline-failure-v1",
                 "status": "FAIL_CLOSED",
                 "task_id": TASK,
                 "error_type": type(exc).__name__,
@@ -410,7 +410,7 @@ if __name__ == "__main__":
                 "failed_unix": time.time(),
             })
             atomic_json(mission / "run/PROGRESS.json", {
-                "schema": "p623-current-genesis-baseline-progress-v1",
+                "schema": "p623-current-banana_smasher-baseline-progress-v1",
                 "task_id": TASK,
                 "label": LABEL,
                 "host": "compute-node-6",

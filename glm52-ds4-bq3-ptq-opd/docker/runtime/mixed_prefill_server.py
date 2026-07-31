@@ -19,21 +19,21 @@ import uuid
 from types import SimpleNamespace
 from typing import Any, Iterator
 
-PRODUCT_BYTES = int(os.environ.get("GENESIS_PRODUCT_BYTES", "101346700411"))
-PRODUCT_FILES = int(os.environ.get("GENESIS_PRODUCT_FILES", "1645"))
+PRODUCT_BYTES = int(os.environ.get("BANANA_SMASHER_PRODUCT_BYTES", "101346700411"))
+PRODUCT_FILES = int(os.environ.get("BANANA_SMASHER_PRODUCT_FILES", "1645"))
 PRODUCT_INVENTORY_SHA256 = os.environ.get(
-    "GENESIS_PRODUCT_INVENTORY_SHA256",
+    "BANANA_SMASHER_PRODUCT_INVENTORY_SHA256",
     "cb00fc4e783ab97018bbe0642556820596a7846816fb0bcc55bd9f27b223b3bd",
 )
 LAYERS = 43
 EXPERTS = 256
 TOPK = 6
-MODEL_ID = os.environ.get("GENESIS_MODEL_ID", "deepseek-v4-mixed-tier")
+MODEL_ID = os.environ.get("BANANA_SMASHER_MODEL_ID", "deepseek-v4-mixed-tier")
 TIER_NAMES = ("qtip", "truevq_d4", "truevq_d8", "native_mxfp4")
 MAX_MODEL_LEN = 32_768
-TASK_ID = os.environ.get("GENESIS_TASK_ID", "container")
-CLAIM_HOST = os.environ.get("GENESIS_CLAIM_HOST", "")
-CLAIM_OWNER = os.environ.get("GENESIS_CLAIM_OWNER", TASK_ID)
+TASK_ID = os.environ.get("BANANA_SMASHER_TASK_ID", "container")
+CLAIM_HOST = os.environ.get("BANANA_SMASHER_CLAIM_HOST", "")
+CLAIM_OWNER = os.environ.get("BANANA_SMASHER_CLAIM_OWNER", TASK_ID)
 
 
 def atomic_json(path: Path, value: Any) -> None:
@@ -297,7 +297,7 @@ def init_vllm(mission: Path, backend: Path, artifact: Path):
             enable_elastic_ep=False, enable_eplb=False))
     dist_init = mission / "receipts" / "dist_init"
     dist_init.unlink(missing_ok=True)
-    distributed_backend = os.environ.get("GENESIS_DISTRIBUTED_BACKEND", "nccl")
+    distributed_backend = os.environ.get("BANANA_SMASHER_DISTRIBUTED_BACKEND", "nccl")
     trace("init_vllm_before_world_group", distributed_backend=distributed_backend)
     init_distributed_environment(
         world_size=1, rank=0, distributed_init_method=f"file://{dist_init}",
@@ -675,7 +675,7 @@ def main() -> int:
         # full-product staging pass: it was only a VmHWM proxy and left less
         # than the binding 8 GiB floor before any candidate row.
         full_stream = {
-            "phase": "full_genesis_source_residency_stage_skipped",
+            "phase": "full_banana_smasher_source_residency_stage_skipped",
             "reason": "file-backed mincore residency is measured directly",
             "source_host": args.source_host, "source_root": args.source_root,
         }
@@ -685,7 +685,7 @@ def main() -> int:
         full, full_stream = stream_remote_tree_into_mmap(
             args.source_host, args.source_root, PRODUCT_BYTES,
             mission / "code/stream_tree.py", progress,
-            "full_genesis_source_residency_stage", guard)
+            "full_banana_smasher_source_residency_stage", guard)
         full_stage_available = mem_available()
         full_stage_proc = proc_memory()
         full.close()
@@ -788,7 +788,7 @@ def main() -> int:
         startup_phase("before_resident_envelope_map", reserve_bytes=reserve_bytes)
         reserve, reserve_stream = map_local_tree_file_backed(
             args.source_root, reserve_bytes, progress,
-            "resident_genesis_envelope_file_backed_mincore", guard)
+            "resident_banana_smasher_envelope_file_backed_mincore", guard)
         reserve_resident_bytes = reserve.resident_logical_bytes()
         residency_mode = "file_backed_mincore"
         startup_phase(
@@ -799,7 +799,7 @@ def main() -> int:
         reserve, reserve_stream = stream_remote_tree_into_mmap(
             args.source_host, args.source_root, reserve_bytes,
             mission / "code/stream_tree.py", progress,
-            "resident_genesis_envelope_reserve", guard)
+            "resident_banana_smasher_envelope_reserve", guard)
         reserve_resident_bytes = reserve_bytes
         residency_mode = "anonymous_exact"
 
@@ -851,7 +851,7 @@ def main() -> int:
     after_proc = proc_memory()
     signatures = [tuple(row["sentinel"]) for row in layer_receipts]
     manifest_path = Path(os.environ.get(
-        "GENESIS_MANIFEST_PATH", str(args.artifact.parent / "MANIFEST.json")
+        "BANANA_SMASHER_MANIFEST_PATH", str(args.artifact.parent / "MANIFEST.json")
     ))
     manifest = json.loads(manifest_path.read_text())
     warm_counters = aggregate(blocks)

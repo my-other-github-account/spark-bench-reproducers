@@ -22,16 +22,16 @@ CODE = ROOT / "code"
 BENCH = ROOT / "bench"
 RESULTS = ROOT / "results"
 SEALED_L0 = Path(
-    "$HOME/run-bundles/GENESIS_SEAMS_REPAIR_PUBLIC_TASK_s8/"
+    "$HOME/run-bundles/BANANA_SMASHER_SEAMS_REPAIR_PUBLIC_TASK_s8/"
     "run/basic_harness/BR_ACTCACHE_L000"
 )
 CORPUS = Path(
-    "$HOME/run-bundles/GENESIS_SEAMS_REPAIR_PUBLIC_TASK_s8/"
+    "$HOME/run-bundles/BANANA_SMASHER_SEAMS_REPAIR_PUBLIC_TASK_s8/"
     "inputs/BASIC_COMBINED_768.json"
 )
 PACKAGE = ROOT / "inputs/compute-node-wire.example.invalid"
 ASSIGNMENT = Path(
-    "$HOME/run-bundles/GENESIS_FANIN_PUBLIC_TASK_s8/inputs/NOMINATED_ASSIGNMENT.json"
+    "$HOME/run-bundles/BANANA_SMASHER_FANIN_PUBLIC_TASK_s8/inputs/NOMINATED_ASSIGNMENT.json"
 )
 TEACH = Path("$HOME/run-bundles/DS4_TEACHER/t8192_train")
 TRAIN_WINS = [20, 21, 22, 23, 24, 25, 26, 27]
@@ -71,7 +71,7 @@ def ensure_inputs():
     required = [
         CODE / "base_binrepair_e2e.py",
         CODE / "base_binrepair_e2e_accel.py",
-        CODE / "genesis_physical_surface.py",
+        CODE / "banana_smasher_physical_surface.py",
         PACKAGE,
         ASSIGNMENT,
         CORPUS,
@@ -91,15 +91,15 @@ def set_env():
     os.environ.update({
         "PYTHONHASHSEED": "0",
         "CUDA_MODULE_LOADING": "EAGER",
-        "GENESIS_REPAIR_DEVICE": "cuda",
-        "GENESIS_REPAIR_ROOT": str(ROOT),
-        "GENESIS_REPAIR_MEM_FLOOR_BYTES": str(8 * 1024**3),
-        "GENESIS_REPAIR_EVICT": "1",
-        "GENESIS_REPAIR_DEQ_CHUNK": "1",
-        "GENESIS_REPAIR_NATIVE_CHUNK": "1",
-        "GENESIS_REPAIR_EXPERT_RESIDENT_SCOPE": "4",
-        "GENESIS_PHYSICAL_PACKAGE": str(PACKAGE),
-        "GENESIS_ASSIGNMENT": str(ASSIGNMENT),
+        "BANANA_SMASHER_REPAIR_DEVICE": "cuda",
+        "BANANA_SMASHER_REPAIR_ROOT": str(ROOT),
+        "BANANA_SMASHER_REPAIR_MEM_FLOOR_BYTES": str(8 * 1024**3),
+        "BANANA_SMASHER_REPAIR_EVICT": "1",
+        "BANANA_SMASHER_REPAIR_DEQ_CHUNK": "1",
+        "BANANA_SMASHER_REPAIR_NATIVE_CHUNK": "1",
+        "BANANA_SMASHER_REPAIR_EXPERT_RESIDENT_SCOPE": "4",
+        "BANANA_SMASHER_PHYSICAL_PACKAGE": str(PACKAGE),
+        "BANANA_SMASHER_ASSIGNMENT": str(ASSIGNMENT),
         "BR_MANIFEST": str(ASSIGNMENT),
         "BR_DELTA_DIR": "$HOME/run-bundles/BINREPAIR_PUBLIC_TASK/delta",
         "BR_VQ3B_DIR": "$HOME/run-bundles/BINREPAIR_PUBLIC_TASK/planes",
@@ -355,8 +355,8 @@ def main():
     os.environ["BR_OUTDIR"] = str(BENCH / "accel")
     accel = load_module("p613_accel_base", CODE / "base_binrepair_e2e_accel.py")
 
-    from genesis_physical_surface import GenesisPhysicalExperts
-    legacy.T.TrainableExperts = GenesisPhysicalExperts
+    from banana_smasher_physical_surface import BananaSmasherPhysicalExperts
+    legacy.T.TrainableExperts = BananaSmasherPhysicalExperts
     legacy.T.PILOT = tuple(range(43))
 
     model_started = time.perf_counter()
@@ -477,7 +477,7 @@ def main():
             "profile_json": {"path": str(ROOT / "PROFILE.json"), "sha256": profile_sha},
             "accelerated_patch": {
                 "base": str(CODE / "base_binrepair_e2e_accel.py"),
-                "driver": str(CODE / "genesis_basic_repair_accel.py"),
+                "driver": str(CODE / "banana_smasher_basic_repair_accel.py"),
             },
             "validation_8_windows": {
                 "path": str(ROOT / "VALIDATION.json"), "sha256": validation_sha,

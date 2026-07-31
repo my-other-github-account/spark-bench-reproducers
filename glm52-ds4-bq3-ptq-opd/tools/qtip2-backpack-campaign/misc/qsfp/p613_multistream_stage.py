@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Four-stream direct-QSFP durable stage of immutable GENESIS wire package."""
+"""Four-stream direct-QSFP durable stage of immutable BANANA_SMASHER wire package."""
 from concurrent.futures import ProcessPoolExecutor
 import hashlib
 import json
@@ -9,7 +9,7 @@ import shutil
 import time
 
 ROOT = Path("$HOME/run-bundles/P613_ACTCACHE_ACCEL_PUBLIC_TASK_s5w")
-SOURCE = Path("$HOME/run-bundles/GENESIS_FANIN_PUBLIC_TASK_s8/package/wire43")
+SOURCE = Path("$HOME/run-bundles/BANANA_SMASHER_FANIN_PUBLIC_TASK_s8/package/wire43")
 DEST = ROOT / "inputs/compute-node-wire.example.invalid"
 OUT = ROOT / "TRANSFER_STAGE.json"
 STREAMS = 4

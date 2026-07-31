@@ -10,7 +10,7 @@ Public operator identity: **banana_bae**
 
 | row | status | cell/checkpoint basis | global KLD | interpretation |
 |---|---|---|---:|---|
-| Genesis/BQ3 control | MEASURED | baseline, BALANCED64 | 0.1293130 | canonical campaign control |
+| BananaSmasher/BQ3 control | MEASURED | baseline, BALANCED64 | 0.1293130 | canonical campaign control |
 | Wire A pre-repair | MEASURED | Wire-A physical read, BALANCED64 | 0.1159266 | same-instrument comparator |
 | Wire C-R pre-repair | MEASURED | physical Wire C with 3,803 frozen-base codebook substitutions | 0.1181381 | numerically worse than A; paired global CI crosses zero |
 | P922 restored-VQ diagnostic | MEASURED DIAGNOSTIC | restored VQ identities with frozen base codebooks | 0.1466261 | isolates substitution damage; **not TRUE-C** |
@@ -19,13 +19,13 @@ Public operator identity: **banana_bae**
 | QTIP2 as-sealed vertical | MEASURED REFERENCE | exact QTIP2 vertical, BALANCED64 | 0.1858191 | tier reference, not the mixed Wire-C checkpoint |
 | IQ4 reference | DIFFERENT CELL POPULATION | P910 canonical IQ4 reference | 0.0720400 | benchmark context only; not apples-to-apples with Wire C |
 
-The task shorthand “Genesis base 0.1291, A 0.11593, C-R 0.11814, C-true 0.089–0.095” is represented above with full available precision and validity labels.
+The task shorthand “BananaSmasher base 0.1291, A 0.11593, C-R 0.11814, C-true 0.089–0.095” is represented above with full available precision and validity labels.
 
 ## Six-class measured rows
 
 | row | agentic | chat | code | multilingual | prose | reasoning |
 |---|---:|---:|---:|---:|---:|---:|
-| Genesis/BQ3 control | 0.1635113 | 0.0674758 | 0.0522338 | 0.2104958 | 0.1744358 | 0.0419518 |
+| BananaSmasher/BQ3 control | 0.1635113 | 0.0674758 | 0.0522338 | 0.2104958 | 0.1744358 | 0.0419518 |
 | Wire A pre-repair | 0.1492960 | 0.0593617 | 0.0545346 | 0.1720472 | 0.1580195 | 0.0417408 |
 | Wire C-R pre-repair | 0.1237096 | 0.0473157 | 0.0556708 | 0.2243060 | 0.1843709 | 0.0323711 |
 | QTIP3 uniform vertical | 0.0762649 | 0.0201583 | 0.0535853 | 0.1107425 | 0.0937558 | 0.0109988 |

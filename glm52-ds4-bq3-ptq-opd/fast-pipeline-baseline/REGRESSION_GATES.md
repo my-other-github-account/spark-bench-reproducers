@@ -20,7 +20,7 @@ its numbers count, it must reproduce a sealed baseline row on the same windows. 
 canonical instrument is the P0-local rail path (P468 lineage, ~5.97 s/window all-in).
 The faster P484 candidate (4.883 s/window) **FAILED SAME_INSTRUMENT_PARITY** (win0
 0.2714 vs sealed 0.1506) and is rejected for decision rows — fast-but-wrong is wrong.
-The legacy remote walker (`genesis_remote_full512.py`) reads the wire over 1GbE LAN at
+The legacy remote walker (`banana_smasher_remote_full512.py`) reads the wire over 1GbE LAN at
 ~83 MB/s (~30 s/layer/config) and is QUARANTINED in `~/DEPRECATED_CODE/` on its host
 with failing tombstones at the old paths. Tells of a stale/broken tool: >10 s/window,
 a per-layer "load" line dominating the log, or KLD rows that don't reproduce a sealed

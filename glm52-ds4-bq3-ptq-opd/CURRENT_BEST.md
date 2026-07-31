@@ -45,7 +45,7 @@ Receipt SHA-256: `3117274cf826804437509475a2294ea773d9ee5e64723df9f657c0123c28a4
 
 - A second-host actual-Wire-C same-boot run passed serial throughput (`15.181166` tok/s mean) and prefill (`844.018216` tok/s), but failed warm TTFT (`51.695707` s) and swap (`4.611 GB` maximum session swap). Validity: **measured mechanism failure**, receipt SHA `1c99cf982aa574d3f9fb782d89125586b3b74486e84514219251ed9aa586a7d0`.
 - A capture-limited actual-Wire-C replica bound to overlay `9a4b7098…`, pack `3650fe7e…`, and planes `b524c5a…` sealed C=1 decode `15.3519840640` tok/s and exact-2048 prefill `838.865555757` tok/s, but failed strict VmSwap0 (`157532160` bytes maximum session swap). C=2 measured only `2.845162` aggregate tok/s, `0.185329×` C=1. Validity: **MEASURED NO-GO; C=4/C=8 blocked until same-method C=2 >1.2× C=1**.
-- A durable `genesis-serve:wire-c` container with in-container product proof was still in progress. Validity: **not released at this cut**.
+- A durable `banana_smasher-serve:wire-c` container with in-container product proof was still in progress. Validity: **not released at this cut**.
 
 ## Comparator status
 
