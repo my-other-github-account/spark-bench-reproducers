@@ -16,12 +16,15 @@ BananaSmasher is only the proper name of the first sealed model instance. Reusab
 
 ## Minimal physical update proof
 
-`smash update` runs a fresh full-depth, one-window forward/backward/optimizer
-mechanics proof against the real physical surface by default (`--layers 1`
-retains the smaller allocator-regression mode). It preloads input IDs and teacher
-rows and warms routed immutable source pages before timing; installs the bounded-scratch
-FWHT decoder; loads the pinned AOT extension by exact path; and atomically seals
-a receipt with process identity, SHA-256 inputs, `/proc/self/io` deltas, allocation
+`smash update` runs a fresh full-depth, one-logical-window
+forward/backward/optimizer mechanics proof against the real physical surface by
+default (`--layers 1` retains the smaller allocator-regression mode). The default
+logical 8192-token window is processed as eight bounded 1024-token physical
+segments with exact sum-loss normalization and exactly one optimizer step. It
+preloads all input IDs and teacher rows and warms routed immutable source pages
+before timing; installs the bounded-scratch FWHT decoder; loads the pinned AOT
+extension by exact path; and atomically seals a receipt with process identity,
+SHA-256 inputs, per-segment phase rows, `/proc/self/io` deltas, allocation
 snapshots, gradients, optimizer mutation, and K-major dispatch evidence.
 
 Invoke the proof as a single command (shown as prose so the release README keeps

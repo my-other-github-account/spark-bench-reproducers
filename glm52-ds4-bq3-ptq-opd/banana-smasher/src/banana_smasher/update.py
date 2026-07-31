@@ -21,6 +21,23 @@ ONE_LAYER_TARGET_MEM_AVAILABLE_BYTES = 50 * 1024**3
 ONE_LAYER_MAX_DEVICE_USED_BYTES = 60 * 1024**3
 
 
+def _logical_segment_bounds(
+    physical_tokens: int, accumulation_segments: int
+) -> list[tuple[int, int]]:
+    physical_tokens = int(physical_tokens)
+    accumulation_segments = int(accumulation_segments)
+    if not 1 <= physical_tokens <= 1024:
+        raise ValueError(f"physical_tokens must be in [1,1024], got {physical_tokens}")
+    if not 1 <= accumulation_segments <= 8:
+        raise ValueError(
+            f"accumulation_segments must be in [1,8], got {accumulation_segments}"
+        )
+    return [
+        (index * physical_tokens, (index + 1) * physical_tokens)
+        for index in range(accumulation_segments)
+    ]
+
+
 def _progress(phase: str, **fields: Any) -> None:
     print(
         json.dumps(
@@ -252,6 +269,7 @@ def run_minimal_update(
     hard_abort_seconds: float = 250.0,
     baseline_seconds: float = BASELINE_WINDOW_SECONDS,
     layers: int = PRODUCTION_LAYERS,
+    accumulation_segments: int = 8,
 ) -> dict[str, Any]:
     import torch
 
@@ -268,8 +286,8 @@ def run_minimal_update(
     layers = int(layers)
     if layers not in (1, PRODUCTION_LAYERS):
         raise ValueError(f"layers must be 1 or {PRODUCTION_LAYERS}, got {layers}")
-    if not 1 <= int(tokens) <= 1024:
-        raise ValueError(f"tokens must be in [1,1024], got {tokens}")
+    segment_bounds = _logical_segment_bounds(tokens, accumulation_segments)
+    accumulation_segments = len(segment_bounds)
     if hard_abort_seconds <= 0 or learning_rate <= 0:
         raise ValueError("hard abort and learning rate must be positive")
 
@@ -342,15 +360,32 @@ def run_minimal_update(
     claim = Path(os.environ.get("GENESIS_HOST_CLAIM", "/home/dnola/HOST_CLAIM.json")).resolve()
     corpus = base.T.load_corpus()
     ids_all, valid_tokens = base.T.window_ids(corpus, int(window))
-    usable = min(int(tokens), int(valid_tokens), int(ids_all.shape[0]))
-    if usable <= 0:
-        raise RuntimeError(f"window {window} has no usable tokens")
-    ids_cpu = ids_all[:usable].contiguous()
+    segment_tokens = int(tokens)
+    logical_items = segment_tokens * accumulation_segments
+    available_items = min(int(valid_tokens), int(ids_all.shape[0]))
+    if available_items < logical_items:
+        raise RuntimeError(
+            f"window {window} has {available_items} usable tokens, needs exact "
+            f"{accumulation_segments}x{segment_tokens}={logical_items}"
+        )
+    ids_cpu = ids_all[:logical_items].contiguous()
     ids = ids_cpu.unsqueeze(0).to("cuda")
     teacher_idx, teacher_lp, teacher_prob = base.teacher_rows_mmap(int(window))
-    teacher_idx = teacher_idx[:usable].contiguous()
-    teacher_lp = teacher_lp[:usable].contiguous()
-    teacher_prob = teacher_prob[:usable].contiguous()
+    teacher_idx = teacher_idx[:logical_items].contiguous()
+    teacher_lp = teacher_lp[:logical_items].contiguous()
+    teacher_prob = teacher_prob[:logical_items].contiguous()
+    segments = [
+        {
+            "index": index,
+            "token_start": start,
+            "token_stop": stop,
+            "ids": ids[:, start:stop],
+            "teacher_idx": teacher_idx[start:stop],
+            "teacher_lp": teacher_lp[start:stop],
+            "teacher_prob": teacher_prob[start:stop],
+        }
+        for index, (start, stop) in enumerate(segment_bounds)
+    ]
     input_hashes = {
         "corpus": _sha256(corpus_path),
         "teacher_file": _sha256(teacher_path),
@@ -365,24 +400,36 @@ def run_minimal_update(
     }
     snapshots.append(_memory_snapshot(torch, "inputs_and_teacher_preloaded"))
 
-    def make_hidden() -> Any:
-        embeddings = student.model.model.embed_tokens(ids)
+    def make_hidden(segment: dict[str, Any]) -> Any:
+        embeddings = student.model.model.embed_tokens(segment["ids"])
         return embeddings.unsqueeze(2).expand(
             -1, -1, student.config.hc_mult, -1
         ).contiguous()
 
-    def forward_loss(*, requires_grad: bool) -> Any:
-        hidden = make_hidden()
-        output = base.fast_forward(student, hidden, ids, requires_grad)[0, :usable]
+    def forward_loss(segment: dict[str, Any], *, requires_grad: bool, reduction: str) -> Any:
+        hidden = make_hidden(segment)
+        output = base.fast_forward(
+            student, hidden, segment["ids"], requires_grad
+        )[0, :segment_tokens]
         logits = student.model.lm_head(output.to(torch.bfloat16))
-        selected = logits.gather(1, teacher_idx).float()
+        selected = logits.gather(1, segment["teacher_idx"]).float()
         student_lp = selected - selected.logsumexp(-1, keepdim=True)
-        return (teacher_prob * (teacher_lp - student_lp)).sum(-1).mean()
+        item_loss = (
+            segment["teacher_prob"] * (segment["teacher_lp"] - student_lp)
+        ).sum(-1)
+        if reduction == "sum":
+            return item_loss.sum()
+        if reduction == "mean":
+            return item_loss.mean()
+        raise ValueError(f"unsupported loss reduction {reduction!r}")
 
     if resident_mode:
         surface.begin_resident_plane_prefill()
         with torch.no_grad():
-            preload_loss = forward_loss(requires_grad=False)
+            preload_losses = [
+                forward_loss(segment, requires_grad=False, reduction="mean")
+                for segment in segments
+            ]
         torch.cuda.synchronize()
         preload_inventory = surface.resident_plane_inventory()
         if int(preload_inventory["layers"]) != 1 or int(preload_inventory["entries"]) <= 0:
@@ -395,12 +442,25 @@ def run_minimal_update(
         # envelope. An untimed traversal warms every routed immutable source page
         # while the layer-window policy evicts decoded rows after each layer.
         with torch.no_grad():
-            preload_loss = forward_loss(requires_grad=False)
+            preload_losses = []
+            for segment in segments:
+                current = forward_loss(
+                    segment, requires_grad=False, reduction="mean"
+                )
+                torch.cuda.synchronize()
+                preload_losses.append(current)
+                _progress(
+                    "source_preload_segment_complete",
+                    segment_index=segment["index"],
+                    segments=accumulation_segments,
+                    finite=bool(torch.isfinite(current)),
+                )
         torch.cuda.synchronize()
         preload_inventory = surface.resident_plane_inventory()
         preload_mode = "full-depth-source-page-warm-with-layer-window-eviction"
-    if not bool(torch.isfinite(preload_loss)):
-        raise RuntimeError(f"non-finite preload loss: {preload_loss}")
+    if not preload_losses or not all(bool(torch.isfinite(value)) for value in preload_losses):
+        raise RuntimeError(f"non-finite preload loss: {preload_losses}")
+    preload_loss = sum(float(value) for value in preload_losses) / len(preload_losses)
     surface.reset_real10x_dispatch_trace()
     snapshots.append(_memory_snapshot(torch, "one_window_source_preload_complete"))
     _progress(
@@ -428,54 +488,89 @@ def run_minimal_update(
     torch.cuda.reset_peak_memory_stats()
     torch.cuda.synchronize()
     io_before = _proc_io()
-    forward_started = time.perf_counter()
-    loss = forward_loss(requires_grad=True)
-    torch.cuda.synchronize()
-    forward_seconds = time.perf_counter() - forward_started
+    segment_phases: list[dict[str, Any]] = []
+    detached_loss_sum = 0.0
+    forward_seconds = 0.0
+    backward_seconds = 0.0
+    for segment in segments:
+        forward_started = time.perf_counter()
+        segment_loss_sum = forward_loss(
+            segment, requires_grad=True, reduction="sum"
+        )
+        torch.cuda.synchronize()
+        segment_forward_seconds = time.perf_counter() - forward_started
+        forward_seconds += segment_forward_seconds
+        if segment_forward_seconds > float(hard_abort_seconds):
+            io_after = _proc_io()
+            compute_io_delta = {
+                key: int(io_after.get(key, 0) - io_before.get(key, 0))
+                for key in sorted(set(io_before) | set(io_after))
+            }
+            result = {
+                "schema": "banana-smasher-logical-window-update-v2",
+                "status": "FAIL_HARD_ABORT_PHYSICAL_SEGMENT_FORWARD",
+                "host": socket.gethostname(),
+                "process": process,
+                "segment_index": segment["index"],
+                "segment_forward_seconds": segment_forward_seconds,
+                "hard_abort_seconds": hard_abort_seconds,
+                "compute_io_delta": compute_io_delta,
+                "segment_phases": segment_phases,
+                "code_sha256": code_hashes,
+                "input_sha256": input_hashes,
+                "aot": {
+                    "path": str(aot),
+                    "sha256": aot_sha,
+                    "loaded_file": str(aot_module.__file__),
+                },
+                "allocation_map": snapshots,
+            }
+            result["receipt_sha256"] = _atomic_json(receipt, result)
+            return result
+
+        detached_loss_sum += float(segment_loss_sum.detach())
+        backward_started = time.perf_counter()
+        (segment_loss_sum / logical_items).backward()
+        torch.cuda.synchronize()
+        segment_backward_seconds = time.perf_counter() - backward_started
+        backward_seconds += segment_backward_seconds
+        row = {
+            "segment_index": int(segment["index"]),
+            "token_start": int(segment["token_start"]),
+            "token_stop": int(segment["token_stop"]),
+            "items": segment_tokens,
+            "forward_seconds": segment_forward_seconds,
+            "backward_seconds": segment_backward_seconds,
+            "loss_sum": float(segment_loss_sum.detach()),
+            "torch_allocated_bytes": int(torch.cuda.memory_allocated()),
+            "torch_reserved_bytes": int(torch.cuda.memory_reserved()),
+            "torch_max_allocated_bytes": int(torch.cuda.max_memory_allocated()),
+            "torch_max_reserved_bytes": int(torch.cuda.max_memory_reserved()),
+        }
+        segment_phases.append(row)
+        _progress("accumulation_segment_complete", **row)
+        del segment_loss_sum
+        torch.cuda.empty_cache()
+
     io_after = _proc_io()
     forward_io_delta = {
         key: int(io_after.get(key, 0) - io_before.get(key, 0))
         for key in sorted(set(io_before) | set(io_after))
     }
-    snapshots.append(_memory_snapshot(torch, "first_window_forward_complete"))
-    _progress(
-        "first_window_forward_complete",
-        forward_seconds=forward_seconds,
-        rchar_delta=forward_io_delta.get("rchar", 0),
-        read_bytes_delta=forward_io_delta.get("read_bytes", 0),
-        mem_available_bytes=snapshots[-1]["meminfo_bytes"]["MemAvailable"],
-    )
-
-    if forward_seconds > float(hard_abort_seconds):
-        result = {
-            "schema": "banana-smasher-minimal-real10x-update-v1",
-            "status": "FAIL_HARD_ABORT_FIRST_WINDOW",
-            "host": socket.gethostname(),
-            "process": process,
-            "forward_seconds": forward_seconds,
-            "hard_abort_seconds": hard_abort_seconds,
-            "forward_io_delta": forward_io_delta,
-            "code_sha256": code_hashes,
-            "input_sha256": input_hashes,
-            "aot": {"path": str(aot), "sha256": aot_sha, "loaded_file": aot_module.__file__},
-            "allocation_map": snapshots,
-        }
-        result["receipt_sha256"] = _atomic_json(receipt, result)
-        return result
-
-    backward_started = time.perf_counter()
-    loss.backward()
-    torch.cuda.synchronize()
-    backward_seconds = time.perf_counter() - backward_started
+    snapshots.append(_memory_snapshot(torch, "all_segments_forward_backward_complete"))
     gradients = [parameter.grad for parameter in parameters if parameter.grad is not None]
     finite_gradients = bool(gradients) and all(
         bool(torch.isfinite(gradient).all()) for gradient in gradients
     )
     nonzero_gradients = sum(int(bool(torch.count_nonzero(gradient))) for gradient in gradients)
-    snapshots.append(_memory_snapshot(torch, "backward_complete"))
     _progress(
-        "backward_complete",
+        "logical_window_accumulation_complete",
+        accumulation_segments=accumulation_segments,
+        logical_items=logical_items,
+        forward_seconds=forward_seconds,
         backward_seconds=backward_seconds,
+        rchar_delta=forward_io_delta.get("rchar", 0),
+        read_bytes_delta=forward_io_delta.get("read_bytes", 0),
         finite_gradients=finite_gradients,
         nonzero_gradient_tensors=nonzero_gradients,
         mem_available_bytes=snapshots[-1]["meminfo_bytes"]["MemAvailable"],
@@ -496,11 +591,9 @@ def run_minimal_update(
     dispatch = surface.real10x_dispatch_trace(first_layers=1)
     sentinel = kmajor_autograd.kmajor_sentinel()
     transform = fwht_stats()
-    loss_value = float(loss.detach())
+    loss_value = detached_loss_sum / logical_items
     update_seconds = forward_seconds + backward_seconds + optimizer_seconds
     direct_multiplier = float(baseline_seconds) / update_seconds
-    extrapolated_seconds = update_seconds * (PRODUCTION_LAYERS / layers)
-    extrapolated_multiplier = float(baseline_seconds) / extrapolated_seconds
     min_available = min(
         int(row["meminfo_bytes"]["MemAvailable"]) for row in snapshots
     )
@@ -529,7 +622,7 @@ def run_minimal_update(
         and max_device_used < ONE_LAYER_MAX_DEVICE_USED_BYTES
     )
     result = {
-        "schema": "banana-smasher-minimal-real10x-update-v1",
+        "schema": "banana-smasher-logical-window-update-v2",
         "status": (
             "PASS_FRESH_FULL_DEPTH_FORWARD_BACKWARD_OPTIMIZER"
             if mechanics_pass and layers == PRODUCTION_LAYERS
@@ -550,7 +643,11 @@ def run_minimal_update(
             "batch": 1,
             "microbatch": 1,
             "windows": [int(window)],
-            "tokens": usable,
+            "tokens": logical_items,
+            "logical_window_tokens": logical_items,
+            "physical_segment_tokens": segment_tokens,
+            "accumulation_segments": accumulation_segments,
+            "optimizer_steps": 1,
             "assignment_checkpoint_loaded": False,
             "model_checkpoint_loaded": False,
             "optimizer_checkpoint_loaded": False,
@@ -576,18 +673,26 @@ def run_minimal_update(
             "all_routed_planes_resident": resident_mode,
         },
         "phase_seconds": {
-            "first_window_forward": forward_seconds,
+            "segments": segment_phases,
+            "all_segment_forwards": forward_seconds,
             "backward": backward_seconds,
             "optimizer": optimizer_seconds,
             "complete_update": update_seconds,
         },
-        "first_window": {
-            "wall_seconds": forward_seconds,
+        "logical_window": {
+            "wall_seconds": update_seconds,
+            "first_segment_forward_seconds": segment_phases[0]["forward_seconds"],
+            "max_segment_forward_seconds": max(
+                float(row["forward_seconds"]) for row in segment_phases
+            ),
             "hard_abort_seconds": hard_abort_seconds,
-            "hard_abort_pass": forward_seconds <= hard_abort_seconds,
-            "forward_io_before": io_before,
-            "forward_io_after": io_after,
-            "forward_io_delta": forward_io_delta,
+            "hard_abort_pass": all(
+                float(row["forward_seconds"]) <= hard_abort_seconds
+                for row in segment_phases
+            ),
+            "compute_io_before": io_before,
+            "compute_io_after": io_after,
+            "compute_io_delta": forward_io_delta,
             "zero_storage_io": int(forward_io_delta.get("read_bytes", 0)) == 0,
             "near_zero_rchar": int(forward_io_delta.get("rchar", 0)) <= 4096,
         },
@@ -626,13 +731,19 @@ def run_minimal_update(
             "baseline_window_seconds": float(baseline_seconds),
             "measured_update_multiplier": direct_multiplier,
             "measured_layers": layers,
-            "linear_43_layer_extrapolated_seconds": extrapolated_seconds,
-            "linear_43_layer_extrapolated_multiplier": extrapolated_multiplier,
+            "comparison_geometry": {
+                "layers": layers,
+                "logical_tokens": logical_items,
+                "windows_per_optimizer_step": 1,
+            },
+            "comparison_is_equal_useful_work": layers == PRODUCTION_LAYERS
+            and logical_items == 8192,
+            "no_baby_full_extrapolation": True,
             "campaign_target_multiplier": 10.0,
-            "campaign_target_met_by_linear_extrapolation": extrapolated_multiplier >= 10.0,
+            "campaign_target_met": direct_multiplier >= 10.0,
             "single_next_lever_if_below_target": (
                 None
-                if extrapolated_multiplier >= 10.0
+                if direct_multiplier >= 10.0
                 else "retain K-major dense tiles across backward to remove backward rematerialization"
             ),
         },

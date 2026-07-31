@@ -197,6 +197,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                     hard_abort_seconds=args.hard_abort_seconds,
                     baseline_seconds=args.baseline_seconds,
                     layers=args.layers,
+                    accumulation_segments=args.accumulation_segments,
                 )
             result = {**result, "command": "update"}
             if not str(result.get("status", "")).startswith("PASS"):

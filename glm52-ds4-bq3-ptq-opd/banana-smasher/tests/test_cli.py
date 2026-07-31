@@ -39,6 +39,7 @@ def test_smash_update_requires_explicit_runtime_inputs() -> None:
     assert args.command == "update"
     assert args.tokens == 1024
     assert args.layers == 43
+    assert args.accumulation_segments == 8
     assert args.hard_abort_seconds == 250.0
 
 
