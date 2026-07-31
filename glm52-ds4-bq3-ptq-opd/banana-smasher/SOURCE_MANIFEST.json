@@ -24,6 +24,10 @@
       "bytes": 6638,
       "sha256": "5062f69f19f2531a476c451679073524ed87a5bddfceb532f85eec536f869cf9"
     },
+    "NIGHTLY_SEALED_RESULTS.md": {
+      "bytes": 2702,
+      "sha256": "211db08357f237cd4ebbb42b327a8ef936edc265c527df4bb24b7baf83e140e1"
+    },
     "PACK_FORMAT.md": {
       "bytes": 2885,
       "sha256": "8cb695271ef8286f2b0c6eef8a0f6b88b6008e764445b874c34261ecca229ac4"
