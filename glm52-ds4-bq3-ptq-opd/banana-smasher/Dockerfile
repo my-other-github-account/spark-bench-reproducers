@@ -19,7 +19,9 @@ RUN git clone https://github.com/deepseek-ai/DeepGEMM.git /src/deepgemm \
 FROM ${VLLM_IMAGE} AS m4-builder
 USER root
 ENV TORCH_CUDA_ARCH_LIST=12.0a MAX_JOBS=4
-RUN apt-get update && apt-get install -y --no-install-recommends ninja-build \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      ninja-build libcusparse-dev-13-0 libcusolver-dev-13-0 libcublas-dev-13-0 \
+      cuda-nvrtc-dev-13-0 cuda-profiler-api-13-0 \
     && rm -rf /var/lib/apt/lists/*
 COPY vendor/p1321/vq_warp_m4 /src/vq-warp-gemv
 RUN cd /src/vq-warp-gemv && python3 setup.py bdist_wheel
@@ -43,8 +45,10 @@ RUN python3 -m pip install --no-cache-dir --no-deps --break-system-packages \
 # Runtime version used by the sealed P1321 boot. The JIT-cache package is not
 # needed: the exact SM120 cached shared objects are vendored below.
 RUN python3 -m pip uninstall -y --break-system-packages flashinfer-cubin || true \
+    && rm -rf /usr/local/lib/python3.12/dist-packages/flashinfer_cubin \
     && python3 -m pip install --no-cache-dir --break-system-packages \
       flashinfer-python==0.6.14
+ENV FLASHINFER_DISABLE_VERSION_CHECK=1
 
 # Apply the reviewed private-fork delta, then install the exact P1321 runtime
 # postimages over its two MoE dispatch modules. No PYTHONPATH or sitecustomize.
@@ -71,7 +75,7 @@ COPY vendor/flashinfer/0.6.14 /root/.cache/flashinfer/0.6.14
 COPY vendor/flashinfer-autotune /root/.cache/vllm/flashinfer_autotune_cache
 COPY golden-container/patch_flashinfer_cache_load.py /opt/genesis/bin/patch_flashinfer_cache_load.py
 RUN python3 /opt/genesis/bin/patch_flashinfer_cache_load.py \
-      "$(python3 -c 'import pathlib, flashinfer; print(pathlib.Path(flashinfer.__file__).parent / "jit/core.py")')" \
+      "$(python3 -c 'import importlib.util, pathlib; spec = importlib.util.find_spec("flashinfer.jit.core"); origin = pathlib.Path(spec.origin) if spec is not None and spec.origin is not None else None; assert origin is not None and origin.name == "core.py" and origin.parent.name == "jit" and origin.is_file() and not origin.is_symlink(), f"invalid flashinfer.jit.core origin: {origin}"; print(origin.resolve())')" \
       --receipt /opt/genesis/FLASHINFER_CACHE_LOAD_PATCH.json \
     && test -f /root/.cache/flashinfer/0.6.14/cached_ops/sampling/sampling.so \
     && test -f /root/.cache/flashinfer/0.6.14/cached_ops/sparse_mla_sm120/sparse_mla_sm120.so \

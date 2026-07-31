@@ -12,7 +12,7 @@ import hashlib
 from pathlib import Path
 
 PREIMAGE = "02b504e355661a01f9ea1b60dda5db2c4203ae3ba4c7e65be66a78680ea058b9"
-ATTENTION_PREIMAGE = "6667d75c72845e039648fc37530645d5098717e95f3052ff2b1cedfe3ca1db18"
+ATTENTION_PREIMAGE = "7f7fd5eec15d5a6296760603590204f5378bd090471acf701831b180318351cf"
 PACK_MANIFEST_SHA256 = "4a4c15a52eaa8f87e4eb2f436da1580cb5e9addb15713d41bd9a74276731578a"
 
 IMPORT_OLD = "from __future__ import annotations\n\nfrom typing import TYPE_CHECKING\n"
@@ -124,7 +124,7 @@ BLOCK_NEW = '''    def _resolve_moe_overrides(self) -> None:
             os.environ.setdefault(key, value)
 '''
 
-ATTENTION_OLD = '''        if os.environ.get("DS4_DENSE_PATCH") and layer_id < config.num_hidden_layers:
+ATTENTION_OLD = '''        if layer_id < config.num_hidden_layers:
 '''
 ATTENTION_NEW = '''        quant_cfg = getattr(config, "quantization_config", None) or {}
         iq3_wire = str(quant_cfg.get("moe_quant_algo", "")).upper() == "IQ3_WIRE"

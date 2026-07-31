@@ -21,8 +21,8 @@
       "sha256": "9527503d1a8bcde9bbe0bb94d4a4d7adb5a381318f5bb961a7c397c7c1b3cd66"
     },
     "Dockerfile": {
-      "bytes": 6638,
-      "sha256": "5062f69f19f2531a476c451679073524ed87a5bddfceb532f85eec536f869cf9"
+      "bytes": 7170,
+      "sha256": "ebb2825406fa0e8a438a84aafff4330729f145fe3eedb52356a904420f711972"
     },
     "NIGHTLY_SEALED_RESULTS.md": {
       "bytes": 3593,
@@ -93,8 +93,8 @@
       "sha256": "9c5cf2e11547b53ffc1e4757a2a0c1eff7c0f33b3679ddd34a0f442459c2a8b8"
     },
     "golden-container/patch_quant_method_defaults.py": {
-      "bytes": 9893,
-      "sha256": "00398c02d220fa1fdf4dc2f8a9495d8d83fcca3555241256c841b756859d9db8"
+      "bytes": 9855,
+      "sha256": "2c8b41675c2f45c23cb1c673e0b5539709451de5ebfc2a3c37e0905597f7a80c"
     },
     "golden-container/prepare_external_pack.py": {
       "bytes": 4673,
