@@ -259,7 +259,7 @@ payload     -> unchanged codes/scales/codebook bytes
 
 `d4_k2048` is not a sixth v1 family and is never rewritten as QTIP2. Its `k=2048` source parameter belongs in provenance/tensor metadata while the serving family remains `truevq_d4`. Repacking may change only the outer container and name the payload; it may not requantize, reorder, pad, deduplicate, or regenerate the sealed GENESIS data.
 
-The layer-000 qualification receipt must record the sealed input path `/home/dnola/missions/GENESIS_FANIN_t_81c3a62d_s8/package/wire43/layer_000`, source `LAYER_RECEIPT.json` SHA-256, and pre/post payload hashes while writing only to a new output directory. The sealed receipt is the authority for all four d4 subtiers; the `d4_k2048` rows retain their original `le11`, `e8m0`, fp16-codebook, and int16-expert payload bytes.
+The layer-000 qualification receipt must record the sealed input path `SOURCE_ROOT/wire43/layer_000`, source `LAYER_RECEIPT.json` SHA-256, and pre/post payload hashes while writing only to a new output directory. The sealed receipt is the authority for all four d4 subtiers; the `d4_k2048` rows retain their original `le11`, `e8m0`, fp16-codebook, and int16-expert payload bytes.
 
 ## 10. Loader/serving rule
 

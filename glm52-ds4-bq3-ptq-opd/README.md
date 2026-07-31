@@ -2,6 +2,10 @@
 
 This directory documents a July 2026 campaign on DeepSeek-V4-Flash that started from a fixed-size 3-bit mixed-VQ artifact and repaired behavior without changing the deployed byte layout.
 
+> **Current result:** start with [FINAL_TABLE.md](FINAL_TABLE.md). It is the newcomer-facing, receipt-indexed table for size, quality, HOLDOUT512 KLD, DEV KLD, serving, and training/repair. [LEARNINGS.md](LEARNINGS.md) explains the instrument boundaries and publication rules. The campaign-history table below is retained for lineage context and must not override the current final table.
+>
+> The current sealed additions include IQ3 greedy `161/164` Base and `152/164` Plus, IQ3 and OURS n=5 EvalPlus, U004 HOLDOUT512, R004-vs-U004 DEV KLD, the strictly monotonic `14.17/18.71/30.20/44.91/57.48` C1–C16 ladder, the Arm-A `10.172591x` isolated hot-path result, a `4.696449x` four-layer on-path A/B, and U008/U009/U010 marathon seals. Exactly two terminal cells remain owner-bound TBDs: IQ3 and IQ4 HOLDOUT512. The stranger-build image is a static PASS but **NOT GOLDEN** until the full-pack in-container gate passes.
+
 **BQ3** means **banana_bae quant, 3-bit class**. It is the fixed `combo-V4-step32` artifact from the preceding quantization campaign; the bytes and checkpoint identity do not change during PTQ-OPD. In this repository, `IQ*` and `UD-*` refer only to Unsloth community artifacts.
 
 **PTQ-OPD** means **post-training-quantization on-policy distillation**. The student generates its own trajectories; the FP teacher scores those exact states; the fixed BQ3 continuous surface is updated with an on-policy divergence plus a static KLD anchor. We use **OPKL** for KLD measured over student-generated sequences.
@@ -12,15 +16,15 @@ This directory documents a July 2026 campaign on DeepSeek-V4-Flash that started 
 |---|---:|---:|---:|---:|
 | BQ3 step0 | 157/164 | 149/164 | 15/18 / 15/18 | 101,360,840,912 |
 | BQ3 PTQ-OPD step4 | **160/164** | **150/164** | **15/18 / 15/18** | unchanged |
-| Unsloth UD-IQ3_XXS | 158/164 | — | — | larger class comparator |
-| Unsloth UD-IQ4_XS | 161/164 | — | — | about 36 GB larger |
+| Unsloth UD-IQ3_XXS | 161/164 | 152/164 | — | 102,999,887,616 |
+| Unsloth UD-IQ4_XS | 161/164 | 155/164 | — | 137,903,959,808 |
 | FP teacher | 161/164 | — | — | source model |
 
 **The caveat is the result:** the +3 base / +1 plus movement comes entirely from the 146-task benchmark-distribution training split. The clean held-out 18 did not move. This establishes that the defect is trainable and that on-policy dosing can recover benchmark behavior at fixed bytes; it does **not** establish clean-task generalization from the first micro-dose.
 
 ## The campaign arc
 
-1. **Start from BQ3.** The fixed artifact is 101,360,840,912 bytes, about 2.87 effective whole-model bpw. Its build and pre-PTQ-OPD rail are documented in [`../glm52-ds4-w23-planes-quant`](../glm52-ds4-w23-planes-quant/).
+1. **Start from BQ3.** The exact served resident-product footprint is 101,346,700,411 bytes (2.848818 effective bpw); the 101,360,840,912-byte directory figure includes metadata. Its build and pre-PTQ-OPD rail are documented in [`../glm52-ds4-w23-planes-quant`](../glm52-ds4-w23-planes-quant/).
 2. **Discover behavioral damage that static KLD missed.** The full 512-window code mean was nearly flat after the first dose (`0.067247 -> 0.068551`), yet HumanEval moved `157 -> 160`. Static class KLD was neither a sufficient damage detector nor a sufficient repair detector.
 3. **Reject off-policy trajectory NLL.** Under the exact matched serving build, a four-update FP-trajectory arm reduced teacher NLL but increased aggregate reasoning tokens by **10.7459%**. Better teacher-forced NLL was not better student behavior.
 4. **Switch to PTQ-OPD.** Generate BQ3's own rollouts, score those exact token sequences with the FP teacher, minimize a distributional divergence on top-k plus exact tail mass, and retain a 0.5-weight static anchor. The sealed step4 result used beta-0.5 JSD. Reverse-KL is implemented as a separately selectable PTQ-OPD variant, but no sealed reverse-KL result is claimed here.
@@ -30,6 +34,9 @@ This directory documents a July 2026 campaign on DeepSeek-V4-Flash that started 
 
 ## Documents
 
+- [`FINAL_TABLE.md`](FINAL_TABLE.md) — current sealed decision table, exact two-cell TBD ledger, and SHA-256 evidence index.
+- [`GAP_LEDGER.md`](GAP_LEDGER.md) — canonical two-row HOLDOUT512 closure ledger; no duplicate or substitute gaps.
+- [`LEARNINGS.md`](LEARNINGS.md) — overnight findings, instrument boundaries, and publication rules.
 - [`RESULTS.md`](RESULTS.md) — sealed behavioral and static results, terminal six-class comparison, split caveats, pipeline timings, and receipt hashes.
 - [`METHOD.md`](METHOD.md) — PTQ-OPD objective, bank contract, trainable surface, gates, and durability law.
 - [`REPRO.md`](REPRO.md) — from-scratch procedure using downloadable source/model inputs; no 101 GB product wire, trained checkpoints, or teacher banks are committed here.

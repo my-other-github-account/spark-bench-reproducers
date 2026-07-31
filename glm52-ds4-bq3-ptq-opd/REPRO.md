@@ -239,3 +239,37 @@ python ../glm52-ds4-w23-planes-quant/tools/normalize_public_names.py --check .
 ```
 
 Also search for real user names, home directories, host aliases, IPs, task IDs, process IDs, tokens, provider account identifiers, and local model paths. Public docs should contain only portable relative paths and cryptographic identities.
+
+## 9. Reproduce the release-container boundary
+
+The clean stranger build pinned source commit
+`c052563ea02715e75c82ca75f18186382d828a3c` and produced static image
+`sha256:860a200ce975a83cdcb7b1e72b0586b7a9ad7a84d5de8b99c4bc0eb23c0d5f57`.
+Its build receipt SHA-256 is
+`32c2d73f6dc3c8f2bd899d4e54664c22e94369025ab5a5b3ad3661fb6ff60e64`.
+
+To repeat the source-only build from a clean checkout:
+
+```bash
+cd banana-smasher
+./build.sh
+```
+
+The build receipt must bind the checked-out commit, parent ladder seal, exact
+image ID, and static verification output. A matching static image is still
+**not GOLDEN**: this repository intentionally does not contain the 101 GB pack,
+so source-only construction cannot exercise model loading or output quality.
+
+The parent-hand campaign ladder seal is
+`ea7df6435fa0fe6e574a20d2506abb09832591bf23f45bc3ff82a5dfb1a0e3e5`
+for `14.17/18.71/30.20/44.91/57.48 tok/s`. The P1321 receipt bundled under
+`banana-smasher/vendor/` is a separate clean-room boot with different measured
+medians; preserving both identities prevents accidental cross-boot substitution.
+
+For the runtime release gate, provide an external `bs-pack v1` model and follow
+[`banana-smasher/RELEASE_PRESEAL.md`](banana-smasher/RELEASE_PRESEAL.md). The
+sequence is fail-closed pack validation, stock `vllm serve`, three deterministic
+nonempty outputs, and one unchanged C1/C2/C4/C8/C16 measurement ladder. Only a
+PASS receipt that binds the exact image and pack-manifest SHAs may be passed to
+`banana-smasher/tools/seal_release.py`; until then, do not create or publish a
+`RELEASE.json`.

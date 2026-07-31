@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-// Copyright 2026 @banana_baeee and contributors
+// Copyright 2026 banana_bae and contributors
 //
 // Decode-only learned-VQ GEMV for canonical row-major packed d4/d8 planes.
 //

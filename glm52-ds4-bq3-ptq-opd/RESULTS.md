@@ -2,6 +2,113 @@
 
 All values below are sealed measurements. Partial/in-flight work is labeled explicitly and is not extrapolated.
 
+## Overnight sealed snapshot — 2026-07-31
+
+This section is the receipt-bound publication delta. The newcomer-first
+cross-model view and complete evidence ledger are in
+[FINAL_TABLE.md](FINAL_TABLE.md).
+
+### Serving concurrency ladder
+
+One fixed method produced a strictly monotonic C1/C2/C4/C8/C16 ladder:
+
+| concurrency | aggregate decode tok/s |
+|---:|---:|
+| C1 | **14.17** |
+| C2 | **18.71** |
+| C4 | **30.20** |
+| C8 | **44.91** |
+| C16 | **57.48** |
+
+Parent-hand campaign ladder seal:
+`ea7df6435fa0fe6e574a20d2506abb09832591bf23f45bc3ff82a5dfb1a0e3e5`.
+C2 uses the all-six publication median; the source receipt preserves the
+bimodal cohort detail. The separately bundled P1321 clean-room receipt is a
+different boot and is not substituted into this campaign row; its public
+transformed receipt hashes to
+`596da40df99844a75643d1a2a908d073c8efa477721e3114bb65471ce18ca2ee`,
+while `PUBLICATION_TRANSFORM.json` preserves source seal
+`be0453e1d6081a87a0288c8611b9ee5ec33a4b2ba927cb68c358e71a10b242f7`.
+
+### Trainer hot path
+
+The isolated hot-layer incumbent fell from `1239.667049 ms` to `121.862452 ms`
+at N=15, **10.172591×**. The AOT artifact loaded and all 8/8 required gradient
+checks were finite and nonzero. Result, terminal seal, and AOT SHAs are:
+
+- `6d9830e308080e78c814b49b379e64974f7449f4f97a5418ed53aeae890f0bc5`
+- `7e978a259c0a7c8fd78678451f1aeffb4ae9e683153a099a9cc41569e11ea5cd`
+- `1f5a78ec847bb33a6d10fa3512e2b788fefe56368df58110e3fb256d0c80773a`
+
+This is an isolated one-window result, not a claimed 43-layer trainer speedup.
+A separate four-layer on-path A/B measured `33.437588496 s -> 7.119759248 s`
+or **4.696449×**, with finite/in-family trajectory, required input/codebook
+gradients finite and nonzero, packed planes no-grad, and the BMM/backward
+sentinel passing. Result and adoption-archive SHAs are
+`b3ffb8bdd27d90ea88186fb622ff22aa4c5d91f457456a523f362e449aad0938`
+and `47d19407dc754cf2468d9509539d5cdde04b7d2a014965f357cf6b5858694ccc`.
+
+### U004 HOLDOUT512
+
+Instrument: KL(teacher || candidate), support 8,192, cutoff 1,024, 512
+windows / 524,288 positions.
+
+| metric | OURS-PRE | OURS-FINAL U004 |
+|---|---:|---:|
+| global | 0.05708959934232854 | **0.054183290456583474** |
+| reasoning | 0.016285175770523956 | **0.016082545894576333** |
+| chat | 0.02212019001172629 | **0.021551630051879354** |
+| agentic | 0.05868754499255022 | **0.05584513702943111** |
+| code | 0.06949868795239988 | **0.06593184164802357** |
+| prose | 0.0771641919496718 | **0.07309571319155202** |
+| multilingual | 0.08557055840517233 | **0.08008486534686803** |
+
+Global delta: `-0.002906308885745064` (`-5.090785%`). Final and independent
+verify receipts:
+`b842af677af8de45ac929d856ec2be84a8434262cb9f50941d3c820f0e8e3c05`
+and `c1e0f1ceafb09a5dd018af8711714541581f47f1f010ccf57d8651d7d54feb40`.
+
+### HumanEval comparator closure
+
+| model | greedy Base | greedy Plus | n=5 rows | n=5 Base pass@1 / pass@5 | n=5 Plus pass@1 / pass@5 |
+|---|---:|---:|---:|---:|---:|
+| OURS | 160/164 | 150/164 | **820/820** | **0.9621951219512196 / 0.9878048780487805** | 0.9097560975609755 / 0.9634146341463414 |
+| IQ3 | **161/164** | **152/164** | **820/820** | 0.9597560975609756 / 0.9878048780487805 | **0.9170731707317074 / 0.9573170731707317** |
+| IQ4 | **161/164** | **155/164** | not run — exact shards unavailable | not run | not run |
+
+OURS n=5 generation/score receipts:
+`0a95a9ae84fa7bb7df1ed0e5d7c071a3cd2263a3bd77a2d859db05d38c6fd93a`
+and `33bed4d667b8604748c2f6e07f70b28b2b4d2e7c6db05e55c3a6c3500b26a9ed`.
+IQ3 terminal EvalPlus receipt:
+`9a7be952a3c56f6c224b00688184d238ec5d3c18b3e33737295e6f4ae5828a12`.
+IQ4 greedy rescore receipt:
+`f1201d8965fe393e3620b0bc7128109c977105687ec57ae5d8c319aad2386fb2`.
+
+### Marathon boundaries
+
+| boundary | terminal evidence |
+|---|---|
+| U008 | checkpoint `e7851a0080cb38ef0540641057c143cdb635a40e43044fc6c648a789a1ad1e2e`; seal `6afd5a54ef372e3303ca2505a444fb3ff6a76e66284f7c929e2eb22c94f4994c` |
+| U009 | checkpoint `40e507256f59782d06ad061deaa7eefcbe87055884e17bd83ac5661b86486d82`; sidecar `df1da899c1b91f294fd29e5c3ef5787a4b776d111a72691953751ade3b26dd45`; MB004-only finalization with no window replay; adoption contract `faa1478aa0efdcb3928d8ae5464ef63881bbc0eb5e6a6e164bbe1e4b530de0ea` |
+| U010 | checkpoint `fba01f2ab9c6ced3418b905673cf61e94718c826785f7dc283d7424b38daa0b3`; sidecar `31aabc20eef8cbacb1cac32e1b8ce32dab4d92554180d9a1bf1df3d8109f2f4c`; loss `0.00871930574066937`; wall `7483.82123541832 s`; GREEN/in-family |
+
+The U010 2,700-second target was a FLAG-only campaign objective, never a lawful
+kill gate. The measured seam-3 `1.0828358408×` and serving-warp/triple
+`1.3646645893×` factors remain separate; no compounded headline is claimed.
+
+### Matched DEV and static container status
+
+R004 DEV-KLD was `0.06530817175559471` versus U004
+`0.06484517121688964`; paired delta `+0.00046300053870507174`, 95% CI
+`[-0.00021499956211139119, +0.0011410006395215456]`. The verdict is
+**inconclusive at 95% CI**. Head-to-head receipt:
+`d9460c866a3dfdd786201456e65b4ad714a5b6fa28fe4c19f1a2f46955fac515`.
+
+The stranger-build image digest is
+`sha256:860a200ce975a83cdcb7b1e72b0586b7a9ad7a84d5de8b99c4bc0eb23c0d5f57`.
+It is a static reproducibility PASS, **not GOLDEN** until full-pack in-container
+gates pass.
+
 ## 1. HumanEval / EvalPlus
 
 Frozen protocol: greedy `n=1`, true 4096 completion-token ceiling, pinned EvalPlus v0.1.10 / commit `26d6d00`, network disabled during scoring. True model nulls are retained once as empty/fail and never retried.
@@ -10,11 +117,14 @@ Frozen protocol: greedy `n=1`, true 4096 completion-token ceiling, pinned EvalPl
 |---|---:|---:|---:|
 | **BQ3 PTQ-OPD step4** | **160/164 (97.56%)** | **150/164** | **+3 / +1** |
 | BQ3 step0 | 157/164 | 149/164 | — |
-| Unsloth UD-IQ3_XXS | 158/164 | — | +1 base vs BQ3 step0 |
-| Unsloth UD-IQ4_XS | 161/164 | — | +4 base vs BQ3 step0 |
+| Unsloth UD-IQ3_XXS | 161/164 | 152/164 | +4 / +3 vs BQ3 step0 |
+| Unsloth UD-IQ4_XS | 161/164 | 155/164 | +4 / +6 vs BQ3 step0 |
 | FP teacher | 161/164 | — | +4 base vs BQ3 step0 |
 
-BQ3 is 101,360,840,912 bytes, about 2.87 effective whole-model bpw. The step4 PTQ-OPD dose changes continuous values but not the deployed byte layout.
+BQ3's exact served resident-product footprint is 101,346,700,411 bytes
+(2.848818 effective bpw); the 101,360,840,912-byte directory figure includes
+metadata. The step4 PTQ-OPD dose changes continuous values but not the deployed
+byte layout.
 
 Primary result receipt: `89408457ec802c43a995ea75d5500387cffe0ad12e6b3ff1a6e9e4c7bb42d4ba`.
 

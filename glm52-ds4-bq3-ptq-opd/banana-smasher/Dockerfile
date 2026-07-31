@@ -105,13 +105,13 @@ ENV PYTHONNOUSERSITE=1 \
 
 LABEL org.opencontainers.image.title="banana-smasher stock vLLM" \
       org.opencontainers.image.version="P1321-box10" \
-      org.opencontainers.image.authors="@banana_baeee" \
-      io.genesis.task="P1298-REPRO" \
+      org.opencontainers.image.authors="banana_bae" \
+      io.genesis.release-role="reproducer" \
       io.genesis.parent-hand.ladder-seal.sha256="ea7df6435fa0fe6e574a20d2506abb09832591bf23f45bc3ff82a5dfb1a0e3e5" \
       io.genesis.p1321.ladder-seal.sha256="be0453e1d6081a87a0288c8611b9ee5ec33a4b2ba927cb68c358e71a10b242f7" \
       io.genesis.p1321.winning-boot.sha256="091e8eb3e4caa9793454f4a529d8c1f5fc0af0fcb4fa28cc89e34c8a4c314da2" \
       io.genesis.p1321.admission="scalar-valid_m-lt4_vector-valid_m-eq4" \
-      io.genesis.p1321.vector-cu.sha256="4ff296f7e42e2a906543aa4563fc50e1e04d58e6d41de46cda9bce4ae686fef5" \
+      io.genesis.p1321.vector-cu.sha256="cbb9dcf660b051c6aac66ecf65c503c2c37191f52412fd878e368005a1830081" \
       io.genesis.stock-vllm-command-semantics="true" \
       io.genesis.runtime-health-bars="C1>=13,C4>=27,C4>C2"
 

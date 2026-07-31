@@ -4,7 +4,7 @@
     "subtree": "glm52-ds4-bq3-ptq-opd/banana-smasher",
     "subtree_tree": "427d19dae45909d01bc0ed0e8597fca91bece041"
   },
-  "changed_payload_count_excluding_manifests": 45,
+  "changed_payload_count_excluding_manifests": 50,
   "changed_payloads": {
     "BANANA_PACK_SPEC.md": {
       "change": "publication_transform",
@@ -15,15 +15,15 @@
     },
     "Dockerfile": {
       "change": "publication_transform",
-      "public_bytes": 6638,
-      "public_sha256": "5062f69f19f2531a476c451679073524ed87a5bddfceb532f85eec536f869cf9",
+      "public_bytes": 7174,
+      "public_sha256": "82577f76b4dba298076d425d4e367c04c0b3b999528282345de6948f89145b85",
       "source_bytes": 6637,
       "source_sha256": "e28ed179821723fb6a2146de1e8b74497104411b401edf6b41a2a693e5eef323"
     },
     "README.md": {
       "change": "publication_transform",
-      "public_bytes": 2674,
-      "public_sha256": "7d6abeef0ef71cfffa4b94b5334af07848f7570a1a8f8387b0c27c694663b11a",
+      "public_bytes": 1996,
+      "public_sha256": "68c044a66beb22244ce0802838a47cdba49011eab83adf3aecf8aa5566fe04a1",
       "source_bytes": 2440,
       "source_sha256": "e62ce716a12773bc4f3b8af87594fc4b4de263e7c41bfae43e9a9c81cdf3e749"
     },
@@ -104,10 +104,31 @@
       "source_bytes": 5392,
       "source_sha256": "938896301f24127c9160a8da012a2235ce7b8212981b219b59a98bb511363228"
     },
+    "schema/bs-kernel-cache-v1.schema.json": {
+      "change": "publication_host_alias_normalization",
+      "public_bytes": 1023,
+      "public_sha256": "67bfe39741ed310677c152d75e776c7ab9d720c59c196028be279aa2efdc3fb9",
+      "source_bytes": 1021,
+      "source_sha256": "2d01a22a767be23ccbed3ac45ab0b37edcaf84fa241fddd74a736e3701124b48"
+    },
+    "schema/bs-pack-layer-meta-v1.schema.json": {
+      "change": "publication_host_alias_normalization",
+      "public_bytes": 1105,
+      "public_sha256": "548b0c8cd5fc944a9269042ca87f0b7e9bae96a95424c7b29105af4f5ed27de7",
+      "source_bytes": 1103,
+      "source_sha256": "50e246f52cb0b77fc31a08e1cb461c6a5c9be729d277938cee27a19756d25376"
+    },
+    "schema/bs-pack-v1.schema.json": {
+      "change": "publication_host_alias_normalization",
+      "public_bytes": 1588,
+      "public_sha256": "be3f3f396baa950f597dd359fb223a6321414a97d66ebc445daff153066108e9",
+      "source_bytes": 1586,
+      "source_sha256": "3ece614e5f60061d0610a73d3b3c51f587738f6c88ae31707220c7a98b47c3cf"
+    },
     "tests/test_unified_repo_contract.py": {
       "change": "publication_transform",
-      "public_bytes": 4314,
-      "public_sha256": "5039775f59ec44712061e1ca82c112a6f46c2a075dc3e3d9078153990fd28ad5",
+      "public_bytes": 6939,
+      "public_sha256": "fc714235e3368ac0f0ace3f4bb793a47ad18fc0b54425ff5713e6fa99682d2b3",
       "source_bytes": 4220,
       "source_sha256": "f85d85cc0e5e6bb6a9c514d06f3b420fc36a28c8eaefd6eafa4b83d00812788e"
     },
@@ -286,6 +307,13 @@
       "source_bytes": 146666,
       "source_sha256": "7b7a84d9a7ae9fc97bd9ab7838d59efb445658a0f4d85a90ed874214b32b4a30"
     },
+    "vendor/p1321/kernel/vq_warp_gemv.cu": {
+      "change": "publication_identity_normalization",
+      "public_bytes": 22399,
+      "public_sha256": "cbb9dcf660b051c6aac66ecf65c503c2c37191f52412fd878e368005a1830081",
+      "source_bytes": 22402,
+      "source_sha256": "4ff296f7e42e2a906543aa4563fc50e1e04d58e6d41de46cda9bce4ae686fef5"
+    },
     "vendor/p1321/receipts/BOOT_CONFIG_FREEZE.json": {
       "change": "publication_transform",
       "public_bytes": 19920,
@@ -313,6 +341,13 @@
       "public_sha256": "e3baa6dcc33ed192952054b8feda41a57c328652430512edae911a49da733eaf",
       "source_bytes": 7200,
       "source_sha256": "091e8eb3e4caa9793454f4a529d8c1f5fc0af0fcb4fa28cc89e34c8a4c314da2"
+    },
+    "vendor/p1321/vq_warp_m4/csrc/vq_warp_gemv.cu": {
+      "change": "publication_identity_normalization",
+      "public_bytes": 22399,
+      "public_sha256": "cbb9dcf660b051c6aac66ecf65c503c2c37191f52412fd878e368005a1830081",
+      "source_bytes": 22402,
+      "source_sha256": "4ff296f7e42e2a906543aa4563fc50e1e04d58e6d41de46cda9bce4ae686fef5"
     },
     "wheels/banana_smasher-1.0.0-py3-none-any.whl": {
       "change": "publication_transform",

@@ -38,6 +38,7 @@ PATTERNS = {
     "absolute home path": re.compile(r"/(?:Users|home)/[^\s\"'`]+"),
     "private host": re.compile(r"\bspark-[0-9]+(?:\b|[-_])", re.IGNORECASE),
     "task identifier": re.compile(r"t_[0-9a-f]{8}", re.IGNORECASE),
+    "legacy public identity": re.compile("banana_" + "baeee", re.IGNORECASE),
     "private IPv4 address": re.compile(
         r"(?<![0-9])(?:10\.(?:[0-9]{1,3}\.){2}[0-9]{1,3}|"
         r"192\.168\.(?:[0-9]{1,3}\.)[0-9]{1,3}|"
