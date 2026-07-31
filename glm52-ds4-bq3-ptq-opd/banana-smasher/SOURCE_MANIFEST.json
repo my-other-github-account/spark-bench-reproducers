@@ -49,8 +49,8 @@
       "sha256": "b01a95bb62fd8a6fc65f7f493f78ab1b9f688d374a53185e0023dc581338c724"
     },
     "build.sh": {
-      "bytes": 3697,
-      "sha256": "d105f0501edd1c8426f0beacbe2be8c544056d6b1a69e9904f71fa739d47689f"
+      "bytes": 3707,
+      "sha256": "afb6585d1b5e0599b7b7ca4737b87e70f64bdd96f6b6707971e3ac0a4c4f38d4"
     },
     "golden-container/.dockerignore": {
       "bytes": 253,
