@@ -48,6 +48,29 @@ def _set_logical_training_extent(training_module: Any, logical_items: int) -> in
     return previous
 
 
+def _logical_source_plan(
+    corpus: list[dict[str, Any]], start_window: int, logical_items: int
+) -> list[tuple[int, int]]:
+    """Take an exact logical token extent from consecutive corpus windows."""
+    remaining = int(logical_items)
+    cursor = int(start_window)
+    plan: list[tuple[int, int]] = []
+    while remaining > 0:
+        if cursor >= len(corpus):
+            raise RuntimeError(
+                f"corpus exhausted after {sum(take for _, take in plan)} tokens; "
+                f"needs exact logical extent {logical_items}"
+            )
+        row = corpus[cursor]
+        available = min(int(row["real_len"]), len(row["token_ids"]))
+        take = min(remaining, available)
+        if take > 0:
+            plan.append((cursor, take))
+            remaining -= take
+        cursor += 1
+    return plan
+
+
 def _progress(phase: str, **fields: Any) -> None:
     print(
         json.dumps(
@@ -364,7 +387,6 @@ def run_minimal_update(
     )
 
     corpus_path = Path(os.environ["BR_CORPUS"]).resolve()
-    teacher_path = Path(base.T.TEACH).resolve() / f"t8192_win{int(window)}.pt"
     assignment = Path(os.environ["GENESIS_ASSIGNMENT"]).resolve()
     base_assignment = Path(os.environ["GENESIS_BASE_ASSIGNMENT"]).resolve()
     claim = Path(os.environ.get("GENESIS_HOST_CLAIM", "/home/dnola/HOST_CLAIM.json")).resolve()
@@ -372,19 +394,36 @@ def run_minimal_update(
     segment_tokens = int(tokens)
     logical_items = segment_tokens * accumulation_segments
     loader_extent_before = _set_logical_training_extent(base.T, logical_items)
-    ids_all, valid_tokens = base.T.window_ids(corpus, int(window))
-    available_items = min(int(valid_tokens), int(ids_all.shape[0]))
-    if available_items < logical_items:
-        raise RuntimeError(
-            f"window {window} has {available_items} usable tokens, needs exact "
-            f"{accumulation_segments}x{segment_tokens}={logical_items}"
+    source_plan = _logical_source_plan(corpus, int(window), logical_items)
+    ids_chunks = []
+    teacher_idx_chunks = []
+    teacher_lp_chunks = []
+    teacher_prob_chunks = []
+    teacher_paths: list[Path] = []
+    for source_window, take in source_plan:
+        ids_one, valid_one = base.T.window_ids(corpus, source_window)
+        teacher_idx_one, teacher_lp_one, teacher_prob_one = base.teacher_rows_mmap(source_window)
+        available = min(
+            int(valid_one),
+            int(ids_one.shape[0]),
+            int(teacher_idx_one.shape[0]),
+            int(teacher_lp_one.shape[0]),
+            int(teacher_prob_one.shape[0]),
         )
-    ids_cpu = ids_all[:logical_items].contiguous()
+        if available < take:
+            raise RuntimeError(
+                f"source window {source_window} has {available} aligned input/teacher rows, needs {take}"
+            )
+        ids_chunks.append(ids_one[:take])
+        teacher_idx_chunks.append(teacher_idx_one[:take])
+        teacher_lp_chunks.append(teacher_lp_one[:take])
+        teacher_prob_chunks.append(teacher_prob_one[:take])
+        teacher_paths.append(Path(base.T.TEACH).resolve() / f"t8192_win{source_window}.pt")
+    ids_cpu = torch.cat(ids_chunks, dim=0).contiguous()
     ids = ids_cpu.unsqueeze(0).to("cuda")
-    teacher_idx, teacher_lp, teacher_prob = base.teacher_rows_mmap(int(window))
-    teacher_idx = teacher_idx[:logical_items].contiguous()
-    teacher_lp = teacher_lp[:logical_items].contiguous()
-    teacher_prob = teacher_prob[:logical_items].contiguous()
+    teacher_idx = torch.cat(teacher_idx_chunks, dim=0).contiguous()
+    teacher_lp = torch.cat(teacher_lp_chunks, dim=0).contiguous()
+    teacher_prob = torch.cat(teacher_prob_chunks, dim=0).contiguous()
     segments = [
         {
             "index": index,
@@ -399,7 +438,10 @@ def run_minimal_update(
     ]
     input_hashes = {
         "corpus": _sha256(corpus_path),
-        "teacher_file": _sha256(teacher_path),
+        "teacher_file_by_window": {
+            str(source_window): _sha256(path)
+            for (source_window, _take), path in zip(source_plan, teacher_paths)
+        },
         "input_ids_tensor": _tensor_sha256(ids_cpu),
         "teacher_index_tensor": _tensor_sha256(teacher_idx),
         "teacher_logprob_tensor": _tensor_sha256(teacher_lp),
@@ -661,6 +703,10 @@ def run_minimal_update(
             "optimizer_steps": 1,
             "loader_extent_before": loader_extent_before,
             "loader_extent_after": int(base.T.T_TRAIN),
+            "source_windows": [
+                {"window": source_window, "tokens": take}
+                for source_window, take in source_plan
+            ],
             "assignment_checkpoint_loaded": False,
             "model_checkpoint_loaded": False,
             "optimizer_checkpoint_loaded": False,

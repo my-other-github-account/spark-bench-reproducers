@@ -2,7 +2,11 @@ from __future__ import annotations
 
 import pytest
 
-from banana_smasher.update import _logical_segment_bounds, _set_logical_training_extent
+from banana_smasher.update import (
+    _logical_segment_bounds,
+    _logical_source_plan,
+    _set_logical_training_extent,
+)
 
 
 def test_logical_8192_window_is_exactly_eight_contiguous_1024_segments() -> None:
@@ -25,3 +29,13 @@ def test_logical_window_expands_legacy_1024_loader_extent() -> None:
     module = TrainingModule()
     assert _set_logical_training_extent(module, 8192) == 1024
     assert module.T_TRAIN == 8192
+
+
+def test_logical_8192_extent_spans_consecutive_corpus_windows_exactly() -> None:
+    corpus = [
+        {"real_len": length, "token_ids": list(range(length))}
+        for length in [2048, 2048, 2044, 2048, 2048]
+    ]
+    plan = _logical_source_plan(corpus, 0, 8192)
+    assert plan == [(0, 2048), (1, 2048), (2, 2044), (3, 2048), (4, 4)]
+    assert sum(take for _, take in plan) == 8192
