@@ -30,15 +30,15 @@
     },
     "PUBLICATION_TRANSFORM.json": {
       "bytes": 17329,
-      "sha256": "55d8cb18964cd282e496c34ee9bfb7b1006d133768b708de5fc61f20f325bda1"
+      "sha256": "520fa6bc8943ea98061cb22374962d36d1eda91bb7602fc829330dbf283d34c9"
     },
     "README.md": {
-      "bytes": 2660,
-      "sha256": "47d09e6c51b87cc5448af3804ebd3c18f63eade2e483fbd4a52034f2e983ed7d"
+      "bytes": 2674,
+      "sha256": "7d6abeef0ef71cfffa4b94b5334af07848f7570a1a8f8387b0c27c694663b11a"
     },
     "VENDORED_WHEELS.json": {
       "bytes": 2197,
-      "sha256": "ce6623baddc62bde0111012ffb825d511d2c4ac2944bd984e9bfb774f076c506"
+      "sha256": "b01a95bb62fd8a6fc65f7f493f78ab1b9f688d374a53185e0023dc581338c724"
     },
     "build.sh": {
       "bytes": 3697,
@@ -317,8 +317,8 @@
       "sha256": "6e18374c05ce6af6f5510a4d7d85e79f4f89fd2bf9752efb6d610e2d56d4f87e"
     },
     "tests/test_unified_repo_contract.py": {
-      "bytes": 4300,
-      "sha256": "df12f8b6d820845c954fb1bd8cf45c50e86a7b79c5c0186c903af5709ec6e774"
+      "bytes": 4314,
+      "sha256": "5039775f59ec44712061e1ca82c112a6f46c2a075dc3e3d9078153990fd28ad5"
     },
     "tests/test_validation.py": {
       "bytes": 3357,
@@ -641,8 +641,8 @@
       "sha256": "56b36196ec0e1db8af60b51d02bb488c10171d4eec7bda842bc623a454c2ade8"
     },
     "wheels/banana_smasher-1.0.0-py3-none-any.whl": {
-      "bytes": 79712,
-      "sha256": "f8ac354e0962e0aebf7e0d2158601ea31c5d30026d12a0038ff999d97d6475b6"
+      "bytes": 79718,
+      "sha256": "7e013a92fa1c560574cffbd086ed35048de4dc7a96de385639fa0d4cbcff4bd9"
     }
   },
   "flashinfer_cache_runtime_path": "/root/.cache/flashinfer/0.6.14/cached_ops",
@@ -658,13 +658,13 @@
   },
   "parent_hand_ladder_seal_sha256": "ea7df6435fa0fe6e574a20d2506abb09832591bf23f45bc3ff82a5dfb1a0e3e5",
   "publication": {
-    "created_unix": 1785478040.809108,
+    "created_unix": 1785478393.375869,
     "exact_import_commit": "b6bd3a777b548fe1ddf3f878d949478d4bea8cea",
     "parent_commit": "1d5344903b078451c9f7d27f7739bb3ec415f2f8",
     "parent_tree": "427d19dae45909d01bc0ed0e8597fca91bece041",
     "status": "RELEASE_CANDIDATE_PENDING_FULL_PACK_GATE",
     "transform_receipt": "PUBLICATION_TRANSFORM.json",
-    "transform_receipt_sha256": "55d8cb18964cd282e496c34ee9bfb7b1006d133768b708de5fc61f20f325bda1"
+    "transform_receipt_sha256": "520fa6bc8943ea98061cb22374962d36d1eda91bb7602fc829330dbf283d34c9"
   },
   "schema": "banana-smasher-source-manifest-v1",
   "status": "RELEASE_CANDIDATE_PENDING_FULL_PACK_GATE",

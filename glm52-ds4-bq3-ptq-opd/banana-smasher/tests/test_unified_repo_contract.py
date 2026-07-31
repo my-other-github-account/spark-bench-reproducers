@@ -30,7 +30,7 @@ def test_readme_has_exactly_three_copy_paste_commands() -> None:
     assert commands == [
         "git clone https://github.com/my-other-github-account/spark-bench-reproducers.git && cd spark-bench-reproducers/glm52-ds4-bq3-ptq-opd/banana-smasher",
         "./build.sh",
-        "docker run -v <pack>:/model -p 8000:8000 genesis-serve:golden vllm serve /model",
+        "docker run --gpus all -v <pack>:/model:ro -p 8000:8000 genesis-serve:golden vllm serve /model",
     ]
 
 

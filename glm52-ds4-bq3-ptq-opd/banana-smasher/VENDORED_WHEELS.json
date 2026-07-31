@@ -29,12 +29,12 @@
   "wheel_inputs": [
     {
       "approved_source_commit": "1d5344903b078451c9f7d27f7739bb3ec415f2f8",
-      "bytes": 79712,
+      "bytes": 79718,
       "mode": "vendored-wheel",
       "name": "banana-smasher",
       "path": "wheels/banana_smasher-1.0.0-py3-none-any.whl",
       "publication_transform": "PII_PATH_SECRET_SCRUB_AND_PUBLIC_URL_ONLY",
-      "sha256": "f8ac354e0962e0aebf7e0d2158601ea31c5d30026d12a0038ff999d97d6475b6",
+      "sha256": "7e013a92fa1c560574cffbd086ed35048de4dc7a96de385639fa0d4cbcff4bd9",
       "version": "1.0.0"
     },
     {

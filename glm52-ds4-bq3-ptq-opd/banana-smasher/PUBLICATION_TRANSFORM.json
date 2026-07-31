@@ -22,15 +22,15 @@
     },
     "README.md": {
       "change": "publication_transform",
-      "public_bytes": 2660,
-      "public_sha256": "47d09e6c51b87cc5448af3804ebd3c18f63eade2e483fbd4a52034f2e983ed7d",
+      "public_bytes": 2674,
+      "public_sha256": "7d6abeef0ef71cfffa4b94b5334af07848f7570a1a8f8387b0c27c694663b11a",
       "source_bytes": 2440,
       "source_sha256": "e62ce716a12773bc4f3b8af87594fc4b4de263e7c41bfae43e9a9c81cdf3e749"
     },
     "VENDORED_WHEELS.json": {
       "change": "publication_transform",
       "public_bytes": 2197,
-      "public_sha256": "ce6623baddc62bde0111012ffb825d511d2c4ac2944bd984e9bfb774f076c506",
+      "public_sha256": "b01a95bb62fd8a6fc65f7f493f78ab1b9f688d374a53185e0023dc581338c724",
       "source_bytes": 1807,
       "source_sha256": "19110e45fd6d1f2d5ce99122ced18190c7833148bc792219c74c54e249027fef"
     },
@@ -106,8 +106,8 @@
     },
     "tests/test_unified_repo_contract.py": {
       "change": "publication_transform",
-      "public_bytes": 4300,
-      "public_sha256": "df12f8b6d820845c954fb1bd8cf45c50e86a7b79c5c0186c903af5709ec6e774",
+      "public_bytes": 4314,
+      "public_sha256": "5039775f59ec44712061e1ca82c112a6f46c2a075dc3e3d9078153990fd28ad5",
       "source_bytes": 4220,
       "source_sha256": "f85d85cc0e5e6bb6a9c514d06f3b420fc36a28c8eaefd6eafa4b83d00812788e"
     },
@@ -316,8 +316,8 @@
     },
     "wheels/banana_smasher-1.0.0-py3-none-any.whl": {
       "change": "publication_transform",
-      "public_bytes": 79712,
-      "public_sha256": "f8ac354e0962e0aebf7e0d2158601ea31c5d30026d12a0038ff999d97d6475b6",
+      "public_bytes": 79718,
+      "public_sha256": "7e013a92fa1c560574cffbd086ed35048de4dc7a96de385639fa0d4cbcff4bd9",
       "source_bytes": 72315,
       "source_sha256": "aab56660e25b81bfe3ae58faba7acee25186e05031a79a5c44cb4a88b3d7f3b7"
     }

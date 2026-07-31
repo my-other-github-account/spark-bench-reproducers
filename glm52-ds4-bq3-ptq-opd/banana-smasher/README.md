@@ -25,7 +25,7 @@ The build creates `genesis-serve:golden` and `BUILD_RECEIPT.json`. The image is 
 ## 3. Serve
 
 ```sh
-docker run -v <pack>:/model -p 8000:8000 genesis-serve:golden vllm serve /model
+docker run --gpus all -v <pack>:/model:ro -p 8000:8000 genesis-serve:golden vllm serve /model
 ```
 
 Pack detection comes from `config.json`/`meta.json`; the quant method sets its sealed defaults in code. Ordinary vLLM flags retain their normal meaning when the default command is replaced.
