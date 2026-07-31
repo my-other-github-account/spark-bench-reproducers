@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from banana_smasher.update import _logical_segment_bounds
+from banana_smasher.update import _logical_segment_bounds, _set_logical_training_extent
 
 
 def test_logical_8192_window_is_exactly_eight_contiguous_1024_segments() -> None:
@@ -16,3 +16,12 @@ def test_logical_8192_window_is_exactly_eight_contiguous_1024_segments() -> None
 def test_logical_segment_geometry_fails_closed(tokens: int, segments: int) -> None:
     with pytest.raises(ValueError):
         _logical_segment_bounds(tokens, segments)
+
+
+def test_logical_window_expands_legacy_1024_loader_extent() -> None:
+    class TrainingModule:
+        T_TRAIN = 1024
+
+    module = TrainingModule()
+    assert _set_logical_training_extent(module, 8192) == 1024
+    assert module.T_TRAIN == 8192

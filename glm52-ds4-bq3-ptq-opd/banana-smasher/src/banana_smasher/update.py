@@ -38,6 +38,16 @@ def _logical_segment_bounds(
     ]
 
 
+def _set_logical_training_extent(training_module: Any, logical_items: int) -> int:
+    """Expand the legacy 1024-token loader to this exact logical window."""
+    previous = int(training_module.T_TRAIN)
+    logical_items = int(logical_items)
+    if logical_items <= 0:
+        raise ValueError(f"logical_items must be positive, got {logical_items}")
+    training_module.T_TRAIN = logical_items
+    return previous
+
+
 def _progress(phase: str, **fields: Any) -> None:
     print(
         json.dumps(
@@ -359,9 +369,10 @@ def run_minimal_update(
     base_assignment = Path(os.environ["GENESIS_BASE_ASSIGNMENT"]).resolve()
     claim = Path(os.environ.get("GENESIS_HOST_CLAIM", "/home/dnola/HOST_CLAIM.json")).resolve()
     corpus = base.T.load_corpus()
-    ids_all, valid_tokens = base.T.window_ids(corpus, int(window))
     segment_tokens = int(tokens)
     logical_items = segment_tokens * accumulation_segments
+    loader_extent_before = _set_logical_training_extent(base.T, logical_items)
+    ids_all, valid_tokens = base.T.window_ids(corpus, int(window))
     available_items = min(int(valid_tokens), int(ids_all.shape[0]))
     if available_items < logical_items:
         raise RuntimeError(
@@ -648,6 +659,8 @@ def run_minimal_update(
             "physical_segment_tokens": segment_tokens,
             "accumulation_segments": accumulation_segments,
             "optimizer_steps": 1,
+            "loader_extent_before": loader_extent_before,
+            "loader_extent_after": int(base.T.T_TRAIN),
             "assignment_checkpoint_loaded": False,
             "model_checkpoint_loaded": False,
             "optimizer_checkpoint_loaded": False,
