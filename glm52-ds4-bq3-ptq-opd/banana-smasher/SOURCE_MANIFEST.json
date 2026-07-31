@@ -325,8 +325,8 @@
       "sha256": "6e18374c05ce6af6f5510a4d7d85e79f4f89fd2bf9752efb6d610e2d56d4f87e"
     },
     "tests/test_unified_repo_contract.py": {
-      "bytes": 6572,
-      "sha256": "518cb9d84bb2b72f34e1dc014e5f77135aee04c26a654db7a3fe5cb36a9499f8"
+      "bytes": 6495,
+      "sha256": "5c44d9ece5732e66cc69b7fcc445ef13f992a193033499ddc4952ffa50c7b2a0"
     },
     "tests/test_validation.py": {
       "bytes": 3357,
