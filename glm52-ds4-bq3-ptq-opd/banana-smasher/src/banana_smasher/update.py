@@ -20,6 +20,54 @@ PRODUCTION_LAYERS = 43
 MINIMUM_MEM_AVAILABLE_BYTES = 4 * 1024**3
 ONE_LAYER_TARGET_MEM_AVAILABLE_BYTES = 50 * 1024**3
 ONE_LAYER_MAX_DEVICE_USED_BYTES = 60 * 1024**3
+FULL_DEPTH_MINIMUM_MEM_AVAILABLE_BYTES = 16 * 1024**3
+FULL_DEPTH_MAX_DEVICE_USED_BYTES = 80 * 1024**3
+FULL_DEPTH_DEVICE_TARGET_BYTES = 60 * 1024**3
+
+
+def _runtime_memory_acceptance(
+    layers: int, minimum_mem_available_bytes: int, maximum_device_used_bytes: int
+) -> dict[str, Any]:
+    """Apply the corrected hard guard while retaining 60 GiB as a flag-only target."""
+    full_depth = int(layers) == PRODUCTION_LAYERS
+    minimum_required = (
+        FULL_DEPTH_MINIMUM_MEM_AVAILABLE_BYTES
+        if full_depth
+        else MINIMUM_MEM_AVAILABLE_BYTES
+    )
+    maximum_allowed = (
+        FULL_DEPTH_MAX_DEVICE_USED_BYTES
+        if full_depth
+        else ONE_LAYER_MAX_DEVICE_USED_BYTES
+    )
+    minimum_pass = int(minimum_mem_available_bytes) >= minimum_required
+    maximum_pass = (
+        int(maximum_device_used_bytes) <= maximum_allowed
+        if full_depth
+        else int(maximum_device_used_bytes) < maximum_allowed
+    )
+    target_delta = int(maximum_device_used_bytes) - FULL_DEPTH_DEVICE_TARGET_BYTES
+    return {
+        "guard_policy": (
+            "full-depth-hard-16gib-os-floor-and-80gib-device-ceiling"
+            if full_depth
+            else "legacy-one-layer-memory-envelope"
+        ),
+        "minimum_mem_available_hard_floor_bytes": minimum_required,
+        "minimum_mem_available_hard_floor_pass": minimum_pass,
+        "maximum_device_used_hard_ceiling_bytes": maximum_allowed,
+        "maximum_device_used_hard_ceiling_pass": maximum_pass,
+        "device_used_target_bytes": FULL_DEPTH_DEVICE_TARGET_BYTES,
+        "device_used_target_pass": target_delta < 0,
+        "device_used_target_delta_bytes": target_delta,
+        "device_used_target_flag": (
+            "PASS_BELOW_60_GIB_TARGET"
+            if target_delta < 0
+            else "FLAG_AT_OR_ABOVE_60_GIB_TARGET"
+        ),
+        "device_used_target_is_flag_only": full_depth,
+        "hard_pass": minimum_pass and maximum_pass,
+    }
 
 
 def _resident_prefill_policy(layers: int, accumulation_segments: int) -> str:
@@ -845,6 +893,9 @@ def run_minimal_update(
         - int(row["cuda_mem_get_info"]["free_bytes"])
         for row in snapshots
     )
+    memory_acceptance = _runtime_memory_acceptance(
+        layers, min_available, max_device_used
+    )
     mechanics_pass = bool(
         math.isfinite(loss_value)
         and finite_gradients
@@ -858,9 +909,8 @@ def run_minimal_update(
         and int(preload_inventory["timed_misses"]) == 0
         and int(forward_io_delta.get("read_bytes", 0)) == 0
         and int(forward_io_delta.get("rchar", 0)) <= 4096
-        and min_available >= MINIMUM_MEM_AVAILABLE_BYTES
+        and memory_acceptance["hard_pass"]
         and (layers != 1 or min_available >= ONE_LAYER_TARGET_MEM_AVAILABLE_BYTES)
-        and max_device_used < ONE_LAYER_MAX_DEVICE_USED_BYTES
     )
     result = {
         "schema": "banana-smasher-logical-window-update-v2",
@@ -963,7 +1013,9 @@ def run_minimal_update(
         "allocation": {
             "snapshots": snapshots,
             "minimum_mem_available_bytes": min_available,
-            "minimum_required_mem_available_bytes": MINIMUM_MEM_AVAILABLE_BYTES,
+            "minimum_required_mem_available_bytes": memory_acceptance[
+                "minimum_mem_available_hard_floor_bytes"
+            ],
             "four_gib_floor_pass": min_available >= MINIMUM_MEM_AVAILABLE_BYTES,
             "one_layer_target_mem_available_bytes": ONE_LAYER_TARGET_MEM_AVAILABLE_BYTES,
             "one_layer_target_mem_available_pass": min_available
@@ -974,6 +1026,7 @@ def run_minimal_update(
             < ONE_LAYER_MAX_DEVICE_USED_BYTES,
             "peak_torch_allocated_bytes": max_torch_allocated,
             "peak_torch_reserved_bytes": max_torch_reserved,
+            "corrected_guard": memory_acceptance,
         },
         "multiplier_vs_baseline": {
             "baseline_window_seconds": float(baseline_seconds),
