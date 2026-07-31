@@ -2,6 +2,263 @@
 
 All values below are sealed measurements. Partial/in-flight work is labeled explicitly and is not extrapolated.
 
+## Acceleration and portability update — 2026-07-31 11:00–14:30
+
+This update separates unit, integrated, same-work, projected, and in-flight
+claims. The reusable method is documented in
+[ACCELERATION_PLAYBOOK.md](ACCELERATION_PLAYBOOK.md).
+
+### Exact full-codebook search
+
+The nearest-codebook operation was rewritten without changing the optimization
+problem:
+
+```text
+argmin ||x-c||^2 = argmax (x.c - ||c||^2/2)
+```
+
+The accelerated path evaluates all 2,048 candidates with grouped GEMMs, extracts
+top-2 scores, and sends epsilon-margin rows through full-codebook FP32
+verification. It performs no pruning, shortlist, approximate-neighbor search, or
+early terminated candidate scan.
+
+| gate | result |
+|---|---:|
+| randomized winner audit | **1,048,576 rows, zero winner differences** |
+| candidate evaluations in audit | 2,147,483,648 |
+| large exact sweep | **4,194,304 rows: 0.087 s vs 1.032 s, 11.9x** |
+| fresh full-layer assignment | **zero changes; identical SHA `7661c3477c652737bdff5809955a604ada1f36c748034976fb8507c55c39998e`** |
+| full-layer objective delta | 0 |
+
+A separate current-run full-layer A/B measured `272.033675 s -> 114.648768 s`
+outer wall (**2.372757x**) and `149.719555 s -> 16.039903 s` for the distance
+sweep (**9.334193x**). The difference between 11.9x unit/search evidence and
+2.37x integrated evidence is expected: staging and the rest of the solver still
+exist.
+
+The subsequent staging/overlap seal kept the same assignment SHA and objective,
+and reduced an unchanged-input L23 accounted wall from `250.691 s` to
+`72.753830 s` (**3.445742x**). Its distance wall was `15.533784 s`, critical
+staging wall `4.764444 s`, and measured nonzero GPU-duty fraction `0.906667`.
+
+Source snapshots and immutable seals:
+
+- exact-search source `b16507e1a416abe3ce2c7f5e75acec6eb7311b75`, 39/39 tests;
+- exact-search performance receipt SHA-256
+  `5c65c30fa1edd6e33044052fcf6bb90103e423d9df60615ad2412db555746168`;
+- staged/overlapped source `0d802167252f09bda7168936463a90e9bdadf258`, 43/43 tests;
+- staged/overlapped performance receipt SHA-256
+  `419cd0425b6072caa06de98c34957f7e4ac3b81b34c421f22a299fd0fe5e1cd5`.
+
+These are exact-search results, not permission to use the measured
+quality-losing pruned alternatives.
+
+### 43-layer depth seal and segmented-objective audit
+
+A fresh 43/43-layer, logical-1024 update completed one forward, backward, and
+optimizer step with finite loss `0.00039411638863384724`. The intended AOT
+artifact loaded, compute-loop `rchar/read_bytes` deltas were `0/0`, all 86
+trainable gradients were finite and nonzero, and the parameter SHA changed only
+at the update boundary.
+
+| phase | wall | share / interpretation |
+|---|---:|---|
+| forward | 5.258056 s | about 7%; the accelerated forward engaged |
+| backward | **66.001159 s** | **about 93%; next optimization owner** |
+| optimizer | 0.001178 s | negligible |
+| total | **71.260394 s** | complete one-update mechanics seal |
+
+Peak device reserved was `20,478,689,280 B`, peak unified-memory use was
+`35,874,131,968 B`, and minimum measured memory available to the operating
+system remained `92,621,086,720 B`. Result and terminal-receipt SHAs are
+`c54c77348cbb75708f3ab49a7abadda2b2c837211e8c02eff7eabf45191757bd`
+and `3d349945c418b47bfeb4042615af526c1d28930e3b59f4645d113d4c3be66dc5`.
+
+This is an **intermediate depth mechanics seal**, not a 43-layer 10x training
+claim. The first valid launch missed an operational launch-time target; that
+historical miss does not change the scientific phase table and is not hidden.
+
+The exact segmented-accumulation audit compared one logical input split versus
+unsplit:
+
+| invariant | absolute error |
+|---|---:|
+| aggregate loss | `0.0` |
+| maximum gradient | `1.1102230246251565e-16` |
+| maximum post-step parameter | `5.421010862427522e-20` |
+
+Tolerance was `1e-12`. The audit receipt SHA-256 is
+`f978f1ad860f47fa92dbbe63be46d59adb335055bfb5c89a29dc59d5a07f64be`.
+Source snapshots were `9ff07a6b` (recorded prefix) for bounded/in-place FWHT and
+`e0707378f0b88960d4ead2ce1b14bd7427ac6758` for exact eight-way accumulation.
+
+The next profile must decompose the 66.001159-second backward bucket in this
+order:
+
+1. dequantization VJP;
+2. FWHT VJP;
+3. code-gather VJP;
+4. autograd graph and kernel-launch overhead.
+
+The seal observed 22,016 backward calls. A forward-kernel speedup cannot be
+applied to this bucket without a measured VJP result.
+
+### Same-work labeling correction
+
+A four-layer mechanics run completed in `6.914222 s`, with finite loss and zero
+external compute-I/O deltas. Dividing that baby run by an unrelated `890 s`
+full-baseline wall produced a **128.7x mislabeled ratio**. It is not a lawful
+same-work speedup. The same-host control comparison supported about **2.0x** at
+that stage.
+
+Accordingly:
+
+- unit and baby mechanics rows are retained as engagement proofs;
+- same-work rows require identical depth, logical tokens, and optimizer steps;
+- a backward-fix estimate must replace only the measured backward bucket in the
+  phase table and remain labeled `PROJECTED`;
+- the next canonical aggregate row is the 43-layer logical-8192 update, not a
+  baby/full ratio.
+
+### Production-container rebuild: six signatures to final form
+
+Six successive bridge attempts exposed a different contract failure each time:
+
+1. a too-strict free-memory gate;
+2. runtime environment settings ignored by the image;
+3. a command override that dropped required arguments and reached an
+   incompatible attention assertion;
+4. fallback execution that exhausted memory because the winning overlay was not
+   baked into the image;
+5. a path-only injection that imported only part of the stack while the baked
+   quantization configuration remained old;
+6. the planes path finally engaged, but the baked loader expected a legacy
+   `CODES` layout while the product pack used the current `BITS` plus
+   offset-metadata schema.
+
+The sixth signature proved that more runtime wrappers could not repair baked
+version drift. The replacement image therefore bakes:
+
+- the current vectorized overlay;
+- the current `BITS`-schema planes loader and model-directory auto-detection;
+- AOT kernels and capture sizes `[1,2,4,8,16]`;
+- concurrency routing;
+- reasoning/tool parser settings;
+- `runtime_defaults.json` baked into the image;
+- a stock command contract with no code or kernel-cache mount and no runtime
+  environment injection.
+
+The built image identity is
+`sha256:b35d6936cb21c2390675d131780b8074e23e3c8bf8f1c5ae648219a612dcfd49`.
+Source snapshot `ccaab0075548c0c4fb01596aa3900eea604a7d68` passed 52/52 focused tests.
+The image build, Dockerfile, dependency-lock, overlay-lock, runtime-defaults, and
+promotion receipt SHAs are:
+
+- build: `6779f225e717904ec2d0e81dc87d7e56913c72a3a68efe84b8f4f3b8a96f33e8`;
+- Dockerfile: `7f555caf1b53101eff0087ae5811fccb28cec252580c2070932cf9239a949641`;
+- dependency lock: `b01a95bb62fd8a6fc65f7f493f78ab1b9f688d374a53185e0023dc581338c724`;
+- overlay lock: `068027bd51e6b0c64220b96eb3e771ea6ea6cdbc46d37eb2d9b910d4ee3191bb`;
+- runtime defaults: `d03a765d96b75847876b52c883903ddda3de108c999bace5fb619647336550cd`;
+- promotion: `709d2688888916f4a9156d6069b4416adab5197fda98da62abdeb76013415ad3`.
+
+The final-form image was healthy and serving at the cutoff. Performance
+qualification remained in progress; the image-build seal is not silently
+converted into a completed warm ladder.
+
+A prior ladder initially looked catastrophic because it measured a cold engine:
+rows climbed from roughly `3.3` to `12.9 tok/s` in the same run. A later warm
+reference read `12.86/15.71/28.98/39.89/53.37 tok/s` at C1/C2/C4/C8/C16. The
+operator ruled that noisy performance gates use a **2–3% tolerance band**;
+sub-percent misses are not exactness failures.
+
+The binding final-form-first sequence is now:
+
+1. bake and hash the complete production image;
+2. prove zero-environment stock starts for both repository-ID and mounted-model
+   interfaces;
+3. prove pack auto-detection and product served-model identity;
+4. warm the exact request shapes until throughput stabilizes;
+5. record the first three raw generation eyeballs;
+6. run three measured rows per ladder rung with health polling quiesced;
+7. apply the preregistered tolerance band;
+8. promote the exact image identity;
+9. run only the authorized smoke evaluation;
+10. reproduce on a clean machine before shipment.
+
+### 0731 new-model transfer evaluation
+
+The new revision fetch and structure phase passed:
+
+- pinned revision `9e165c30e2704aec5d9d593cce3eebd58bbef1cb`;
+- 74 files totaling `166,898,660,330 B`;
+- all 43 LFS-referenced weight shards matched, and 48/48 expected files were
+  hashed;
+- strict stable-body template: 67,606/67,606 tensor contracts matched;
+- broader API inventory: 67,612 common body tensors matched names, shapes, and
+  dtypes, with 3,140 additions and 10 removals confined to the optional MTP
+  area.
+
+The two tensor counts come from explicitly different inventory scopes and are
+therefore published with their scopes rather than treated as a discrepancy.
+
+A representative fixed-assignment re-encode passed with frozen codebooks and no
+warm start, refit, re-optimization, or tier reassignment. Its artifact SHA-256 is
+`aad6dc2d419969081a294fd4feaefc9d40a2757489eaf8ba64a61c7547aa4b27`.
+A fresh BALANCED64 bank also sealed 64/64 windows, 66 files,
+`6,362,373,800 B`, in `715.553 s`; the bank tree SHA begins `38b30e97`.
+
+At the 14:30 cutoff the full fixed-assignment transfer was **in flight**, not a
+finished KLD row:
+
+- progress: layer 13/43;
+- 3,026 projections encoded;
+- zero failed projections;
+- rate/reconstruction ratio remained about `0.17`;
+- recent median was about `1.94 s/projection`.
+
+The safe decision was to keep the serial run. A second machine lacked space for
+the `~167 GB` revision, and streaming weights inside the encode loop would have
+reintroduced network I/O into compute. Restarting after several hours of sealed
+work would only break even.
+
+Published ETA at the cutoff:
+
+- transfer completion: approximately 19:30–20:00;
+- paired KLD walk after pre-staged bank/harness: another 30–45 minutes;
+- numeric verdict: approximately 20:30 the same evening.
+
+Verdict bands are frozen before the read:
+
+| KLD ratio versus matched old-model row | action |
+|---:|---|
+| `<=1.5x` | transfer viable; defer rebuild |
+| `>1.5x` and `<=3x` | partial damage-ranked re-solve |
+| `>3x` | fresh full rebuild |
+
+No KLD verdict is published in this cutoff section because the transfer had not
+finished.
+
+### Scale-order and distribution-semantics rulings
+
+The operator froze the scale order as:
+
+1. full model depth;
+2. logical data/context extent;
+3. batch or windows per optimizer step.
+
+Physical segmentation is a memory knob only after split-versus-unsplit loss,
+gradient, and post-step equivalence passes. This prevents a faster reduced-depth
+or reduced-context run from being mislabeled as a quality-equivalent trainer.
+
+Distribution semantics are also frozen:
+
+- procedure A/B decisions use paired same-seed updates and loss-curve evidence;
+- total sampled tokens and optimizer steps must match in speed comparisons;
+- holdout is reserved for ship gates, not method tuning;
+- global quality metrics must retain all class means and counts;
+- noisy performance gates use tolerance bands, while content/assignment identity
+  remains exact.
+
 ## Overnight sealed snapshot — 2026-07-31
 
 This section is the receipt-bound publication delta. The newcomer-first
