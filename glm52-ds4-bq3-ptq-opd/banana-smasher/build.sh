@@ -7,7 +7,7 @@ if (( $# != 0 )); then
 fi
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-IMAGE="genesis-serve:golden"
+IMAGE="${IMAGE:-genesis-serve:golden}"
 SEAL="ea7df6435fa0fe6e574a20d2506abb09832591bf23f45bc3ff82a5dfb1a0e3e5"
 RECEIPT="$ROOT/BUILD_RECEIPT.json"
 LOG="$ROOT/BUILD.log"
