@@ -9,6 +9,7 @@ import socket
 import subprocess
 import sys
 import time
+from collections.abc import Sequence
 from pathlib import Path
 from typing import Any
 
@@ -49,25 +50,39 @@ def _set_logical_training_extent(training_module: Any, logical_items: int) -> in
 
 
 def _logical_source_plan(
-    corpus: list[dict[str, Any]], start_window: int, logical_items: int
+    corpus: list[dict[str, Any]], source_windows: Sequence[int], logical_items: int
 ) -> list[tuple[int, int]]:
-    """Take an exact logical token extent from consecutive corpus windows."""
+    """Take an exact logical extent from explicit aligned corpus/teacher windows."""
+    windows = tuple(int(window) for window in source_windows)
+    if not windows:
+        raise ValueError("source_windows must not be empty")
+    if len(set(windows)) != len(windows):
+        raise ValueError(f"source_windows must be unique, got {windows}")
     remaining = int(logical_items)
-    cursor = int(start_window)
+    if remaining <= 0:
+        raise ValueError(f"logical_items must be positive, got {logical_items}")
     plan: list[tuple[int, int]] = []
-    while remaining > 0:
-        if cursor >= len(corpus):
+    for position, source_window in enumerate(windows):
+        if not 0 <= source_window < len(corpus):
             raise RuntimeError(
-                f"corpus exhausted after {sum(take for _, take in plan)} tokens; "
-                f"needs exact logical extent {logical_items}"
+                f"source window {source_window} is outside corpus range [0,{len(corpus)})"
             )
-        row = corpus[cursor]
+        if remaining <= 0:
+            raise RuntimeError(
+                f"source windows {windows[position:]} are unused after exact logical "
+                f"extent {logical_items}"
+            )
+        row = corpus[source_window]
         available = min(int(row["real_len"]), len(row["token_ids"]))
         take = min(remaining, available)
         if take > 0:
-            plan.append((cursor, take))
+            plan.append((source_window, take))
             remaining -= take
-        cursor += 1
+    if remaining > 0:
+        raise RuntimeError(
+            f"explicit source windows provide {logical_items - remaining} tokens; "
+            f"needs exact logical extent {logical_items}"
+        )
     return plan
 
 
@@ -297,6 +312,7 @@ def run_minimal_update(
     aot: str | Path,
     receipt: str | Path,
     window: int = 27,
+    source_windows: Sequence[int] | None = None,
     tokens: int = 1024,
     learning_rate: float = 1e-4,
     hard_abort_seconds: float = 250.0,
@@ -394,7 +410,8 @@ def run_minimal_update(
     segment_tokens = int(tokens)
     logical_items = segment_tokens * accumulation_segments
     loader_extent_before = _set_logical_training_extent(base.T, logical_items)
-    source_plan = _logical_source_plan(corpus, int(window), logical_items)
+    selected_windows = (int(window),) if source_windows is None else tuple(source_windows)
+    source_plan = _logical_source_plan(corpus, selected_windows, logical_items)
     ids_chunks = []
     teacher_idx_chunks = []
     teacher_lp_chunks = []
@@ -695,7 +712,7 @@ def run_minimal_update(
             "source_layer": 0,
             "batch": 1,
             "microbatch": 1,
-            "windows": [int(window)],
+            "windows": [source_window for source_window, _take in source_plan],
             "tokens": logical_items,
             "logical_window_tokens": logical_items,
             "physical_segment_tokens": segment_tokens,

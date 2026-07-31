@@ -40,7 +40,21 @@ def test_smash_update_requires_explicit_runtime_inputs() -> None:
     assert args.tokens == 1024
     assert args.layers == 43
     assert args.accumulation_segments == 8
+    assert args.source_windows is None
     assert args.hard_abort_seconds == 250.0
+
+
+def test_smash_update_parses_explicit_logical_source_windows() -> None:
+    args = _parser().parse_args(
+        [
+            "update",
+            "--receipt",
+            "/receipt.json",
+            "--source-windows",
+            "27,38,39,43",
+        ]
+    )
+    assert args.source_windows == (27, 38, 39, 43)
 
 
 def test_smash_update_seals_accumulation_audit(tmp_path: Path, capsys) -> None:

@@ -18,6 +18,22 @@ from .repack import repack_to_safetensors
 from .validation import ValidationError, validate_artifact
 
 
+def _parse_source_windows(value: str) -> tuple[int, ...]:
+    try:
+        windows = tuple(int(item.strip()) for item in value.split(",") if item.strip())
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(
+            "source windows must be a comma-separated list of non-negative integers"
+        ) from exc
+    if not windows or any(window < 0 for window in windows):
+        raise argparse.ArgumentTypeError(
+            "source windows must be a non-empty comma-separated list of non-negative integers"
+        )
+    if len(set(windows)) != len(windows):
+        raise argparse.ArgumentTypeError("source windows must be unique")
+    return windows
+
+
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="smash",
@@ -86,6 +102,14 @@ def _parser() -> argparse.ArgumentParser:
     update.add_argument("--audit-accumulation-only", action="store_true")
     update.add_argument("--accumulation-segments", type=int, default=8)
     update.add_argument("--window", type=int, default=27)
+    update.add_argument(
+        "--source-windows",
+        type=_parse_source_windows,
+        help=(
+            "ordered comma-separated corpus/teacher windows composing the logical extent; "
+            "defaults to --window only"
+        ),
+    )
     update.add_argument("--tokens", type=int, default=1024)
     update.add_argument("--layers", type=int, choices=(1, 43), default=43)
     update.add_argument("--learning-rate", type=float, default=1e-4)
@@ -192,6 +216,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                     aot=args.aot,
                     receipt=args.receipt,
                     window=args.window,
+                    source_windows=args.source_windows,
                     tokens=args.tokens,
                     learning_rate=args.learning_rate,
                     hard_abort_seconds=args.hard_abort_seconds,
