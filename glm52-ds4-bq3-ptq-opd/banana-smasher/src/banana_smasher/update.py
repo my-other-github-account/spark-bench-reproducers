@@ -20,8 +20,8 @@ PRODUCTION_LAYERS = 43
 MINIMUM_MEM_AVAILABLE_BYTES = 4 * 1024**3
 ONE_LAYER_TARGET_MEM_AVAILABLE_BYTES = 50 * 1024**3
 ONE_LAYER_MAX_DEVICE_USED_BYTES = 60 * 1024**3
-FULL_DEPTH_MINIMUM_MEM_AVAILABLE_BYTES = 16 * 1024**3
-FULL_DEPTH_MAX_DEVICE_USED_BYTES = 100 * 1024**3
+FULL_DEPTH_MINIMUM_MEM_AVAILABLE_BYTES = 4 * 1024**3
+FULL_DEPTH_MAX_DEVICE_USED_BYTES = 112 * 1024**3
 FULL_DEPTH_DEVICE_TARGET_BYTES = 60 * 1024**3
 
 
@@ -49,7 +49,7 @@ def _runtime_memory_acceptance(
     target_delta = int(maximum_device_used_bytes) - FULL_DEPTH_DEVICE_TARGET_BYTES
     return {
         "guard_policy": (
-            "full-depth-hard-16gib-os-floor-and-100gib-device-ceiling"
+            "full-depth-hard-4gib-os-law-floor-and-112gib-device-ceiling"
             if full_depth
             else "legacy-one-layer-memory-envelope"
         ),

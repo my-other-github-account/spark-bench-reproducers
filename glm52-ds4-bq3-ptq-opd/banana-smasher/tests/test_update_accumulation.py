@@ -177,7 +177,7 @@ def test_segment_progress_receipt_is_durable_and_cumulative(tmp_path) -> None:
     assert payload["segment_phases"] == [first, second]
 
 
-def test_full_depth_corrected_guard_flags_60_gib_but_accepts_to_100_gib() -> None:
+def test_full_depth_manager_band_flags_60_gib_but_accepts_to_112_gib() -> None:
     acceptance = update_module._runtime_memory_acceptance(
         43,
         48 * 1024**3,
@@ -185,23 +185,26 @@ def test_full_depth_corrected_guard_flags_60_gib_but_accepts_to_100_gib() -> Non
     )
 
     assert acceptance["hard_pass"] is True
-    assert acceptance["minimum_mem_available_hard_floor_bytes"] == 16 * 1024**3
-    assert acceptance["maximum_device_used_hard_ceiling_bytes"] == 100 * 1024**3
+    assert acceptance["minimum_mem_available_hard_floor_bytes"] == 4 * 1024**3
+    assert acceptance["maximum_device_used_hard_ceiling_bytes"] == 112 * 1024**3
     assert acceptance["device_used_target_is_flag_only"] is True
     assert acceptance["device_used_target_flag"] == "FLAG_AT_OR_ABOVE_60_GIB_TARGET"
     assert acceptance["device_used_target_delta_bytes"] == 148 * 1024**2
 
 
 def test_full_depth_corrected_guard_fails_only_at_hard_limits() -> None:
-    assert update_module._runtime_memory_acceptance(43, 16 * 1024**3 - 1, 60 * 1024**3)[
+    assert update_module._runtime_memory_acceptance(43, 4 * 1024**3 - 1, 60 * 1024**3)[
         "hard_pass"
     ] is False
-    assert update_module._runtime_memory_acceptance(43, 16 * 1024**3, 80 * 1024**3)[
+    assert update_module._runtime_memory_acceptance(43, 15 * 1024**3, 92 * 1024**3)[
         "hard_pass"
     ] is True
-    assert update_module._runtime_memory_acceptance(43, 16 * 1024**3, 100 * 1024**3)[
+    assert update_module._runtime_memory_acceptance(43, 4 * 1024**3, 80 * 1024**3)[
         "hard_pass"
     ] is True
-    assert update_module._runtime_memory_acceptance(43, 16 * 1024**3, 100 * 1024**3 + 1)[
+    assert update_module._runtime_memory_acceptance(43, 4 * 1024**3, 112 * 1024**3)[
+        "hard_pass"
+    ] is True
+    assert update_module._runtime_memory_acceptance(43, 4 * 1024**3, 112 * 1024**3 + 1)[
         "hard_pass"
     ] is False
