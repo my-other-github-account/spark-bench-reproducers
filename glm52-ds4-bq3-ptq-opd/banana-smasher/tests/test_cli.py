@@ -38,7 +38,18 @@ def test_smash_update_requires_explicit_runtime_inputs() -> None:
     )
     assert args.command == "update"
     assert args.tokens == 1024
+    assert args.layers == 43
     assert args.hard_abort_seconds == 250.0
+
+
+def test_smash_update_seals_accumulation_audit(tmp_path: Path, capsys) -> None:
+    receipt = tmp_path / "audit.json"
+    assert main(["update", "--audit-accumulation-only", "--receipt", str(receipt)]) == 0
+    output = json.loads(capsys.readouterr().out)
+    assert output["status"] == "PASS"
+    assert output["segments"] == 8
+    assert output["optimizer_steps"] == 1
+    assert receipt.is_file()
 
 
 def test_smash_validate_pack_compatibility_alias(tmp_path: Path, capsys) -> None:

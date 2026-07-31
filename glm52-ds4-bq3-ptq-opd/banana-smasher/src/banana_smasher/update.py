@@ -146,7 +146,13 @@ def _install_bounded_qtip(f521: Any) -> None:
     f521.CorrectQtipDecoder.__init__ = bounded_init
 
 
-def _build_one_layer_student(torch: Any, runtime: Any, surface: Any, model_root: Path) -> Any:
+def _build_student(
+    torch: Any,
+    runtime: Any,
+    surface: Any,
+    model_root: Path,
+    layers: int,
+) -> Any:
     from safetensors import safe_open
     from torch import nn
     from transformers import AutoConfig, AutoModelForCausalLM
@@ -158,9 +164,11 @@ def _build_one_layer_student(torch: Any, runtime: Any, surface: Any, model_root:
     original_layers = int(config.num_hidden_layers)
     if original_layers != PRODUCTION_LAYERS:
         raise RuntimeError(
-            f"minimal proof expects the {PRODUCTION_LAYERS}-layer production config, got {original_layers}"
+            f"update expects the {PRODUCTION_LAYERS}-layer production config, got {original_layers}"
         )
-    config.num_hidden_layers = 1
+    if layers not in (1, PRODUCTION_LAYERS):
+        raise ValueError(f"layers must be 1 or {PRODUCTION_LAYERS}, got {layers}")
+    config.num_hidden_layers = int(layers)
     weight_map = json.loads((model_root / "model.safetensors.index.json").read_text())[
         "weight_map"
     ]
@@ -197,23 +205,37 @@ def _build_one_layer_student(torch: Any, runtime: Any, surface: Any, model_root:
     )
     model.model.rotary_emb = DeepseekV4RotaryEmbedding(config).to("cuda")
 
-    experts = surface.GenesisPhysicalExperts(0, pilot=True)
-    model.model.layers[0].mlp.experts = experts
-    state = runtime.build_nonexpert_sd(0, weight_map, get_tensor)
-    runtime.v3.materialize_layer(model, 0, state, config)
-    del state
-    train_ids = {id(parameter) for parameter in experts.parameters()}
+    experts: dict[int, Any] = {}
+    for layer in range(int(layers)):
+        owner = surface.GenesisPhysicalExperts(layer, pilot=True)
+        model.model.layers[layer].mlp.experts = owner
+        experts[layer] = owner
+        state = runtime.build_nonexpert_sd(layer, weight_map, get_tensor)
+        runtime.v3.materialize_layer(model, layer, state, config)
+        del state
+        if layer == 0 or (layer + 1) % 4 == 0 or layer + 1 == layers:
+            _progress(
+                "model_layer_materialized",
+                layer=layer,
+                layers=int(layers),
+                torch_allocated_bytes=int(torch.cuda.memory_allocated()),
+            )
+    train_ids = {
+        id(parameter)
+        for owner in experts.values()
+        for parameter in owner.parameters()
+    }
     for parameter in model.parameters():
         if id(parameter) not in train_ids:
             parameter.requires_grad_(False)
 
-    class OneLayerStudent:
+    class FreshStudent:
         pass
 
-    student = OneLayerStudent()
+    student = FreshStudent()
     student.config = config
     student.model = model
-    student.experts = {0: experts}
+    student.experts = experts
     student.original_num_hidden_layers = original_layers
     return student
 
@@ -229,6 +251,7 @@ def run_minimal_update(
     learning_rate: float = 1e-4,
     hard_abort_seconds: float = 250.0,
     baseline_seconds: float = BASELINE_WINDOW_SECONDS,
+    layers: int = PRODUCTION_LAYERS,
 ) -> dict[str, Any]:
     import torch
 
@@ -242,6 +265,9 @@ def run_minimal_update(
         raise FileNotFoundError(
             f"invalid update inputs runtime={runtime_root} model={model_root} aot={aot}"
         )
+    layers = int(layers)
+    if layers not in (1, PRODUCTION_LAYERS):
+        raise ValueError(f"layers must be 1 or {PRODUCTION_LAYERS}, got {layers}")
     if not 1 <= int(tokens) <= 1024:
         raise ValueError(f"tokens must be in [1,1024], got {tokens}")
     if hard_abort_seconds <= 0 or learning_rate <= 0:
@@ -284,10 +310,11 @@ def run_minimal_update(
     _install_bounded_qtip(f521)
     surface.reset_real10x_dispatch_trace()
     fwht_stats(reset=True)
-    os.environ["GENESIS_REPAIR_KEEP_PLANES_RESIDENT"] = "1"
-    os.environ["GENESIS_REPAIR_PIN_PLANES"] = "1"
-    os.environ["GENESIS_REPAIR_EVICT"] = "0"
-    os.environ["GENESIS_REPAIR_CHECKPOINT"] = "0"
+    resident_mode = layers == 1
+    os.environ["GENESIS_REPAIR_KEEP_PLANES_RESIDENT"] = "1" if resident_mode else "0"
+    os.environ["GENESIS_REPAIR_PIN_PLANES"] = "1" if resident_mode else "0"
+    os.environ["GENESIS_REPAIR_EVICT"] = "0" if resident_mode else "1"
+    os.environ["GENESIS_REPAIR_CHECKPOINT"] = "0" if resident_mode else "1"
     os.environ["GENESIS_REPAIR_KMAJOR_10X"] = "1"
     os.environ["GENESIS_REPAIR_KMAJOR_WINDOWED"] = "1"
     os.environ.setdefault("GENESIS_REPAIR_KMAJOR_CACHE_MAX_BYTES", str(3 * 1024**3))
@@ -298,11 +325,12 @@ def run_minimal_update(
 
     snapshots = [_memory_snapshot(torch, "boot")]
     started = time.time()
-    student = _build_one_layer_student(torch, runtime, surface, model_root)
+    student = _build_student(torch, runtime, surface, model_root, layers)
     base.FIRST_TRAIN = 0
-    snapshots.append(_memory_snapshot(torch, "one_layer_model_loaded"))
+    snapshots.append(_memory_snapshot(torch, "fresh_model_loaded"))
     _progress(
-        "one_layer_model_loaded",
+        "fresh_model_loaded",
+        layers=layers,
         mem_available_bytes=snapshots[-1]["meminfo_bytes"]["MemAvailable"],
         torch_allocated_bytes=snapshots[-1]["torch"]["allocated_bytes"],
     )
@@ -351,28 +379,39 @@ def run_minimal_update(
         student_lp = selected - selected.logsumexp(-1, keepdim=True)
         return (teacher_prob * (teacher_lp - student_lp)).sum(-1).mean()
 
-    surface.begin_resident_plane_prefill()
-    with torch.no_grad():
-        preload_loss = forward_loss(requires_grad=False)
-    torch.cuda.synchronize()
+    if resident_mode:
+        surface.begin_resident_plane_prefill()
+        with torch.no_grad():
+            preload_loss = forward_loss(requires_grad=False)
+        torch.cuda.synchronize()
+        preload_inventory = surface.resident_plane_inventory()
+        if int(preload_inventory["layers"]) != 1 or int(preload_inventory["entries"]) <= 0:
+            raise RuntimeError(f"one-layer plane preload failed: {preload_inventory}")
+        surface._RESIDENT_PLANES_PREFILLING = False
+        surface._RESIDENT_PLANES_SEALED = True
+        preload_mode = "exact-routed-resident"
+    else:
+        # Full depth cannot retain every decoded QTIP row inside the GB10 safety
+        # envelope. An untimed traversal warms every routed immutable source page
+        # while the layer-window policy evicts decoded rows after each layer.
+        with torch.no_grad():
+            preload_loss = forward_loss(requires_grad=False)
+        torch.cuda.synchronize()
+        preload_inventory = surface.resident_plane_inventory()
+        preload_mode = "full-depth-source-page-warm-with-layer-window-eviction"
     if not bool(torch.isfinite(preload_loss)):
         raise RuntimeError(f"non-finite preload loss: {preload_loss}")
-    preload_inventory = surface.resident_plane_inventory()
-    if int(preload_inventory["layers"]) != 1 or int(preload_inventory["entries"]) <= 0:
-        raise RuntimeError(f"one-layer plane preload failed: {preload_inventory}")
-    surface._RESIDENT_PLANES_PREFILLING = False
-    surface._RESIDENT_PLANES_SEALED = True
     surface.reset_real10x_dispatch_trace()
-    fwht_stats(reset=True)
-    snapshots.append(_memory_snapshot(torch, "one_window_planes_preloaded_and_sealed"))
+    snapshots.append(_memory_snapshot(torch, "one_window_source_preload_complete"))
     _progress(
-        "one_window_planes_preloaded_and_sealed",
+        "one_window_source_preload_complete",
+        preload_mode=preload_mode,
         resident_plane_bytes=preload_inventory["bytes"],
         resident_plane_entries=preload_inventory["entries"],
         mem_available_bytes=snapshots[-1]["meminfo_bytes"]["MemAvailable"],
     )
 
-    parameters = surface.surface_parameters(student, layers=[0])
+    parameters = surface.surface_parameters(student, layers=range(layers))
     if not parameters:
         raise RuntimeError("one-layer update has no trainable surface parameters")
     optimizer = torch.optim.Adam(parameters, lr=float(learning_rate))
@@ -458,8 +497,9 @@ def run_minimal_update(
     sentinel = kmajor_autograd.kmajor_sentinel()
     transform = fwht_stats()
     loss_value = float(loss.detach())
-    direct_multiplier = float(baseline_seconds) / forward_seconds
-    extrapolated_seconds = forward_seconds * PRODUCTION_LAYERS
+    update_seconds = forward_seconds + backward_seconds + optimizer_seconds
+    direct_multiplier = float(baseline_seconds) / update_seconds
+    extrapolated_seconds = update_seconds * (PRODUCTION_LAYERS / layers)
     extrapolated_multiplier = float(baseline_seconds) / extrapolated_seconds
     min_available = min(
         int(row["meminfo_bytes"]["MemAvailable"]) for row in snapshots
@@ -485,18 +525,26 @@ def run_minimal_update(
         and int(forward_io_delta.get("read_bytes", 0)) == 0
         and int(forward_io_delta.get("rchar", 0)) <= 4096
         and min_available >= MINIMUM_MEM_AVAILABLE_BYTES
-        and min_available >= ONE_LAYER_TARGET_MEM_AVAILABLE_BYTES
+        and (layers != 1 or min_available >= ONE_LAYER_TARGET_MEM_AVAILABLE_BYTES)
         and max_device_used < ONE_LAYER_MAX_DEVICE_USED_BYTES
     )
     result = {
         "schema": "banana-smasher-minimal-real10x-update-v1",
-        "status": "PASS_FRESH_ONE_LAYER_FORWARD_BACKWARD_OPTIMIZER" if mechanics_pass else "FAIL_MECHANICS_GATE",
+        "status": (
+            "PASS_FRESH_FULL_DEPTH_FORWARD_BACKWARD_OPTIMIZER"
+            if mechanics_pass and layers == PRODUCTION_LAYERS
+            else (
+                "PASS_FRESH_ONE_LAYER_FORWARD_BACKWARD_OPTIMIZER"
+                if mechanics_pass
+                else "FAIL_MECHANICS_GATE"
+            )
+        ),
         "host": socket.gethostname(),
         "created_unix": time.time(),
         "elapsed_seconds": time.time() - started,
         "process": process,
         "freshness": {
-            "model_layers": 1,
+            "model_layers": layers,
             "production_layers": PRODUCTION_LAYERS,
             "source_layer": 0,
             "batch": 1,
@@ -523,12 +571,15 @@ def run_minimal_update(
         "preload": {
             "finite_loss": float(preload_loss),
             "resident_plane_inventory": preload_inventory,
-            "all_inputs_teacher_and_routed_planes_preloaded": True,
+            "mode": preload_mode,
+            "inputs_and_teacher_preloaded": True,
+            "all_routed_planes_resident": resident_mode,
         },
         "phase_seconds": {
             "first_window_forward": forward_seconds,
             "backward": backward_seconds,
             "optimizer": optimizer_seconds,
+            "complete_update": update_seconds,
         },
         "first_window": {
             "wall_seconds": forward_seconds,
@@ -573,7 +624,8 @@ def run_minimal_update(
         },
         "multiplier_vs_baseline": {
             "baseline_window_seconds": float(baseline_seconds),
-            "measured_one_layer_multiplier": direct_multiplier,
+            "measured_update_multiplier": direct_multiplier,
+            "measured_layers": layers,
             "linear_43_layer_extrapolated_seconds": extrapolated_seconds,
             "linear_43_layer_extrapolated_multiplier": extrapolated_multiplier,
             "campaign_target_multiplier": 10.0,

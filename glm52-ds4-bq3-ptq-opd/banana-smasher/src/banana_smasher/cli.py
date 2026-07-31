@@ -79,12 +79,15 @@ def _parser() -> argparse.ArgumentParser:
         "update",
         help="run one fresh, minimal physical forward/backward/optimizer update",
     )
-    update.add_argument("--runtime-root", type=Path, required=True)
-    update.add_argument("--model-root", type=Path, required=True)
-    update.add_argument("--aot", type=Path, required=True)
+    update.add_argument("--runtime-root", type=Path)
+    update.add_argument("--model-root", type=Path)
+    update.add_argument("--aot", type=Path)
     update.add_argument("--receipt", type=Path, required=True)
+    update.add_argument("--audit-accumulation-only", action="store_true")
+    update.add_argument("--accumulation-segments", type=int, default=8)
     update.add_argument("--window", type=int, default=27)
     update.add_argument("--tokens", type=int, default=1024)
+    update.add_argument("--layers", type=int, choices=(1, 43), default=43)
     update.add_argument("--learning-rate", type=float, default=1e-4)
     update.add_argument("--hard-abort-seconds", type=float, default=250.0)
     update.add_argument("--baseline-seconds", type=float, default=890.0)
@@ -168,10 +171,22 @@ def main(argv: Sequence[str] | None = None) -> int:
         elif args.command == "update":
             # Torch is intentionally lazy: pack-only lifecycle commands remain
             # usable in the lightweight release environment.
-            from .update import run_minimal_update
+            if args.audit_accumulation_only:
+                from .accumulation import audit_split_vs_unsplit, seal_audit_receipt
 
-            result = {
-                **run_minimal_update(
+                result = seal_audit_receipt(
+                    args.receipt,
+                    audit_split_vs_unsplit(segments=args.accumulation_segments),
+                )
+            else:
+                if args.runtime_root is None or args.model_root is None or args.aot is None:
+                    raise ValueError(
+                        "--runtime-root, --model-root, and --aot are required unless "
+                        "--audit-accumulation-only is used"
+                    )
+                from .update import run_minimal_update
+
+                result = run_minimal_update(
                     runtime_root=args.runtime_root,
                     model_root=args.model_root,
                     aot=args.aot,
@@ -181,9 +196,9 @@ def main(argv: Sequence[str] | None = None) -> int:
                     learning_rate=args.learning_rate,
                     hard_abort_seconds=args.hard_abort_seconds,
                     baseline_seconds=args.baseline_seconds,
-                ),
-                "command": "update",
-            }
+                    layers=args.layers,
+                )
+            result = {**result, "command": "update"}
             if not str(result.get("status", "")).startswith("PASS"):
                 _emit(result, stream=sys.stderr)
                 return 2

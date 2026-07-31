@@ -16,9 +16,10 @@ BananaSmasher is only the proper name of the first sealed model instance. Reusab
 
 ## Minimal physical update proof
 
-`smash update` runs a fresh one-layer, one-window forward/backward/optimizer
-mechanics proof against the real physical surface. It preloads input IDs, teacher
-rows, and the exact routed planes before timing; installs the bounded-scratch
+`smash update` runs a fresh full-depth, one-window forward/backward/optimizer
+mechanics proof against the real physical surface by default (`--layers 1`
+retains the smaller allocator-regression mode). It preloads input IDs and teacher
+rows and warms routed immutable source pages before timing; installs the bounded-scratch
 FWHT decoder; loads the pinned AOT extension by exact path; and atomically seals
 a receipt with process identity, SHA-256 inputs, `/proc/self/io` deltas, allocation
 snapshots, gradients, optimizer mutation, and K-major dispatch evidence.
