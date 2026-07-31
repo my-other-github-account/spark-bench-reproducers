@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import pytest
 
+import banana_smasher.update as update_module
 from banana_smasher.update import (
     _activate_local_preflight,
     _logical_segment_bounds,
@@ -104,3 +105,73 @@ def test_logical_source_plan_fails_closed_when_explicit_assets_are_short() -> No
     corpus = [{"real_len": 2048, "token_ids": list(range(2048))} for _ in range(4)]
     with pytest.raises(RuntimeError, match="provide 4096 tokens"):
         _logical_source_plan(corpus, [0, 3], 8192)
+
+
+def test_full_depth_eight_segment_run_selects_sealed_resident_prefill() -> None:
+    assert update_module._resident_prefill_policy(43, 8) == "sealed-eight-segment-full-depth"
+    assert update_module._resident_prefill_policy(1, 8) == "manual-one-layer"
+    assert update_module._resident_prefill_policy(43, 1) == "layer-window-eviction"
+
+
+def test_full_depth_residency_keeps_activation_checkpointing_enabled() -> None:
+    full_depth = update_module._runtime_memory_policy(43, 8)
+    one_layer = update_module._runtime_memory_policy(1, 8)
+
+    assert full_depth == {
+        "keep_planes_resident": "1",
+        "pin_planes": "1",
+        "evict": "0",
+        "checkpoint": "1",
+    }
+    assert one_layer["keep_planes_resident"] == "1"
+    assert one_layer["checkpoint"] == "0"
+
+
+def test_full_depth_resident_controller_uses_public_seal_and_segment_brackets() -> None:
+    class Surface:
+        def __init__(self) -> None:
+            self.calls = []
+
+        def seal_resident_planes(self):
+            self.calls.append(("seal",))
+            return {"layers": 43, "entries": 1}
+
+        def begin_kmajor_timed_segment(self, index):
+            self.calls.append(("begin", index))
+            return {"segment_index": index, "boundary": "begin"}
+
+        def end_kmajor_timed_segment(self, index):
+            self.calls.append(("end", index))
+            return {"segment_index": index, "boundary": "end"}
+
+    surface = Surface()
+    policy = "sealed-eight-segment-full-depth"
+    inventory = update_module._seal_prefilled_planes(surface, policy)
+    begin = update_module._begin_timed_segment(surface, policy, 3)
+    end = update_module._end_timed_segment(surface, policy, 3)
+
+    assert inventory == {"layers": 43, "entries": 1}
+    assert begin == {"segment_index": 3, "boundary": "begin"}
+    assert end == {"segment_index": 3, "boundary": "end"}
+    assert surface.calls == [("seal",), ("begin", 3), ("end", 3)]
+
+
+def test_segment_progress_receipt_is_durable_and_cumulative(tmp_path) -> None:
+    receipt = tmp_path / "update.json"
+    first = {"segment_index": 0, "forward_seconds": 1.0, "backward_seconds": 2.0}
+    second = {"segment_index": 1, "forward_seconds": 1.5, "backward_seconds": 2.5}
+
+    progress_path = update_module._seal_segment_progress(
+        receipt, [first], logical_items=8192, segments=8
+    )
+    update_module._seal_segment_progress(
+        receipt, [first, second], logical_items=8192, segments=8
+    )
+
+    payload = __import__("json").loads(progress_path.read_text())
+    assert progress_path.name == "update.progress.json"
+    assert payload["status"] == "RUNNING"
+    assert payload["completed_segments"] == 2
+    assert payload["expected_segments"] == 8
+    assert payload["logical_items"] == 8192
+    assert payload["segment_phases"] == [first, second]

@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 import banana_smasher.cli as cli_module
+import banana_smasher.update as update_module
 from banana_smasher.cli import _parser, main
 from test_contract import _write_qtip2_source
 
@@ -90,6 +91,42 @@ def test_smash_update_seals_accumulation_audit(tmp_path: Path, capsys) -> None:
     assert output["segments"] == 8
     assert output["optimizer_steps"] == 1
     assert receipt.is_file()
+
+
+def test_smash_update_fsyncs_full_traceback_failure_receipt(
+    tmp_path: Path, monkeypatch, capsys
+) -> None:
+    receipt = tmp_path / "update.json"
+
+    def fail_update(**_kwargs):
+        raise RuntimeError("synthetic full-depth failure")
+
+    monkeypatch.setattr(update_module, "run_minimal_update", fail_update)
+    assert (
+        main(
+            [
+                "update",
+                "--runtime-root",
+                "/runtime",
+                "--model-root",
+                "/model",
+                "--aot",
+                "/aot/_C.so",
+                "--receipt",
+                str(receipt),
+            ]
+        )
+        == 2
+    )
+
+    failure = receipt.with_name("update.failure.json")
+    payload = json.loads(failure.read_text())
+    assert payload["status"] == "FAIL_EXCEPTION"
+    assert payload["error_type"] == "RuntimeError"
+    assert payload["error"] == "synthetic full-depth failure"
+    assert "Traceback (most recent call last):" in payload["traceback"]
+    assert "synthetic full-depth failure" in payload["traceback"]
+    assert "synthetic full-depth failure" in capsys.readouterr().err
 
 
 def test_smash_validate_pack_compatibility_alias(tmp_path: Path, capsys) -> None:

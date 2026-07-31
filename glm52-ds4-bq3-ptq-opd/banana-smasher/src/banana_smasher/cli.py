@@ -2,7 +2,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
+import time
+import traceback
 from collections.abc import Sequence
 from pathlib import Path
 from typing import Any
@@ -130,6 +133,32 @@ def _emit(value: dict[str, Any], *, stream: Any | None = None) -> None:
     stream.write(json.dumps(value, indent=2, sort_keys=True) + "\n")
 
 
+def _seal_update_failure_receipt(receipt: Path, exc: BaseException) -> Path:
+    failure = receipt.with_name(f"{receipt.stem}.failure.json")
+    failure.parent.mkdir(parents=True, exist_ok=True)
+    value = {
+        "schema": "banana-smasher-update-failure-v1",
+        "status": "FAIL_EXCEPTION",
+        "created_unix": time.time(),
+        "error_type": type(exc).__name__,
+        "error": str(exc),
+        "traceback": traceback.format_exc(),
+    }
+    data = (json.dumps(value, indent=2, sort_keys=True) + "\n").encode()
+    temporary = failure.with_name(f".{failure.name}.{os.getpid()}.tmp")
+    with temporary.open("xb") as stream:
+        stream.write(data)
+        stream.flush()
+        os.fsync(stream.fileno())
+    os.replace(temporary, failure)
+    directory_fd = os.open(failure.parent, os.O_RDONLY)
+    try:
+        os.fsync(directory_fd)
+    finally:
+        os.close(directory_fd)
+    return failure
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = _parser()
     tokens = list(sys.argv[1:] if argv is None else argv)
@@ -251,12 +280,18 @@ def main(argv: Sequence[str] | None = None) -> int:
         RuntimeError,
         ValueError,
     ) as exc:
+        failure_receipt = None
+        if args.command == "update":
+            failure_receipt = _seal_update_failure_receipt(args.receipt, exc)
         _emit(
             {
                 "status": "FAIL",
                 "command": reported_command or args.command,
                 "error": str(exc),
                 "error_type": type(exc).__name__,
+                "failure_receipt": (
+                    str(failure_receipt) if failure_receipt is not None else None
+                ),
             },
             stream=sys.stderr,
         )

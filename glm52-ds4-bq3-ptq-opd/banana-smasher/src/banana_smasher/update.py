@@ -22,6 +22,51 @@ ONE_LAYER_TARGET_MEM_AVAILABLE_BYTES = 50 * 1024**3
 ONE_LAYER_MAX_DEVICE_USED_BYTES = 60 * 1024**3
 
 
+def _resident_prefill_policy(layers: int, accumulation_segments: int) -> str:
+    if int(layers) == PRODUCTION_LAYERS and int(accumulation_segments) == 8:
+        return "sealed-eight-segment-full-depth"
+    if int(layers) == 1:
+        return "manual-one-layer"
+    return "layer-window-eviction"
+
+
+def _runtime_memory_policy(layers: int, accumulation_segments: int) -> dict[str, str]:
+    resident = _resident_prefill_policy(layers, accumulation_segments) != (
+        "layer-window-eviction"
+    )
+    return {
+        "keep_planes_resident": "1" if resident else "0",
+        "pin_planes": "1" if resident else "0",
+        "evict": "0" if resident else "1",
+        "checkpoint": "0" if int(layers) == 1 else "1",
+    }
+
+
+def _seal_prefilled_planes(surface: Any, policy: str) -> dict[str, Any]:
+    if policy == "sealed-eight-segment-full-depth":
+        return surface.seal_resident_planes()
+    if policy != "manual-one-layer":
+        raise RuntimeError(f"resident-plane seal is invalid for policy {policy!r}")
+    inventory = surface.resident_plane_inventory()
+    if int(inventory["layers"]) != 1 or int(inventory["entries"]) <= 0:
+        raise RuntimeError(f"one-layer plane preload failed: {inventory}")
+    surface._RESIDENT_PLANES_PREFILLING = False
+    surface._RESIDENT_PLANES_SEALED = True
+    return inventory
+
+
+def _begin_timed_segment(surface: Any, policy: str, segment_index: int) -> Any:
+    if policy == "sealed-eight-segment-full-depth":
+        return surface.begin_kmajor_timed_segment(segment_index)
+    return None
+
+
+def _end_timed_segment(surface: Any, policy: str, segment_index: int) -> Any:
+    if policy == "sealed-eight-segment-full-depth":
+        return surface.end_kmajor_timed_segment(segment_index)
+    return None
+
+
 def _logical_segment_bounds(
     physical_tokens: int, accumulation_segments: int
 ) -> list[tuple[int, int]]:
@@ -175,6 +220,27 @@ def _atomic_json(path: Path, value: dict[str, Any]) -> str:
     finally:
         os.close(directory_fd)
     return hashlib.sha256(data).hexdigest()
+
+
+def _seal_segment_progress(
+    receipt: Path,
+    segment_phases: list[dict[str, Any]],
+    *,
+    logical_items: int,
+    segments: int,
+) -> Path:
+    progress = receipt.with_name(f"{receipt.stem}.progress.json")
+    value = {
+        "schema": "banana-smasher-segment-progress-v1",
+        "status": "RUNNING",
+        "updated_unix": time.time(),
+        "logical_items": int(logical_items),
+        "completed_segments": len(segment_phases),
+        "expected_segments": int(segments),
+        "segment_phases": segment_phases,
+    }
+    _atomic_json(progress, value)
+    return progress
 
 
 def _load_aot(path: Path) -> Any:
@@ -443,11 +509,15 @@ def run_minimal_update(
     base.T.TEACH = Path(preflight_identity["cache_root"]) / "teacher_by_win"
     surface.reset_real10x_dispatch_trace()
     fwht_stats(reset=True)
-    resident_mode = layers == 1
-    os.environ["GENESIS_REPAIR_KEEP_PLANES_RESIDENT"] = "1" if resident_mode else "0"
-    os.environ["GENESIS_REPAIR_PIN_PLANES"] = "1" if resident_mode else "0"
-    os.environ["GENESIS_REPAIR_EVICT"] = "0" if resident_mode else "1"
-    os.environ["GENESIS_REPAIR_CHECKPOINT"] = "0" if resident_mode else "1"
+    resident_policy = _resident_prefill_policy(layers, accumulation_segments)
+    resident_mode = resident_policy != "layer-window-eviction"
+    memory_policy = _runtime_memory_policy(layers, accumulation_segments)
+    os.environ["GENESIS_REPAIR_KEEP_PLANES_RESIDENT"] = memory_policy[
+        "keep_planes_resident"
+    ]
+    os.environ["GENESIS_REPAIR_PIN_PLANES"] = memory_policy["pin_planes"]
+    os.environ["GENESIS_REPAIR_EVICT"] = memory_policy["evict"]
+    os.environ["GENESIS_REPAIR_CHECKPOINT"] = memory_policy["checkpoint"]
     os.environ["GENESIS_REPAIR_KMAJOR_10X"] = "1"
     os.environ["GENESIS_REPAIR_KMAJOR_WINDOWED"] = "1"
     os.environ.setdefault("GENESIS_REPAIR_KMAJOR_CACHE_MAX_BYTES", str(3 * 1024**3))
@@ -565,17 +635,26 @@ def run_minimal_update(
     if resident_mode:
         surface.begin_resident_plane_prefill()
         with torch.no_grad():
-            preload_losses = [
-                forward_loss(segment, requires_grad=False, reduction="mean")
-                for segment in segments
-            ]
+            preload_losses = []
+            for segment in segments:
+                current = forward_loss(
+                    segment, requires_grad=False, reduction="mean"
+                )
+                torch.cuda.synchronize()
+                preload_losses.append(current)
+                _progress(
+                    "resident_prefill_segment_complete",
+                    segment_index=segment["index"],
+                    segments=accumulation_segments,
+                    finite=bool(torch.isfinite(current)),
+                )
         torch.cuda.synchronize()
-        preload_inventory = surface.resident_plane_inventory()
-        if int(preload_inventory["layers"]) != 1 or int(preload_inventory["entries"]) <= 0:
-            raise RuntimeError(f"one-layer plane preload failed: {preload_inventory}")
-        surface._RESIDENT_PLANES_PREFILLING = False
-        surface._RESIDENT_PLANES_SEALED = True
-        preload_mode = "exact-routed-resident"
+        preload_inventory = _seal_prefilled_planes(surface, resident_policy)
+        preload_mode = (
+            resident_policy
+            if resident_policy == "sealed-eight-segment-full-depth"
+            else "exact-routed-resident"
+        )
     else:
         # Full depth cannot retain every decoded QTIP row inside the GB10 safety
         # envelope. An untimed traversal warms every routed immutable source page
@@ -632,6 +711,10 @@ def run_minimal_update(
     forward_seconds = 0.0
     backward_seconds = 0.0
     for segment in segments:
+        segment_bracket_start = _begin_timed_segment(
+            surface, resident_policy, segment["index"]
+        )
+        segment_bracket_end = None
         forward_started = time.perf_counter()
         segment_loss_sum = forward_loss(
             segment, requires_grad=True, reduction="sum"
@@ -673,6 +756,9 @@ def run_minimal_update(
         torch.cuda.synchronize()
         segment_backward_seconds = time.perf_counter() - backward_started
         backward_seconds += segment_backward_seconds
+        segment_bracket_end = _end_timed_segment(
+            surface, resident_policy, segment["index"]
+        )
         row = {
             "segment_index": int(segment["index"]),
             "token_start": int(segment["token_start"]),
@@ -685,9 +771,25 @@ def run_minimal_update(
             "torch_reserved_bytes": int(torch.cuda.memory_reserved()),
             "torch_max_allocated_bytes": int(torch.cuda.max_memory_allocated()),
             "torch_max_reserved_bytes": int(torch.cuda.max_memory_reserved()),
+            "resident_route_bracket": {
+                "begin": segment_bracket_start,
+                "end": segment_bracket_end,
+            },
         }
         segment_phases.append(row)
+        progress_path = _seal_segment_progress(
+            receipt,
+            segment_phases,
+            logical_items=logical_items,
+            segments=accumulation_segments,
+        )
         _progress("accumulation_segment_complete", **row)
+        _progress(
+            "accumulation_segment_progress_fsynced",
+            segment_index=segment["index"],
+            progress_receipt=str(progress_path),
+            progress_sha256=_sha256(progress_path),
+        )
         del segment_loss_sum
         torch.cuda.empty_cache()
 
