@@ -21,7 +21,7 @@ from .validation import ValidationError, validate_artifact
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="smash",
-        description="Five fail-closed bs-pack lifecycle verbs.",
+        description="Fail-closed bs-pack lifecycle and physical-update commands.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -74,6 +74,20 @@ def _parser() -> argparse.ArgumentParser:
     bootstrap.add_argument("--docker-bin", default="docker")
     bootstrap.add_argument("--pull", action="store_true")
     bootstrap.add_argument("--receipt", type=Path, default=Path("BOOTSTRAP_RECEIPT.json"))
+
+    update = subparsers.add_parser(
+        "update",
+        help="run one fresh, minimal physical forward/backward/optimizer update",
+    )
+    update.add_argument("--runtime-root", type=Path, required=True)
+    update.add_argument("--model-root", type=Path, required=True)
+    update.add_argument("--aot", type=Path, required=True)
+    update.add_argument("--receipt", type=Path, required=True)
+    update.add_argument("--window", type=int, default=27)
+    update.add_argument("--tokens", type=int, default=1024)
+    update.add_argument("--learning-rate", type=float, default=1e-4)
+    update.add_argument("--hard-abort-seconds", type=float, default=250.0)
+    update.add_argument("--baseline-seconds", type=float, default=890.0)
     return parser
 
 
@@ -88,8 +102,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     tokens = list(sys.argv[1:] if argv is None else argv)
     reported_command = tokens[0] if tokens else None
     if reported_command == "validate-pack":
-        # Compatibility spelling for reproducibility automation. Keep the five
-        # primary lifecycle verbs and their help surface stable.
+        # Compatibility spelling for reproducibility automation.
         tokens[0] = "verify"
     args = parser.parse_args(tokens)
     try:
@@ -152,6 +165,28 @@ def main(argv: Sequence[str] | None = None) -> int:
                 ),
                 "command": "bootstrap",
             }
+        elif args.command == "update":
+            # Torch is intentionally lazy: pack-only lifecycle commands remain
+            # usable in the lightweight release environment.
+            from .update import run_minimal_update
+
+            result = {
+                **run_minimal_update(
+                    runtime_root=args.runtime_root,
+                    model_root=args.model_root,
+                    aot=args.aot,
+                    receipt=args.receipt,
+                    window=args.window,
+                    tokens=args.tokens,
+                    learning_rate=args.learning_rate,
+                    hard_abort_seconds=args.hard_abort_seconds,
+                    baseline_seconds=args.baseline_seconds,
+                ),
+                "command": "update",
+            }
+            if not str(result.get("status", "")).startswith("PASS"):
+                _emit(result, stream=sys.stderr)
+                return 2
         else:  # pragma: no cover - argparse guarantees the choices
             parser.error(f"unsupported command {args.command!r}")
             return 2
@@ -160,6 +195,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         ValidationError,
         FileExistsError,
         OSError,
+        RuntimeError,
         ValueError,
     ) as exc:
         _emit(
