@@ -26,7 +26,7 @@ full-512 vs 0.054216 = the endpoint, due tomorrow.
 
 ## 2. The pricing-model reckoning (one evening, four measured corrections)
 
-1. **Mass transform law** (GENESIS.md §3a): log1p+averaging amputated concentration;
+1. **Mass transform law** (BANANA-SMASHER.md §3a): log1p+averaging amputated concentration;
    raw product mass unblinded the solver (native 38 → 4,506 at w=8). BUT:
 2. **γ-ladder instability**: predicted code varies 60× (0.0415/0.0163/0.00067) across
    equally-arbitrary concentration exponents γ=0.5/1/2 → model magnitudes have NO authority;

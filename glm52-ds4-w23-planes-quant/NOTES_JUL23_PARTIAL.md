@@ -11,7 +11,7 @@ PREDICTED numbers are nomination-only.**
 
 - **MEASURED: pre-repair code-76 KLD 0.05213** on the sealed instrument
   (76 windows / 77,824 positions, exact source replay 1.0, independent reduction
-  reproduced) for the first GENESIS from-scratch build at **101,344,038,912 bytes**
+  reproduced) for the first BANANA-SMASHER from-scratch build at **101,344,038,912 bytes**
   (16.8 MB under the exact cap).
 - Reference 4-bit community quant (137.9 GB): **0.054216** on identical windows,
   teacher, and convention. **Δ = −0.0021, before any repair.** Our previous best
@@ -25,7 +25,7 @@ PREDICTED numbers are nomination-only.**
 
 ## The mass-transform discovery (the day's biggest method result)
 
-See GENESIS.md §3a for the law. Short version: the solver's unit-mass transform used
+See BANANA-SMASHER.md §3a for the law. Short version: the solver's unit-mass transform used
 `log1p` compression + equal-weighted feature averaging, which amputated the
 concentration signal (top-500 code-hot experts carry 53.4% of code damage mass;
 top-2,000 carry 83.0%) before the knapsack ever saw it. Result: a "pure-code" solve

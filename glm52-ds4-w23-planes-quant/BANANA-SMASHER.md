@@ -1,10 +1,10 @@
-# GENESIS — Vertical-Weighted From-Scratch Quantization (Method Spec v1)
+# BANANA-SMASHER — Vertical-Weighted From-Scratch Quantization (Method Spec v1)
 
-**Status: canonical method document. Supersedes all prior GENESIS framings (swap-based
+**Status: canonical method document. Supersedes all prior BANANA-SMASHER framings (swap-based
 REPACK variants, IQ4-margin "comfy-line" constraint solves, repair-in-scope drafts —
 all retired). Written 2026-07-23.**
 
-GENESIS is the campaign's answer to one question:
+BANANA-SMASHER is the campaign's answer to one question:
 
 > *Our current wire spends its byte budget generically. What if the entire quantization
 > were re-derived from scratch with an explicit, tunable notion of which verticals
@@ -17,7 +17,7 @@ pre-repair quantization pipeline with vertical-weighted allocation.
 
 ## 0. Scope
 
-- **GENESIS is entirely pre-repair.** The verdict row is the pre-repair per-vertical
+- **BANANA-SMASHER is entirely pre-repair.** The verdict row is the pre-repair per-vertical
   KLD of the built wire. Repair (function-space recovery training) is a separate,
   unchanged downstream stage that stacks on whatever pre-repair wire wins.
 - "Mix data differently" applies *inside* the pre-repair pipeline only: GPTQ
@@ -77,7 +77,7 @@ mass(unit, vertical) = routing_frequency × mean_routing_weight × hessian_sensi
 # of individual features before combining.
 ```
 
-The first GENESIS solve used `mean(0.25·log1p(f_i)/class_mean)` over four features. That
+The first BANANA-SMASHER solve used `mean(0.25·log1p(f_i)/class_mean)` over four features. That
 transform **amputated the concentration signal** (top-500 code experts = 53.4% of code
 damage mass, top-2000 = 83.0%) before the solver saw it: the "pure-code" solve returned
 native=38/22,016 units, d8-low=0, predicted code only 0.0672→0.0502 — a flat dial where
@@ -86,7 +86,7 @@ d8-low=2,829, predicted code 0.0163 (w=8, all non-code floors passing, bytes exa
 the barbell allocation (hot experts→native, cold tail→low-bpw) appeared on its own.
 Peakiness sweep receipts: γ=0.5 (sqrt-compressed product) sits between (native=1,312,
 code 0.0415). The compression dial directly controls allocation peakiness; raw product
-(γ=1) is the validated default. Receipts: GENESIS_MASS_ARMS mission, Arm A RESULT.json.
+(γ=1) is the validated default. Receipts: BANANA-SMASHER_MASS_ARMS mission, Arm A RESULT.json.
 
 Lesson for any reimplementation (banana-smasher included): **audit the feature transform
 before trusting any solve shape.** Log-compression + averaging of concentration-bearing
@@ -111,7 +111,7 @@ subject to   bytes(mix) ≤ byte_bin
              predicted(v) ≤ floor(v)   for verticals with hard floors
 ```
 
-**The weight vector `w` and the floors are the point of GENESIS.** With anchors and
+**The weight vector `w` and the floors are the point of BANANA-SMASHER.** With anchors and
 traffic decomposed per vertical, re-emphasizing is a CPU-seconds re-solve:
 
 - `w = code-max, floors = step0 rows on the rest` → the campaign's first target
@@ -142,7 +142,7 @@ improve as designed with the floors held. Predicted-vs-measured gaps are recorde
 feed the next generation's anchor corrections.
 
 Then the wire graduates to the standard downstream stages (repair, serve gates,
-eval-visible rows) — outside GENESIS.
+eval-visible rows) — outside BANANA-SMASHER.
 
 ## 7. Failure modes already paid for (do not repeat)
 
@@ -150,8 +150,8 @@ eval-visible rows) — outside GENESIS.
 |---|---|---|
 | Proxy-based feasibility verdicts | half a day | proxies rank, rails claim |
 | Cross-instrument number reuse (0.0927) | a week of a false bar | bars need receipt SHAs; equivalence is bitwidth-conditional |
-| Treating GENESIS as swap-stacking | days | swaps don't compose (COMBO = zero); GENESIS is from-scratch |
-| Scoping repair into GENESIS | a rewrite | pre-repair only |
+| Treating BANANA-SMASHER as swap-stacking | days | swaps don't compose (COMBO = zero); BANANA-SMASHER is from-scratch |
+| Scoping repair into BANANA-SMASHER | a rewrite | pre-repair only |
 | Menu with promotion rungs above native | a rewrite | native MXFP4 = ceiling = teacher |
 | Global-only anchors | gen-1 collapse | per-vertical anchors are THE prerequisite |
 | Forgetting per-projection corrections | +4% KLD left on the table | refit and apply every generation |
@@ -160,7 +160,7 @@ eval-visible rows) — outside GENESIS.
 
 ## 8. First measured results (2026-07-23, receipts on the campaign fleet)
 
-- **Pre-repair code-76 KLD 0.05213 at 101,344,038,912 bytes** — the first GENESIS build
+- **Pre-repair code-76 KLD 0.05213 at 101,344,038,912 bytes** — the first BANANA-SMASHER build
   (flat-mass pure-code solve, patched builder, from-scratch 43-layer wire) measured BELOW
   the 137.9GB reference quant's 0.054216 on the identical instrument, before repair.
   Prediction was 0.050179 → measured 0.05213 (~4% model optimism at midband-shaped mixes).
@@ -206,5 +206,5 @@ Principles the API must preserve from the campaign:
 
 Repository plan: this document tracks the method; `PLAYBOOK.md` remains the general
 campaign playbook; the API extraction into a standalone `banana-smasher` package begins
-once the first GENESIS generation seals its pre-repair verdict (the pipeline must prove
+once the first BANANA-SMASHER generation seals its pre-repair verdict (the pipeline must prove
 itself end-to-end once more before it gets an interface).

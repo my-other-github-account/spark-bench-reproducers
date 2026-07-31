@@ -102,7 +102,7 @@ This is the composition result: individually plausible swaps do not add arithmet
 
 The discriminator removed two confounds: keep the L17 recipients, replace the old donors with the measured L04 donor set, and omit the other COMBO upgrades. At the cutoff its code-76 pair had sealed as a **regression**, `+0.0007679398788249803 ± 0.0002524158330436337`; its interaction versus `L17 + L04` was antagonistic (`+0.002149683177465403`). The mandatory full-512 candidate rail was still running, so no six-class terminal result is backfilled here. [R:combo_discriminator_code76] [R:cutoff_private_export]
 
-The few-swap road is closed as the primary strategy: L17 decays, COMBO cancels, and the discriminator's first read regresses. The remaining allocation road is GENESIS—a global re-solve—with REBUILD changing the representation and objective rather than stacking a few local patches. [R:l17_dose32] [R:combo_full512] [R:combo_discriminator_code76]
+The few-swap road is closed as the primary strategy: L17 decays, COMBO cancels, and the discriminator's first read regresses. The remaining allocation road is BANANA-SMASHER—a global re-solve—with REBUILD changing the representation and objective rather than stacking a few local patches. [R:l17_dose32] [R:combo_full512] [R:combo_discriminator_code76]
 
 ## 4. SHUFFLE
 
@@ -122,13 +122,13 @@ The result says the SHUFFLE optimizer found a global direction while missing the
 
 A prior five-layer, 64-window VQ-GPTQ-V2 pilot was also recovered from the receipt archive: `0.09323921875 → 0.092470546875`, a `0.8244083179858277%` improvement. It missed its preregistered `2%` promotion gate, so it is not a full-512 win, but its capture/evaluation path remains reusable for the Hessian-aware successor. [R:vq_gptq_v2_gate] [R:vq_gptq_v2_rows]
 
-## 5. GENESIS: global re-solve
+## 5. BANANA-SMASHER: global re-solve
 
-GENESIS changes the unit of reasoning from “a few swaps” to a complete assignment over `11,008` expert slots (`22,016` projection units), under an exact `101,360,840,912`-byte ceiling. The draft menu was `{ternary, vq3b, vqa, fp4}`. The code anchor was direct IQ4 (`0.054215965394205624`); the draft comfy line required predicted agentic no worse than `0.9 ×` direct IQ4 and other classes no worse than current step 0. Dose-96 value was initially priced at `0.4 ×` dose-4 value, and unmeasured interactions received only `0.5 ×` credit. These are solver assumptions, not measured model-quality results. [R:iq4_per_class] [R:genesis_price_sheet] [R:cutoff_private_export]
+BANANA-SMASHER changes the unit of reasoning from “a few swaps” to a complete assignment over `11,008` expert slots (`22,016` projection units), under an exact `101,360,840,912`-byte ceiling. The draft menu was `{ternary, vq3b, vqa, fp4}`. The code anchor was direct IQ4 (`0.054215965394205624`); the draft comfy line required predicted agentic no worse than `0.9 ×` direct IQ4 and other classes no worse than current step 0. Dose-96 value was initially priced at `0.4 ×` dose-4 value, and unmeasured interactions received only `0.5 ×` credit. These are solver assumptions, not measured model-quality results. [R:iq4_per_class] [R:banana_smasher_price_sheet] [R:cutoff_private_export]
 
-The full profile feeder sealed in `4,940.49719953537` seconds (`82.34161999225617` minutes): 43 layers × 256 experts × six classes, yielding `66,048` class-profile rows and `11,008` source-proven nomination rows. The profile and price sheet are proxy inputs; they do not themselves claim KPI improvement. [R:genesis_profile] [R:genesis_price_sheet]
+The full profile feeder sealed in `4,940.49719953537` seconds (`82.34161999225617` minutes): 43 layers × 256 experts × six classes, yielding `66,048` class-profile rows and `11,008` source-proven nomination rows. The profile and price sheet are proxy inputs; they do not themselves claim KPI improvement. [R:banana_smasher_profile] [R:banana_smasher_price_sheet]
 
-Generation 1 tested 11 preregistered margin rungs twice; all 22 deterministic fingerprints agreed and no feasible base-menu proxy candidate was found. No wire candidate, code-76 gate, full-512 gate, or training run was legally launched from that result. The certificate closes only the **current proxy menu**, not the possibility of a measured model improvement. At the cutoff, the cheaper priors-first draft-0 / relaxed-menu review remained pending, with no wire build. [R:genesis_infeasibility] [R:cutoff_private_export]
+Generation 1 tested 11 preregistered margin rungs twice; all 22 deterministic fingerprints agreed and no feasible base-menu proxy candidate was found. No wire candidate, code-76 gate, full-512 gate, or training run was legally launched from that result. The certificate closes only the **current proxy menu**, not the possibility of a measured model improvement. At the cutoff, the cheaper priors-first draft-0 / relaxed-menu review remained pending, with no wire build. [R:banana_smasher_infeasibility] [R:cutoff_private_export]
 
 ## 6. REBUILD: representation-level successors
 
@@ -159,9 +159,9 @@ The literature-backed package now has four distinct roles:
 1. **QuIP#/SpinQuant-style incoherence:** rotate coherently in weight and activation spaces, then refit the quantizer; a bolt-on rotation with stale codebooks is not a valid test.
 2. **GPTQ/AdaRound-style second order:** use Hessian-aware sequential error propagation and `Δwᵀ H Δw`, not raw weight SSE.
 3. **AQLM-style residual VQ:** treat additive codebooks as a complete format with byte and runtime parity, not as an unpriced side payload.
-4. **Q-Palette/fractional-bit allocation:** coarse integer-bit menu rungs leave rate-distortion value between tiers; fractional choices belong in a post-rotation expanded GENESIS menu, but they were not yet measured at cutoff.
+4. **Q-Palette/fractional-bit allocation:** coarse integer-bit menu rungs leave rate-distortion value between tiers; fractional choices belong in a post-rotation expanded BANANA-SMASHER menu, but they were not yet measured at cutoff.
 
-For MoE allocation, the practical literature prior is domain-conditional expert importance: routing frequency × routing weight × activation norm per class, with Hessian-diagonal sensitivity as an independent predictor. These are nomination features to calibrate against matched ground-truth deltas, not direct KLD coefficients. [R:rebuild_research] [R:genesis_profile] [R:cutoff_private_export]
+For MoE allocation, the practical literature prior is domain-conditional expert importance: routing frequency × routing weight × activation norm per class, with Hessian-diagonal sensitivity as an independent predictor. These are nomination features to calibrate against matched ground-truth deltas, not direct KLD coefficients. [R:rebuild_research] [R:banana_smasher_profile] [R:cutoff_private_export]
 
 ## 7. Process laws added in this window
 
@@ -257,9 +257,9 @@ Paths are logical public labels; private roots are intentionally absent.
 | `combo_discriminator_code76` | `campaign/REPACK_COMBO_DISCRIM_PAIRED_CODE76.json` | `d018c5ea9094ef14b32c9faec657f57b369fbea3ad1735c2d2d85529f620e36f` |
 | `combo_full512` | `campaign/REPACK_COMBO_PAIRED_FULL512.json` | `294dd2d5a08d2d603fd8404689e8e3ffc98b3e64df304d93d5ad6cdb6ac4dc5c` |
 | `cutoff_private_export` | `campaign/JUL22_23_BOARD_WINDOW_EXPORT.json` | `cd3f83a299fd0411a8e1821996c0105dd5d983d732e77b833a880201e8fc2626` |
-| `genesis_infeasibility` | `campaign/GENESIS_INFEASIBILITY_CERTIFICATE.json` | `00e4978e0edcc3ac646536174ec87f0e1c54c5315cd92168b73ff95fcf7475ea` |
-| `genesis_price_sheet` | `campaign/FULL_EXPERT_PROXY_ROWS.jsonl` | `b7095e19d501a9bacf229de90484f5c980b97fdfa759b45cf299efd6f9d29f0f` |
-| `genesis_profile` | `campaign/PROFILE_TERMINAL.json` | `d607a4c45875af196a5528c84d77beb3688418a55ec447bf24b5ae31b3a636dd` |
+| `banana_smasher_infeasibility` | `campaign/BANANA-SMASHER_INFEASIBILITY_CERTIFICATE.json` | `00e4978e0edcc3ac646536174ec87f0e1c54c5315cd92168b73ff95fcf7475ea` |
+| `banana_smasher_price_sheet` | `campaign/FULL_EXPERT_PROXY_ROWS.jsonl` | `b7095e19d501a9bacf229de90484f5c980b97fdfa759b45cf299efd6f9d29f0f` |
+| `banana_smasher_profile` | `campaign/PROFILE_TERMINAL.json` | `d607a4c45875af196a5528c84d77beb3688418a55ec447bf24b5ae31b3a636dd` |
 | `historical_llama_column` | `git/README.md@cd255b3` | `308c2cbfce68416920f7cd19dd7b1d369bdc827acc3e6ef4c3a2c238fdf5b22a` |
 | `iq3_per_class` | `campaign/UD-IQ3_XXS_PER_CLASS.json` | `a31910686765ce06c9576e1f686bbf6f6bc7870a5c340d4a64b117d8d58375e3` |
 | `iq4_per_class` | `campaign/UD-IQ4_XS_PER_CLASS.json` | `48977952f143f072457d5733aeb33a73f13fbd288a3721983fc4acf133cc769e` |
@@ -292,6 +292,6 @@ Paths are logical public labels; private roots are intentionally absent.
 - ONE-POT is behaviorally rejected despite neutral statics and an improving trainer canary.
 - A single L17 allocation effect survives but decays; three swaps do not compose, and the donor discriminator's first read regresses.
 - SHUFFLE finds a real global direction but misses code, confirming proxy mis-aim.
-- GENESIS and REBUILD remain the carrying roads: global allocation plus representation-level changes, promoted rung by rung and never by arithmetic stacking.
+- BANANA-SMASHER and REBUILD remain the carrying roads: global allocation plus representation-level changes, promoted rung by rung and never by arithmetic stacking.
 
-[R:unsloth_scoreboard] [R:one_pot_behavior] [R:l17_dose32] [R:combo_full512] [R:shuffle_full512] [R:genesis_infeasibility] [R:cutoff_private_export]
+[R:unsloth_scoreboard] [R:one_pot_behavior] [R:l17_dose32] [R:combo_full512] [R:shuffle_full512] [R:banana_smasher_infeasibility] [R:cutoff_private_export]

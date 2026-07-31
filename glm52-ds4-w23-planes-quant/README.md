@@ -3,10 +3,10 @@
 **2-Spark (GB10) serving of GLM-5.2 753B + 1-Spark DS4-Flash PoC testbed, with damage-ranked
 **dynamic per-expert {ternary…2,3,4}-bit allocation — July 2026. (Updated Jul 18.)**
 
-> **GENESIS method spec:** [`GENESIS.md`](GENESIS.md) — the canonical end-to-end
+> **BANANA-SMASHER method spec:** [`BANANA-SMASHER.md`](BANANA-SMASHER.md) — the canonical end-to-end
 > definition of the vertical-weighted from-scratch quantization pipeline (final VQ
 > d4/d8 + native menu, per-vertical anchors, the weight-dial solve, pre-repair-only
-> scope, and the "banana smasher" API north star). Supersedes all earlier GENESIS
+> scope, and the "banana smasher" API north star). Supersedes all earlier BANANA-SMASHER
 > framings scattered through the notes files.
 
 > **Jul 22 PTQ + OPD synthesis:** [`PTQ_OPD_CAMPAIGN.md`](PTQ_OPD_CAMPAIGN.md)
@@ -21,7 +21,7 @@
 > **Jul 22 evening → Jul 23 morning follow-up:**
 > [`PTQ_OPD_JUL22_23_NOTES.md`](PTQ_OPD_JUL22_23_NOTES.md) corrects the historical
 > cross-instrument IQ4 bar, seals the ONE-POT behavioral rejection, records REPACK
-> non-composition and SHUFFLE proxy mis-aim, and snapshots GENESIS/REBUILD plus the new
+> non-composition and SHUFFLE proxy mis-aim, and snapshots BANANA-SMASHER/REBUILD plus the new
 > process laws at the explicit evidence cutoff. Its machine-readable values and public-safe
 > receipt registry are in
 > [`receipts/PTQ_OPD_JUL23_DERIVED_METRICS.json`](receipts/PTQ_OPD_JUL23_DERIVED_METRICS.json).
@@ -29,7 +29,7 @@
 > **Jul 22-23 provenance correction and continuation:**
 > [`PTQ_OPD_JUL22_23_NOTES.md`](PTQ_OPD_JUL22_23_NOTES.md) seals the direct mxfp4-teacher
 > IQ4/IQ3 full-512 scoreboard, ONE-POT behavioral override, REPACK composition failure,
-> SHUFFLE cycle-1 result, GENESIS/REBUILD status, process laws, and reproduction appendix.
+> SHUFFLE cycle-1 result, BANANA-SMASHER/REBUILD status, process laws, and reproduction appendix.
 > Public-safe receipt paths, full SHA-256 digests, and derived arithmetic are in
 > [`receipts/PTQ_OPD_JUL23_DERIVED_METRICS.json`](receipts/PTQ_OPD_JUL23_DERIVED_METRICS.json).
 

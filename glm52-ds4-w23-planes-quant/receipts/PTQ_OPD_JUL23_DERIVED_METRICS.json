@@ -108,15 +108,15 @@
         "path": "campaign/JUL22_23_BOARD_WINDOW_EXPORT.json",
         "sha256": "cd3f83a299fd0411a8e1821996c0105dd5d983d732e77b833a880201e8fc2626"
       },
-      "genesis_infeasibility": {
-        "path": "campaign/GENESIS_INFEASIBILITY_CERTIFICATE.json",
+      "banana_smasher_infeasibility": {
+        "path": "campaign/BANANA-SMASHER_INFEASIBILITY_CERTIFICATE.json",
         "sha256": "00e4978e0edcc3ac646536174ec87f0e1c54c5315cd92168b73ff95fcf7475ea"
       },
-      "genesis_price_sheet": {
+      "banana_smasher_price_sheet": {
         "path": "campaign/FULL_EXPERT_PROXY_ROWS.jsonl",
         "sha256": "b7095e19d501a9bacf229de90484f5c980b97fdfa759b45cf299efd6f9d29f0f"
       },
-      "genesis_profile": {
+      "banana_smasher_profile": {
         "path": "campaign/PROFILE_TERMINAL.json",
         "sha256": "d607a4c45875af196a5528c84d77beb3688418a55ec447bf24b5ae31b3a636dd"
       },
@@ -228,7 +228,7 @@
       "sha256_status": "No corpus SHA-256 was sealed at the cutoff; MD5 is reported rather than invented."
     }
   },
-  "genesis": {
+  "banana_smasher": {
     "base_menu_candidate_materialized": false,
     "base_menu_generation_1_decision": "NO_FEASIBLE_PROXY_CANDIDATE",
     "code_target": 0.054215965394205624,

@@ -1,0 +1,32 @@
+{
+  "schema": "banana-smasher-repository-naming-scrub-v1",
+  "status": "PASS_ZERO_BANNED_CODENAME_HITS",
+  "framework_name": "BANANA-SMASHER",
+  "public_scope": "entire Git worktree excluding .git metadata",
+  "public_files_scanned": 2963,
+  "case_insensitive_content_hits_after": 0,
+  "case_insensitive_path_hits_after": 0,
+  "cross_subtree_residue_removed": {
+    "files_with_content_hits": 6,
+    "literal_occurrences": 36,
+    "paths_renamed": 1
+  },
+  "internal_current_targets": {
+    "files_checked": 4,
+    "literal_hits_after": 0,
+    "qtip_noncache_path_hits_after": 0
+  },
+  "historical_sealed_receipts": {
+    "policy": "preserved byte-for-byte, excluded from current/public scans",
+    "shipped_in_public_worktree": false,
+    "operator_visible_note": "SEALED_NAMING_EXEMPTIONS.md"
+  },
+  "verification": [
+    "entire-public-worktree raw-byte and path scan: zero hits",
+    "banana-smasher pytest: 38 passed",
+    "docker pytest: 18 passed",
+    "publication audit: PASS, files=383, manifest_rows=170",
+    "JSON validation: PASS",
+    "git diff --check: PASS"
+  ]
+}
