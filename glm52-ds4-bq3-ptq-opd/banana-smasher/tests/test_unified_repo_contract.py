@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import re
 import subprocess
+import sys
 from pathlib import Path
 
 
@@ -69,7 +70,7 @@ def test_pack_format_and_validate_pack_surface_exist() -> None:
     assert "meta.json" in spec
     assert "SHA-256" in spec
     completed = subprocess.run(
-        ["python3", "-m", "banana_smasher.cli", "validate-pack", "--help"],
+        [sys.executable, "-m", "banana_smasher.cli", "validate-pack", "--help"],
         cwd=ROOT,
         env={"PYTHONPATH": str(ROOT / "src")},
         text=True,
@@ -108,3 +109,57 @@ def test_vendored_wheel_manifest_binds_p1336_build_lineage() -> None:
     )
     names = {row["name"] for row in manifest["wheel_inputs"]}
     assert names == {"banana-smasher", "deep-gemm", "vq-warp-gemv"}
+
+
+def test_release_preseal_documents_fail_closed_user_path() -> None:
+    text = (ROOT / "RELEASE_PRESEAL.md").read_text()
+    required = [
+        "RELEASE_CANDIDATE_PENDING_FULL_PACK_GATE",
+        "bs-pack v1 artifact",
+        "Fail-closed validation",
+        "vllm serve /model",
+        "three-output eyeball gate",
+        "C1/C2/C4/C8/C16 ladder",
+        "completion tokens divided by batch wall time",
+    ]
+    for phrase in required:
+        assert phrase in text
+    assert text.index("## Validate before launch") < text.index("## Launch stock vLLM")
+    assert text.index("Three-output eyeball gate") < text.index("C1/C2/C4/C8/C16 ladder")
+
+
+def test_release_sealer_uses_two_late_bound_inputs_and_fails_closed(tmp_path: Path) -> None:
+    import hashlib
+
+    digest = "sha256:" + "a" * 64
+    pack_sha = "b" * 64
+    gate = tmp_path / "CLEAN_ROOM_GOLDEN_ACCEPTANCE.json"
+    gate.write_text(json.dumps({
+        "status": "PASS_CLEAN_ROOM_GOLDEN_ACCEPTANCE",
+        "image_digest": digest,
+        "pack_manifest_sha256": pack_sha,
+        "ladder": {shape: {"rows": [1, 2, 3], "median": 2} for shape in ("C1", "C2", "C4", "C8", "C16")},
+    }))
+    output = tmp_path / "RELEASE.json"
+    subprocess.run([
+        "python3", str(ROOT / "tools/seal_release.py"),
+        "--image-digest", digest,
+        "--gate-receipt", str(gate),
+        "--output", str(output),
+    ], check=True)
+    release = json.loads(output.read_text())
+    assert release["image_digest"] == digest
+    assert release["pack_manifest_sha256"] == pack_sha
+    assert release["measured_full_pack_gate"]["receipt_sha256"] == hashlib.sha256(gate.read_bytes()).hexdigest()
+    assert release["measured_full_pack_gate"]["required_shapes"] == ["C1", "C2", "C4", "C8", "C16"]
+
+    bad_gate = tmp_path / "bad.json"
+    bad_gate.write_text(json.dumps({"status": "PENDING", "image_digest": digest, "pack_manifest_sha256": pack_sha}))
+    failed = subprocess.run([
+        "python3", str(ROOT / "tools/seal_release.py"),
+        "--image-digest", digest,
+        "--gate-receipt", str(bad_gate),
+        "--output", str(tmp_path / "BAD_RELEASE.json"),
+    ], text=True, capture_output=True)
+    assert failed.returncode != 0
+    assert "refused" in failed.stderr

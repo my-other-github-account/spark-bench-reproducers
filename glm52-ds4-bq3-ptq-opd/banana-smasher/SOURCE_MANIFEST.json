@@ -33,8 +33,12 @@
       "sha256": "520fa6bc8943ea98061cb22374962d36d1eda91bb7602fc829330dbf283d34c9"
     },
     "README.md": {
-      "bytes": 2674,
-      "sha256": "7d6abeef0ef71cfffa4b94b5334af07848f7570a1a8f8387b0c27c694663b11a"
+      "bytes": 2960,
+      "sha256": "be118f89d1550a76acf6824eacb2e579d4da9860afb635a749d2d15a00f37b56"
+    },
+    "RELEASE_PRESEAL.md": {
+      "bytes": 4437,
+      "sha256": "c09675e4ae84376fd10542cec54fb8784aa762ef7c3d5531daa53aac186bf08f"
     },
     "VENDORED_WHEELS.json": {
       "bytes": 2197,
@@ -317,12 +321,16 @@
       "sha256": "6e18374c05ce6af6f5510a4d7d85e79f4f89fd2bf9752efb6d610e2d56d4f87e"
     },
     "tests/test_unified_repo_contract.py": {
-      "bytes": 4314,
-      "sha256": "5039775f59ec44712061e1ca82c112a6f46c2a075dc3e3d9078153990fd28ad5"
+      "bytes": 6572,
+      "sha256": "518cb9d84bb2b72f34e1dc014e5f77135aee04c26a654db7a3fe5cb36a9499f8"
     },
     "tests/test_validation.py": {
       "bytes": 3357,
       "sha256": "b798402a3d5b6d39f0b1af9c7d8af50ccb31b59caa485fd181d7851edc1e3f06"
+    },
+    "tools/seal_release.py": {
+      "bytes": 4296,
+      "sha256": "dc5c12f32964cd91bed5709b2f04fc312ba8b5e2794fc1a794e7e59eecdf7308"
     },
     "vendor/flashinfer-autotune/0.6.14/121a/085e5a49c2b6da4f96f9ccb8d12519ddaaa0f82a5fd0d67e05e238c3432db3e8/autotune_configs.json": {
       "bytes": 4654,

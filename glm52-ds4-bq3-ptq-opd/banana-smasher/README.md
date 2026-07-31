@@ -2,11 +2,11 @@
 
 A self-contained, stock-vLLM container for the sealed P1321 Banana Smasher runtime.
 
-Status: `RELEASE_CANDIDATE_PENDING_FULL_PACK_GATE`. The required local image tag remains `genesis-serve:golden`, but that tag is a command contract, not a claim that clean-room performance has already been verified.
+Status: `RELEASE_CANDIDATE_PENDING_FULL_PACK_GATE`, meaning the source/build contract is published while the immutable full-pack validation receipt and image digest are still absent. The required local image tag remains `genesis-serve:golden`, but that tag is a command contract, not a golden or performance claim.
 
 The repository carries the bs-pack v1 validator and format specification, reviewed vLLM fork patch, exact P1321 scalar-M≤2/vector-M≥4 dispatch sources, SM120 cubins, vector-M4 AOT build, and sealed FlashInfer 0.6.14 cache. Users supply no runtime environment variables and learn no launcher or wrapper.
 
-Requirements: Linux arm64, Docker with NVIDIA Container Toolkit, an NVIDIA Blackwell GPU, and a pack conforming to [`PACK_FORMAT.md`](PACK_FORMAT.md).
+Requirements: Linux arm64, Docker with NVIDIA Container Toolkit, an NVIDIA Blackwell GPU, and a pack conforming to [`PACK_FORMAT.md`](PACK_FORMAT.md). After the three-command quick start, follow the fail-closed validation, stock launch, three-output eyeball gate, and C1/C2/C4/C8/C16 ladder in [`RELEASE_PRESEAL.md`](RELEASE_PRESEAL.md).
 
 ## 1. Clone
 
