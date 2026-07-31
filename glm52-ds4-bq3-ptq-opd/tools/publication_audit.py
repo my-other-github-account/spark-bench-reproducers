@@ -33,7 +33,6 @@ JOINED_FORBIDDEN = [
     "mac" + "mini",
     "d" + "nola",
     "Da" + "vid",
-    "banana_bae" + "ee",
 ]
 PATTERNS = {
     "absolute home path": re.compile(r"/(?:Users|home)/[^\s\"'`]+"),

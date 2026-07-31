@@ -1,5 +1,5 @@
 # ninja log v7
-0	11018	1783931280319993769	/home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sampling/csrc_flashinfer_sampling_binding.cuda.o	7a0ac6b4207196d3
-0	15403	1783931280319747099	/home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sampling/csrc_renorm.cuda.o	e85be1f38ae7b7b5
-0	38728	1783931280318516050	/home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sampling/csrc_sampling.cuda.o	21133f3fe74f3f0f
-38728	38817	1783931319046303526	/home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sampling/sampling.so	a7f1f2d5e564a8af
+0	11018	1783931280319993769	/work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sampling/csrc_flashinfer_sampling_binding.cuda.o	7a0ac6b4207196d3
+0	15403	1783931280319747099	/work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sampling/csrc_renorm.cuda.o	e85be1f38ae7b7b5
+0	38728	1783931280318516050	/work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sampling/csrc_sampling.cuda.o	21133f3fe74f3f0f
+38728	38817	1783931319046303526	/work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sampling/sampling.so	a7f1f2d5e564a8af

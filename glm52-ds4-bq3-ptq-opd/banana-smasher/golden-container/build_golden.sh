@@ -4,17 +4,17 @@
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-TASK_ID="${TASK_ID:-t_73d48597}"
-P1268="${P1268:-/home/dnola/missions/P1268_C2_CANON_VERBATIM_t_d21996d5_s8}"
-P1321_ROOT="${P1321_ROOT:-/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321}"
-P1321_STAGE="${P1321_STAGE:-/home/dnola/missions/W3_PLANES_KERNEL/task_stages/t_ac6525c8/vector_m4_v1/serving_candidate}"
-P1321_SOURCE="${P1321_SOURCE:-/home/dnola/missions/W3_PLANES_KERNEL/task_stages/t_ac6525c8/vector_m4_v1}"
-VENV="${VENV:-/home/dnola/venvs/vllm-moet}"
-CUBINS_W2="${CUBINS_W2:-/home/dnola/Dev/vLLM-Moet/kernels/cubins-sm120}"
-CUBINS_W3="${CUBINS_W3:-/home/dnola/ds4w3/cubins_e43}"
-TRITON_CACHE="${TRITON_CACHE:-/home/dnola/.triton/cache}"
-FLASHINFER_CACHE="${FLASHINFER_CACHE:-/home/dnola/.cache/vllm/flashinfer_autotune_cache}"
-FLASHINFER_JIT_CACHE="${FLASHINFER_JIT_CACHE:-/home/dnola/.cache/flashinfer}"
+TASK_ID="${TASK_ID:-BOX10-BUILD}"
+P1268="${P1268:-/work/build/artifacts/P1268_C2_CANON_VERBATIM_INTERNAL-ID_s8}"
+P1321_ROOT="${P1321_ROOT:-/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321}"
+P1321_STAGE="${P1321_STAGE:-/work/build/artifacts/W3_PLANES_KERNEL/task_stages/P1321/vector_m4_v1/serving_candidate}"
+P1321_SOURCE="${P1321_SOURCE:-/work/build/artifacts/W3_PLANES_KERNEL/task_stages/P1321/vector_m4_v1}"
+VENV="${VENV:-/work/build/venvs/vllm-moet}"
+CUBINS_W2="${CUBINS_W2:-/work/build/Dev/vLLM-Moet/kernels/cubins-sm120}"
+CUBINS_W3="${CUBINS_W3:-/work/build/ds4w3/cubins_e43}"
+TRITON_CACHE="${TRITON_CACHE:-/work/build/.triton/cache}"
+FLASHINFER_CACHE="${FLASHINFER_CACHE:-/work/build/.cache/vllm/flashinfer_autotune_cache}"
+FLASHINFER_JIT_CACHE="${FLASHINFER_JIT_CACHE:-/work/build/.cache/flashinfer}"
 IMAGE="${IMAGE:-genesis-serve:golden}"
 BASE_ALIAS="genesis-serve:p1135n-b66edfa3-closure"
 BASE_ID="sha256:b66edfa3811486df5ad61f513861a08e99b7b7ffe18edf5c1f4ed494567631fe"
@@ -88,18 +88,18 @@ critical = {
     "p1268_result": p1268 / "receipts/P1268_C1_C2_RESULT.json",
     "p1268_launcher": p1268 / "run/launch_p1268.sh",
     "runtime_overlay_receipt": p1268 / "runtime/pyoverlay/RUNTIME_OVERLAY_RECEIPT.json",
-    "quant_config_preimage": Path("/home/dnola/missions/W3_PLANES_KERNEL/task_stages/t_ac6525c8/vector_m4_v1/serving_candidate/runtime/pyoverlay/vllm/models/deepseek_v4/quant_config.py"),
-    "moe_w2_cubit": Path("/home/dnola/missions/W3_PLANES_KERNEL/task_stages/t_ac6525c8/vector_m4_v1/serving_candidate/runtime/pyoverlay/vllm/model_executor/layers/quantization/utils/moe_w2_cubit.py"),
-    "moe_vq_triton": Path("/home/dnola/missions/W3_PLANES_KERNEL/task_stages/t_ac6525c8/vector_m4_v1/serving_candidate/runtime/pyoverlay/vllm/model_executor/layers/quantization/utils/moe_vq_triton.py"),
+    "quant_config_preimage": Path("/work/build/artifacts/W3_PLANES_KERNEL/task_stages/P1321/vector_m4_v1/serving_candidate/runtime/pyoverlay/vllm/models/deepseek_v4/quant_config.py"),
+    "moe_w2_cubit": Path("/work/build/artifacts/W3_PLANES_KERNEL/task_stages/P1321/vector_m4_v1/serving_candidate/runtime/pyoverlay/vllm/model_executor/layers/quantization/utils/moe_w2_cubit.py"),
+    "moe_vq_triton": Path("/work/build/artifacts/W3_PLANES_KERNEL/task_stages/P1321/vector_m4_v1/serving_candidate/runtime/pyoverlay/vllm/model_executor/layers/quantization/utils/moe_vq_triton.py"),
     "flashinfer_jit_core_preimage": venv / "lib/python3.12/site-packages/flashinfer/jit/core.py",
-    "p1321_ladder_seal": Path("/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/C_LADDER_FULL_SEAL.json"),
-    "p1321_winning_boot": Path("/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/WINNING_BOOT_CONFIG.json"),
-    "p1321_freeze": Path("/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/BOOT_CONFIG_FREEZE.json"),
-    "p1321_admission": Path("/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json"),
-    "m4_binary": Path("/home/dnola/missions/W3_PLANES_KERNEL/task_stages/t_ac6525c8/vector_m4_v1/serving_candidate/kernel/vq_warp_public/vq_warp_gemv/_C.cpython-312-aarch64-linux-gnu.so"),
-    "m4_source": Path("/home/dnola/missions/W3_PLANES_KERNEL/task_stages/t_ac6525c8/vector_m4_v1/vq_warp_m4/csrc/vq_warp_gemv.cu"),
-    "m4_wrapper": Path("/home/dnola/missions/W3_PLANES_KERNEL/task_stages/t_ac6525c8/vector_m4_v1/serving_candidate/kernel/vq_warp_public/vq_warp_gemv/__init__.py"),
-    "dense_patch": Path("/home/dnola/missions/W3_PLANES_KERNEL/task_stages/t_ac6525c8/vector_m4_v1/serving_candidate/artifacts/dense_patch.safetensors"),
+    "p1321_ladder_seal": Path("/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/C_LADDER_FULL_SEAL.json"),
+    "p1321_winning_boot": Path("/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/WINNING_BOOT_CONFIG.json"),
+    "p1321_freeze": Path("/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/BOOT_CONFIG_FREEZE.json"),
+    "p1321_admission": Path("/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json"),
+    "m4_binary": Path("/work/build/artifacts/W3_PLANES_KERNEL/task_stages/P1321/vector_m4_v1/serving_candidate/kernel/vq_warp_public/vq_warp_gemv/_C.cpython-312-aarch64-linux-gnu.so"),
+    "m4_source": Path("/work/build/artifacts/W3_PLANES_KERNEL/task_stages/P1321/vector_m4_v1/vq_warp_m4/csrc/vq_warp_gemv.cu"),
+    "m4_wrapper": Path("/work/build/artifacts/W3_PLANES_KERNEL/task_stages/P1321/vector_m4_v1/serving_candidate/kernel/vq_warp_public/vq_warp_gemv/__init__.py"),
+    "dense_patch": Path("/work/build/artifacts/W3_PLANES_KERNEL/task_stages/P1321/vector_m4_v1/serving_candidate/artifacts/dense_patch.safetensors"),
 
     "python": venv / "bin/python",
 }
@@ -110,7 +110,7 @@ rows={name: row(path) for name,path in critical.items() if name != "base_image_i
 # the image build itself seals every resulting layer by immutable image digest.
 out={
  "schema":"genesis-golden-source-manifest-v3",
- "task_id":"t_73d48597",
+ "task_id":"BOX10-BUILD",
  "truth_label":"PUBLIC_CANON_IQ3_WIRE; NOT P943 native TRUE-C",
  "base_image_id":critical["base_image_id"],
  "critical":rows,
@@ -173,7 +173,7 @@ if labels.get("io.genesis.p1321.winning-boot.sha256") != "091e8eb3e4caa9793454f4
     raise SystemExit("P1321 winning boot label mismatch")
 receipt={
  "schema":"genesis-golden-image-build-v2","status":"PASS","created_unix":time.time(),
- "task_id":"t_73d48597","provenance":"P943 overlay 9a4b7098 / pack 3650fe7e / planes b524c5a",
+ "task_id":"BOX10-BUILD","provenance":"P943 overlay 9a4b7098 / pack 3650fe7e / planes b524c5a",
  "image":image,"image_id":inspect["Id"],"repo_digests":inspect.get("RepoDigests") or [],
  "size":inspect["Size"],"architecture":inspect["Architecture"],"compute_capability":cap,
  "cmd":config["Cmd"],"entrypoint":config.get("Entrypoint"),"labels":labels,

@@ -2,14 +2,16 @@
 
 A self-contained, stock-vLLM container for the sealed P1321 Banana Smasher runtime.
 
+Status: `RELEASE_CANDIDATE_PENDING_FULL_PACK_GATE`. The required local image tag remains `genesis-serve:golden`, but that tag is a command contract, not a claim that clean-room performance has already been verified.
+
 The repository carries the bs-pack v1 validator and format specification, reviewed vLLM fork patch, exact P1321 scalar-M≤2/vector-M≥4 dispatch sources, SM120 cubins, vector-M4 AOT build, and sealed FlashInfer 0.6.14 cache. Users supply no runtime environment variables and learn no launcher or wrapper.
 
-Requirements: Linux arm64, Docker with NVIDIA Container Toolkit, an NVIDIA Blackwell GPU, and a pack conforming to `PACK_FORMAT.md`. The transferable source artifact is `banana-smasher.bundle`; clone it into an empty directory.
+Requirements: Linux arm64, Docker with NVIDIA Container Toolkit, an NVIDIA Blackwell GPU, and a pack conforming to [`PACK_FORMAT.md`](PACK_FORMAT.md).
 
 ## 1. Clone
 
 ```sh
-git clone banana-smasher.bundle banana-smasher && cd banana-smasher
+git clone https://github.com/my-other-github-account/spark-bench-reproducers.git && cd spark-bench-reproducers/glm52-ds4-bq3-ptq-opd/banana-smasher
 ```
 
 ## 2. Build

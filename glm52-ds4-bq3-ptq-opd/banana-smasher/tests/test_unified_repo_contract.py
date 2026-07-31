@@ -28,7 +28,7 @@ def test_readme_has_exactly_three_copy_paste_commands() -> None:
         if line.strip() and not line.lstrip().startswith("#")
     ]
     assert commands == [
-        "git clone banana-smasher.bundle banana-smasher && cd banana-smasher",
+        "git clone https://github.com/my-other-github-account/spark-bench-reproducers.git && cd spark-bench-reproducers/glm52-ds4-bq3-ptq-opd/banana-smasher",
         "./build.sh",
         "docker run -v <pack>:/model -p 8000:8000 genesis-serve:golden vllm serve /model",
     ]

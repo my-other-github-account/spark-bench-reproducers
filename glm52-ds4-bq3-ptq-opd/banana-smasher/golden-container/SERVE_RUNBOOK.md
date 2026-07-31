@@ -9,7 +9,7 @@ The product boundary is stock vLLM. There is no custom launcher or entrypoint. v
 - Aarch64 NVIDIA Spark (Blackwell compute capability 12.x; physically observed GB10 reports 12.1 while the kernels target `sm_120`).
 - Docker + BuildKit/buildx and the NVIDIA container runtime.
 - Exact P1268 vendored runtime inputs named in `SOURCE_MANIFEST.json` and `WHEEL_MANIFEST.json`, or the already-published immutable image digest.
-- Exact external one-volume model artifact `/home/dnola/releases/bs-pack-p1268-canon-iq3` (box-6 manifest SHA-256 `4a4c15a52eaa8f87e4eb2f436da1580cb5e9addb15713d41bd9a74276731578a`) with ordinary HF files, `wire_v4-step32/`, and `bs_runtime_assets/dense_patch.safetensors`. No model-derived bytes are copied into the image.
+- Exact external one-volume model artifact `/work/build/releases/bs-pack-p1268-canon-iq3` (box-6 manifest SHA-256 `4a4c15a52eaa8f87e4eb2f436da1580cb5e9addb15713d41bd9a74276731578a`) with ordinary HF files, `wire_v4-step32/`, and `bs_runtime_assets/dense_patch.safetensors`. No model-derived bytes are copied into the image.
 
 ## Reproducible build
 
@@ -27,13 +27,13 @@ Build and publication are intentionally separate gates. After validation, publis
 The controller-local registry used for this task is `localhost:5050`. Publish directly from the Spark without storing a second 9 GB image in the controller Docker daemon:
 
 ```bash
-HOST=spark-8 PORT=5050 ./push_local_registry_via_ssh.sh
+HOST=build-8 PORT=5050 ./push_local_registry_via_ssh.sh
 ```
 
 OpenSSH makes a temporary reverse tunnel, so the remote Docker daemon sees an ordinary loopback registry and no daemon/insecure-registry configuration changes are needed. This writes `receipts/LOCAL_REGISTRY_RECEIPT.json` with the immutable manifest digest. A clean-room Spark can pull the same digest through the same pattern:
 
 ```bash
-ssh -o ExitOnForwardFailure=yes -R 127.0.0.1:5050:127.0.0.1:5050 spark-1 \
+ssh -o ExitOnForwardFailure=yes -R 127.0.0.1:5050:127.0.0.1:5050 build-1 \
   'sudo docker pull localhost:5050/genesis-serve@sha256:DIGEST'
 ```
 

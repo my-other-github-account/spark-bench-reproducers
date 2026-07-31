@@ -115,7 +115,7 @@ print(json.dumps(out, sort_keys=True))
     rows.sort(key=lambda row: row["path"])
     meta.update({
         "schema": "genesis-golden-wheel-manifest-v2",
-        "destination_root": "/home/dnola/venvs/vllm-moet",
+        "destination_root": "/work/build/venvs/vllm-moet",
         "file_count": len(rows), "files": rows,
         "truth_label": "PUBLIC_CANON_IQ3_WIRE; NOT P943 native TRUE-C",
         "p1268_launcher_sha256": "d7aff83634ef5456385419523b3ecaf3a8213fecb8155f34053d65366953ebb2",

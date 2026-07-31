@@ -1,17 +1,17 @@
 {
   "admission": {
-    "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
+    "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
     "sha256": "4e100694739cd73ca9e2d1611a91d75143b9167bfd1c73882b460c82ef1712de"
   },
-  "boot_argv": "/home/dnola/venvs/vllm-moet/bin/python3 /home/dnola/venvs/vllm-moet/bin/vllm serve /home/dnola/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
+  "boot_argv": "/work/build/venvs/vllm-moet/bin/python3 /work/build/venvs/vllm-moet/bin/vllm serve /work/build/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
   "boot_env": [
     "DO_NOT_TRACK=1",
-    "DS4_DENSE_PATCH=/home/dnola/missions/W3_PLANES_KERNEL/task_stages/t_ac6525c8/vector_m4_v1/serving_candidate/artifacts/dense_patch.safetensors",
+    "DS4_DENSE_PATCH=/work/build/artifacts/W3_PLANES_KERNEL/task_stages/P1321/vector_m4_v1/serving_candidate/artifacts/dense_patch.safetensors",
     "HF_DATASETS_OFFLINE=1",
     "HF_HUB_DISABLE_TELEMETRY=1",
     "HF_HUB_OFFLINE=1",
     "MALLOC_MMAP_THRESHOLD_=65536",
-    "PYTHONPATH=/home/dnola/missions/W3_PLANES_KERNEL/task_stages/t_ac6525c8/vector_m4_v1/serving_candidate/runtime/pyoverlay:/home/dnola/missions/W3_PLANES_KERNEL/task_stages/t_ac6525c8/vector_m4_v1/serving_candidate/kernel/vq_warp_public",
+    "PYTHONPATH=/work/build/artifacts/W3_PLANES_KERNEL/task_stages/P1321/vector_m4_v1/serving_candidate/runtime/pyoverlay:/work/build/artifacts/W3_PLANES_KERNEL/task_stages/P1321/vector_m4_v1/serving_candidate/kernel/vq_warp_public",
     "TOKENIZERS_PARALLELISM=false",
     "TRANSFORMERS_OFFLINE=1",
     "VLLM_MOE_VQ_CUDA_WARP=1",
@@ -21,13 +21,13 @@
     "VLLM_MOE_VQ_GROUP_FAST=1",
     "VLLM_MOE_VQ_M1_FAST=0",
     "VLLM_MOE_W2=1",
-    "VLLM_MOE_W2_CUBIT_DIR=/home/dnola/Dev/vLLM-Moet/kernels/cubins-sm120",
+    "VLLM_MOE_W2_CUBIT_DIR=/work/build/Dev/vLLM-Moet/kernels/cubins-sm120",
     "VLLM_MOE_W2_DECODE_GRAPH=1",
     "VLLM_MOE_W2_DECODE_GRAPH_MAX_T=2",
-    "VLLM_MOE_W2_FADVISE_GLOB=/home/dnola/models/hf/DeepSeek-V4-Flash/*.safetensors",
+    "VLLM_MOE_W2_FADVISE_GLOB=/work/build/models/hf/DeepSeek-V4-Flash/*.safetensors",
     "VLLM_MOE_W2_NUM_LAYERS=43",
-    "VLLM_MOE_W2_PREPACKED_DIR=/home/dnola/missions/V2_PRODUCT_MTP_t_f3682f29/wire_v4-step32",
-    "VLLM_MOE_W3_CUBIT_DIR=/home/dnola/ds4w3/cubins_e43",
+    "VLLM_MOE_W2_PREPACKED_DIR=/work/build/artifacts/V2_PRODUCT_MTP_INTERNAL-ID/wire_v4-step32",
+    "VLLM_MOE_W3_CUBIT_DIR=/work/build/ds4w3/cubins_e43",
     "VQ_WARP_M4_VECTOR=1"
   ],
   "boot_identity": [
@@ -38,24 +38,24 @@
   ],
   "c2_repair": {
     "decision_receipt": {
-      "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_C2_UNDERWARMED_REPAIR_DECISION.json",
+      "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_C2_UNDERWARMED_REPAIR_DECISION.json",
       "sha256": "428524d11faf53a5c893b060caa2bdaa6e7f992c80291b2fb98548733f6068ca"
     },
     "reason": "Initial C2 x3 was preserved as a failed under-stabilized rung; the same unchanged boot/source/config ran one excluded scalar-C2 stabilization row and reran only C2 x3.",
     "superseded_initial_rows": [
       {
         "aggregate_tok_s": 15.257762016528314,
-        "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c2_measured_1.json",
+        "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c2_measured_1.json",
         "sha256": "fe200d57aa011891fb5a9dc3802ef3e78bc697aa9108686bc43339c6e5b35861"
       },
       {
         "aggregate_tok_s": 15.216893479717388,
-        "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c2_measured_2.json",
+        "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c2_measured_2.json",
         "sha256": "876acc4a19ab330d25e5f62c9120899842a051bcd4f723bbb559093e0494c62c"
       },
       {
         "aggregate_tok_s": 20.602299372014446,
-        "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c2_measured_3.json",
+        "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c2_measured_3.json",
         "sha256": "aea6a377dfc15a489e79f117106ac2c272c062e4192487bd1caad14455531850"
       }
     ],
@@ -79,7 +79,7 @@
     "single_claim_sha256": true
   },
   "graph_replay_counter_note": "Direct cudagraph replay metric is not exported by this boot; every row preserves captured shape plus advancing engine iteration-token count/sum proxies and zero measured compilation markers.",
-  "host": "spark-8",
+  "host": "build-8",
   "medians_tok_s": {
     "1": 13.64548789173549,
     "16": 52.25428885405555,
@@ -88,15 +88,21 @@
     "8": 40.284133334843396
   },
   "preflight": {
-    "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_BOOT_PREFLIGHT.json",
+    "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_BOOT_PREFLIGHT.json",
     "sha256": "52a8cde5aac8f2ee6a225f6d1b41af7d64529ded35cf45a27e70a14356260818"
   },
   "provenance": "P943 overlay 9a4b7098 / pack 3650fe7e / planes b524c5a",
+  "publication_redaction": {
+    "schema": "banana-smasher-public-redaction-v1",
+    "source_sha256": "be0453e1d6081a87a0288c8611b9ee5ec33a4b2ba927cb68c358e71a10b242f7",
+    "status": "PATHS_HOSTS_AND_INTERNAL_IDS_REDACTED",
+    "transform": "semantic measurements and hashes preserved; private paths, hostnames, addresses, and board identifiers replaced"
+  },
   "rows": [
     {
       "aggregate_tok_s": 12.744532564826393,
       "api_identity": {
-        "cmdline": "/home/dnola/venvs/vllm-moet/bin/python3 /home/dnola/venvs/vllm-moet/bin/vllm serve /home/dnola/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
+        "cmdline": "/work/build/venvs/vllm-moet/bin/python3 /work/build/venvs/vllm-moet/bin/vllm serve /work/build/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
         "pid": 3680834,
         "start_ticks": 28505720,
         "vm_swap_kb": 0
@@ -133,9 +139,9 @@
           "text": "We need to write a Python module implementing an LRU cache with TTL support, including unit tests. The user wants a complete module. We'll design a class LRUCache with methods: get, put, maybe delete, clear, size, etc. TTL: each entry has a time-to-live; after that, it's considered expired and should be evicted on access or during cleanup. LRU: least recently used eviction when cache is full. We'll use an OrderedDict or a custom doubly linked list + dict. For simplicity and efficiency, we can use collections.OrderedDict which maintains insertion order and can be used for LRU by moving accessed items to end. For TTL, we need to store expiration time. We'll store value and expiration timestamp. On get, check if expired; if so, delete and return None (or raise). On put, set expiration. Also need a background cleanup? Not required, but we can have a method to evict expired entries. For unit tests, we'll use unittest or pytest. We'll write tests for basic LRU, TTL expiration, eviction order, etc.\n\nWe'll produce a single Python file with the class and tests. The module should be self-contained.\n\nLet's"
         }
       ],
-      "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c1_measured_1.json",
+      "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c1_measured_1.json",
       "preemption_markers": 0,
-      "raw_benchmark_path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c1_measured_1.json.bench.json",
+      "raw_benchmark_path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c1_measured_1.json.bench.json",
       "raw_benchmark_sha256": "3ffaec8e0040f2aeab3eebc07f0378d1831dd606577cfac2e60092612290c661",
       "recompute_markers": 0,
       "route_marker": {
@@ -144,7 +150,7 @@
         "kernel": "vq_warp_gemv_kernel",
         "mode": "scalar",
         "route_m": 1,
-        "source_receipt": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
+        "source_receipt": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
         "valid_m": 1
       },
       "row_clean": true,
@@ -176,7 +182,7 @@
     {
       "aggregate_tok_s": 13.64548789173549,
       "api_identity": {
-        "cmdline": "/home/dnola/venvs/vllm-moet/bin/python3 /home/dnola/venvs/vllm-moet/bin/vllm serve /home/dnola/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
+        "cmdline": "/work/build/venvs/vllm-moet/bin/python3 /work/build/venvs/vllm-moet/bin/vllm serve /work/build/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
         "pid": 3680834,
         "start_ticks": 28505720,
         "vm_swap_kb": 0
@@ -213,9 +219,9 @@
           "text": "We need to write a Python module implementing an LRU cache with TTL support, including unit tests. The user wants a complete module. We'll design a class LRUCache with methods: get, put, maybe delete, clear, size, etc. TTL: each entry has a time-to-live; after that, it's considered expired and should be evicted on access or during cleanup. LRU: least recently used eviction when cache is full. We'll use an OrderedDict or a custom doubly linked list + dict. For simplicity and efficiency, we can use collections.OrderedDict which maintains insertion order and can be used for LRU by moving accessed items to end. For TTL, we need to store expiration time. We'll store value and expiration timestamp. On get, check if expired; if so, delete and return None (or raise). On put, set expiration. Also need a background cleanup? Not required, but we can have a method to evict expired entries. For unit tests, we'll use unittest or pytest. We'll write tests for basic LRU, TTL expiration, eviction order, etc.\n\nWe'll produce a single Python file with the class and tests. The module should be self-contained.\n\nLet's"
         }
       ],
-      "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c1_measured_2.json",
+      "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c1_measured_2.json",
       "preemption_markers": 0,
-      "raw_benchmark_path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c1_measured_2.json.bench.json",
+      "raw_benchmark_path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c1_measured_2.json.bench.json",
       "raw_benchmark_sha256": "3a6d5d8b1d84c556ead63465b27e2aa4411e231b326e9e10706dad84fd694df3",
       "recompute_markers": 0,
       "route_marker": {
@@ -224,7 +230,7 @@
         "kernel": "vq_warp_gemv_kernel",
         "mode": "scalar",
         "route_m": 1,
-        "source_receipt": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
+        "source_receipt": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
         "valid_m": 1
       },
       "row_clean": true,
@@ -255,7 +261,7 @@
     {
       "aggregate_tok_s": 13.648407910454916,
       "api_identity": {
-        "cmdline": "/home/dnola/venvs/vllm-moet/bin/python3 /home/dnola/venvs/vllm-moet/bin/vllm serve /home/dnola/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
+        "cmdline": "/work/build/venvs/vllm-moet/bin/python3 /work/build/venvs/vllm-moet/bin/vllm serve /work/build/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
         "pid": 3680834,
         "start_ticks": 28505720,
         "vm_swap_kb": 0
@@ -292,9 +298,9 @@
           "text": "We need to write a Python module implementing an LRU cache with TTL support, including unit tests. The user wants a complete module. We'll design a class LRUCache with methods: get, put, maybe delete, clear, size, etc. TTL: each entry has a time-to-live; after that, it's considered expired and should be evicted on access or during cleanup. LRU: least recently used eviction when cache is full. We'll use an OrderedDict or a custom doubly linked list + dict. For simplicity and efficiency, we can use collections.OrderedDict which maintains insertion order and can be used for LRU by moving accessed items to end. For TTL, we need to store expiration time. We'll store value and expiration timestamp. On get, check if expired; if so, delete and return None (or raise). On put, set expiration. Also need a background cleanup? Not required, but we can have a method to evict expired entries. For unit tests, we'll use unittest or pytest. We'll write tests for basic LRU, TTL expiration, eviction order, etc.\n\nWe'll produce a single Python file with the class and tests. The module should be self-contained.\n\nLet's"
         }
       ],
-      "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c1_measured_3.json",
+      "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c1_measured_3.json",
       "preemption_markers": 0,
-      "raw_benchmark_path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c1_measured_3.json.bench.json",
+      "raw_benchmark_path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c1_measured_3.json.bench.json",
       "raw_benchmark_sha256": "eb4bef446d401dcfd86f98fe5202295ac9aff84d8397bd93fc4c6fc9934e6881",
       "recompute_markers": 0,
       "route_marker": {
@@ -303,7 +309,7 @@
         "kernel": "vq_warp_gemv_kernel",
         "mode": "scalar",
         "route_m": 1,
-        "source_receipt": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
+        "source_receipt": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
         "valid_m": 1
       },
       "row_clean": true,
@@ -334,7 +340,7 @@
     {
       "aggregate_tok_s": 21.470472290215927,
       "api_identity": {
-        "cmdline": "/home/dnola/venvs/vllm-moet/bin/python3 /home/dnola/venvs/vllm-moet/bin/vllm serve /home/dnola/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
+        "cmdline": "/work/build/venvs/vllm-moet/bin/python3 /work/build/venvs/vllm-moet/bin/vllm serve /work/build/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
         "pid": 3680834,
         "start_ticks": 28505720,
         "vm_swap_kb": 0
@@ -378,9 +384,9 @@
           "text": "We need to write a Python module that implements an LRU cache with TTL support, including unit tests. The user wants a complete module with code and tests. We'll produce a single file or a module with classes and functions. Typically, an LRU cache with TTL can be implemented using an OrderedDict or a custom doubly linked list with a dictionary for O(1) access. We'll also need to handle expiration of entries based on TTL. We'll implement a class `LRUCacheTTL` with methods: `get`, `put`, `delete`, `clear`, `size`, `capacity`, etc. We'll also include unit tests using `unittest` or `pytest`. Since the user didn't specify, we'll use `unittest` for simplicity.\n\nWe'll write the code with docstrings and comments. The module will be self-contained Mend. We'll also include a `__main__` block to run tests.\n\nLet's design:\n\n- Use `collections.OrderedDict` for LRU ordering (move to end on access). For TTL, we can store a tuple (value, expiry_time) as the value in the dict. On `get`, check if expired; if so, delete and return None"
         }
       ],
-      "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c2_repair_measured_1.json",
+      "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c2_repair_measured_1.json",
       "preemption_markers": 0,
-      "raw_benchmark_path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c2_repair_measured_1.json.bench.json",
+      "raw_benchmark_path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c2_repair_measured_1.json.bench.json",
       "raw_benchmark_sha256": "f40f5f7bfb610fa742e22ba7fd0d9aab2875009c5dfca3ef173a51e130afbdef",
       "recompute_markers": 0,
       "route_marker": {
@@ -389,7 +395,7 @@
         "kernel": "vq_warp_gemv_kernel",
         "mode": "scalar",
         "route_m": 2,
-        "source_receipt": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
+        "source_receipt": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
         "valid_m": 2
       },
       "row_clean": true,
@@ -425,7 +431,7 @@
     {
       "aggregate_tok_s": 15.321840422756361,
       "api_identity": {
-        "cmdline": "/home/dnola/venvs/vllm-moet/bin/python3 /home/dnola/venvs/vllm-moet/bin/vllm serve /home/dnola/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
+        "cmdline": "/work/build/venvs/vllm-moet/bin/python3 /work/build/venvs/vllm-moet/bin/vllm serve /work/build/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
         "pid": 3680834,
         "start_ticks": 28505720,
         "vm_swap_kb": 0
@@ -469,9 +475,9 @@
           "text": "We need to write a Python module implementing an LRU cache with TTL support, including unit tests. The user wants a complete module with code and tests. We'll produce a single file or two files? Probably one file with both implementation and tests, or separate. Since it's a \"module\", we can provide a single Python file with the class and tests at the bottom. We'll use `unittest` for tests.\n\nRequirements:\n- LRU (Least Recently Used) eviction policy.\n- TTL (Time To Live) support: each entry has an expiration time; expired entries are considered invalid and not returned.\n- Must be thread-safe? Not specified, but we can add optional thread safety using locks. For simplicity, we can mention it but not implement if not required. However, typical cache implementations should be thread-safe. We'll use `threading.Lock` for basic thread safety.\n\nWe'll implement a class `LRUCacheTTL` with methods:\n- `__init__(self, capacity: int, default_ttl: Optional[float] = None)` - capacity is max number of items; default_ttl in seconds, if None then no expiration.\n- `get(key)` - returns value if key exists and not"
         }
       ],
-      "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c2_repair_measured_2.json",
+      "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c2_repair_measured_2.json",
       "preemption_markers": 0,
-      "raw_benchmark_path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c2_repair_measured_2.json.bench.json",
+      "raw_benchmark_path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c2_repair_measured_2.json.bench.json",
       "raw_benchmark_sha256": "0ae0abd195dede2a4f901fd678e78a3317f50bd38440a37a8b1da20f56df0c2d",
       "recompute_markers": 0,
       "route_marker": {
@@ -480,7 +486,7 @@
         "kernel": "vq_warp_gemv_kernel",
         "mode": "scalar",
         "route_m": 2,
-        "source_receipt": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
+        "source_receipt": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
         "valid_m": 2
       },
       "row_clean": true,
@@ -525,7 +531,7 @@
     {
       "aggregate_tok_s": 21.39482948124557,
       "api_identity": {
-        "cmdline": "/home/dnola/venvs/vllm-moet/bin/python3 /home/dnola/venvs/vllm-moet/bin/vllm serve /home/dnola/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
+        "cmdline": "/work/build/venvs/vllm-moet/bin/python3 /work/build/venvs/vllm-moet/bin/vllm serve /work/build/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
         "pid": 3680834,
         "start_ticks": 28505720,
         "vm_swap_kb": 0
@@ -569,9 +575,9 @@
           "text": "We need to write a Python module that implements an LRU cache with TTL support, including unit tests. The user wants a complete module with code and tests. We'll produce a single file or a module with classes and functions. Typically, an LRU cache with TTL can be implemented using an OrderedDict or a custom doubly linked list with a dictionary for O(1) access. We'll also need to handle expiration of entries based on TTL. We'll implement a class `LRUCacheTTL` with methods: `get`, `put`, `delete`, `clear`, `size`, `capacity`, etc. We'll also include unit tests using `unittest` or `pytest`. Since the user didn't specify, we'll use `unittest` for simplicity.\n\nWe'll write the code with docstrings and comments. The module will be self-contained Mend. We'll also include a `__main__` block to run tests.\n\nLet's design:\n\n- Use `collections.OrderedDict` for LRU ordering (move to end on access). For TTL, we can store a tuple (value, expiry_time) as the value in the dict. On `get`, check if expired; if so, delete and return None"
         }
       ],
-      "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c2_repair_measured_3.json",
+      "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c2_repair_measured_3.json",
       "preemption_markers": 0,
-      "raw_benchmark_path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c2_repair_measured_3.json.bench.json",
+      "raw_benchmark_path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c2_repair_measured_3.json.bench.json",
       "raw_benchmark_sha256": "bc037b23df614b82d47a97a0d57a531bd2befe14b2cab453f1c3e36a44692d70",
       "recompute_markers": 0,
       "route_marker": {
@@ -580,7 +586,7 @@
         "kernel": "vq_warp_gemv_kernel",
         "mode": "scalar",
         "route_m": 2,
-        "source_receipt": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
+        "source_receipt": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
         "valid_m": 2
       },
       "row_clean": true,
@@ -616,7 +622,7 @@
     {
       "aggregate_tok_s": 28.634408952031585,
       "api_identity": {
-        "cmdline": "/home/dnola/venvs/vllm-moet/bin/python3 /home/dnola/venvs/vllm-moet/bin/vllm serve /home/dnola/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
+        "cmdline": "/work/build/venvs/vllm-moet/bin/python3 /work/build/venvs/vllm-moet/bin/vllm serve /work/build/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
         "pid": 3680834,
         "start_ticks": 28505720,
         "vm_swap_kb": 0
@@ -674,9 +680,9 @@
           "text": "We need to write a Python module implementing an LRU cache with TTL support, including unit tests. The user wants a complete module with code and tests. We'll produce a single file or two files? Probably a single answer with the module code and test code. We'll use Python's `unittest` for tests Mend. We'll implement a class `LRUCache` with methods: `get`, `put`, `delete`, `clear`, `size`, `capacity`, `ttl` (maybe). We'll use `OrderedDict` from collections for LRU ordering, and store timestamps for TTL. We'll handle expiration on get and put. We'll also need to handle thread safety? Not required but can mention. We'll write unit tests for basic LRU, TTL expiration, eviction, etc.\n\nLet's outline:\n\n- Module: `lru_cache.py`\n- Class: `LRUCache`\n  - `__init__(self, capacity: int, ttl: Optional[float] = None)`\n  - `_is_expired(self, key)` -> bool\n  - `get(self, key)` -> value or None\n  - `put(self, key, value)` -> None\n "
         }
       ],
-      "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c4_measured_1.json",
+      "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c4_measured_1.json",
       "preemption_markers": 0,
-      "raw_benchmark_path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c4_measured_1.json.bench.json",
+      "raw_benchmark_path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c4_measured_1.json.bench.json",
       "raw_benchmark_sha256": "20b598968dcb1e7456c74318218a17fd07f3860b2081bba56c84f5e1aa47276a",
       "recompute_markers": 0,
       "route_marker": {
@@ -685,7 +691,7 @@
         "kernel": "vq_warp_gemm_m4_kernel",
         "mode": "vector",
         "route_m": 4,
-        "source_receipt": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
+        "source_receipt": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
         "valid_m": 4
       },
       "row_clean": true,
@@ -732,7 +738,7 @@
     {
       "aggregate_tok_s": 27.831915802972233,
       "api_identity": {
-        "cmdline": "/home/dnola/venvs/vllm-moet/bin/python3 /home/dnola/venvs/vllm-moet/bin/vllm serve /home/dnola/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
+        "cmdline": "/work/build/venvs/vllm-moet/bin/python3 /work/build/venvs/vllm-moet/bin/vllm serve /work/build/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
         "pid": 3680834,
         "start_ticks": 28505720,
         "vm_swap_kb": 0
@@ -790,9 +796,9 @@
           "text": "We need to write a Python module implementing an LRU cache with TTL support, including unit tests. The user wants a complete module. We'll design a class LRUCache with TTL. It should be thread-safe? Not specified, but we can add basic thread safety using locks. We'll include methods: get, put, delete, clear, size, etc. TTL: each entry has an expiration time. On get, if expired, treat as miss and remove. On put, if key exists, update value and reset TTL. Eviction: when full, remove least recently used item (LRU). We'll use an OrderedDict or a custom doubly linked list + dict. For simplicity, we can use collections.OrderedDict, but we need to handle TTL expiration separately. We'll store (value, expiry_time) as value in dict. For LRU, we can use OrderedDict's move_to_end on access. But we also need to evict expired items lazily? We can check on get and put. For eviction when full, we need to remove the least recently used (first item in OrderedDict). However, if that item is expired, we should remove it anyway. But we need to ensure we don't"
         }
       ],
-      "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c4_measured_2.json",
+      "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c4_measured_2.json",
       "preemption_markers": 0,
-      "raw_benchmark_path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c4_measured_2.json.bench.json",
+      "raw_benchmark_path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c4_measured_2.json.bench.json",
       "raw_benchmark_sha256": "cc93a512c53aff4a0d1fcd7b6454afe72cf2091c19a1db23ebf9db826cc079e6",
       "recompute_markers": 0,
       "route_marker": {
@@ -801,7 +807,7 @@
         "kernel": "vq_warp_gemm_m4_kernel",
         "mode": "vector",
         "route_m": 4,
-        "source_receipt": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
+        "source_receipt": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
         "valid_m": 4
       },
       "row_clean": true,
@@ -849,7 +855,7 @@
     {
       "aggregate_tok_s": 28.547564322656157,
       "api_identity": {
-        "cmdline": "/home/dnola/venvs/vllm-moet/bin/python3 /home/dnola/venvs/vllm-moet/bin/vllm serve /home/dnola/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
+        "cmdline": "/work/build/venvs/vllm-moet/bin/python3 /work/build/venvs/vllm-moet/bin/vllm serve /work/build/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
         "pid": 3680834,
         "start_ticks": 28505720,
         "vm_swap_kb": 0
@@ -907,9 +913,9 @@
           "text": "We need to write a Python module that implements an LRU cache with TTL support, including unit tests. The user wants a complete module with code and tests. We'll produce a single file or a module with classes and functions. Typically, an LRU cache with TTL can be implemented using an OrderedDict or a custom doubly linked list with a dictionary for O(1) access. We'll also need to handle expiration of entries based on TTL. We'll implement a class `LRUCacheTTL` with methods: `get`, `put`, `delete`, `clear`, `size`, `capacity`, etc. We'll also include unit tests using `unittest` or `pytest`. Since the user didn't specify, we'll use `unittest` for simplicity.\n\nWe'll write the code with docstrings and comments. The module will be self-contained Mend. We'll also include a `__main__` block to run tests.\n\nLet's design:\n\n- Use `collections.OrderedDict` for LRU ordering (move to end on access). For TTL, we can store a tuple (value, expiry_time) as the value in the dict. On `get`, check if expired; if so, delete and return None"
         }
       ],
-      "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c4_measured_3.json",
+      "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c4_measured_3.json",
       "preemption_markers": 0,
-      "raw_benchmark_path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c4_measured_3.json.bench.json",
+      "raw_benchmark_path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c4_measured_3.json.bench.json",
       "raw_benchmark_sha256": "75606c7831e6b6054ba1a7969f85685bc7ed7afc1f302ece421d17901fdbf865",
       "recompute_markers": 0,
       "route_marker": {
@@ -918,7 +924,7 @@
         "kernel": "vq_warp_gemm_m4_kernel",
         "mode": "vector",
         "route_m": 4,
-        "source_receipt": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
+        "source_receipt": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
         "valid_m": 4
       },
       "row_clean": true,
@@ -965,7 +971,7 @@
     {
       "aggregate_tok_s": 28.60419679304823,
       "api_identity": {
-        "cmdline": "/home/dnola/venvs/vllm-moet/bin/python3 /home/dnola/venvs/vllm-moet/bin/vllm serve /home/dnola/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
+        "cmdline": "/work/build/venvs/vllm-moet/bin/python3 /work/build/venvs/vllm-moet/bin/vllm serve /work/build/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
         "pid": 3680834,
         "start_ticks": 28505720,
         "vm_swap_kb": 0
@@ -1023,9 +1029,9 @@
           "text": "We need to write a Python module implementing an LRU cache with TTL support, including unit tests. The user wants a complete module with code and tests. We'll produce a single file or two files? Probably a single answer with the module code and test code. We'll use Python's `unittest` for tests Mend. We'll implement a class `LRUCache` with methods: `get`, `put`, `delete`, `clear`, `size`, `capacity`, `ttl` (maybe). We'll use `OrderedDict` from collections for LRU ordering, and store timestamps for TTL. We'll handle expiration on get and put. We'll also need to handle thread safety? Not required but can mention. We'll write unit tests for basic LRU, TTL expiration, eviction, etc.\n\nLet's outline:\n\n- Module: `lru_cache.py`\n- Class: `LRUCache`\n  - `__init__(self, capacity: int, ttl: Optional[float] = None)`\n  - `_is_expired(self, key)` -> bool\n  - `get(self, key)` -> value or None\n  - `put(self, key, value)` -> None\n "
         }
       ],
-      "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c4_measured_4.json",
+      "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c4_measured_4.json",
       "preemption_markers": 0,
-      "raw_benchmark_path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c4_measured_4.json.bench.json",
+      "raw_benchmark_path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c4_measured_4.json.bench.json",
       "raw_benchmark_sha256": "be67bb12a7f400f113859ecb4cd1468672ff58b817bbd1933db40c4582166edf",
       "recompute_markers": 0,
       "route_marker": {
@@ -1034,7 +1040,7 @@
         "kernel": "vq_warp_gemm_m4_kernel",
         "mode": "vector",
         "route_m": 4,
-        "source_receipt": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
+        "source_receipt": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
         "valid_m": 4
       },
       "row_clean": true,
@@ -1081,7 +1087,7 @@
     {
       "aggregate_tok_s": 28.529998597845545,
       "api_identity": {
-        "cmdline": "/home/dnola/venvs/vllm-moet/bin/python3 /home/dnola/venvs/vllm-moet/bin/vllm serve /home/dnola/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
+        "cmdline": "/work/build/venvs/vllm-moet/bin/python3 /work/build/venvs/vllm-moet/bin/vllm serve /work/build/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
         "pid": 3680834,
         "start_ticks": 28505720,
         "vm_swap_kb": 0
@@ -1139,9 +1145,9 @@
           "text": "We need to write a Python module implementing an LRU cache with TTL support, including unit tests. The user wants a complete module. We'll design a class LRUCache with TTL. It should be thread-safe? Not specified, but we can add basic thread safety using locks. We'll include methods: get, put, delete, clear, size, etc. TTL: each entry has an expiration time. On get, if expired, treat as miss and remove. On put, if key exists, update value and reset TTL. Eviction: when full, remove least recently used item (LRU). We'll use an OrderedDict or a custom doubly linked list + dict. For simplicity, we can use collections.OrderedDict, but we need to handle TTL expiration separately. We'll store (value, expiry_time) as value in dict. For LRU, we can use OrderedDict's move_to_end on access. But we also need to evict expired items lazily? We can check on get and put. For eviction when full, we need to remove the least recently used (first item in OrderedDict). However, if that item is expired, we should remove it anyway. But we need to ensure we don't"
         }
       ],
-      "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c4_measured_5.json",
+      "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c4_measured_5.json",
       "preemption_markers": 0,
-      "raw_benchmark_path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c4_measured_5.json.bench.json",
+      "raw_benchmark_path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c4_measured_5.json.bench.json",
       "raw_benchmark_sha256": "08d611294b6468eb64a7cc6bc149533490224e7f91ce3a7fa61508eb95033ba0",
       "recompute_markers": 0,
       "route_marker": {
@@ -1150,7 +1156,7 @@
         "kernel": "vq_warp_gemm_m4_kernel",
         "mode": "vector",
         "route_m": 4,
-        "source_receipt": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
+        "source_receipt": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
         "valid_m": 4
       },
       "row_clean": true,
@@ -1197,7 +1203,7 @@
     {
       "aggregate_tok_s": 28.591234236344754,
       "api_identity": {
-        "cmdline": "/home/dnola/venvs/vllm-moet/bin/python3 /home/dnola/venvs/vllm-moet/bin/vllm serve /home/dnola/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
+        "cmdline": "/work/build/venvs/vllm-moet/bin/python3 /work/build/venvs/vllm-moet/bin/vllm serve /work/build/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
         "pid": 3680834,
         "start_ticks": 28505720,
         "vm_swap_kb": 0
@@ -1255,9 +1261,9 @@
           "text": "We need to write a Python module implementing an LRU cache with TTL support, including unit tests. The user wants a complete module with code and tests. We'll produce a single file or two files? Probably a single answer with the module code and test code. We'll use Python's `unittest` for tests Mend. We'll implement a class `LRUCache` with methods: `get`, `put`, `delete`, `clear`, `size`, `capacity`, `ttl` (maybe). We'll use `OrderedDict` from collections for LRU ordering, and store timestamps for TTL. We'll handle expiration on get and put. We'll also need to handle thread safety? Not required but can mention. We'll write unit tests for basic LRU, TTL expiration, eviction, etc.\n\nLet's outline:\n\n- Module: `lru_cache.py`\n- Class: `LRUCache`\n  - `__init__(self, capacity: int, ttl: Optional[float] = None)`\n  - `_is_expired(self, key)` -> bool\n  - `get(self, key)` -> value or None\n  - `put(self, key, value)` -> None\n "
         }
       ],
-      "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c4_measured_6.json",
+      "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c4_measured_6.json",
       "preemption_markers": 0,
-      "raw_benchmark_path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c4_measured_6.json.bench.json",
+      "raw_benchmark_path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c4_measured_6.json.bench.json",
       "raw_benchmark_sha256": "c6a9afc717540124aa030dc552decaff9bf3426dfac8dbdd2c59be73d5eec536",
       "recompute_markers": 0,
       "route_marker": {
@@ -1266,7 +1272,7 @@
         "kernel": "vq_warp_gemm_m4_kernel",
         "mode": "vector",
         "route_m": 4,
-        "source_receipt": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
+        "source_receipt": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
         "valid_m": 4
       },
       "row_clean": true,
@@ -1313,7 +1319,7 @@
     {
       "aggregate_tok_s": 40.284133334843396,
       "api_identity": {
-        "cmdline": "/home/dnola/venvs/vllm-moet/bin/python3 /home/dnola/venvs/vllm-moet/bin/vllm serve /home/dnola/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
+        "cmdline": "/work/build/venvs/vllm-moet/bin/python3 /work/build/venvs/vllm-moet/bin/vllm serve /work/build/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
         "pid": 3680834,
         "start_ticks": 28505720,
         "vm_swap_kb": 0
@@ -1399,9 +1405,9 @@
           "text": "We need to write a Python module implementing an LRU cache with TTL support, including unit tests. The user wants a complete module with code and tests. We'll produce a single file or two? Probably a single answer with the module code and then the test code. We'll use Python's `unittest` for tests Mend. We'll implement a class `LRUCache` with methods: `get`, `put`, `delete`, `clear`, `size`, `capacity`, `ttl` (maybe). TTL: time-to-live, entries expire after a certain time. LRU: least recently used eviction when capacity exceeded. We'll use `OrderedDict` from collections for LRU ordering, and store timestamps for TTL. We'll also handle thread safety? Not required but can mention. We'll implement as a simple class.\n\nWe'll write the module with docstrings, type hints maybe. Then write unit tests covering: basic put/get, LRU eviction, TTL expiration, update existing key, delete, clear, capacity changes? Usually capacity is fixed at init. Also test that accessing a key updates its LRU position. Test that expired keys are not returned and are evicted on access or on put?"
         }
       ],
-      "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c8_measured_1.json",
+      "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c8_measured_1.json",
       "preemption_markers": 0,
-      "raw_benchmark_path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c8_measured_1.json.bench.json",
+      "raw_benchmark_path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c8_measured_1.json.bench.json",
       "raw_benchmark_sha256": "ff9147b0f0e231f753e040a1f6bec7522f71f42a52e6a78c2d531b2622799aa7",
       "recompute_markers": 0,
       "route_marker": {
@@ -1410,7 +1416,7 @@
         "kernel": "vq_warp_gemm_m4_kernel",
         "mode": "vector",
         "route_m": 8,
-        "source_receipt": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
+        "source_receipt": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
         "valid_m": 4
       },
       "row_clean": true,
@@ -1471,7 +1477,7 @@
     {
       "aggregate_tok_s": 40.441734649881695,
       "api_identity": {
-        "cmdline": "/home/dnola/venvs/vllm-moet/bin/python3 /home/dnola/venvs/vllm-moet/bin/vllm serve /home/dnola/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
+        "cmdline": "/work/build/venvs/vllm-moet/bin/python3 /work/build/venvs/vllm-moet/bin/vllm serve /work/build/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
         "pid": 3680834,
         "start_ticks": 28505720,
         "vm_swap_kb": 0
@@ -1557,9 +1563,9 @@
           "text": "We need to write a Python module implementing an LRU cache with TTL support, including unit tests. The user wants a complete module with code and tests. We'll produce a single file or two? Probably a single answer with the module code and then the test code. We'll use Python's `unittest` for tests Mend. We'll implement a class `LRUCache` with methods: `get`, `put`, `delete`, `clear`, `size`, `capacity`, `ttl` (maybe). TTL: time-to-live, entries expire after a certain time. LRU: least recently used eviction when capacity exceeded. We'll use `OrderedDict` from collections for LRU ordering, and store timestamps for TTL. We'll also handle thread safety? Not required but can mention. We'll implement as a simple class.\n\nWe'll write the module with docstrings, type hints maybe. Then write unit tests covering: basic put/get, LRU eviction, TTL expiration, update existing key, delete, clear, capacity changes? Usually capacity is fixed at init. Also test that accessing a key updates its LRU position. Test that expired keys are not returned and are evicted on access or on put?"
         }
       ],
-      "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c8_measured_2.json",
+      "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c8_measured_2.json",
       "preemption_markers": 0,
-      "raw_benchmark_path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c8_measured_2.json.bench.json",
+      "raw_benchmark_path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c8_measured_2.json.bench.json",
       "raw_benchmark_sha256": "42128a0e790aa9fbb34c3f5c6a40a851c5c47c60df65faa3c55feab42f900a69",
       "recompute_markers": 0,
       "route_marker": {
@@ -1568,7 +1574,7 @@
         "kernel": "vq_warp_gemm_m4_kernel",
         "mode": "vector",
         "route_m": 8,
-        "source_receipt": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
+        "source_receipt": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
         "valid_m": 4
       },
       "row_clean": true,
@@ -1629,7 +1635,7 @@
     {
       "aggregate_tok_s": 38.76753158650317,
       "api_identity": {
-        "cmdline": "/home/dnola/venvs/vllm-moet/bin/python3 /home/dnola/venvs/vllm-moet/bin/vllm serve /home/dnola/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
+        "cmdline": "/work/build/venvs/vllm-moet/bin/python3 /work/build/venvs/vllm-moet/bin/vllm serve /work/build/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
         "pid": 3680834,
         "start_ticks": 28505720,
         "vm_swap_kb": 0
@@ -1715,9 +1721,9 @@
           "text": "We need to write a Python module that implements an LRU cache with TTL support, and include unit tests. The user wants a complete module with code and tests. We'll produce a single file or two? Probably a single answer with the module code and test code. We'll write a class LRUCache with TTL. Use OrderedDict for LRU, and store expiration time. Provide methods: get, put, delete, clear, size, etc. Also handle thread safety? Not specified, but we can mention it's not thread-safe by default. We'll include unit tests using unittest.\n\nWe'll write the code with docstrings. The module should be self-contained.\n\nLet's outline:\n\n- Class LRUCache:\n  - __init__(self, capacity, default_ttl=None): capacity max items, default_ttl in seconds (None means no TTL).\n  - _is_expired(key): check if key expired.\n  - get(key): return value or None if missing/expired. Also update LRU order.\n  - put(key, value, ttl=None): insert/update, with optional per-item ttl. If capacity exceeded, evict LRU (and expired items? Usually evict LRU, but"
         }
       ],
-      "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c8_measured_3.json",
+      "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c8_measured_3.json",
       "preemption_markers": 0,
-      "raw_benchmark_path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c8_measured_3.json.bench.json",
+      "raw_benchmark_path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c8_measured_3.json.bench.json",
       "raw_benchmark_sha256": "948d89aede4587f0cbac56a295ced117c659ad3c89b67b1c6eeb6384677c825a",
       "recompute_markers": 0,
       "route_marker": {
@@ -1726,7 +1732,7 @@
         "kernel": "vq_warp_gemm_m4_kernel",
         "mode": "vector",
         "route_m": 8,
-        "source_receipt": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
+        "source_receipt": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
         "valid_m": 4
       },
       "row_clean": true,
@@ -1789,7 +1795,7 @@
     {
       "aggregate_tok_s": 52.25428885405555,
       "api_identity": {
-        "cmdline": "/home/dnola/venvs/vllm-moet/bin/python3 /home/dnola/venvs/vllm-moet/bin/vllm serve /home/dnola/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
+        "cmdline": "/work/build/venvs/vllm-moet/bin/python3 /work/build/venvs/vllm-moet/bin/vllm serve /work/build/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
         "pid": 3680834,
         "start_ticks": 28505720,
         "vm_swap_kb": 0
@@ -1931,9 +1937,9 @@
           "text": "We need to write a Python module that implements an LRU cache with TTL support, and include unit tests. The user wants a complete module with code and tests. We'll produce a single file or two? Probably a single answer with code blocks. We'll implement a class LRUCache with TTL. Use OrderedDict for LRU behavior. TTL: each entry has an expiry time. On get, check if expired, if so remove and return None (or raise?). We'll implement set, get, delete, clear, size, etc. Also include thread safety? Not required but can mention. We'll include unit tests using unittest.\n\nWe'll write the module as a class with methods: __init__(capacity, default_ttl=None), get(key), set(key, value, ttl=None), delete(key), clear(), size(), contains(key). Also maybe a decorator? Not needed.\n\nWe'll implement eviction: when adding a new key and capacity reached, evict the least recently used (LRU) item. For TTL, we can also have a background cleanup? Not necessary; we can check on get and set. For set, we can also evict expired items to free space? But that might be expensive. We"
         }
       ],
-      "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c16_measured_1.json",
+      "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c16_measured_1.json",
       "preemption_markers": 0,
-      "raw_benchmark_path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c16_measured_1.json.bench.json",
+      "raw_benchmark_path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c16_measured_1.json.bench.json",
       "raw_benchmark_sha256": "3e6decb5a22c49af2eeabbde619e1e731ccfda5043bb312634ceb40bd4d4338b",
       "recompute_markers": 0,
       "route_marker": {
@@ -1942,7 +1948,7 @@
         "kernel": "vq_warp_gemm_m4_kernel",
         "mode": "vector",
         "route_m": 16,
-        "source_receipt": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
+        "source_receipt": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
         "valid_m": 4
       },
       "row_clean": true,
@@ -2029,7 +2035,7 @@
     {
       "aggregate_tok_s": 50.63253554646808,
       "api_identity": {
-        "cmdline": "/home/dnola/venvs/vllm-moet/bin/python3 /home/dnola/venvs/vllm-moet/bin/vllm serve /home/dnola/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
+        "cmdline": "/work/build/venvs/vllm-moet/bin/python3 /work/build/venvs/vllm-moet/bin/vllm serve /work/build/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
         "pid": 3680834,
         "start_ticks": 28505720,
         "vm_swap_kb": 0
@@ -2171,9 +2177,9 @@
           "text": "We need to write a Python module that implements an LRU cache with TTL support, and include unit tests. The user wants a complete module with code and tests. We'll produce a single file or two? Probably a single answer with code blocks. We'll implement a class LRUCache with TTL. Use OrderedDict for LRU behavior. TTL: each entry has an expiry time. On get, check if expired, if so remove and return None (or raise?). We'll implement set, get, delete, clear, size, etc. Also include thread safety? Not required but can mention. We'll include unit tests using unittest.\n\nWe'll write the module as a class with methods: __init__(capacity, default_ttl=None), get(key), set(key, value, ttl=None), delete(key), clear(), size(), contains(key). Also maybe a decorator? Not needed.\n\nWe'll implement eviction: when adding a new key and capacity reached, evict the least recently used (LRU) item. For TTL, we can also have a background cleanup? Not necessary; we can check on get and set. For set, we can also evict expired items to free space? But that might be expensive. We"
         }
       ],
-      "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c16_measured_2.json",
+      "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c16_measured_2.json",
       "preemption_markers": 0,
-      "raw_benchmark_path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c16_measured_2.json.bench.json",
+      "raw_benchmark_path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c16_measured_2.json.bench.json",
       "raw_benchmark_sha256": "18021f5bb2c2d582ec87576fe0a9bd4ab653435ac00df662e8a6d6cf86b8536d",
       "recompute_markers": 0,
       "route_marker": {
@@ -2182,7 +2188,7 @@
         "kernel": "vq_warp_gemm_m4_kernel",
         "mode": "vector",
         "route_m": 16,
-        "source_receipt": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
+        "source_receipt": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
         "valid_m": 4
       },
       "row_clean": true,
@@ -2272,7 +2278,7 @@
     {
       "aggregate_tok_s": 52.62340168361129,
       "api_identity": {
-        "cmdline": "/home/dnola/venvs/vllm-moet/bin/python3 /home/dnola/venvs/vllm-moet/bin/vllm serve /home/dnola/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
+        "cmdline": "/work/build/venvs/vllm-moet/bin/python3 /work/build/venvs/vllm-moet/bin/vllm serve /work/build/models/hf/DeepSeek-V4-Flash --served-model-name deepseek-v4-flash-iq3-combo-v4-step32 --trust-remote-code --tokenizer-mode deepseek_v4 --kv-cache-dtype fp8 --block-size 256 --max-model-len 8192 --gpu-memory-utilization 0.80 --kv-cache-memory-bytes 3221225472 --max-num-batched-tokens 512 --max-num-seqs 16 --compilation-config {\"cudagraph_capture_sizes\": [1, 2, 4, 8, 16]} --no-scheduler-reserve-full-isl --generation-config vllm --reasoning-parser deepseek_v4 --default-chat-template-kwargs {\"enable_thinking\":true} --enable-auto-tool-choice --tool-call-parser deepseek_v4 --host 127.0.0.1 --port 8001",
         "pid": 3680834,
         "start_ticks": 28505720,
         "vm_swap_kb": 0
@@ -2414,9 +2420,9 @@
           "text": "We need to write a Python module that implements an LRU cache with TTL support, and include unit tests. The user wants a complete module with code and tests. We'll produce a single file or two? Probably a single answer with code blocks. We'll implement a class LRUCache with TTL. Use OrderedDict for LRU behavior. TTL: each entry has an expiry time. On get, check if expired, if so remove and return None (or raise?). We'll implement set, get, delete, clear, size, etc. Also include thread safety? Not required but can mention. We'll include unit tests using unittest.\n\nWe'll write the module as a class with methods: __init__(capacity, default_ttl=None), get(key), set(key, value, ttl=None), delete(key), clear(), size(), contains(key). Also maybe a decorator? Not needed.\n\nWe'll implement eviction: when adding a new key and capacity reached, evict the least recently used (LRU) item. For TTL, we can also have a background cleanup? Not necessary; we can check on get and set. For set, we can also evict expired items to free space? But that might be expensive. We"
         }
       ],
-      "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c16_measured_3.json",
+      "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c16_measured_3.json",
       "preemption_markers": 0,
-      "raw_benchmark_path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/results/c16_measured_3.json.bench.json",
+      "raw_benchmark_path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/results/c16_measured_3.json.bench.json",
       "raw_benchmark_sha256": "33a4aa54a9c5a934ae0f55a914073f370949b35189a69d8f8c284b2c41cb8333",
       "recompute_markers": 0,
       "route_marker": {
@@ -2425,7 +2431,7 @@
         "kernel": "vq_warp_gemm_m4_kernel",
         "mode": "vector",
         "route_m": 16,
-        "source_receipt": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
+        "source_receipt": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/receipts/P1321_SOURCE_ADMISSION_READBACK.json",
         "valid_m": 4
       },
       "row_clean": true,
@@ -2519,7 +2525,7 @@
     "vector_m4_extension": "b98e7917881bc846b4f3ad3d1da8671a87fb9021f28ce6bd33f6c3b97c4135e5"
   },
   "status": "PASS",
-  "task_id": "t_b66399b9",
+  "task_id": "P1321-AUDIT",
   "values_tok_s": {
     "1": [
       12.744532564826393,
@@ -2551,7 +2557,7 @@
     ]
   },
   "winning_boot_config": {
-    "path": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/WINNING_BOOT_CONFIG.json",
+    "path": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/WINNING_BOOT_CONFIG.json",
     "sha256": "091e8eb3e4caa9793454f4a529d8c1f5fc0af0fcb4fa28cc89e34c8a4c314da2"
   }
 }

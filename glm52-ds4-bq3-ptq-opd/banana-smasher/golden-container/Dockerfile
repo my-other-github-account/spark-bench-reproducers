@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1.7
 FROM genesis-serve:p1135n-b66edfa3-closure AS materialized
 USER root
-RUN rm -rf /home/dnola/venvs/vllm-moet /opt/genesis /cubit-share \
- && mkdir -p /home/dnola/venvs/vllm-moet \
+RUN rm -rf /work/build/venvs/vllm-moet /opt/genesis /cubit-share \
+ && mkdir -p /work/build/venvs/vllm-moet \
       /cubit-share \
       /opt/genesis/runtime_cubins/vq_warp_gemv \
       /opt/genesis/runtime_cubins/cubins-sm120 \
@@ -13,13 +13,13 @@ RUN rm -rf /home/dnola/venvs/vllm-moet /opt/genesis /cubit-share \
       /opt/genesis/bin /opt/genesis/receipts
 
 # Exact P1268 Python closure and full fork overlay. No PYTHONPATH is used.
-COPY --from=venv / /home/dnola/venvs/vllm-moet/
-COPY --from=pyoverlay / /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/
+COPY --from=venv / /work/build/venvs/vllm-moet/
+COPY --from=pyoverlay / /work/build/venvs/vllm-moet/lib/python3.12/site-packages/
 COPY --from=m4 / /tmp/p1321-m4/
 RUN set -eu; set -- /tmp/p1321-m4/_C*.so; test "$#" -eq 1; \
     cp "$1" /opt/genesis/runtime_cubins/vq_warp_gemv/_C.so; \
-    cp "$1" /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/vq_warp_gemv/_C.so; \
-    cp /tmp/p1321-m4/__init__.py /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/vq_warp_gemv/__init__.py; \
+    cp "$1" /work/build/venvs/vllm-moet/lib/python3.12/site-packages/vq_warp_gemv/_C.so; \
+    cp /tmp/p1321-m4/__init__.py /work/build/venvs/vllm-moet/lib/python3.12/site-packages/vq_warp_gemv/__init__.py; \
     rm -rf /tmp/p1321-m4
 COPY --from=cubins_w2 / /opt/genesis/runtime_cubins/cubins-sm120/
 COPY --from=cubins_w2 / /cubit-share/
@@ -44,20 +44,20 @@ COPY SOURCE_MANIFEST.json /opt/genesis/SOURCE_MANIFEST.json
 # closure provides /usr/bin/python3.12 without the unversioned link.
 RUN ln -sfn /usr/bin/python3.12 /usr/bin/python3
 
-RUN /home/dnola/venvs/vllm-moet/bin/python /opt/genesis/bin/patch_quant_method_defaults.py \
-      /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/vllm/models/deepseek_v4/quant_config.py \
-      --attention-target /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/vllm/models/deepseek_v4/attention.py \
+RUN /work/build/venvs/vllm-moet/bin/python /opt/genesis/bin/patch_quant_method_defaults.py \
+      /work/build/venvs/vllm-moet/lib/python3.12/site-packages/vllm/models/deepseek_v4/quant_config.py \
+      --attention-target /work/build/venvs/vllm-moet/lib/python3.12/site-packages/vllm/models/deepseek_v4/attention.py \
       --receipt /opt/genesis/receipts/QUANT_METHOD_DEFAULTS_PATCH.json \
- && /home/dnola/venvs/vllm-moet/bin/python /opt/genesis/bin/patch_flashinfer_cache_load.py \
-      /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/jit/core.py \
+ && /work/build/venvs/vllm-moet/bin/python /opt/genesis/bin/patch_flashinfer_cache_load.py \
+      /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/jit/core.py \
       --receipt /opt/genesis/receipts/FLASHINFER_CACHE_LOAD_PATCH.json \
- && env -u PYTHONPATH /home/dnola/venvs/vllm-moet/bin/python /opt/genesis/bin/verify_image_static.py \
+ && env -u PYTHONPATH /work/build/venvs/vllm-moet/bin/python /opt/genesis/bin/verify_image_static.py \
       >/opt/genesis/receipts/STATIC_VERIFY.json
 
 FROM scratch
 COPY --from=materialized / /
-ENV VIRTUAL_ENV=/home/dnola/venvs/vllm-moet \
-    PATH=/home/dnola/venvs/vllm-moet/bin:/opt/cuda-stub/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+ENV VIRTUAL_ENV=/work/build/venvs/vllm-moet \
+    PATH=/work/build/venvs/vllm-moet/bin:/opt/cuda-stub/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
     PYTHONNOUSERSITE=1 \
     PYTHONUNBUFFERED=1 \
     NVIDIA_VISIBLE_DEVICES=all \
@@ -76,7 +76,7 @@ ENV VIRTUAL_ENV=/home/dnola/venvs/vllm-moet \
     DO_NOT_TRACK=1
 LABEL org.opencontainers.image.title="genesis-serve golden vLLM" \
       org.opencontainers.image.version="P1321-box10" \
-      io.genesis.task="t_73d48597" \
+      io.genesis.task="BOX10-BUILD" \
       io.genesis.truth-label="PUBLIC_CANON_IQ3_WIRE_NOT_P943_TRUE_C" \
       io.genesis.p1268.result.sha256="9b1d42fe3f4dcb28e7f8660b37f800fdbfdcd7f721fb4bc57ca31a0dda313860" \
       io.genesis.p1268.launcher.sha256="d7aff83634ef5456385419523b3ecaf3a8213fecb8155f34053d65366953ebb2" \

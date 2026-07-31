@@ -22,7 +22,7 @@ for path in sorted(ROOT.rglob("*")):
     rows.append({"path": str(path.relative_to(ROOT)), "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()})
 payload = {
     "schema": "genesis-golden-recipe-manifest-v2",
-    "task_id": "t_829143ff",
+    "task_id": "P1298-REPRO",
     "truth_label": "PUBLIC_CANON_IQ3_WIRE; NOT P943 native TRUE-C",
     "provenance": "P943 overlay 9a4b7098 / pack 3650fe7e / planes b524c5a",
     "p1268_result_sha256": "9b1d42fe3f4dcb28e7f8660b37f800fdbfdcd7f721fb4bc57ca31a0dda313860",

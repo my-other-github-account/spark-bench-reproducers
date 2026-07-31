@@ -14,7 +14,7 @@
   "claim_sha256": "644ed4dd511d224f1ea6a37c5ce1169351ab44db5e0afd9409ed2fbbd7afc1c4",
   "created_unix": 1785463254.527364,
   "functional_change_from_predecessor": "none: predecessor extension already contains required scalar-valid_m<4/vector-valid_m==4 split; P1321 changes only max-num-seqs/capture launcher and explicit receipt markers",
-  "host": "spark-8",
+  "host": "build-8",
   "launcher_readback": {
     "cudagraph_capture_sizes": [
       1,
@@ -35,13 +35,19 @@
     "port": 8001
   },
   "paths": {
-    "launcher": "/home/dnola/missions/GLM52_HUMMING_W3_t_ac6525c8_s8/p1321/run/launch_p1321.sh",
-    "moe_vq_triton": "/home/dnola/missions/W3_PLANES_KERNEL/task_stages/t_ac6525c8/vector_m4_v1/serving_candidate/runtime/pyoverlay/vllm/model_executor/layers/quantization/utils/moe_vq_triton.py",
-    "moe_w2_cubit": "/home/dnola/missions/W3_PLANES_KERNEL/task_stages/t_ac6525c8/vector_m4_v1/serving_candidate/runtime/pyoverlay/vllm/model_executor/layers/quantization/utils/moe_w2_cubit.py",
-    "vector_m4_cu": "/home/dnola/missions/W3_PLANES_KERNEL/task_stages/t_ac6525c8/vector_m4_v1/vq_warp_m4/csrc/vq_warp_gemv.cu",
-    "vector_m4_extension": "/home/dnola/missions/W3_PLANES_KERNEL/task_stages/t_ac6525c8/vector_m4_v1/serving_candidate/kernel/vq_warp_public/vq_warp_gemv/_C.cpython-312-aarch64-linux-gnu.so"
+    "launcher": "/work/build/artifacts/GLM52_HUMMING_W3_P1321_s8/p1321/run/launch_p1321.sh",
+    "moe_vq_triton": "/work/build/artifacts/W3_PLANES_KERNEL/task_stages/P1321/vector_m4_v1/serving_candidate/runtime/pyoverlay/vllm/model_executor/layers/quantization/utils/moe_vq_triton.py",
+    "moe_w2_cubit": "/work/build/artifacts/W3_PLANES_KERNEL/task_stages/P1321/vector_m4_v1/serving_candidate/runtime/pyoverlay/vllm/model_executor/layers/quantization/utils/moe_w2_cubit.py",
+    "vector_m4_cu": "/work/build/artifacts/W3_PLANES_KERNEL/task_stages/P1321/vector_m4_v1/vq_warp_m4/csrc/vq_warp_gemv.cu",
+    "vector_m4_extension": "/work/build/artifacts/W3_PLANES_KERNEL/task_stages/P1321/vector_m4_v1/serving_candidate/kernel/vq_warp_public/vq_warp_gemv/_C.cpython-312-aarch64-linux-gnu.so"
   },
   "provenance": "P943 overlay 9a4b7098 / pack 3650fe7e / planes b524c5a",
+  "publication_redaction": {
+    "schema": "banana-smasher-public-redaction-v1",
+    "source_sha256": "4e100694739cd73ca9e2d1611a91d75143b9167bfd1c73882b460c82ef1712de",
+    "status": "PATHS_HOSTS_AND_INTERNAL_IDS_REDACTED",
+    "transform": "semantic measurements and hashes preserved; private paths, hostnames, addresses, and board identifiers replaced"
+  },
   "schema": "p1321-source-admission-launcher-readback-v1",
   "source_hashes": {
     "launcher": "3239d28a67f2913ecb84eaae3c990f7679fe3f4b8e6792cdf9d705545ceea80d",
@@ -51,6 +57,6 @@
     "vector_m4_extension": "b98e7917881bc846b4f3ad3d1da8671a87fb9021f28ce6bd33f6c3b97c4135e5"
   },
   "status": "PASS",
-  "task_id": "t_b66399b9",
+  "task_id": "P1321-AUDIT",
   "updated_unix": 1785463707.86016
 }

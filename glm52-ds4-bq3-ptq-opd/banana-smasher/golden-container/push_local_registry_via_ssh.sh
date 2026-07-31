@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-HOST="${HOST:-spark-8}"
+HOST="${HOST:-build-8}"
 SOURCE_IMAGE="${SOURCE_IMAGE:-genesis-serve:golden}"
 PORT="${PORT:-5050}"
 OUT="${OUT:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/receipts}"

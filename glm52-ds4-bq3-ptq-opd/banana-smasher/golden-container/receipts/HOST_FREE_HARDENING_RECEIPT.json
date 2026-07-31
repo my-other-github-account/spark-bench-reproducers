@@ -2,7 +2,7 @@
   "created_unix": 1785439170.8930402,
   "external_pack": {
     "manifest_sha256": "4a4c15a52eaa8f87e4eb2f436da1580cb5e9addb15713d41bd9a74276731578a",
-    "path": "/home/dnola/releases/bs-pack-p1268-canon-iq3",
+    "path": "/work/build/releases/bs-pack-p1268-canon-iq3",
     "receipt_sha256": "34fdcf6174c09f3db6823c1dc01f91e61543c45a39646d7d8f41a12da21a2654"
   },
   "files": [
@@ -76,7 +76,7 @@
     "BUILD-01: pinned closure lacks /usr/bin/python3; materialized venv python3 link now targets pinned /usr/bin/python3.12",
     "BUILD-02: preserve sealed venv symlink rows; add pinned /usr/bin/python3 -> /usr/bin/python3.12 compatibility link in image root"
   ],
-  "physical_build_validation_push": "PENDING_PARENT_t_05b575dc_EXACT_RELEASE",
+  "physical_build_validation_push": "PENDING_PARENT_INTERNAL-ID_EXACT_RELEASE",
   "post_claim_corrections": [
     "validator runtime dense-patch receipt now binds /model/bs_runtime_assets/dense_patch.safetensors",
     "validation receipt now binds BS_PACK_MANIFEST.json unconditionally"
@@ -98,7 +98,7 @@
   },
   "schema": "genesis-golden-host-free-hardening-v1",
   "status": "PASS",
-  "task_id": "t_8ad5e4bb",
+  "task_id": "BOX10-PREDECESSOR",
   "tests": {
     "bash_n": "PASS",
     "deterministic_wheel_manifest_two_roots": "PASS",

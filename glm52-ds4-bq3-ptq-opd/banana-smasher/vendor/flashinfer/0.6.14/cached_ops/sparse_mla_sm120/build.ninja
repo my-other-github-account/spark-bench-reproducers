@@ -8,18 +8,18 @@ nvcc_launcher =
 
 common_cflags = -DPy_LIMITED_API=0x03090000 $
     -D_GLIBCXX_USE_CXX11_ABI=1 $
-    -I/home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cccl/cub $
-    -I/home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cccl/libcudacxx/include $
-    -I/home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cccl/thrust $
+    -I/work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cccl/cub $
+    -I/work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cccl/libcudacxx/include $
+    -I/work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cccl/thrust $
     -isystem /usr/include/python3.12 $
     -isystem $cuda_home/include $
-    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/tvm_ffi/include $
-    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/tvm_ffi/include $
-    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/include $
-    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc $
-    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cutlass/include $
-    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cutlass/tools/util/include $
-    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/spdlog/include
+    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/tvm_ffi/include $
+    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/tvm_ffi/include $
+    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/include $
+    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc $
+    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cutlass/include $
+    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cutlass/tools/util/include $
+    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/spdlog/include
 cflags = $common_cflags $
     -fPIC $
     -std=c++17 $
@@ -66,11 +66,11 @@ rule cuda_compile
 rule link
   command = $cxx $in $ldflags -o $out
 
-build /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120.cuda.o: cuda_compile /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/sparse_mla_sm120.cu
-build /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_decode_dsv3_2.cuda.o: cuda_compile /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/sparse_mla_sm120_decode_dsv3_2.cu
-build /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_decode_dsv4.cuda.o: cuda_compile /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/sparse_mla_sm120_decode_dsv4.cu
-build /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_prefill.cuda.o: cuda_compile /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/sparse_mla_sm120_prefill.cu
-build /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_jit_binding.cuda.o: cuda_compile /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/sparse_mla_sm120_jit_binding.cu
+build /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120.cuda.o: cuda_compile /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/sparse_mla_sm120.cu
+build /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_decode_dsv3_2.cuda.o: cuda_compile /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/sparse_mla_sm120_decode_dsv3_2.cu
+build /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_decode_dsv4.cuda.o: cuda_compile /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/sparse_mla_sm120_decode_dsv4.cu
+build /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_prefill.cuda.o: cuda_compile /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/sparse_mla_sm120_prefill.cu
+build /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_jit_binding.cuda.o: cuda_compile /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/sparse_mla_sm120_jit_binding.cu
 
-build /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/sparse_mla_sm120.so: link /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120.cuda.o /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_decode_dsv3_2.cuda.o /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_decode_dsv4.cuda.o /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_prefill.cuda.o /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_jit_binding.cuda.o
-default /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/sparse_mla_sm120.so
+build /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/sparse_mla_sm120.so: link /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120.cuda.o /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_decode_dsv3_2.cuda.o /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_decode_dsv4.cuda.o /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_prefill.cuda.o /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/csrc_sparse_mla_sm120_jit_binding.cuda.o
+default /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sparse_mla_sm120/sparse_mla_sm120.so

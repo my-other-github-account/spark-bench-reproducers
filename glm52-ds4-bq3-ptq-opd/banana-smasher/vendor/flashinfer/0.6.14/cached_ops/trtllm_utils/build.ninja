@@ -8,23 +8,23 @@ nvcc_launcher =
 
 common_cflags = -DPy_LIMITED_API=0x03090000 $
     -D_GLIBCXX_USE_CXX11_ABI=1 $
-    -I/home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/nv_internal $
-    -I/home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/nv_internal/include $
-    -I/home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/nv_internal/tensorrt_llm/cutlass_extensions/include $
-    -I/home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/nv_internal/tensorrt_llm/kernels/cutlass_kernels/include $
-    -I/home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/nv_internal/tensorrt_llm/kernels/cutlass_kernels $
-    -I/home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cccl/cub $
-    -I/home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cccl/libcudacxx/include $
-    -I/home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cccl/thrust $
+    -I/work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/nv_internal $
+    -I/work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/nv_internal/include $
+    -I/work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/nv_internal/tensorrt_llm/cutlass_extensions/include $
+    -I/work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/nv_internal/tensorrt_llm/kernels/cutlass_kernels/include $
+    -I/work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/nv_internal/tensorrt_llm/kernels/cutlass_kernels $
+    -I/work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cccl/cub $
+    -I/work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cccl/libcudacxx/include $
+    -I/work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cccl/thrust $
     -isystem /usr/include/python3.12 $
     -isystem $cuda_home/include $
-    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/tvm_ffi/include $
-    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/tvm_ffi/include $
-    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/include $
-    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc $
-    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cutlass/include $
-    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cutlass/tools/util/include $
-    -isystem /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/spdlog/include
+    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/tvm_ffi/include $
+    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/tvm_ffi/include $
+    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/include $
+    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc $
+    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cutlass/include $
+    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cutlass/tools/util/include $
+    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/spdlog/include
 cflags = $common_cflags $
     -fPIC $
     -std=c++17 $
@@ -69,11 +69,11 @@ rule cuda_compile
 rule link
   command = $cxx $in $ldflags -o $out
 
-build /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/kernels_delayStream.cuda.o: cuda_compile /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/nv_internal/tensorrt_llm/kernels/delayStream.cu
-build /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/common_envUtils.o: compile /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/nv_internal/cpp/common/envUtils.cpp
-build /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/common_logger.o: compile /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/nv_internal/cpp/common/logger.cpp
-build /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/common_stringUtils.o: compile /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/nv_internal/cpp/common/stringUtils.cpp
-build /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/common_tllmException.o: compile /home/dnola/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/nv_internal/cpp/common/tllmException.cpp
+build /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/kernels_delayStream.cuda.o: cuda_compile /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/nv_internal/tensorrt_llm/kernels/delayStream.cu
+build /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/common_envUtils.o: compile /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/nv_internal/cpp/common/envUtils.cpp
+build /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/common_logger.o: compile /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/nv_internal/cpp/common/logger.cpp
+build /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/common_stringUtils.o: compile /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/nv_internal/cpp/common/stringUtils.cpp
+build /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/common_tllmException.o: compile /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/nv_internal/cpp/common/tllmException.cpp
 
-build /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/trtllm_utils.so: link /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/kernels_delayStream.cuda.o /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/common_envUtils.o /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/common_logger.o /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/common_stringUtils.o /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/common_tllmException.o
-default /home/dnola/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/trtllm_utils.so
+build /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/trtllm_utils.so: link /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/kernels_delayStream.cuda.o /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/common_envUtils.o /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/common_logger.o /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/common_stringUtils.o /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/common_tllmException.o
+default /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/trtllm_utils/trtllm_utils.so
