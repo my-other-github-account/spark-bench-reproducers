@@ -360,6 +360,10 @@
       "bytes": 12234,
       "sha256": "04bdc3a403791c6962f98e77a9911e52729c8f186aa7f3127fa1c8b2008993e4"
     },
+    "src/banana_smasher/solver_qtip_profile.py": {
+      "bytes": 30675,
+      "sha256": "712669cfc78bd927db34f50c00932c41d40aef012d8789beff7a53138df9ad31"
+    },
     "src/banana_smasher/update.py": {
       "bytes": 33095,
       "sha256": "1365b485ba3d4a0374da0a1d051d3badb56c35f3132a92beefd1fa6f65e6fc1a"
@@ -437,8 +441,8 @@
       "sha256": "967d03d982ffa855b5da29c76ccdeabe221989ed71569659f18e47cf4c9e7d65"
     },
     "tests/test_release_surfaces.py": {
-      "bytes": 4406,
-      "sha256": "ec208910f5ebdc970f22c9e0ca273cd1ebff14a655235ac7df146823f1ebbd4b"
+      "bytes": 4751,
+      "sha256": "ecdc47f478738b51e351f48c37332e6a272f73a4d9e3e76db0f0b2e4dc465f4a"
     },
     "tests/test_repack.py": {
       "bytes": 1623,

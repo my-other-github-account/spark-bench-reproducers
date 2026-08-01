@@ -61,6 +61,16 @@ def test_qtip_runtime_contains_one_fast_path_and_no_runtime_parity_fallback() ->
     assert runtime.count("def exact_prefix_viterbi(") == 1
 
 
+def test_qtip_acceptance_provenance_names_reviewed_first64_assignment() -> None:
+    profiler = (ROOT / "src/banana_smasher/solver_qtip_profile.py").read_text(
+        encoding="utf-8"
+    )
+    reviewed_assignment = (
+        "96e0fd6c689cb1af387dce9843dc96ca52a086f85cc7e0caf7101d6ad92dfb26"
+    )
+    assert reviewed_assignment in profiler
+
+
 def test_pack_format_documents_versioned_layout_and_auto_detection() -> None:
     pack_format = (ROOT / "PACK_FORMAT.md").read_text(encoding="utf-8")
     for required in (

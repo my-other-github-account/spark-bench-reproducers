@@ -636,7 +636,7 @@ def main(
             "source_commit": "48dd3443d86eae585c2c1b41e49f47912c50170f",
             "receipt": "P2C_QTIP3_PUBLIC_FIRST64_PASS",
             "ordered_assignment_sha256": (
-                "9162d4f3ba1f6a76242834a108207372164efc8a84a33b535d4f96db6ea87e07"
+                "96e0fd6c689cb1af387dce9843dc96ca52a086f85cc7e0caf7101d6ad92dfb26"
             ),
             "mean_public_outer_seconds": 1.9163911582144217,
         },
