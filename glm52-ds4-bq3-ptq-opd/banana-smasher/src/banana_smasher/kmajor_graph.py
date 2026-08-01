@@ -12,6 +12,7 @@ _STATS: dict[str, int] = {
     "backward_calls": 0,
     "grouped_experts": 0,
     "max_nodes_per_projection": 0,
+    "grad_weight_bmm_launches": 0,
     "reduction_kernel_launches": 0,
 }
 _TARGET_MODULE: Any | None = None
@@ -89,25 +90,23 @@ def layer_graph_forward(
     return torch.zeros_like(hidden_states).index_add(0, token, weighted)
 
 
-def _eager_grouped_codebook_vjp(
-    grad_output: torch.Tensor,
-    activation: torch.Tensor,
+def _eager_grouped_codebook_vjp_from_weights(
+    grad_weight: torch.Tensor,
     codes: torch.Tensor,
     scales: torch.Tensor,
     codebook_shape: tuple[int, ...],
 ) -> torch.Tensor:
-    experts = int(grad_output.shape[0])
+    experts = int(grad_weight.shape[0])
     code_dim = int(codebook_shape[1])
-    grad_weight = torch.bmm(grad_output.transpose(1, 2), activation).float()
     scale_columns = torch.exp2(scales.float() - 127.0).repeat_interleave(32, -1)
-    grouped = (grad_weight * scale_columns).reshape(
+    grouped = (grad_weight.float() * scale_columns).reshape(
         experts, codes.shape[1], codes.shape[2], code_dim
     )
     partial = torch.zeros(
         experts,
         *codebook_shape,
         dtype=torch.float32,
-        device=grad_output.device,
+        device=grad_weight.device,
     )
     for expert in range(experts):
         partial[expert].index_add_(
@@ -150,12 +149,14 @@ class LayerProjectionKMajorFn(torch.autograd.Function):
         activations, codes, scales, dense_ekn = ctx.saved_tensors
         grad_out = grad_out.contiguous()
         grad_activations = torch.bmm(grad_out, dense_ekn.transpose(1, 2))
+        grad_weight = torch.bmm(grad_out.transpose(1, 2), activations)
+        with _LOCK:
+            _STATS["grad_weight_bmm_launches"] += 1
         if grad_out.is_cuda:
-            from .kmajor_fused import fused_grouped_codebook_vjp_from_inputs
+            from .kmajor_fused import fused_grouped_codebook_vjp
 
-            grad_codebook = fused_grouped_codebook_vjp_from_inputs(
-                grad_out,
-                activations,
+            grad_codebook = fused_grouped_codebook_vjp(
+                grad_weight,
                 codes,
                 scales,
                 int(ctx.codebook_shape[0]),
@@ -164,8 +165,8 @@ class LayerProjectionKMajorFn(torch.autograd.Function):
             with _LOCK:
                 _STATS["reduction_kernel_launches"] += 1
         else:
-            grad_codebook = _eager_grouped_codebook_vjp(
-                grad_out, activations, codes, scales, ctx.codebook_shape
+            grad_codebook = _eager_grouped_codebook_vjp_from_weights(
+                grad_weight, codes, scales, ctx.codebook_shape
             )
         with _LOCK:
             _STATS["backward_calls"] += 1

@@ -33,18 +33,20 @@ commands above inside the release container.
 
 ## Physical update backward path
 
-The `smash update` command exposes the grouped layer-level K-major backward path
-as the default and retains `--legacy-backward` as an explicit compatibility
-fallback. The production-shape invocation is shown below (replace the placeholders):
+The `smash update` command exposes `--backward layer_graph` as the default and
+retains `--backward grouped_v1` for comparison. `--legacy-backward` remains a
+compatibility alias for `--backward grouped_v1`. The production-shape invocation
+is shown below (replace the placeholders):
 
     smash update --runtime-root /path/to/runtime --model-root /path/to/model \
       --aot /path/to/kmajor-aot.so --receipt /path/to/update-receipt.json \
       --layers 43 --window 27 --tokens 1024 --learning-rate 0.0001 \
       --hard-abort-seconds 7200
 
-The grouped path creates one autograd node per layer projection, computes one
-expert-axis activation-gradient BMM, and performs one grouped codebook-gradient
-reduction. Packed integer code/scale planes remain frozen. See
+The layer-graph path creates one autograd node per layer projection, computes
+the activation and weight gradients as expert-axis BMMs over the forward's
+stacked K-major layout, and performs one grouped codebook-gradient reduction.
+Packed integer code/scale planes remain frozen. See
 [`benchmarks/P1436_GROUPED_VJP_AB.json`](benchmarks/P1436_GROUPED_VJP_AB.json)
 for the sealed physical same-host A/B summary. On spark-3, the legacy arm made
 1,376 reduction launches and took 35.2334 s backward; the default grouped arm

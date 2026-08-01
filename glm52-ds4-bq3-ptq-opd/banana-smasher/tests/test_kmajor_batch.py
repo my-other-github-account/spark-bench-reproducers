@@ -218,6 +218,7 @@ def test_layer_projection_graph_vjp_matches_legacy_expert_nodes():
     assert stats["backward_calls"] == 1
     assert stats["grouped_experts"] == experts
     assert stats["max_nodes_per_projection"] == 1
+    assert stats["grad_weight_bmm_launches"] == 1
     assert stats["reduction_kernel_launches"] == 0
 
 
@@ -295,6 +296,125 @@ def test_layer_graph_forward_matches_balanced_expert_loop():
     torch.testing.assert_close(hidden_new.grad, hidden_ref.grad)
     torch.testing.assert_close(codebook13_new.grad, codebook13_ref.grad)
     torch.testing.assert_close(codebook2_new.grad, codebook2_ref.grad)
+
+
+def _run_layer_graph_one_layer_adam_parity() -> dict[str, float]:
+    torch.manual_seed(1436)
+    experts, tokens, top_k, hidden, d, k = 4, 8, 2, 32, 2, 8
+    route_index = torch.tensor(
+        [[(token + slot * 2) % experts for slot in range(top_k)] for token in range(tokens)]
+    )
+    route_weights = torch.rand(tokens, top_k)
+    hidden_ref = torch.randn(tokens, hidden, requires_grad=True)
+    hidden_new = hidden_ref.detach().clone().requires_grad_(True)
+    codebook13_ref = torch.randn(k, d, requires_grad=True)
+    codebook2_ref = torch.randn(k, d, requires_grad=True)
+    codebook13_new = codebook13_ref.detach().clone().requires_grad_(True)
+    codebook2_new = codebook2_ref.detach().clone().requires_grad_(True)
+    rows13, rows2 = hidden * 2, hidden
+    codes13 = torch.randint(0, k, (experts, rows13, hidden // d), dtype=torch.int32)
+    codes2 = torch.randint(0, k, (experts, rows2, hidden // d), dtype=torch.int32)
+    scales13 = torch.full((experts, rows13, hidden // 32), 127, dtype=torch.uint8)
+    scales2 = torch.full((experts, rows2, hidden // 32), 127, dtype=torch.uint8)
+    dense13 = torch.stack(
+        [_dense(codebook13_ref, codes13[index], scales13[index]) for index in range(experts)]
+    )
+    dense2 = torch.stack(
+        [_dense(codebook2_ref, codes2[index], scales2[index]) for index in range(experts)]
+    )
+
+    final_ref = torch.zeros_like(hidden_ref)
+    for expert in range(experts):
+        slot, token = torch.where(route_index.transpose(0, 1) == expert)
+        current = LegacyKMajorVQLinearFn.apply(
+            hidden_ref[token],
+            codebook13_ref,
+            codes13[expert],
+            scales13[expert],
+            dense13[expert],
+        )
+        gate, up = current.chunk(2, dim=-1)
+        intermediate = torch.nn.functional.silu(gate.clamp(max=10.0)) * up.clamp(
+            min=-10.0, max=10.0
+        )
+        current = LegacyKMajorVQLinearFn.apply(
+            intermediate,
+            codebook2_ref,
+            codes2[expert],
+            scales2[expert],
+            dense2[expert],
+        )
+        final_ref.index_add_(
+            0, token, current * route_weights[token, slot, None]
+        )
+
+    final_new = layer_graph_forward(
+        hidden_new,
+        route_index,
+        route_weights,
+        {
+            "13": {
+                "codebook": codebook13_new,
+                "codes": codes13,
+                "scales": scales13,
+                "dense": dense13,
+            },
+            "2": {
+                "codebook": codebook2_new,
+                "codes": codes2,
+                "scales": scales2,
+                "dense": dense2,
+            },
+        },
+        limit=10.0,
+    )
+    loss_ref = final_ref.float().square().mean()
+    loss_new = final_new.float().square().mean()
+    loss_ref.backward()
+    loss_new.backward()
+    assert hidden_ref.grad is not None and hidden_new.grad is not None
+    assert codebook13_ref.grad is not None and codebook13_new.grad is not None
+    assert codebook2_ref.grad is not None and codebook2_new.grad is not None
+
+    metrics = {
+        "loss_abs_delta": float((loss_new.detach() - loss_ref.detach()).abs()),
+        "input_grad_max_abs": float((hidden_new.grad - hidden_ref.grad).abs().max()),
+        "projection_13_grad_max_abs": float(
+            (codebook13_new.grad - codebook13_ref.grad).abs().max()
+        ),
+        "projection_2_grad_max_abs": float(
+            (codebook2_new.grad - codebook2_ref.grad).abs().max()
+        ),
+    }
+
+    torch.testing.assert_close(loss_new, loss_ref)
+    torch.testing.assert_close(hidden_new.grad, hidden_ref.grad, rtol=1e-5, atol=1e-6)
+    torch.testing.assert_close(codebook13_new.grad, codebook13_ref.grad, rtol=1e-5, atol=1e-6)
+    torch.testing.assert_close(codebook2_new.grad, codebook2_ref.grad, rtol=1e-5, atol=1e-6)
+
+    optimizer_ref = torch.optim.Adam([codebook13_ref, codebook2_ref], lr=1e-3)
+    optimizer_new = torch.optim.Adam([codebook13_new, codebook2_new], lr=1e-3)
+    optimizer_ref.step()
+    optimizer_new.step()
+    metrics["projection_13_parameter_max_abs"] = float(
+        (codebook13_new.detach() - codebook13_ref.detach()).abs().max()
+    )
+    metrics["projection_2_parameter_max_abs"] = float(
+        (codebook2_new.detach() - codebook2_ref.detach()).abs().max()
+    )
+    torch.testing.assert_close(codebook13_new, codebook13_ref, rtol=1e-5, atol=1e-6)
+    torch.testing.assert_close(codebook2_new, codebook2_ref, rtol=1e-5, atol=1e-6)
+    return metrics
+
+
+def test_layer_graph_one_layer_adam_step_matches_legacy():
+    metrics = _run_layer_graph_one_layer_adam_parity()
+    assert metrics["loss_abs_delta"] <= 1e-6
+    assert metrics["input_grad_max_abs"] <= 1e-6
+    assert metrics["projection_13_grad_max_abs"] <= 5e-4
+    assert metrics["projection_2_grad_max_abs"] <= 5e-4
+    assert metrics["projection_13_parameter_max_abs"] <= 1e-6
+    assert metrics["projection_2_parameter_max_abs"] <= 1e-6
 
 
 def test_fused_cuda_codebook_vjp_matches_eager_reduction():

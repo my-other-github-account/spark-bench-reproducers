@@ -41,10 +41,44 @@ def test_smash_update_requires_explicit_runtime_inputs() -> None:
     assert args.command == "update"
     assert args.tokens == 1024
     assert args.hard_abort_seconds == 250.0
-    assert args.legacy_backward is False
+    assert args.backward == "layer_graph"
 
 
-def test_smash_update_forwards_legacy_backward_flag(
+def test_smash_update_forwards_grouped_v1_backward_mode(
+    tmp_path: Path, monkeypatch, capsys
+) -> None:
+    captured: dict[str, object] = {}
+
+    def fake_update(**kwargs):
+        captured.update(kwargs)
+        return {"status": "PASS"}
+
+    monkeypatch.setitem(
+        sys.modules,
+        "banana_smasher.update",
+        SimpleNamespace(run_minimal_update=fake_update),
+    )
+    assert main(
+        [
+            "update",
+            "--runtime-root",
+            str(tmp_path / "runtime"),
+            "--model-root",
+            str(tmp_path / "model"),
+            "--aot",
+            str(tmp_path / "_C.so"),
+            "--receipt",
+            str(tmp_path / "receipt.json"),
+            "--backward",
+            "grouped_v1",
+        ]
+    ) == 0
+
+    assert captured["backward"] == "grouped_v1"
+    assert json.loads(capsys.readouterr().out)["status"] == "PASS"
+
+
+def test_smash_update_retains_legacy_backward_alias(
     tmp_path: Path, monkeypatch, capsys
 ) -> None:
     captured: dict[str, object] = {}
@@ -73,7 +107,7 @@ def test_smash_update_forwards_legacy_backward_flag(
         ]
     ) == 0
 
-    assert captured["legacy_backward"] is True
+    assert captured["backward"] == "grouped_v1"
     assert json.loads(capsys.readouterr().out)["status"] == "PASS"
 
 

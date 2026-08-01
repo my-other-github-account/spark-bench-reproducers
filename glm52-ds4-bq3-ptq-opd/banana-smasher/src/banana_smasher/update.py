@@ -254,7 +254,8 @@ def run_minimal_update(
     learning_rate: float = 1e-4,
     hard_abort_seconds: float = 250.0,
     baseline_seconds: float = BASELINE_WINDOW_SECONDS,
-    legacy_backward: bool = False,
+    backward: str = "layer_graph",
+    legacy_backward: bool | None = None,
 ) -> dict[str, Any]:
     import torch
 
@@ -274,20 +275,24 @@ def run_minimal_update(
         raise ValueError(f"layers must be in [1,{PRODUCTION_LAYERS}], got {layers}")
     if hard_abort_seconds <= 0 or learning_rate <= 0:
         raise ValueError("hard abort and learning rate must be positive")
+    if legacy_backward is not None:
+        backward = "grouped_v1" if legacy_backward else "layer_graph"
+    if backward not in {"layer_graph", "grouped_v1"}:
+        raise ValueError(f"unsupported backward mode {backward!r}")
+    use_legacy_backward = backward == "grouped_v1"
 
     if int(layers) == PRODUCTION_LAYERS:
         from . import depth_update
 
-        legacy_suffix = " --legacy-backward" if legacy_backward else ""
         os.environ["BANANA_SMASHER_PUBLIC_API_COMMAND"] = (
             "smash update "
             f"--runtime-root {runtime_root} --model-root {model_root} --aot {aot} "
             f"--receipt {receipt} --layers {layers} --window {window} --tokens {tokens} "
-            f"--learning-rate {learning_rate:g} --hard-abort-seconds {hard_abort_seconds:g}"
-            f"{legacy_suffix}"
+            f"--learning-rate {learning_rate:g} --hard-abort-seconds {hard_abort_seconds:g} "
+            f"--backward {backward}"
         )
         rc = depth_update.main(
-            legacy_backward=legacy_backward,
+            legacy_backward=use_legacy_backward,
             result_path=receipt,
         )
         result = json.loads(receipt.read_text())

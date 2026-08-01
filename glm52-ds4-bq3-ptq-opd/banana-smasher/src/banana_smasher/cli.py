@@ -89,10 +89,19 @@ def _parser() -> argparse.ArgumentParser:
     update.add_argument("--learning-rate", type=float, default=1e-4)
     update.add_argument("--hard-abort-seconds", type=float, default=250.0)
     update.add_argument("--baseline-seconds", type=float, default=890.0)
-    update.add_argument(
+    backward = update.add_mutually_exclusive_group()
+    backward.add_argument(
+        "--backward",
+        choices=("layer_graph", "grouped_v1"),
+        default="layer_graph",
+        help="select the fused layer-graph default or grouped_v1 comparison path",
+    )
+    backward.add_argument(
         "--legacy-backward",
-        action="store_true",
-        help="use the pre-layer-fusion K-major backward as a compatibility fallback",
+        action="store_const",
+        const="grouped_v1",
+        dest="backward",
+        help="compatibility alias for --backward grouped_v1",
     )
     return parser
 
@@ -188,7 +197,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                     learning_rate=args.learning_rate,
                     hard_abort_seconds=args.hard_abort_seconds,
                     baseline_seconds=args.baseline_seconds,
-                    legacy_backward=args.legacy_backward,
+                    backward=args.backward,
                 ),
                 "command": "update",
             }

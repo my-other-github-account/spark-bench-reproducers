@@ -789,6 +789,8 @@ def main(
                 and layer_graph_vjp["grouped_experts"]
                 == EXPECTED_GRAPH_GROUPED_EXPERTS
                 and layer_graph_vjp["max_nodes_per_projection"] == 1
+                and layer_graph_vjp["grad_weight_bmm_launches"]
+                == EXPECTED_GRAPH_BACKWARD_NODES
                 and layer_graph_vjp["reduction_kernel_launches"]
                 == EXPECTED_GRAPH_BACKWARD_NODES
             )
