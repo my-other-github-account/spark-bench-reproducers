@@ -37,8 +37,8 @@
       "sha256": "86f78efb6f86f11dcd93cf20dfc246c82444c91c0d1448c063cfb9ef473bdd3a"
     },
     "README.md": {
-      "bytes": 6029,
-      "sha256": "5df9dee0b71e5617ab44b7a46221199891e64349e016922637efff3eb6540907"
+      "bytes": 6513,
+      "sha256": "791aa2d2a5160f44c14ae69192ceaa299795baf73465ad7475276d8983c2d6a3"
     },
     "RELEASE_PRESEAL.md": {
       "bytes": 4451,
@@ -269,12 +269,12 @@
       "sha256": "548b0c8cd5fc944a9269042ca87f0b7e9bae96a95424c7b29105af4f5ed27de7"
     },
     "schema/bs-pack-v1.schema.json": {
-      "bytes": 1595,
-      "sha256": "b8ae6ff71aa51f4bd9bc431fc86ea6bb525d80e8f3016d41d6e8460d416b3c26"
+      "bytes": 2107,
+      "sha256": "3f90e75b3f43eeeab8f176694e211ccb072fffe73f5851635198aebf6fd0ee64"
     },
     "schema/bs-paired-real-axis-evaluation-v1.schema.json": {
-      "bytes": 1267,
-      "sha256": "536feecd20e6f8c7b31ccca591eaf7cd925dd125f2a02de6e1c2392a0b0011be"
+      "bytes": 9483,
+      "sha256": "740440b062e3974b1b5e835963d177e1ca4441bf995ce6fcbfcb43882373ed59"
     },
     "schema/bs-real-axis-instrument-v1.schema.json": {
       "bytes": 876,
@@ -289,8 +289,8 @@
       "sha256": "2a927e1905ab34673765c859a040ebd5fe4419ca1d88fc4252f4ad92e534c039"
     },
     "schema/bs-teacher-bank-v1.schema.json": {
-      "bytes": 1025,
-      "sha256": "aa76d24684dfb855a279807d448e3ec4266775561766706ec43245edd4ce8feb"
+      "bytes": 5092,
+      "sha256": "97f5533a93489f3b17f2a8cbb1e51a1465028f042c9e32a527872308fa4f65c2"
     },
     "src/banana_smasher/__init__.py": {
       "bytes": 323,
@@ -301,8 +301,8 @@
       "sha256": "0d314f422ec0866ccff6be27fc9ac133da2900f307c96520d9405d32cdfd522a"
     },
     "src/banana_smasher/bank.py": {
-      "bytes": 23767,
-      "sha256": "6db13826e135fbb6ad432891cca321a508d8f537115b51d3db87c335bc0593bb"
+      "bytes": 25452,
+      "sha256": "eae52e7c95982793720f9479e325758f0d8d4292d68508336c0ec3d22d589af0"
     },
     "src/banana_smasher/bootstrap.py": {
       "bytes": 6595,
@@ -321,8 +321,8 @@
       "sha256": "202437b149a86a53f2ebbb2a1c91a4b196d31d5557edb8a0384ed95e1dcaa34e"
     },
     "src/banana_smasher/evaluate.py": {
-      "bytes": 32601,
-      "sha256": "9d186bc7899b433bdfe985c3acdff6cbf7697baef40731b24473274b980f6fb6"
+      "bytes": 43092,
+      "sha256": "104f7a4bca87c339c3cd8729510c2d4d954e77f36e920fe18d7ccdd79e80dd12"
     },
     "src/banana_smasher/exact_codebook.py": {
       "bytes": 18054,
@@ -341,16 +341,16 @@
       "sha256": "1b6243a6bce410ba5439d5b212efeefcba7a1b6b4e3b9d7e0b2264eea945f2ee"
     },
     "src/banana_smasher/metrics.py": {
-      "bytes": 7705,
-      "sha256": "6aeee1affe829a5a39365df7aef28960b5f8c41be3434eac8e09b0cc717aa315"
+      "bytes": 9207,
+      "sha256": "769c6ed1cdd5ef8438d56b6d7b5a04ac65c2f56a12003d0a23060ce76f3584c5"
     },
     "src/banana_smasher/profiles/real-axis-v1.json": {
       "bytes": 282,
       "sha256": "984b8ea4f3c5447c2dca1bf153a2f45812856b51c0a232d69e7bdc4599df9a21"
     },
     "src/banana_smasher/real_axis.py": {
-      "bytes": 15865,
-      "sha256": "3250a3aa6e7b0b65378be3be9a2408b8c763e080cbcfac2cf43bb8c2705e771b"
+      "bytes": 16313,
+      "sha256": "d700832bd1954ab6e8144a23a4b07ed2045c8a44dfd83edcf800fa39e5738bd2"
     },
     "src/banana_smasher/repack.py": {
       "bytes": 15073,
@@ -377,8 +377,8 @@
       "sha256": "d9eabb861cd6623152caffdbc74404a46886f831f7d5263c269fc0f2ddbebcb0"
     },
     "tests/real_axis_fixtures.py": {
-      "bytes": 5749,
-      "sha256": "8e8bbc6565cecbfa34f75a6744dbed0379c2ca06ebcb72e24aa1ec518c98b091"
+      "bytes": 6486,
+      "sha256": "14f7c937fa807aa3be57eef7f444d32162c5dbae5870aa5e5a9a18c0a273ceb3"
     },
     "tests/test_accumulation.py": {
       "bytes": 1748,
@@ -389,16 +389,16 @@
       "sha256": "f5b669360d854daa27bdfd9c64beb1659f0d91cd736ae93793689dbd6f13e78b"
     },
     "tests/test_bank.py": {
-      "bytes": 8003,
-      "sha256": "5b2caae6dd2c5e0f95c573821440e98203d722291c401b626a2f0b4bf468d144"
+      "bytes": 9884,
+      "sha256": "b1e55befed90d869d0ed5d2b97616ea75bbc4a32b6f329051a3c483bc836e70c"
     },
     "tests/test_bank_evaluate_cli.py": {
       "bytes": 2717,
       "sha256": "9dc1c17b8b3aeef577da604dd0d39e49cc60ae84939524e360e63276f5c6feb7"
     },
     "tests/test_bank_evaluate_manifests.py": {
-      "bytes": 2176,
-      "sha256": "875af46cca941e3cb297ad22cb1d3ceb2b0a9960a8b61ffb1fc69c955b1fd2f3"
+      "bytes": 3266,
+      "sha256": "ed5626a7e3440d05fbc79c269ff64daf53dcd4d6a8303589660c754d5b62699e"
     },
     "tests/test_bootstrap.py": {
       "bytes": 4724,
@@ -413,8 +413,8 @@
       "sha256": "5784da17c02930ba46da62807379eca9381261c0d8dca6807a194ef565a389c1"
     },
     "tests/test_evaluate.py": {
-      "bytes": 8868,
-      "sha256": "9d644866ce03c736ff27fee8aaa3b7ca28d1ba6cfd760484b3c7d23408333a5c"
+      "bytes": 15419,
+      "sha256": "a1d69b737b30e6f4ae63ee44e5a92d4000e8277c49a2ae91b8b946c0e877fc33"
     },
     "tests/test_exact_codebook.py": {
       "bytes": 7452,
@@ -433,8 +433,8 @@
       "sha256": "3aec3d345738eaab9c925f1af8d845d3dfa4033e9f0915101cd2f308292cdb9f"
     },
     "tests/test_real_axis_metrics.py": {
-      "bytes": 1081,
-      "sha256": "c43544d657cf59361b3200a89bd4762c4b905742855220af6a7174e9778b816a"
+      "bytes": 1760,
+      "sha256": "fe804321474484e9a5d68ea5df21ae703047315f0d2beabe725c2628ceac5a16"
     },
     "tests/test_release_surfaces.py": {
       "bytes": 3618,

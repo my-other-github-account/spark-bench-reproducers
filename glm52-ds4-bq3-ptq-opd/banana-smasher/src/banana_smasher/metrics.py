@@ -11,6 +11,58 @@ class MetricsError(ValueError):
     """Raised when real-axis numerical artifacts are malformed."""
 
 
+_T_CRITICAL_975 = (
+    12.706,
+    4.303,
+    3.182,
+    2.776,
+    2.571,
+    2.447,
+    2.365,
+    2.306,
+    2.262,
+    2.228,
+    2.201,
+    2.179,
+    2.160,
+    2.145,
+    2.131,
+    2.120,
+    2.110,
+    2.101,
+    2.093,
+    2.086,
+    2.080,
+    2.074,
+    2.069,
+    2.064,
+    2.060,
+    2.056,
+    2.052,
+    2.048,
+    2.045,
+    2.042,
+)
+
+
+def _student_t_critical_975(degrees_of_freedom: int) -> float:
+    if degrees_of_freedom <= 0:
+        raise MetricsError("PAIRED_DEGREES_OF_FREEDOM_INVALID")
+    if degrees_of_freedom <= len(_T_CRITICAL_975):
+        return _T_CRITICAL_975[degrees_of_freedom - 1]
+    # Cornish-Fisher expansion around the standard-normal 97.5th percentile.
+    # The degrees of freedom are derived from the actual paired population.
+    z = 1.959963984540054
+    df = float(degrees_of_freedom)
+    return (
+        z
+        + (z**3 + z) / (4.0 * df)
+        + (5.0 * z**5 + 16.0 * z**3 + 3.0 * z) / (96.0 * df**2)
+        + (3.0 * z**7 + 19.0 * z**5 + 17.0 * z**3 - 15.0 * z)
+        / (384.0 * df**3)
+    )
+
+
 def require_finite_float(
     value: np.ndarray[Any, Any], *, label: str, rank: int | None = None
 ) -> np.ndarray[Any, Any]:
@@ -96,7 +148,7 @@ def score_candidate(
     candidate_argmax = np.argmax(values, axis=1).astype(np.int32)
     top1_equal = (candidate_argmax == teacher_top1).astype(np.uint8)
     return {
-        "candidate_logprob": gathered.astype(np.float32),
+        "candidate_logprob": gathered,
         "candidate_argmax": candidate_argmax,
         "kld": kld.astype(np.float64),
         "top1_equal": top1_equal,
@@ -171,6 +223,15 @@ def paired_summary(
         float(left["mean_kld"]) - float(right["mean_kld"])
         for left, right in zip(candidate_rows, reference_rows, strict=True)
     ]
+    if not deltas or not np.isfinite(deltas).all():
+        raise MetricsError("PAIRED_DELTAS_INVALID")
+    mean_delta = float(np.mean(deltas))
+    if len(deltas) == 1:
+        paired_ci95 = [mean_delta, mean_delta]
+    else:
+        standard_error = float(np.std(deltas, ddof=1)) / math.sqrt(len(deltas))
+        margin = _student_t_critical_975(len(deltas) - 1) * standard_error
+        paired_ci95 = [mean_delta - margin, mean_delta + margin]
     candidate_global = float(candidate["kld"]["global"])
     reference_global = float(reference["kld"]["global"])
     ratio: float | None
@@ -185,7 +246,8 @@ def paired_summary(
             "candidate window-mean KLD minus reference window-mean KLD"
         ),
         "window_deltas": deltas,
-        "mean_window_delta": float(np.mean(deltas)),
+        "mean_window_delta": mean_delta,
+        "paired_ci95": paired_ci95,
         "improvement_ratio_definition": (
             "reference global KLD divided by candidate global KLD"
         ),

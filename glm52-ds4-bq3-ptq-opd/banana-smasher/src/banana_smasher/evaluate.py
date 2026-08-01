@@ -55,6 +55,44 @@ def _tensor_schema(value: np.ndarray[Any, Any]) -> dict[str, Any]:
     return {"dtype": value.dtype.str, "shape": list(value.shape)}
 
 
+def _confined_root_file(root: Path, relative: str, *, label: str) -> Path:
+    try:
+        return safe_relative_path(root, relative, label=label)
+    except DurabilityError as exc:
+        raise EvaluationError(str(exc)) from exc
+
+
+def _is_sha256(value: Any) -> bool:
+    return (
+        isinstance(value, str)
+        and len(value) == 64
+        and all(character in "0123456789abcdef" for character in value)
+    )
+
+
+def _verify_layer_descriptor(value: Any, *, layer: int) -> None:
+    if not isinstance(value, dict) or set(value) != {
+        "layer",
+        "activation",
+        "descriptor",
+        "weight",
+        "bias",
+        "sha256",
+    }:
+        raise EvaluationError("EVALUATION_TOPOLOGY_MISMATCH")
+    descriptor = {key: item for key, item in value.items() if key != "sha256"}
+    if (
+        value.get("layer") != layer
+        or value.get("activation") not in ("identity", "relu", "tanh")
+        or not isinstance(value.get("descriptor"), dict)
+        or not value["descriptor"]
+        or not isinstance(value.get("weight"), dict)
+        or (value.get("bias") is not None and not isinstance(value.get("bias"), dict))
+        or canonical_sha256(descriptor) != value.get("sha256")
+    ):
+        raise EvaluationError("EVALUATION_TOPOLOGY_MISMATCH")
+
+
 def _evaluation_spec(
     *,
     seal: dict[str, Any],
@@ -289,15 +327,22 @@ def _write_arm_artifacts(
         except MetricsError as exc:
             raise EvaluationError(str(exc)) from exc
         path = arm_root / f"window_{ordinal:06d}.npz"
-        atomic_npz(path, scored)
+        artifact_arrays = {
+            **scored,
+            "teacher_logprob": np.asarray(teacher["teacher_logprob"]),
+            "teacher_argmax": np.asarray(teacher["teacher_argmax"]),
+        }
+        atomic_npz(path, artifact_arrays)
         rows.append(
             {
                 "ordinal": ordinal,
                 "window_id": bank_member["window_id"],
                 "class": bank_member["class"],
+                "positions": int(scored["kld"].shape[0]),
                 **file_identity(path, root=root),
                 "tensors": {
-                    name: _tensor_schema(value) for name, value in sorted(scored.items())
+                    name: _tensor_schema(value)
+                    for name, value in sorted(artifact_arrays.items())
                 },
             }
         )
@@ -343,18 +388,25 @@ def _verify_arm_artifacts(
     if sha256_file(path) != row.get("sha256"):
         raise EvaluationError("ARM_MANIFEST_SHA256_MISMATCH")
     manifest = load_json_object(path, label="ARM_MANIFEST")
+    expected_members = row.get("members")
     if (
         manifest.get("schema") != ARM_MANIFEST_SCHEMA
         or manifest.get("status") != "COMPLETE"
         or manifest.get("evaluation_spec_sha256") != spec_sha256
         or manifest.get("arm") != expected_arm
-        or manifest.get("member_count") != row.get("members")
+        or not isinstance(expected_members, int)
+        or isinstance(expected_members, bool)
+        or expected_members <= 0
+        or manifest.get("member_count") != expected_members
     ):
         raise EvaluationError("ARM_MANIFEST_INVALID")
     members = manifest.get("members")
-    if not isinstance(members, list) or len(members) != row.get("members"):
+    if not isinstance(members, list) or len(members) != expected_members:
         raise EvaluationError("ARM_MEMBER_COUNT_MISMATCH")
+    metric_rows: list[dict[str, Any]] = []
+    support_widths: list[int] = []
     for ordinal, member in enumerate(members):
+        positions = member.get("positions") if isinstance(member, dict) else None
         if (
             not isinstance(member, dict)
             or member.get("ordinal") != ordinal
@@ -362,6 +414,9 @@ def _verify_arm_artifacts(
             or isinstance(member.get("window_id"), bool)
             or not isinstance(member.get("class"), str)
             or not member.get("class")
+            or not isinstance(positions, int)
+            or isinstance(positions, bool)
+            or positions <= 0
         ):
             raise EvaluationError("ARM_MEMBER_INVALID")
         expected_path = f"arms/{expected_arm}/window_{ordinal:06d}.npz"
@@ -379,6 +434,8 @@ def _verify_arm_artifacts(
                     "candidate_argmax",
                     "kld",
                     "top1_equal",
+                    "teacher_logprob",
+                    "teacher_argmax",
                 }:
                     raise EvaluationError("ARM_MEMBER_FIELDS_MISMATCH")
                 arrays = {name: np.asarray(archive[name]) for name in archive.files}
@@ -395,6 +452,8 @@ def _verify_arm_artifacts(
         argmax = arrays["candidate_argmax"]
         kld = arrays["kld"]
         top1 = arrays["top1_equal"]
+        teacher_logprob = arrays["teacher_logprob"]
+        teacher_argmax = arrays["teacher_argmax"]
         if (
             logprob.ndim != 2
             or not np.issubdtype(logprob.dtype, np.floating)
@@ -408,8 +467,43 @@ def _verify_arm_artifacts(
             or top1.shape != (logprob.shape[0],)
             or not np.issubdtype(top1.dtype, np.integer)
             or not np.isin(top1, (0, 1)).all()
+            or positions != logprob.shape[0]
+            or teacher_logprob.shape != logprob.shape
+            or not np.issubdtype(teacher_logprob.dtype, np.floating)
+            or not np.isfinite(teacher_logprob).all()
+            or teacher_argmax.shape != argmax.shape
+            or not np.issubdtype(teacher_argmax.dtype, np.integer)
         ):
             raise EvaluationError("ARM_MEMBER_SEMANTICS_INVALID")
+        teacher_support_lp = teacher_logprob.astype(np.float64, copy=False)
+        teacher_support_lp -= np.log(
+            np.sum(np.exp(teacher_support_lp), axis=1, keepdims=True)
+        )
+        candidate_support_lp = logprob.astype(np.float64, copy=False)
+        candidate_support_lp -= np.log(
+            np.sum(np.exp(candidate_support_lp), axis=1, keepdims=True)
+        )
+        expected_kld = np.maximum(
+            np.sum(
+                np.exp(teacher_support_lp)
+                * (teacher_support_lp - candidate_support_lp),
+                axis=1,
+            ),
+            0.0,
+        )
+        if not np.allclose(kld, expected_kld, rtol=1e-12, atol=1e-12):
+            raise EvaluationError("ARM_MEMBER_KLD_MISMATCH")
+        if not np.array_equal(top1, (argmax == teacher_argmax).astype(np.uint8)):
+            raise EvaluationError("ARM_MEMBER_TOP1_MISMATCH")
+        metric_rows.append(
+            {
+                "window_id": member["window_id"],
+                "class": member["class"],
+                "kld": kld,
+                "top1_equal": top1,
+            }
+        )
+        support_widths.append(int(logprob.shape[1]))
     actual_files = {
         path.name
         for path in path.parent.iterdir()
@@ -420,22 +514,63 @@ def _verify_arm_artifacts(
     }
     if actual_files != expected_files:
         raise EvaluationError("ARM_FILE_SET_MISMATCH")
-    return manifest
+    try:
+        metrics = aggregate_windows(metric_rows)
+    except MetricsError as exc:
+        raise EvaluationError(str(exc)) from exc
+    return {
+        "manifest": manifest,
+        "metrics": metrics,
+        "support_widths": support_widths,
+    }
 
 
 def verify_evaluation(
     output: str | Path, *, expected_spec_sha256: str | None = None
 ) -> dict[str, Any]:
     root = Path(output).resolve()
-    marker_path = root / "EVALUATION_COMPLETE"
+    marker_path = _confined_root_file(
+        root, "EVALUATION_COMPLETE", label="EVALUATION_MARKER"
+    )
     marker = load_json_object(marker_path, label="EVALUATION_MARKER")
-    receipt_path = root / "evaluation.json"
+    receipt_path = _confined_root_file(root, "evaluation.json", label="EVALUATION_RECEIPT")
     receipt = load_json_object(receipt_path, label="EVALUATION_RECEIPT")
     if (
-        marker.get("schema") != EVALUATION_MARKER_SCHEMA
+        set(marker)
+        != {
+            "schema",
+            "status",
+            "evaluation_id",
+            "evaluation_spec_sha256",
+            "evaluation_sha256",
+        }
+        or set(receipt)
+        != {
+            "schema",
+            "schema_version",
+            "status",
+            "operation",
+            "evaluation_id",
+            "evaluation_spec_sha256",
+            "mode",
+            "bank",
+            "population",
+            "instrument",
+            "topology",
+            "arms",
+            "paired",
+            "resume",
+            "elapsed_seconds",
+            "artifacts",
+        }
+        or marker.get("schema") != EVALUATION_MARKER_SCHEMA
         or marker.get("status") != "COMPLETE"
         or receipt.get("schema") != EVALUATION_SCHEMA
+        or receipt.get("schema_version") != 1
         or receipt.get("status") != "COMPLETE"
+        or receipt.get("operation") != "evaluate"
+        or receipt.get("mode") != "paired_real_axis"
+        or marker.get("evaluation_id") != receipt.get("evaluation_id")
         or marker.get("evaluation_spec_sha256")
         != receipt.get("evaluation_spec_sha256")
         or marker.get("evaluation_sha256") != sha256_file(receipt_path)
@@ -451,7 +586,7 @@ def verify_evaluation(
         "reference",
     }:
         raise EvaluationError("EVALUATION_ARMS_INVALID")
-    arm_manifests: dict[str, dict[str, Any]] = {}
+    verified_arms: dict[str, dict[str, Any]] = {}
     for arm in ("candidate", "reference"):
         arm_receipt = receipt_arms.get(arm)
         if not isinstance(arm_receipt, dict):
@@ -461,14 +596,15 @@ def verify_evaluation(
             raise EvaluationError("EVALUATION_ARM_MANIFEST_MISSING")
         if arm_receipt.get("kld_manifest") != arm_row:
             raise EvaluationError("EVALUATION_KLD_MANIFEST_MISMATCH")
-        arm_manifests[arm] = _verify_arm_artifacts(
+        verified = _verify_arm_artifacts(
             root,
             arm_row,
             str(receipt["evaluation_spec_sha256"]),
             expected_arm=arm,
         )
-    candidate_members = arm_manifests["candidate"]["members"]
-    reference_members = arm_manifests["reference"]["members"]
+        verified_arms[arm] = verified
+    candidate_members = verified_arms["candidate"]["manifest"]["members"]
+    reference_members = verified_arms["reference"]["manifest"]["members"]
     candidate_ids = [row["window_id"] for row in candidate_members]
     reference_ids = [row["window_id"] for row in reference_members]
     candidate_classes = [row["class"] for row in candidate_members]
@@ -481,9 +617,139 @@ def verify_evaluation(
         or candidate_classes != reference_classes
         or canonical_sha256(candidate_ids) != population.get("ordered_window_ids_sha256")
         or len(candidate_ids) != population.get("windows")
+        or sum(int(row["positions"]) for row in candidate_members)
+        != population.get("positions")
+        or [row["positions"] for row in candidate_members]
+        != [row["positions"] for row in reference_members]
         or dict(sorted(Counter(candidate_classes).items())) != population.get("classes")
     ):
         raise EvaluationError("ARM_POPULATION_MISMATCH")
+    for arm in ("candidate", "reference"):
+        metrics = verified_arms[arm]["metrics"]
+        arm_receipt = receipt_arms[arm]
+        if (
+            arm_receipt.get("kld") != metrics["kld"]
+            or arm_receipt.get("top1_parity") != metrics["top1_parity"]
+            or arm_receipt.get("per_window") != metrics["per_window"]
+        ):
+            raise EvaluationError("EVALUATION_METRICS_MISMATCH")
+    instrument = receipt.get("instrument")
+    instrument_keys = {
+        "schema",
+        "schema_version",
+        "profile",
+        "teacher_storage",
+        "support",
+        "cutoff",
+        "direction",
+        "attention",
+        "estimator",
+        "profile_sha256",
+    }
+    if (
+        not isinstance(instrument, dict)
+        or set(instrument) != instrument_keys
+        or instrument.get("schema") != "bs-real-axis-instrument-v1"
+        or instrument.get("schema_version") != 1
+        or instrument.get("teacher_storage") != "top_support_logprob"
+        or instrument.get("direction") != "kl_teacher_candidate"
+        or not _is_sha256(instrument.get("profile_sha256"))
+        or any(
+            width != instrument.get("support")
+            for arm in verified_arms.values()
+            for width in arm["support_widths"]
+        )
+        or any(row["positions"] != instrument.get("cutoff") for row in candidate_members)
+    ):
+        raise EvaluationError("EVALUATION_INSTRUMENT_MISMATCH")
+    topology = receipt.get("topology")
+    topology_rows = topology.get("layers") if isinstance(topology, dict) else None
+    layer_count = topology.get("layer_count") if isinstance(topology, dict) else None
+    if (
+        not isinstance(layer_count, int)
+        or isinstance(layer_count, bool)
+        or layer_count <= 0
+        or not isinstance(topology_rows, list)
+        or len(topology_rows) != layer_count
+    ):
+        raise EvaluationError("EVALUATION_TOPOLOGY_MISMATCH")
+    for layer, topology_row in enumerate(topology_rows):
+        if (
+            not isinstance(topology_row, dict)
+            or set(topology_row) != {"layer", "candidate", "reference"}
+            or topology_row.get("layer") != layer
+        ):
+            raise EvaluationError("EVALUATION_TOPOLOGY_MISMATCH")
+        _verify_layer_descriptor(topology_row.get("candidate"), layer=layer)
+        _verify_layer_descriptor(topology_row.get("reference"), layer=layer)
+    artifact_keys = {
+        "model_id",
+        "real_axis_manifest_sha256",
+        "layer_count",
+        "pack_manifest_sha256",
+        "pack_instance_id",
+    }
+    for arm in ("candidate", "reference"):
+        artifact = receipt_arms[arm].get("artifact")
+        if (
+            not isinstance(artifact, dict)
+            or set(artifact) != artifact_keys
+            or artifact.get("layer_count") != layer_count
+            or not isinstance(artifact.get("model_id"), str)
+            or not artifact["model_id"]
+            or not isinstance(artifact.get("pack_instance_id"), str)
+            or not artifact["pack_instance_id"]
+            or not _is_sha256(artifact.get("real_axis_manifest_sha256"))
+            or not _is_sha256(artifact.get("pack_manifest_sha256"))
+        ):
+            raise EvaluationError("EVALUATION_ARM_IDENTITY_MISMATCH")
+    bank = receipt.get("bank")
+    if (
+        not isinstance(bank, dict)
+        or set(bank)
+        != {"bank_id", "manifest_sha256", "build_spec_sha256", "tree_sha256"}
+        or not all(_is_sha256(value) for value in bank.values())
+    ):
+        raise EvaluationError("EVALUATION_SPEC_MISMATCH")
+    reconstructed_spec = {
+        "schema": "bs-paired-real-axis-evaluation-spec-v1",
+        "mode": "paired_real_axis",
+        "bank": {
+            "bank_id": bank["bank_id"],
+            "manifest_sha256": bank["manifest_sha256"],
+            "build_spec_sha256": bank["build_spec_sha256"],
+        },
+        "candidate": receipt_arms["candidate"]["artifact"],
+        "reference": receipt_arms["reference"]["artifact"],
+        "population": {
+            "ordered_window_ids": candidate_ids,
+            "classes": candidate_classes,
+            "ordered_window_ids_sha256": population["ordered_window_ids_sha256"],
+            "ordered_classes_sha256": canonical_sha256(candidate_classes),
+        },
+        "instrument": instrument,
+    }
+    if canonical_sha256(reconstructed_spec) != receipt.get("evaluation_spec_sha256"):
+        raise EvaluationError("EVALUATION_SPEC_MISMATCH")
+    expected_paired = paired_summary(
+        verified_arms["candidate"]["metrics"],
+        verified_arms["reference"]["metrics"],
+    )
+    if receipt.get("paired") != expected_paired:
+        raise EvaluationError("EVALUATION_METRICS_MISMATCH")
+    expected_evaluation_id = canonical_sha256(
+        {
+            "evaluation_spec_sha256": receipt["evaluation_spec_sha256"],
+            "candidate_manifest_sha256": receipt_arms["candidate"][
+                "logits_manifest"
+            ]["sha256"],
+            "reference_manifest_sha256": receipt_arms["reference"][
+                "logits_manifest"
+            ]["sha256"],
+        }
+    )
+    if receipt.get("evaluation_id") != expected_evaluation_id:
+        raise EvaluationError("EVALUATION_ID_MISMATCH")
     tree = tree_identity(
         root,
         excluded_names=(
@@ -733,6 +999,7 @@ def evaluate_paired(
                 "bank": {
                     "bank_id": bank_seal["bank_id"],
                     "manifest_sha256": bank_seal["manifest_sha256"],
+                    "build_spec_sha256": bank_seal["build_spec_sha256"],
                     "tree_sha256": bank_seal["tree_sha256"],
                 },
                 "population": {

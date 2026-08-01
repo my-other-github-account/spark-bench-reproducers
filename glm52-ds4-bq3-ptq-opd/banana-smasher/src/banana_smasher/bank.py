@@ -76,6 +76,9 @@ def _build_spec(
             "corpus_id": population.corpus_id,
             "manifest_sha256": population.manifest_sha256,
             "ordered_window_ids_sha256": population.ordered_window_ids_sha256,
+            "ordered_classes_sha256": canonical_sha256(
+                [window.class_name for window in population.windows]
+            ),
             "window_count": len(population.windows),
         },
         "instrument": instrument_identity,
@@ -174,8 +177,16 @@ def _verify_member(
 
 
 def _sidecar_row(root: Path, sidecar: Path) -> dict[str, Any]:
-    value = load_json_object(sidecar, label="BANK_MEMBER_SIDECAR")
-    if value.get("sidecar") != sidecar.relative_to(root).as_posix():
+    directory = root.resolve()
+    try:
+        relative = sidecar.relative_to(directory).as_posix()
+        confined = safe_relative_path(
+            directory, relative, label="BANK_MEMBER_SIDECAR"
+        )
+    except (DurabilityError, ValueError) as exc:
+        raise BankError(f"BANK_MEMBER_SIDECAR_PATH_UNSAFE: {sidecar}") from exc
+    value = load_json_object(confined, label="BANK_MEMBER_SIDECAR")
+    if value.get("sidecar") != relative:
         raise BankError("BANK_MEMBER_SIDECAR_PATH_MISMATCH")
     return value
 
@@ -195,11 +206,45 @@ def verify_bank(bank: str | Path, *, require_complete: bool = True) -> dict[str,
     if require_complete and (marker_path.is_symlink() or not marker_path.is_file()):
         raise BankError(f"BANK_INCOMPLETE: missing BANK_COMPLETE in {root}")
     marker = load_json_object(marker_path, label="BANK_MARKER")
-    if marker.get("schema") != BANK_MARKER_SCHEMA or marker.get("status") != "COMPLETE":
+    if (
+        set(marker)
+        != {
+            "schema",
+            "status",
+            "bank_id",
+            "build_spec_sha256",
+            "bank_manifest_sha256",
+            "member_count",
+        }
+        or marker.get("schema") != BANK_MARKER_SCHEMA
+        or marker.get("status") != "COMPLETE"
+    ):
         raise BankError("BANK_MARKER_INVALID")
-    manifest_path = root / "bank.json"
+    try:
+        manifest_path = safe_relative_path(root, "bank.json", label="BANK_MANIFEST")
+    except DurabilityError as exc:
+        raise BankError(str(exc)) from exc
     manifest = load_json_object(manifest_path, label="BANK_MANIFEST")
-    if manifest.get("schema") != BANK_SCHEMA or manifest.get("status") != "COMPLETE":
+    if (
+        set(manifest)
+        != {
+            "schema",
+            "schema_version",
+            "status",
+            "bank_id",
+            "build_spec_sha256",
+            "model",
+            "corpus",
+            "instrument",
+            "population",
+            "members",
+            "member_count",
+            "total_bytes",
+        }
+        or manifest.get("schema") != BANK_SCHEMA
+        or manifest.get("schema_version") != 1
+        or manifest.get("status") != "COMPLETE"
+    ):
         raise BankError("BANK_MANIFEST_SCHEMA_MISMATCH")
     manifest_sha256 = sha256_file(manifest_path)
     if marker.get("bank_manifest_sha256") != manifest_sha256:
@@ -256,6 +301,11 @@ def verify_bank(bank: str | Path, *, require_complete: bool = True) -> dict[str,
         or corpus.get("window_count") != len(members)
     ):
         raise BankError("BANK_CORPUS_POPULATION_MISMATCH")
+    classes_sha256 = canonical_sha256(expected_classes)
+    if population.get("ordered_classes_sha256") != classes_sha256:
+        raise BankError("BANK_POPULATION_CLASSES_SHA256_MISMATCH")
+    if corpus.get("ordered_classes_sha256") != classes_sha256:
+        raise BankError("BANK_CORPUS_CLASSES_MISMATCH")
     support = instrument.get("support")
     cutoff = instrument.get("cutoff")
     if (
@@ -509,6 +559,9 @@ def build_bank(
                     "ordered_window_ids": [window.window_id for window in population.windows],
                     "classes": [window.class_name for window in population.windows],
                     "ordered_window_ids_sha256": population.ordered_window_ids_sha256,
+                    "ordered_classes_sha256": spec["corpus"][
+                        "ordered_classes_sha256"
+                    ],
                 },
                 "members": member_rows,
                 "member_count": len(member_rows),

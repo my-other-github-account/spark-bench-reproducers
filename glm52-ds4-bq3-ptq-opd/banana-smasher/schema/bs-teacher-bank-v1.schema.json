@@ -9,14 +9,106 @@
     "schema": {"const": "bs-teacher-bank-v1"},
     "schema_version": {"const": 1},
     "status": {"const": "COMPLETE"},
-    "bank_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-    "build_spec_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-    "model": {"type": "object"},
-    "corpus": {"type": "object"},
-    "instrument": {"type": "object"},
-    "population": {"type": "object"},
-    "members": {"type": "array", "items": {"type": "object"}},
+    "bank_id": {"$ref": "#/$defs/sha256"},
+    "build_spec_sha256": {"$ref": "#/$defs/sha256"},
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model_id", "real_axis_manifest_sha256", "layer_count"],
+      "properties": {
+        "model_id": {"type": "string", "minLength": 1},
+        "real_axis_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "layer_count": {"type": "integer", "minimum": 1},
+        "pack_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "pack_instance_id": {"type": "string", "minLength": 1}
+      }
+    },
+    "corpus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["corpus_id", "manifest_sha256", "ordered_window_ids_sha256", "ordered_classes_sha256", "window_count"],
+      "properties": {
+        "corpus_id": {"type": "string", "minLength": 1},
+        "manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "ordered_window_ids_sha256": {"$ref": "#/$defs/sha256"},
+        "ordered_classes_sha256": {"$ref": "#/$defs/sha256"},
+        "window_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "instrument": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "schema_version", "profile", "teacher_storage", "support", "cutoff", "direction", "attention", "estimator", "profile_sha256"],
+      "properties": {
+        "schema": {"const": "bs-real-axis-instrument-v1"},
+        "schema_version": {"const": 1},
+        "profile": {"type": "string", "minLength": 1},
+        "teacher_storage": {"const": "top_support_logprob"},
+        "support": {"type": "integer", "minimum": 1},
+        "cutoff": {"type": "integer", "minimum": 1},
+        "direction": {"const": "kl_teacher_candidate"},
+        "attention": {"type": "string", "minLength": 1},
+        "estimator": {"type": "string", "minLength": 1},
+        "profile_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "population": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordered_window_ids", "classes", "ordered_window_ids_sha256", "ordered_classes_sha256"],
+      "properties": {
+        "ordered_window_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": ["string", "integer"]}},
+        "classes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "ordered_window_ids_sha256": {"$ref": "#/$defs/sha256"},
+        "ordered_classes_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "members": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "build_spec_sha256", "ordinal", "window_id", "class", "path", "bytes", "sha256", "sidecar", "positions", "support", "tensors"],
+        "properties": {
+          "schema": {"const": "bs-teacher-bank-member-v1"},
+          "build_spec_sha256": {"$ref": "#/$defs/sha256"},
+          "ordinal": {"type": "integer", "minimum": 0},
+          "window_id": {"type": ["string", "integer"]},
+          "class": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "pattern": "^members/window_[0-9]{6}\\.npz$"},
+          "bytes": {"type": "integer", "minimum": 1},
+          "sha256": {"$ref": "#/$defs/sha256"},
+          "sidecar": {"type": "string", "pattern": "^members/window_[0-9]{6}\\.json$"},
+          "positions": {"type": "integer", "minimum": 1},
+          "support": {"type": "integer", "minimum": 1},
+          "tensors": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["initial_hidden", "teacher_indices", "teacher_logprob", "teacher_argmax"],
+            "properties": {
+              "initial_hidden": {"$ref": "#/$defs/tensor"},
+              "teacher_indices": {"$ref": "#/$defs/tensor"},
+              "teacher_logprob": {"$ref": "#/$defs/tensor"},
+              "teacher_argmax": {"$ref": "#/$defs/tensor"}
+            }
+          }
+        }
+      }
+    },
     "member_count": {"type": "integer", "minimum": 1},
     "total_bytes": {"type": "integer", "minimum": 1}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "tensor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dtype", "shape"],
+      "properties": {
+        "dtype": {"type": "string", "minLength": 2},
+        "shape": {"type": "array", "minItems": 1, "items": {"type": "integer", "minimum": 0}}
+      }
+    }
   }
 }

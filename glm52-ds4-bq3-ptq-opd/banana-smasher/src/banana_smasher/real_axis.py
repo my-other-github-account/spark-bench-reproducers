@@ -204,11 +204,17 @@ class RealAxisRunner:
             load_json_object(pack_path, label="PACK_MANIFEST") if pack_path.is_file() else None
         )
         if self.pack_manifest is not None:
+            pack_real_axis = self.pack_manifest.get("real_axis")
             if (
                 self.pack_manifest.get("schema") != "bs-pack"
                 or not isinstance(self.pack_manifest.get("instance_id"), str)
                 or not self.pack_manifest["instance_id"]
                 or self.pack_manifest.get("model_id", self.model_id) != self.model_id
+                or not isinstance(pack_real_axis, dict)
+                or pack_real_axis.get("manifest_sha256") != self.manifest_sha256
+                or pack_real_axis.get("layer_descriptor_sha256")
+                != [self.layer_descriptor(layer)["sha256"] for layer in range(self.layer_count)]
+                or pack_real_axis.get("head_sha256") != canonical_sha256(self.head)
             ):
                 raise RealAxisError("PACK_MANIFEST_REAL_AXIS_IDENTITY_MISMATCH")
 

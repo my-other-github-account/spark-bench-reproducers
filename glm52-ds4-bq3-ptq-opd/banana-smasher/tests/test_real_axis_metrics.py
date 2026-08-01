@@ -5,7 +5,7 @@ import math
 import numpy as np
 import pytest
 
-from banana_smasher.metrics import score_candidate, teacher_support
+from banana_smasher.metrics import paired_summary, score_candidate, teacher_support
 
 
 def test_known_support_kld_direction_and_top1_parity() -> None:
@@ -29,3 +29,21 @@ def test_teacher_support_uses_lowest_token_id_for_ties() -> None:
     assert indices.tolist() == [[0, 1]]
     assert argmax.tolist() == [0]
     assert np.isfinite(logprob).all()
+
+
+def test_paired_summary_derives_ci95_from_actual_window_count() -> None:
+    def arm(values: list[float]) -> dict:
+        return {
+            "kld": {"global": float(np.mean(values))},
+            "per_window": [
+                {"window_id": index, "mean_kld": value}
+                for index, value in enumerate(values)
+            ],
+        }
+
+    paired = paired_summary(arm([2.0, 4.0, 8.0]), arm([1.0, 2.0, 4.0]))
+    assert paired["paired_ci95"][0] < paired["mean_window_delta"]
+    assert paired["paired_ci95"][1] > paired["mean_window_delta"]
+
+    singleton = paired_summary(arm([2.0]), arm([1.0]))
+    assert singleton["paired_ci95"] == [1.0, 1.0]

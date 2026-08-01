@@ -7,6 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).parents[1]
 BANK_EVALUATE_PAYLOADS = (
+    "schema/bs-pack-v1.schema.json",
     "schema/bs-paired-real-axis-evaluation-v1.schema.json",
     "schema/bs-real-axis-instrument-v1.schema.json",
     "schema/bs-real-axis-runtime-v1.schema.json",
@@ -56,3 +57,26 @@ def test_profiles_and_schemas_are_valid_json_objects() -> None:
         if not relative.endswith(".json"):
             continue
         assert isinstance(json.loads((ROOT / relative).read_text()), dict)
+
+
+def test_public_bank_and_evaluation_schemas_are_nested_contracts() -> None:
+    bank = json.loads((ROOT / "schema/bs-teacher-bank-v1.schema.json").read_text())
+    evaluation = json.loads(
+        (ROOT / "schema/bs-paired-real-axis-evaluation-v1.schema.json").read_text()
+    )
+
+    for name in ("model", "corpus", "instrument", "population"):
+        assert bank["properties"][name]["additionalProperties"] is False
+        assert bank["properties"][name]["required"]
+    member = bank["properties"]["members"]["items"]
+    assert member["additionalProperties"] is False
+    assert {"path", "sidecar", "sha256", "positions", "tensors"} <= set(
+        member["required"]
+    )
+
+    for name in ("bank", "population", "instrument", "topology", "paired", "resume"):
+        assert evaluation["properties"][name]["additionalProperties"] is False
+        assert evaluation["properties"][name]["required"]
+    arms = evaluation["properties"]["arms"]
+    assert arms["additionalProperties"] is False
+    assert arms["properties"]["candidate"]["required"]

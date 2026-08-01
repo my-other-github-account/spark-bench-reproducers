@@ -69,16 +69,22 @@ walk over that complete bank. Use `smash evaluate --model-root
 /path/to/reference-pack --bank /path/to/bank --output /path/to/evaluation`.
 Candidate and reference packs each declare a `real_axis.json` profile whose
 per-layer tensor identities and descriptors drive the walk; topology is resolved
-again for every layer rather than copied from a model-wide literal. The packaged
-`real-axis-v1` instrument supplies support, cutoff, KLD direction, attention,
-and estimator values.
+again for every layer rather than copied from a model-wide literal. Evaluation-
+ready `BANANA_PACK_MANIFEST.json` files bind the complete runtime manifest,
+every ordered layer-descriptor digest, and the head digest through their
+`real_axis` seal; an unsealed or drifted profile is rejected before the walk.
+The packaged `real-axis-v1` instrument supplies support, cutoff, KLD direction,
+attention, and estimator values.
 
 Both arms checkpoint exact hidden states at each common completed layer.
 Automatic resume selects only the greatest contiguous validated pair;
 `--resume-from-layer N` requires the pair checkpoint ending at layer `N-1` and
 never skips state. `evaluation.json` binds the arm artifact manifests,
 per-position KLD, global/per-class/per-window summaries, teacher/candidate top-1
-parity, paired deltas, pack identities, and layer descriptors.
+parity, paired deltas plus the actual-population 95% paired interval, pack
+identities, and layer descriptors. Verification recomputes KLD and top-1 parity
+from the persisted support log-probabilities/argmax tensors, then recomputes all
+arm and paired aggregates before accepting a coherently hashed receipt.
 `EVALUATION_COMPLETE` is published last. Normal stdout stays concise;
 `--verbose-receipts` includes the durable evaluation object. Numerical parity
 against the deterministic reference rail remains in CI, not the user runtime.

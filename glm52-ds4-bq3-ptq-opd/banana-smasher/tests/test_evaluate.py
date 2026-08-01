@@ -3,11 +3,13 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 from banana_smasher.bank import build_bank
-from banana_smasher.durability import sha256_file, tree_identity
+from banana_smasher.durability import canonical_sha256, sha256_file, tree_identity
 from banana_smasher.evaluate import EvaluationError, evaluate_paired, verify_evaluation
+from banana_smasher.metrics import aggregate_windows, paired_summary
 from real_axis_fixtures import real_axis_fixture
 
 
@@ -32,6 +34,26 @@ def _evaluate(paths: dict[str, Path], **kwargs):
     )
 
 
+def _reseal_evaluation(root: Path, receipt: dict) -> None:
+    receipt["artifacts"]["tree_sha256"] = tree_identity(
+        root,
+        excluded_names=(
+            ".banana-smasher.lock",
+            "EVALUATION_COMPLETE",
+            "EVALUATION_PROGRESS.json",
+            "evaluation.json",
+        ),
+    )["sha256"]
+    receipt_path = root / "evaluation.json"
+    receipt_path.write_text(json.dumps(receipt, sort_keys=True) + "\n")
+    marker_path = root / "EVALUATION_COMPLETE"
+    marker = json.loads(marker_path.read_text())
+    marker["evaluation_id"] = receipt["evaluation_id"]
+    marker["evaluation_spec_sha256"] = receipt["evaluation_spec_sha256"]
+    marker["evaluation_sha256"] = sha256_file(receipt_path)
+    marker_path.write_text(json.dumps(marker, sort_keys=True) + "\n")
+
+
 def test_paired_evaluation_persists_kld_top1_and_artifact_manifests(
     tmp_path: Path,
 ) -> None:
@@ -44,6 +66,7 @@ def test_paired_evaluation_persists_kld_top1_and_artifact_manifests(
     assert result["arms"]["candidate"]["global_kld"] >= 0.0
     assert 0.0 <= result["arms"]["candidate"]["top1_rate"] <= 1.0
     assert "window_deltas" in result["paired"]
+    assert "paired_ci95" in result["paired"]
 
     seal = verify_evaluation(paths["evaluation"])
     receipt = seal["receipt"]
@@ -63,6 +86,11 @@ def test_paired_evaluation_persists_kld_top1_and_artifact_manifests(
             "reasoning",
         }
         assert receipt["arms"][arm]["top1_parity"]["positions"] == 8
+        manifest_path = paths["evaluation"] / receipt["arms"][arm]["logits_manifest"][
+            "path"
+        ]
+        arm_manifest = json.loads(manifest_path.read_text())
+        assert [row["positions"] for row in arm_manifest["members"]] == [4, 4]
     assert (paths["evaluation"] / "EVALUATION_COMPLETE").is_file()
 
 
@@ -245,4 +273,151 @@ def test_resealed_arm_manifest_cannot_drift_from_paired_population(tmp_path: Pat
     marker_path.write_text(json.dumps(marker, sort_keys=True) + "\n")
 
     with pytest.raises(EvaluationError, match="ARM_POPULATION_MISMATCH"):
+        verify_evaluation(root)
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("schema_version", 999),
+        ("operation", "forged"),
+        ("mode", "single_arm"),
+        ("unexpected", "not-contractual"),
+    ],
+)
+def test_resealed_evaluation_rejects_core_contract_drift(
+    tmp_path: Path, field: str, value: object
+) -> None:
+    paths = real_axis_fixture(tmp_path)
+    _bank(paths)
+    _evaluate(paths)
+    root = paths["evaluation"]
+    receipt = json.loads((root / "evaluation.json").read_text())
+    receipt[field] = value
+    _reseal_evaluation(root, receipt)
+
+    with pytest.raises(EvaluationError, match="EVALUATION_COMPLETION_INVALID"):
+        verify_evaluation(root)
+
+
+def test_resealed_evaluation_rejects_aggregate_and_evaluation_id_drift(
+    tmp_path: Path,
+) -> None:
+    paths = real_axis_fixture(tmp_path)
+    _bank(paths)
+    _evaluate(paths)
+    root = paths["evaluation"]
+    receipt = json.loads((root / "evaluation.json").read_text())
+    receipt["arms"]["candidate"]["kld"]["global"] = -999.0
+    receipt["arms"]["candidate"]["top1_parity"]["rate"] = 2.0
+    receipt["evaluation_id"] = "f" * 64
+    _reseal_evaluation(root, receipt)
+
+    with pytest.raises(EvaluationError, match="EVALUATION_(METRICS|ID)_MISMATCH"):
+        verify_evaluation(root)
+
+
+def test_pack_manifest_seal_binds_real_axis_descriptor(tmp_path: Path) -> None:
+    paths = real_axis_fixture(tmp_path)
+    _bank(paths)
+    runtime_path = paths["candidate"] / "real_axis.json"
+    runtime = json.loads(runtime_path.read_text())
+    runtime["layers"][0]["descriptor"]["source_shard"] = "unsealed-drift"
+    runtime_path.write_text(json.dumps(runtime, sort_keys=True) + "\n")
+
+    with pytest.raises(ValueError, match="PACK_MANIFEST_REAL_AXIS_IDENTITY_MISMATCH"):
+        _evaluate(paths)
+
+
+def test_resealed_kld_vector_is_recomputed_from_persisted_logprob(
+    tmp_path: Path,
+) -> None:
+    paths = real_axis_fixture(tmp_path)
+    _bank(paths)
+    _evaluate(paths)
+    root = paths["evaluation"]
+    receipt = json.loads((root / "evaluation.json").read_text())
+    arm_path = root / "arms/candidate/manifest.json"
+    arm = json.loads(arm_path.read_text())
+    metric_rows = []
+    for row in arm["members"]:
+        artifact = root / row["path"]
+        with np.load(artifact, allow_pickle=False) as archive:
+            arrays = {name: np.asarray(archive[name]) for name in archive.files}
+        arrays["kld"] = np.zeros_like(arrays["kld"])
+        np.savez(
+            artifact,
+            candidate_logprob=arrays["candidate_logprob"],
+            candidate_argmax=arrays["candidate_argmax"],
+            kld=arrays["kld"],
+            top1_equal=arrays["top1_equal"],
+            teacher_logprob=arrays["teacher_logprob"],
+            teacher_argmax=arrays["teacher_argmax"],
+        )
+        row["bytes"] = artifact.stat().st_size
+        row["sha256"] = sha256_file(artifact)
+        metric_rows.append(
+            {
+                "window_id": row["window_id"],
+                "class": row["class"],
+                "kld": arrays["kld"],
+                "top1_equal": arrays["top1_equal"],
+            }
+        )
+    arm_path.write_text(json.dumps(arm, sort_keys=True) + "\n")
+    identity = receipt["arms"]["candidate"]["logits_manifest"]
+    identity["sha256"] = sha256_file(arm_path)
+    receipt["arms"]["candidate"]["kld_manifest"] = dict(identity)
+    candidate_metrics = aggregate_windows(metric_rows)
+    receipt["arms"]["candidate"]["kld"] = candidate_metrics["kld"]
+    receipt["arms"]["candidate"]["top1_parity"] = candidate_metrics["top1_parity"]
+    receipt["arms"]["candidate"]["per_window"] = candidate_metrics["per_window"]
+    receipt["paired"] = paired_summary(
+        candidate_metrics,
+        {
+            "kld": receipt["arms"]["reference"]["kld"],
+            "top1_parity": receipt["arms"]["reference"]["top1_parity"],
+            "per_window": receipt["arms"]["reference"]["per_window"],
+        },
+    )
+    receipt["evaluation_id"] = canonical_sha256(
+        {
+            "evaluation_spec_sha256": receipt["evaluation_spec_sha256"],
+            "candidate_manifest_sha256": receipt["arms"]["candidate"][
+                "logits_manifest"
+            ]["sha256"],
+            "reference_manifest_sha256": receipt["arms"]["reference"][
+                "logits_manifest"
+            ]["sha256"],
+        }
+    )
+    _reseal_evaluation(root, receipt)
+
+    with pytest.raises(EvaluationError, match="ARM_MEMBER_KLD_MISMATCH"):
+        verify_evaluation(root)
+
+
+@pytest.mark.parametrize("drift", ["topology", "instrument", "arm_identity"])
+def test_resealed_evaluation_rejects_seal_metadata_drift(
+    tmp_path: Path, drift: str
+) -> None:
+    paths = real_axis_fixture(tmp_path)
+    _bank(paths)
+    _evaluate(paths)
+    root = paths["evaluation"]
+    receipt = json.loads((root / "evaluation.json").read_text())
+    if drift == "topology":
+        receipt["topology"]["layers"][0]["candidate"]["descriptor"][
+            "source_shard"
+        ] = "forged"
+    elif drift == "instrument":
+        receipt["instrument"]["support"] += 1
+    else:
+        receipt["arms"]["candidate"]["artifact"]["layer_count"] += 1
+    _reseal_evaluation(root, receipt)
+
+    with pytest.raises(
+        EvaluationError,
+        match="EVALUATION_(TOPOLOGY|INSTRUMENT|ARM_IDENTITY|SPEC)_MISMATCH",
+    ):
         verify_evaluation(root)

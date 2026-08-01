@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from banana_smasher.bank import BankError, build_bank, verify_bank
+from banana_smasher.bank import BankError, _sidecar_row, build_bank, verify_bank
 from banana_smasher.durability import sha256_file
 from banana_smasher.real_axis import RealAxisError, RealAxisRunner
 from real_axis_fixtures import real_axis_fixture
@@ -203,4 +203,54 @@ def test_resealed_manifest_cannot_forge_population_or_build_spec(tmp_path: Path)
     manifest["instrument"]["support"] -= 1
     _reseal_manifest(paths["bank"], manifest)
     with pytest.raises(BankError, match="BANK_BUILD_SPEC_DIGEST_MISMATCH"):
+        verify_bank(paths["bank"])
+
+
+def test_sidecar_is_confined_before_json_is_read(tmp_path: Path) -> None:
+    root = tmp_path / "bank"
+    root.mkdir()
+    outside = tmp_path / "outside.json"
+    outside.write_text("not-json")
+
+    with pytest.raises(BankError, match="BANK_MEMBER_SIDECAR_PATH_UNSAFE"):
+        _sidecar_row(root, outside)
+
+
+def test_bank_manifest_symlink_is_rejected_before_json_is_read(tmp_path: Path) -> None:
+    paths = real_axis_fixture(tmp_path)
+    _build(paths)
+    manifest_path = paths["bank"] / "bank.json"
+    manifest_path.unlink()
+    outside = tmp_path / "outside-bank.json"
+    outside.write_text("not-json")
+    manifest_path.symlink_to(outside)
+
+    with pytest.raises(BankError, match="BANK_MANIFEST_SYMLINK_FORBIDDEN"):
+        verify_bank(paths["bank"])
+
+
+def test_resealed_bank_rejects_schema_version_and_class_identity_drift(
+    tmp_path: Path,
+) -> None:
+    paths = real_axis_fixture(tmp_path)
+    _build(paths)
+    manifest = json.loads((paths["bank"] / "bank.json").read_text())
+    manifest["schema_version"] = 999
+    _reseal_manifest(paths["bank"], manifest)
+    with pytest.raises(BankError, match="BANK_MANIFEST_SCHEMA_MISMATCH"):
+        verify_bank(paths["bank"])
+
+    manifest["schema_version"] = 1
+    manifest["unexpected"] = "not-contractual"
+    _reseal_manifest(paths["bank"], manifest)
+    with pytest.raises(BankError, match="BANK_MANIFEST_SCHEMA_MISMATCH"):
+        verify_bank(paths["bank"])
+
+    del manifest["unexpected"]
+    manifest["population"]["classes"][0] = "forged"
+    manifest["members"][0]["class"] = "forged"
+    sidecar = paths["bank"] / manifest["members"][0]["sidecar"]
+    sidecar.write_text(json.dumps(manifest["members"][0], sort_keys=True) + "\n")
+    _reseal_manifest(paths["bank"], manifest)
+    with pytest.raises(BankError, match="BANK_POPULATION_CLASSES_SHA256_MISMATCH"):
         verify_bank(paths["bank"])

@@ -6,7 +6,7 @@ from typing import Any
 
 import numpy as np
 
-from banana_smasher.durability import sha256_file
+from banana_smasher.durability import canonical_sha256, sha256_file
 
 
 def _write_json(path: Path, value: Any) -> Path:
@@ -69,17 +69,18 @@ def write_runtime(
         -1.0, 1.0, 8, dtype=np.float32
     )[None, :]
     head_bias = np.linspace(-0.1, 0.1, 8, dtype=np.float32)
-    _write_json(
+    head = {
+        "weight": _write_array(root, "head/weight.npy", head_weight),
+        "bias": _write_array(root, "head/bias.npy", head_bias),
+    }
+    runtime_path = _write_json(
         root / "real_axis.json",
         {
             "schema": "bs-real-axis-runtime-v1",
             "schema_version": 1,
             "model_id": "fixture-real-axis-model",
             "layers": layers,
-            "head": {
-                "weight": _write_array(root, "head/weight.npy", head_weight),
-                "bias": _write_array(root, "head/bias.npy", head_bias),
-            },
+            "head": head,
         },
     )
     if pack:
@@ -90,6 +91,22 @@ def write_runtime(
                 "schema_version": 1,
                 "instance_id": instance_id,
                 "model_id": "fixture-real-axis-model",
+                "real_axis": {
+                    "manifest_sha256": sha256_file(runtime_path),
+                    "layer_descriptor_sha256": [
+                        canonical_sha256(
+                            {
+                                "layer": row["layer"],
+                                "activation": row["activation"],
+                                "descriptor": row["descriptor"],
+                                "weight": row["weight"],
+                                "bias": row["bias"],
+                            }
+                        )
+                        for row in layers
+                    ],
+                    "head_sha256": canonical_sha256(head),
+                },
             },
         )
     return root
