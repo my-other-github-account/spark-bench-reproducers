@@ -1,0 +1,303 @@
+{
+  "files_changed": {
+    "fleet_launcher_files": 74,
+    "internal_skill_reference_files": 1,
+    "public_binary_cache_files_equal_length_normalized": 18,
+    "public_hygiene_commit_paths": 42
+  },
+  "fleet": {
+    "node-1": {
+      "historical_path_kind": "symlink",
+      "historical_path_process_users_at_final_probe": 0,
+      "launcher_after_sha256_aggregate": "36e8b345ca11d8b0b5381e6a9bf3bfc573852c06fa0f563564159172e189a942",
+      "launcher_files_changed": 5,
+      "launcher_replacements": {
+        "repo_path": 3,
+        "venv_path": 5
+      },
+      "launcher_rescan_remaining_targeted_refs": 0,
+      "live_workload_class": "none_or_out_of_scope",
+      "live_workload_count_at_final_probe": 0,
+      "migration_state": "physical_rename_complete_reverse_compatibility_symlink",
+      "neutral_path_kind": "directory",
+      "repository_compatibility": "neutral_forward_symlink_to_historical_repository",
+      "samefile": true,
+      "vllm_import_both_names": true,
+      "vllm_version": "0.24.0"
+    },
+    "node-2": {
+      "historical_path_kind": "absent",
+      "historical_path_process_users_at_final_probe": 0,
+      "launcher_after_sha256_aggregate": "c59ac3ebf0a6a6881a97f56eaa80a9010e94b83954a10ffcbeb106f52a9bc1dd",
+      "launcher_files_changed": 6,
+      "launcher_replacements": {
+        "repo_path": 2,
+        "venv_path": 34
+      },
+      "launcher_rescan_remaining_targeted_refs": 0,
+      "live_workload_class": "none_or_out_of_scope",
+      "live_workload_count_at_final_probe": 1,
+      "migration_state": "not_present_on_host",
+      "neutral_path_kind": "absent",
+      "repository_compatibility": "repository_not_present_on_host",
+      "samefile": false,
+      "vllm_import_both_names": null,
+      "vllm_version": null
+    },
+    "node-3": {
+      "historical_path_kind": "symlink",
+      "historical_path_process_users_at_final_probe": 0,
+      "launcher_after_sha256_aggregate": "36e8b345ca11d8b0b5381e6a9bf3bfc573852c06fa0f563564159172e189a942",
+      "launcher_files_changed": 5,
+      "launcher_replacements": {
+        "repo_path": 3,
+        "venv_path": 5
+      },
+      "launcher_rescan_remaining_targeted_refs": 0,
+      "live_workload_class": "none_or_out_of_scope",
+      "live_workload_count_at_final_probe": 0,
+      "migration_state": "physical_rename_complete_reverse_compatibility_symlink",
+      "neutral_path_kind": "directory",
+      "repository_compatibility": "neutral_forward_symlink_to_historical_repository",
+      "samefile": true,
+      "vllm_import_both_names": true,
+      "vllm_version": "0.24.0"
+    },
+    "node-4": {
+      "historical_path_kind": "symlink",
+      "historical_path_process_users_at_final_probe": 0,
+      "launcher_after_sha256_aggregate": "b952cf5efdbc3837e548d22d398182d9d1b2dcc4671e863c63a31204f4d8479f",
+      "launcher_files_changed": 3,
+      "launcher_replacements": {
+        "repo_path": 2,
+        "venv_path": 3
+      },
+      "launcher_rescan_remaining_targeted_refs": 0,
+      "live_workload_class": "none_or_out_of_scope",
+      "live_workload_count_at_final_probe": 0,
+      "migration_state": "physical_rename_complete_reverse_compatibility_symlink",
+      "neutral_path_kind": "directory",
+      "repository_compatibility": "neutral_forward_symlink_to_historical_repository",
+      "samefile": true,
+      "vllm_import_both_names": true,
+      "vllm_version": "0.24.0"
+    },
+    "node-5": {
+      "historical_path_kind": "absent",
+      "historical_path_process_users_at_final_probe": 0,
+      "launcher_after_sha256_aggregate": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "launcher_files_changed": 0,
+      "launcher_replacements": {
+        "repo_path": 0,
+        "venv_path": 0
+      },
+      "launcher_rescan_remaining_targeted_refs": 0,
+      "live_workload_class": "none_or_out_of_scope",
+      "live_workload_count_at_final_probe": 2,
+      "migration_state": "not_present_on_host",
+      "neutral_path_kind": "absent",
+      "repository_compatibility": "repository_not_present_on_host",
+      "samefile": false,
+      "vllm_import_both_names": null,
+      "vllm_version": null
+    },
+    "node-6": {
+      "historical_path_kind": "directory",
+      "historical_path_process_users_at_final_probe": 0,
+      "launcher_after_sha256_aggregate": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "launcher_files_changed": 0,
+      "launcher_replacements": {
+        "repo_path": 0,
+        "venv_path": 0
+      },
+      "launcher_rescan_remaining_targeted_refs": 0,
+      "live_workload_class": "unrelated_evaluation",
+      "live_workload_count_at_final_probe": 1,
+      "migration_state": "physical_rename_deferred_live_workload_forward_compatibility_symlink",
+      "neutral_path_kind": "symlink",
+      "repository_compatibility": "repository_not_present_on_host",
+      "samefile": true,
+      "vllm_import_both_names": true,
+      "vllm_version": "0.24.0"
+    },
+    "node-7": {
+      "historical_path_kind": "absent",
+      "historical_path_process_users_at_final_probe": 0,
+      "launcher_after_sha256_aggregate": "e1b3043cfc8089cd3abce7378cc2d82a656ce7f9bc10a08f3b66c0123a9cbce9",
+      "launcher_files_changed": 9,
+      "launcher_replacements": {
+        "repo_path": 4,
+        "venv_path": 24
+      },
+      "launcher_rescan_remaining_targeted_refs": 0,
+      "live_workload_class": "none_or_out_of_scope",
+      "live_workload_count_at_final_probe": 0,
+      "migration_state": "not_present_on_host",
+      "neutral_path_kind": "absent",
+      "repository_compatibility": "neutral_forward_symlink_to_historical_repository",
+      "samefile": false,
+      "vllm_import_both_names": null,
+      "vllm_version": null
+    },
+    "node-8": {
+      "historical_path_kind": "symlink",
+      "historical_path_process_users_at_final_probe": 0,
+      "launcher_after_sha256_aggregate": "34d65198676360328346dc731a93b51c7a10b59b80b69c97e959498b39ee4ee0",
+      "launcher_files_changed": 37,
+      "launcher_replacements": {
+        "repo_path": 18,
+        "venv_path": 72
+      },
+      "launcher_rescan_remaining_targeted_refs": 0,
+      "live_workload_class": "none_or_out_of_scope",
+      "live_workload_count_at_final_probe": 0,
+      "migration_state": "physical_rename_complete_reverse_compatibility_symlink",
+      "neutral_path_kind": "directory",
+      "repository_compatibility": "neutral_forward_symlink_to_historical_repository",
+      "samefile": true,
+      "vllm_import_both_names": true,
+      "vllm_version": "0.24.0"
+    },
+    "node-work": {
+      "historical_path_kind": "symlink",
+      "historical_path_process_users_at_final_probe": 0,
+      "launcher_after_sha256_aggregate": "535c911ceaae88f5de1561432084bd6860409ae0c9686275f4ce2ccb233988ed",
+      "launcher_files_changed": 9,
+      "launcher_replacements": {
+        "repo_path": 7,
+        "venv_path": 23
+      },
+      "launcher_rescan_remaining_targeted_refs": 0,
+      "live_workload_class": "none_or_out_of_scope",
+      "live_workload_count_at_final_probe": 0,
+      "migration_state": "physical_rename_complete_reverse_compatibility_symlink",
+      "neutral_path_kind": "directory",
+      "repository_compatibility": "neutral_forward_symlink_to_historical_repository",
+      "samefile": true,
+      "vllm_import_both_names": true,
+      "vllm_version": "0.24.0"
+    }
+  },
+  "fleet_summary": {
+    "all_existing_venvs_import_vllm_0_24_0_through_both_names": true,
+    "all_existing_venvs_samefile_through_both_names": true,
+    "all_final_historical_path_process_user_counts_zero": true,
+    "defer_reason": "node-6 retained the physical historical directory because an unrelated evaluation remained live; its neutral forward symlink is verified and no process referenced the historical venv path.",
+    "live_boundary_deferrals": [
+      "node-6"
+    ],
+    "physical_rename_complete_hosts": [
+      "node-1",
+      "node-3",
+      "node-4",
+      "node-8",
+      "node-work"
+    ],
+    "venv_absent_hosts": [
+      "node-2",
+      "node-5",
+      "node-7"
+    ]
+  },
+  "generated_at_utc": "2026-08-01T01:27:07Z",
+  "public_hygiene": {
+    "binary_naming_hits": 0,
+    "gap_ledger_canonical_open_count_unchanged": 2,
+    "grep_results_after_completion_receipt": {
+      "binary_hits": 0,
+      "content_hits": 71,
+      "files_or_paths_with_hits": 7,
+      "path_hits": 1,
+      "rows": [
+        {
+          "classification": "required_hygiene_metadata",
+          "content_hits": 1,
+          "path": "GAP_LEDGER.md",
+          "path_hit": false,
+          "permitted": true
+        },
+        {
+          "classification": "required_hygiene_metadata",
+          "content_hits": 1,
+          "path": "HYGIENE_MOET_FOSSIL_COMPLETE.json",
+          "path_hit": true,
+          "permitted": true
+        },
+        {
+          "classification": "required_hygiene_metadata",
+          "content_hits": 1,
+          "path": "NOTICE",
+          "path_hit": false,
+          "permitted": true
+        },
+        {
+          "classification": "required_hygiene_metadata",
+          "content_hits": 1,
+          "path": "SOURCE_MANIFEST.sha256",
+          "path_hit": false,
+          "permitted": true
+        },
+        {
+          "classification": "historical_receipt",
+          "content_hits": 22,
+          "path": "banana-smasher/vendor/p1321/receipts/BOOT_CONFIG_FREEZE.json",
+          "path_hit": false,
+          "permitted": true
+        },
+        {
+          "classification": "historical_receipt",
+          "content_hits": 39,
+          "path": "banana-smasher/vendor/p1321/receipts/C_LADDER_FULL_SEAL.be0453e1.json",
+          "path_hit": false,
+          "permitted": true
+        },
+        {
+          "classification": "historical_receipt",
+          "content_hits": 6,
+          "path": "banana-smasher/vendor/p1321/receipts/WINNING_BOOT_CONFIG.json",
+          "path_hit": false,
+          "permitted": true
+        }
+      ],
+      "status": "PASS",
+      "unexpected_code_prose_binary_hits": 0
+    },
+    "historical_receipt_note_added": true,
+    "historical_receipts_preserved_verbatim": true,
+    "notice_required_wording_present": true,
+    "runtime_and_code_unexpected_naming_hits": 0,
+    "spdx_headers": {
+      "Apache-2.0": 18
+    },
+    "tokenizer_json_value_tree_unchanged": true
+  },
+  "public_repository": {
+    "branch": "main",
+    "commit_author": "banana_bae <banana_bae@users.noreply.github.com>",
+    "hygiene_commit_sha": "a93a66178062a9e9f0cd2d4a5ba1712860d8284c",
+    "notice_sha256": "f8d933b5fd7fb6d3ce9eea7e6e39f4c5eb6dab2d079170349082e7e11e4b73ea",
+    "raw_github_verification": {
+      "commit_pinned_dockerfile_sha256": "45bdee0e722b8c322eb335bbf7058d3f6399a7d4f024ede9d272c0c36cfde6b7",
+      "commit_pinned_notice_sha256": "f8d933b5fd7fb6d3ce9eea7e6e39f4c5eb6dab2d079170349082e7e11e4b73ea",
+      "commit_pinned_repro_sha256": "50b476f57444030c01cb5cbd04c29d33e3740ba672a84e752bb3ebcb3bc77b2c",
+      "historical_overlay_patch_http_status": 404,
+      "neutral_overlay_patch_http_status": 200,
+      "status": "PASS"
+    },
+    "url": "https://github.com/my-other-github-account/spark-bench-reproducers"
+  },
+  "schema": "hygiene-fossil-complete-v1",
+  "scope": "fleet venv compatibility, selected live launchers, public naming/provenance hygiene, internal historical annotation",
+  "status": "COMPLETE_WITH_ONE_LIVE_BOUNDARY_DEFERRAL",
+  "verification": {
+    "banana_smasher_pytest": "38 passed",
+    "elf_headers_after_equal_length_normalization": "PASS 3/3 shared objects",
+    "internal_historical_skill_note": "PASS spark-cluster-operations historical reference annotated at top",
+    "manifest_integrity": "PASS banana=163 root=189 recipe=16 tools=170 transform=50 before completion receipt",
+    "publication_audit": "PASS files=382 manifest_rows=170 before completion receipt",
+    "reference_pytest": "30 passed, 1 warning",
+    "shell_syntax_and_python_compile": "PASS",
+    "source_seal": "PASS ce0fad4479360f89f263c10cee1f2265406daff29421e2e26f7569e0515c4ff0",
+    "targeted_launcher_rescan_remaining_refs": 0
+  }
+}
