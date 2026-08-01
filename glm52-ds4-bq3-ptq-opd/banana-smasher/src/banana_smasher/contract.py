@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+import ctypes
 import hashlib
 import json
 import os
 import re
 import shutil
+import stat
+import tempfile
 from pathlib import Path
 from typing import Any, Literal
 
@@ -19,12 +22,27 @@ from .repair import (
     write_repair_payload,
 )
 
+SERVING_METADATA_FILES = (
+    "tokenizer.json",
+    "tokenizer_config.json",
+    "generation_config.json",
+)
+SERVING_METADATA_ROLES = {
+    "tokenizer.json": "tokenizer",
+    "tokenizer_config.json": "tokenizer_config",
+    "generation_config.json": "generation_config",
+}
+BASE_WEIGHTS_INDEX_NAME = "model.safetensors.index.json"
+BASE_WEIGHTS_SHARD_ROLE = "base_weights_shard"
+BASE_WEIGHTS_INDEX_ROLE = "base_weights_index"
+BASE_WEIGHTS_ROLES = (BASE_WEIGHTS_SHARD_ROLE, BASE_WEIGHTS_INDEX_ROLE)
+
 MANIFEST_NAME = "BANANA_PACK_MANIFEST.json"
 COMPLETE_MARKER_NAME = "PACK_COMPLETE"
 KERNEL_MANIFEST_NAME = "BS_KERNEL_CACHE_MANIFEST.json"
 SCHEMA = "bs-pack"
 SCHEMA_VERSION = 1
-QUANT_METHOD = "bs-mixed-tier"
+QUANT_METHOD = "banana_smasher"
 TIER_FAMILIES = (
     "qtip2",
     "qtip3",
@@ -463,6 +481,330 @@ def _complete_marker(instance_id: str, tensor_layout_sha256: str) -> dict[str, A
     }
 
 
+def _read_serving_metadata_files(
+    root: Path,
+) -> dict[str, bytes]:
+    flags = os.O_RDONLY | getattr(os, "O_DIRECTORY", 0) | getattr(os, "O_NOFOLLOW", 0)
+    try:
+        root_fd = os.open(root, flags)
+    except OSError as exc:
+        raise PackValidationError(f"cannot open serving model root safely: {root}: {exc}") from exc
+    payloads: dict[str, bytes] = {}
+    try:
+        for name in ("config.json", *SERVING_METADATA_FILES):
+            try:
+                descriptor = os.open(
+                    name,
+                    os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0),
+                    dir_fd=root_fd,
+                )
+            except OSError as exc:
+                raise PackValidationError(
+                    f"serving metadata is missing/non-regular: {root / name}: {exc}"
+                ) from exc
+            try:
+                before = os.fstat(descriptor)
+                if not stat.S_ISREG(before.st_mode):
+                    raise PackValidationError(
+                        f"serving metadata is not a regular file: {root / name}"
+                    )
+                blocks: list[bytes] = []
+                while True:
+                    block = os.read(descriptor, 8 * 1024 * 1024)
+                    if not block:
+                        break
+                    blocks.append(block)
+                after = os.fstat(descriptor)
+                identity_before = (
+                    before.st_dev,
+                    before.st_ino,
+                    before.st_size,
+                    before.st_mtime_ns,
+                    before.st_ctime_ns,
+                )
+                identity_after = (
+                    after.st_dev,
+                    after.st_ino,
+                    after.st_size,
+                    after.st_mtime_ns,
+                    after.st_ctime_ns,
+                )
+                if identity_after != identity_before:
+                    raise PackValidationError(
+                        f"serving metadata changed while reading: {root / name}"
+                    )
+                payloads[name] = b"".join(blocks)
+            finally:
+                os.close(descriptor)
+    finally:
+        os.close(root_fd)
+    return payloads
+
+
+def _load_serving_model_metadata(
+    serving_model_root: str | Path,
+) -> tuple[Path, dict[str, Any], dict[str, bytes]]:
+    root = Path(serving_model_root).resolve()
+    payloads = _read_serving_metadata_files(root)
+    try:
+        config = json.loads(payloads["config.json"].decode("utf-8"))
+    except Exception as exc:
+        raise PackValidationError(f"cannot read serving config.json: {exc}") from exc
+    if not isinstance(config, dict):
+        raise PackValidationError("serving config.json must contain an object")
+    architectures = config.get("architectures")
+    if (
+        not isinstance(architectures, list)
+        or not architectures
+        or not all(isinstance(value, str) and value for value in architectures)
+    ):
+        raise PackValidationError(
+            "serving config.json must contain a non-empty architectures list"
+        )
+    return root, config, payloads
+
+
+def _materialize_serving_metadata(
+    metadata_payloads: dict[str, bytes],
+    output: Path,
+    config: dict[str, Any],
+) -> list[dict[str, str]]:
+    (output / "config.json").write_text(
+        json.dumps(config, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    rows: list[dict[str, str]] = []
+    for name in SERVING_METADATA_FILES:
+        (output / name).write_bytes(metadata_payloads[name])
+        rows.append(
+            {"path": name, "mode": "copy", "role": SERVING_METADATA_ROLES[name]}
+        )
+    return rows
+
+
+def _load_base_weights_plan(
+    serving_root: Path,
+) -> tuple[list[tuple[str, Path]], bytes] | None:
+    """Read the base-model safetensors index, validating every referenced shard.
+
+    Returns (shard_name, resolved_source_path) pairs. Symlinked shards (e.g. a
+    model root whose shards point into an NFS mirror) are resolved to their
+    real targets; the resolved target must be a regular file.
+    """
+    index_path = serving_root / BASE_WEIGHTS_INDEX_NAME
+    if index_path.is_symlink() or not index_path.is_file():
+        return None
+    payload = index_path.read_bytes()
+    try:
+        index = json.loads(payload.decode("utf-8"))
+    except Exception as exc:
+        raise PackValidationError(
+            f"cannot read base weights index: {index_path}: {exc}"
+        ) from exc
+    weight_map = index.get("weight_map") if isinstance(index, dict) else None
+    if not isinstance(weight_map, dict) or not weight_map:
+        raise PackValidationError(
+            f"base weights index must contain a non-empty weight_map: {index_path}"
+        )
+    shards: list[tuple[str, Path]] = []
+    for shard in sorted({str(value) for value in weight_map.values()}):
+        if "/" in shard or "\\" in shard or shard.startswith("."):
+            raise PackValidationError(
+                f"unsafe shard name in base weights index: {shard!r}"
+            )
+        resolved = (serving_root / shard).resolve()
+        if not resolved.is_file() or resolved.is_symlink():
+            raise PackValidationError(
+                f"base weights shard missing/non-regular: {serving_root / shard}"
+            )
+        shards.append((shard, resolved))
+    return shards, payload
+
+
+def _materialize_base_weights(
+    serving_root: Path,
+    output: Path,
+    *,
+    link_mode: Literal["hardlink", "copy", "auto"] = "hardlink",
+) -> list[dict[str, str]]:
+    """Link base-model dense/full weight shards + index into the pack root.
+
+    Hardlink mode never duplicates bytes on the same filesystem and never
+    rewrites tensor payloads; a cross-device hardlink fails loudly (use
+    ``--link-mode copy``/``auto`` deliberately instead). Returns manifest link
+    rows (empty when the serving model root carries no safetensors index —
+    metadata-only root).
+    """
+    plan = _load_base_weights_plan(serving_root)
+    if plan is None:
+        return []
+    shards, index_payload = plan
+    rows: list[dict[str, str]] = []
+    for shard, resolved in shards:
+        mode = _link_file(resolved, output / shard, link_mode)
+        rows.append({"path": shard, "mode": mode, "role": BASE_WEIGHTS_SHARD_ROLE})
+    (output / BASE_WEIGHTS_INDEX_NAME).write_bytes(index_payload)
+    rows.append(
+        {
+            "path": BASE_WEIGHTS_INDEX_NAME,
+            "mode": "copy",
+            "role": BASE_WEIGHTS_INDEX_ROLE,
+        }
+    )
+    return rows
+
+
+def _clone_pack_with_hardlinks(
+    source: Path,
+    destination: Path,
+    *,
+    excluded: set[str],
+) -> None:
+    for path in source.rglob("*"):
+        relative = path.relative_to(source)
+        if relative.as_posix() in excluded:
+            continue
+        target = destination / relative
+        if path.is_dir():
+            target.mkdir(parents=True, exist_ok=True)
+        elif path.is_file() and not path.is_symlink():
+            target.parent.mkdir(parents=True, exist_ok=True)
+            os.link(path, target)
+        else:
+            raise PackValidationError(f"cannot clone non-regular pack path: {relative}")
+
+
+def _exchange_directories(first: Path, second: Path) -> None:
+    """Atomically exchange two Linux directories using renameat2."""
+    libc = ctypes.CDLL(None, use_errno=True)
+    renameat2 = getattr(libc, "renameat2", None)
+    if renameat2 is None:
+        raise PackValidationError(
+            "atomic metadata refresh requires Linux renameat2(RENAME_EXCHANGE)"
+        )
+    renameat2.argtypes = [
+        ctypes.c_int,
+        ctypes.c_char_p,
+        ctypes.c_int,
+        ctypes.c_char_p,
+        ctypes.c_uint,
+    ]
+    renameat2.restype = ctypes.c_int
+    result = renameat2(
+        -100,
+        os.fsencode(first),
+        -100,
+        os.fsencode(second),
+        2,
+    )
+    if result != 0:
+        error = ctypes.get_errno()
+        raise OSError(error, os.strerror(error))
+    parent_fd = os.open(first.parent, os.O_RDONLY)
+    try:
+        os.fsync(parent_fd)
+    finally:
+        os.close(parent_fd)
+
+
+def refresh_serving_metadata(
+    pack_root: str | Path,
+    *,
+    serving_model_root: str | Path,
+    link_mode: Literal["hardlink", "copy", "auto"] = "hardlink",
+) -> dict[str, Any]:
+    """Atomically refresh serving metadata without rewriting tensor payloads."""
+    pack_root = Path(pack_root).resolve()
+    manifest_path = pack_root / MANIFEST_NAME
+    manifest_before = manifest_path.read_bytes()
+    config_before = (pack_root / "config.json").read_bytes()
+    current_config = json.loads(config_before)
+    current_manifest = json.loads(manifest_before)
+    quantization_config = dict(current_config["quantization_config"])
+    quantization_config["quant_method"] = QUANT_METHOD
+    serving_root, serving_config, serving_payloads = _load_serving_model_metadata(
+        serving_model_root
+    )
+    merged_config = dict(serving_config)
+    merged_config["quantization_config"] = quantization_config
+
+    base_plan = _load_base_weights_plan(serving_root)
+    base_paths: set[str] = set()
+    if base_plan is not None:
+        base_paths = {name for name, _ in base_plan[0]} | {BASE_WEIGHTS_INDEX_NAME}
+    stale_base_paths = {
+        str(row.get("path"))
+        for row in current_manifest.get("files", [])
+        if isinstance(row, dict) and row.get("role") in BASE_WEIGHTS_ROLES
+    }
+
+    metadata_paths = {"config.json", MANIFEST_NAME, *SERVING_METADATA_FILES}
+    replaced_paths = metadata_paths | base_paths | stale_base_paths
+    staging = Path(
+        tempfile.mkdtemp(prefix=f".{pack_root.name}.serving-metadata-", dir=pack_root.parent)
+    )
+    exchanged = False
+    try:
+        _clone_pack_with_hardlinks(pack_root, staging, excluded=replaced_paths)
+        _materialize_serving_metadata(serving_payloads, staging, merged_config)
+        base_rows = _materialize_base_weights(serving_root, staging, link_mode=link_mode)
+        manifest = current_manifest
+        manifest["quant_method"] = QUANT_METHOD
+        manifest["files"] = [
+            row for row in manifest["files"] if row.get("path") not in replaced_paths
+        ]
+        manifest["links"] = [
+            row for row in manifest.get("links", []) if row.get("path") not in replaced_paths
+        ]
+        manifest["files"].append(_file_entry(staging, Path("config.json"), "model_config"))
+        for name in SERVING_METADATA_FILES:
+            manifest["files"].append(
+                _file_entry(staging, Path(name), SERVING_METADATA_ROLES[name])
+            )
+            manifest["links"].append(
+                {
+                    "path": name,
+                    "mode": "copy",
+                    "role": SERVING_METADATA_ROLES[name],
+                }
+            )
+        for row in base_rows:
+            manifest["files"].append(
+                _file_entry(staging, Path(row["path"]), row["role"])
+            )
+            manifest["links"].append(dict(row))
+        manifest["files"].sort(key=lambda row: row["path"])
+        manifest.setdefault("provenance", {})["serving_model_root"] = str(serving_root)
+        staged_manifest = staging / MANIFEST_NAME
+        staged_manifest.write_text(
+            json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+        receipt = verify_pack(staging)
+        staged_config_sha256 = _sha256_file(staging / "config.json")
+        staged_manifest_sha256 = _sha256_file(staged_manifest)
+        _exchange_directories(pack_root, staging)
+        exchanged = True
+    finally:
+        shutil.rmtree(staging, ignore_errors=True)
+    if not exchanged:
+        raise PackValidationError("serving metadata exchange did not commit")
+    return {
+        **receipt,
+        "root": str(pack_root),
+        "mode": "refresh-metadata",
+        "serving_model_root": str(serving_root),
+        "architectures": merged_config["architectures"],
+        "copied_files": list(SERVING_METADATA_FILES),
+        "base_weights_shards": len(base_plan[0]) if base_plan is not None else 0,
+        "base_weights_index": base_plan is not None,
+        "config_sha256_before": _sha256_bytes(config_before),
+        "config_sha256_after": staged_config_sha256,
+        "manifest_sha256_before": _sha256_bytes(manifest_before),
+        "manifest_sha256_after": staged_manifest_sha256,
+        "tensor_payloads_rewritten": False,
+        "commit": "renameat2(RENAME_EXCHANGE)",
+    }
+
+
 def export_pack(
     *,
     source_root: str | Path,
@@ -471,6 +813,7 @@ def export_pack(
     instance_id: str,
     link_mode: Literal["hardlink", "copy", "auto"] = "hardlink",
     repair: RepairBundle | None = None,
+    serving_model_root: str | Path | None = None,
 ) -> dict[str, Any]:
     """Export canonical planes, optionally materializing a bound repair checkpoint."""
     source_root = Path(source_root).resolve()
@@ -479,6 +822,13 @@ def export_pack(
         raise FileExistsError(f"output already exists: {output}")
 
     config_source = source_root / "config.json"
+    serving_root: Path | None = None
+    serving_config: dict[str, Any] | None = None
+    serving_payloads: dict[str, bytes] | None = None
+    if serving_model_root is not None:
+        serving_root, serving_config, serving_payloads = _load_serving_model_metadata(
+            serving_model_root
+        )
     genesis_receipt = source_root / "LAYER_RECEIPT.json"
     source_receipt_sha256: str | None = None
     p1016_layers: list[int] = []
@@ -639,6 +989,8 @@ def export_pack(
                 "bs_pack_scope": f"layer_{layer:03d}",
             }
 
+        if serving_config is not None:
+            config = dict(serving_config)
         config["quantization_config"] = {
             "quant_method": QUANT_METHOD,
             "format": SCHEMA,
@@ -659,9 +1011,16 @@ def export_pack(
                     "repair_update": repair.update,
                 }
             )
-        (output / "config.json").write_text(
-            json.dumps(config, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-        )
+        if serving_root is None:
+            (output / "config.json").write_text(
+                json.dumps(config, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+            )
+        else:
+            assert serving_payloads is not None
+            linked.extend(_materialize_serving_metadata(serving_payloads, output, config))
+            linked.extend(
+                _materialize_base_weights(serving_root, output, link_mode=link_mode)
+            )
 
         if source_format == "p1016-true-c-native-planes-v1":
             layers = p1016_layers
@@ -753,6 +1112,8 @@ def export_pack(
                 "port_base": "glm52-ds4-bq3-ptq-opd/docker/scripts/export_pack.py",
             },
         }
+        if serving_root is not None:
+            manifest["provenance"]["serving_model_root"] = str(serving_root)
         if repair_summary is not None:
             manifest["repair"] = repair_summary
         (output / MANIFEST_NAME).write_text(

@@ -11,6 +11,7 @@ from .bootstrap import bootstrap_container, container_recipe_path
 from .contract import (
     PackValidationError,
     export_pack,
+    refresh_serving_metadata,
     verify_pack,
     verify_serve_compatibility,
 )
@@ -28,6 +29,16 @@ def _parser() -> argparse.ArgumentParser:
 
     export = subparsers.add_parser("export", help="export quantizer output to bs-pack")
     export.add_argument("--source-root", type=Path, required=True)
+    export.add_argument(
+        "--serving-model-root",
+        type=Path,
+        help="base-model directory providing full config and tokenizer metadata",
+    )
+    export.add_argument(
+        "--refresh-metadata",
+        action="store_true",
+        help="refresh serving config/tokenizer metadata in an existing pack without tensors",
+    )
     export.add_argument("--output", type=Path, required=True)
     export.add_argument("--model-id", required=True)
     export.add_argument("--instance-id", required=True)
@@ -47,7 +58,7 @@ def _parser() -> argparse.ArgumentParser:
     export.add_argument(
         "--repair-checkpoint",
         type=Path,
-        help="weights-only genesis-basic-repair-v1 checkpoint to materialize",
+        help="weights-only bs-basic-repair-v1 checkpoint to materialize",
     )
     export.add_argument("--repair-checkpoint-sha256")
     export.add_argument("--active-overlay", type=Path)
@@ -81,7 +92,7 @@ def _parser() -> argparse.ArgumentParser:
     bootstrap.add_argument("--recipe", type=Path)
     bootstrap.add_argument("--context", type=Path, default=Path.cwd())
     bootstrap.add_argument(
-        "--image", default="genesis-serve:banana-smasher-candidate"
+        "--image", default="bs-serve:banana-smasher-candidate"
     )
     bootstrap.add_argument("--docker-bin", default="docker")
     bootstrap.add_argument("--pull", action="store_true")
@@ -106,49 +117,67 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(tokens)
     try:
         if args.command == "export":
-            if args.drop_planes and not args.safetensors:
-                raise ValueError("--drop-planes requires --safetensors")
-            repair_values = {
-                "checkpoint": args.repair_checkpoint,
-                "checkpoint_sha256": args.repair_checkpoint_sha256,
-                "active_overlay": args.active_overlay,
-                "active_overlay_sha256": args.active_overlay_sha256,
-                "assignment": args.assignment,
-                "assignment_sha256": args.assignment_sha256,
-                "update": args.repair_update,
-            }
-            supplied_repair = [
-                name for name, value in repair_values.items() if value is not None
-            ]
-            if supplied_repair and len(supplied_repair) != len(repair_values):
-                missing = sorted(set(repair_values) - set(supplied_repair))
-                raise ValueError(
-                    "repair materialization requires every bound input; "
-                    f"missing={missing}"
+            if args.refresh_metadata:
+                if args.serving_model_root is None:
+                    raise ValueError("--refresh-metadata requires --serving-model-root")
+                if args.safetensors or args.drop_planes:
+                    raise ValueError(
+                        "--refresh-metadata cannot repack or drop tensor planes"
+                    )
+                result = {
+                    **refresh_serving_metadata(
+                        args.output,
+                        serving_model_root=args.serving_model_root,
+                        link_mode=args.link_mode,
+                    ),
+                    "command": "export",
+                    "output": str(args.output.resolve()),
+                }
+            else:
+                if args.drop_planes and not args.safetensors:
+                    raise ValueError("--drop-planes requires --safetensors")
+                repair_values = {
+                    "checkpoint": args.repair_checkpoint,
+                    "checkpoint_sha256": args.repair_checkpoint_sha256,
+                    "active_overlay": args.active_overlay,
+                    "active_overlay_sha256": args.active_overlay_sha256,
+                    "assignment": args.assignment,
+                    "assignment_sha256": args.assignment_sha256,
+                    "update": args.repair_update,
+                }
+                supplied_repair = [
+                    name for name, value in repair_values.items() if value is not None
+                ]
+                if supplied_repair and len(supplied_repair) != len(repair_values):
+                    missing = sorted(set(repair_values) - set(supplied_repair))
+                    raise ValueError(
+                        "repair materialization requires every bound input; "
+                        f"missing={missing}"
+                    )
+                repair = (
+                    load_repair_bundle(**repair_values) if supplied_repair else None
                 )
-            repair = (
-                load_repair_bundle(**repair_values) if supplied_repair else None
-            )
-            manifest = export_pack(
-                source_root=args.source_root,
-                output=args.output,
-                model_id=args.model_id,
-                instance_id=args.instance_id,
-                link_mode=args.link_mode,
-                repair=repair,
-            )
-            receipt = verify_pack(args.output)
-            result = {
-                **receipt,
-                "command": "export",
-                "output": str(args.output.resolve()),
-                "file_count": len(manifest["files"]),
-            }
-            if args.safetensors:
-                result["repack"] = repack_to_safetensors(
-                    args.output,
-                    drop_planes=args.drop_planes,
+                manifest = export_pack(
+                    source_root=args.source_root,
+                    output=args.output,
+                    model_id=args.model_id,
+                    instance_id=args.instance_id,
+                    link_mode=args.link_mode,
+                    repair=repair,
+                    serving_model_root=args.serving_model_root,
                 )
+                receipt = verify_pack(args.output)
+                result = {
+                    **receipt,
+                    "command": "export",
+                    "output": str(args.output.resolve()),
+                    "file_count": len(manifest["files"]),
+                }
+                if args.safetensors:
+                    result["repack"] = repack_to_safetensors(
+                        args.output,
+                        drop_planes=args.drop_planes,
+                    )
         elif args.command == "verify":
             result = {
                 **verify_pack(args.pack),

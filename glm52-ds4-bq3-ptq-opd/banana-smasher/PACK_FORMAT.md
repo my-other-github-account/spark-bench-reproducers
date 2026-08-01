@@ -1,7 +1,7 @@
 # PACK FORMAT — bs-pack v1
 
 Status: frozen v1 contract
-Quantization method: `bs-mixed-tier`
+Quantization method: `banana_smasher`
 Manifest: `BANANA_PACK_MANIFEST.json`
 Shared implementation: Python package `banana_smasher`
 
@@ -24,6 +24,9 @@ PACK/
   BANANA_PACK_MANIFEST.json
   PACK_COMPLETE
   config.json
+  tokenizer.json
+  tokenizer_config.json
+  generation_config.json
   planes/
     layers/layer_000/experts/tier_map.npy
     layers/layer_000/experts/subtier_map.npy
@@ -53,7 +56,7 @@ Required top-level manifest values:
 |---|---|
 | `schema` | `bs-pack` |
 | `schema_version` | integer `1` |
-| `quant_method` | `bs-mixed-tier` |
+| `quant_method` | `banana_smasher` |
 | `model_id` | source model identifier |
 | `instance_id` | unique pack instance identifier |
 | `experts_per_layer` | integer `256` |
@@ -72,12 +75,16 @@ or semantically inconsistent marker fails closed before any READY state.
 
 The validator rejects unknown extra files and missing files. Symlinks are forbidden. Every listed file must be a regular file with the exact recorded byte count and SHA-256.
 
-`config.json` must contain:
+A serveable export uses `--serving-model-root` to copy the full base-model configuration and tokenizer metadata. The exported `config.json` preserves every architecture field from the base model (including `architectures`, dimensions, rope settings, and expert dtype), then replaces only `quantization_config` with the pack-owned block below. `smash export ... --refresh-metadata` performs that merge and manifest refresh on an existing pack without rewriting tensor payloads.
+
+When the serving model root also carries a `model.safetensors.index.json`, the export materializes every weight shard referenced by its `weight_map` (role `base_weights_shard`, hardlinked when source and pack share a filesystem, so no bytes are duplicated) plus the index itself (role `base_weights_index`) into the pack root. This gives a stock vLLM loader the base weights it expects to find beside `config.json`. The `--refresh-metadata` path performs the same shard materialization inside its atomic exchange — existing quantized planes are hardlink-cloned, never rewritten, and stale base-weight rows from a previous refresh are replaced rather than duplicated.
+
+`config.json` must contain the full base-model fields plus:
 
 ```json
 {
   "quantization_config": {
-    "quant_method": "bs-mixed-tier",
+    "quant_method": "banana_smasher",
     "format": "bs-pack",
     "format_version": 1,
     "pack_manifest": "BANANA_PACK_MANIFEST.json",
@@ -98,7 +105,7 @@ The fork reads these exact keys from `config.json`; no environment variable is r
 
 | `quantization_config` key | bs-pack v1 value | Fork consumer |
 |---|---|---|
-| `quant_method` | `bs-mixed-tier` | vLLM's normal checkpoint quantization auto-detection and registered `BsMixedTierConfig` |
+| `quant_method` | `banana_smasher` | vLLM's normal checkpoint quantization auto-detection and registered `BsMixedTierConfig` |
 | `pack_root` | `.` | `BsMixedTierConfig.from_config`; resolved relative to the model directory |
 | `kernel_cache_root` | `kernel-cache` | `BsMixedTierConfig.from_config`; resolved relative to the model directory |
 | `architecture` | `sm_120` | `BsMixedTierConfig.from_config` and `PackLoader` compatibility gate |
@@ -230,7 +237,7 @@ NumPy container headers are not semantic tensor data and are intentionally canon
 A serving preflight requires `BS_KERNEL_CACHE_MANIFEST.json` with:
 
 - `schema: "bs-kernel-cache"` and `schema_version: 1`;
-- `quant_method: "bs-mixed-tier"`;
+- `quant_method: "banana_smasher"`;
 - `pack_schema: "bs-pack"` and `pack_schema_version: 1`;
 - an exact `tensor_layout_sha256` match;
 - a family set containing every family selected by the pack;
@@ -263,13 +270,13 @@ The layer-000 qualification receipt must record the sealed input path `/home/dno
 
 ## 10. Loader/serving rule
 
-The only supported programmatic reader is `banana_smasher.loader.PackLoader`. Tools and vLLM import this package; no duplicate manifest parser is permitted. The registered vLLM method name is `bs-mixed-tier`, auto-selected from the model's `quantization_config` with the normal command:
+The only supported programmatic reader is `banana_smasher.loader.PackLoader`. Tools and vLLM import this package; no duplicate manifest parser is permitted. The registered vLLM method name is `banana_smasher`, auto-selected from the model's `quantization_config` with the normal command:
 
 ```text
 vllm serve MODEL
 ```
 
-An explicit `--quantization bs-mixed-tier` remains a standard vLLM override, not a required banana-smasher launcher concept. The model's `quantization_config` locates the pack and kernel manifest. Verification occurs before layer tensors are exposed. Runtime adapters receive named tensors from a scoped `LayerTensorView`; they do not scan directories or derive tiers from environment variables.
+An explicit `--quantization banana_smasher` remains a standard vLLM override, not a required banana-smasher launcher concept. The model's `quantization_config` locates the pack and kernel manifest. Verification occurs before layer tensors are exposed. Runtime adapters receive named tensors from a scoped `LayerTensorView`; they do not scan directories or derive tiers from environment variables.
 
 ## 11. Fail-closed checklist
 

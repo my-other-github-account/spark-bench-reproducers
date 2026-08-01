@@ -12,7 +12,7 @@ from test_contract import _write_qtip2_source
 
 ROOT = Path(__file__).parents[1]
 EXPECTED_RELEASE_COMMANDS = [
-    "smash export --source-root /path/to/quantizer-output --output /model --model-id MODEL --instance-id PACK_INSTANCE --link-mode copy",
+    "smash export --source-root /path/to/quantizer-output --serving-model-root /path/to/base-model --output /model --model-id MODEL --instance-id PACK_INSTANCE --link-mode copy",
     "smash validate-pack /model",
     "vllm serve /model",
 ]

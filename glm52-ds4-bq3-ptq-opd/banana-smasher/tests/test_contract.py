@@ -64,7 +64,7 @@ def test_export_hardlinks_and_verify_refuses_payload_drift(tmp_path: Path) -> No
     assert receipt["status"] == "PASS"
     assert receipt["tensor_count"] == 6
     quant = json.loads((output / "config.json").read_text())["quantization_config"]
-    assert quant["quant_method"] == "bs-mixed-tier"
+    assert quant["quant_method"] == "banana_smasher"
     assert quant["pack_manifest"] == "BANANA_PACK_MANIFEST.json"
     assert quant["pack_root"] == "."
     assert quant["kernel_cache_root"] == "kernel-cache"
@@ -239,7 +239,7 @@ def test_serve_check_binds_pack_layout_architecture_and_kernel_files(
     cache_manifest = {
         "schema": "bs-kernel-cache",
         "schema_version": 1,
-        "quant_method": "bs-mixed-tier",
+        "quant_method": "banana_smasher",
         "pack_schema": "bs-pack",
         "pack_schema_version": 1,
         "tensor_layout_sha256": layout_sha256(),

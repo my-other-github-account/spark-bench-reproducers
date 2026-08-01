@@ -11,7 +11,7 @@ import numpy as np
 from safetensors import safe_open
 from safetensors.numpy import save_file
 
-REPAIR_FORMAT = "genesis-basic-repair-v1"
+REPAIR_FORMAT = "bs-basic-repair-v1"
 REPAIR_MECHANISM = (
     "physical-vq-codebooks-plus-all-rmsnorms-plus-attention-output-gains"
 )

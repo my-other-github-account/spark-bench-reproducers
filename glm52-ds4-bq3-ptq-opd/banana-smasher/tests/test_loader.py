@@ -59,7 +59,7 @@ def test_loader_imports_only_the_verified_runtime_adapter(tmp_path: Path) -> Non
     manifest = {
         "schema": "bs-kernel-cache",
         "schema_version": 1,
-        "quant_method": "bs-mixed-tier",
+        "quant_method": "banana_smasher",
         "pack_schema": "bs-pack",
         "pack_schema_version": 1,
         "tensor_layout_sha256": layout_sha256(),

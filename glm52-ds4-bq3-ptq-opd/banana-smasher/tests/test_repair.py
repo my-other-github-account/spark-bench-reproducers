@@ -31,7 +31,7 @@ def _fixture_bundle(old: np.ndarray, replacement: np.ndarray) -> RepairBundle:
         active_overlay_sha256="2" * 64,
         assignment_path=Path("/sealed/ASSIGNMENT.json"),
         assignment_sha256="3" * 64,
-        checkpoint_format="genesis-basic-repair-v1",
+        checkpoint_format="bs-basic-repair-v1",
         mechanism="physical-vq-codebooks-plus-all-rmsnorms-plus-attention-output-gains",
         update=12,
         codebooks={
