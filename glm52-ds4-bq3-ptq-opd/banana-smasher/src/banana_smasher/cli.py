@@ -95,14 +95,72 @@ def _parser() -> argparse.ArgumentParser:
     bootstrap.add_argument("--receipt", type=Path, default=Path("BOOTSTRAP_RECEIPT.json"))
 
     solve = subparsers.add_parser(
-        "solve", help="solve declared cells with the exact accelerated search"
+        "solve", help="solve declared cells or fresh-model VQ tiers with exact search"
     )
     solve.add_argument("--source-root", type=Path, required=True)
-    solve.add_argument("--output", type=Path, required=True)
+    solve.add_argument("--output", type=Path)
+    solve.add_argument(
+        "--root",
+        type=Path,
+        help="workflow run root; selects fresh-model multi-layer solve mode",
+    )
+    solve.add_argument("--layer", type=int)
+    solve.add_argument("--layers", default="0-42")
+    solve.add_argument("--tiers", default="d4_k2048,d4_k4096")
+    solve.add_argument("--windows", type=int, choices=(32, 64), default=32)
+    solve.add_argument("--staging-root", type=Path)
+    solve.add_argument(
+        "--prices-root",
+        type=Path,
+        help="sealed SOLVER_PRICING_V2 prices/ root to adopt without reprofiling",
+    )
+    solve.add_argument("--hessian-manifest", type=Path)
+    solve.add_argument("--detach", action="store_true")
     solve.add_argument("--device", default="cuda")
     solve.add_argument("--reference-search", action="store_true", help=argparse.SUPPRESS)
+    solve.add_argument(
+        "--audit-codeword-assignments",
+        action="store_true",
+        help="hash every exact codeword winner (intended for one-layer parity audits)",
+    )
     solve.add_argument("--verbose-receipts", action="store_true", help=argparse.SUPPRESS)
+    solve.add_argument(
+        "--qtip-profile-config",
+        type=Path,
+        help="sealed local-input config for a fresh exact QTIP solve",
+    )
+    solve.add_argument(
+        "--qtip-units",
+        type=int,
+        help="limit an ordered resident QTIP config-directory solve",
+    )
+    solve.add_argument(
+        "--profile-qtip",
+        action="store_true",
+        help="profile the exact QTIP solve through this public solve verb",
+    )
     solve.set_defaults(backend="exact-gemm")
+
+    hessian = subparsers.add_parser(
+        "hessian", help="prefetch and seal task-local Hessian/capture banks"
+    )
+    hessian.add_argument("--run-root", type=Path, required=True)
+    hessian.add_argument("--layers", default="0-42")
+    hessian.add_argument("--windows", type=int, choices=(32, 64), default=32)
+    hessian.add_argument("--detach", action="store_true")
+
+    capture = subparsers.add_parser(
+        "capture", help="generate resumable task-local TRAIN capture members"
+    )
+    capture.add_argument("--run-root", type=Path, required=True)
+    capture.add_argument("--model-root", type=Path, required=True)
+    capture.add_argument("--meta-root", type=Path, required=True)
+    capture.add_argument("--corpus", type=Path, required=True)
+    capture.add_argument("--builder", type=Path, required=True)
+    capture.add_argument("--layers", default="0-42")
+    capture.add_argument("--windows", type=int, choices=(32, 64), default=32)
+    capture.add_argument("--microbatch", type=int, default=4)
+    capture.add_argument("--detach", action="store_true")
 
     update = subparsers.add_parser(
         "update",
@@ -142,6 +200,19 @@ def _parser() -> argparse.ArgumentParser:
     update.add_argument("--restart", action="store_true")
     update.add_argument("--verbose-receipts", action="store_true")
 
+    anchor = subparsers.add_parser(
+        "anchor", help="seal per-tier calibration/rebalance surfaces from a solve manifest"
+    )
+    anchor.add_argument("--run-root", type=Path, required=True)
+    anchor.add_argument("--detach", action="store_true")
+
+    status = subparsers.add_parser(
+        "status", help="inspect manifest stages and detached process identities"
+    )
+    status.add_argument("--run-root", type=Path, required=True)
+
+    # Keep the long-standing public release verbs last. Some downstream wrappers
+    # inspect argparse ordering as part of the compatibility contract.
     bank = subparsers.add_parser(
         "bank", help="build or resume a complete manifest-bound teacher bank"
     )
@@ -280,16 +351,119 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "command": "bootstrap",
             }
         elif args.command == "solve":
-            # Torch/Triton stay lazy so pack-only commands keep the light install.
-            from .solve import run_solve
+            if args.qtip_profile_config is not None:
+                if args.root is None or args.layer is None:
+                    raise ValueError("--qtip-profile-config requires --root and --layer")
+                from .solver_qtip_profile import main as qtip_profile_main
+                from .solver_qtip_profile import main_many as qtip_profile_main_many
 
-            result = run_solve(
-                source_root=args.source_root,
-                output=args.output,
-                device=args.device,
-                reference_search=args.reference_search,
-                verbose_receipts=args.verbose_receipts,
-            )
+                if args.qtip_profile_config.is_dir():
+                    qtip_profile_main_many(
+                        args.qtip_profile_config,
+                        args.root,
+                        args.layer,
+                        limit=args.qtip_units,
+                        profile_mode=args.profile_qtip,
+                    )
+                else:
+                    if args.qtip_units not in (None, 1):
+                        raise ValueError(
+                            "--qtip-units above 1 requires a config directory"
+                        )
+                    qtip_profile_main(
+                        args.qtip_profile_config,
+                        args.root,
+                        args.layer,
+                        profile_mode=args.profile_qtip,
+                    )
+                return 0
+            if args.root is not None:
+                if args.output is not None:
+                    raise ValueError("fresh-model workflow mode refuses --output; use --root")
+                from .workflow import (
+                    launch_detached,
+                    parse_csv,
+                    parse_layers,
+                    run_fresh_solve,
+                )
+
+                if args.detach:
+                    detached_tokens = [token for token in tokens if token != "--detach"]
+                    result = launch_detached(
+                        run_root=args.root,
+                        verb="solve",
+                        argv=detached_tokens,
+                    )
+                else:
+                    result = run_fresh_solve(
+                        run_root=args.root,
+                        source_root=args.source_root,
+                        layers=(
+                            [args.layer]
+                            if args.layer is not None
+                            else parse_layers(args.layers)
+                        ),
+                        tiers=parse_csv(args.tiers),
+                        windows=args.windows,
+                        staging_root=args.staging_root,
+                        reference_search=args.reference_search,
+                        hessian_manifest=args.hessian_manifest,
+                        prices_root=args.prices_root,
+                        audit_codeword_assignments=args.audit_codeword_assignments,
+                    )
+            else:
+                if args.output is None:
+                    raise ValueError("solve requires --output or fresh-model --root")
+                if args.detach:
+                    raise ValueError("--detach requires fresh-model --root")
+                # Torch/Triton stay lazy so pack-only commands keep the light install.
+                from .solve import run_solve
+
+                result = run_solve(
+                    source_root=args.source_root,
+                    output=args.output,
+                    device=args.device,
+                    reference_search=args.reference_search,
+                    verbose_receipts=args.verbose_receipts,
+                )
+        elif args.command == "hessian":
+            from .workflow import launch_detached, parse_layers, run_hessian
+
+            if args.detach:
+                detached_tokens = [token for token in tokens if token != "--detach"]
+                result = launch_detached(
+                    run_root=args.run_root,
+                    verb="hessian",
+                    argv=detached_tokens,
+                )
+            else:
+                result = run_hessian(
+                    run_root=args.run_root,
+                    layers=parse_layers(args.layers),
+                    windows=args.windows,
+                )
+        elif args.command == "capture":
+            from .capture_source import run_capture
+            from .workflow import launch_detached, parse_layers
+
+            if args.detach:
+                detached_tokens = [token for token in tokens if token != "--detach"]
+                result = launch_detached(
+                    run_root=args.run_root,
+                    verb="capture",
+                    argv=detached_tokens,
+                )
+            else:
+                result = run_capture(
+                    run_root=args.run_root,
+                    model_root=args.model_root,
+                    meta_root=args.meta_root,
+                    corpus=args.corpus,
+                    builder=args.builder,
+                    layers=parse_layers(args.layers),
+                    windows=args.windows,
+                    microbatch=args.microbatch,
+                )
         elif args.command == "update":
             # Torch is intentionally lazy: pack-only lifecycle commands remain
             # usable in the lightweight release environment.
@@ -350,6 +524,22 @@ def main(argv: Sequence[str] | None = None) -> int:
                 resume_from_layer=args.resume_from_layer,
                 verbose_receipts=args.verbose_receipts,
             )
+        elif args.command == "anchor":
+            from .workflow import launch_detached, run_anchor
+
+            if args.detach:
+                detached_tokens = [token for token in tokens if token != "--detach"]
+                result = launch_detached(
+                    run_root=args.run_root,
+                    verb="anchor",
+                    argv=detached_tokens,
+                )
+            else:
+                result = run_anchor(run_root=args.run_root)
+        elif args.command == "status":
+            from .workflow import workflow_status
+
+            result = workflow_status(run_root=args.run_root)
         else:  # pragma: no cover - argparse guarantees the choices
             parser.error(f"unsupported command {args.command!r}")
             return 2
