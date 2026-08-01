@@ -15,6 +15,7 @@ from .contract import (
     verify_serve_compatibility,
 )
 from .repack import repack_to_safetensors
+from .repair import load_repair_bundle
 from .validation import ValidationError, validate_artifact
 
 
@@ -43,6 +44,17 @@ def _parser() -> argparse.ArgumentParser:
         action="store_true",
         help="drop .npy planes only after a verified safetensors repack",
     )
+    export.add_argument(
+        "--repair-checkpoint",
+        type=Path,
+        help="weights-only genesis-basic-repair-v1 checkpoint to materialize",
+    )
+    export.add_argument("--repair-checkpoint-sha256")
+    export.add_argument("--active-overlay", type=Path)
+    export.add_argument("--active-overlay-sha256")
+    export.add_argument("--assignment", type=Path)
+    export.add_argument("--assignment-sha256")
+    export.add_argument("--repair-update", type=int)
 
     verify = subparsers.add_parser("verify", help="verify manifest, schema, and bytes")
     verify.add_argument("pack", type=Path)
@@ -96,12 +108,34 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.command == "export":
             if args.drop_planes and not args.safetensors:
                 raise ValueError("--drop-planes requires --safetensors")
+            repair_values = {
+                "checkpoint": args.repair_checkpoint,
+                "checkpoint_sha256": args.repair_checkpoint_sha256,
+                "active_overlay": args.active_overlay,
+                "active_overlay_sha256": args.active_overlay_sha256,
+                "assignment": args.assignment,
+                "assignment_sha256": args.assignment_sha256,
+                "update": args.repair_update,
+            }
+            supplied_repair = [
+                name for name, value in repair_values.items() if value is not None
+            ]
+            if supplied_repair and len(supplied_repair) != len(repair_values):
+                missing = sorted(set(repair_values) - set(supplied_repair))
+                raise ValueError(
+                    "repair materialization requires every bound input; "
+                    f"missing={missing}"
+                )
+            repair = (
+                load_repair_bundle(**repair_values) if supplied_repair else None
+            )
             manifest = export_pack(
                 source_root=args.source_root,
                 output=args.output,
                 model_id=args.model_id,
                 instance_id=args.instance_id,
                 link_mode=args.link_mode,
+                repair=repair,
             )
             receipt = verify_pack(args.output)
             result = {

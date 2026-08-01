@@ -10,6 +10,15 @@ from typing import Any, Literal
 
 import numpy as np
 
+from .repair import (
+    REPAIR_MANIFEST_PATH,
+    REPAIR_STATE_PATH,
+    RepairBundle,
+    materialize_codebook_plane,
+    verify_repair_payload,
+    write_repair_payload,
+)
+
 MANIFEST_NAME = "BANANA_PACK_MANIFEST.json"
 COMPLETE_MARKER_NAME = "PACK_COMPLETE"
 KERNEL_MANIFEST_NAME = "BS_KERNEL_CACHE_MANIFEST.json"
@@ -388,8 +397,9 @@ def export_pack(
     model_id: str,
     instance_id: str,
     link_mode: Literal["hardlink", "copy", "auto"] = "hardlink",
+    repair: RepairBundle | None = None,
 ) -> dict[str, Any]:
-    """Export canonical npy planes or a sealed GENESIS layer as bs-pack v1."""
+    """Export canonical planes, optionally materializing a bound repair checkpoint."""
     source_root = Path(source_root).resolve()
     output = Path(output).resolve()
     if output.exists():
@@ -403,7 +413,7 @@ def export_pack(
         tier_map, subtier_map = _genesis_tier_maps(planes)
         source_format = "genesis-materialized-layer-v1"
     else:
-        if not config_source.is_file():
+        if not config_source.is_file() and repair is None:
             raise PackValidationError(
                 f"source config.json is required: {config_source}"
             )
@@ -415,6 +425,8 @@ def export_pack(
     output.mkdir(parents=True)
     linked: list[dict[str, str]] = []
     tensor_index: dict[str, dict[str, Any]] = {}
+    repair_rows: list[dict[str, Any]] = []
+    repair_summary: dict[str, Any] | None = None
     try:
         if source_format == "canonical-npy-v1":
             for source in planes:
@@ -423,9 +435,20 @@ def export_pack(
                 if name in tensor_index:
                     raise PackValidationError(f"duplicate tensor name: {name}")
                 destination_relative = Path("planes") / relative
-                actual_mode = _link_file(
-                    source, output / destination_relative, link_mode
-                )
+                repair_row = None
+                if repair is not None:
+                    repair_row = materialize_codebook_plane(
+                        source,
+                        output / destination_relative,
+                        repair.codebooks,
+                    )
+                if repair_row is None:
+                    actual_mode = _link_file(
+                        source, output / destination_relative, link_mode
+                    )
+                else:
+                    actual_mode = "materialized-repair"
+                    repair_rows.extend(repair_row)
                 metadata = _npy_metadata(output / destination_relative)
                 metadata["path"] = destination_relative.as_posix()
                 metadata["storage"] = {
@@ -440,9 +463,15 @@ def export_pack(
                         "role": "npy_plane",
                     }
                 )
-            config = json.loads(config_source.read_text(encoding="utf-8"))
-            if not isinstance(config, dict):
-                raise PackValidationError("source config.json must contain an object")
+            if config_source.is_file():
+                config = json.loads(config_source.read_text(encoding="utf-8"))
+                if not isinstance(config, dict):
+                    raise PackValidationError("source config.json must contain an object")
+            else:
+                config = {
+                    "_name_or_path": model_id,
+                    "model_type": "deepseek_v4",
+                }
         else:
             for source in planes:
                 descriptor = _genesis_plane_descriptor(source, layer=layer)
@@ -525,6 +554,15 @@ def export_pack(
             "tensor_container": None,
             "kernel_cache_manifest": "BS_KERNEL_CACHE_MANIFEST.json",
         }
+        if repair is not None:
+            config["quantization_config"].update(
+                {
+                    "repair_manifest": REPAIR_MANIFEST_PATH.as_posix(),
+                    "repair_state": REPAIR_STATE_PATH.as_posix(),
+                    "repair_format": repair.checkpoint_format,
+                    "repair_update": repair.update,
+                }
+            )
         (output / "config.json").write_text(
             json.dumps(config, indent=2, sort_keys=True) + "\n", encoding="utf-8"
         )
@@ -545,6 +583,23 @@ def export_pack(
             )
             linked.append(
                 {"path": relative.as_posix(), "mode": "generated", "role": "layer_meta"}
+            )
+
+        if repair is not None:
+            repair_summary = write_repair_payload(output, repair, repair_rows)
+            linked.extend(
+                [
+                    {
+                        "path": REPAIR_MANIFEST_PATH.as_posix(),
+                        "mode": "generated",
+                        "role": "repair_manifest",
+                    },
+                    {
+                        "path": REPAIR_STATE_PATH.as_posix(),
+                        "mode": "generated",
+                        "role": "repair_state",
+                    },
+                ]
             )
 
         (output / COMPLETE_MARKER_NAME).write_text(
@@ -599,6 +654,8 @@ def export_pack(
                 "port_base": "glm52-ds4-bq3-ptq-opd/docker/scripts/export_pack.py",
             },
         }
+        if repair_summary is not None:
+            manifest["repair"] = repair_summary
         (output / MANIFEST_NAME).write_text(
             json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
         )
@@ -895,7 +952,13 @@ def verify_pack(root: str | Path) -> dict[str, Any]:
     _verify_config(root)
     _verify_layer_meta(root, manifest)
     tensor_count, layers = _verify_tensors(root, manifest)
-    return {
+    repair_receipt = None
+    if "repair" in manifest:
+        try:
+            repair_receipt = verify_repair_payload(root, manifest["repair"])
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            raise PackValidationError(f"repair payload verification failed: {exc}") from exc
+    receipt = {
         "status": "PASS",
         "schema": SCHEMA,
         "schema_version": SCHEMA_VERSION,
@@ -904,6 +967,9 @@ def verify_pack(root: str | Path) -> dict[str, Any]:
         "layers": layers,
         "tensor_layout_sha256": manifest["tensor_layout_sha256"],
     }
+    if repair_receipt is not None:
+        receipt["repair"] = repair_receipt
+    return receipt
 
 
 def _required_families(root: Path, manifest: dict[str, Any]) -> list[str]:
