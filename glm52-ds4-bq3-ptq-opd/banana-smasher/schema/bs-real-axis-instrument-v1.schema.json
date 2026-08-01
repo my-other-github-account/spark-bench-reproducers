@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://banana-smasher.dev/schema/bs-real-axis-instrument-v1.schema.json",
+  "title": "banana-smasher real-axis evaluation instrument",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema_version", "profile", "teacher_storage", "support", "cutoff", "direction", "attention", "estimator"],
+  "properties": {
+    "schema": {"const": "bs-real-axis-instrument-v1"},
+    "schema_version": {"const": 1},
+    "profile": {"type": "string", "minLength": 1},
+    "teacher_storage": {"const": "top_support_logprob"},
+    "support": {"type": "integer", "minimum": 1},
+    "cutoff": {"type": "integer", "minimum": 1},
+    "direction": {"const": "kl_teacher_candidate"},
+    "attention": {"type": "string", "minLength": 1},
+    "estimator": {"const": "position_weighted_mean"}
+  }
+}

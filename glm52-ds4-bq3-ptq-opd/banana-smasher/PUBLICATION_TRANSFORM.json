@@ -372,6 +372,14 @@
     "source_manifest_sha256": "d54a5d48e8c3a39f3f8d0d38d46de669e6c34b525948a10f399ed28e45aa41ba",
     "tracked_payload_files": 158
   },
+  "post_publication_integrations": {
+    "bank_evaluate": {
+      "design_sha256": "884f5442da0f0ce827ae17aae7fd6d3c08a060ea3388c6bc3b9d08fcbcb83dcf",
+      "lineage": "S6 bank/evaluate behavior extracted into public manifest-driven durability, banking, metrics, real-axis, and paired-evaluation modules; campaign host/proof ceremony omitted",
+      "policy": "runtime performs semantic validation, complete-bank enforcement, idempotent resume, and common-pair checkpoint durability; numerical/reference claims remain in CI",
+      "status": "PUBLIC_PORT_WITH_FULL_MIXED_TIER_ACCEPTANCE_OPEN"
+    }
+  },
   "status": "RELEASE_CANDIDATE_PENDING_FULL_PACK_GATE",
   "transform_policy": [
     "replace the bundle-only README clone command with the real public Git URL",

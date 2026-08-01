@@ -14,32 +14,74 @@ The first command builds `/model` and writes `BANANA_PACK_MANIFEST.json` last af
 
 BananaSmasher is only the proper name of the first sealed model instance. Reusable package, schema, CLI, and documentation names remain `banana-smasher`, `bs-pack`, and `smash`.
 
-## Minimal physical update proof
+## Exact accelerated solve
 
-`smash update` runs a fresh full-depth, one-logical-window
-forward/backward/optimizer mechanics proof against the real physical surface by
-default (`--layers 1` retains the smaller allocator-regression mode). The default
-logical 8192-token window is processed as eight bounded 1024-token physical
-segments with exact sum-loss normalization and exactly one optimizer step. It
-preloads all input IDs and teacher rows and warms routed immutable source pages
-before timing; installs the bounded-scratch FWHT decoder; loads the pinned AOT
-extension by exact path; and atomically seals a receipt with process identity,
-SHA-256 inputs, per-segment phase rows, `/proc/self/io` deltas, allocation
-snapshots, gradients, optimizer mutation, and K-major dispatch evidence.
+`smash solve` uses the exact full-codebook GEMM search by default. The input
+directory must contain `solve.json` with schema
+`banana-smasher-solve-input-v1` plus the relative NPY vector and codebook files
+declared by each cell. Run it with `smash solve --source-root
+/path/to/solve-input --output /path/to/solve-output`. The accelerated path
+requires CUDA, Triton, D=4 codewords, and a candidate count divisible by 64; it
+fails loudly rather than silently switching implementations. Install the
+optional runtime with `pip install -e '.[solve]'` on the CUDA host.
 
-Invoke the proof as a single command (shown as prose so the release README keeps
-its intentionally exact three-command copy/paste surface): `smash update
---runtime-root /path/to/public/runtime --model-root
-/path/to/DeepSeek-V4-Flash --aot
-/path/to/aot/_C.cpython-312-aarch64-linux-gnu.so --receipt
-/path/to/MINIMAL_UPDATE_RECEIPT.json`.
+The command atomically publishes `winners.npz` and a concise
+`SOLVE_RECEIPT.json` containing the backend, layer/shape, elapsed wall time,
+and artifact location. Independent fast-versus-reference parity checks remain
+in CI and do not add proof work to normal user runs.
 
-The command starts from immutable package/codebook bytes and a brand-new Adam
-state; it never loads an assignment, model, or optimizer training checkpoint.
-The default first-window hard abort is 250 seconds. The timed forward permits no
-storage reads and only the self-sampling `/proc/self/io` read (at most 4 KiB of
-`rchar`). This command proves update mechanics; it does not publish a full-model
-quality claim.
+## Accelerated update
+
+Install the CUDA update dependencies with `pip install -e '.[update]'`, then run
+the default full-depth update with `smash update --runtime-root
+/path/to/runtime --model-root /path/to/DeepSeek-V4-Flash --aot
+/path/to/aot/_C.so --output /path/to/updated.pt`. It is shown as prose so the
+release section above remains the exact three-command copy/paste surface.
+
+The shipped path is accelerated and fails loudly if its CUDA, AOT, runtime, or
+geometry requirements are unavailable. It processes one 8,192-item logical
+mean as eight 1,024-item physical segments and performs exactly one optimizer
+step. Each completed backward is atomically checkpointed next to the output;
+re-running the same command resumes automatically, while `--restart` explicitly
+discards an incomplete run. A completed replay is idempotent and does not run
+forward or the optimizer again.
+
+The default receipt, `/path/to/updated.pt.receipt.json`, contains the backend,
+geometry, elapsed wall time, output path, resume counts, and durable-completion
+state. `--verbose-receipts` adds per-segment phases, parameter diffs, memory
+details, and fallback metadata. Backend parity is enforced separately in CI and
+does not add proof work or runtime fallback to this command.
+
+## Complete teacher banks and paired evaluation
+
+`smash bank` builds the whole ordered population declared by a
+`bs-real-axis-windows-v1` manifest. It resumes valid manifest-bound members
+automatically and publishes `bank.json` followed by `BANK_COMPLETE` only after
+the exact member set, bytes, hashes, tensor schemas, order, instrument, and
+population all verify. Re-running the same command is idempotent; incomplete or
+mutated banks fail closed. The public invocation is `smash bank --model-root
+/path/to/native-model --corpus /path/to/corpus --windows-manifest
+/path/to/windows.json --output /path/to/bank`.
+
+`smash evaluate` always performs a paired candidate/reference physical layer
+walk over that complete bank. Use `smash evaluate --model-root
+/path/to/native-model --candidate /path/to/candidate-pack --reference
+/path/to/reference-pack --bank /path/to/bank --output /path/to/evaluation`.
+Candidate and reference packs each declare a `real_axis.json` profile whose
+per-layer tensor identities and descriptors drive the walk; topology is resolved
+again for every layer rather than copied from a model-wide literal. The packaged
+`real-axis-v1` instrument supplies support, cutoff, KLD direction, attention,
+and estimator values.
+
+Both arms checkpoint exact hidden states at each common completed layer.
+Automatic resume selects only the greatest contiguous validated pair;
+`--resume-from-layer N` requires the pair checkpoint ending at layer `N-1` and
+never skips state. `evaluation.json` binds the arm artifact manifests,
+per-position KLD, global/per-class/per-window summaries, teacher/candidate top-1
+parity, paired deltas, pack identities, and layer descriptors.
+`EVALUATION_COMPLETE` is published last. Normal stdout stays concise;
+`--verbose-receipts` includes the durable evaluation object. Numerical parity
+against the deterministic reference rail remains in CI, not the user runtime.
 
 ## Reproduction and evidence
 

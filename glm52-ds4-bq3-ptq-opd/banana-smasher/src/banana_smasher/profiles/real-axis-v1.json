@@ -1,0 +1,11 @@
+{
+  "attention": "eager",
+  "cutoff": 1024,
+  "direction": "kl_teacher_candidate",
+  "estimator": "position_weighted_mean",
+  "profile": "real-axis-v1",
+  "schema": "bs-real-axis-instrument-v1",
+  "schema_version": 1,
+  "support": 8192,
+  "teacher_storage": "top_support_logprob"
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://banana-smasher.dev/schema/bs-paired-real-axis-evaluation-v1.schema.json",
+  "title": "banana-smasher paired real-axis evaluation receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema_version", "status", "operation", "evaluation_id", "evaluation_spec_sha256", "mode", "bank", "population", "instrument", "topology", "arms", "paired", "resume", "elapsed_seconds", "artifacts"],
+  "properties": {
+    "schema": {"const": "bs-paired-real-axis-evaluation-v1"},
+    "schema_version": {"const": 1},
+    "status": {"const": "COMPLETE"},
+    "operation": {"const": "evaluate"},
+    "evaluation_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "evaluation_spec_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "mode": {"const": "paired_real_axis"},
+    "bank": {"type": "object"},
+    "population": {"type": "object"},
+    "instrument": {"type": "object"},
+    "topology": {"type": "object"},
+    "arms": {"type": "object", "required": ["candidate", "reference"]},
+    "paired": {"type": "object"},
+    "resume": {"type": "object"},
+    "elapsed_seconds": {"type": "number", "minimum": 0},
+    "artifacts": {"type": "object"}
+  }
+}

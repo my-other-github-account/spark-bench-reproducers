@@ -9,22 +9,17 @@ from banana_smasher.cli import _parser, main
 from test_contract import _write_qtip2_source
 
 
-def test_smash_help_exposes_update_as_sixth_command() -> None:
+def test_smash_help_exposes_solve_before_update() -> None:
     parser = _parser()
     action = next(action for action in parser._actions if getattr(action, "choices", None))
-    assert list(action.choices) == [
-        "export",
-        "verify",
-        "serve-check",
-        "validate",
-        "bootstrap",
-        "update",
-    ]
+    assert action.choices is not None
+    commands = list(action.choices)
+    assert commands[:5] == ["export", "verify", "serve-check", "validate", "bootstrap"]
+    assert commands.index("solve") < commands.index("update")
 
 
-def test_smash_update_requires_explicit_runtime_inputs() -> None:
-    parser = _parser()
-    args = parser.parse_args(
+def test_smash_update_defaults_to_accelerated_full_depth_eight_segments() -> None:
+    args = _parser().parse_args(
         [
             "update",
             "--runtime-root",
@@ -33,25 +28,27 @@ def test_smash_update_requires_explicit_runtime_inputs() -> None:
             "/model",
             "--aot",
             "/aot/_C.so",
-            "--receipt",
-            "/receipt.json",
+            "--output",
+            "/updated.pt",
         ]
     )
     assert args.command == "update"
     assert args.tokens == 1024
     assert args.layers == 43
-    assert args.accumulation_segments == 8
+    assert args.segments == 8
+    assert args.backend == "accelerated"
+    assert args.output == Path("/updated.pt")
     assert args.source_windows is None
-    assert args.local_input_preflight is None
-    assert args.hard_abort_seconds == 250.0
+    assert args.restart is False
+    assert args.verbose_receipts is False
 
 
 def test_smash_update_parses_explicit_logical_source_windows() -> None:
     args = _parser().parse_args(
         [
             "update",
-            "--receipt",
-            "/receipt.json",
+            "--output",
+            "/updated.pt",
             "--source-windows",
             "27,38,39,43",
         ]
@@ -59,38 +56,47 @@ def test_smash_update_parses_explicit_logical_source_windows() -> None:
     assert args.source_windows == (27, 38, 39, 43)
 
 
-def test_smash_update_parses_sealed_preflight_bindings() -> None:
+def test_smash_update_retains_accumulation_segments_compatibility_alias() -> None:
     args = _parser().parse_args(
         [
             "update",
-            "--receipt",
-            "/receipt.json",
-            "--local-input-preflight",
-            "/preflight.json",
-            "--local-input-preflight-sha256",
-            "a" * 64,
-            "--local-input-manifest-sha256",
-            "b" * 64,
-            "--migration-receipt",
-            "/migration.json",
-            "--migration-receipt-sha256",
-            "c" * 64,
-            "--preflight-task-id",
-            "t_source",
+            "--output",
+            "/updated.pt",
+            "--accumulation-segments",
+            "5",
         ]
     )
-    assert args.local_input_preflight == Path("/preflight.json")
-    assert args.preflight_task_id == "t_source"
+    assert args.segments == 5
 
 
-def test_smash_update_seals_accumulation_audit(tmp_path: Path, capsys) -> None:
-    receipt = tmp_path / "audit.json"
-    assert main(["update", "--audit-accumulation-only", "--receipt", str(receipt)]) == 0
-    output = json.loads(capsys.readouterr().out)
-    assert output["status"] == "PASS"
-    assert output["segments"] == 8
-    assert output["optimizer_steps"] == 1
-    assert receipt.is_file()
+def test_smash_update_dispatches_accelerated_product_contract(
+    tmp_path: Path, monkeypatch, capsys
+) -> None:
+    captured: dict[str, object] = {}
+
+    def fake_update(**kwargs):
+        captured.update(kwargs)
+        return {"status": "PASS_UPDATE"}
+
+    monkeypatch.setattr(update_module, "run_minimal_update", fake_update)
+    output = tmp_path / "updated.pt"
+    assert main(
+        [
+            "update",
+            "--runtime-root",
+            "/runtime",
+            "--model-root",
+            "/model",
+            "--aot",
+            "/aot/_C.so",
+            "--output",
+            str(output),
+        ]
+    ) == 0
+    assert captured["backend"] == "accelerated"
+    assert captured["output"] == output
+    assert captured["accumulation_segments"] == 8
+    assert json.loads(capsys.readouterr().out)["status"] == "PASS_UPDATE"
 
 
 def test_smash_update_fsyncs_full_traceback_failure_receipt(
@@ -112,6 +118,8 @@ def test_smash_update_fsyncs_full_traceback_failure_receipt(
                 "/model",
                 "--aot",
                 "/aot/_C.so",
+                "--output",
+                str(tmp_path / "updated.pt"),
                 "--receipt",
                 str(receipt),
             ]
@@ -127,6 +135,37 @@ def test_smash_update_fsyncs_full_traceback_failure_receipt(
     assert "Traceback (most recent call last):" in payload["traceback"]
     assert "synthetic full-depth failure" in payload["traceback"]
     assert "synthetic full-depth failure" in capsys.readouterr().err
+
+
+def test_smash_update_keyboard_interrupt_seals_resumable_receipt(
+    tmp_path: Path, monkeypatch, capsys
+) -> None:
+    output = tmp_path / "updated.pt"
+    receipt = tmp_path / "update.json"
+
+    def interrupt_update(**_kwargs):
+        raise KeyboardInterrupt
+
+    monkeypatch.setattr(update_module, "run_minimal_update", interrupt_update)
+    assert main(
+        [
+            "update",
+            "--runtime-root",
+            "/runtime",
+            "--model-root",
+            "/model",
+            "--aot",
+            "/aot/_C.so",
+            "--output",
+            str(output),
+            "--receipt",
+            str(receipt),
+        ]
+    ) == 130
+    failure = json.loads((tmp_path / "update.failure.json").read_text())
+    assert failure["status"] == "INTERRUPTED_RESUMABLE"
+    assert failure["resume_location"] == str(Path(f"{output}.checkpoint").resolve())
+    assert "KeyboardInterrupt" in capsys.readouterr().err
 
 
 def test_smash_validate_pack_compatibility_alias(tmp_path: Path, capsys) -> None:

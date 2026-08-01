@@ -8,6 +8,16 @@ from collections.abc import Callable, Sequence
 from typing import Any
 
 
+def backward_logical_mean(loss_sum: Any, logical_items: int) -> None:
+    """Backpropagate one physical summed loss against the full logical extent."""
+    logical_items = int(logical_items)
+    if logical_items <= 0:
+        raise ValueError(f"logical_items must be positive, got {logical_items}")
+    if getattr(loss_sum, "ndim", None) != 0:
+        raise ValueError("loss_sum must return a scalar summed loss")
+    (loss_sum / logical_items).backward()
+
+
 def exact_accumulation_step(
     *,
     optimizer: Any,
@@ -29,10 +39,8 @@ def exact_accumulation_step(
     detached_sum = 0.0
     for segment, count in zip(segments, counts, strict=True):
         current = loss_sum(segment)
-        if getattr(current, "ndim", None) != 0:
-            raise ValueError("loss_sum must return a scalar summed loss")
+        backward_logical_mean(current, total)
         detached_sum += float(current.detach())
-        (current / total).backward()
     optimizer.step()
     return {
         "segments": len(segments),

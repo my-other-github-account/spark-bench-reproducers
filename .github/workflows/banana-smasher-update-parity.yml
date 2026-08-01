@@ -1,0 +1,31 @@
+name: banana-smasher update parity
+
+on:
+  pull_request:
+    paths:
+      - "glm52-ds4-bq3-ptq-opd/banana-smasher/**"
+      - ".github/workflows/banana-smasher-update-parity.yml"
+  push:
+    paths:
+      - "glm52-ds4-bq3-ptq-opd/banana-smasher/**"
+      - ".github/workflows/banana-smasher-update-parity.yml"
+
+jobs:
+  update-parity:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: glm52-ds4-bq3-ptq-opd/banana-smasher
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: glm52-ds4-bq3-ptq-opd/banana-smasher/pyproject.toml
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e '.[test,update]'
+      - name: Mandatory accelerated/reference update parity
+        run: python -m pytest -q tests/test_update_backend_parity.py tests/test_accumulation.py
+      - name: Update durability and receipt contracts
+        run: python -m pytest -q tests/test_update_resume.py tests/test_update_receipts.py

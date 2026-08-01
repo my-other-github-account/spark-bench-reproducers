@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://banana-smasher.dev/schema/bs-teacher-bank-v1.schema.json",
+  "title": "banana-smasher complete immutable teacher bank",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema_version", "status", "bank_id", "build_spec_sha256", "model", "corpus", "instrument", "population", "members", "member_count", "total_bytes"],
+  "properties": {
+    "schema": {"const": "bs-teacher-bank-v1"},
+    "schema_version": {"const": 1},
+    "status": {"const": "COMPLETE"},
+    "bank_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "build_spec_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "model": {"type": "object"},
+    "corpus": {"type": "object"},
+    "instrument": {"type": "object"},
+    "population": {"type": "object"},
+    "members": {"type": "array", "items": {"type": "object"}},
+    "member_count": {"type": "integer", "minimum": 1},
+    "total_bytes": {"type": "integer", "minimum": 1}
+  }
+}

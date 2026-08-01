@@ -3,17 +3,14 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
-import math
 import os
-import socket
 import subprocess
 import sys
 import time
+from contextlib import contextmanager
 from collections.abc import Sequence
 from pathlib import Path
 from typing import Any
-
-from .fwht import bounded_fwht, fwht_stats
 
 BASELINE_WINDOW_SECONDS = 890.0
 PRODUCTION_LAYERS = 43
@@ -23,6 +20,53 @@ ONE_LAYER_MAX_DEVICE_USED_BYTES = 60 * 1024**3
 FULL_DEPTH_MINIMUM_MEM_AVAILABLE_BYTES = 4 * 1024**3
 FULL_DEPTH_MAX_DEVICE_USED_BYTES = 112 * 1024**3
 FULL_DEPTH_DEVICE_TARGET_BYTES = 60 * 1024**3
+UPDATE_RUNTIME_COMPONENTS = (
+    "base_binrepair_e2e.py",
+    "f521_repair_overlay.py",
+    "genesis_physical_surface.py",
+    "kmajor_autograd.py",
+    "lp4_train.py",
+)
+
+
+@contextmanager
+def _backend_environment(backend: str):
+    """Select one update backend without leaking process-global runtime flags."""
+    if backend not in {"accelerated", "reference"}:
+        raise ValueError(f"unsupported update backend {backend!r}")
+    values = {
+        "GENESIS_REPAIR_KMAJOR_10X": "1" if backend == "accelerated" else "0",
+        "GENESIS_REPAIR_KMAJOR_WINDOWED": "1" if backend == "accelerated" else "0",
+    }
+    managed = set(values) | {
+        "GENESIS_REPAIR_KEEP_PLANES_RESIDENT",
+        "GENESIS_REPAIR_PIN_PLANES",
+        "GENESIS_REPAIR_EVICT",
+        "GENESIS_REPAIR_CHECKPOINT",
+        "GENESIS_REPAIR_KMAJOR_CACHE_MAX_BYTES",
+        "GENESIS_REPAIR_KMAJOR_PREFETCH_EXPERTS",
+    }
+    previous = {name: os.environ.get(name) for name in managed}
+    os.environ.update(values)
+    try:
+        yield
+    finally:
+        for name, value in previous.items():
+            if value is None:
+                os.environ.pop(name, None)
+            else:
+                os.environ[name] = value
+
+
+def _validate_runtime_components(runtime_root: str | Path) -> None:
+    root = Path(runtime_root).resolve()
+    missing = [name for name in UPDATE_RUNTIME_COMPONENTS if not (root / name).is_file()]
+    if missing:
+        raise RuntimeError(
+            "banana-smasher update runtime is incomplete; missing "
+            + ", ".join(missing)
+            + "; install the update extra and provide a complete versioned runtime root."
+        )
 
 
 def _runtime_memory_acceptance(
@@ -310,6 +354,8 @@ def _git_commit(root: Path) -> str | None:
 
 
 def _install_bounded_qtip(f521: Any) -> None:
+    from .fwht import bounded_fwht
+
     original = f521.CorrectQtipDecoder.__init__
     if getattr(original, "_banana_smasher_bounded_fwht", False):
         return
@@ -467,7 +513,7 @@ def _activate_local_preflight(
     }
 
 
-def run_minimal_update(
+def _run_minimal_update_impl(
     *,
     runtime_root: str | Path,
     model_root: str | Path,
@@ -475,19 +521,24 @@ def run_minimal_update(
     receipt: str | Path,
     window: int = 27,
     source_windows: Sequence[int] | None = None,
-    local_input_preflight: str | Path | None = None,
-    local_input_preflight_sha256: str | None = None,
-    local_input_manifest_sha256: str | None = None,
-    migration_receipt: str | Path | None = None,
-    migration_receipt_sha256: str | None = None,
-    preflight_task_id: str | None = None,
     tokens: int = 1024,
     learning_rate: float = 1e-4,
-    hard_abort_seconds: float = 250.0,
-    baseline_seconds: float = BASELINE_WINDOW_SECONDS,
     layers: int = PRODUCTION_LAYERS,
     accumulation_segments: int = 8,
+    output: str | Path | None = None,
+    backend: str = "accelerated",
+    resume: bool = True,
+    restart: bool = False,
+    verbose_receipts: bool = False,
 ) -> dict[str, Any]:
+    missing_dependencies = [
+        name for name in ("torch", "transformers") if importlib.util.find_spec(name) is None
+    ]
+    if missing_dependencies:
+        raise RuntimeError(
+            "smash update requires the update extra; missing Python components: "
+            + ", ".join(missing_dependencies)
+        )
     import torch
 
     if not torch.cuda.is_available():
@@ -500,32 +551,18 @@ def run_minimal_update(
         raise FileNotFoundError(
             f"invalid update inputs runtime={runtime_root} model={model_root} aot={aot}"
         )
+    _validate_runtime_components(runtime_root)
     layers = int(layers)
     if layers not in (1, PRODUCTION_LAYERS):
         raise ValueError(f"layers must be 1 or {PRODUCTION_LAYERS}, got {layers}")
     segment_bounds = _logical_segment_bounds(tokens, accumulation_segments)
     accumulation_segments = len(segment_bounds)
-    if hard_abort_seconds <= 0 or learning_rate <= 0:
-        raise ValueError("hard abort and learning rate must be positive")
+    if learning_rate <= 0:
+        raise ValueError("learning rate must be positive")
 
     process = _proc_identity()
-    package_root = Path(__file__).resolve().parents[2]
-    code_hashes = {
-        "banana_smasher_update": _sha256(Path(__file__)),
-        "banana_smasher_fwht": _sha256(Path(__file__).with_name("fwht.py")),
-    }
-    for name in (
-        "genesis_physical_surface.py",
-        "f521_repair_overlay.py",
-        "kmajor_autograd.py",
-    ):
-        code_hashes[f"runtime_{name.removesuffix('.py')}"] = _sha256(runtime_root / name)
-
-    expected_aot = os.environ.get("BANANA_SMASHER_EXPECTED_AOT_SHA256")
     aot_sha = _sha256(aot)
-    if expected_aot and aot_sha != expected_aot:
-        raise RuntimeError(f"AOT SHA drift: {aot_sha} != {expected_aot}")
-    aot_module = _load_aot(aot)
+    _load_aot(aot)
     _progress(
         "boot_aot_loaded",
         aot=str(aot),
@@ -539,35 +576,41 @@ def run_minimal_update(
     import base_binrepair_e2e as base
     import f521_repair_overlay as f521
     import genesis_physical_surface as surface
-    import kmajor_autograd
     import lp4_train as runtime
-    import p1270_runtime as preflight_runtime
 
     _install_bounded_qtip(f521)
-    preflight_identity = _activate_local_preflight(
-        f521,
-        preflight_runtime,
-        receipt_path=local_input_preflight,
-        expected_receipt_sha256=local_input_preflight_sha256,
-        expected_manifest_sha256=local_input_manifest_sha256,
-        migration_receipt_path=migration_receipt,
-        expected_migration_receipt_sha256=migration_receipt_sha256,
-        expected_task_id=preflight_task_id,
-    )
-    base.T.TEACH = Path(preflight_identity["cache_root"]) / "teacher_by_win"
+    teacher_root = os.environ.get("BANANA_SMASHER_TEACHER_ROOT")
+    if teacher_root:
+        base.T.TEACH = Path(teacher_root).resolve()
+    input_configuration = {
+        "mode": "runtime-configured",
+        "teacher_root": str(Path(base.T.TEACH).resolve()),
+    }
     surface.reset_real10x_dispatch_trace()
-    fwht_stats(reset=True)
-    resident_policy = _resident_prefill_policy(layers, accumulation_segments)
+    resident_policy = (
+        _resident_prefill_policy(layers, accumulation_segments)
+        if backend == "accelerated"
+        else "layer-window-eviction"
+    )
     resident_mode = resident_policy != "layer-window-eviction"
-    memory_policy = _runtime_memory_policy(layers, accumulation_segments)
+    memory_policy = (
+        _runtime_memory_policy(layers, accumulation_segments)
+        if backend == "accelerated"
+        else {
+            "keep_planes_resident": "0",
+            "pin_planes": "0",
+            "evict": "1",
+            "checkpoint": "1" if layers != 1 else "0",
+        }
+    )
     os.environ["GENESIS_REPAIR_KEEP_PLANES_RESIDENT"] = memory_policy[
         "keep_planes_resident"
     ]
     os.environ["GENESIS_REPAIR_PIN_PLANES"] = memory_policy["pin_planes"]
     os.environ["GENESIS_REPAIR_EVICT"] = memory_policy["evict"]
     os.environ["GENESIS_REPAIR_CHECKPOINT"] = memory_policy["checkpoint"]
-    os.environ["GENESIS_REPAIR_KMAJOR_10X"] = "1"
-    os.environ["GENESIS_REPAIR_KMAJOR_WINDOWED"] = "1"
+    os.environ["GENESIS_REPAIR_KMAJOR_10X"] = "1" if backend == "accelerated" else "0"
+    os.environ["GENESIS_REPAIR_KMAJOR_WINDOWED"] = "1" if backend == "accelerated" else "0"
     os.environ.setdefault("GENESIS_REPAIR_KMAJOR_CACHE_MAX_BYTES", str(3 * 1024**3))
     os.environ.setdefault("GENESIS_REPAIR_KMAJOR_PREFETCH_EXPERTS", "16")
     # The timed interval is forbidden from reading /proc. Safety headroom is
@@ -575,7 +618,6 @@ def run_minimal_update(
     surface._memory_floor_guard = lambda _where: None
 
     snapshots = [_memory_snapshot(torch, "boot")]
-    started = time.time()
     student = _build_student(torch, runtime, surface, model_root, layers)
     base.FIRST_TRAIN = 0
     snapshots.append(_memory_snapshot(torch, "fresh_model_loaded"))
@@ -589,11 +631,11 @@ def run_minimal_update(
     corpus_path = Path(os.environ["BR_CORPUS"]).resolve()
     assignment = Path(os.environ["GENESIS_ASSIGNMENT"]).resolve()
     base_assignment = Path(os.environ["GENESIS_BASE_ASSIGNMENT"]).resolve()
-    claim = Path(os.environ.get("GENESIS_HOST_CLAIM", "/home/dnola/HOST_CLAIM.json")).resolve()
+
     corpus = base.T.load_corpus()
     segment_tokens = int(tokens)
     logical_items = segment_tokens * accumulation_segments
-    loader_extent_before = _set_logical_training_extent(base.T, logical_items)
+    _set_logical_training_extent(base.T, logical_items)
     selected_windows = (int(window),) if source_windows is None else tuple(source_windows)
     source_plan = _logical_source_plan(corpus, selected_windows, logical_items)
     ids_chunks = []
@@ -649,11 +691,8 @@ def run_minimal_update(
         "assignment": _sha256(assignment),
         "base_assignment": _sha256(base_assignment),
         "model_config": _sha256(model_root / "config.json"),
-        "host_claim": _sha256(claim),
         "aot": aot_sha,
-        "local_input_preflight_receipt": preflight_identity["receipt_sha256"],
-        "local_input_preflight_manifest": preflight_identity["manifest_sha256"],
-        "migration_receipt": preflight_identity["migration_receipt_sha256"],
+        "input_configuration": input_configuration,
     }
     snapshots.append(_memory_snapshot(torch, "inputs_and_teacher_preloaded"))
 
@@ -726,7 +765,6 @@ def run_minimal_update(
         preload_mode = "full-depth-source-page-warm-with-layer-window-eviction"
     if not preload_losses or not all(bool(torch.isfinite(value)) for value in preload_losses):
         raise RuntimeError(f"non-finite preload loss: {preload_losses}")
-    preload_loss = sum(float(value) for value in preload_losses) / len(preload_losses)
     surface.reset_real10x_dispatch_trace()
     snapshots.append(_memory_snapshot(torch, "one_window_source_preload_complete"))
     _progress(
@@ -743,314 +781,93 @@ def run_minimal_update(
     optimizer = torch.optim.Adam(parameters, lr=float(learning_rate))
     if optimizer.state:
         raise RuntimeError("fresh optimizer unexpectedly contains warm-start state")
-    parameter_before = hashlib.sha256(
-        b"".join(
-            parameter.detach().cpu().contiguous().numpy().tobytes()
-            for parameter in parameters
+    if output is None:
+        raise ValueError("smash update requires an output artifact path")
+
+    from .update_engine import run_segmented_update
+
+    def validate_operational_memory() -> dict[str, Any]:
+        snapshots.append(_memory_snapshot(torch, "optimizer_complete"))
+        minimum_available = min(
+            int(row["meminfo_bytes"]["MemAvailable"]) for row in snapshots
         )
-    ).hexdigest()
-    optimizer.zero_grad(set_to_none=True)
-    torch.cuda.empty_cache()
-    torch.cuda.reset_peak_memory_stats()
-    torch.cuda.synchronize()
-    io_before = _proc_io()
-    segment_phases: list[dict[str, Any]] = []
-    detached_loss_sum = 0.0
-    forward_seconds = 0.0
-    backward_seconds = 0.0
-    for segment in segments:
-        segment_bracket_start = _begin_timed_segment(
-            surface, resident_policy, segment["index"]
+        maximum_device_used = max(
+            int(row["cuda_mem_get_info"]["total_bytes"])
+            - int(row["cuda_mem_get_info"]["free_bytes"])
+            for row in snapshots
         )
-        segment_bracket_end = None
-        forward_started = time.perf_counter()
-        segment_loss_sum = forward_loss(
+        acceptance = _runtime_memory_acceptance(
+            layers, minimum_available, maximum_device_used
+        )
+        if not acceptance["hard_pass"]:
+            raise RuntimeError(f"update memory safety guard failed: {acceptance}")
+        return {"memory": acceptance} if verbose_receipts else {}
+
+    return run_segmented_update(
+        parameters=parameters,
+        optimizer=optimizer,
+        segments=segments,
+        item_count=lambda segment: int(segment["token_stop"] - segment["token_start"]),
+        loss_sum=lambda segment: forward_loss(
             segment, requires_grad=True, reduction="sum"
-        )
-        torch.cuda.synchronize()
-        segment_forward_seconds = time.perf_counter() - forward_started
-        forward_seconds += segment_forward_seconds
-        if segment_forward_seconds > float(hard_abort_seconds):
-            io_after = _proc_io()
-            compute_io_delta = {
-                key: int(io_after.get(key, 0) - io_before.get(key, 0))
-                for key in sorted(set(io_before) | set(io_after))
-            }
-            result = {
-                "schema": "banana-smasher-logical-window-update-v2",
-                "status": "FAIL_HARD_ABORT_PHYSICAL_SEGMENT_FORWARD",
-                "host": socket.gethostname(),
-                "process": process,
-                "segment_index": segment["index"],
-                "segment_forward_seconds": segment_forward_seconds,
-                "hard_abort_seconds": hard_abort_seconds,
-                "compute_io_delta": compute_io_delta,
-                "segment_phases": segment_phases,
-                "code_sha256": code_hashes,
-                "input_sha256": input_hashes,
-                "aot": {
-                    "path": str(aot),
-                    "sha256": aot_sha,
-                    "loaded_file": str(aot_module.__file__),
-                },
-                "allocation_map": snapshots,
-            }
-            result["receipt_sha256"] = _atomic_json(receipt, result)
-            return result
-
-        detached_loss_sum += float(segment_loss_sum.detach())
-        backward_started = time.perf_counter()
-        (segment_loss_sum / logical_items).backward()
-        torch.cuda.synchronize()
-        segment_backward_seconds = time.perf_counter() - backward_started
-        backward_seconds += segment_backward_seconds
-        segment_bracket_end = _end_timed_segment(
-            surface, resident_policy, segment["index"]
-        )
-        row = {
-            "segment_index": int(segment["index"]),
-            "token_start": int(segment["token_start"]),
-            "token_stop": int(segment["token_stop"]),
-            "items": segment_tokens,
-            "forward_seconds": segment_forward_seconds,
-            "backward_seconds": segment_backward_seconds,
-            "loss_sum": float(segment_loss_sum.detach()),
-            "torch_allocated_bytes": int(torch.cuda.memory_allocated()),
-            "torch_reserved_bytes": int(torch.cuda.memory_reserved()),
-            "torch_max_allocated_bytes": int(torch.cuda.max_memory_allocated()),
-            "torch_max_reserved_bytes": int(torch.cuda.max_memory_reserved()),
-            "resident_route_bracket": {
-                "begin": segment_bracket_start,
-                "end": segment_bracket_end,
-            },
-        }
-        segment_phases.append(row)
-        progress_path = _seal_segment_progress(
-            receipt,
-            segment_phases,
-            logical_items=logical_items,
-            segments=accumulation_segments,
-        )
-        _progress("accumulation_segment_complete", **row)
-        _progress(
-            "accumulation_segment_progress_fsynced",
-            segment_index=segment["index"],
-            progress_receipt=str(progress_path),
-            progress_sha256=_sha256(progress_path),
-        )
-        del segment_loss_sum
-        torch.cuda.empty_cache()
-
-    io_after = _proc_io()
-    forward_io_delta = {
-        key: int(io_after.get(key, 0) - io_before.get(key, 0))
-        for key in sorted(set(io_before) | set(io_after))
-    }
-    snapshots.append(_memory_snapshot(torch, "all_segments_forward_backward_complete"))
-    gradients = [parameter.grad for parameter in parameters if parameter.grad is not None]
-    finite_gradients = bool(gradients) and all(
-        bool(torch.isfinite(gradient).all()) for gradient in gradients
-    )
-    nonzero_gradients = sum(int(bool(torch.count_nonzero(gradient))) for gradient in gradients)
-    _progress(
-        "logical_window_accumulation_complete",
-        accumulation_segments=accumulation_segments,
-        logical_items=logical_items,
-        forward_seconds=forward_seconds,
-        backward_seconds=backward_seconds,
-        rchar_delta=forward_io_delta.get("rchar", 0),
-        read_bytes_delta=forward_io_delta.get("read_bytes", 0),
-        finite_gradients=finite_gradients,
-        nonzero_gradient_tensors=nonzero_gradients,
-        mem_available_bytes=snapshots[-1]["meminfo_bytes"]["MemAvailable"],
-    )
-
-    optimizer_started = time.perf_counter()
-    optimizer.step()
-    torch.cuda.synchronize()
-    optimizer_seconds = time.perf_counter() - optimizer_started
-    parameter_after = hashlib.sha256(
-        b"".join(
-            parameter.detach().cpu().contiguous().numpy().tobytes()
-            for parameter in parameters
-        )
-    ).hexdigest()
-    snapshots.append(_memory_snapshot(torch, "optimizer_complete"))
-
-    dispatch = surface.real10x_dispatch_trace(first_layers=1)
-    sentinel = kmajor_autograd.kmajor_sentinel()
-    transform = fwht_stats()
-    loss_value = detached_loss_sum / logical_items
-    update_seconds = forward_seconds + backward_seconds + optimizer_seconds
-    direct_multiplier = float(baseline_seconds) / update_seconds
-    min_available = min(
-        int(row["meminfo_bytes"]["MemAvailable"]) for row in snapshots
-    )
-    max_torch_allocated = max(int(row["torch"]["max_allocated_bytes"]) for row in snapshots)
-    max_torch_reserved = max(int(row["torch"]["max_reserved_bytes"]) for row in snapshots)
-    max_device_used = max(
-        int(row["cuda_mem_get_info"]["total_bytes"])
-        - int(row["cuda_mem_get_info"]["free_bytes"])
-        for row in snapshots
-    )
-    memory_acceptance = _runtime_memory_acceptance(
-        layers, min_available, max_device_used
-    )
-    mechanics_pass = bool(
-        math.isfinite(loss_value)
-        and finite_gradients
-        and nonzero_gradients > 0
-        and parameter_before != parameter_after
-        and len(optimizer.state) > 0
-        and int(sentinel["bmm_launches"]) > 0
-        and int(sentinel["backward_calls"]) > 0
-        and not dispatch["noneligible_fallbacks"]
-        and int(transform["calls"]) > 0
-        and int(preload_inventory["timed_misses"]) == 0
-        and int(forward_io_delta.get("read_bytes", 0)) == 0
-        and int(forward_io_delta.get("rchar", 0)) <= 4096
-        and memory_acceptance["hard_pass"]
-        and (layers != 1 or min_available >= ONE_LAYER_TARGET_MEM_AVAILABLE_BYTES)
-    )
-    result = {
-        "schema": "banana-smasher-logical-window-update-v2",
-        "status": (
-            "PASS_FRESH_FULL_DEPTH_FORWARD_BACKWARD_OPTIMIZER"
-            if mechanics_pass and layers == PRODUCTION_LAYERS
-            else (
-                "PASS_FRESH_ONE_LAYER_FORWARD_BACKWARD_OPTIMIZER"
-                if mechanics_pass
-                else "FAIL_MECHANICS_GATE"
-            )
         ),
-        "host": socket.gethostname(),
-        "created_unix": time.time(),
-        "elapsed_seconds": time.time() - started,
-        "process": process,
-        "freshness": {
-            "model_layers": layers,
-            "production_layers": PRODUCTION_LAYERS,
-            "source_layer": 0,
-            "batch": 1,
-            "microbatch": 1,
-            "windows": [source_window for source_window, _take in source_plan],
-            "tokens": logical_items,
-            "logical_window_tokens": logical_items,
-            "physical_segment_tokens": segment_tokens,
-            "accumulation_segments": accumulation_segments,
-            "optimizer_steps": 1,
-            "loader_extent_before": loader_extent_before,
-            "loader_extent_after": int(base.T.T_TRAIN),
-            "source_windows": [
-                {"window": source_window, "tokens": take}
-                for source_window, take in source_plan
-            ],
-            "assignment_checkpoint_loaded": False,
-            "model_checkpoint_loaded": False,
-            "optimizer_checkpoint_loaded": False,
-            "optimizer_state_entries_before": 0,
-            "optimizer_state_entries_after": len(optimizer.state),
+        output=output,
+        receipt=receipt,
+        identity={
+            "backend": backend,
+            "layers": layers,
+            "logical_items": logical_items,
+            "source_plan": source_plan,
+            "input_sha256": input_hashes,
+            "learning_rate": float(learning_rate),
         },
-        "aot": {
-            "path": str(aot),
-            "sha256": aot_sha,
-            "loaded_file": str(aot_module.__file__),
+        backend=backend,
+        resume=resume,
+        restart=restart,
+        verbose_receipts=verbose_receipts,
+        synchronize=torch.cuda.synchronize,
+        receipt_fields={
+            "layers": layers,
+            "tokens_per_segment": segment_tokens,
         },
-        "public_code": {
-            "root": str(package_root),
-            "git_commit": _git_commit(package_root),
-            "sha256": code_hashes,
-        },
-        "input_sha256": input_hashes,
-        "preload": {
-            "finite_loss": float(preload_loss),
-            "resident_plane_inventory": preload_inventory,
-            "mode": preload_mode,
-            "inputs_and_teacher_preloaded": True,
-            "all_routed_planes_resident": resident_mode,
-            "local_input_preflight": preflight_identity,
-        },
-        "phase_seconds": {
-            "segments": segment_phases,
-            "all_segment_forwards": forward_seconds,
-            "backward": backward_seconds,
-            "optimizer": optimizer_seconds,
-            "complete_update": update_seconds,
-        },
-        "logical_window": {
-            "wall_seconds": update_seconds,
-            "first_segment_forward_seconds": segment_phases[0]["forward_seconds"],
-            "max_segment_forward_seconds": max(
-                float(row["forward_seconds"]) for row in segment_phases
-            ),
-            "hard_abort_seconds": hard_abort_seconds,
-            "hard_abort_pass": all(
-                float(row["forward_seconds"]) <= hard_abort_seconds
-                for row in segment_phases
-            ),
-            "compute_io_before": io_before,
-            "compute_io_after": io_after,
-            "compute_io_delta": forward_io_delta,
-            "zero_storage_io": int(forward_io_delta.get("read_bytes", 0)) == 0,
-            "near_zero_rchar": int(forward_io_delta.get("rchar", 0)) <= 4096,
-        },
-        "loss": {"value": loss_value, "finite": math.isfinite(loss_value)},
-        "gradients": {
-            "parameter_tensors": len(parameters),
-            "gradient_tensors": len(gradients),
-            "finite": finite_gradients,
-            "nonzero_tensors": nonzero_gradients,
-        },
-        "optimizer": {
-            "name": "Adam",
-            "learning_rate": learning_rate,
-            "step_completed": parameter_before != parameter_after,
-            "parameter_sha256_before": parameter_before,
-            "parameter_sha256_after": parameter_after,
-        },
-        "dispatch": dispatch,
-        "bounded_fwht": transform,
-        "allocation": {
-            "snapshots": snapshots,
-            "minimum_mem_available_bytes": min_available,
-            "minimum_required_mem_available_bytes": memory_acceptance[
-                "minimum_mem_available_hard_floor_bytes"
-            ],
-            "four_gib_floor_pass": min_available >= MINIMUM_MEM_AVAILABLE_BYTES,
-            "one_layer_target_mem_available_bytes": ONE_LAYER_TARGET_MEM_AVAILABLE_BYTES,
-            "one_layer_target_mem_available_pass": min_available
-            >= ONE_LAYER_TARGET_MEM_AVAILABLE_BYTES,
-            "maximum_device_used_bytes": max_device_used,
-            "one_layer_max_device_used_bytes": ONE_LAYER_MAX_DEVICE_USED_BYTES,
-            "one_layer_under_60_gib_pass": max_device_used
-            < ONE_LAYER_MAX_DEVICE_USED_BYTES,
-            "peak_torch_allocated_bytes": max_torch_allocated,
-            "peak_torch_reserved_bytes": max_torch_reserved,
-            "corrected_guard": memory_acceptance,
-        },
-        "multiplier_vs_baseline": {
-            "baseline_window_seconds": float(baseline_seconds),
-            "measured_update_multiplier": direct_multiplier,
-            "measured_layers": layers,
-            "comparison_geometry": {
-                "layers": layers,
-                "logical_tokens": logical_items,
-                "windows_per_optimizer_step": 1,
-            },
-            "comparison_is_equal_useful_work": layers == PRODUCTION_LAYERS
-            and logical_items == 8192,
-            "no_baby_full_extrapolation": True,
-            "campaign_target_multiplier": 10.0,
-            "campaign_target_met": direct_multiplier >= 10.0,
-            "single_next_lever_if_below_target": (
-                None
-                if direct_multiplier >= 10.0
-                else "retain K-major dense tiles across backward to remove backward rematerialization"
-            ),
-        },
-        "mechanics_pass": mechanics_pass,
-    }
-    receipt_sha = _atomic_json(receipt, result)
-    result["receipt"] = str(receipt)
-    result["receipt_sha256"] = receipt_sha
-    return result
+        post_step_validate=validate_operational_memory,
+    )
+
+
+def run_minimal_update(
+    *,
+    runtime_root: str | Path,
+    model_root: str | Path,
+    aot: str | Path,
+    receipt: str | Path,
+    output: str | Path,
+    window: int = 27,
+    source_windows: Sequence[int] | None = None,
+    tokens: int = 1024,
+    learning_rate: float = 1e-4,
+    layers: int = PRODUCTION_LAYERS,
+    accumulation_segments: int = 8,
+    backend: str = "accelerated",
+    resume: bool = True,
+    restart: bool = False,
+    verbose_receipts: bool = False,
+) -> dict[str, Any]:
+    """Run the shipped backend under scoped runtime flags; reference is explicit only."""
+    with _backend_environment(backend):
+        return _run_minimal_update_impl(
+            runtime_root=runtime_root,
+            model_root=model_root,
+            aot=aot,
+            receipt=receipt,
+            output=output,
+            window=window,
+            source_windows=source_windows,
+            tokens=tokens,
+            learning_rate=learning_rate,
+            layers=layers,
+            accumulation_segments=accumulation_segments,
+            backend=backend,
+            resume=resume,
+            restart=restart,
+            verbose_receipts=verbose_receipts,
+        )

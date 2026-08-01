@@ -11,6 +11,14 @@ dependencies = ["numpy==2.3.5", "safetensors==0.8.0"]
 
 [project.optional-dependencies]
 test = ["pytest==8.4.2", "ruff==0.12.7"]
+solve = [
+  "torch==2.8.0",
+  "triton==3.4.0; platform_system == 'Linux'",
+]
+update = [
+  "torch==2.8.0",
+  "transformers==5.4.0",
+]
 
 [project.scripts]
 smash = "banana_smasher.cli:main"
