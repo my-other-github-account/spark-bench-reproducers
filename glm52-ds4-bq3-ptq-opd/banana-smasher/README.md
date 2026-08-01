@@ -30,6 +30,14 @@ The command atomically publishes `winners.npz` and a concise
 and artifact location. Independent fast-versus-reference parity checks remain
 in CI and do not add proof work to normal user runs.
 
+QTIP tiers use the same public verb with a sealed config file or an ordered
+config directory: `smash solve --source-root /path/to/source --root
+/path/to/run --layer 39 --qtip-profile-config /path/to/config-or-directory`.
+For a directory, `--qtip-units 64` selects the first resident batch. The
+resident exact trellis kernel is the only runtime QTIP implementation: missing
+Torch/Triton/CUDA, malformed or incomplete configs, and unsupported geometry
+fail the verb loudly. There is no scalar/reference fallback after dispatch.
+
 ## Accelerated update
 
 Install the CUDA update dependencies with `pip install -e '.[update]'`, then run
@@ -85,6 +93,11 @@ parity, paired deltas plus the actual-population 95% paired interval, pack
 identities, and layer descriptors. Verification recomputes KLD and top-1 parity
 from the persisted support log-probabilities/argmax tensors, then recomputes all
 arm and paired aggregates before accepting a coherently hashed receipt.
+Every layer applies all declared windows in one batched candidate forward and
+one batched reference forward; each arm also projects all final states in one
+batched head forward. The sealed performance contract records the layer/head
+forward counts, batch width, wall time, evaluated throughput, peak VRAM,
+candidate/reference KLD, KLD delta, exact kernel name, and `fallback_used=false`.
 `EVALUATION_COMPLETE` is published last. Normal stdout stays concise;
 `--verbose-receipts` includes the durable evaluation object. Numerical parity
 against the deterministic reference rail remains in CI, not the user runtime.
