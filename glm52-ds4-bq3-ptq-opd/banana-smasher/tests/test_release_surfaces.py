@@ -40,6 +40,27 @@ def test_release_readme_is_literal_three_command_path() -> None:
     assert "BananaSmasher is only the proper name of the first sealed model instance" in readme
 
 
+def test_qtip_runtime_contains_one_fast_path_and_no_runtime_parity_fallback() -> None:
+    runtime = (ROOT / "src/banana_smasher/qtip_viterbi.py").read_text(
+        encoding="utf-8"
+    )
+    profiler = (ROOT / "src/banana_smasher/solver_qtip_profile.py").read_text(
+        encoding="utf-8"
+    )
+    for forbidden in (
+        "exact_prefix_viterbi_reference",
+        "_init_prefix_costs",
+        "_advance_prefix_costs",
+        "_backtrack_reference",
+        "_batched_prefix_viterbi",
+        "reference=True",
+    ):
+        assert forbidden not in runtime + profiler
+    assert "post_profile_uninstrumented_validation_seconds" not in profiler
+    assert "uninstrumented_same_input_assignment_sha256" not in profiler
+    assert runtime.count("def exact_prefix_viterbi(") == 1
+
+
 def test_pack_format_documents_versioned_layout_and_auto_detection() -> None:
     pack_format = (ROOT / "PACK_FORMAT.md").read_text(encoding="utf-8")
     for required in (

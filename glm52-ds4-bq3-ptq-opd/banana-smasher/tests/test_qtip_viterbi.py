@@ -8,6 +8,7 @@ torch = pytest.importorskip("torch")
 pytest.importorskip("triton")
 
 from banana_smasher import qtip_viterbi  # noqa: E402
+from qtip_viterbi_oracle import exact_prefix_viterbi_oracle  # noqa: E402
 
 
 @pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA required")
@@ -22,7 +23,7 @@ def test_persistent_viterbi_matches_launch_by_step_over_one_million_decisions() 
     )
     x = torch.randn((256, batch), device="cuda", dtype=torch.float16)
 
-    reference = qtip_viterbi.exact_prefix_viterbi_reference(cb, x)
+    reference = exact_prefix_viterbi_oracle(cb, x)
     candidate = qtip_viterbi.exact_prefix_viterbi(cb, x)
     torch.cuda.synchronize()
 
@@ -43,7 +44,7 @@ def test_persistent_viterbi_preserves_overlap_and_tie_order() -> None:
     x = torch.zeros((256, batch), device="cuda", dtype=torch.float16)
     overlap = torch.arange(batch, device="cuda", dtype=torch.int32)
 
-    reference = qtip_viterbi.exact_prefix_viterbi_reference(cb, x, overlap)
+    reference = exact_prefix_viterbi_oracle(cb, x, overlap)
     candidate = qtip_viterbi.exact_prefix_viterbi(cb, x, overlap)
     torch.cuda.synchronize()
 
