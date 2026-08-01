@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "banana-smasher-plugin"
 version = "0.2.0"
-description = "Stock-vLLM runtime plugin for bs-mixed-tier native-plane packs"
+description = "Stock-vLLM banana_smasher runtime plugin for native-plane packs"
 requires-python = ">=3.10"
 dependencies = ["numpy==2.3.5", "safetensors==0.8.0"]
 

@@ -3,7 +3,8 @@
 ## 2026-08-01 — stock-vLLM native-plane adapter
 
 Closed:
-- `bs-mixed-tier` now returns `None` for dense/embedding/attention modules and binds only stock vLLM `RoutedExperts` at `model.layers.<0..42>.ffn.experts`.
+- `GAP-V5-QUANT-METHOD-001`: the product method is single-sourced as `banana_smasher`; dense linear modules retain stock unquantized dispatch and only stock vLLM `RoutedExperts` at `model.layers.<0..42>.ffn.experts` bind native planes.
+- `GAP-V5-NATIVE-PLANE-FADVISE-001`: after every mmap-backed NPY plane is synchronously copied to its target tensor, the loader issues `POSIX_FADV_DONTNEED`, drops the mmap reference, and logs `loaded/total` plus `MemAvailable_kB` every 50 planes. This prevents V5's 103 GB file cache from remaining resident beside the 103 GB UMA/device allocation.
 - The model path supplied by stock vLLM is resolved through `quantization_config.pack_root`; no wrapper, environment path, or private vLLM checkout is required.
 - Every manifest-declared P1016 layer is metadata-bound before model construction continues; each selected layer loads its named NPY planes and exact expert/tier/slot map.
 - The routed MoE method executes the direct `fused13 -> SiLU*up -> down -> ordered top-k weighted reduction` path through the P1016 accelerated kernel source. No dense, scalar, legacy, or alternate-runtime fallback exists.

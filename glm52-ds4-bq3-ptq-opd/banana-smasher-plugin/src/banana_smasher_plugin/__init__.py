@@ -7,16 +7,19 @@ _REGISTERED = False
 
 
 def register() -> None:
-    """Register the bs-mixed-tier quantization config in every vLLM process."""
+    """Register the canonical product quantization config in every vLLM process."""
     global _REGISTERED
     if _REGISTERED:
         return
-    from .quantization import BananaSmasherQuantizationConfig
+    from .quantization import BananaSmasherQuantizationConfig, QUANT_METHOD
     from vllm.model_executor.layers.quantization import register_quantization_config
 
-    register_quantization_config("bs-mixed-tier")(BananaSmasherQuantizationConfig)
+    register_quantization_config(QUANT_METHOD)(BananaSmasherQuantizationConfig)
     _REGISTERED = True
-    _LOG.warning("BANANA_SMASHER_PLUGIN_REGISTERED quant_method=bs-mixed-tier fast_path_or_fail=true")
+    _LOG.warning(
+        "BANANA_SMASHER_PLUGIN_REGISTERED quant_method=%s fast_path_or_fail=true",
+        QUANT_METHOD,
+    )
 
 
 __all__ = ["register"]

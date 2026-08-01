@@ -4,7 +4,6 @@ import hashlib
 import json
 from pathlib import Path
 
-import numpy as np
 import pytest
 import torch
 from safetensors.torch import save_file
@@ -47,7 +46,7 @@ def _pack(root: Path) -> Path:
         "schema": "bs-pack",
         "schema_version": 1,
         "source_format": "p1016-true-c-native-planes-v1",
-        "quant_method": "bs-mixed-tier",
+        "quant_method": "banana_smasher",
         "instance_id": "fixture",
         "layers": [0],
         "tensor_layout_sha256": "0dae88283affb718f7b9cd7d6b2f9bd11016fb9b792ecf98ea96dce426ee4cc8",
@@ -67,7 +66,7 @@ def _pack(root: Path) -> Path:
         json.dumps(
             {
                 "quantization_config": {
-                    "quant_method": "bs-mixed-tier",
+                    "quant_method": "banana_smasher",
                     "format": "bs-pack",
                     "format_version": 1,
                     "pack_manifest": "BANANA_PACK_MANIFEST.json",

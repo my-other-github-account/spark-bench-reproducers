@@ -20,6 +20,7 @@ try:
     from vllm.model_executor.layers.fused_moe.fused_moe_method_base import (
         FusedMoEMethodBase,
     )
+    from vllm.model_executor.layers.linear import LinearBase, UnquantizedLinearMethod
     from vllm.model_executor.layers.quantization.base_config import QuantizationConfig
 except ImportError as exc:  # pragma: no cover - wheel dependency is mandatory
     raise RuntimeError("banana-smasher-plugin requires stock vLLM") from exc
@@ -28,6 +29,7 @@ except ImportError as exc:  # pragma: no cover - wheel dependency is mandatory
 _DEEPSEEK_V4_EXPERT_PREFIX = re.compile(
     r"(?:^|\.)model\.layers\.(?P<layer>[0-9]+)\.ffn\.experts$"
 )
+QUANT_METHOD = "banana_smasher"
 
 
 class BananaSmasherMoEMethod(FusedMoEMethodBase):
@@ -156,7 +158,7 @@ class BananaSmasherQuantizationConfig(QuantizationConfig):
 
     @classmethod
     def get_name(cls) -> str:
-        return "bs-mixed-tier"
+        return QUANT_METHOD
 
     @classmethod
     def get_supported_act_dtypes(cls) -> list[torch.dtype]:
@@ -172,8 +174,10 @@ class BananaSmasherQuantizationConfig(QuantizationConfig):
 
     @classmethod
     def from_config(cls, config: dict[str, Any]) -> "BananaSmasherQuantizationConfig":
-        if config.get("quant_method") != "bs-mixed-tier":
-            raise ValueError("banana-smasher-plugin refuses non-bs-mixed-tier config")
+        if config.get("quant_method") != QUANT_METHOD:
+            raise ValueError(
+                f"banana-smasher-plugin requires quant_method={QUANT_METHOD}"
+            )
         if config.get("format") != "bs-pack" or config.get("format_version") != 1:
             raise ValueError("banana-smasher-plugin refuses unsupported pack format")
         return cls(config)
@@ -201,6 +205,8 @@ class BananaSmasherQuantizationConfig(QuantizationConfig):
     def get_quant_method(
         self, layer: torch.nn.Module, prefix: str
     ) -> Any | None:
+        if isinstance(layer, LinearBase):
+            return UnquantizedLinearMethod()
         if not isinstance(layer, RoutedExperts):
             return None
         match = _DEEPSEEK_V4_EXPERT_PREFIX.search(prefix)

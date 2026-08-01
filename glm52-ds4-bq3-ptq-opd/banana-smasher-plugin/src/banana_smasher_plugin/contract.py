@@ -43,15 +43,15 @@ def load_runtime_contract(root: str | Path) -> RuntimeContract:
     root = Path(root).resolve()
     cfg = _load(root / "config.json")
     q = cfg.get("quantization_config") or {}
-    if q.get("quant_method") != "bs-mixed-tier":
-        raise PackContractError("quant_method must be bs-mixed-tier")
+    if q.get("quant_method") != "banana_smasher":
+        raise PackContractError("quant_method must be banana_smasher")
     if q.get("format") != "bs-pack" or q.get("format_version") != 1:
         raise PackContractError("unsupported pack format")
     manifest_path = root / q.get("pack_manifest", "")
     manifest = _load(manifest_path)
     if manifest.get("source_format") != "p1016-true-c-native-planes-v1":
         raise PackContractError("source_format must be p1016-true-c-native-planes-v1")
-    if manifest.get("quant_method") != "bs-mixed-tier":
+    if manifest.get("quant_method") != "banana_smasher":
         raise PackContractError("manifest quant_method mismatch")
     repair = manifest.get("repair") or {}
     if q.get("repair_format") != "bs-basic-repair-v1" or repair.get("format") != "bs-basic-repair-v1":

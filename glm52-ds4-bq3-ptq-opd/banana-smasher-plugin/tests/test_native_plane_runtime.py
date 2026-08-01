@@ -9,6 +9,8 @@ import numpy as np
 import pytest
 import torch
 
+import banana_smasher_plugin.native_planes as native_planes
+
 from banana_smasher_plugin.native_planes import (
     EXPECTED_LAYOUT_SHA256,
     FAST_PATH_ERROR,
@@ -86,7 +88,7 @@ def _tiny_pack(root: Path, *, layout: str = EXPECTED_LAYOUT_SHA256) -> Path:
     manifest = {
         "schema": "bs-pack",
         "schema_version": 1,
-        "quant_method": "bs-mixed-tier",
+        "quant_method": "banana_smasher",
         "source_format": "p1016-true-c-native-planes-v1",
         "layers": [0],
         "tensor_layout_sha256": layout,
@@ -96,7 +98,7 @@ def _tiny_pack(root: Path, *, layout: str = EXPECTED_LAYOUT_SHA256) -> Path:
         json.dumps(
             {
                 "quantization_config": {
-                    "quant_method": "bs-mixed-tier",
+                    "quant_method": "banana_smasher",
                     "format": "bs-pack",
                     "format_version": 1,
                     "pack_root": ".",
@@ -140,6 +142,37 @@ def test_plane_loader_moves_named_planes_and_dispatches_projection(tmp_path: Pat
     assert set(layer.state("fused13").payloads) == {"d4_k16"}
 
 
+def test_streamed_plane_load_releases_mmap_pages_and_logs_watermark(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, caplog: pytest.LogCaptureFixture
+) -> None:
+    pack = NativePlanePack.from_model_root(_tiny_pack(tmp_path / "model"))
+    plane = next((pack.root / "planes").glob("*.npy"))
+    array = np.load(plane, allow_pickle=False)
+    spec = {"file": plane.name, "shape": list(array.shape), "dtype": str(array.dtype)}
+    calls: list[tuple[int, int, int]] = []
+
+    def fadvise(fd: int, offset: int, length: int, advice: int) -> None:
+        calls.append((offset, length, advice))
+
+    monkeypatch.setattr(native_planes, "_posix_fadvise", fadvise)
+    monkeypatch.setattr(native_planes, "_POSIX_FADV_DONTNEED", 4)
+    native_planes._PLANE_LOAD_PROGRESS.clear()
+    layer = object.__new__(NativePlaneLayer)
+    layer.pack = pack
+    layer.layer_index = 0
+    layer.device = torch.device("cpu")
+
+    with caplog.at_level("INFO", logger=native_planes.__name__):
+        for _ in range(50):
+            tensor = layer._tensor(spec)
+            assert tensor.shape == array.shape
+
+    assert calls == [(0, 0, 4)] * 50
+    assert "BANANA_SMASHER_PLANE_LOAD_WATERMARK loaded=50" in caplog.text
+    assert "total=10" in caplog.text
+    assert "MemAvailable_kB=" in caplog.text
+
+
 def _install_fake_vllm(monkeypatch: pytest.MonkeyPatch) -> None:
     class QuantizationConfig:
         pass
@@ -151,6 +184,12 @@ def _install_fake_vllm(monkeypatch: pytest.MonkeyPatch) -> None:
             self.moe_quant_config = None
 
     class RoutedExperts:
+        pass
+
+    class LinearBase:
+        pass
+
+    class UnquantizedLinearMethod:
         pass
 
     class FusedMoEQuantConfig:
@@ -177,6 +216,9 @@ def _install_fake_vllm(monkeypatch: pytest.MonkeyPatch) -> None:
         "vllm.model_executor.layers.fused_moe.config": ModuleType(
             "vllm.model_executor.layers.fused_moe.config"
         ),
+        "vllm.model_executor.layers.linear": ModuleType(
+            "vllm.model_executor.layers.linear"
+        ),
     }
     modules[
         "vllm.model_executor.layers.quantization.base_config"
@@ -188,6 +230,10 @@ def _install_fake_vllm(monkeypatch: pytest.MonkeyPatch) -> None:
     modules[
         "vllm.model_executor.layers.fused_moe.config"
     ].FusedMoEQuantConfig = FusedMoEQuantConfig
+    modules["vllm.model_executor.layers.linear"].LinearBase = LinearBase
+    modules[
+        "vllm.model_executor.layers.linear"
+    ].UnquantizedLinearMethod = UnquantizedLinearMethod
     for name, module in modules.items():
         monkeypatch.setitem(sys.modules, name, module)
     sys.modules.pop("banana_smasher_plugin.quantization", None)
@@ -272,6 +318,10 @@ def test_quant_config_selects_only_stock_deepseek_routed_experts(
     root = _tiny_pack(tmp_path / "model")
     _install_fake_vllm(monkeypatch)
     from vllm.model_executor.layers.fused_moe import RoutedExperts
+    from vllm.model_executor.layers.linear import (
+        LinearBase,
+        UnquantizedLinearMethod,
+    )
     from banana_smasher_plugin.quantization import (
         BananaSmasherMoEMethod,
         BananaSmasherQuantizationConfig,
@@ -281,6 +331,8 @@ def test_quant_config_selects_only_stock_deepseek_routed_experts(
     config = BananaSmasherQuantizationConfig.from_config(raw)
     config.maybe_update_config(str(root))
     assert config.get_quant_method(object(), "model.embed_tokens") is None
+    linear_method = config.get_quant_method(LinearBase(), "model.layers.0.attn.q_proj")
+    assert isinstance(linear_method, UnquantizedLinearMethod)
     layer = RoutedExperts()
     layer.moe_config = SimpleNamespace()
     method = config.get_quant_method(layer, "model.layers.0.ffn.experts")

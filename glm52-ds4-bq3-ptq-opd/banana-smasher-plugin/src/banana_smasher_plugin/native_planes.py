@@ -3,7 +3,9 @@ from __future__ import annotations
 import importlib
 import hashlib
 import json
+import logging
 import math
+import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable, cast
@@ -14,6 +16,11 @@ import torch
 FAST_PATH_ERROR = "BANANA_SMASHER_FAST_PATH_PREREQUISITE_MISSING"
 EXPECTED_LAYOUT_SHA256 = "0dae88283affb718f7b9cd7d6b2f9bd11016fb9b792ecf98ea96dce426ee4cc8"
 EXPECTED_FAMILY_CODES = {"qtip2": 0, "qtip3": 1, "d4": 2, "native": 3}
+_LOGGER = logging.getLogger(__name__)
+_posix_fadvise = getattr(os, "posix_fadvise", None)
+_POSIX_FADV_DONTNEED = getattr(os, "POSIX_FADV_DONTNEED", 4)
+_PLANE_LOAD_PROGRESS: dict[Path, int] = {}
+_PLANE_LOAD_TOTALS: dict[Path, int] = {}
 
 
 class NativePlanePrerequisiteError(RuntimeError):
@@ -34,6 +41,44 @@ def _json(path: Path) -> dict[str, Any]:
     return value
 
 
+def _mem_available_kib() -> int:
+    try:
+        return next(
+            int(line.split()[1])
+            for line in Path("/proc/meminfo").read_text().splitlines()
+            if line.startswith("MemAvailable:")
+        )
+    except Exception:
+        return -1
+
+
+def _release_mmap_pages(path: Path, array: np.ndarray) -> None:
+    if getattr(array, "_mmap", None) is None:
+        return
+    if _posix_fadvise is None:
+        _LOGGER.warning("POSIX_FADV_DONTNEED unavailable for streamed plane %s", path)
+        return
+    try:
+        with path.open("rb") as plane:
+            _posix_fadvise(plane.fileno(), 0, 0, _POSIX_FADV_DONTNEED)
+    except Exception as exc:
+        _LOGGER.warning("POSIX_FADV_DONTNEED failed for streamed plane %s: %s", path, exc)
+
+
+def _record_plane_load(root: Path) -> None:
+    root = root.resolve()
+    loaded = _PLANE_LOAD_PROGRESS.get(root, 0) + 1
+    _PLANE_LOAD_PROGRESS[root] = loaded
+    total = _PLANE_LOAD_TOTALS.setdefault(root, sum(1 for _ in (root / "planes").glob("*.npy")))
+    if loaded % 50 == 0:
+        _LOGGER.info(
+            "BANANA_SMASHER_PLANE_LOAD_WATERMARK loaded=%d total=%d MemAvailable_kB=%d",
+            loaded,
+            total,
+            _mem_available_kib(),
+        )
+
+
 @dataclass(frozen=True)
 class NativePlanePack:
     root: Path
@@ -46,8 +91,8 @@ class NativePlanePack:
         model_root = Path(model_root).expanduser().resolve()
         config = _json(model_root / "config.json")
         quant = config.get("quantization_config")
-        if not isinstance(quant, dict) or quant.get("quant_method") != "bs-mixed-tier":
-            raise _fail("model quantization_config.quant_method must be bs-mixed-tier")
+        if not isinstance(quant, dict) or quant.get("quant_method") != "banana_smasher":
+            raise _fail("model quantization_config.quant_method must be banana_smasher")
         if quant.get("format") != "bs-pack" or quant.get("format_version") != 1:
             raise _fail("model quantization_config must select bs-pack format_version=1")
         relative_root = quant.get("pack_root", ".")
@@ -63,7 +108,7 @@ class NativePlanePack:
         expected = {
             "schema": "bs-pack",
             "schema_version": 1,
-            "quant_method": "bs-mixed-tier",
+            "quant_method": "banana_smasher",
             "source_format": "p1016-true-c-native-planes-v1",
         }
         for key, value in expected.items():
@@ -240,7 +285,11 @@ class NativePlaneLayer:
         tensor = torch.from_numpy(array.copy() if self.device.type == "cpu" else array)
         if tensor.device != self.device:
             tensor = tensor.to(self.device, non_blocking=False)
-        return tensor.contiguous()
+        tensor = tensor.contiguous()
+        _release_mmap_pages(path, array)
+        del array
+        _record_plane_load(self.pack.root)
+        return tensor
 
     def _load_projection(self, projection: str) -> ProjectionState:
         suffix = "13" if projection == "fused13" else "2"
