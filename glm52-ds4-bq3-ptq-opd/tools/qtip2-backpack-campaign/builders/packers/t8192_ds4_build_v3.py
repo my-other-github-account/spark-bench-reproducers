@@ -19,7 +19,7 @@ Candidate mode (--mode w2 --ref-dir <teacher_dir>):
   out/q8192_win<k>.pt {"q_lp_at_ref": fp16 [T,8192] full-softmax lp
                        gathered at ref idx, "q_argmax": int32 [T]}
   Identical forward except ROUTED experts dequant through the shipped
-  W2 sign-sym codebook {-4,-1,1,4} (vllm-moet moe_w2_planes nibble->code
+  W2 sign-sym codebook {-4,-1,1,4} (our vLLM overlay (stock vLLM 0.24.0 + banana-smasher, Apache-2.0) moe_w2_planes nibble->code
   LUT, same e8m0 scales -> numerically identical to serve-side planes).
   Attn / shared_experts / gate / dense stay on the teacher bf16 path,
   matching the G2-sealed serve (planes cover routed experts only).
@@ -358,7 +358,7 @@ def byte_lut(kind):
 def deq_fp4_block32(wb, sb, kind):
     """packed nibbles [.., N, K/2] u8 + e8m0 [.., N, K/32] -> bf16 [.., N, K].
 
-    Nibble order: low nibble = even k (matches mxfp4 packing / vllm-moet).
+    Nibble order: low nibble = even k (matches mxfp4 packing / our vLLM overlay (stock vLLM 0.24.0 + banana-smasher, Apache-2.0)).
     """
     lut = byte_lut(kind)
     vals = lut[wb.long()].flatten(-2)          # [.., N, K]

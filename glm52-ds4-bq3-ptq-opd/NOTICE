@@ -1,0 +1,19 @@
+NOTICE
+======
+
+This repository's serving stack and quantization framework contain NO code from
+the 'vllm-moet' project. Provenance:
+
+- Serving: stock upstream vLLM 0.24.0 (Apache-2.0, Copyright contributors to the
+  vLLM project) plus the banana-smasher overlay (Apache-2.0, Copyright 2026
+  banana_bae and contributors): custom quantization method, planes wire format,
+  and CUDA kernels (vq_warp_gemv, moe_w2 planes) — all original work.
+- Framework: banana-smasher high-level API — depends only on torch, numpy,
+  safetensors, and the Python standard library.
+- Historical naming: some venv names, script paths, and older documents use
+  'vllm-moet' as a legacy environment name from early experimentation. This is
+  naming residue only; SPDX headers across the shipped tree were verified
+  2026-07-31. Any 'moet' byte sequences inside model data files (e.g.
+  tokenizer.json) are vocabulary-token coincidences.
+
+SPDX-License-Identifier: Apache-2.0

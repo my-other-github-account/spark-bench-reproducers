@@ -1,6 +1,6 @@
 """Shipped-plane-bytes readers for the DS4 KLD candidate rail (PUBLIC_TASK).
 
-Inverse of the vllm-moet wire format packers:
+Inverse of the banana-smasher wire format packers:
   W2: moe_w2_planes.pack_fragment_major (2-bit codes, LUT {-4,-1,1,4},
       scales = ckpt block-32 UE8M0 bytes verbatim)
   W3: moe_w3_planes.pack_w3_plane (3-bit codes, LUT
