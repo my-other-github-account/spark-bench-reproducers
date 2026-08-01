@@ -6,6 +6,8 @@ import numpy as np
 import pytest
 
 from banana_smasher.metrics import paired_summary, score_candidate, teacher_support
+from banana_smasher.real_axis import RealAxisRunner
+from real_axis_fixtures import real_axis_fixture
 
 
 def test_known_support_kld_direction_and_top1_parity() -> None:
@@ -47,3 +49,40 @@ def test_paired_summary_derives_ci95_from_actual_window_count() -> None:
 
     singleton = paired_summary(arm([2.0]), arm([1.0]))
     assert singleton["paired_ci95"] == [1.0, 1.0]
+
+
+def test_real_axis_batches_all_windows_into_one_layer_and_head_forward(
+    tmp_path, monkeypatch
+) -> None:
+    paths = real_axis_fixture(tmp_path)
+    runner = RealAxisRunner(paths["candidate"], require_pack=True)
+    states = [
+        np.full((4, 4), float(ordinal), dtype=np.float32)
+        for ordinal in range(64)
+    ]
+    layer_calls = 0
+    head_calls = 0
+    apply_layer_arrays = runner._apply_layer_arrays
+    project_logits_arrays = runner._project_logits_arrays
+
+    def count_layer(*args, **kwargs):
+        nonlocal layer_calls
+        layer_calls += 1
+        return apply_layer_arrays(*args, **kwargs)
+
+    def count_head(*args, **kwargs):
+        nonlocal head_calls
+        head_calls += 1
+        return project_logits_arrays(*args, **kwargs)
+
+    monkeypatch.setattr(runner, "_apply_layer_arrays", count_layer)
+    monkeypatch.setattr(runner, "_project_logits_arrays", count_head)
+
+    outputs = runner.apply_layer_batch(0, states)
+    logits = runner.project_logits_batch(outputs)
+
+    assert len(outputs) == len(logits) == 64
+    assert layer_calls == 1
+    assert head_calls == 1
+    assert all(output.shape == (4, 4) for output in outputs)
+    assert all(value.shape == (4, 8) for value in logits)

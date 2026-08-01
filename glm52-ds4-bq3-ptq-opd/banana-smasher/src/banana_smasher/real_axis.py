@@ -314,10 +314,13 @@ class RealAxisRunner:
             )
             if bias.shape != (weight.shape[1],):
                 raise RealAxisError(f"LAYER_BIAS_SHAPE_MISMATCH: layer={layer}")
-        return [
-            self._apply_layer_arrays(layer, state, weight=weight, bias=bias)
-            for state in states
-        ]
+        lengths = [int(state.shape[0]) for state in states]
+        batched = np.concatenate(states, axis=0)
+        output = self._apply_layer_arrays(
+            layer, batched, weight=weight, bias=bias
+        )
+        boundaries = np.cumsum(lengths[:-1], dtype=np.int64)
+        return list(np.split(output, boundaries, axis=0))
 
     def project_logits(self, hidden: np.ndarray[Any, Any]) -> np.ndarray[Any, Any]:
         weight = _declared_array(
@@ -364,10 +367,13 @@ class RealAxisRunner:
             )
             if bias.shape != (weight.shape[1],):
                 raise RealAxisError("HEAD_BIAS_SHAPE_MISMATCH")
-        return [
-            self._project_logits_arrays(state, weight=weight, bias=bias)
-            for state in states
-        ]
+        lengths = [int(state.shape[0]) for state in states]
+        batched = np.concatenate(states, axis=0)
+        logits = self._project_logits_arrays(
+            batched, weight=weight, bias=bias
+        )
+        boundaries = np.cumsum(lengths[:-1], dtype=np.int64)
+        return list(np.split(logits, boundaries, axis=0))
 
     def walk(self, hidden: np.ndarray[Any, Any]) -> np.ndarray[Any, Any]:
         state = hidden
