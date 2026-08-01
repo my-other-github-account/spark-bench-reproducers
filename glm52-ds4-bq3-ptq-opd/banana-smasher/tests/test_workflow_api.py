@@ -104,6 +104,27 @@ def test_public_qtip_solve_parser_accepts_sealed_config() -> None:
     assert args.qtip_units is None
 
 
+@pytest.mark.parametrize("tier", ["qtip3", "qtip2"])
+def test_public_qtip_all_cells_parser_accepts_canonical_surface(tier: str) -> None:
+    args = _parser().parse_args(
+        [
+            "solve",
+            "--root",
+            "/tmp/run",
+            "--source-root",
+            "/tmp/configs",
+            "--tier",
+            tier,
+            "--all-cells",
+            "--layers",
+            "6-8",
+        ]
+    )
+    assert args.tier == tier
+    assert args.all_cells is True
+    assert args.layers == "6-8"
+
+
 def test_public_qtip_config_directory_dispatches_one_resident_batch(
     tmp_path: Path, monkeypatch
 ) -> None:

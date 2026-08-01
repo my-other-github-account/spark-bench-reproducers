@@ -107,6 +107,16 @@ def _parser() -> argparse.ArgumentParser:
     solve.add_argument("--layer", type=int)
     solve.add_argument("--layers", default="0-42")
     solve.add_argument("--tiers", default="d4_k2048,d4_k4096")
+    solve.add_argument(
+        "--tier",
+        choices=("qtip3", "qtip2"),
+        help="named exact QTIP tier for the public all-cells path",
+    )
+    solve.add_argument(
+        "--all-cells",
+        action="store_true",
+        help="solve every ordered expert/projection cell for each selected layer",
+    )
     solve.add_argument("--windows", type=int, choices=(32, 64), default=32)
     solve.add_argument("--staging-root", type=Path)
     solve.add_argument(

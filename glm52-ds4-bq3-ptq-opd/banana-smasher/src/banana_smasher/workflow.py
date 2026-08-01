@@ -12,6 +12,8 @@ from typing import Any, Sequence
 import uuid
 
 FRESH_SOLVER_TIERS = (
+    "qtip3",
+    "qtip2",
     "d4_k1024",
     "d4_k2048",
     "d4_k4096",
