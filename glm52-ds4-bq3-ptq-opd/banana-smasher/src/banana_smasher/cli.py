@@ -207,9 +207,11 @@ def _parser() -> argparse.ArgumentParser:
     anchor.add_argument("--detach", action="store_true")
 
     status = subparsers.add_parser(
-        "status", help="inspect manifest stages and detached process identities"
+        "status", help="show exhaustive manifest-derived flash-full anchor coverage"
     )
     status.add_argument("--run-root", type=Path, required=True)
+    status.add_argument("--json", action="store_true", help="emit the deterministic status schema")
+    status.add_argument("--legacy-workflow", action="store_true", help=argparse.SUPPRESS)
 
     # Keep the long-standing public release verbs last. Some downstream wrappers
     # inspect argparse ordering as part of the compatibility contract.
@@ -537,9 +539,17 @@ def main(argv: Sequence[str] | None = None) -> int:
             else:
                 result = run_anchor(run_root=args.run_root)
         elif args.command == "status":
-            from .workflow import workflow_status
+            if args.legacy_workflow:
+                from .workflow import workflow_status
 
-            result = workflow_status(run_root=args.run_root)
+                result = workflow_status(run_root=args.run_root)
+            else:
+                from .campaign_status import inspect_anchor_campaign, render_anchor_campaign
+
+                result = inspect_anchor_campaign(args.run_root)
+                if not args.json:
+                    sys.stdout.write(render_anchor_campaign(result))
+                    return 0
         else:  # pragma: no cover - argparse guarantees the choices
             parser.error(f"unsupported command {args.command!r}")
             return 2

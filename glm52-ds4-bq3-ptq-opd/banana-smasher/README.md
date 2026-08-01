@@ -38,6 +38,33 @@ resident exact trellis kernel is the only runtime QTIP implementation: missing
 Torch/Triton/CUDA, malformed or incomplete configs, and unsupported geometry
 fail the verb loudly. There is no scalar/reference fallback after dispatch.
 
+## Flash-full anchor campaign status
+
+`smash status --run-root /path/to/run` is the human-first dashboard for the
+0731 flash-full anchor campaign. It prints all five ordered tiers (`qtip3`,
+`qtip2`, `d4_k2048`, `d4_k4096`, and the `mxfp4` reference), every required
+layer from `L000` through `L042`, completed/active/missing unit totals,
+manifest-derived percentages, current layer/batch/unit positions, newest
+receipt age/path, mergeability, readiness, and explicit blockers. A truncated
+d4 baseline manifest fails rather than redefining flash-full to a smaller set.
+Missing layer ranges are compressed in the summary, but the detail section still
+prints every layer token, so a range can never disappear behind a percentage.
+Use `smash status --run-root /path/to/run --json` for the same exhaustive data
+under `banana-smasher-anchor-campaign-status-v1`; tier order and all coverage
+arrays are deterministic.
+
+Status is a pure manifest/receipt reader. It requires `WORKFLOW_CHAIN.json`
+and `anchors/MANIFEST.json`, validates every referenced byte count and SHA-256,
+and reads only the declared aggregate manifests plus the exact
+`anchors/<tier>/SHARDS.json` and `anchors/<tier>/RUNS.json` registries. It does
+not glob mission trees or infer progress from filenames. An undeclared tier is
+reported as entirely missing with the `smash solve`/`smash merge` producer
+commands. A missing or malformed referenced artifact, stale hash, overlapping
+shard, or expired active-run heartbeat exits nonzero and names both the exact
+artifact and the public verb that must refresh it. Percentages use the expected
+per-layer unit counts sealed by the two agreeing d4 anchor manifests rather
+than a hard-coded denominator.
+
 ## Accelerated update
 
 Install the CUDA update dependencies with `pip install -e '.[update]'`, then run

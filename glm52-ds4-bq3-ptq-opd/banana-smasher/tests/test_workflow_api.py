@@ -502,7 +502,7 @@ def test_status_reports_live_process_with_matching_startticks(
         )
     )
 
-    assert main(["status", "--run-root", str(root)]) == 0
+    assert main(["status", "--run-root", str(root), "--legacy-workflow"]) == 0
     status = json.loads(capsys.readouterr().out)
     assert status["status"] == "RUNNING"
     assert status["launches"][0]["identity_matches"] is True
@@ -540,7 +540,7 @@ def test_status_treats_dead_capture_launch_as_completed_when_manifest_passes(
         )
     )
 
-    assert main(["status", "--run-root", str(root)]) == 0
+    assert main(["status", "--run-root", str(root), "--legacy-workflow"]) == 0
     status = json.loads(capsys.readouterr().out)
     assert status["status"] == "IN_PROGRESS"
     assert status["manifests"][0]["schema"] == (
