@@ -1,0 +1,154 @@
+{
+  "comparison": {
+    "backward_reduction_percent": 6.5316458787002905,
+    "backward_speedup": 1.0698808269398192,
+    "default_grouped_reduction_kernel_launches": 86,
+    "legacy_reduction_kernel_launches": 1376,
+    "reduction_launch_decrease_percent": 93.75,
+    "reduction_launch_ratio": 16.0,
+    "target_backward_seconds": [
+      10.0,
+      15.0
+    ],
+    "target_met": false,
+    "total_reduction_percent": 12.110485199875018,
+    "total_speedup": 1.1377921499215944
+  },
+  "correctness": {
+    "aggregate_gradient_l2_relative_delta": 0.0015651566922938068,
+    "aggregate_gradient_l2_relative_tolerance": 0.01,
+    "all_finite_nonzero_and_planes_frozen": true,
+    "loss_bit_equal": true,
+    "parameter_after_note": "Floating reduction order is tolerance-class rather than bit-exact; packed integer planes and winner indices remain frozen/equal.",
+    "parameter_after_sha256_bit_equal": false,
+    "reference_result_sha256_class": "c8c5d5d6885fd68121193080b42fb2035856aa9007995010892d662015aba2a3",
+    "same_initial_parameter_sha256": true,
+    "same_input_hashes": true,
+    "status": "PASS_SAME_RESULT_SHA_CLASS_AT_TOLERANCE",
+    "winner_top_k_index_sha256_equal": true
+  },
+  "default_grouped": {
+    "aggregate_gradient_l2": 4.972302463102096e-07,
+    "all_parameter_gradients_finite": true,
+    "all_parameter_gradients_nonzero": true,
+    "backward_mode": "layer_graph",
+    "fresh_input_identity": {
+      "all_inputs_loaded_before_timing": true,
+      "fresh_seed": 1436,
+      "identical_base_candidate_inputs": true,
+      "top_k_index_sha256": "e510679366e5b7935d843da6308643bf410802758a8f99e5a8596a591abb2cdc",
+      "top_k_weights_sha256": "52a2b64cce7397022d571ac6d974b2d2ec02bd1cfd79338a1b730247b979b63a",
+      "warm_start_used": false,
+      "windows_sha256": "3e567a6e4b168631adeb76ac4ea032a4e7f46b884c08600bc8a2d311a00dac54"
+    },
+    "input_gradient_finite": true,
+    "input_gradient_nonzero": true,
+    "loss": 0.00039411638863384724,
+    "operators": {
+      "batched_vjp": {
+        "active_groups": 0,
+        "backward_calls": 0,
+        "batch_flushes": 0,
+        "batch_size": 16,
+        "forward_calls": 0,
+        "max_pending": 0,
+        "unique_groups": 0
+      },
+      "bmm_launches": 176,
+      "layer_graph_vjp": {
+        "backward_calls": 86,
+        "forward_calls": 172,
+        "grouped_experts": 44032,
+        "max_nodes_per_projection": 1,
+        "reduction_kernel_launches": 86
+      }
+    },
+    "packed_integer_planes_frozen": true,
+    "parameter_sha256_after": "ca88c0b2f346bdf776860d68a470888db916842a54ae2de580fda07366c6379c",
+    "parameter_sha256_before": "459e43d1c2bc4195ae2bb07df51cbf9d4d636a81aad8bcae98d4344c021d9bfe",
+    "peak_unified_memory_bytes": 38102331392,
+    "phase_seconds": {
+      "backward": 32.932033144054,
+      "forward": 2.4804992400459014,
+      "optimizer": 0.00118074199417606,
+      "total": 35.413715445960406
+    },
+    "receipt_sha256": "7ac1ca6bef5319e6b21305ae7b1fd2c5e0a0b077e0aa73dbe3d39d5ae21bfcd1",
+    "schema": "p1436-layer-graph-fused-cuda-43l-1024-depth-proof-v1",
+    "status": "PASS_FRESH_43L_1024_DEPTH",
+    "timed_storage_read_bytes": 0
+  },
+  "hardware": "spark-3 NVIDIA GB10 single-device unified memory",
+  "legacy": {
+    "aggregate_gradient_l2": 4.964520030625863e-07,
+    "all_parameter_gradients_finite": true,
+    "all_parameter_gradients_nonzero": true,
+    "backward_mode": "legacy_batched",
+    "fresh_input_identity": {
+      "all_inputs_loaded_before_timing": true,
+      "fresh_seed": 1436,
+      "identical_base_candidate_inputs": true,
+      "top_k_index_sha256": "e510679366e5b7935d843da6308643bf410802758a8f99e5a8596a591abb2cdc",
+      "top_k_weights_sha256": "52a2b64cce7397022d571ac6d974b2d2ec02bd1cfd79338a1b730247b979b63a",
+      "warm_start_used": false,
+      "windows_sha256": "3e567a6e4b168631adeb76ac4ea032a4e7f46b884c08600bc8a2d311a00dac54"
+    },
+    "input_gradient_finite": true,
+    "input_gradient_nonzero": true,
+    "loss": 0.00039411638863384724,
+    "operators": {
+      "batched_vjp": {
+        "active_groups": 0,
+        "backward_calls": 22016,
+        "batch_flushes": 1376,
+        "batch_size": 16,
+        "forward_calls": 44032,
+        "max_pending": 16,
+        "unique_groups": 86
+      },
+      "bmm_launches": 44032,
+      "layer_graph_vjp": null
+    },
+    "packed_integer_planes_frozen": true,
+    "parameter_sha256_after": "1463d0d5f384229b904543dee4e01d2e56b288ecc0c005cae97f2c3c1c008407",
+    "parameter_sha256_before": "459e43d1c2bc4195ae2bb07df51cbf9d4d636a81aad8bcae98d4344c021d9bfe",
+    "peak_unified_memory_bytes": 30319194112,
+    "phase_seconds": {
+      "backward": 35.233350852970034,
+      "forward": 5.058922486961819,
+      "optimizer": 0.0011722539784386754,
+      "total": 40.29344743397087
+    },
+    "receipt_sha256": "6388eff6b2f0e61f9f7b4f108c2fe1012385927c8d6284c4790840a44bda790f",
+    "schema": "p1436-legacy-batched-fused-cuda-43l-1024-depth-proof-v1",
+    "status": "PASS_FRESH_43L_1024_DEPTH",
+    "timed_storage_read_bytes": 0
+  },
+  "lineage": {
+    "candidate_source_commit": "83789bc26b7f847e83310ad27dbeed7c9c20b1e3",
+    "claim_sha256": "9bf47c0f24d2be9090dab70ec37d480d62893521ffed07ed7e734517561b8b66",
+    "reference_result_sha256_class": "c8c5d5d6885fd68121193080b42fb2035856aa9007995010892d662015aba2a3",
+    "same_host": true,
+    "same_public_command_except_legacy_flag": true,
+    "same_source_tree": true
+  },
+  "notes": [
+    "The grouped layer-projection implementation is default-on; pass --legacy-backward for the comparison arm.",
+    "This is a physical same-host, same-source, same-work A/B on spark-3.",
+    "The 16x reduction-launch collapse produced a measured backward win but missed the requested 10-15 second target.",
+    "This banana-smasher update is not evidence of Atlas spark-6 served throughput or an HF-kernel package."
+  ],
+  "schema": "p1436-grouped-vjp-public-ab-summary-v2",
+  "sealed_at_unix": 1785549822.3501534,
+  "status": "PASS_SAME_HOST_AB_CORRECTNESS_PERFORMANCE_TARGET_NOT_MET",
+  "workload": {
+    "batch": 1,
+    "experts_per_projection": 256,
+    "fresh_seed": 1436,
+    "layers": 43,
+    "logical_tokens": 1024,
+    "optimizer_steps": 1,
+    "projections_per_layer": 2,
+    "window": 27
+  }
+}

@@ -30,3 +30,25 @@ BananaSmasher is only the proper name of the first sealed model instance. Reusab
 Static image construction is reproducibility evidence, not a runtime quality
 seal. The image remains **not GOLDEN** until a full model pack passes the three
 commands above inside the release container.
+
+## Physical update backward path
+
+The `smash update` command exposes the grouped layer-level K-major backward path
+as the default and retains `--legacy-backward` as an explicit compatibility
+fallback. The production-shape invocation is shown below (replace the placeholders):
+
+    smash update --runtime-root /path/to/runtime --model-root /path/to/model \
+      --aot /path/to/kmajor-aot.so --receipt /path/to/update-receipt.json \
+      --layers 43 --window 27 --tokens 1024 --learning-rate 0.0001 \
+      --hard-abort-seconds 7200
+
+The grouped path creates one autograd node per layer projection, computes one
+expert-axis activation-gradient BMM, and performs one grouped codebook-gradient
+reduction. Packed integer code/scale planes remain frozen. See
+[`benchmarks/P1436_GROUPED_VJP_AB.json`](benchmarks/P1436_GROUPED_VJP_AB.json)
+for the sealed physical same-host A/B summary. On spark-3, the legacy arm made
+1,376 reduction launches and took 35.2334 s backward; the default grouped arm
+made 86 launches and took 32.9320 s (6.53% lower, 1.0699x). Both arms used the
+same fresh 43-layer/1024-token inputs and produced bit-equal loss with finite,
+nonzero gradients. The grouped arm still missed the 10–15 second target, so this
+is an honest intermediate measurement rather than a terminal performance claim.
