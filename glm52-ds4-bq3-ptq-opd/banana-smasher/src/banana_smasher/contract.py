@@ -53,6 +53,10 @@ REQUIRED_FAMILY_FIELDS = {
     "native_mxfp4": {"packed", "scales", "expert_ids", "tensor_offsets"},
 }
 LAYER_RE = re.compile(r"^layers/layer_(\d{3})/(.+)\.npy$")
+P1016_META_RE = re.compile(r"^layer_(\d{3})\.meta\.json$")
+P1016_PLANE_RE = re.compile(
+    r"^layer_(\d{3})\.(.+)\.(13|2)\.([A-Za-z0-9_]+)\.npy$"
+)
 TENSOR_RE = re.compile(
     r"^layers\.(\d+)\.(experts\.(?:tier_map|subtier_map)|"
     r"(?:qtip2|qtip3|truevq_d4|truevq_d8|native_mxfp4)\."
@@ -113,6 +117,75 @@ def _tensor_name(relative: Path) -> str:
     if TENSOR_RE.fullmatch(name) is None:
         raise PackValidationError(f"unsupported bs-pack tensor name: {name}")
     return name
+
+
+def _p1016_tensor_name(relative: Path) -> tuple[int, str]:
+    normalized = relative.as_posix()
+    if len(relative.parts) != 1:
+        raise PackValidationError(
+            f"p1016 native plane must be a root-level file: {normalized}"
+        )
+    match = P1016_PLANE_RE.fullmatch(normalized)
+    if match is None:
+        raise PackValidationError(f"unsupported p1016 native plane name: {normalized}")
+    layer = int(match.group(1))
+    tier = match.group(2).lower()
+    projection = {"13": "fused13", "2": "down"}[match.group(3)]
+    field = match.group(4).lower()
+    if tier.startswith("qtip2_"):
+        family = "qtip2"
+    elif tier.startswith("qtip3_"):
+        family = "qtip3"
+    elif tier.startswith(("d4_", "d8_")):
+        family = "truevq_d4" if tier.startswith("d4_") else "truevq_d8"
+    elif tier == "native_mxfp4":
+        family = "native_mxfp4"
+    else:
+        raise PackValidationError(f"unsupported p1016 tier in {normalized}: {tier}")
+    name = f"layers.{layer}.{family}.{tier}.{projection}.{field}"
+    if TENSOR_RE.fullmatch(name) is None:
+        raise PackValidationError(f"unsupported p1016 tensor name: {name}")
+    return layer, name
+
+
+def _verify_p1016_source(
+    source_root: Path,
+) -> tuple[list[int], list[Path], list[Path]]:
+    meta_paths = sorted(source_root.glob("layer_*.meta.json"))
+    if not meta_paths:
+        raise PackValidationError("p1016 source contains no layer metadata")
+    layers: list[int] = []
+    for path in meta_paths:
+        match = P1016_META_RE.fullmatch(path.name)
+        if match is None:
+            raise PackValidationError(f"unsupported p1016 metadata name: {path.name}")
+        layer = int(match.group(1))
+        try:
+            document = json.loads(path.read_text(encoding="utf-8"))
+        except Exception as exc:
+            raise PackValidationError(f"cannot read p1016 metadata {path}: {exc}") from exc
+        if (
+            not isinstance(document, dict)
+            or document.get("format") != "p1016-true-c-native-planes-v1"
+            or document.get("layer") != layer
+            or document.get("E") != 256
+        ):
+            raise PackValidationError(f"invalid p1016 layer metadata: {path}")
+        for key in ("family13", "family2", "tier13", "tier2", "slot13", "slot2"):
+            if not isinstance(document.get(key), list) or len(document[key]) != 256:
+                raise PackValidationError(f"invalid p1016 metadata vector {path.name}.{key}")
+        layers.append(layer)
+    if len(set(layers)) != len(layers):
+        raise PackValidationError("duplicate p1016 layer metadata")
+    planes = sorted(path for path in source_root.glob("*.npy") if path.is_file())
+    if not planes:
+        raise PackValidationError(f"p1016 source contains no .npy planes: {source_root}")
+    plane_layers = {_p1016_tensor_name(path.relative_to(source_root))[0] for path in planes}
+    if plane_layers != set(layers):
+        raise PackValidationError(
+            f"p1016 plane/meta layer mismatch: planes={sorted(plane_layers)} meta={layers}"
+        )
+    return layers, planes, meta_paths
 
 
 def _npy_metadata(path: Path) -> dict[str, Any]:
@@ -408,10 +481,15 @@ def export_pack(
     config_source = source_root / "config.json"
     genesis_receipt = source_root / "LAYER_RECEIPT.json"
     source_receipt_sha256: str | None = None
+    p1016_layers: list[int] = []
+    p1016_meta_paths: list[Path] = []
     if genesis_receipt.is_file():
         layer, planes, source_receipt_sha256 = _verify_genesis_source(source_root)
         tier_map, subtier_map = _genesis_tier_maps(planes)
         source_format = "genesis-materialized-layer-v1"
+    elif any(source_root.glob("layer_*.meta.json")):
+        p1016_layers, planes, p1016_meta_paths = _verify_p1016_source(source_root)
+        source_format = "p1016-true-c-native-planes-v1"
     else:
         if not config_source.is_file() and repair is None:
             raise PackValidationError(
@@ -428,10 +506,17 @@ def export_pack(
     repair_rows: list[dict[str, Any]] = []
     repair_summary: dict[str, Any] | None = None
     try:
-        if source_format == "canonical-npy-v1":
+        if source_format in {
+            "canonical-npy-v1",
+            "p1016-true-c-native-planes-v1",
+        }:
             for source in planes:
                 relative = source.relative_to(source_root)
-                name = _tensor_name(relative)
+                name = (
+                    _p1016_tensor_name(relative)[1]
+                    if source_format == "p1016-true-c-native-planes-v1"
+                    else _tensor_name(relative)
+                )
                 if name in tensor_index:
                     raise PackValidationError(f"duplicate tensor name: {name}")
                 destination_relative = Path("planes") / relative
@@ -463,6 +548,17 @@ def export_pack(
                         "role": "npy_plane",
                     }
                 )
+            if source_format == "p1016-true-c-native-planes-v1":
+                for source_meta in p1016_meta_paths:
+                    relative = Path("planes") / source_meta.name
+                    actual_mode = _link_file(source_meta, output / relative, link_mode)
+                    linked.append(
+                        {
+                            "path": relative.as_posix(),
+                            "mode": actual_mode,
+                            "role": "source_layer_meta",
+                        }
+                    )
             if config_source.is_file():
                 config = json.loads(config_source.read_text(encoding="utf-8"))
                 if not isinstance(config, dict):
@@ -567,23 +663,26 @@ def export_pack(
             json.dumps(config, indent=2, sort_keys=True) + "\n", encoding="utf-8"
         )
 
-        layers = sorted(
-            {
-                int(name.split(".")[1])
-                for name in tensor_index
-                if name.endswith(".experts.tier_map")
-            }
-        )
-        for layer in layers:
-            relative = Path("planes/layers") / f"layer_{layer:03d}" / "meta.json"
-            (output / relative).write_text(
-                json.dumps(_layer_meta(layer, tensor_index), indent=2, sort_keys=True)
-                + "\n",
-                encoding="utf-8",
+        if source_format == "p1016-true-c-native-planes-v1":
+            layers = p1016_layers
+        else:
+            layers = sorted(
+                {
+                    int(name.split(".")[1])
+                    for name in tensor_index
+                    if name.endswith(".experts.tier_map")
+                }
             )
-            linked.append(
-                {"path": relative.as_posix(), "mode": "generated", "role": "layer_meta"}
-            )
+            for layer in layers:
+                relative = Path("planes/layers") / f"layer_{layer:03d}" / "meta.json"
+                (output / relative).write_text(
+                    json.dumps(_layer_meta(layer, tensor_index), indent=2, sort_keys=True)
+                    + "\n",
+                    encoding="utf-8",
+                )
+                linked.append(
+                    {"path": relative.as_posix(), "mode": "generated", "role": "layer_meta"}
+                )
 
         if repair is not None:
             repair_summary = write_repair_payload(output, repair, repair_rows)
@@ -794,6 +893,27 @@ def _verify_layer_meta(root: Path, manifest: dict[str, Any]) -> None:
         for row in manifest.get("files", [])
         if isinstance(row, dict)
     }
+    if manifest.get("source_format") == "p1016-true-c-native-planes-v1":
+        for layer in layers:
+            relative = Path("planes") / f"layer_{layer:03d}.meta.json"
+            if file_roles.get(relative.as_posix()) != "source_layer_meta":
+                raise PackValidationError(
+                    f"p1016 layer meta is not manifest-bound: {relative}"
+                )
+            try:
+                actual = json.loads((root / relative).read_text(encoding="utf-8"))
+            except Exception as exc:
+                raise PackValidationError(
+                    f"cannot read p1016 layer meta {relative}: {exc}"
+                ) from exc
+            if (
+                not isinstance(actual, dict)
+                or actual.get("format") != "p1016-true-c-native-planes-v1"
+                or actual.get("layer") != layer
+                or actual.get("E") != 256
+            ):
+                raise PackValidationError(f"p1016 layer meta identity drift: {relative}")
+        return
     for layer in layers:
         relative = Path("planes/layers") / f"layer_{layer:03d}" / "meta.json"
         if file_roles.get(relative.as_posix()) != "layer_meta":
@@ -910,6 +1030,13 @@ def _verify_tensors(root: Path, manifest: dict[str, Any]) -> tuple[int, list[int
             layer_fields.setdefault(layer, {}).setdefault(family, set()).add(field)
 
     declared_layers = manifest.get("layers")
+    if manifest.get("source_format") == "p1016-true-c-native-planes-v1":
+        tensor_layers = sorted(layer_fields)
+        if tensor_layers != declared_layers:
+            raise PackValidationError(
+                f"p1016 tensor layers mismatch: manifest={declared_layers}, tensors={tensor_layers}"
+            )
+        return len(index), tensor_layers
     if sorted(tier_layers) != declared_layers:
         raise PackValidationError(
             f"tier-map layers mismatch: manifest={declared_layers}, tensors={sorted(tier_layers)}"
@@ -962,6 +1089,7 @@ def verify_pack(root: str | Path) -> dict[str, Any]:
         "status": "PASS",
         "schema": SCHEMA,
         "schema_version": SCHEMA_VERSION,
+        "source_format": manifest.get("source_format"),
         "instance_id": manifest.get("instance_id"),
         "tensor_count": tensor_count,
         "layers": layers,
