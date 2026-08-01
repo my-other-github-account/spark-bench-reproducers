@@ -198,6 +198,35 @@ def test_all_cells_config_gate_requires_exact_tier_and_complete_population(
         _ordered_qtip_configs(config_root, 6, tier=tier, all_cells=True)
 
 
+def test_qtip_basis_gate_binds_model_index_to_run_intended_basis(tmp_path: Path) -> None:
+    from banana_smasher.solver_qtip_profile import _verify_basis
+
+    model_root = tmp_path / "model"
+    model_root.mkdir()
+    index = model_root / "model.safetensors.index.json"
+    index.write_text(json.dumps({"weight_map": {}}, sort_keys=True))
+    digest = hashlib.sha256(index.read_bytes()).hexdigest()
+    config = {
+        "model_root": str(model_root),
+        "input_identity": {"model_index": {"sha256": digest}},
+    }
+    run_root = tmp_path / "run"
+    run_root.mkdir()
+    (run_root / "SHARDS.json").write_text(
+        json.dumps({"intended_basis": {"index_sha256": digest}})
+    )
+
+    receipt = _verify_basis(config, run_root)
+    assert receipt["status"] == "PASS"
+    assert receipt["index_sha256"] == digest
+
+    (run_root / "SHARDS.json").write_text(
+        json.dumps({"intended_basis": {"index_sha256": "0" * 64}})
+    )
+    with pytest.raises(ValueError, match="basis mismatch"):
+        _verify_basis(config, run_root)
+
+
 def test_public_qtip_config_directory_dispatches_one_resident_batch(
     tmp_path: Path, monkeypatch
 ) -> None:

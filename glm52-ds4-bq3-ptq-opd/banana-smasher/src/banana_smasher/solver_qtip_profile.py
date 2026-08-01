@@ -49,6 +49,52 @@ def _sha256(path: Path) -> str:
     return h.hexdigest()
 
 
+def _basis_sha(value: Any) -> str | None:
+    if isinstance(value, str):
+        return value
+    if isinstance(value, dict):
+        for key in ("index_sha256", "source_model_index_sha256", "sha256"):
+            candidate = value.get(key)
+            if isinstance(candidate, str):
+                return candidate
+    return None
+
+
+def _verify_basis(config: dict[str, Any], run_root: Path) -> dict[str, Any]:
+    model_root = Path(config["model_root"]).resolve()
+    index_path = model_root / "model.safetensors.index.json"
+    actual = _sha256(index_path)
+    identity = config.get("input_identity")
+    configured = (
+        _basis_sha(identity.get("model_index"))
+        if isinstance(identity, dict)
+        else None
+    )
+    if configured is None:
+        configured = _basis_sha(config.get("model_index"))
+    if configured is None:
+        raise ValueError("QTIP config lacks a SHA-bound model index identity")
+    if configured != actual:
+        raise ValueError(f"QTIP config model-index mismatch: {actual} != {configured}")
+
+    shards_path = run_root.resolve() / "SHARDS.json"
+    shards = json.loads(shards_path.read_text())
+    intended = _basis_sha(shards.get("intended_basis"))
+    if intended is None:
+        raise ValueError(f"SHARDS.json lacks intended_basis: {shards_path}")
+    if intended != actual:
+        raise ValueError(f"QTIP basis mismatch: {actual} != {intended}")
+    return {
+        "schema": "banana-smasher-qtip-basis-gate-v1",
+        "status": "PASS",
+        "index_path": str(index_path),
+        "index_sha256": actual,
+        "intended_basis": intended,
+        "shards_manifest": str(shards_path),
+        "shards_manifest_sha256": _sha256(shards_path),
+    }
+
+
 def _canonical_rht_seed(layer: int, expert: int, projection: str) -> int:
     identity = f"L{layer:03d}_E{expert:03d}_{projection}"
     digest = hashlib.sha256(
@@ -424,6 +470,7 @@ def main(
     projection = str(config["projection"])
     if projection not in {"fused13", "down"}:
         raise ValueError(projection)
+    basis_gate = _verify_basis(config, root)
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA required")
 
@@ -542,6 +589,7 @@ def main(
             "fresh_no_warm_start": True,
             "public_command_config": str(config_path.resolve()),
             "config_sha256": _sha256(config_path),
+            "basis_gate": basis_gate,
             "epoch_started": epoch_started,
             "epoch_ended": time.time(),
             "total_wall_seconds": total_seconds,
@@ -613,6 +661,7 @@ def main(
         "fresh_no_warm_start": True,
         "public_command_config": str(config_path.resolve()),
         "config_sha256": _sha256(config_path),
+        "basis_gate": basis_gate,
         "epoch_started": epoch_started,
         "epoch_ended": time.time(),
         "outer_wall_seconds": outer_seconds,

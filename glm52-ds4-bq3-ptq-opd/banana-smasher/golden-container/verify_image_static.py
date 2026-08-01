@@ -75,8 +75,8 @@ for row in runtime["files"]:
         raise SystemExit(f"unknown runtime context: {context}")
     verify_row(runtime_roots[context], row, f"runtime:{context}")
 
-import torch
-import vllm
+import torch  # noqa: E402
+import vllm  # noqa: E402
 if torch.__version__ != "2.11.0+cu130":
     raise SystemExit(f"torch version mismatch: {torch.__version__}")
 if vllm.__version__ != "0.24.0":
