@@ -74,9 +74,32 @@ def test_public_bank_and_evaluation_schemas_are_nested_contracts() -> None:
         member["required"]
     )
 
-    for name in ("bank", "population", "instrument", "topology", "paired", "resume"):
+    for name in (
+        "bank",
+        "population",
+        "instrument",
+        "topology",
+        "paired",
+        "performance",
+        "resume",
+    ):
         assert evaluation["properties"][name]["additionalProperties"] is False
         assert evaluation["properties"][name]["required"]
+    performance = evaluation["properties"]["performance"]
+    assert set(performance["required"]) == {
+        "tokens_per_second",
+        "wall_seconds",
+        "peak_vram_bytes",
+        "quality_result",
+        "kernel",
+        "fallback_used",
+        "fallback_status",
+        "window_batch_size",
+        "layer_forwards_per_arm",
+        "head_forwards_per_arm",
+    }
+    assert performance["properties"]["fallback_used"] == {"const": False}
+    assert performance["properties"]["fallback_status"] == {"const": "none"}
     arms = evaluation["properties"]["arms"]
     assert arms["additionalProperties"] is False
     assert arms["properties"]["candidate"]["required"]

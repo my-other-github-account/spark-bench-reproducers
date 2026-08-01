@@ -67,9 +67,34 @@ def test_paired_evaluation_persists_kld_top1_and_artifact_manifests(
     assert 0.0 <= result["arms"]["candidate"]["top1_rate"] <= 1.0
     assert "window_deltas" in result["paired"]
     assert "paired_ci95" in result["paired"]
+    assert result["performance"]["fallback_used"] is False
+    assert result["performance"]["window_batch_size"] == 2
 
     seal = verify_evaluation(paths["evaluation"])
     receipt = seal["receipt"]
+    performance = receipt["performance"]
+    assert set(performance) == {
+        "tokens_per_second",
+        "wall_seconds",
+        "peak_vram_bytes",
+        "quality_result",
+        "kernel",
+        "fallback_used",
+        "fallback_status",
+        "window_batch_size",
+        "layer_forwards_per_arm",
+        "head_forwards_per_arm",
+    }
+    assert performance["tokens_per_second"] > 0.0
+    assert performance["wall_seconds"] > 0.0
+    assert performance["peak_vram_bytes"] == 0
+    assert performance["quality_result"]["status"] == "PASS"
+    assert performance["kernel"] == "numpy-concatenated-all-window-gemm"
+    assert performance["fallback_used"] is False
+    assert performance["fallback_status"] == "none"
+    assert performance["window_batch_size"] == 2
+    assert performance["layer_forwards_per_arm"] == 3
+    assert performance["head_forwards_per_arm"] == 1
     assert receipt["population"] == {
         "ordered_window_ids_sha256": receipt["population"]["ordered_window_ids_sha256"],
         "windows": 2,
@@ -297,6 +322,19 @@ def test_resealed_evaluation_rejects_core_contract_drift(
     _reseal_evaluation(root, receipt)
 
     with pytest.raises(EvaluationError, match="EVALUATION_COMPLETION_INVALID"):
+        verify_evaluation(root)
+
+
+def test_resealed_evaluation_rejects_performance_receipt_drift(tmp_path: Path) -> None:
+    paths = real_axis_fixture(tmp_path)
+    _bank(paths)
+    _evaluate(paths)
+    root = paths["evaluation"]
+    receipt = json.loads((root / "evaluation.json").read_text())
+    receipt["performance"]["fallback_used"] = True
+    _reseal_evaluation(root, receipt)
+
+    with pytest.raises(EvaluationError, match="EVALUATION_PERFORMANCE_INVALID"):
         verify_evaluation(root)
 
 

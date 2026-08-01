@@ -4,7 +4,7 @@
   "title": "banana-smasher paired real-axis evaluation receipt",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema", "schema_version", "status", "operation", "evaluation_id", "evaluation_spec_sha256", "mode", "bank", "population", "instrument", "topology", "arms", "paired", "resume", "elapsed_seconds", "artifacts"],
+  "required": ["schema", "schema_version", "status", "operation", "evaluation_id", "evaluation_spec_sha256", "mode", "bank", "population", "instrument", "topology", "arms", "paired", "performance", "resume", "elapsed_seconds", "artifacts"],
   "properties": {
     "schema": {"const": "bs-paired-real-axis-evaluation-v1"},
     "schema_version": {"const": 1},
@@ -94,6 +94,33 @@
         "paired_ci95": {"type": "array", "prefixItems": [{"type": "number"}, {"type": "number"}], "minItems": 2, "maxItems": 2},
         "improvement_ratio_definition": {"const": "reference global KLD divided by candidate global KLD"},
         "improvement_ratio": {"type": ["number", "null"], "minimum": 0}
+      }
+    },
+    "performance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tokens_per_second", "wall_seconds", "peak_vram_bytes", "quality_result", "kernel", "fallback_used", "fallback_status", "window_batch_size", "layer_forwards_per_arm", "head_forwards_per_arm"],
+      "properties": {
+        "tokens_per_second": {"type": "number", "exclusiveMinimum": 0},
+        "wall_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "peak_vram_bytes": {"const": 0},
+        "quality_result": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "candidate_global_kld", "reference_global_kld", "paired_mean_window_delta"],
+          "properties": {
+            "status": {"const": "PASS"},
+            "candidate_global_kld": {"type": "number", "minimum": 0},
+            "reference_global_kld": {"type": "number", "minimum": 0},
+            "paired_mean_window_delta": {"type": "number"}
+          }
+        },
+        "kernel": {"const": "numpy-concatenated-all-window-gemm"},
+        "fallback_used": {"const": false},
+        "fallback_status": {"const": "none"},
+        "window_batch_size": {"type": "integer", "minimum": 1},
+        "layer_forwards_per_arm": {"type": "integer", "minimum": 0},
+        "head_forwards_per_arm": {"const": 1}
       }
     },
     "resume": {

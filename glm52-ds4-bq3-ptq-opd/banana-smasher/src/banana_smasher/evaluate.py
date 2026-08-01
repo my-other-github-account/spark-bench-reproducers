@@ -559,6 +559,7 @@ def verify_evaluation(
             "topology",
             "arms",
             "paired",
+            "performance",
             "resume",
             "elapsed_seconds",
             "artifacts",
@@ -737,6 +738,58 @@ def verify_evaluation(
     )
     if receipt.get("paired") != expected_paired:
         raise EvaluationError("EVALUATION_METRICS_MISMATCH")
+    performance = receipt.get("performance")
+    elapsed_seconds = receipt.get("elapsed_seconds")
+    resume = receipt.get("resume")
+    expected_quality = {
+        "status": "PASS",
+        "candidate_global_kld": verified_arms["candidate"]["metrics"]["kld"][
+            "global"
+        ],
+        "reference_global_kld": verified_arms["reference"]["metrics"]["kld"][
+            "global"
+        ],
+        "paired_mean_window_delta": expected_paired["mean_window_delta"],
+    }
+    if (
+        not isinstance(performance, dict)
+        or set(performance)
+        != {
+            "tokens_per_second",
+            "wall_seconds",
+            "peak_vram_bytes",
+            "quality_result",
+            "kernel",
+            "fallback_used",
+            "fallback_status",
+            "window_batch_size",
+            "layer_forwards_per_arm",
+            "head_forwards_per_arm",
+        }
+        or not isinstance(elapsed_seconds, (int, float))
+        or isinstance(elapsed_seconds, bool)
+        or not np.isfinite(elapsed_seconds)
+        or elapsed_seconds <= 0
+        or performance.get("wall_seconds") != elapsed_seconds
+        or performance.get("tokens_per_second")
+        != (int(population["positions"]) * 2) / elapsed_seconds
+        or performance.get("peak_vram_bytes") != 0
+        or isinstance(performance.get("peak_vram_bytes"), bool)
+        or performance.get("quality_result") != expected_quality
+        or performance.get("kernel") != "numpy-concatenated-all-window-gemm"
+        or performance.get("fallback_used") is not False
+        or performance.get("fallback_status") != "none"
+        or performance.get("window_batch_size") != population.get("windows")
+        or not isinstance(resume, dict)
+        or set(resume) != {"started_from_layer", "checkpoint_sha256"}
+        or not isinstance(resume.get("started_from_layer"), int)
+        or isinstance(resume.get("started_from_layer"), bool)
+        or not 0 <= resume["started_from_layer"] <= layer_count
+        or performance.get("layer_forwards_per_arm")
+        != layer_count - resume["started_from_layer"]
+        or performance.get("head_forwards_per_arm") != 1
+    ):
+        raise EvaluationError("EVALUATION_PERFORMANCE_INVALID")
     expected_evaluation_id = canonical_sha256(
         {
             "evaluation_spec_sha256": receipt["evaluation_spec_sha256"],
@@ -777,6 +830,7 @@ def _slim_result(seal: dict[str, Any], *, verbose: bool) -> dict[str, Any]:
         "operation": "evaluate",
         "mode": "paired_real_axis",
         "elapsed_seconds": receipt["elapsed_seconds"],
+        "performance": receipt["performance"],
         "resume": receipt["resume"],
         "arms": {
             arm: {
@@ -988,6 +1042,24 @@ def evaluate_paired(
                     "reference_manifest_sha256": reference_manifest["sha256"],
                 }
             )
+            elapsed_seconds = time.time() - started
+            performance = {
+                "tokens_per_second": (positions * 2) / elapsed_seconds,
+                "wall_seconds": elapsed_seconds,
+                "peak_vram_bytes": 0,
+                "quality_result": {
+                    "status": "PASS",
+                    "candidate_global_kld": candidate_metrics["kld"]["global"],
+                    "reference_global_kld": reference_metrics["kld"]["global"],
+                    "paired_mean_window_delta": paired["mean_window_delta"],
+                },
+                "kernel": "numpy-concatenated-all-window-gemm",
+                "fallback_used": False,
+                "fallback_status": "none",
+                "window_batch_size": len(bank_members),
+                "layer_forwards_per_arm": layer_count - start_layer,
+                "head_forwards_per_arm": 1,
+            }
             receipt = {
                 "schema": EVALUATION_SCHEMA,
                 "schema_version": 1,
@@ -1031,13 +1103,14 @@ def evaluate_paired(
                     },
                 },
                 "paired": paired,
+                "performance": performance,
                 "resume": {
                     "started_from_layer": start_layer,
                     "checkpoint_sha256": (
                         checkpoint["marker_sha256"] if checkpoint is not None else None
                     ),
                 },
-                "elapsed_seconds": time.time() - started,
+                "elapsed_seconds": elapsed_seconds,
                 "artifacts": {"root": str(root), "tree_sha256": artifacts["sha256"]},
             }
             receipt_path = atomic_json(root / "evaluation.json", receipt)

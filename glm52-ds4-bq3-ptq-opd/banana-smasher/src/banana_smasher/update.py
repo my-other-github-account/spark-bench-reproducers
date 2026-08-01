@@ -23,7 +23,7 @@ FULL_DEPTH_DEVICE_TARGET_BYTES = 60 * 1024**3
 UPDATE_RUNTIME_COMPONENTS = (
     "base_binrepair_e2e.py",
     "f521_repair_overlay.py",
-    "genesis_physical_surface.py",
+    "banana_smasher_physical_surface.py",
     "kmajor_autograd.py",
     "lp4_train.py",
 )
@@ -575,7 +575,7 @@ def _run_minimal_update_impl(
         sys.path.insert(0, str(runtime_root))
     import base_binrepair_e2e as base
     import f521_repair_overlay as f521
-    import genesis_physical_surface as surface
+    import banana_smasher_physical_surface as surface
     import lp4_train as runtime
 
     _install_bounded_qtip(f521)

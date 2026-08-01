@@ -95,6 +95,6 @@ def test_backend_environment_is_scoped_and_never_falls_back() -> None:
 def test_missing_acceleration_runtime_fails_with_named_components(tmp_path: Path) -> None:
     with pytest.raises(RuntimeError, match="banana-smasher update runtime is incomplete") as caught:
         _validate_runtime_components(tmp_path)
-    assert "genesis_physical_surface.py" in str(caught.value)
+    assert "banana_smasher_physical_surface.py" in str(caught.value)
     assert "kmajor_autograd.py" in str(caught.value)
     assert "install the update extra" in str(caught.value)
