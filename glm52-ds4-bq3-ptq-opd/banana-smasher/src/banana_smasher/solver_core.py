@@ -24,7 +24,6 @@ import torch
 import torch.nn.functional as F
 from safetensors import safe_open
 
-MODEL = Path("/home/dnola/models/hf/DeepSeek-V4-Flash")
 DEVICE = "cuda"
 
 _E2M1_VALUES = torch.tensor(
@@ -81,26 +80,41 @@ TIERS = (
     "d8_k256", "d8_k1024", "d8_k4096", "vqa",
 )
 REPAIRED = {"d4_k1024", "d8_k4096", "vqa"}
-REMOTE = {
-    "d4_k1024": ("dnola@192.168.200.6", "/home/dnola/missions/LOWBIT_REPAIR_t_c16e5447_P1_D4K1024/k1024/planes/vq3u_layer_{L:03d}.pt"),
-    # The sealed d4/k8192 plane for L23 lives on spark-6; the historical
-    # spark-2 source was garbage-collected. This is a source-location repair
-    # only: exact tier bytes/solver math remain unchanged.
-    "d4_k8192": ("dnola@192.168.200.6", "/home/dnola/missions/VQ3_UNIFORM/planes/vq3u_layer_{L:03d}.pt"),
-    "d8_k256": ("dnola@192.168.200.7", "/home/dnola/missions/SUBTERNARY_D8VQ_t_e3e9d87b/k256/planes/vq8u_layer_{L:03d}.pt"),
-    "d8_k1024": ("dnola@192.168.200.7", "/home/dnola/missions/SUBTERNARY_D8VQ_t_e3e9d87b/k1024/planes/vq8u_layer_{L:03d}.pt"),
-    "vqa": ("dnola@192.168.200.7", "/home/dnola/missions/R4_TIER_VQA_t_385842e5/planes/vqa_layer_{L:03d}.pt"),
-}
-LOCAL = {
-    "d4_k4096": "/home/dnola/missions/BINREPAIR_t_2956f863/planes/vq3u_layer_{L:03d}.pt",
-    "d8_k4096": "/home/dnola/missions/LOWBIT_REPAIR_t_c16e5447_P2_D8K4096/planes/vq8u_layer_{L:03d}.pt",
-}
-CAPTURE_REMOTE = (
-    (range(0, 15), "dnola@192.168.200.6", "/home/dnola/missions/VQ_GPTQ_SHARD_t_246dd935/capture"),
-    (range(15, 29), "dnola@192.168.200.6", "/home/dnola/missions/VQ_GPTQ_SHARD_t_f90571d5/capture_train"),
-    (range(29, 43), "dnola@192.168.200.6", "/home/dnola/missions/VQ_GPTQ_FULLBIN_t_07dd5170/capture_train"),
-)
+SOLVER_INPUTS_SCHEMA = "banana-smasher-solver-inputs-v1"
 STAGED_INPUT_SCHEMA = "banana-smasher-staged-input-v1"
+
+
+def _solver_inputs(root: Path) -> dict[str, Any]:
+    path = root.resolve() / "SOLVER_INPUTS.json"
+    try:
+        value = json.loads(path.read_text())
+    except FileNotFoundError as exc:
+        raise FileNotFoundError(
+            f"explicit solver input manifest is required: {path}"
+        ) from exc
+    if value.get("schema") != SOLVER_INPUTS_SCHEMA or value.get("status") != "PASS":
+        raise ValueError(f"invalid solver input manifest: {path}")
+    return value
+
+
+def _declared_layer_source(
+    root: Path,
+    section: str,
+    layer: int,
+    *,
+    tier: str | None = None,
+) -> str:
+    value: Any = _solver_inputs(root).get(section)
+    if tier is not None:
+        if not isinstance(value, dict):
+            raise ValueError(f"solver input manifest lacks {section} mapping")
+        value = value.get(tier)
+    if isinstance(value, dict):
+        value = value.get(f"L{layer:03d}")
+    if not isinstance(value, str) or not value:
+        label = f"{section}.{tier}" if tier is not None else section
+        raise ValueError(f"solver input manifest lacks {label} for L{layer:03d}")
+    return value.format(L=layer)
 
 
 def tensor_md5(t: torch.Tensor) -> str:
@@ -260,7 +274,7 @@ def ensure_staged_remote(
             fcntl.flock(lock_handle.fileno(), fcntl.LOCK_UN)
 
 
-def checkpoint_index(model_root: Path = MODEL) -> dict[str, str]:
+def checkpoint_index(model_root: Path) -> dict[str, str]:
     return json.loads((model_root / "model.safetensors.index.json").read_text())[
         "weight_map"
     ]
@@ -282,7 +296,7 @@ def open_shards(
     layer: int,
     layer_map: dict[str, str],
     *,
-    model_root: Path = MODEL,
+    model_root: Path,
     staging_root: Path | None = None,
 ) -> dict[str, Any]:
     """Open the routed-expert shard from a reusable resident staging root.
@@ -441,11 +455,8 @@ def wait_prefetched_weights(
     }
 
 
-def _capture_remote_source(layer: int) -> tuple[str, str]:
-    for layers, host, source_root in CAPTURE_REMOTE:
-        if layer in layers:
-            return host, source_root
-    raise ValueError(f"capture source is undefined for L{layer:03d}")
+def _capture_source(root: Path, layer: int) -> str:
+    return _declared_layer_source(root, "captures", layer)
 
 
 def _capture_bank_complete(path: Path, layer: int, nwin: int) -> bool:
@@ -474,21 +485,21 @@ def capture_dir(
         if _capture_bank_complete(path, layer, nwin):
             return path
 
-    host, source_root = _capture_remote_source(layer)
-    source_name = Path(source_root).parent.name
+    source_root = _capture_source(root, layer)
+    source_name = Path(source_root.rstrip("/")).name
     destination_root = (
-        (staging_root or root) / "capture_scratch" / source_name / Path(source_root).name
+        (staging_root or root) / "capture_scratch" / source_name
     )
     for win in range(nwin):
         filename = f"xmoe_L{layer:03d}_win{win:04d}.pt"
         ensure_staged_remote(
             destination_root / filename,
-            f"{host}:{source_root}/{filename}",
+            f"{source_root.rstrip('/')}/{filename}",
             min_size=1,
         )
         ensure_staged_remote(
             destination_root / f"{filename}.DONE.json",
-            f"{host}:{source_root}/{filename}.DONE.json",
+            f"{source_root.rstrip('/')}/{filename}.DONE.json",
             min_size=1,
         )
     if not _capture_bank_complete(destination_root, layer, nwin):
@@ -575,7 +586,7 @@ def down_hdiag(x_cpu: torch.Tensor, fused: torch.Tensor, batch: int = 128) -> to
     return h
 
 
-def stage_remote(
+def stage_declared_plane(
     root: Path,
     tier: str,
     layer: int,
@@ -584,10 +595,9 @@ def stage_remote(
 ) -> Path:
     scratch = (staging_root or root) / "planes_scratch" / f"L{layer:03d}"
     scratch.mkdir(parents=True, exist_ok=True)
-    dst = scratch / f"{tier}.pt"
-    host, pattern = REMOTE[tier]
-    source = pattern.format(L=layer)
-    return ensure_staged_remote(dst, f"{host}:{source}", min_size=1)
+    destination = scratch / f"{tier}.pt"
+    source = _declared_layer_source(root, "planes", layer, tier=tier)
+    return ensure_staged_remote(destination, source, min_size=1)
 
 
 def plane_paths(
@@ -602,27 +612,20 @@ def plane_paths(
     needed = set(selected_tiers)
     if needed.intersection({"d4_k2048", "d4_k4096"}):
         needed.add("d4_k4096")
-    scratch = (staging_root or root) / "planes_scratch" / f"L{layer:03d}"
-    paths: dict[str, Path] = {}
-    for tier, pattern in LOCAL.items():
-        if tier not in needed:
-            continue
-        source = Path(pattern.format(L=layer))
-        paths[tier] = ensure_staged_remote(
-            scratch / f"{tier}.pt", str(source), min_size=1
-        )
     from concurrent.futures import ThreadPoolExecutor
 
     with ThreadPoolExecutor(max_workers=3) as pool:
         futures = {
             tier: pool.submit(
-                stage_remote, root, tier, layer, staging_root=staging_root
+                stage_declared_plane,
+                root,
+                tier,
+                layer,
+                staging_root=staging_root,
             )
-            for tier in REMOTE
-            if tier in needed
+            for tier in sorted(needed - {"d4_k2048"})
         }
-        for tier, future in futures.items():
-            paths[tier] = future.result()
+        paths = {tier: future.result() for tier, future in futures.items()}
     if "d4_k2048" in needed:
         paths["d4_k2048"] = paths["d4_k4096"]
     return paths
@@ -999,6 +1002,7 @@ def variants(tier: str) -> tuple[str, ...]:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", type=Path, required=True)
+    ap.add_argument("--model-root", type=Path, required=True)
     ap.add_argument("--layers", required=True)
     ap.add_argument("--windows", type=int, default=32)
     ap.add_argument("--staging-root", type=Path)
@@ -1008,7 +1012,7 @@ def main() -> None:
     torch.set_grad_enabled(False)
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA required")
-    index = checkpoint_index()
+    index = checkpoint_index(args.model_root)
 
     for layer in layers:
         started = time.time()
@@ -1066,7 +1070,11 @@ def main() -> None:
             )
         layer_map = weight_shard_map(index, layer)
         handles = open_shards(
-            args.root, layer, layer_map, staging_root=args.staging_root
+            args.root,
+            layer,
+            layer_map,
+            model_root=args.model_root,
+            staging_root=args.staging_root,
         )
         rows = []
         jsonl_tmp = out_dir / "prices.jsonl.tmp"

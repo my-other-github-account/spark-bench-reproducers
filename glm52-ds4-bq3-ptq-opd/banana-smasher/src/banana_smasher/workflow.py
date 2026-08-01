@@ -412,13 +412,12 @@ def run_hessian(*, run_root: Path, layers: list[int], windows: int) -> dict[str,
             )
             public_root = (run_root / "captures").resolve()
             public_capture = capture_root.resolve().is_relative_to(public_root)
-            host: str | None = None
             source_root: str | None = None
             if public_capture:
                 source_label = f"banana-smasher-public-capture:{capture_root.resolve()}"
             else:
-                host, source_root = core._capture_remote_source(layer)
-                source_label = f"{host}:{source_root}"
+                source_root = core._capture_source(run_root, layer)
+                source_label = source_root
             members = []
             for window in range(windows):
                 filename = f"xmoe_L{layer:03d}_win{window:04d}.pt"
@@ -438,9 +437,9 @@ def run_hessian(*, run_root: Path, layers: list[int], windows: int) -> dict[str,
                             f"public capture source receipt is incomplete: {capture}"
                         )
                 else:
-                    assert host is not None and source_root is not None
-                    capture_source = f"{host}:{source_root}/{filename}"
-                    done_source = f"{host}:{source_root}/{filename}.DONE.json"
+                    assert source_root is not None
+                    capture_source = f"{source_root.rstrip('/')}/{filename}"
+                    done_source = f"{source_root.rstrip('/')}/{filename}.DONE.json"
                 core.validate_staged_input(capture, capture_source, min_size=1)
                 core.validate_staged_input(done, done_source, min_size=1)
                 members.append(
@@ -493,6 +492,7 @@ def run_fresh_solve(
     *,
     run_root: Path,
     source_root: Path,
+    model_root: Path | None = None,
     layers: list[int],
     tiers: list[str],
     windows: int,
@@ -617,6 +617,8 @@ def run_fresh_solve(
                         "--tiers",
                         tier,
                     ]
+                    if model_root is not None:
+                        argv.extend(["--model-root", str(model_root.resolve())])
                     if hessian_manifest is not None:
                         argv.extend(
                             ["--capture-root", str(hessian_capture_roots[layer])]

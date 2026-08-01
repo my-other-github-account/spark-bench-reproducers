@@ -369,9 +369,7 @@ def _install_configured_viterbi(
         )
     if sealed != (16, 2, 2):
         raise ValueError(f"unsupported QTIP geometry: {sealed}")
-    source_root = Path(config["trellis_v2_root"])
-    sys.path.insert(0, str(source_root))
-    from trellis_v2 import install_trellis_v2
+    from .trellis_v2 import install_trellis_v2
 
     metadata = install_trellis_v2(cb)
     cb._trellis_v2_collect_stats = False
@@ -668,7 +666,21 @@ def main(
     return receipt
 
 
-def _ordered_qtip_configs(config_root: Path, layer: int) -> list[Path]:
+_TIER_GEOMETRY = {
+    "qtip3": (16, 3, 2),
+    "qtip2": (16, 2, 2),
+}
+
+
+def _ordered_qtip_configs(
+    config_root: Path,
+    layer: int,
+    *,
+    tier: str | None = None,
+    all_cells: bool = False,
+) -> list[Path]:
+    if tier is not None and tier not in _TIER_GEOMETRY:
+        raise ValueError(f"unsupported QTIP tier: {tier}")
     projection_order = {"fused13": 0, "down": 1}
     rows: list[tuple[int, int, Path]] = []
     identities: set[tuple[int, str]] = set()
@@ -676,8 +688,29 @@ def _ordered_qtip_configs(config_root: Path, layer: int) -> list[Path]:
         config = json.loads(path.read_text())
         if int(config["layer"]) != layer:
             continue
+        geometry = config.get("geometry", {"L": 16, "K": 3, "V": 2})
+        sealed = (int(geometry["L"]), int(geometry["K"]), int(geometry["V"]))
+        configured_tier = config.get("tier")
+        if configured_tier is not None:
+            configured_tier = str(configured_tier)
+            if configured_tier not in _TIER_GEOMETRY:
+                raise ValueError(f"unsupported QTIP tier in {path}: {configured_tier}")
+            if _TIER_GEOMETRY[configured_tier] != sealed:
+                raise ValueError(
+                    f"QTIP tier/geometry mismatch in {path}: {configured_tier} {sealed}"
+                )
+        derived_tier = next(
+            (name for name, expected in _TIER_GEOMETRY.items() if expected == sealed),
+            None,
+        )
+        if derived_tier is None:
+            raise ValueError(f"unsupported QTIP geometry in {path}: {sealed}")
+        if tier is not None and derived_tier != tier:
+            continue
         expert = int(config["expert"])
         projection = str(config["projection"])
+        if not 0 <= expert < 256:
+            raise ValueError(f"QTIP expert outside 0..255 in {path}: {expert}")
         if projection not in projection_order:
             raise ValueError(f"unsupported QTIP projection in {path}: {projection}")
         identity = (expert, projection)
@@ -688,8 +721,15 @@ def _ordered_qtip_configs(config_root: Path, layer: int) -> list[Path]:
         identities.add(identity)
         rows.append((expert, projection_order[projection], path))
     if not rows:
-        raise ValueError(f"no L{layer:03d} QTIP configs under {config_root}")
-    return [path for _expert, _projection, path in sorted(rows)]
+        label = tier or "QTIP"
+        raise ValueError(f"no L{layer:03d} {label} configs under {config_root}")
+    ordered = [path for _expert, _projection, path in sorted(rows)]
+    if all_cells and len(ordered) != 512:
+        raise ValueError(
+            f"public {tier} --all-cells requires exactly 512 ordered configs "
+            f"for L{layer:03d}, got {len(ordered)}"
+        )
+    return ordered
 
 
 def main_many(
@@ -698,12 +738,21 @@ def main_many(
     layer: int,
     *,
     limit: int | None = None,
+    tier: str | None = None,
+    all_cells: bool = False,
     profile_mode: bool = False,
 ) -> dict[str, Any]:
     """Solve an ordered config directory in one resident public process."""
     if limit is not None and limit < 1:
         raise ValueError("--qtip-units must be positive")
-    paths = _ordered_qtip_configs(config_root, layer)
+    if all_cells and limit is not None:
+        raise ValueError("--all-cells refuses a QTIP unit limit")
+    paths = _ordered_qtip_configs(
+        config_root,
+        layer,
+        tier=tier,
+        all_cells=all_cells,
+    )
     if limit is not None:
         paths = paths[:limit]
     batch_started = time.perf_counter()
@@ -738,6 +787,8 @@ def main_many(
         "status": "PASS",
         "host": os.uname().nodename,
         "layer": layer,
+        "tier": tier,
+        "all_cells": all_cells,
         "mode": "profile" if profile_mode else "solve",
         "fresh_no_warm_start": True,
         "unit_state_isolation": "independent objectives/codebooks/weights/assignments",

@@ -71,6 +71,22 @@ def test_qtip_acceptance_provenance_names_reviewed_first64_assignment() -> None:
     assert reviewed_assignment in profiler
 
 
+def test_solver_sources_have_no_model_or_host_path_defaults() -> None:
+    sources = "".join(
+        (ROOT / f"src/banana_smasher/{name}").read_text(encoding="utf-8")
+        for name in ("solver_core.py", "solver_profile.py")
+    )
+    for forbidden in (
+        "/home/dnola",
+        "192.168.",
+        "MODEL =",
+        "model_root: Path =",
+        'default=Path("/home/',
+        "preview-model",
+    ):
+        assert forbidden not in sources
+
+
 def test_pack_format_documents_versioned_layout_and_auto_detection() -> None:
     pack_format = (ROOT / "PACK_FORMAT.md").read_text(encoding="utf-8")
     for required in (

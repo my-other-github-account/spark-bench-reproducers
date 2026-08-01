@@ -125,6 +125,79 @@ def test_public_qtip_all_cells_parser_accepts_canonical_surface(tier: str) -> No
     assert args.layers == "6-8"
 
 
+@pytest.mark.parametrize("tier", ["qtip3", "qtip2"])
+def test_public_qtip_all_cells_routes_every_layer_to_resident_exact_path(
+    tier: str, tmp_path: Path, monkeypatch
+) -> None:
+    config_root = tmp_path / "configs"
+    config_root.mkdir()
+    calls: list[tuple[Path, Path, int, str, bool]] = []
+    fake = types.ModuleType("banana_smasher.solver_qtip_profile")
+
+    def fake_many(config_root_arg, root, layer, *, tier, all_cells, profile_mode):
+        calls.append((config_root_arg, root, layer, tier, all_cells))
+        return {"status": "PASS", "layer": layer, "tier": tier}
+
+    setattr(fake, "main_many", fake_many)
+    monkeypatch.setitem(sys.modules, "banana_smasher.solver_qtip_profile", fake)
+    run_root = tmp_path / "run"
+
+    assert (
+        main(
+            [
+                "solve",
+                "--root",
+                str(run_root),
+                "--source-root",
+                str(config_root),
+                "--tier",
+                tier,
+                "--all-cells",
+                "--layers",
+                "6-8",
+            ]
+        )
+        == 0
+    )
+    assert calls == [
+        (config_root, run_root, layer, tier, True)
+        for layer in (6, 7, 8)
+    ]
+
+
+@pytest.mark.parametrize(
+    ("tier", "geometry"),
+    [("qtip3", {"L": 16, "K": 3, "V": 2}), ("qtip2", {"L": 16, "K": 2, "V": 2})],
+)
+def test_all_cells_config_gate_requires_exact_tier_and_complete_population(
+    tier: str, geometry: dict[str, int], tmp_path: Path
+) -> None:
+    from banana_smasher.solver_qtip_profile import _ordered_qtip_configs
+
+    config_root = tmp_path / "configs"
+    for expert in range(256):
+        for projection in ("fused13", "down"):
+            path = config_root / f"E{expert:03d}_{projection}.json"
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(
+                json.dumps(
+                    {
+                        "tier": tier,
+                        "geometry": geometry,
+                        "layer": 6,
+                        "expert": expert,
+                        "projection": projection,
+                    }
+                )
+            )
+
+    paths = _ordered_qtip_configs(config_root, 6, tier=tier, all_cells=True)
+    assert len(paths) == 512
+    paths[-1].unlink()
+    with pytest.raises(ValueError, match="exactly 512"):
+        _ordered_qtip_configs(config_root, 6, tier=tier, all_cells=True)
+
+
 def test_public_qtip_config_directory_dispatches_one_resident_batch(
     tmp_path: Path, monkeypatch
 ) -> None:

@@ -98,6 +98,7 @@ def _parser() -> argparse.ArgumentParser:
         "solve", help="solve declared cells or fresh-model VQ tiers with exact search"
     )
     solve.add_argument("--source-root", type=Path, required=True)
+    solve.add_argument("--model-root", type=Path)
     solve.add_argument("--output", type=Path)
     solve.add_argument(
         "--root",
@@ -361,7 +362,55 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "command": "bootstrap",
             }
         elif args.command == "solve":
-            if args.qtip_profile_config is not None:
+            if args.tier is not None or args.all_cells:
+                if args.tier not in {"qtip3", "qtip2"} or not args.all_cells:
+                    raise ValueError(
+                        "--tier {qtip3,qtip2} and --all-cells must be used together"
+                    )
+                if args.root is None:
+                    raise ValueError("QTIP all-cells solve requires --root")
+                if args.output is not None or args.layer is not None:
+                    raise ValueError(
+                        "QTIP all-cells solve uses --root and --layers, not --output/--layer"
+                    )
+                if args.qtip_profile_config is not None or args.qtip_units is not None:
+                    raise ValueError(
+                        "QTIP all-cells solve derives ordered configs from --source-root"
+                    )
+                if args.profile_qtip:
+                    raise ValueError("QTIP all-cells solve refuses profiling overhead")
+                from .workflow import launch_detached, parse_layers
+
+                if args.detach:
+                    detached_tokens = [token for token in tokens if token != "--detach"]
+                    result = launch_detached(
+                        run_root=args.root,
+                        verb="solve",
+                        argv=detached_tokens,
+                    )
+                else:
+                    from .solver_qtip_profile import main_many as qtip_profile_main_many
+
+                    layer_receipts = [
+                        qtip_profile_main_many(
+                            args.source_root,
+                            args.root,
+                            layer,
+                            tier=args.tier,
+                            all_cells=True,
+                            profile_mode=False,
+                        )
+                        for layer in parse_layers(args.layers)
+                    ]
+                    result = {
+                        "schema": "banana-smasher-qtip-all-cells-solve-v1",
+                        "status": "PASS",
+                        "command": "solve",
+                        "tier": args.tier,
+                        "layers": [row["layer"] for row in layer_receipts],
+                        "layer_receipts": layer_receipts,
+                    }
+            elif args.qtip_profile_config is not None:
                 if args.root is None or args.layer is None:
                     raise ValueError("--qtip-profile-config requires --root and --layer")
                 from .solver_qtip_profile import main as qtip_profile_main
@@ -387,7 +436,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                         profile_mode=args.profile_qtip,
                     )
                 return 0
-            if args.root is not None:
+            elif args.root is not None:
                 if args.output is not None:
                     raise ValueError("fresh-model workflow mode refuses --output; use --root")
                 from .workflow import (
@@ -408,6 +457,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                     result = run_fresh_solve(
                         run_root=args.root,
                         source_root=args.source_root,
+                        model_root=args.model_root,
                         layers=(
                             [args.layer]
                             if args.layer is not None

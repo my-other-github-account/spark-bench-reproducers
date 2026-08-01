@@ -178,7 +178,7 @@ def main(
     ap.add_argument(
         "--model-root",
         type=Path,
-        default=Path("/home/dnola/models/hf/DeepSeek-V4-Flash"),
+        required=True,
         help="local immutable model root containing the 0731 checkpoint",
     )
     ap.add_argument("--layer", type=int, required=True)
@@ -763,7 +763,7 @@ def main(
         "status": "PASS",
         "layer": layer,
         "tiers": list(selected_tiers),
-        "representative_selection": "middle preview-model expert layer L23; prior sealed full-solve elapsed 265.84570574760437 s",
+        "representative_selection": "explicitly selected layer and manifest-bound inputs",
         "scientific_source": "banana_smasher.solver_core",
         "windows": actual_windows,
         "sample_seconds": args.sample_seconds,
