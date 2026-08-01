@@ -6,79 +6,79 @@
       "sha256": "edf75b0117b66e78e9c62059b8da562edd6009083d965bafa3a383c15b707220"
     },
     {
-      "bytes": 6194,
+      "bytes": 6545,
       "path": "Dockerfile",
-      "sha256": "3b20381de014f2acb00aa80e9a16c8843265b816e68a2a53d21af9d9aff8c909"
+      "sha256": "4ad01f1b0f99b012e26f2217a8bf0e8a0936f41bad03d4636922ed4835c0f290"
     },
     {
-      "bytes": 7587,
+      "bytes": 7621,
       "path": "SERVE_RUNBOOK.md",
-      "sha256": "2d1e32d3da6f348111fbf4f58c60a2edfdcae11dd0b9a8c5e5fb1a2965c815ae"
+      "sha256": "b0b8907885a7c3f0c66e5c4e7b4bb06ec6a00887480dae63e5f0f7afb1c1cb65"
     },
     {
-      "bytes": 10936,
+      "bytes": 10933,
       "path": "build_golden.sh",
-      "sha256": "04f2fb0e0f9bba36deabe1f150fd96b777685690fafb3bca2f6a40fc07df059e"
+      "sha256": "8fcc75728fa65cdd5c5d1907bdcfeade5c291381c5b87c2c6cc2d3b48a70e97b"
     },
     {
-      "bytes": 12626,
+      "bytes": 12640,
       "path": "golden_perf_check.py",
-      "sha256": "7de3e8af4afca946803ef73711ec05c7b31dc7a7bb5f212b6feff6e91e3ddeb3"
+      "sha256": "0a5ce53724827b8a8cf2f389052821f014572da406e6480c65ce591f6649498e"
     },
     {
-      "bytes": 4051,
+      "bytes": 4065,
       "path": "healthcheck.py",
-      "sha256": "4751dfcabea46185bb62c885a918906b9b7882093647989452d81bc1ec251491"
+      "sha256": "801f862fafa8d97f637a1ebce17953247facff01eb81d6f409bb4d3b3d048b59"
     },
     {
-      "bytes": 2425,
+      "bytes": 2432,
       "path": "make_runtime_cache_manifest.py",
-      "sha256": "aa6cff20b019eb09a4e2ab65596426110c93d484513d4ad59316fb5b20adfb9c"
+      "sha256": "940e55132388fa45ec960042c872a43bfb1edb0df360bd0c99433ca7bd5f4087"
     },
     {
-      "bytes": 5596,
+      "bytes": 5605,
       "path": "make_wheel_manifest.py",
-      "sha256": "a1ff777f551bfeb00a5f0188a730852bd2dcd24fba7325730429cccd5bc03dde"
+      "sha256": "22ef33e669874093e3d714a25086154938750bf381e4c7f78741d82da227856c"
     },
     {
-      "bytes": 3317,
+      "bytes": 3324,
       "path": "patch_flashinfer_cache_load.py",
-      "sha256": "9c5cf2e11547b53ffc1e4757a2a0c1eff7c0f33b3679ddd34a0f442459c2a8b8"
+      "sha256": "76d62b8f5e7d87522d1d5e56f19d3b7c72c039496195621aae4c0aec150bf121"
     },
     {
-      "bytes": 9893,
+      "bytes": 9869,
       "path": "patch_quant_method_defaults.py",
-      "sha256": "00398c02d220fa1fdf4dc2f8a9495d8d83fcca3555241256c841b756859d9db8"
+      "sha256": "34f40520b7d320005683457f14717185855f70f1db75418c1d8e5a739a7690fd"
     },
     {
-      "bytes": 4673,
+      "bytes": 4680,
       "path": "prepare_external_pack.py",
-      "sha256": "44a495c148a9d1d5a90f050700b7f2dd2204b2054ca586bc1a564a7f6d4562b0"
+      "sha256": "1e7680195489f9e44d47d065b1ac87663f52ebbc154bf9cece99a266e50f6e13"
     },
     {
-      "bytes": 1309,
+      "bytes": 1330,
       "path": "publish_local_registry.sh",
-      "sha256": "2a26bec648f8e9d3e8592c28bea02ada5e1c266dbfe0084b773396295ddd6d1a"
+      "sha256": "64b9e2b156c4a2df2522e9890a1b3568922ab0e34ef405b3783dbfad1a68a339"
     },
     {
-      "bytes": 2965,
+      "bytes": 2993,
       "path": "push_local_registry_via_ssh.sh",
-      "sha256": "c9944a5ceacf5578b2561b6e88b6547b71faf7de44f754b09e73e4ecb6e28e49"
+      "sha256": "2d9f5a81fc9946a53374eaa07b6c61eaa6d770964a7c7b78e8caae2c347f3afe"
     },
     {
-      "bytes": 1738,
+      "bytes": 1746,
       "path": "seal_recipe.py",
-      "sha256": "aeec1a56d912d154d2f067353603d3fb391a57440c06eb2d47e7e6061249ede7"
+      "sha256": "bb11824b7768199db8c96ca334812f4b654ceb67645f086f768e69279ae42cbd"
     },
     {
-      "bytes": 11699,
+      "bytes": 11779,
       "path": "validate_golden.sh",
-      "sha256": "d52232653fc7a60d4dee0ffb64883a49cdf69c9cb76510a98f70df45fd4eb530"
+      "sha256": "9be4baed123cb85ad440df474dad5ce06b569849e2013e81d06b0ba91dcb6599"
     },
     {
-      "bytes": 5392,
+      "bytes": 5480,
       "path": "verify_image_static.py",
-      "sha256": "938896301f24127c9160a8da012a2235ce7b8212981b219b59a98bb511363228"
+      "sha256": "3798c720f305df2768f9ed8bc50c637db286fc7bda7c9ba263b2351b9c871627"
     }
   ],
   "p1268_result_sha256": "9b1d42fe3f4dcb28e7f8660b37f800fdbfdcd7f721fb4bc57ca31a0dda313860",

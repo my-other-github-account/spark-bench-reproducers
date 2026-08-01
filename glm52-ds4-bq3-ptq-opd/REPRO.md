@@ -18,7 +18,7 @@ For a shippable generalization run, the PTQ-OPD training manifest must contain d
 
 ## 2. Environment
 
-The campaign ran on NVIDIA GB10 / sm_121 / aarch64 with PyTorch `2.11.0+cu130`, NumPy `2.3.5`, safetensors `0.8.0`, Transformers `5.13.0`, and a vLLM-Moet-derived BQ3 runtime. Install the NVIDIA PyTorch build matching your CUDA stack first; `requirements.txt` pins the remaining production Python packages. The pure bank/objective tests also run on CPU.
+The campaign ran on NVIDIA GB10 / sm_121 / aarch64 with PyTorch `2.11.0+cu130`, NumPy `2.3.5`, safetensors `0.8.0`, Transformers `5.13.0`, and our vLLM overlay/fork of stock vLLM 0.24.0 for the BQ3 runtime. Install the NVIDIA PyTorch build matching your CUDA stack first; `requirements.txt` pins the remaining production Python packages. The pure bank/objective tests also run on CPU.
 
 ```bash
 cd glm52-ds4-bq3-ptq-opd

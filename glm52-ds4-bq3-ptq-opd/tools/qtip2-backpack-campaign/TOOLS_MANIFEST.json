@@ -80,7 +80,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 2 \u2014 Build the wire",
-      "shipped_sha256": "b86d7c1b55eb48d4d00a33402eae0cbeade2d14582bb3b9ef2878043b4946b2c",
+      "shipped_sha256": "af27e344d23c5f0dca709f5b3284a149e5af81606ace520de8b15bce4c809fa1",
       "source_sha256": "aeb3e473a00b48426f56b9f80aefc6bc086b7791ec2372606c724e90db126334",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",
@@ -124,7 +124,7 @@
       "privacy_substitution_applied": true,
       "provenance_type": "live_fleet_working_copy",
       "repro_stage": "Stage 2 \u2014 Build the wire",
-      "shipped_sha256": "5f74aecf37c288abf7df9180064f458105aec7450b458ac8239784ccc87b0642",
+      "shipped_sha256": "2520ea46a3e39f6093d49eab0af72bdb22ad1f3c0e579fa5739362618c625577",
       "source_sha256": "d56677ed63711aac24181463d7ef8ac45499c4b507919b3ad4d5dcb63da205bb",
       "source_verification": {
         "method": "live fleet SHA-256 readback plus controller snapshot rehash",

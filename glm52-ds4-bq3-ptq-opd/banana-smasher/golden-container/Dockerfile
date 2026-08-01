@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1.7
 FROM banana_smasher-serve:p1135n-b66edfa3-closure AS materialized
 USER root
-RUN rm -rf /work/build/venvs/vllm-moet /opt/banana_smasher /cubit-share \
- && mkdir -p /work/build/venvs/vllm-moet \
+RUN rm -rf /work/build/venvs/vllm-banana /opt/banana_smasher /cubit-share \
+ && mkdir -p /work/build/venvs/vllm-banana \
       /cubit-share \
       /opt/banana_smasher/runtime_cubins/vq_warp_gemv \
       /opt/banana_smasher/runtime_cubins/cubins-sm120 \
@@ -13,13 +13,13 @@ RUN rm -rf /work/build/venvs/vllm-moet /opt/banana_smasher /cubit-share \
       /opt/banana_smasher/bin /opt/banana_smasher/receipts
 
 # Exact P1268 Python closure and full fork overlay. No PYTHONPATH is used.
-COPY --from=venv / /work/build/venvs/vllm-moet/
-COPY --from=pyoverlay / /work/build/venvs/vllm-moet/lib/python3.12/site-packages/
+COPY --from=venv / /work/build/venvs/vllm-banana/
+COPY --from=pyoverlay / /work/build/venvs/vllm-banana/lib/python3.12/site-packages/
 COPY --from=m4 / /tmp/p1321-m4/
 RUN set -eu; set -- /tmp/p1321-m4/_C*.so; test "$#" -eq 1; \
     cp "$1" /opt/banana_smasher/runtime_cubins/vq_warp_gemv/_C.so; \
-    cp "$1" /work/build/venvs/vllm-moet/lib/python3.12/site-packages/vq_warp_gemv/_C.so; \
-    cp /tmp/p1321-m4/__init__.py /work/build/venvs/vllm-moet/lib/python3.12/site-packages/vq_warp_gemv/__init__.py; \
+    cp "$1" /work/build/venvs/vllm-banana/lib/python3.12/site-packages/vq_warp_gemv/_C.so; \
+    cp /tmp/p1321-m4/__init__.py /work/build/venvs/vllm-banana/lib/python3.12/site-packages/vq_warp_gemv/__init__.py; \
     rm -rf /tmp/p1321-m4
 COPY --from=cubins_w2 / /opt/banana_smasher/runtime_cubins/cubins-sm120/
 COPY --from=cubins_w2 / /cubit-share/
@@ -44,20 +44,20 @@ COPY SOURCE_MANIFEST.json /opt/banana_smasher/SOURCE_MANIFEST.json
 # closure provides /usr/bin/python3.12 without the unversioned link.
 RUN ln -sfn /usr/bin/python3.12 /usr/bin/python3
 
-RUN /work/build/venvs/vllm-moet/bin/python /opt/banana_smasher/bin/patch_quant_method_defaults.py \
-      /work/build/venvs/vllm-moet/lib/python3.12/site-packages/vllm/models/deepseek_v4/quant_config.py \
-      --attention-target /work/build/venvs/vllm-moet/lib/python3.12/site-packages/vllm/models/deepseek_v4/attention.py \
+RUN /work/build/venvs/vllm-banana/bin/python /opt/banana_smasher/bin/patch_quant_method_defaults.py \
+      /work/build/venvs/vllm-banana/lib/python3.12/site-packages/vllm/models/deepseek_v4/quant_config.py \
+      --attention-target /work/build/venvs/vllm-banana/lib/python3.12/site-packages/vllm/models/deepseek_v4/attention.py \
       --receipt /opt/banana_smasher/receipts/QUANT_METHOD_DEFAULTS_PATCH.json \
- && /work/build/venvs/vllm-moet/bin/python /opt/banana_smasher/bin/patch_flashinfer_cache_load.py \
-      /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/jit/core.py \
+ && /work/build/venvs/vllm-banana/bin/python /opt/banana_smasher/bin/patch_flashinfer_cache_load.py \
+      /work/build/venvs/vllm-banana/lib/python3.12/site-packages/flashinfer/jit/core.py \
       --receipt /opt/banana_smasher/receipts/FLASHINFER_CACHE_LOAD_PATCH.json \
- && env -u PYTHONPATH /work/build/venvs/vllm-moet/bin/python /opt/banana_smasher/bin/verify_image_static.py \
+ && env -u PYTHONPATH /work/build/venvs/vllm-banana/bin/python /opt/banana_smasher/bin/verify_image_static.py \
       >/opt/banana_smasher/receipts/STATIC_VERIFY.json
 
 FROM scratch
 COPY --from=materialized / /
-ENV VIRTUAL_ENV=/work/build/venvs/vllm-moet \
-    PATH=/work/build/venvs/vllm-moet/bin:/opt/cuda-stub/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+ENV VIRTUAL_ENV=/work/build/venvs/vllm-banana \
+    PATH=/work/build/venvs/vllm-banana/bin:/opt/cuda-stub/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
     PYTHONNOUSERSITE=1 \
     PYTHONUNBUFFERED=1 \
     NVIDIA_VISIBLE_DEVICES=all \

@@ -52,15 +52,15 @@ ENV FLASHINFER_DISABLE_VERSION_CHECK=1
 
 # Apply the reviewed private-fork delta, then install the exact P1321 runtime
 # postimages over its two MoE dispatch modules. No PYTHONPATH or sitecustomize.
-COPY patch/vllm-moet-v0.24.0.patch /tmp/vllm-moet.patch
+COPY patch/vllm-overlay-v0.24.0.patch /tmp/vllm-overlay.patch
 COPY vendor/p1321/runtime /tmp/p1321-runtime
 RUN set -eux; \
     site_root="$(python3 -c 'import vllm, pathlib; print(pathlib.Path(vllm.__file__).resolve().parents[1])')"; \
-    cd "$site_root"; git apply --verbose /tmp/vllm-moet.patch; \
+    cd "$site_root"; git apply --verbose /tmp/vllm-overlay.patch; \
     utils="$site_root/vllm/model_executor/layers/quantization/utils"; \
     install -m 0644 /tmp/p1321-runtime/moe_vq_triton.py "$utils/moe_vq_triton.py"; \
     install -m 0644 /tmp/p1321-runtime/moe_w2_cubit.py "$utils/moe_w2_cubit.py"; \
-    rm -rf /tmp/vllm-moet.patch /tmp/p1321-runtime; \
+    rm -rf /tmp/vllm-overlay.patch /tmp/p1321-runtime; \
     python3 -c "from vllm.model_executor.layers.quantization import get_quantization_config; assert get_quantization_config('bs-mixed-tier').get_name() == 'bs-mixed-tier'"
 
 # Exact SM120 prebuilt cubins and exact P1321 vector-M4 extension.

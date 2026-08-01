@@ -8,3 +8,7 @@ Publication snapshot: 2026-07-31. This is the only canonical measurement-gap led
 | IQ4 HOLDOUT512 | IQ4 HOLDOUT512 scorer | Score the immutable IQ4 comparator on the same `HOLDOUT512_V1` manifest and instrument; publish global plus the same six classes with terminal receipt SHA-256. | The sealed IQ4 DEV BALANCED64 row, FULL512, prefix rows, or partial class coverage |
 
 Canonical open count: **2**.
+
+## Naming-hygiene closure
+
+The serving-stack naming hygiene is tracked separately from measurement gaps. Fleet compatibility/deferral state, launcher updates, public-repository commit, and NOTICE hash are sealed in `HYGIENE_MOET_FOSSIL_COMPLETE.json`; this does not change the canonical measurement-gap count above.

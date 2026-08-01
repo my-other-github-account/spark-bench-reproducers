@@ -8,18 +8,18 @@ nvcc_launcher =
 
 common_cflags = -DPy_LIMITED_API=0x03090000 $
     -D_GLIBCXX_USE_CXX11_ABI=1 $
-    -I/work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cccl/cub $
-    -I/work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cccl/libcudacxx/include $
-    -I/work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cccl/thrust $
+    -I/work/build/venvs/vllm-banana/lib/python3.12/site-packages/flashinfer/data/cccl/cub $
+    -I/work/build/venvs/vllm-banana/lib/python3.12/site-packages/flashinfer/data/cccl/libcudacxx/include $
+    -I/work/build/venvs/vllm-banana/lib/python3.12/site-packages/flashinfer/data/cccl/thrust $
     -isystem /usr/include/python3.12 $
     -isystem $cuda_home/include $
-    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/tvm_ffi/include $
-    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/tvm_ffi/include $
-    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/include $
-    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc $
-    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cutlass/include $
-    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/cutlass/tools/util/include $
-    -isystem /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/spdlog/include
+    -isystem /work/build/venvs/vllm-banana/lib/python3.12/site-packages/tvm_ffi/include $
+    -isystem /work/build/venvs/vllm-banana/lib/python3.12/site-packages/tvm_ffi/include $
+    -isystem /work/build/venvs/vllm-banana/lib/python3.12/site-packages/flashinfer/data/include $
+    -isystem /work/build/venvs/vllm-banana/lib/python3.12/site-packages/flashinfer/data/csrc $
+    -isystem /work/build/venvs/vllm-banana/lib/python3.12/site-packages/flashinfer/data/cutlass/include $
+    -isystem /work/build/venvs/vllm-banana/lib/python3.12/site-packages/flashinfer/data/cutlass/tools/util/include $
+    -isystem /work/build/venvs/vllm-banana/lib/python3.12/site-packages/flashinfer/data/spdlog/include
 cflags = $common_cflags $
     -fPIC $
     -std=c++17 $
@@ -64,9 +64,9 @@ rule cuda_compile
 rule link
   command = $cxx $in $ldflags -o $out
 
-build /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sampling/csrc_sampling.cuda.o: cuda_compile /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/sampling.cu
-build /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sampling/csrc_renorm.cuda.o: cuda_compile /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/renorm.cu
-build /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sampling/csrc_flashinfer_sampling_binding.cuda.o: cuda_compile /work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/data/csrc/flashinfer_sampling_binding.cu
+build /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sampling/csrc_sampling.cuda.o: cuda_compile /work/build/venvs/vllm-banana/lib/python3.12/site-packages/flashinfer/data/csrc/sampling.cu
+build /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sampling/csrc_renorm.cuda.o: cuda_compile /work/build/venvs/vllm-banana/lib/python3.12/site-packages/flashinfer/data/csrc/renorm.cu
+build /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sampling/csrc_flashinfer_sampling_binding.cuda.o: cuda_compile /work/build/venvs/vllm-banana/lib/python3.12/site-packages/flashinfer/data/csrc/flashinfer_sampling_binding.cu
 
 build /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sampling/sampling.so: link /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sampling/csrc_sampling.cuda.o /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sampling/csrc_renorm.cuda.o /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sampling/csrc_flashinfer_sampling_binding.cuda.o
 default /work/build/.cache/flashinfer/0.6.14/121a/cached_ops/sampling/sampling.so

@@ -91,7 +91,7 @@ for marker in (
     if marker not in source:
         raise SystemExit(f"quant-method product default missing: {marker}")
 attention_source = Path(
-    "/work/build/venvs/vllm-moet/lib/python3.12/site-packages/"
+    "/work/build/venvs/vllm-banana/lib/python3.12/site-packages/"
     "vllm/models/deepseek_v4/attention.py"
 ).read_text()
 if 'quant_cfg.get("moe_quant_algo", "")' not in attention_source:
@@ -99,7 +99,7 @@ if 'quant_cfg.get("moe_quant_algo", "")' not in attention_source:
 if 'if os.environ.get("DS4_DENSE_PATCH")' in attention_source:
     raise SystemExit("IQ3 dense-sidecar admission still depends on env timing")
 flashinfer_core_source = Path(
-    "/work/build/venvs/vllm-moet/lib/python3.12/site-packages/flashinfer/jit/core.py"
+    "/work/build/venvs/vllm-banana/lib/python3.12/site-packages/flashinfer/jit/core.py"
 ).read_text()
 for marker in (
     'if os.environ.get("FLASHINFER_DISABLE_JIT"):',
