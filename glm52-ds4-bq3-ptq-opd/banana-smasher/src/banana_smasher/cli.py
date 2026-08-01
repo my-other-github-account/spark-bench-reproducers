@@ -13,13 +13,12 @@ from typing import Any
 
 from .bootstrap import bootstrap_container, container_recipe_path
 from .contract import (
-    PackValidationError,
     export_pack,
     verify_pack,
     verify_serve_compatibility,
 )
 from .repack import repack_to_safetensors
-from .validation import ValidationError, validate_artifact
+from .validation import validate_artifact
 
 
 def _parse_source_windows(value: str) -> tuple[int, ...]:
@@ -378,14 +377,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             stream=sys.stderr,
         )
         return 130
-    except (
-        PackValidationError,
-        ValidationError,
-        FileExistsError,
-        OSError,
-        RuntimeError,
-        ValueError,
-    ) as exc:
+    except Exception as exc:
         failure_receipt = None
         if args.command == "update":
             receipt_path = args.receipt or args.output.with_name(

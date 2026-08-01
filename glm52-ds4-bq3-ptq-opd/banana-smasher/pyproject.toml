@@ -16,8 +16,8 @@ solve = [
   "triton==3.4.0; platform_system == 'Linux'",
 ]
 update = [
-  "torch==2.8.0",
-  "transformers==5.4.0",
+  "torch==2.11.0",
+  "transformers==5.12.1",
 ]
 
 [project.scripts]

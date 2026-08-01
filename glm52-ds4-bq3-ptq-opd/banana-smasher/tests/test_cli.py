@@ -137,6 +137,36 @@ def test_smash_update_fsyncs_full_traceback_failure_receipt(
     assert "synthetic full-depth failure" in capsys.readouterr().err
 
 
+def test_smash_update_seals_failure_receipt_for_runtime_key_error(
+    tmp_path: Path, monkeypatch, capsys
+) -> None:
+    receipt = tmp_path / "update.json"
+
+    def fail_update(**_kwargs):
+        raise KeyError("BR_TRAIN")
+
+    monkeypatch.setattr(update_module, "run_minimal_update", fail_update)
+    assert main(
+        [
+            "update",
+            "--runtime-root",
+            "/runtime",
+            "--model-root",
+            "/model",
+            "--aot",
+            "/aot/_C.so",
+            "--output",
+            str(tmp_path / "updated.pt"),
+            "--receipt",
+            str(receipt),
+        ]
+    ) == 2
+    payload = json.loads((tmp_path / "update.failure.json").read_text())
+    assert payload["error_type"] == "KeyError"
+    assert "BR_TRAIN" in payload["error"]
+    assert "BR_TRAIN" in capsys.readouterr().err
+
+
 def test_smash_update_keyboard_interrupt_seals_resumable_receipt(
     tmp_path: Path, monkeypatch, capsys
 ) -> None:
