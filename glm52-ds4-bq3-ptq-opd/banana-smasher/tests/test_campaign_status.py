@@ -11,6 +11,7 @@ from banana_smasher.cli import main
 
 TIERS = ["qtip3", "qtip2", "d4_k2048", "d4_k4096", "mxfp4"]
 NOW = 1_000.0
+SOURCE_INDEX_SHA = "1" * 64
 
 
 def _write_json(path: Path, value: object) -> dict[str, object]:
@@ -140,6 +141,17 @@ def _write_campaign_root(
     )
 
 
+def _rewrite_anchor_manifest(root: Path, updates: dict[str, object]) -> None:
+    anchor_path = root / "anchors" / "MANIFEST.json"
+    anchor = json.loads(anchor_path.read_text())
+    anchor.update(updates)
+    anchor_record = _write_json(anchor_path, anchor)
+    chain_path = root / "WORKFLOW_CHAIN.json"
+    chain = json.loads(chain_path.read_text())
+    chain["anchor_manifest"] = anchor_record
+    _write_json(chain_path, chain)
+
+
 def _write_sealed_shard(
     root: Path,
     tier: str,
@@ -177,6 +189,7 @@ def _write_sealed_shard(
             "tier": tier,
             "layers": layers,
             "cell_count": len(layers) * units_per_layer,
+            "source_index_sha256": SOURCE_INDEX_SHA,
             "layer_receipts": receipt_rows,
             "created_unix": NOW - 35,
         },
@@ -200,6 +213,7 @@ def _write_shard_index(
             "schema": f"banana-smasher-{tier}-shard-index-v1",
             "status": "PASS",
             "tier": tier,
+            "source_index_sha256": SOURCE_INDEX_SHA,
             "shards": shards,
             "updated_unix": NOW - 30,
         },
@@ -375,6 +389,43 @@ def test_truncated_d4_baseline_is_not_a_complete_flash_full_campaign(
     assert "smash anchor --run-root" in str(raised.value)
 
 
+def test_wrong_declared_model_is_rejected(tmp_path: Path) -> None:
+    from banana_smasher.campaign_status import StatusContractError, inspect_anchor_campaign
+
+    root = tmp_path / "run"
+    _write_campaign_root(root)
+    _rewrite_anchor_manifest(root, {"model_id": "not-the-0731-model"})
+
+    with pytest.raises(StatusContractError, match="model_id") as raised:
+        inspect_anchor_campaign(root, now=NOW)
+
+    assert "DeepSeek-V4-Flash-0731" in str(raised.value)
+    assert "smash anchor --run-root" in str(raised.value)
+
+
+def test_missing_tier_anchor_aggregate_pointer_fails_closed(tmp_path: Path) -> None:
+    from banana_smasher.campaign_status import StatusContractError, _parse_direct_anchor
+
+    root = tmp_path / "run"
+    row = _direct_anchor(
+        root,
+        "d4_k2048",
+        layers=list(range(43)),
+        units_per_layer=4,
+        created_unix=NOW - 100,
+    )
+    anchor_path = root / "anchors" / "d4_k2048" / "ANCHOR.json"
+    anchor = json.loads(anchor_path.read_text())
+    anchor.pop("fixed_anchor_manifest")
+    row.update(_write_json(anchor_path, anchor))
+
+    with pytest.raises(StatusContractError, match="aggregate manifest pointer") as raised:
+        _parse_direct_anchor(root, "d4_k2048", row)
+
+    assert str(anchor_path) in str(raised.value)
+    assert "smash anchor --run-root" in str(raised.value)
+
+
 def test_missing_referenced_manifest_fails_with_artifact_and_public_producer(
     tmp_path: Path,
 ) -> None:
@@ -424,6 +475,54 @@ def test_artifact_path_rejects_symlinked_parent_component(tmp_path: Path) -> Non
     assert "smash merge" in str(raised.value)
 
 
+def test_artifact_path_rejects_absolute_path_outside_campaign_collection(
+    tmp_path: Path,
+) -> None:
+    from banana_smasher.campaign_status import StatusContractError, _artifact_path
+
+    base = tmp_path / "campaigns" / "run"
+    base.mkdir(parents=True)
+    record = _write_json(tmp_path / "outside.json", {"status": "PASS"})
+
+    with pytest.raises(StatusContractError, match="outside campaign collection") as raised:
+        _artifact_path(record, base=base, label="test receipt", producer="smash merge")
+
+    assert str(record["sha256"]) not in str(raised.value)
+    assert "smash merge" in str(raised.value)
+
+
+def test_invalid_utf8_manifest_fails_with_public_producer(tmp_path: Path) -> None:
+    from banana_smasher.campaign_status import StatusContractError, _json_object
+
+    path = tmp_path / "MANIFEST.json"
+    path.write_bytes(b"\xff")
+
+    with pytest.raises(StatusContractError, match="malformed test manifest") as raised:
+        _json_object(path, label="test manifest", producer="smash anchor")
+
+    assert str(path) in str(raised.value)
+    assert "smash anchor" in str(raised.value)
+
+
+def test_unbound_shard_source_index_fails_closed(tmp_path: Path) -> None:
+    from banana_smasher.campaign_status import StatusContractError, inspect_anchor_campaign
+
+    root = tmp_path / "run"
+    _write_campaign_root(root)
+    shard = _write_sealed_shard(root, "qtip3", layers=[2])
+    manifest_path = root / "external" / "qtip3" / "SHARD_MANIFEST.json"
+    manifest = json.loads(manifest_path.read_text())
+    manifest.pop("source_index_sha256")
+    shard["manifest"] = _write_json(manifest_path, manifest)
+    _write_shard_index(root, "qtip3", [shard])
+
+    with pytest.raises(StatusContractError, match="source_index_sha256") as raised:
+        inspect_anchor_campaign(root, now=NOW)
+
+    assert str(manifest_path) in str(raised.value)
+    assert "smash merge" in str(raised.value)
+
+
 def test_malformed_manifest_fails_loudly_without_directory_fallback(tmp_path: Path) -> None:
     from banana_smasher.campaign_status import StatusContractError, inspect_anchor_campaign
 
@@ -438,6 +537,77 @@ def test_malformed_manifest_fails_loudly_without_directory_fallback(tmp_path: Pa
 
     assert str(index.resolve()) in str(raised.value)
     assert "smash merge" in str(raised.value)
+
+
+def test_unbound_progress_receipt_fails_closed(tmp_path: Path) -> None:
+    from banana_smasher.campaign_status import StatusContractError, inspect_anchor_campaign
+
+    root = tmp_path / "run"
+    _write_campaign_root(root)
+    _write_active_run(
+        root,
+        "qtip3",
+        layer=1,
+        completed_units=0,
+        active_units=1,
+    )
+    receipt_path = root / "external" / "qtip3" / "LATEST_PROGRESS_RECEIPT.json"
+    receipt = json.loads(receipt_path.read_text())
+    receipt.pop("tier")
+    run_path = root / "external" / "qtip3" / "RUN_MANIFEST.json"
+    run = json.loads(run_path.read_text())
+    run["newest_receipt"] = _write_json(receipt_path, receipt)
+    runs_path = root / "anchors" / "qtip3" / "RUNS.json"
+    runs = json.loads(runs_path.read_text())
+    runs["runs"][0]["manifest"] = _write_json(run_path, run)
+    _write_json(runs_path, runs)
+
+    with pytest.raises(StatusContractError, match="receipt tier") as raised:
+        inspect_anchor_campaign(root, now=NOW)
+
+    assert str(receipt_path) in str(raised.value)
+    assert "smash solve" in str(raised.value)
+
+
+def test_future_dated_active_manifest_fails_loudly(tmp_path: Path) -> None:
+    from banana_smasher.campaign_status import StatusContractError, inspect_anchor_campaign
+
+    root = tmp_path / "run"
+    _write_campaign_root(root)
+    _write_active_run(
+        root,
+        "qtip3",
+        layer=1,
+        completed_units=0,
+        active_units=1,
+        updated_unix=NOW + 1,
+    )
+
+    with pytest.raises(StatusContractError, match="future-dated active run manifest") as raised:
+        inspect_anchor_campaign(root, now=NOW)
+
+    assert "smash solve" in str(raised.value)
+
+
+def test_active_staleness_budget_is_bounded(tmp_path: Path) -> None:
+    from banana_smasher.campaign_status import StatusContractError, inspect_anchor_campaign
+
+    root = tmp_path / "run"
+    _write_campaign_root(root)
+    _write_active_run(
+        root,
+        "qtip3",
+        layer=1,
+        completed_units=0,
+        active_units=1,
+        updated_unix=NOW - 1,
+        stale_after_seconds=3_601,
+    )
+
+    with pytest.raises(StatusContractError, match="exceeds maximum") as raised:
+        inspect_anchor_campaign(root, now=NOW)
+
+    assert "smash solve" in str(raised.value)
 
 
 def test_stale_active_manifest_fails_loudly(tmp_path: Path) -> None:

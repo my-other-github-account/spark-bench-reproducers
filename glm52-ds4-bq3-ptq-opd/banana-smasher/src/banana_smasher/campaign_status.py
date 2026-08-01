@@ -14,6 +14,8 @@ CAMPAIGN_NAME = "flash-full-0731-anchor-campaign"
 TIER_ORDER = ("qtip3", "qtip2", "d4_k2048", "d4_k4096", "mxfp4")
 REFERENCE_TIERS = {"mxfp4"}
 EXPECTED_LAYERS = tuple(range(43))
+EXPECTED_MODEL_ID = "deepseek-ai/DeepSeek-V4-Flash-0731"
+MAX_ACTIVE_STALE_SECONDS = 3_600.0
 
 
 class StatusContractError(ValueError):
@@ -46,11 +48,13 @@ def _json_object(path: Path, *, label: str, producer: str) -> dict[str, Any]:
         raw = path.read_text()
     except FileNotFoundError as exc:
         raise _fail(f"missing {label}: {path}", producer=producer) from exc
+    except UnicodeDecodeError as exc:
+        raise _fail(f"malformed {label} {path}: invalid UTF-8", producer=producer) from exc
     except OSError as exc:
         raise _fail(f"cannot read {label} {path}: {exc}", producer=producer) from exc
     try:
         value = json.loads(raw)
-    except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+    except json.JSONDecodeError as exc:
         raise _fail(f"malformed {label} {path}: {exc}", producer=producer) from exc
     if not isinstance(value, dict):
         raise _fail(f"malformed {label} {path}: expected a JSON object", producer=producer)
@@ -118,6 +122,13 @@ def _artifact_path(record: Any, *, base: Path, label: str, producer: str) -> Pat
         label=f"{label} artifact",
         producer=producer,
     )
+    campaign_collection = base.resolve().parent
+    if path != campaign_collection and campaign_collection not in path.parents:
+        raise _fail(
+            f"unsafe {label} artifact path is outside campaign collection "
+            f"{campaign_collection}: {path}",
+            producer=producer,
+        )
     if not path.is_file():
         raise _fail(f"missing {label}: {path}", producer=producer)
     expected_bytes = record.get("bytes")
@@ -133,7 +144,7 @@ def _artifact_path(record: Any, *, base: Path, label: str, producer: str) -> Pat
     actual_sha = _sha256(path)
     if actual_sha != expected_sha:
         raise _fail(
-            f"SHA256 mismatch for {label} {path}: expected {expected_sha}, got {actual_sha}",
+            f"SHA256 mismatch for {label} {path}: expected {expected_sha}",
             producer=producer,
         )
     return path
@@ -265,9 +276,20 @@ def _parse_direct_anchor(
         producer=producer,
     )
     pointer = anchor.get("fixed_anchor_manifest")
-    if isinstance(pointer, dict) and pointer.get("sha256") != manifest_record.get("sha256"):
+    if not isinstance(pointer, dict):
         raise _fail(
-            f"stale anchor {anchor_path}: aggregate manifest SHA does not match anchors/MANIFEST.json",
+            f"malformed anchor {anchor_path}: aggregate manifest pointer is required",
+            producer=producer,
+        )
+    pointer_path = _artifact_path(
+        pointer,
+        base=root,
+        label=f"{tier} anchor aggregate manifest pointer",
+        producer=producer,
+    )
+    if pointer_path != manifest_path or pointer.get("sha256") != manifest_record.get("sha256"):
+        raise _fail(
+            f"stale anchor {anchor_path}: aggregate manifest pointer does not match anchors/MANIFEST.json",
             producer=producer,
         )
     manifest = _json_object(
@@ -378,6 +400,15 @@ def _parse_shards(
     completed: dict[int, int] = {}
     newest: list[tuple[float, str]] = []
     source_index_sha = index.get("source_index_sha256")
+    if (
+        not isinstance(source_index_sha, str)
+        or len(source_index_sha) != 64
+        or any(character not in "0123456789abcdef" for character in source_index_sha)
+    ):
+        raise _fail(
+            f"malformed shard index {path}: source_index_sha256 is required",
+            producer=producer,
+        )
     for shard_number, row in enumerate(shards):
         if not isinstance(row, dict):
             raise _fail(f"malformed shard row {shard_number} in {path}", producer=producer)
@@ -403,11 +434,13 @@ def _parse_shards(
         manifest_tier = manifest.get("tier", tier)
         if manifest_tier != tier:
             raise _fail(f"malformed shard manifest {manifest_path}: tier mismatch", producer=producer)
-        if (
-            isinstance(source_index_sha, str)
-            and isinstance(manifest.get("source_index_sha256"), str)
-            and manifest["source_index_sha256"] != source_index_sha
-        ):
+        manifest_source_index_sha = manifest.get("source_index_sha256")
+        if not isinstance(manifest_source_index_sha, str):
+            raise _fail(
+                f"malformed shard manifest {manifest_path}: source_index_sha256 is required",
+                producer=producer,
+            )
+        if manifest_source_index_sha != source_index_sha:
             raise _fail(
                 f"stale shard manifest {manifest_path}: source index SHA mismatch",
                 producer=producer,
@@ -560,6 +593,18 @@ def _parse_active_runs(
             minimum=0.001,
             producer=producer,
         )
+        if stale_after > MAX_ACTIVE_STALE_SECONDS:
+            raise _fail(
+                f"malformed active run {manifest_path}: stale_after_seconds={stale_after:.3f} "
+                f"exceeds maximum {MAX_ACTIVE_STALE_SECONDS:.3f}",
+                producer=producer,
+            )
+        if updated > now:
+            raise _fail(
+                f"future-dated active run manifest {manifest_path}: updated_unix is "
+                f"{updated - now:.3f}s ahead of status time",
+                producer=producer,
+            )
         if now - updated > stale_after:
             raise _fail(
                 f"stale active run manifest {manifest_path}: age {now - updated:.3f}s exceeds {stale_after:.3f}s",
@@ -638,6 +683,12 @@ def _parse_active_runs(
         if receipt.get("status") not in {"PASS", "RUNNING"}:
             raise _fail(f"malformed progress receipt {receipt_path}: invalid status", producer=producer)
         receipt_created = _receipt_created(receipt, path=receipt_path, producer=producer)
+        if receipt_created > now:
+            raise _fail(
+                f"future-dated active progress receipt {receipt_path}: timestamp is "
+                f"{receipt_created - now:.3f}s ahead of status time",
+                producer=producer,
+            )
         if now - receipt_created > stale_after:
             raise _fail(
                 f"stale active progress receipt {receipt_path}: age {now - receipt_created:.3f}s "
@@ -682,9 +733,9 @@ def _parse_active_runs(
             "unit": current_rows[-1]["unit"],
         }
         for field, expected in expected_current.items():
-            if field in receipt and receipt[field] != expected:
+            if receipt.get(field) != expected:
                 raise _fail(
-                    f"stale progress receipt {receipt_path}: {field}={receipt[field]!r}, "
+                    f"stale progress receipt {receipt_path}: receipt {field}={receipt.get(field)!r}, "
                     f"active manifest declares {expected!r}",
                     producer=producer,
                 )
@@ -721,6 +772,13 @@ def _load_campaign_manifests(root: Path) -> tuple[dict[str, Any], dict[str, dict
         statuses={"PASS"},
         producer=producer,
     )
+    declared_model_id = anchor.get("model_id")
+    if declared_model_id is not None and declared_model_id != EXPECTED_MODEL_ID:
+        raise _fail(
+            f"malformed anchor manifest {anchor_path}: model_id must be {EXPECTED_MODEL_ID!r}, "
+            f"got {declared_model_id!r}",
+            producer=producer,
+        )
     chain_path = _resolve_without_symlinks(
         root / "WORKFLOW_CHAIN.json",
         label="workflow chain manifest",
