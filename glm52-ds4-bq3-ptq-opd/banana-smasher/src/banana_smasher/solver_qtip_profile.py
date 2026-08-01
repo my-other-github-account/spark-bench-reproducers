@@ -11,6 +11,7 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import math
 import os
 from pathlib import Path
 import sys
@@ -158,6 +159,235 @@ def _atomic_torch(path: Path, value: Any) -> None:
         handle.flush()
         os.fsync(handle.fileno())
     os.replace(tmp, path)
+
+
+_QTIP_UNIT_PAYLOAD_SCHEMA = "ds4-qtip-hyb-bounded36-unit-v1"
+_QTIP_SOLVE_RECEIPT_SCHEMA = "banana-smasher-qtip-solve-v1"
+_QTIP_UNIT_REQUIRED_TENSORS = ("trellis", "SU", "SV", "Wscale", "tlut")
+
+
+def _is_sha256_digest(value: Any) -> bool:
+    return (
+        isinstance(value, str)
+        and len(value) == 64
+        and all(character in "0123456789abcdef" for character in value)
+    )
+
+
+def _run_intended_basis(root: Path) -> str:
+    """Read the run's intended model basis so existing units bind to THIS run."""
+    shards_path = root.resolve() / "SHARDS.json"
+    try:
+        shards = json.loads(shards_path.read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        raise RuntimeError(
+            f"existing QTIP unit cannot bind run basis: {shards_path}"
+        ) from exc
+    intended = _basis_sha(shards.get("intended_basis"))
+    if not _is_sha256_digest(intended):
+        raise RuntimeError(
+            f"existing QTIP unit cannot bind run basis: {shards_path}"
+        )
+    assert isinstance(intended, str)
+    return intended
+
+
+def _validated_existing_unit(
+    config_path: Path,
+    root: Path,
+    layer: int,
+    *,
+    profile_mode: bool,
+) -> dict[str, Any] | None:
+    """Return the receipt of an immutable, hash-valid existing PASS unit.
+
+    Returns ``None`` when the unit has never been solved (nothing durable
+    exists), so the caller computes it fresh.  Any partial, divergent,
+    corrupt, or internally inconsistent existing state raises instead of
+    silently rerunning or overwriting sealed bytes.  Profiling never
+    resumes: a profile receipt is a measurement, not a solve artifact.
+    """
+    if profile_mode:
+        return None
+    try:
+        config = json.loads(config_path.read_text())
+        configured_layer = config["layer"]
+        expert = config["expert"]
+        projection = config["projection"]
+        geometry = config.get("geometry", {"L": 16, "K": 3, "V": 2})
+        sealed_geometry = (geometry["L"], geometry["K"], geometry["V"])
+    except (KeyError, TypeError, ValueError, OSError, json.JSONDecodeError) as exc:
+        raise RuntimeError(
+            f"existing QTIP unit has invalid config: {config_path}"
+        ) from exc
+    if (
+        isinstance(configured_layer, bool)
+        or not isinstance(configured_layer, int)
+        or configured_layer != layer
+        or isinstance(expert, bool)
+        or not isinstance(expert, int)
+        or not 0 <= expert < 256
+        or not isinstance(projection, str)
+        or projection not in {"fused13", "down"}
+        or any(
+            isinstance(value, bool) or not isinstance(value, int)
+            for value in sealed_geometry
+        )
+        or sealed_geometry not in {(16, 3, 2), (16, 2, 2)}
+    ):
+        raise RuntimeError(
+            f"existing QTIP unit has invalid config identity: {config_path}"
+        )
+    out = root / "solve" / f"L{layer:03d}" / f"E{expert:03d}_{projection}"
+    artifact_path = out / "QTIP_UNIT.pt"
+    receipt_path = out / "QTIP_SOLVE_RECEIPT.json"
+    artifact_exists = artifact_path.is_file()
+    receipt_exists = receipt_path.is_file()
+    if not artifact_exists and not receipt_exists:
+        return None
+    if artifact_exists != receipt_exists:
+        raise RuntimeError(
+            "existing QTIP unit is partial: "
+            f"payload={artifact_exists} receipt={receipt_exists} unit={out}"
+        )
+    try:
+        receipt = json.loads(receipt_path.read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        raise RuntimeError(
+            f"existing QTIP unit receipt is corrupt: {receipt_path}"
+        ) from exc
+    if not isinstance(receipt, dict):
+        raise RuntimeError(
+            f"existing QTIP unit receipt is corrupt: {receipt_path}"
+        )
+    expected_identity = {
+        "schema": _QTIP_SOLVE_RECEIPT_SCHEMA,
+        "status": "PASS",
+        "layer": layer,
+        "expert": expert,
+        "projection": projection,
+    }
+    drift = {
+        key: (receipt.get(key), expected)
+        for key, expected in expected_identity.items()
+        if receipt.get(key) != expected
+    }
+    if drift:
+        raise RuntimeError(
+            f"existing QTIP unit identity drift at {receipt_path}: {drift}"
+        )
+    if receipt.get("config_sha256") != _sha256(config_path):
+        raise RuntimeError(
+            f"existing QTIP unit config hash drift: {config_path}"
+        )
+    run_basis = _run_intended_basis(root)
+    configured_basis = None
+    identity = config.get("input_identity")
+    if isinstance(identity, dict):
+        configured_basis = _basis_sha(identity.get("model_index"))
+    if configured_basis is None:
+        configured_basis = _basis_sha(config.get("model_index"))
+    try:
+        model_index = (
+            Path(str(config["model_root"])).resolve()
+            / "model.safetensors.index.json"
+        )
+    except (KeyError, OSError) as exc:
+        raise RuntimeError(
+            f"existing QTIP unit lacks model root: {config_path}"
+        ) from exc
+    if not model_index.is_file() or _sha256(model_index) != run_basis:
+        raise RuntimeError(
+            f"existing QTIP unit live model basis drift: {model_index}"
+        )
+    gate = receipt.get("basis_gate")
+    if (
+        not isinstance(gate, dict)
+        or gate.get("schema") != "banana-smasher-qtip-basis-gate-v1"
+        or gate.get("status") != "PASS"
+        or gate.get("index_sha256") != run_basis
+        or gate.get("intended_basis") != run_basis
+        or configured_basis != run_basis
+    ):
+        raise RuntimeError(f"existing QTIP unit basis drift: {receipt_path}")
+    try:
+        recorded_artifact = Path(str(receipt["artifact"])).resolve()
+    except (KeyError, OSError) as exc:
+        raise RuntimeError(
+            f"existing QTIP unit lacks an artifact path: {receipt_path}"
+        ) from exc
+    if recorded_artifact != artifact_path.resolve():
+        raise RuntimeError(
+            "existing QTIP unit artifact path drift: "
+            f"{recorded_artifact} != {artifact_path.resolve()}"
+        )
+    if not _is_sha256_digest(receipt.get("artifact_sha256")):
+        raise RuntimeError(
+            f"existing QTIP unit lacks a payload hash: {receipt_path}"
+        )
+    if receipt["artifact_sha256"] != _sha256(artifact_path):
+        raise RuntimeError(
+            f"existing QTIP unit payload hash drift: {artifact_path}"
+        )
+    try:
+        artifact = torch.load(
+            artifact_path,
+            map_location="cpu",
+            mmap=True,
+            weights_only=True,
+        )
+    except (OSError, RuntimeError, TypeError, ValueError) as exc:
+        raise RuntimeError(
+            f"existing QTIP unit payload is unreadable: {artifact_path}"
+        ) from exc
+    expected_payload_geometry = {
+        "L": sealed_geometry[0],
+        "K": sealed_geometry[1],
+        "V": sealed_geometry[2],
+        "tlut_bits": 9,
+        "decode_mode": "quantlut_sym",
+        "td_x": 16,
+        "td_y": 16,
+    }
+    if (
+        not isinstance(artifact, dict)
+        or artifact.get("schema") != _QTIP_UNIT_PAYLOAD_SCHEMA
+        or artifact.get("geometry") != expected_payload_geometry
+        or any(
+            not isinstance(artifact.get(key), torch.Tensor)
+            for key in _QTIP_UNIT_REQUIRED_TENSORS
+        )
+    ):
+        raise RuntimeError(
+            f"existing QTIP unit payload schema is invalid: {artifact_path}"
+        )
+    if not _is_sha256_digest(receipt.get("assignment_sha256")):
+        raise RuntimeError(
+            f"existing QTIP unit lacks an assignment digest: {receipt_path}"
+        )
+    if receipt["assignment_sha256"] != _tensor_sha256(artifact["trellis"]):
+        raise RuntimeError(
+            f"existing QTIP unit assignment digest drift: {artifact_path}"
+        )
+    total_wall_seconds = receipt.get("total_wall_seconds")
+    if (
+        isinstance(total_wall_seconds, bool)
+        or not isinstance(total_wall_seconds, (int, float))
+        or not math.isfinite(total_wall_seconds)
+        or total_wall_seconds < 0
+    ):
+        raise RuntimeError(
+            f"existing QTIP unit timing is invalid: {receipt_path}"
+        )
+    return receipt
+
+
+def _process_receipt() -> dict[str, int]:
+    stat = Path("/proc/self/stat")
+    return {
+        "pid": os.getpid(),
+        "startticks": int(stat.read_text().split()[21]) if stat.is_file() else 0,
+    }
 
 
 def _load_module(name: str, path: Path):
@@ -808,8 +1038,29 @@ def main_many(
     epoch_started = time.time()
     ordered_assignments = []
     unit_receipts = []
-    for path in paths:
-        receipt = main(path, root, layer, profile_mode=profile_mode)
+    resumed_units = 0
+    computed_units = 0
+    # Idempotent resume preflight: every pre-existing unit is hash-validated
+    # BEFORE any new compute so a divergent/corrupt/partial unit fails loudly
+    # instead of being rerun or overwritten.  Valid PASS units are skipped
+    # byte-for-byte (no content, metadata, or mtime rewrite); execution then
+    # continues at the first missing unit.
+    existing_units = [
+        _validated_existing_unit(
+            path,
+            root,
+            layer,
+            profile_mode=profile_mode,
+        )
+        for path in paths
+    ]
+    for path, existing in zip(paths, existing_units, strict=True):
+        if existing is None:
+            receipt = main(path, root, layer, profile_mode=profile_mode)
+            computed_units += 1
+        else:
+            receipt = existing
+            resumed_units += 1
         if not str(receipt.get("status", "")).startswith("PASS"):
             raise RuntimeError(f"resident QTIP unit failed: {path}")
         ordered_assignments.append(
@@ -827,10 +1078,7 @@ def main_many(
     ).encode()
     unit_wall_key = "outer_wall_seconds" if profile_mode else "total_wall_seconds"
     unit_wall_seconds = [float(receipt[unit_wall_key]) for receipt in unit_receipts]
-    process = {
-        "pid": os.getpid(),
-        "startticks": int(Path("/proc/self/stat").read_text().split()[21]),
-    }
+    process = _process_receipt()
     batch = {
         "schema": "banana-smasher-qtip-resident-batch-v1",
         "status": "PASS",
@@ -852,6 +1100,8 @@ def main_many(
         "epoch_started": epoch_started,
         "epoch_ended": time.time(),
         "units": len(unit_receipts),
+        "resumed_units": resumed_units,
+        "computed_units": computed_units,
         "batch_wall_seconds": batch_wall_seconds,
         "mean_public_outer_seconds": batch_wall_seconds / len(unit_receipts),
         "mean_unit_receipt_outer_seconds": sum(unit_wall_seconds) / len(unit_wall_seconds),
