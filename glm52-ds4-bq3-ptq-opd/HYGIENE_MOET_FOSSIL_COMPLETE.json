@@ -102,7 +102,7 @@
       "vllm_version": null
     },
     "node-6": {
-      "historical_path_kind": "directory",
+      "historical_path_kind": "symlink",
       "historical_path_process_users_at_final_probe": 0,
       "launcher_after_sha256_aggregate": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "launcher_files_changed": 0,
@@ -113,8 +113,8 @@
       "launcher_rescan_remaining_targeted_refs": 0,
       "live_workload_class": "unrelated_evaluation",
       "live_workload_count_at_final_probe": 1,
-      "migration_state": "physical_rename_deferred_live_workload_forward_compatibility_symlink",
-      "neutral_path_kind": "symlink",
+      "migration_state": "physical_rename_complete_reverse_compatibility_symlink",
+      "neutral_path_kind": "directory",
       "repository_compatibility": "repository_not_present_on_host",
       "samefile": true,
       "vllm_import_both_names": true,
@@ -182,14 +182,13 @@
     "all_existing_venvs_import_vllm_0_24_0_through_both_names": true,
     "all_existing_venvs_samefile_through_both_names": true,
     "all_final_historical_path_process_user_counts_zero": true,
-    "defer_reason": "node-6 retained the physical historical directory because an unrelated evaluation remained live; its neutral forward symlink is verified and no process referenced the historical venv path.",
-    "live_boundary_deferrals": [
-      "node-6"
-    ],
+    "closure_note": "All present fleet environments now use the neutral physical directory with the historical name as a reverse compatibility symlink.",
+    "live_boundary_deferrals": [],
     "physical_rename_complete_hosts": [
       "node-1",
       "node-3",
       "node-4",
+      "node-6",
       "node-8",
       "node-work"
     ],
@@ -199,13 +198,18 @@
       "node-7"
     ]
   },
-  "generated_at_utc": "2026-08-01T01:27:07Z",
+  "generated_at_utc": "2026-08-01T01:42:04Z",
   "public_hygiene": {
+    "banana_smasher_license_status": "NO LICENSE ASSIGNED; all rights reserved pending operator decision",
+    "banana_smasher_pyproject_license_field": "absent",
     "binary_naming_hits": 0,
+    "existing_upstream_or_prior_artifact_spdx_headers_preserved": {
+      "Apache-2.0": 18
+    },
     "gap_ledger_canonical_open_count_unchanged": 2,
     "grep_results_after_completion_receipt": {
       "binary_hits": 0,
-      "content_hits": 71,
+      "content_hits": 73,
       "files_or_paths_with_hits": 7,
       "path_hits": 1,
       "rows": [
@@ -225,7 +229,7 @@
         },
         {
           "classification": "required_hygiene_metadata",
-          "content_hits": 1,
+          "content_hits": 3,
           "path": "NOTICE",
           "path_hit": false,
           "permitted": true
@@ -265,30 +269,30 @@
     "historical_receipt_note_added": true,
     "historical_receipts_preserved_verbatim": true,
     "notice_required_wording_present": true,
+    "repository_root_license_file": "absent",
     "runtime_and_code_unexpected_naming_hits": 0,
-    "spdx_headers": {
-      "Apache-2.0": 18
-    },
     "tokenizer_json_value_tree_unchanged": true
   },
   "public_repository": {
     "branch": "main",
     "commit_author": "banana_bae <banana_bae@users.noreply.github.com>",
     "hygiene_commit_sha": "a93a66178062a9e9f0cd2d4a5ba1712860d8284c",
-    "notice_sha256": "f8d933b5fd7fb6d3ce9eea7e6e39f4c5eb6dab2d079170349082e7e11e4b73ea",
+    "legal_notice_commit_sha": "70c29847dff6dccb5594f6baff5a2f55e037c706",
+    "notice_sha256": "a426bbb298b80e7527d8e6399f9664a1922909d039c3e93bdd2132bad95a09cb",
     "raw_github_verification": {
       "commit_pinned_dockerfile_sha256": "45bdee0e722b8c322eb335bbf7058d3f6399a7d4f024ede9d272c0c36cfde6b7",
-      "commit_pinned_notice_sha256": "f8d933b5fd7fb6d3ce9eea7e6e39f4c5eb6dab2d079170349082e7e11e4b73ea",
+      "commit_pinned_notice_sha256": "a426bbb298b80e7527d8e6399f9664a1922909d039c3e93bdd2132bad95a09cb",
       "commit_pinned_repro_sha256": "50b476f57444030c01cb5cbd04c29d33e3740ba672a84e752bb3ebcb3bc77b2c",
       "historical_overlay_patch_http_status": 404,
       "neutral_overlay_patch_http_status": 200,
-      "status": "PASS"
+      "status": "PASS",
+      "verified_commit_sha": "70c29847dff6dccb5594f6baff5a2f55e037c706"
     },
     "url": "https://github.com/my-other-github-account/spark-bench-reproducers"
   },
   "schema": "hygiene-fossil-complete-v1",
   "scope": "fleet venv compatibility, selected live launchers, public naming/provenance hygiene, internal historical annotation",
-  "status": "COMPLETE_WITH_ONE_LIVE_BOUNDARY_DEFERRAL",
+  "status": "COMPLETE",
   "verification": {
     "banana_smasher_pytest": "38 passed",
     "elf_headers_after_equal_length_normalization": "PASS 3/3 shared objects",

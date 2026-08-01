@@ -11,4 +11,4 @@ Canonical open count: **2**.
 
 ## Naming-hygiene closure
 
-The serving-stack naming hygiene is tracked separately from measurement gaps. Fleet compatibility/deferral state, launcher updates, public-repository commit, and NOTICE hash are sealed in `HYGIENE_MOET_FOSSIL_COMPLETE.json`; this does not change the canonical measurement-gap count above.
+The serving-stack naming hygiene is tracked separately from measurement gaps. Final fleet migration state, launcher updates, public-repository commit, and NOTICE hash are sealed in `HYGIENE_MOET_FOSSIL_COMPLETE.json`; this does not change the canonical measurement-gap count above.
