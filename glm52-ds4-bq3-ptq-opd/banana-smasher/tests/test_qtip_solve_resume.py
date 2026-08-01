@@ -332,3 +332,92 @@ def test_missing_unit_returns_none_and_profile_mode_never_resumes(
         qtip._validated_existing_unit(config_path, run_root, 9, profile_mode=True)
         is None
     )
+
+
+def test_resident_batch_skips_39_valid_units_and_starts_at_first_missing(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    config_root = tmp_path / "configs"
+    run_root = _write_run_root(tmp_path)
+    paths: list[Path] = []
+    sealed: list[tuple[Path, Path, bytes, bytes, int, int]] = []
+    for unit in range(40):
+        expert, projection_index = divmod(unit, 2)
+        projection = ("fused13", "down")[projection_index]
+        path = config_root / f"E{expert:03d}_{projection}.json"
+        _config(path, expert, projection)
+        paths.append(path)
+        if unit < 39:
+            artifact, receipt = _sealed_unit(run_root, path, expert, projection)
+            sealed.append(
+                (
+                    artifact,
+                    receipt,
+                    artifact.read_bytes(),
+                    receipt.read_bytes(),
+                    artifact.stat().st_mtime_ns,
+                    receipt.stat().st_mtime_ns,
+                )
+            )
+
+    calls: list[Path] = []
+
+    def fake_main(path: Path, root: Path, layer: int, *, profile_mode: bool):
+        calls.append(path)
+        value = json.loads(path.read_text())
+        return {
+            "status": "PASS",
+            "layer": layer,
+            "expert": value["expert"],
+            "projection": value["projection"],
+            "assignment_sha256": hashlib.sha256(path.name.encode()).hexdigest(),
+            "total_wall_seconds": 1.0,
+        }
+
+    monkeypatch.setattr(qtip, "main", fake_main)
+    batch = qtip.main_many(config_root, run_root, 9, profile_mode=False)
+
+    assert calls == [paths[39]]
+    assert batch["resumed_units"] == 39
+    assert batch["computed_units"] == 1
+    for artifact, receipt, artifact_bytes, receipt_bytes, artifact_mtime, receipt_mtime in sealed:
+        assert artifact.read_bytes() == artifact_bytes
+        assert receipt.read_bytes() == receipt_bytes
+        assert artifact.stat().st_mtime_ns == artifact_mtime
+        assert receipt.stat().st_mtime_ns == receipt_mtime
+
+
+def test_resident_batch_skips_a_complete_layer_without_rewriting_units(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    config_root = tmp_path / "configs"
+    run_root = _write_run_root(tmp_path)
+    sealed: list[tuple[Path, Path, bytes, bytes, int, int]] = []
+    for expert, projection in ((0, "fused13"), (0, "down")):
+        path = config_root / f"E{expert:03d}_{projection}.json"
+        _config(path, expert, projection)
+        artifact, receipt = _sealed_unit(run_root, path, expert, projection)
+        sealed.append(
+            (
+                artifact,
+                receipt,
+                artifact.read_bytes(),
+                receipt.read_bytes(),
+                artifact.stat().st_mtime_ns,
+                receipt.stat().st_mtime_ns,
+            )
+        )
+
+    def must_not_compute(*_args, **_kwargs):
+        raise AssertionError("a complete hash-valid layer must skip all unit compute")
+
+    monkeypatch.setattr(qtip, "main", must_not_compute)
+    batch = qtip.main_many(config_root, run_root, 9, profile_mode=False)
+
+    assert batch["resumed_units"] == 2
+    assert batch["computed_units"] == 0
+    for artifact, receipt, artifact_bytes, receipt_bytes, artifact_mtime, receipt_mtime in sealed:
+        assert artifact.read_bytes() == artifact_bytes
+        assert receipt.read_bytes() == receipt_bytes
+        assert artifact.stat().st_mtime_ns == artifact_mtime
+        assert receipt.stat().st_mtime_ns == receipt_mtime
