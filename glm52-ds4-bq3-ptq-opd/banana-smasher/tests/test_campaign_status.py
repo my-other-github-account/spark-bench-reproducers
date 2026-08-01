@@ -403,6 +403,28 @@ def test_wrong_declared_model_is_rejected(tmp_path: Path) -> None:
     assert "smash anchor --run-root" in str(raised.value)
 
 
+def test_cross_tier_anchor_schema_fails_closed(tmp_path: Path) -> None:
+    from banana_smasher.campaign_status import StatusContractError, _parse_direct_anchor
+
+    root = tmp_path / "run"
+    row = _direct_anchor(
+        root,
+        "d4_k2048",
+        layers=list(range(43)),
+        units_per_layer=4,
+        created_unix=NOW - 100,
+    )
+    anchor_path = root / "anchors" / "d4_k2048" / "ANCHOR.json"
+    anchor = json.loads(anchor_path.read_text())
+    anchor["schema"] = "banana-smasher-mxfp4-anchor-manifest-v1"
+    row.update(_write_json(anchor_path, anchor))
+
+    with pytest.raises(StatusContractError, match="unsupported schema") as raised:
+        _parse_direct_anchor(root, "d4_k2048", row)
+
+    assert "smash anchor --run-root" in str(raised.value)
+
+
 def test_missing_tier_anchor_aggregate_pointer_fails_closed(tmp_path: Path) -> None:
     from banana_smasher.campaign_status import StatusContractError, _parse_direct_anchor
 
@@ -521,6 +543,13 @@ def test_unbound_shard_source_index_fails_closed(tmp_path: Path) -> None:
 
     assert str(manifest_path) in str(raised.value)
     assert "smash merge" in str(raised.value)
+
+
+def test_unbounded_integer_count_fails_with_contract_error() -> None:
+    from banana_smasher.campaign_status import StatusContractError, _integer
+
+    with pytest.raises(StatusContractError, match="exceeds maximum"):
+        _integer(10**1_000, field="units", path=Path("MANIFEST.json"), producer="smash solve")
 
 
 def test_malformed_manifest_fails_loudly_without_directory_fallback(tmp_path: Path) -> None:

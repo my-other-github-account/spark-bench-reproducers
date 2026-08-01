@@ -16,6 +16,7 @@ REFERENCE_TIERS = {"mxfp4"}
 EXPECTED_LAYERS = tuple(range(43))
 EXPECTED_MODEL_ID = "deepseek-ai/DeepSeek-V4-Flash-0731"
 MAX_ACTIVE_STALE_SECONDS = 3_600.0
+MAX_MANIFEST_INTEGER = 2**63 - 1
 
 
 class StatusContractError(ValueError):
@@ -172,9 +173,22 @@ def _require_schema_status(
         )
 
 
-def _int(value: Any, *, field: str, path: Path, minimum: int = 0, producer: str) -> int:
+def _integer(
+    value: Any,
+    *,
+    field: str,
+    path: Path,
+    minimum: int = 0,
+    maximum: int = MAX_MANIFEST_INTEGER,
+    producer: str,
+) -> int:
     if not isinstance(value, int) or isinstance(value, bool) or value < minimum:
         raise _fail(f"malformed {field} in {path}: expected integer >= {minimum}", producer=producer)
+    if value > maximum:
+        raise _fail(
+            f"malformed {field} in {path}: integer exceeds maximum {maximum}",
+            producer=producer,
+        )
     return value
 
 
@@ -242,7 +256,7 @@ def _load_receipt(
     if raw_units is None and not units_required:
         units = 0
     else:
-        units = _int(raw_units, field="receipt units", path=path, minimum=1, producer=producer)
+        units = _integer(raw_units, field="receipt units", path=path, minimum=1, producer=producer)
     return units, (_receipt_created(value, path=path, producer=producer), str(path))
 
 
@@ -318,7 +332,7 @@ def _parse_direct_anchor(
             producer=producer,
         )
     parsed_layers = [
-        _int(layer, field="layer", path=manifest_path, producer=producer) for layer in layers
+        _integer(layer, field="layer", path=manifest_path, producer=producer) for layer in layers
     ]
     if len(set(parsed_layers)) != len(parsed_layers):
         raise _fail(f"malformed manifest {manifest_path}: duplicate layers", producer=producer)
@@ -326,7 +340,7 @@ def _parse_direct_anchor(
     for receipt_row in rows:
         if not isinstance(receipt_row, dict):
             raise _fail(f"malformed receipt row in {manifest_path}", producer=producer)
-        layer = _int(
+        layer = _integer(
             receipt_row.get("layer"),
             field="layer_receipts.layer",
             path=manifest_path,
@@ -352,7 +366,7 @@ def _parse_direct_anchor(
         )
         units[layer] = count
         newest.append(receipt)
-    selected = _int(
+    selected = _integer(
         manifest.get("selected_cells"),
         field="selected_cells",
         path=manifest_path,
@@ -456,7 +470,7 @@ def _parse_shards(
         for receipt_row in receipt_rows:
             if not isinstance(receipt_row, dict):
                 raise _fail(f"malformed receipt row in {manifest_path}", producer=producer)
-            layer = _int(
+            layer = _integer(
                 receipt_row.get("layer"),
                 field="layer receipt layer",
                 path=manifest_path,
@@ -469,7 +483,7 @@ def _parse_shards(
                 )
             row_by_layer[layer] = receipt_row
         parsed_layers = [
-            _int(layer, field="layer", path=manifest_path, producer=producer)
+            _integer(layer, field="layer", path=manifest_path, producer=producer)
             for layer in layers
         ]
         if len(set(parsed_layers)) != len(parsed_layers) or set(parsed_layers) != set(row_by_layer):
@@ -506,7 +520,7 @@ def _parse_shards(
             newest.append(receipt)
         for owner, label in ((manifest, "manifest"), (row, "index row")):
             raw_count = owner.get("cell_count")
-            if raw_count is not None and _int(
+            if raw_count is not None and _integer(
                 raw_count,
                 field=f"shard {label} cell_count",
                 path=manifest_path,
@@ -618,7 +632,7 @@ def _parse_active_runs(
         for progress_row in progress:
             if not isinstance(progress_row, dict):
                 raise _fail(f"malformed progress row in {manifest_path}", producer=producer)
-            layer = _int(
+            layer = _integer(
                 progress_row.get("layer"),
                 field="progress.layer",
                 path=manifest_path,
@@ -641,13 +655,13 @@ def _parse_active_runs(
                     f"malformed active run {manifest_path}: duplicate L{layer:03d} progress",
                     producer=producer,
                 )
-            completed = _int(
+            completed = _integer(
                 progress_row.get("completed_units"),
                 field="progress.completed_units",
                 path=manifest_path,
                 producer=producer,
             )
-            active = _int(
+            active = _integer(
                 progress_row.get("active_units"),
                 field="progress.active_units",
                 path=manifest_path,
@@ -699,7 +713,7 @@ def _parse_active_runs(
         current = manifest.get("current")
         if not isinstance(current, dict):
             raise _fail(f"malformed active run {manifest_path}: current object is required", producer=producer)
-        current_layer = _int(
+        current_layer = _integer(
             current.get("layer"), field="current.layer", path=manifest_path, producer=producer
         )
         if current_layer not in manifest_layers:
@@ -711,13 +725,13 @@ def _parse_active_runs(
             {
                 "host": str(manifest.get("host", row.get("host", "unknown"))),
                 "layer": f"L{current_layer:03d}",
-                "batch": _int(
+                "batch": _integer(
                     current.get("batch"),
                     field="current.batch",
                     path=manifest_path,
                     producer=producer,
                 ),
-                "unit": _int(
+                "unit": _integer(
                     current.get("unit"),
                     field="current.unit",
                     path=manifest_path,
