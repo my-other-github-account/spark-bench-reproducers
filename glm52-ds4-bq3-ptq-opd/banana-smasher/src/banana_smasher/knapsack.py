@@ -298,6 +298,239 @@ def _output_path(root: Path, value: Path | None, *, default: str, label: str) ->
     return resolved
 
 
+def _metadata_nodes(receipt: dict[str, Any]) -> list[dict[str, Any]]:
+    nodes = [receipt]
+    for field in ("verified_sources", "sealed_shards"):
+        value = receipt.get(field, [])
+        if not isinstance(value, list):
+            raise KnapsackValidationError(f"receipt {field} must be a list")
+        for index, node in enumerate(value):
+            if not isinstance(node, dict):
+                raise KnapsackValidationError(f"receipt {field}[{index}] must be an object")
+            nodes.append(node)
+    return nodes
+
+
+def _node_tiers(node: dict[str, Any]) -> list[str]:
+    values: object | None = None
+    intended = node.get("intended_tiers")
+    if isinstance(intended, list) and intended:
+        values = intended
+    else:
+        identity = node.get("identity_coverage")
+        if isinstance(identity, dict) and "tiers" in identity:
+            values = identity["tiers"]
+        elif "tiers" in node:
+            values = node["tiers"]
+        elif "tier" in node:
+            values = [node["tier"]]
+    if values is None:
+        return []
+    if not isinstance(values, list):
+        raise KnapsackValidationError("receipt tiers metadata must be a list")
+    result: list[str] = []
+    for index, tier in enumerate(values):
+        if not isinstance(tier, str) or not tier:
+            raise KnapsackValidationError(
+                f"receipt tiers metadata[{index}] must be a non-empty string"
+            )
+        result.append(tier)
+    return result
+
+
+def _receipt_basis(receipt: dict[str, Any], *, path: Path) -> str:
+    candidates: list[str] = []
+    for node in _metadata_nodes(receipt):
+        for field in ("basis_sha256", "intended_basis_sha256"):
+            if field in node:
+                candidates.append(_sha_field(node[field], label=f"{path} {field}"))
+        intended = node.get("intended_basis")
+        if isinstance(intended, str):
+            candidates.append(_sha_field(intended, label=f"{path} intended_basis"))
+        elif isinstance(intended, dict) and "model_index_sha256" in intended:
+            candidates.append(
+                _sha_field(
+                    intended["model_index_sha256"],
+                    label=f"{path} intended_basis.model_index_sha256",
+                )
+            )
+    if not candidates:
+        raise KnapsackValidationError(f"receipt does not declare a basis SHA-256: {path}")
+    if len(set(candidates)) != 1:
+        raise KnapsackValidationError(f"receipt basis mismatch within {path}: {sorted(set(candidates))}")
+    return candidates[0]
+
+
+def _merge_descriptor(
+    target: dict[str, Any], *, key: str, descriptor: object, label: str
+) -> None:
+    if not isinstance(descriptor, dict):
+        raise KnapsackValidationError(f"{label} descriptor for {key!r} must be an object")
+    existing = target.get(key)
+    if existing is not None and existing != descriptor:
+        raise KnapsackValidationError(f"conflicting {label} descriptors for {key!r}")
+    target[key] = descriptor
+
+
+def build_knapsack_input_index(
+    *,
+    receipts: list[str | Path],
+    output: str | Path,
+    selection_receipt: str | Path,
+    envelope_bytes: int,
+) -> dict[str, Any]:
+    """Build a deterministic open-tier knapsack index from sealed receipt metadata."""
+
+    if not receipts:
+        raise KnapsackValidationError("at least one sealed receipt is required")
+    if isinstance(envelope_bytes, bool) or not isinstance(envelope_bytes, int) or envelope_bytes < 0:
+        raise KnapsackValidationError("envelope_bytes must be a non-negative integer")
+    output_path = Path(output).expanduser().resolve()
+    selection_path = Path(selection_receipt).expanduser().resolve()
+    if output_path == selection_path:
+        raise KnapsackValidationError("output and selection receipt paths must differ")
+
+    source_rows: list[dict[str, Any]] = []
+    tier_names: set[str] = set()
+    bases: set[str] = set()
+    missing_inputs: list[dict[str, Any]] = []
+    anchor_manifests: dict[str, Any] = {}
+    damage_rows: dict[str, Any] | None = None
+    for raw_path in receipts:
+        path = Path(raw_path).expanduser().resolve()
+        value, payload = _read_object(path, label="sealed anchor receipt")
+        status = value.get("status")
+        if not isinstance(status, str) or not any(
+            marker in status.upper() for marker in ("PASS", "SEALED", "MERGEABLE")
+        ):
+            raise KnapsackValidationError(f"anchor receipt is not sealed/PASS at {path}: {status!r}")
+        basis = _receipt_basis(value, path=path)
+        bases.add(basis)
+        declared_envelope = value.get("envelope_bytes")
+        if declared_envelope is not None and declared_envelope != envelope_bytes:
+            raise KnapsackValidationError(
+                f"receipt envelope_bytes mismatch at {path}: "
+                f"expected {envelope_bytes}, got {declared_envelope}"
+            )
+        for node in _metadata_nodes(value):
+            tier_names.update(_node_tiers(node))
+            descriptors = node.get("anchor_manifests")
+            if descriptors is not None:
+                if not isinstance(descriptors, dict):
+                    raise KnapsackValidationError("receipt anchor_manifests must be an object")
+                for tier, descriptor in descriptors.items():
+                    if not isinstance(tier, str) or not tier:
+                        raise KnapsackValidationError("anchor manifest tier keys must be non-empty strings")
+                    tier_names.add(tier)
+                    _merge_descriptor(
+                        anchor_manifests,
+                        key=tier,
+                        descriptor=descriptor,
+                        label="anchor manifest",
+                    )
+            descriptor = node.get("anchor_manifest")
+            node_tiers = _node_tiers(node)
+            if descriptor is not None:
+                if len(node_tiers) != 1:
+                    raise KnapsackValidationError(
+                        "anchor_manifest metadata requires exactly one declared tier"
+                    )
+                _merge_descriptor(
+                    anchor_manifests,
+                    key=node_tiers[0],
+                    descriptor=descriptor,
+                    label="anchor manifest",
+                )
+            current_damage = node.get("damage_rows")
+            if current_damage is not None:
+                if not isinstance(current_damage, dict):
+                    raise KnapsackValidationError("receipt damage_rows must be an object")
+                if damage_rows is not None and damage_rows != current_damage:
+                    raise KnapsackValidationError("conflicting damage_rows descriptors")
+                damage_rows = current_damage
+        for field in ("missing_set", "missing_inputs"):
+            rows = value.get(field, [])
+            if not isinstance(rows, list):
+                raise KnapsackValidationError(f"receipt {field} must be a list")
+            for index, row in enumerate(rows):
+                if not isinstance(row, dict):
+                    raise KnapsackValidationError(f"receipt {field}[{index}] must be an object")
+                missing_inputs.append(row)
+        source_rows.append(
+            {
+                "path": str(path),
+                "sha256": _sha256(payload),
+                "bytes": len(payload),
+                "schema": value.get("schema"),
+                "status": status,
+            }
+        )
+
+    if len(bases) != 1:
+        raise KnapsackValidationError(f"receipt basis mismatch: {sorted(bases)}")
+    if not tier_names:
+        raise KnapsackValidationError("sealed receipt metadata declares no tiers")
+    selected_tiers = sorted(tier_names)
+    source_rows.sort(key=lambda row: (row["sha256"], row["path"]))
+    missing_inputs.sort(key=lambda row: _canonical_json(row))
+    status = "PRELIM_NOT_DECISION_GRADE" if missing_inputs else "PASS"
+    basis = next(iter(bases))
+    index_value: dict[str, Any] = {
+        "schema": "banana-smasher-knapsack-input-index-v1",
+        "status": status,
+        "intended_basis_sha256": basis,
+        "intended_tiers": selected_tiers,
+        "envelope_bytes": envelope_bytes,
+        "source_receipts": source_rows,
+    }
+    if anchor_manifests:
+        index_value["anchor_manifests"] = {
+            tier: anchor_manifests[tier] for tier in sorted(anchor_manifests)
+        }
+    if damage_rows is not None:
+        index_value["damage_rows"] = damage_rows
+    if missing_inputs:
+        index_value["missing_inputs"] = missing_inputs
+
+    index_payload = _canonical_json(index_value)
+    selection_value = {
+        "schema": "banana-smasher-knapsack-index-receipt-v1",
+        "status": status,
+        "basis_sha256": basis,
+        "selected_tiers": selected_tiers,
+        "byte_accounting": {"envelope_bytes": envelope_bytes},
+        "missing_inputs": missing_inputs,
+        "source_receipts": source_rows,
+        "input_index": {
+            "path": str(output_path),
+            "sha256": _sha256(index_payload),
+            "bytes": len(index_payload),
+        },
+    }
+    _preflight_write_once(output_path, index_value)
+    _preflight_write_once(selection_path, selection_value)
+    index_sha, index_bytes = _write_once(output_path, index_value)
+    selection_sha, selection_bytes = _write_once(selection_path, selection_value)
+    return {
+        "status": status,
+        "command": "knapsack-index",
+        "basis_sha256": basis,
+        "selected_tiers": selected_tiers,
+        "byte_accounting": {"envelope_bytes": envelope_bytes},
+        "missing_inputs": missing_inputs,
+        "input_index": {
+            "path": str(output_path),
+            "sha256": index_sha,
+            "bytes": index_bytes,
+        },
+        "receipt": {
+            "path": str(selection_path),
+            "sha256": selection_sha,
+            "bytes": selection_bytes,
+        },
+    }
+
+
 def run_knapsack(
     *,
     run_root: str | Path,

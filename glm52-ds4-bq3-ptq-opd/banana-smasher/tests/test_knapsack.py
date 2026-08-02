@@ -269,3 +269,73 @@ def test_knapsack_receipt_uses_preflighted_source_byte_counts(
         expected_anchor_bytes
     )
     assert receipt["damage_rows"]["bytes"] == expected_damage_bytes
+
+
+def test_knapsack_index_derives_tiers_from_sealed_receipt_metadata(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    source = tmp_path / "sealed" / "PRELIM_INPUT_INDEX.json"
+    _write_json(
+        source,
+        {
+            "schema": "example-anchor-receipt-index-v1",
+            "status": "PRELIM_PASS_WITH_MISSING_INPUTS",
+            "basis_sha256": BASIS,
+            "intended_tiers": [],
+            "envelope_bytes": 24,
+            "verified_sources": [
+                {
+                    "status": "PASS",
+                    "state": "measured",
+                    "tier": "future_1.25",
+                    "receipt_sha256": "1" * 64,
+                },
+                {
+                    "status": "PASS_MERGEABLE",
+                    "state": "measured",
+                    "tier": "combined-anchor",
+                    "identity_coverage": {"tiers": ["compact", "balanced"]},
+                    "receipt_sha256": "2" * 64,
+                },
+            ],
+            "missing_set": [
+                {
+                    "tier": "future_1.25",
+                    "layers": [8, 8],
+                    "state": "MISSING/IN_FLIGHT",
+                }
+            ],
+        },
+    )
+    output = tmp_path / "run" / "MANIFEST.json"
+    selection = tmp_path / "run" / "knapsack" / "INDEX_RECEIPT.json"
+    argv = [
+        "knapsack-index",
+        "--receipt",
+        str(source),
+        "--output",
+        str(output),
+        "--selection-receipt",
+        str(selection),
+        "--envelope-bytes",
+        "24",
+    ]
+
+    assert main(argv) == 0
+    first_index = output.read_bytes()
+    first_selection = selection.read_bytes()
+    assert main(argv) == 0
+    capsys.readouterr()
+
+    assert output.read_bytes() == first_index
+    assert selection.read_bytes() == first_selection
+    index = json.loads(first_index)
+    receipt = json.loads(first_selection)
+    assert index["status"] == "PRELIM_NOT_DECISION_GRADE"
+    assert index["intended_tiers"] == ["balanced", "compact", "future_1.25"]
+    assert index["missing_inputs"] == [
+        {"layers": [8, 8], "state": "MISSING/IN_FLIGHT", "tier": "future_1.25"}
+    ]
+    assert receipt["selected_tiers"] == index["intended_tiers"]
+    assert receipt["byte_accounting"] == {"envelope_bytes": 24}
+    assert receipt["input_index"]["sha256"] == hashlib.sha256(first_index).hexdigest()

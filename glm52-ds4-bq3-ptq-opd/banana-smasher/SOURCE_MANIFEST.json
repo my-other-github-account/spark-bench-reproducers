@@ -309,8 +309,8 @@
       "sha256": "702b2d0e57d0c58e612a6179676e8b358c87a5dfb5eaab591f4807587dbb8a5c"
     },
     "src/banana_smasher/cli.py": {
-      "bytes": 28568,
-      "sha256": "e079fb47c049d8af1f5252dcf23e9ab88d5ae21924812dc6e63336dd7be43eda"
+      "bytes": 29517,
+      "sha256": "326d767fe998691fa2d8599377ff80098e62c1c75df6bb6f4b13ed73d52065a5"
     },
     "src/banana_smasher/contract.py": {
       "bytes": 41897,
@@ -337,8 +337,8 @@
       "sha256": "16eea326db3a40fffa579e7b75c5ac1a7719d4dfed912ba04c98932249115f50"
     },
     "src/banana_smasher/knapsack.py": {
-      "bytes": 24304,
-      "sha256": "74e38e5070d8347588ecbe39fa609ef58a4c4bdaaf3f3e40f85476ac6349619d"
+      "bytes": 34197,
+      "sha256": "70d03f892da57b9e6a38e4dda780ffbdedb797829b167eba9b81b7e0e405f8cb"
     },
     "src/banana_smasher/loader.py": {
       "bytes": 7474,
@@ -437,8 +437,8 @@
       "sha256": "3a258e5a7b8974fd689da18fb0bce114be134ed79934fedc5d45e9eb89aa9fe1"
     },
     "tests/test_knapsack.py": {
-      "bytes": 9955,
-      "sha256": "23f7c653fe9481ff07022344b3aaaf363d34ec3e1552c893f375c994bc99163b"
+      "bytes": 12352,
+      "sha256": "fd55014bf98af2050c46a7c6da016c094aff54f371c624967e2c590b79f0cf03"
     },
     "tests/test_loader.py": {
       "bytes": 2940,

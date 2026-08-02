@@ -242,6 +242,21 @@ def _parser() -> argparse.ArgumentParser:
         help="provenance receipt local to run root (default: knapsack/RECEIPT.json)",
     )
 
+    knapsack_index = subparsers.add_parser(
+        "knapsack-index",
+        help="build a deterministic open-tier knapsack index from sealed receipt metadata",
+    )
+    knapsack_index.add_argument(
+        "--receipt",
+        type=Path,
+        action="append",
+        required=True,
+        help="sealed anchor receipt or receipt index (repeatable)",
+    )
+    knapsack_index.add_argument("--output", type=Path, required=True)
+    knapsack_index.add_argument("--selection-receipt", type=Path, required=True)
+    knapsack_index.add_argument("--envelope-bytes", type=int, required=True)
+
     status = subparsers.add_parser(
         "status", help="inspect manifest stages and detached process identities"
     )
@@ -640,6 +655,15 @@ def main(argv: Sequence[str] | None = None) -> int:
                 )
             else:
                 result = run_anchor(run_root=args.run_root)
+        elif args.command == "knapsack-index":
+            from .knapsack import build_knapsack_input_index
+
+            result = build_knapsack_input_index(
+                receipts=args.receipt,
+                output=args.output,
+                selection_receipt=args.selection_receipt,
+                envelope_bytes=args.envelope_bytes,
+            )
         elif args.command == "knapsack":
             from .knapsack import run_knapsack
 
