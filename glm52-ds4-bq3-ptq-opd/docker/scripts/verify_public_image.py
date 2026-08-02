@@ -19,7 +19,7 @@ def main() -> None:
         "banana-smasher": "1.0.0",
         "banana-smasher-plugin": "0.2.0",
         "deep-gemm": "2.5.0",
-        "flashinfer-python": "0.6.12",
+        "flashinfer-python": "0.6.17",
         "tilelang": "0.1.9",
         "vllm": "0.24.0",
     }

@@ -20,22 +20,42 @@ RUN python3 -m build --wheel --outdir /wheels /src/banana-smasher \
 
 FROM ${VLLM_IMAGE} AS flashinfer-builder
 USER root
-ARG FLASHINFER_WHEEL_SHA256=0c7a01e586b4796810d974cbf13a9c0eb2ade6a94d12e3220cf7782a1c09b8d3
+ARG FLASHINFER_SOURCE_REPO=https://github.com/flashinfer-ai/flashinfer.git
+ARG FLASHINFER_SOURCE_COMMIT=d020372b068f335e2fe427372e134977a2235c49
+ARG FLASHINFER_DSV4_DECODE_COMMIT=b34f49255f1640542da91665f58558a3e5e308f1
+ARG FLASHINFER_DSV4_DECODE_TEST_COMMIT=76fd3daf7064b73924ebb3bcb1e93a8a26fc6da9
+ARG FLASHINFER_DSV4_PREFILL_COMMIT=0c5fda59bb6fa71eae875693a024bb0fb37ba7d6
 RUN apt-get update && apt-get install -y --no-install-recommends git \
     && rm -rf /var/lib/apt/lists/* \
-    && python3 -m pip install --no-cache-dir wheel==0.46.3 \
-    && python3 -m pip download --no-deps --only-binary=:all: \
-      --dest /src flashinfer-python==0.6.12 \
-    && echo "${FLASHINFER_WHEEL_SHA256}  /src/flashinfer_python-0.6.12-py3-none-any.whl" \
-      | sha256sum --check --strict \
-    && python3 -m wheel unpack --dest /src \
-      /src/flashinfer_python-0.6.12-py3-none-any.whl
+    && python3 -m pip install --no-cache-dir \
+      apache-tvm-ffi==0.1.9 build==1.3.0 packaging==26.2 \
+      setuptools==80.10.2 wheel==0.46.3 \
+    && git init /tmp/flashinfer \
+    && git -C /tmp/flashinfer remote add origin "${FLASHINFER_SOURCE_REPO}" \
+    && git -C /tmp/flashinfer fetch --depth=1 origin "${FLASHINFER_SOURCE_COMMIT}" \
+    && git -C /tmp/flashinfer checkout --detach FETCH_HEAD \
+    && test "$(git -C /tmp/flashinfer rev-parse HEAD)" = "${FLASHINFER_SOURCE_COMMIT}" \
+    && git -C /tmp/flashinfer fetch --depth=20 origin \
+      "${FLASHINFER_DSV4_DECODE_TEST_COMMIT}" \
+      "${FLASHINFER_DSV4_PREFILL_COMMIT}" \
+    && for fix in \
+      "${FLASHINFER_DSV4_DECODE_COMMIT}" \
+      "${FLASHINFER_DSV4_DECODE_TEST_COMMIT}" \
+      "${FLASHINFER_DSV4_PREFILL_COMMIT}"; do \
+        git -C /tmp/flashinfer diff "${fix}^" "${fix}" --binary > "/tmp/${fix}.patch"; \
+        git -C /tmp/flashinfer apply --check "/tmp/${fix}.patch"; \
+        git -C /tmp/flashinfer apply "/tmp/${fix}.patch"; \
+      done \
+    && git -C /tmp/flashinfer submodule update --init --recursive --depth=1
 COPY docker/patches/flashinfer-real-libcudart.patch /tmp/
-RUN cd /src/flashinfer_python-0.6.12 \
+RUN cd /tmp/flashinfer \
     && git apply --check --unidiff-zero /tmp/flashinfer-real-libcudart.patch \
     && git apply --unidiff-zero /tmp/flashinfer-real-libcudart.patch \
     && mkdir -p /wheel \
-    && python3 -m wheel pack --dest-dir /wheel .
+    && BUILD_NVEP=0 BUILD_NIXL_EP=0 BUILD_NCCL_EP=0 \
+      python3 -m build --wheel --no-isolation --outdir /wheel . \
+    && test -f /wheel/flashinfer_python-0.6.17-py3-none-any.whl \
+    && python3 -m zipfile -t /wheel/flashinfer_python-0.6.17-py3-none-any.whl
 
 FROM ${VLLM_IMAGE} AS deepgemm-builder
 USER root
@@ -67,10 +87,10 @@ USER root
 ARG VLLM_UPSTREAM_REV
 COPY --from=package-builder /wheels/banana_smasher-1.0.0-py3-none-any.whl /tmp/wheels/
 COPY --from=package-builder /wheels/banana_smasher_plugin-0.2.0-py3-none-any.whl /tmp/wheels/
-COPY --from=flashinfer-builder /wheel/flashinfer_python-0.6.12-py3-none-any.whl /tmp/wheels/
+COPY --from=flashinfer-builder /wheel/flashinfer_python-0.6.17-py3-none-any.whl /tmp/wheels/
 COPY --from=deepgemm-builder /wheels/deep_gemm-2.5.0-cp312-cp312-linux_aarch64.whl /tmp/wheels/
 RUN python3 -m pip install --no-cache-dir --no-deps --force-reinstall \
-      /tmp/wheels/flashinfer_python-0.6.12-py3-none-any.whl \
+      /tmp/wheels/flashinfer_python-0.6.17-py3-none-any.whl \
       /tmp/wheels/deep_gemm-2.5.0-cp312-cp312-linux_aarch64.whl \
       /tmp/wheels/banana_smasher-1.0.0-py3-none-any.whl \
       /tmp/wheels/banana_smasher_plugin-0.2.0-py3-none-any.whl \
@@ -95,7 +115,7 @@ RUN set -eux; \
     python3 /opt/banana-smasher/bin/verify_public_image.py; \
     python3 /opt/banana-smasher/bin/write_package_receipt.py \
       /opt/banana-smasher/provenance/package-sbom.json; \
-    python3 -c 'import json; p="/opt/banana-smasher/provenance/source.json"; open(p,"w").write(json.dumps({"base_image":"vllm/vllm-openai:v0.24.0@sha256:32445b36556244d8a721cd21a2b47a7915bc6408432d05aaeab205bb223ced8b","deep_gemm_source_commit":"7a7a41a1bac7dacabe74057e7600e59f98f85bce","deep_gemm_source_repo":"https://github.com/jasl/DeepGEMM.git","vllm_upstream_revision":"ee0da84a","packages_built_from_checkout":["banana-smasher","banana-smasher-plugin","deep-gemm"]},indent=2,sort_keys=True)+"\\n")'
+    python3 -c 'import json; p="/opt/banana-smasher/provenance/source.json"; open(p,"w").write(json.dumps({"base_image":"vllm/vllm-openai:v0.24.0@sha256:32445b36556244d8a721cd21a2b47a7915bc6408432d05aaeab205bb223ced8b","deep_gemm_source_commit":"7a7a41a1bac7dacabe74057e7600e59f98f85bce","deep_gemm_source_repo":"https://github.com/jasl/DeepGEMM.git","flashinfer_source_commit":"d020372b068f335e2fe427372e134977a2235c49","flashinfer_source_repo":"https://github.com/flashinfer-ai/flashinfer.git","flashinfer_sm120_commits":["b34f49255f1640542da91665f58558a3e5e308f1","76fd3daf7064b73924ebb3bcb1e93a8a26fc6da9","0c5fda59bb6fa71eae875693a024bb0fb37ba7d6"],"vllm_upstream_revision":"ee0da84a","packages_built_from_checkout":["banana-smasher","banana-smasher-plugin","deep-gemm","flashinfer-python"]},indent=2,sort_keys=True)+"\\n")'
 
 ENV PYTHONNOUSERSITE=1 \
     PYTHONUNBUFFERED=1 \

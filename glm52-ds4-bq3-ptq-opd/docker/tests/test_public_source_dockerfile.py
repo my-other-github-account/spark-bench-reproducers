@@ -20,6 +20,13 @@ def test_public_source_dockerfile_contract() -> None:
     assert "/src/banana-smasher/tests" in text
     assert "/src/banana-smasher-plugin/tests" in text
     assert "mkdir -p /wheel" in text
+    assert "https://github.com/flashinfer-ai/flashinfer.git" in text
+    assert "d020372b068f335e2fe427372e134977a2235c49" in text
+    assert "b34f49255f1640542da91665f58558a3e5e308f1" in text
+    assert "76fd3daf7064b73924ebb3bcb1e93a8a26fc6da9" in text
+    assert "0c5fda59bb6fa71eae875693a024bb0fb37ba7d6" in text
+    assert "BUILD_NVEP=0" in text
+    assert "flashinfer-python==0.6.12" not in text
     assert "https://github.com/jasl/DeepGEMM.git" in text
     assert "7a7a41a1bac7dacabe74057e7600e59f98f85bce" in text
     assert "DG_FORCE_BUILD=1" in text
