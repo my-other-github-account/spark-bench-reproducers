@@ -110,8 +110,7 @@ def _parser() -> argparse.ArgumentParser:
     solve.add_argument("--tiers", default="d4_k2048,d4_k4096")
     solve.add_argument(
         "--tier",
-        choices=("qtip3", "qtip2"),
-        help="named exact QTIP tier for the public all-cells path",
+        help="manifest-declared exact QTIP tier for the public all-cells path",
     )
     solve.add_argument(
         "--all-cells",
@@ -151,6 +150,15 @@ def _parser() -> argparse.ArgumentParser:
         help="profile the exact QTIP solve through this public solve verb",
     )
     solve.set_defaults(backend="exact-gemm")
+
+    qtip_configs = subparsers.add_parser(
+        "qtip-configs",
+        help="materialize hash-bound local QTIP configs from an open-tier run manifest",
+    )
+    qtip_configs.add_argument("--manifest", type=Path, required=True)
+    qtip_configs.add_argument("--tier", required=True)
+    qtip_configs.add_argument("--layers", required=True)
+    qtip_configs.add_argument("--output", type=Path, required=True)
 
     hessian = subparsers.add_parser(
         "hessian", help="prefetch and seal task-local Hessian/capture banks"
@@ -361,11 +369,21 @@ def main(argv: Sequence[str] | None = None) -> int:
                 ),
                 "command": "bootstrap",
             }
+        elif args.command == "qtip-configs":
+            from .qtip_materialize import materialize_qtip_configs
+            from .workflow import parse_layers
+
+            result = materialize_qtip_configs(
+                args.manifest,
+                tier=args.tier,
+                layers=parse_layers(args.layers),
+                output_root=args.output,
+            )
         elif args.command == "solve":
             if args.tier is not None or args.all_cells:
-                if args.tier not in {"qtip3", "qtip2"} or not args.all_cells:
+                if not args.tier or not args.all_cells:
                     raise ValueError(
-                        "--tier {qtip3,qtip2} and --all-cells must be used together"
+                        "a manifest-declared --tier and --all-cells must be used together"
                     )
                 if args.root is None:
                     raise ValueError("QTIP all-cells solve requires --root")
@@ -381,6 +399,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                     raise ValueError("QTIP all-cells solve refuses profiling overhead")
                 from .workflow import launch_detached, parse_layers
 
+                selected_layers = parse_layers(args.layers)
+
                 if args.detach:
                     detached_tokens = [token for token in tokens if token != "--detach"]
                     result = launch_detached(
@@ -389,8 +409,14 @@ def main(argv: Sequence[str] | None = None) -> int:
                         argv=detached_tokens,
                     )
                 else:
+                    from .qtip_materialize import ensure_qtip_configs
                     from .solver_qtip_profile import main_many as qtip_profile_main_many
 
+                    materialization = ensure_qtip_configs(
+                        args.source_root,
+                        tier=args.tier,
+                        layers=selected_layers,
+                    )
                     layer_receipts = [
                         qtip_profile_main_many(
                             args.source_root,
@@ -400,7 +426,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                             all_cells=True,
                             profile_mode=False,
                         )
-                        for layer in parse_layers(args.layers)
+                        for layer in selected_layers
                     ]
                     result = {
                         "schema": "banana-smasher-qtip-all-cells-solve-v1",
@@ -409,6 +435,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                         "tier": args.tier,
                         "layers": [row["layer"] for row in layer_receipts],
                         "layer_receipts": layer_receipts,
+                        "config_materialization": materialization,
                     }
             elif args.qtip_profile_config is not None:
                 if args.root is None or args.layer is None:

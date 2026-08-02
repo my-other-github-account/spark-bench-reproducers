@@ -5,24 +5,25 @@ import json
 import math
 import os
 from pathlib import Path
+import re
 import subprocess
 import sys
 import time
 from typing import Any, Sequence
 import uuid
 
-FRESH_SOLVER_TIERS = (
-    "qtip3",
-    "qtip2",
-    "d4_k1024",
-    "d4_k2048",
-    "d4_k4096",
-    "d4_k8192",
-    "d8_k256",
-    "d8_k1024",
-    "d8_k4096",
-    "vqa",
-)
+_TIER_NAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]*\Z")
+
+
+def validate_open_tiers(value: object) -> list[str]:
+    """Validate manifest tier identifiers without a package-global tier menu."""
+    if not isinstance(value, list) or not value or any(
+        not isinstance(tier, str) or _TIER_NAME.fullmatch(tier) is None for tier in value
+    ):
+        raise ValueError(f"invalid open tier population: {value!r}")
+    if len(set(value)) != len(value):
+        raise ValueError(f"invalid open tier population: {value!r}")
+    return value
 
 
 def sha256_file(path: Path) -> str:
@@ -508,9 +509,7 @@ def run_fresh_solve(
         raise FileNotFoundError(source_root)
     if windows not in (32, 64):
         raise ValueError("fresh-model solve windows must be exactly 32 or 64")
-    unknown = [tier for tier in tiers if tier not in FRESH_SOLVER_TIERS]
-    if unknown:
-        raise ValueError(f"unknown solver tiers: {unknown}")
+    tiers = validate_open_tiers(tiers)
     if not layers:
         raise ValueError("at least one layer is required")
     if prices_root is not None:
@@ -719,14 +718,11 @@ def run_anchor(*, run_root: Path) -> dict[str, Any]:
     windows = solve.get("windows")
     if windows not in (32, 64):
         raise ValueError(f"invalid solve windows: {windows}")
-    tiers = solve.get("tiers")
+    tiers = validate_open_tiers(solve.get("tiers"))
     tier_rows = solve.get("tier_manifests")
     if (
-        not isinstance(tiers, list)
-        or not isinstance(tier_rows, list)
+        not isinstance(tier_rows, list)
         or len(tiers) != len(tier_rows)
-        or len(set(tiers)) != len(tiers)
-        or any(tier not in FRESH_SOLVER_TIERS for tier in tiers)
     ):
         raise ValueError("invalid solve tier population")
 
@@ -758,7 +754,6 @@ def run_anchor(*, run_root: Path) -> dict[str, Any]:
         tier = str(tier_manifest.get("tier", ""))
         if (
             tier != expected_tier
-            or tier not in FRESH_SOLVER_TIERS
             or tier_manifest.get("schema")
             != "banana-smasher-vq-tier-solve-manifest-v1"
             or tier_manifest.get("status") != "PASS"

@@ -38,6 +38,24 @@ resident exact trellis kernel is the only runtime QTIP implementation: missing
 Torch/Triton/CUDA, malformed or incomplete configs, and unsupported geometry
 fail the verb loudly. There is no scalar/reference fallback after dispatch.
 
+A complete open-tier run uses `smash solve --source-root /local/configs --root
+/local/run --tier TIER --all-cells --layers 29-42`. If the selected local
+config population is absent, the solve path consumes
+`/local/configs/QTIP_RUN_MANIFEST.json` and invokes the same public producer as
+`smash qtip-configs --manifest MANIFEST --tier TIER --layers 29-42 --output
+/local/configs`. The `banana-smasher-qtip-run-manifest-v1` document declares
+its tier population as a list rather than relying on a package-global menu.
+Each tier row declares its name, L/K/V geometry, output root, shared bindings,
+and an open list of layer rows. Every model index, source config, runner,
+reference, table source, capture manifest, Hessian manifest, and runtime
+manifest is a `{path, bytes, sha256}` artifact (directory bindings add a
+`root`). The model-index digest must equal `basis_sha256`; all artifacts are
+validated before any output is written. Materialized config bytes and their
+`QTIP_CONFIG_MANIFEST.json` are idempotent: identical members are preserved,
+and drift fails closed rather than being rewritten. Without either a complete
+local population or this manifest, the config gate names `smash qtip-configs`
+in its error.
+
 ## Accelerated update
 
 Install the CUDA update dependencies with `pip install -e '.[update]'`, then run

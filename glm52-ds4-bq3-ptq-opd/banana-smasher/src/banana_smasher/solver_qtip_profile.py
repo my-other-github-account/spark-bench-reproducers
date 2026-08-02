@@ -945,12 +945,6 @@ def main(
     return receipt
 
 
-_TIER_GEOMETRY = {
-    "qtip3": (16, 3, 2),
-    "qtip2": (16, 2, 2),
-}
-
-
 def _ordered_qtip_configs(
     config_root: Path,
     layer: int,
@@ -958,34 +952,42 @@ def _ordered_qtip_configs(
     tier: str | None = None,
     all_cells: bool = False,
 ) -> list[Path]:
-    if tier is not None and tier not in _TIER_GEOMETRY:
-        raise ValueError(f"unsupported QTIP tier: {tier}")
+    """Order one manifest-declared tier without a package-global tier menu."""
     projection_order = {"fused13": 0, "down": 1}
     rows: list[tuple[int, int, Path]] = []
     identities: set[tuple[int, str]] = set()
+    selected_geometry: tuple[int, int, int] | None = None
     for path in config_root.rglob("E*_*.json"):
         config = json.loads(path.read_text())
         if int(config["layer"]) != layer:
             continue
-        geometry = config.get("geometry", {"L": 16, "K": 3, "V": 2})
-        sealed = (int(geometry["L"]), int(geometry["K"]), int(geometry["V"]))
         configured_tier = config.get("tier")
         if configured_tier is not None:
-            configured_tier = str(configured_tier)
-            if configured_tier not in _TIER_GEOMETRY:
-                raise ValueError(f"unsupported QTIP tier in {path}: {configured_tier}")
-            if _TIER_GEOMETRY[configured_tier] != sealed:
-                raise ValueError(
-                    f"QTIP tier/geometry mismatch in {path}: {configured_tier} {sealed}"
-                )
-        derived_tier = next(
-            (name for name, expected in _TIER_GEOMETRY.items() if expected == sealed),
-            None,
-        )
-        if derived_tier is None:
-            raise ValueError(f"unsupported QTIP geometry in {path}: {sealed}")
-        if tier is not None and derived_tier != tier:
+            if not isinstance(configured_tier, str) or not configured_tier:
+                raise ValueError(f"invalid QTIP tier in {path}: {configured_tier!r}")
+        if tier is not None and configured_tier is not None and configured_tier != tier:
             continue
+        geometry = config.get("geometry")
+        if not isinstance(geometry, dict) or set(geometry) != {"L", "K", "V"}:
+            raise ValueError(f"QTIP config lacks exact L/K/V geometry: {path}")
+        sealed_values = tuple(geometry[key] for key in ("L", "K", "V"))
+        if any(
+            isinstance(value, bool) or not isinstance(value, int) or value < 1
+            for value in sealed_values
+        ):
+            raise ValueError(f"invalid QTIP geometry in {path}: {sealed_values}")
+        sealed = (
+            int(sealed_values[0]),
+            int(sealed_values[1]),
+            int(sealed_values[2]),
+        )
+        if selected_geometry is None:
+            selected_geometry = sealed
+        elif sealed != selected_geometry:
+            raise ValueError(
+                f"manifest tier {tier or configured_tier or 'QTIP'} has mixed geometries: "
+                f"{selected_geometry} != {sealed} in {path}"
+            )
         expert = int(config["expert"])
         projection = str(config["projection"])
         if not 0 <= expert < 256:
@@ -1001,7 +1003,10 @@ def _ordered_qtip_configs(
         rows.append((expert, projection_order[projection], path))
     if not rows:
         label = tier or "QTIP"
-        raise ValueError(f"no L{layer:03d} {label} configs under {config_root}")
+        raise ValueError(
+            f"no L{layer:03d} {label} configs under {config_root}; "
+            "run public producer `smash qtip-configs`"
+        )
     ordered = [path for _expert, _projection, path in sorted(rows)]
     if all_cells and len(ordered) != 512:
         raise ValueError(
