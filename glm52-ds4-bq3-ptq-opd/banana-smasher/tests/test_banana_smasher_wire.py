@@ -64,6 +64,22 @@ def _write_banana_smasher_layer(root: Path) -> Path:
     (root / "LAYER_RECEIPT.json").write_text(
         json.dumps(receipt, indent=2, sort_keys=True) + "\n"
     )
+    (root / "MANIFEST.json").write_text(
+        json.dumps(
+            {
+                "schema": "banana-smasher-knapsack-input-index-v1",
+                "status": "PASS",
+                "intended_basis_sha256": "a" * 64,
+                "intended_tiers": sorted(tiers),
+                "envelope_bytes": 1,
+                "source_receipts": [],
+                "missing_inputs": [],
+            },
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n"
+    )
     return root
 
 

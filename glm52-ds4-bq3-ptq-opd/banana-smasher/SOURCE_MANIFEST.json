@@ -309,12 +309,12 @@
       "sha256": "702b2d0e57d0c58e612a6179676e8b358c87a5dfb5eaab591f4807587dbb8a5c"
     },
     "src/banana_smasher/cli.py": {
-      "bytes": 29517,
-      "sha256": "326d767fe998691fa2d8599377ff80098e62c1c75df6bb6f4b13ed73d52065a5"
+      "bytes": 29722,
+      "sha256": "712eb3d1c328e4919ad1111a3a1d0d8b242438bbf1f9da61dd9e54d039352cd5"
     },
     "src/banana_smasher/contract.py": {
-      "bytes": 41897,
-      "sha256": "a1b5838b94ca03a9479ba4751a17445861b1de7b10a23094ccc70b4b4eec050a"
+      "bytes": 42272,
+      "sha256": "5e4a3cf88e8821962079c0c32b45c10b2e436096b0b8c8719405f1d9cd8eed8b"
     },
     "src/banana_smasher/durability.py": {
       "bytes": 5785,
@@ -337,8 +337,8 @@
       "sha256": "16eea326db3a40fffa579e7b75c5ac1a7719d4dfed912ba04c98932249115f50"
     },
     "src/banana_smasher/knapsack.py": {
-      "bytes": 34197,
-      "sha256": "70d03f892da57b9e6a38e4dda780ffbdedb797829b167eba9b81b7e0e405f8cb"
+      "bytes": 37709,
+      "sha256": "69e8bf3511b785d939074dd11846a1a0f475f83a15e416bd33ba0eadebf5525c"
     },
     "src/banana_smasher/loader.py": {
       "bytes": 7474,
@@ -393,8 +393,8 @@
       "sha256": "a2003b6d7e081f44307662f2808cb8017bafa696a5f4fb30c8728c687cf4607c"
     },
     "tests/test_banana_smasher_wire.py": {
-      "bytes": 5264,
-      "sha256": "f5b669360d854daa27bdfd9c64beb1659f0d91cd736ae93793689dbd6f13e78b"
+      "bytes": 5751,
+      "sha256": "41e4e94442654969de7f7be831c244f26a20d67c4a7fd412a9586dd25164788e"
     },
     "tests/test_bank.py": {
       "bytes": 9884,
@@ -413,12 +413,12 @@
       "sha256": "12151d6f3a91355ed5f160b43f3666acce46a11ef8ff3ac5d40c0e9a682332ad"
     },
     "tests/test_cli.py": {
-      "bytes": 8319,
-      "sha256": "1977cd1842675eda128895c41d0020a76038918d29bc0d54419da702578b2799"
+      "bytes": 15654,
+      "sha256": "92a524a28a97fb3a75467883d305b4be361198e4f524a279a6611687398ce1ea"
     },
     "tests/test_contract.py": {
-      "bytes": 10059,
-      "sha256": "5784da17c02930ba46da62807379eca9381261c0d8dca6807a194ef565a389c1"
+      "bytes": 11820,
+      "sha256": "ee22e7fce6667376a3bb785be1556217febdb17c9929f6888a37478000754ae7"
     },
     "tests/test_evaluate.py": {
       "bytes": 16889,

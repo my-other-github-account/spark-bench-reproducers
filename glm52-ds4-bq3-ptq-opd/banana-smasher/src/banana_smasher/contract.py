@@ -384,13 +384,23 @@ def _complete_marker(instance_id: str, tensor_layout_sha256: str) -> dict[str, A
 def export_pack(
     *,
     source_root: str | Path,
+    knapsack_manifest: str | Path | None = None,
     output: str | Path,
     model_id: str,
     instance_id: str,
     link_mode: Literal["hardlink", "copy", "auto"] = "hardlink",
 ) -> dict[str, Any]:
     """Export canonical npy planes or a sealed BANANA_SMASHER layer as bs-pack v1."""
-    source_root = Path(source_root).resolve()
+    source_root_input = Path(source_root).expanduser()
+    from .knapsack import preflight_export_manifest
+
+    manifest_path = (
+        Path(knapsack_manifest).expanduser().resolve()
+        if knapsack_manifest is not None
+        else source_root_input / "MANIFEST.json"
+    )
+    preflight_export_manifest(manifest_path)
+    source_root = source_root_input.resolve()
     output = Path(output).resolve()
     if output.exists():
         raise FileExistsError(f"output already exists: {output}")

@@ -46,6 +46,11 @@ def _parser() -> argparse.ArgumentParser:
 
     export = subparsers.add_parser("export", help="export quantizer output to bs-pack")
     export.add_argument("--source-root", type=Path, required=True)
+    export.add_argument(
+        "--manifest",
+        type=Path,
+        help="public knapsack-index MANIFEST (default: SOURCE_ROOT/MANIFEST.json)",
+    )
     export.add_argument("--output", type=Path, required=True)
     export.add_argument("--model-id", required=True)
     export.add_argument("--instance-id", required=True)
@@ -347,6 +352,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 raise ValueError("--drop-planes requires --safetensors")
             manifest = export_pack(
                 source_root=args.source_root,
+                knapsack_manifest=args.manifest,
                 output=args.output,
                 model_id=args.model_id,
                 instance_id=args.instance_id,

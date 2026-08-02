@@ -298,6 +298,97 @@ def _output_path(root: Path, value: Path | None, *, default: str, label: str) ->
     return resolved
 
 
+def _layer_range_label(value: object, *, index: int) -> str:
+    if (
+        not isinstance(value, list)
+        or len(value) != 2
+        or any(isinstance(layer, bool) or not isinstance(layer, int) for layer in value)
+        or value[0] < 0
+        or value[1] < value[0]
+    ):
+        raise KnapsackValidationError(
+            f"knapsack input manifest missing_inputs[{index}].layers must be "
+            "an ascending pair of non-negative integers"
+        )
+    first, last = value
+    if first == last:
+        return f"L{first:03d}"
+    return f"L{first:03d}-L{last:03d}"
+
+
+def preflight_export_manifest(manifest_path: str | Path) -> dict[str, Any]:
+    """Validate export completeness before inspecting source tensors or metadata."""
+
+    path = Path(manifest_path).expanduser().resolve()
+    manifest, _ = _read_object(path, label="knapsack input manifest")
+    expected_schema = "banana-smasher-knapsack-input-index-v1"
+    if manifest.get("schema") != expected_schema:
+        raise KnapsackValidationError(
+            "knapsack input manifest schema mismatch: "
+            f"expected {expected_schema!r}, got {manifest.get('schema')!r}"
+        )
+    basis = _basis(manifest)
+    tiers = _intended_tiers(manifest)
+    envelope_bytes = manifest.get("envelope_bytes")
+    if (
+        isinstance(envelope_bytes, bool)
+        or not isinstance(envelope_bytes, int)
+        or envelope_bytes < 0
+    ):
+        raise KnapsackValidationError(
+            "knapsack input manifest envelope_bytes must be a non-negative integer"
+        )
+    missing_inputs = manifest.get("missing_inputs")
+    if not isinstance(missing_inputs, list):
+        raise KnapsackValidationError(
+            "knapsack input manifest missing_inputs must be a list"
+        )
+
+    gaps: list[str] = []
+    for index, row in enumerate(missing_inputs):
+        if not isinstance(row, dict):
+            raise KnapsackValidationError(
+                f"knapsack input manifest missing_inputs[{index}] must be an object"
+            )
+        tier = row.get("tier")
+        if not isinstance(tier, str) or not tier:
+            raise KnapsackValidationError(
+                f"knapsack input manifest missing_inputs[{index}].tier must be "
+                "a non-empty string"
+            )
+        if tier not in tiers:
+            raise KnapsackValidationError(
+                f"knapsack input manifest missing_inputs[{index}] names undeclared "
+                f"tier {tier!r}"
+            )
+        layer_label = _layer_range_label(row.get("layers"), index=index)
+        state = row.get("state")
+        if not isinstance(state, str) or not state:
+            raise KnapsackValidationError(
+                f"knapsack input manifest missing_inputs[{index}].state must be "
+                "a non-empty string"
+            )
+        gaps.append(f"{tier}/{layer_label} ({state})")
+
+    expected_status = "PRELIM_NOT_DECISION_GRADE" if gaps else "PASS"
+    if manifest.get("status") != expected_status:
+        raise KnapsackValidationError(
+            "knapsack input manifest status/missing_inputs mismatch: "
+            f"expected {expected_status!r}, got {manifest.get('status')!r}"
+        )
+    if gaps:
+        raise KnapsackValidationError(
+            "knapsack input manifest is incomplete; missing inputs: "
+            f"{', '.join(gaps)}; required producer: smash solve"
+        )
+    return {
+        "schema": expected_schema,
+        "basis_sha256": basis,
+        "envelope_bytes": envelope_bytes,
+        "intended_tiers": tiers,
+    }
+
+
 def _metadata_nodes(receipt: dict[str, Any]) -> list[dict[str, Any]]:
     nodes = [receipt]
     for field in ("verified_sources", "sealed_shards"):
@@ -482,6 +573,7 @@ def build_knapsack_input_index(
         "intended_tiers": selected_tiers,
         "envelope_bytes": envelope_bytes,
         "source_receipts": source_rows,
+        "missing_inputs": missing_inputs,
     }
     if anchor_manifests:
         index_value["anchor_manifests"] = {
@@ -489,8 +581,6 @@ def build_knapsack_input_index(
         }
     if damage_rows is not None:
         index_value["damage_rows"] = damage_rows
-    if missing_inputs:
-        index_value["missing_inputs"] = missing_inputs
 
     index_payload = _canonical_json(index_value)
     selection_value = {

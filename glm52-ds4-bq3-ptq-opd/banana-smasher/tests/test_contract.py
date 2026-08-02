@@ -20,6 +20,22 @@ from banana_smasher.contract import (
 def _write_qtip2_source(root: Path) -> Path:
     (root / "layers/layer_000/experts").mkdir(parents=True)
     (root / "layers/layer_000/qtip2").mkdir(parents=True)
+    (root / "MANIFEST.json").write_text(
+        json.dumps(
+            {
+                "schema": "banana-smasher-knapsack-input-index-v1",
+                "status": "PASS",
+                "intended_basis_sha256": "a" * 64,
+                "intended_tiers": ["qtip2"],
+                "envelope_bytes": 1,
+                "source_receipts": [],
+                "missing_inputs": [],
+            },
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n"
+    )
     (root / "config.json").write_text(
         json.dumps({"model_type": "deepseek_v4", "hidden_size": 16}) + "\n"
     )
@@ -101,6 +117,41 @@ def test_export_hardlinks_and_verify_refuses_payload_drift(tmp_path: Path) -> No
     exported_plane.write_bytes(exported_plane.read_bytes() + b"drift")
     with pytest.raises(PackValidationError, match="byte count mismatch"):
         verify_pack(output)
+
+
+def test_complete_external_manifest_does_not_change_export_bytes(tmp_path: Path) -> None:
+    source = _write_qtip2_source(tmp_path / "source")
+    explicit_manifest = tmp_path / "index" / "MANIFEST.json"
+    explicit_manifest.parent.mkdir()
+    explicit_manifest.write_bytes((source / "MANIFEST.json").read_bytes())
+    fallback_pack = tmp_path / "fallback-pack"
+    explicit_pack = tmp_path / "explicit-pack"
+
+    export_pack(
+        source_root=source,
+        output=fallback_pack,
+        model_id="fixture-model",
+        instance_id="manifest-byte-equivalence",
+        link_mode="copy",
+    )
+    export_pack(
+        source_root=source,
+        knapsack_manifest=explicit_manifest,
+        output=explicit_pack,
+        model_id="fixture-model",
+        instance_id="manifest-byte-equivalence",
+        link_mode="copy",
+    )
+
+    fallback_files = sorted(
+        path.relative_to(fallback_pack) for path in fallback_pack.rglob("*") if path.is_file()
+    )
+    explicit_files = sorted(
+        path.relative_to(explicit_pack) for path in explicit_pack.rglob("*") if path.is_file()
+    )
+    assert explicit_files == fallback_files
+    for relative in fallback_files:
+        assert (explicit_pack / relative).read_bytes() == (fallback_pack / relative).read_bytes()
 
 
 def test_verify_refuses_missing_pack_complete(tmp_path: Path) -> None:
