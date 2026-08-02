@@ -198,6 +198,20 @@ def configure_stock_deepseek_v4_attention_backend() -> bool:
             and capability.major == 12
             and getattr(backend, "name", None) == "FLASHMLA_SPARSE_DSV4"
         ):
+            flashinfer_utils = importlib.import_module("vllm.utils.flashinfer")
+            has_sparse_mla = getattr(
+                flashinfer_utils,
+                "has_flashinfer_sparse_mla_sm120",
+                None,
+            )
+            if not callable(has_sparse_mla) or not has_sparse_mla():
+                raise RuntimeError(
+                    "No physically supported stock SM12x sparse MLA attention route: "
+                    "FlashInfer's sparse MLA decode API is physically unavailable. "
+                    "Install a flashinfer-python build exposing "
+                    "flashinfer.decode.trtllm_batch_decode_sparse_mla_dsv4 and "
+                    "flashinfer.decode.trtllm_batch_decode_with_kv_cache_mla."
+                )
             if not warned:
                 _LOG.warning(
                     "BANANA_SMASHER_DSV4_ATTENTION_BACKEND_OVERRIDE "

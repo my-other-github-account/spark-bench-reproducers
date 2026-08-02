@@ -30,6 +30,7 @@ def _install_stock_dsv4_route(
     *,
     major: int,
     minor: int,
+    flashinfer_sparse_mla_available: bool = True,
 ) -> tuple[ModuleType, SimpleNamespace]:
     model = ModuleType("vllm.models.deepseek_v4.nvidia.model")
     current_platform = SimpleNamespace(
@@ -55,7 +56,14 @@ def _install_stock_dsv4_route(
         return _UnsupportedFlashMLA
 
     setattr(model, "_select_dsv4_attn_cls", stock_select)
+    flashinfer_utils = ModuleType("vllm.utils.flashinfer")
+    setattr(
+        flashinfer_utils,
+        "has_flashinfer_sparse_mla_sm120",
+        lambda: flashinfer_sparse_mla_available,
+    )
     monkeypatch.setitem(sys.modules, "vllm.platforms", platforms)
+    monkeypatch.setitem(sys.modules, "vllm.utils.flashinfer", flashinfer_utils)
     monkeypatch.setitem(sys.modules, model.__name__, model)
     config = SimpleNamespace(
         attention_config=SimpleNamespace(backend=_Backend.FLASHMLA_SPARSE_DSV4)
@@ -92,6 +100,24 @@ def test_public_dsv4_attention_selector_routes_explicit_flashmla_off_sm121(
         "BANANA_SMASHER_DSV4_ATTENTION_BACKEND_OVERRIDE" in record.message
         for record in caplog.records
     ) == 1
+
+
+def test_public_dsv4_attention_selector_refuses_unavailable_flashinfer_sparse_mla(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    model, config = _install_stock_dsv4_route(
+        monkeypatch,
+        major=12,
+        minor=1,
+        flashinfer_sparse_mla_available=False,
+    )
+
+    assert banana_smasher_plugin.configure_stock_deepseek_v4_attention_backend()
+    with pytest.raises(
+        RuntimeError,
+        match="FlashInfer.*sparse MLA decode API.*physically unavailable",
+    ):
+        model._select_dsv4_attn_cls(config)
 
 
 def test_public_dsv4_attention_selector_skips_nvidia_model_import_off_sm12x(
