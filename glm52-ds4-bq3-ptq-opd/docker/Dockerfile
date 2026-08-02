@@ -85,6 +85,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 FROM ${VLLM_IMAGE} AS runtime
 USER root
 ARG VLLM_UPSTREAM_REV
+# The base image's binary-provider distributions share namespace directories.
+# Uninstalling metadata alone leaves importable residue, so remove both public
+# companion namespaces and prove their absence before installing the pinned
+# source-built provider.
+RUN python3 -m pip uninstall -y flashinfer-cubin flashinfer-jit-cache \
+    && rm -rf /usr/local/lib/python3.12/dist-packages/flashinfer_cubin \
+    && rm -rf /usr/local/lib/python3.12/dist-packages/flashinfer_jit_cache \
+    && python3 -c 'import importlib.metadata as m,importlib.util as u; names={d.metadata["Name"].lower() for d in m.distributions() if d.metadata["Name"]}; assert all(u.find_spec(name) is None for name in ("flashinfer_cubin","flashinfer_jit_cache")); assert "flashinfer-cubin" not in names; assert "flashinfer-jit-cache" not in names' \
+    && python3 -c 'import importlib.util as u; assert u.find_spec("flashinfer_cubin") is None; assert u.find_spec("flashinfer_jit_cache") is None'
 COPY --from=package-builder /wheels/banana_smasher-1.0.0-py3-none-any.whl /tmp/wheels/
 COPY --from=package-builder /wheels/banana_smasher_plugin-0.2.0-py3-none-any.whl /tmp/wheels/
 COPY --from=flashinfer-builder /wheel/flashinfer_python-0.6.17-py3-none-any.whl /tmp/wheels/
@@ -94,7 +103,7 @@ RUN python3 -m pip install --no-cache-dir --no-deps --force-reinstall \
       /tmp/wheels/deep_gemm-2.5.0-cp312-cp312-linux_aarch64.whl \
       /tmp/wheels/banana_smasher-1.0.0-py3-none-any.whl \
       /tmp/wheels/banana_smasher_plugin-0.2.0-py3-none-any.whl \
-    && python3 -m pip uninstall -y flashinfer-cubin flashinfer-jit-cache \
+    && python3 -c 'import importlib.metadata as m,importlib.util as u; names={d.metadata["Name"].lower() for d in m.distributions() if d.metadata["Name"]}; assert u.find_spec("flashinfer_cubin") is None; assert u.find_spec("flashinfer_jit_cache") is None; assert "flashinfer-cubin" not in names; assert "flashinfer-jit-cache" not in names' \
     && rm -rf /tmp/wheels
 
 COPY banana-smasher/kernels/cubins-sm120 /opt/banana-smasher/aot/cubins-sm120

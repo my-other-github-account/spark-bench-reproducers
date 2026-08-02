@@ -26,7 +26,15 @@ def test_public_source_dockerfile_contract() -> None:
     assert "76fd3daf7064b73924ebb3bcb1e93a8a26fc6da9" in text
     assert "0c5fda59bb6fa71eae875693a024bb0fb37ba7d6" in text
     assert "BUILD_NVEP=0" in text
-    assert "pip uninstall -y flashinfer-cubin flashinfer-jit-cache" in text
+    uninstall = "pip uninstall -y flashinfer-cubin flashinfer-jit-cache"
+    install = "/tmp/wheels/flashinfer_python-0.6.17-py3-none-any.whl"
+    assert uninstall in text
+    assert text.index(uninstall) < text.index(install, text.index("FROM ${VLLM_IMAGE} AS runtime"))
+    assert 'for name in ("flashinfer_cubin","flashinfer_jit_cache")' in text
+    assert 'find_spec("flashinfer_cubin") is None' in text
+    assert 'find_spec("flashinfer_jit_cache") is None' in text
+    assert '"flashinfer-cubin" not in names' in text
+    assert '"flashinfer-jit-cache" not in names' in text
     assert "FLASHINFER_DISABLE_VERSION_CHECK" not in text
     assert "flashinfer-python==0.6.12" not in text
     assert "https://github.com/jasl/DeepGEMM.git" in text
@@ -52,6 +60,20 @@ def test_public_source_dockerfile_contract() -> None:
     )
     for token in forbidden:
         assert token not in lower
+
+
+def test_runtime_removes_stale_flashinfer_binary_provider_namespaces() -> None:
+    text = DOCKERFILE.read_text()
+    uninstall = "pip uninstall -y flashinfer-cubin flashinfer-jit-cache"
+    remove_cubin = "rm -rf /usr/local/lib/python3.12/dist-packages/flashinfer_cubin"
+    remove_jit_cache = "rm -rf /usr/local/lib/python3.12/dist-packages/flashinfer_jit_cache"
+    install_source = "/tmp/wheels/flashinfer_python-0.6.17-py3-none-any.whl"
+
+    assert uninstall in text
+    assert remove_cubin in text
+    assert remove_jit_cache in text
+    assert text.index(uninstall) < text.index(remove_cubin) < text.index(install_source, text.index(remove_cubin))
+    assert text.index(uninstall) < text.index(remove_jit_cache) < text.index(install_source, text.index(remove_jit_cache))
 
 
 def test_runtime_defaults_are_baked_and_parseable() -> None:
