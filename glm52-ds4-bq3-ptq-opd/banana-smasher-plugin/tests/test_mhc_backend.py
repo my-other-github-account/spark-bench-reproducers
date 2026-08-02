@@ -26,6 +26,201 @@ def test_public_mhc_selector_disables_deepgemm_on_sm121(
     assert os.environ["VLLM_USE_DEEP_GEMM"] == "0"
 
 
+def test_public_deepseek_v4_o_proj_routes_stock_fp8_weights_to_triton_on_sm121(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    platforms = ModuleType("vllm.platforms")
+    platforms.current_platform = SimpleNamespace(
+        get_device_capability=lambda: SimpleNamespace(major=12, minor=1)
+    )
+    monkeypatch.setitem(sys.modules, "vllm.platforms", platforms)
+
+    o_proj = ModuleType("vllm.models.deepseek_v4.nvidia.ops.o_proj")
+
+    def stock_compute_fp8_einsum_recipe():
+        capability = platforms.current_platform.get_device_capability()
+        return ((1, 128, 128), False) if capability.major <= 9 else ((1, 1, 128), True)
+
+    def stock_deep_gemm_fp8_o_proj(
+        o,
+        positions,
+        cos_sin_cache,
+        wo_a,
+        wo_b,
+        **kwargs,
+    ):
+        del o, positions, cos_sin_cache, wo_b, kwargs
+        if wo_a.weight.dim() != 3:
+            raise RuntimeError(
+                "Assertion error (.../utils/layout.hpp:39): t.dim() == N"
+            )
+        raise AssertionError("SM121 must not call stock DeepGEMM fp8_einsum")
+
+    o_proj.compute_fp8_einsum_recipe = stock_compute_fp8_einsum_recipe
+    o_proj.deep_gemm_fp8_o_proj = stock_deep_gemm_fp8_o_proj
+    monkeypatch.setitem(
+        sys.modules,
+        "vllm.models.deepseek_v4.nvidia.ops.o_proj",
+        o_proj,
+    )
+
+    wo_a = SimpleNamespace(
+        weight=torch.zeros((256, 512)),
+        weight_scale_inv=torch.ones((2, 4)),
+    )
+    recipe, tma_aligned_scales = o_proj.compute_fp8_einsum_recipe()
+    assert (recipe, tma_aligned_scales) == ((1, 1, 128), True)
+    with pytest.raises(RuntimeError, match=r"t\.dim\(\) == N"):
+        o_proj.deep_gemm_fp8_o_proj(
+            torch.zeros((1, 2, 512)),
+            None,
+            None,
+            wo_a,
+            None,
+            n_groups=2,
+            heads_per_group=1,
+            nope_dim=448,
+            rope_dim=64,
+            o_lora_rank=128,
+            einsum_recipe=recipe,
+            tma_aligned_scales=tma_aligned_scales,
+        )
+
+    fused_calls: list[dict[str, object]] = []
+    mm_calls: list[dict[str, object]] = []
+
+    def fake_fused(o, *args, **kwargs):
+        del args
+        fused_calls.append(kwargs)
+        return (
+            torch.zeros((o.shape[0], 2, 512)),
+            torch.ones((o.shape[0], 2, 4)),
+        )
+
+    def fake_mm(activation, weight, activation_scale, weight_scale):
+        mm_calls.append(
+            {
+                "activation_shape": tuple(activation.shape),
+                "weight_shape": tuple(weight.shape),
+                "activation_scale_shape": tuple(activation_scale.shape),
+                "weight_scale_shape": tuple(weight_scale.shape),
+            }
+        )
+        return torch.zeros((activation.shape[0], weight.shape[0]))
+
+    monkeypatch.setattr(banana_smasher_plugin, "_fused_inv_rope_fp8_quant", fake_fused)
+    monkeypatch.setattr(banana_smasher_plugin, "_triton_block_scaled_mm", fake_mm)
+
+    selector = getattr(
+        banana_smasher_plugin,
+        "configure_stock_deepseek_v4_o_proj",
+        None,
+    )
+    assert callable(selector), "public stock DeepSeek-V4 o_proj selector is not installed"
+    assert selector() is True
+    recipe, tma_aligned_scales = o_proj.compute_fp8_einsum_recipe()
+    assert (recipe, tma_aligned_scales) == ((1, 1, 128), True)
+    output = o_proj.deep_gemm_fp8_o_proj(
+        torch.zeros((1, 2, 512)),
+        None,
+        None,
+        wo_a,
+        lambda z: z,
+        n_groups=2,
+        heads_per_group=1,
+        nope_dim=448,
+        rope_dim=64,
+        o_lora_rank=128,
+        einsum_recipe=recipe,
+        tma_aligned_scales=tma_aligned_scales,
+    )
+    assert output.shape == (1, 256)
+    assert fused_calls == [
+        {
+            "n_groups": 2,
+            "heads_per_group": 1,
+            "nope_dim": 448,
+            "rope_dim": 64,
+            "tma_aligned_scales": False,
+        }
+    ]
+    assert mm_calls == [
+        {
+            "activation_shape": (1, 512),
+            "weight_shape": (128, 512),
+            "activation_scale_shape": (1, 4),
+            "weight_scale_shape": (1, 4),
+        },
+        {
+            "activation_shape": (1, 512),
+            "weight_shape": (128, 512),
+            "activation_scale_shape": (1, 4),
+            "weight_scale_shape": (1, 4),
+        },
+    ]
+
+
+def test_real_deepseek_v4_o_proj_routes_sm121_to_triton_fp8() -> None:
+    o_proj = pytest.importorskip("vllm.models.deepseek_v4.nvidia.ops.o_proj")
+    from vllm.platforms import current_platform
+
+    capability = current_platform.get_device_capability()
+    if capability is None or (capability.major, capability.minor) != (12, 1):
+        pytest.skip("real DeepSeek-V4 o_proj regression requires SM121")
+    if not torch.cuda.is_available():
+        pytest.skip("real DeepSeek-V4 o_proj regression requires CUDA")
+
+    recipe, tma_aligned_scales = o_proj.compute_fp8_einsum_recipe()
+    assert (recipe, tma_aligned_scales) == ((1, 1, 128), True)
+    o = torch.zeros((1, 64, 512), dtype=torch.bfloat16, device="cuda")
+    positions = torch.zeros((1,), dtype=torch.int64, device="cuda")
+    cos_sin_cache = torch.zeros((1, 64), dtype=torch.float32, device="cuda")
+    wo_a = SimpleNamespace(
+        weight=torch.zeros(
+            (8192, 4096), dtype=torch.float8_e4m3fn, device="cuda"
+        ),
+        weight_scale_inv=torch.ones((64, 32), dtype=torch.float32, device="cuda"),
+    )
+    kwargs = {
+        "n_groups": 8,
+        "heads_per_group": 8,
+        "nope_dim": 448,
+        "rope_dim": 64,
+        "o_lora_rank": 1024,
+        "einsum_recipe": recipe,
+        "tma_aligned_scales": tma_aligned_scales,
+    }
+    with pytest.raises(RuntimeError, match=r"t\.dim\(\) == N"):
+        o_proj.deep_gemm_fp8_o_proj(
+            o,
+            positions,
+            cos_sin_cache,
+            wo_a,
+            lambda z: z,
+            **kwargs,
+        )
+
+    selector = getattr(
+        banana_smasher_plugin,
+        "configure_stock_deepseek_v4_o_proj",
+        None,
+    )
+    assert callable(selector), "public stock DeepSeek-V4 o_proj selector is not installed"
+    assert selector() is True
+    output = o_proj.deep_gemm_fp8_o_proj(
+        o,
+        positions,
+        cos_sin_cache,
+        wo_a,
+        lambda z: z,
+        **kwargs,
+    )
+    torch.cuda.synchronize()
+    assert output.shape == (1, 8192)
+    assert output.dtype == torch.bfloat16
+    assert torch.isfinite(output).all()
+
+
 def test_real_deepseek_v4_mhc_preop_routes_sm121_to_tilelang_fallback(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
