@@ -246,7 +246,7 @@ A serving preflight requires `BS_KERNEL_CACHE_MANIFEST.json` with:
 
 `smash serve-check PACK --kernel-cache CACHE --architecture sm_120` verifies the pack first, then this ABI. Any mismatch is fatal before vLLM allocates expert weights.
 
-## 9. Genesis instance #1 and `d4_k2048`
+## 9. Initial instance #1 and `d4_k2048`
 
 The sealed banana-smasher export is bs-pack instance #1 and must use:
 
