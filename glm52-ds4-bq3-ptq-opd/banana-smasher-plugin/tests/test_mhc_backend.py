@@ -179,7 +179,9 @@ def test_real_deepseek_v4_o_proj_routes_sm121_to_triton_fp8() -> None:
         weight=torch.zeros(
             (8192, 4096), dtype=torch.float8_e4m3fn, device="cuda"
         ),
-        weight_scale_inv=torch.ones((64, 32), dtype=torch.float32, device="cuda"),
+        weight_scale_inv=torch.ones(
+            (64, 32), dtype=torch.float8_e8m0fnu, device="cuda"
+        ),
     )
     kwargs = {
         "n_groups": 8,

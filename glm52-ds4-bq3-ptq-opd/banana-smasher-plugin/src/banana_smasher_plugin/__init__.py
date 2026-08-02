@@ -123,9 +123,12 @@ def configure_stock_deepseek_v4_o_proj() -> bool:
                 "stock DeepSeek-V4 o_proj grouped FP8 scale shape mismatch: "
                 f"actual={tuple(scale.shape)} expected={expected_scale_shape}"
             )
-        if not scale.is_floating_point():
+        e8m0_dtype = getattr(torch, "float8_e8m0fnu", None)
+        if e8m0_dtype is not None and scale.dtype == e8m0_dtype:
+            scale = scale.to(torch.float32)
+        elif scale.dtype != torch.float32:
             raise RuntimeError(
-                "stock DeepSeek-V4 SM12x Triton o_proj requires float block scales, "
+                "stock DeepSeek-V4 SM12x Triton o_proj requires FP32 or E8M0 block scales, "
                 f"got dtype={scale.dtype}"
             )
 
