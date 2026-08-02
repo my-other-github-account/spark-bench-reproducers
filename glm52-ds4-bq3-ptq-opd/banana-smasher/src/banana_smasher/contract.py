@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import ctypes
+import copy
 import hashlib
 import json
 import os
@@ -43,6 +44,7 @@ KERNEL_MANIFEST_NAME = "BS_KERNEL_CACHE_MANIFEST.json"
 SCHEMA = "bs-pack"
 SCHEMA_VERSION = 1
 QUANT_METHOD = "banana_smasher"
+PACKED_INDEX_ENCODING = "little-endian-packed-index-rows-v1"
 TIER_FAMILIES = (
     "qtip2",
     "qtip3",
@@ -121,6 +123,144 @@ def _sha256_npy_payload(path: Path, chunk_bytes: int = 8 * 1024 * 1024) -> str:
     return digest.hexdigest()
 
 
+def _index_bits(codebook_size: int) -> int:
+    if codebook_size <= 1 or codebook_size & (codebook_size - 1):
+        raise PackValidationError(
+            f"D4 codebook size must be a power of two, got {codebook_size}"
+        )
+    bits = codebook_size.bit_length() - 1
+    if not 1 <= bits <= 16:
+        raise PackValidationError(f"unsupported D4 index width: {bits}")
+    return bits
+
+
+def _packed_row_bytes(values_per_row: int, bits: int) -> int:
+    if values_per_row < 0 or not 1 <= bits <= 16:
+        raise PackValidationError(
+            f"invalid packed-index geometry: values_per_row={values_per_row} bits={bits}"
+        )
+    return (values_per_row * bits + 7) // 8
+
+
+def unpack_index_rows(
+    packed: np.ndarray, *, bits: int, values_per_row: int
+) -> np.ndarray:
+    """Decode independently packed little-endian index rows as uint16."""
+    source = np.asarray(packed, dtype=np.uint8)
+    if source.ndim < 1:
+        raise PackValidationError("packed index tensor must have at least one dimension")
+    expected = _packed_row_bytes(values_per_row, bits)
+    if source.shape[-1] != expected:
+        raise PackValidationError(
+            f"packed row has {source.shape[-1]} bytes; expected {expected}"
+        )
+    rows = int(np.prod(source.shape[:-1], dtype=np.int64))
+    source_rows = source.reshape(rows, expected)
+    padded = np.pad(source_rows, ((0, 0), (0, 2)))
+    decoded = np.empty((rows, values_per_row), dtype=np.uint16)
+    mask = (1 << bits) - 1
+    for column in range(values_per_row):
+        bit = column * bits
+        byte, shift = divmod(bit, 8)
+        word = (
+            padded[:, byte].astype(np.uint32)
+            | (padded[:, byte + 1].astype(np.uint32) << 8)
+            | (padded[:, byte + 2].astype(np.uint32) << 16)
+        )
+        decoded[:, column] = ((word >> shift) & mask).astype(np.uint16)
+    return decoded.reshape(*source.shape[:-1], values_per_row)
+
+
+def _pack_index_npy(
+    source: Path,
+    destination: Path,
+    *,
+    bits: int,
+    working_bytes: int = 64 << 20,
+) -> dict[str, Any]:
+    """Stream one integer NPY into the row-addressable V4 wire encoding."""
+    try:
+        values = np.load(source, mmap_mode="r", allow_pickle=False)
+    except Exception as exc:
+        raise PackValidationError(f"cannot mmap D4 code indices {source}: {exc}") from exc
+    if values.ndim < 1 or values.dtype.kind not in "iu":
+        raise PackValidationError(
+            f"D4 code indices must be an integer tensor, got {values.dtype}{values.shape}"
+        )
+    before = source.stat()
+    decoded_shape = list(values.shape)
+    decoded_dtype = values.dtype
+    decoded_data_bytes = int(values.nbytes)
+    decoded_data_sha256 = _sha256_npy_payload(source)
+    values_per_row = int(values.shape[-1])
+    row_bytes = _packed_row_bytes(values_per_row, bits)
+    rows = int(np.prod(values.shape[:-1], dtype=np.int64))
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    packed_shape = (*values.shape[:-1], row_bytes)
+    packed = np.lib.format.open_memmap(
+        destination, mode="w+", dtype=np.uint8, shape=packed_shape
+    )
+    source_rows = values.reshape(rows, values_per_row)
+    packed_rows = packed.reshape(rows, row_bytes)
+    expanded_bytes_per_row = max(
+        1,
+        values_per_row * (bits + decoded_dtype.itemsize) + row_bytes,
+    )
+    rows_per_chunk = max(1, working_bytes // expanded_bytes_per_row)
+    shifts = np.arange(bits, dtype=np.uint16)
+    limit = 1 << bits
+    for start in range(0, rows, rows_per_chunk):
+        stop = min(rows, start + rows_per_chunk)
+        chunk = np.asarray(source_rows[start:stop])
+        if chunk.size:
+            minimum = int(chunk.min())
+            maximum = int(chunk.max())
+            if minimum < 0 or maximum >= limit:
+                raise PackValidationError(
+                    f"D4 index outside {bits}-bit range in {source}: "
+                    f"chunk_rows={start}:{stop} min={minimum} max={maximum}"
+                )
+        bit_rows = (
+            ((chunk[..., None].astype(np.uint16, copy=False) >> shifts) & 1)
+            .astype(np.uint8)
+            .reshape(stop - start, -1)
+        )
+        packed_rows[start:stop] = np.packbits(
+            bit_rows, axis=-1, bitorder="little"
+        )
+    packed.flush()
+    del packed_rows, packed, values
+    after = source.stat()
+    if (
+        before.st_dev,
+        before.st_ino,
+        before.st_size,
+        before.st_mtime_ns,
+        before.st_ctime_ns,
+    ) != (
+        after.st_dev,
+        after.st_ino,
+        after.st_size,
+        after.st_mtime_ns,
+        after.st_ctime_ns,
+    ):
+        raise PackValidationError(f"D4 source changed while packing: {source}")
+    metadata = _npy_metadata(destination)
+    metadata.update(
+        {
+            "encoding": PACKED_INDEX_ENCODING,
+            "index_bits": bits,
+            "values_per_row": values_per_row,
+            "packed_row_bytes": row_bytes,
+            "decoded_dtype": decoded_dtype.name,
+            "decoded_shape": decoded_shape,
+            "decoded_data_bytes": decoded_data_bytes,
+            "decoded_data_sha256": decoded_data_sha256,
+        }
+    )
+    return metadata
+
+
 def _tensor_name(relative: Path) -> str:
     normalized = relative.as_posix()
     match = LAYER_RE.fullmatch(normalized)
@@ -137,7 +277,7 @@ def _tensor_name(relative: Path) -> str:
     return name
 
 
-def _p1016_tensor_name(relative: Path) -> tuple[int, str]:
+def _p1016_tensor_name(relative: Path, *, payload_family: str) -> tuple[int, str]:
     normalized = relative.as_posix()
     if len(relative.parts) != 1:
         raise PackValidationError(
@@ -150,16 +290,18 @@ def _p1016_tensor_name(relative: Path) -> tuple[int, str]:
     tier = match.group(2).lower()
     projection = {"13": "fused13", "2": "down"}[match.group(3)]
     field = match.group(4).lower()
-    if tier.startswith("qtip2_"):
-        family = "qtip2"
-    elif tier.startswith("qtip3_"):
-        family = "qtip3"
-    elif tier.startswith(("d4_", "d8_")):
-        family = "truevq_d4" if tier.startswith("d4_") else "truevq_d8"
-    elif tier == "native_mxfp4":
-        family = "native_mxfp4"
-    else:
-        raise PackValidationError(f"unsupported p1016 tier in {normalized}: {tier}")
+    family = {
+        "qtip2": "qtip2",
+        "qtip3": "qtip3",
+        "d4": "truevq_d4",
+        "d8": "truevq_d8",
+        "native": "native_mxfp4",
+        "native_mxfp4": "native_mxfp4",
+    }.get(payload_family)
+    if family is None:
+        raise PackValidationError(
+            f"unsupported p1016 payload family {payload_family!r} in {normalized}"
+        )
     name = f"layers.{layer}.{family}.{tier}.{projection}.{field}"
     if TENSOR_RE.fullmatch(name) is None:
         raise PackValidationError(f"unsupported p1016 tensor name: {name}")
@@ -168,7 +310,13 @@ def _p1016_tensor_name(relative: Path) -> tuple[int, str]:
 
 def _verify_p1016_source(
     source_root: Path,
-) -> tuple[list[int], list[Path], list[Path]]:
+) -> tuple[
+    list[int],
+    list[Path],
+    list[Path],
+    dict[int, dict[str, Any]],
+    dict[str, list[tuple[dict[str, Any], str]]],
+]:
     meta_paths = sorted(source_root.glob("layer_*.meta.json"))
     if not meta_paths:
         raise PackValidationError("p1016 source contains no layer metadata")
@@ -195,15 +343,137 @@ def _verify_p1016_source(
         layers.append(layer)
     if len(set(layers)) != len(layers):
         raise PackValidationError("duplicate p1016 layer metadata")
-    planes = sorted(path for path in source_root.glob("*.npy") if path.is_file())
+    documents: dict[int, dict[str, Any]] = {}
+    selected_paths: dict[str, Path] = {}
+    references: dict[str, list[tuple[dict[str, Any], str]]] = {}
+    for path, layer in zip(meta_paths, layers, strict=True):
+        document = json.loads(path.read_text(encoding="utf-8"))
+        selected_document = copy.deepcopy(document)
+        selected_payload_maps: dict[str, dict[str, Any]] = {}
+        experts = int(document["E"])
+        for projection, suffix in (("fused13", "13"), ("down", "2")):
+            tiers = document[f"tier{suffix}"]
+            slots = document[f"slot{suffix}"]
+            families = document[f"family{suffix}"]
+            if not all(
+                isinstance(values, list) and len(values) == experts
+                for values in (tiers, slots, families)
+            ):
+                raise PackValidationError(
+                    f"invalid p1016 selected route {path.name}/{projection}"
+                )
+            payload_map = (document.get("payloads") or {}).get(projection)
+            if not isinstance(payload_map, dict):
+                raise PackValidationError(
+                    f"missing p1016 payload map {path.name}/{projection}"
+                )
+            selected_tiers = {str(tier) for tier in tiers}
+            missing = sorted(selected_tiers - set(payload_map))
+            if missing:
+                raise PackValidationError(
+                    f"manifest-owned route {path.name}/{projection} is missing payloads: {missing}"
+                )
+            selected_payload_maps[projection] = {
+                tier: copy.deepcopy(payload_map[tier]) for tier in sorted(selected_tiers)
+            }
+            family_codes = document.get("family_codes")
+            if not isinstance(family_codes, dict):
+                raise PackValidationError(
+                    f"missing p1016 family code map {path.name}/{projection}"
+                )
+            used_slots: set[tuple[str, int]] = set()
+            for expert, (tier_value, slot_value, family_value) in enumerate(
+                zip(tiers, slots, families, strict=True)
+            ):
+                tier = str(tier_value)
+                if not isinstance(slot_value, int) or slot_value < 0:
+                    raise PackValidationError(
+                        f"invalid selected slot {path.name}/{projection}/{tier}/{expert}: {slot_value!r}"
+                    )
+                binding = (tier, slot_value)
+                if binding in used_slots:
+                    raise PackValidationError(
+                        f"selected cell binds more than once {path.name}/{projection}/{binding}"
+                    )
+                used_slots.add(binding)
+                payload = selected_payload_maps[projection][tier]
+                payload_family = (
+                    payload.get("family") if isinstance(payload, dict) else None
+                )
+                if family_codes.get(payload_family) != family_value:
+                    raise PackValidationError(
+                        f"selected family binding drift {path.name}/{projection}/{tier}: "
+                        f"expert={expert} family={family_value!r} payload_family={payload_family!r}"
+                    )
+            for tier, payload in selected_payload_maps[projection].items():
+                tensors = payload.get("tensors") if isinstance(payload, dict) else None
+                if not isinstance(tensors, dict) or not tensors:
+                    raise PackValidationError(
+                        f"selected payload {path.name}/{projection}/{tier} has no tensor map"
+                    )
+                for role, spec in tensors.items():
+                    relative_text = spec.get("file") if isinstance(spec, dict) else None
+                    if not isinstance(relative_text, str):
+                        raise PackValidationError(
+                            f"selected payload {path.name}/{projection}/{tier}/{role} has no file"
+                        )
+                    relative = Path(relative_text)
+                    if relative.is_absolute() or len(relative.parts) != 1 or ".." in relative.parts:
+                        raise PackValidationError(f"unsafe selected p1016 path: {relative}")
+                    source = source_root / relative
+                    if not source.is_file() or source.is_symlink():
+                        raise PackValidationError(f"missing selected p1016 tensor: {source}")
+                    parsed_layer, _ = _p1016_tensor_name(
+                        relative,
+                        payload_family=str(payload.get("family")),
+                    )
+                    if parsed_layer != layer:
+                        raise PackValidationError(
+                            f"selected p1016 tensor layer mismatch: {relative} != {layer}"
+                        )
+                    selected_paths[relative.as_posix()] = source
+                    references.setdefault(relative.as_posix(), []).append((payload, role))
+                expert_spec = tensors.get("expert_ids")
+                if not isinstance(expert_spec, dict):
+                    raise PackValidationError(
+                        f"selected payload {path.name}/{projection}/{tier} has no expert_ids"
+                    )
+                expert_ids = np.load(
+                    source_root / str(expert_spec["file"]), mmap_mode="r", allow_pickle=False
+                ).reshape(-1)
+                expected = [
+                    (expert, int(slots[expert]))
+                    for expert, routed_tier in enumerate(tiers)
+                    if str(routed_tier) == tier
+                ]
+                if len(expert_ids) != len(expected) or {slot for _, slot in expected} != set(
+                    range(len(expert_ids))
+                ):
+                    raise PackValidationError(
+                        f"selected payload rows are not exact for {path.name}/{projection}/{tier}"
+                    )
+                for expert, slot in expected:
+                    if int(expert_ids[slot]) != expert:
+                        raise PackValidationError(
+                            f"selected payload binding drift {path.name}/{projection}/{tier}: "
+                            f"expert={expert} slot={slot} stored={int(expert_ids[slot])}"
+                        )
+        selected_document["payloads"] = selected_payload_maps
+        documents[layer] = selected_document
+    planes = [selected_paths[name] for name in sorted(selected_paths)]
     if not planes:
-        raise PackValidationError(f"p1016 source contains no .npy planes: {source_root}")
-    plane_layers = {_p1016_tensor_name(path.relative_to(source_root))[0] for path in planes}
+        raise PackValidationError("p1016 manifest selection contains no tensor planes")
+    plane_layers: set[int] = set()
+    for plane in planes:
+        match = P1016_PLANE_RE.fullmatch(plane.relative_to(source_root).as_posix())
+        if match is None:  # already validated above; keep this gate fail-closed
+            raise PackValidationError(f"unsupported selected p1016 tensor: {plane}")
+        plane_layers.add(int(match.group(1)))
     if plane_layers != set(layers):
         raise PackValidationError(
             f"p1016 plane/meta layer mismatch: planes={sorted(plane_layers)} meta={layers}"
         )
-    return layers, planes, meta_paths
+    return layers, planes, meta_paths, documents, references
 
 
 def _npy_metadata(path: Path) -> dict[str, Any]:
@@ -238,6 +508,53 @@ def _raw_metadata(
         "data_bytes": actual_bytes,
         "data_sha256": _sha256_file(path),
     }
+
+
+def _verify_packed_index_metadata(name: str, recorded: dict[str, Any]) -> None:
+    if recorded.get("encoding") != PACKED_INDEX_ENCODING:
+        return
+    bits = recorded.get("index_bits")
+    values_per_row = recorded.get("values_per_row")
+    row_bytes = recorded.get("packed_row_bytes")
+    decoded_shape = recorded.get("decoded_shape")
+    decoded_dtype = recorded.get("decoded_dtype")
+    decoded_bytes = recorded.get("decoded_data_bytes")
+    decoded_sha = recorded.get("decoded_data_sha256")
+    shape = recorded.get("shape")
+    if not isinstance(bits, int) or not 1 <= bits <= 16:
+        raise PackValidationError(f"invalid packed index width for {name}: {bits!r}")
+    if not isinstance(values_per_row, int) or values_per_row < 0:
+        raise PackValidationError(
+            f"invalid packed values_per_row for {name}: {values_per_row!r}"
+        )
+    if row_bytes != _packed_row_bytes(values_per_row, bits):
+        raise PackValidationError(f"invalid packed row byte count for {name}: {row_bytes!r}")
+    if (
+        not isinstance(shape, list)
+        or not isinstance(decoded_shape, list)
+        or decoded_shape[:-1] != shape[:-1]
+        or decoded_shape[-1:] != [values_per_row]
+        or shape[-1:] != [row_bytes]
+    ):
+        raise PackValidationError(
+            f"packed/decoded shape mismatch for {name}: {shape!r} -> {decoded_shape!r}"
+        )
+    try:
+        dtype = np.dtype(decoded_dtype)
+    except Exception as exc:
+        raise PackValidationError(
+            f"invalid packed decoded dtype for {name}: {decoded_dtype!r}"
+        ) from exc
+    expected_decoded_bytes = int(np.prod(decoded_shape, dtype=np.int64)) * dtype.itemsize
+    if decoded_bytes != expected_decoded_bytes:
+        raise PackValidationError(
+            f"invalid packed decoded byte count for {name}: "
+            f"{decoded_bytes!r} != {expected_decoded_bytes}"
+        )
+    if not isinstance(decoded_sha, str) or len(decoded_sha) != 64:
+        raise PackValidationError(f"invalid packed decoded SHA256 for {name}")
+    if np.dtype(recorded.get("dtype")) != np.dtype("uint8"):
+        raise PackValidationError(f"packed index payload must be uint8 for {name}")
 
 
 def _genesis_plane_descriptor(path: Path, *, layer: int) -> dict[str, Any]:
@@ -773,6 +1090,13 @@ def refresh_serving_metadata(
             )
             manifest["links"].append(dict(row))
         manifest["files"].sort(key=lambda row: row["path"])
+        selection = manifest.get("selected_payloads")
+        if isinstance(selection, dict):
+            selection["dense_base_bytes"] = sum(
+                int(row["bytes"])
+                for row in manifest["files"]
+                if row.get("role") == BASE_WEIGHTS_SHARD_ROLE
+            )
         manifest.setdefault("provenance", {})["serving_model_root"] = str(serving_root)
         staged_manifest = staging / MANIFEST_NAME
         staged_manifest.write_text(
@@ -814,6 +1138,7 @@ def export_pack(
     link_mode: Literal["hardlink", "copy", "auto"] = "hardlink",
     repair: RepairBundle | None = None,
     serving_model_root: str | Path | None = None,
+    runtime_floor_bytes: int | None = None,
 ) -> dict[str, Any]:
     """Export canonical planes, optionally materializing a bound repair checkpoint."""
     source_root = Path(source_root).resolve()
@@ -833,13 +1158,29 @@ def export_pack(
     source_receipt_sha256: str | None = None
     p1016_layers: list[int] = []
     p1016_meta_paths: list[Path] = []
+    p1016_documents: dict[int, dict[str, Any]] = {}
+    p1016_references: dict[str, list[tuple[dict[str, Any], str]]] = {}
+    if runtime_floor_bytes is not None and (
+        not isinstance(runtime_floor_bytes, int) or runtime_floor_bytes < 0
+    ):
+        raise PackValidationError("runtime_floor_bytes must be a non-negative integer")
     if genesis_receipt.is_file():
         layer, planes, source_receipt_sha256 = _verify_genesis_source(source_root)
         tier_map, subtier_map = _genesis_tier_maps(planes)
         source_format = "genesis-materialized-layer-v1"
     elif any(source_root.glob("layer_*.meta.json")):
-        p1016_layers, planes, p1016_meta_paths = _verify_p1016_source(source_root)
+        (
+            p1016_layers,
+            planes,
+            p1016_meta_paths,
+            p1016_documents,
+            p1016_references,
+        ) = _verify_p1016_source(source_root)
         source_format = "p1016-true-c-native-planes-v1"
+        if runtime_floor_bytes is None:
+            raise PackValidationError(
+                "p1016 selected-payload export requires an explicit runtime_floor_bytes receipt"
+            )
     else:
         if not config_source.is_file() and repair is None:
             raise PackValidationError(
@@ -862,14 +1203,35 @@ def export_pack(
         }:
             for source in planes:
                 relative = source.relative_to(source_root)
-                name = (
-                    _p1016_tensor_name(relative)[1]
-                    if source_format == "p1016-true-c-native-planes-v1"
-                    else _tensor_name(relative)
-                )
+                references = p1016_references.get(relative.as_posix(), [])
+                if source_format == "p1016-true-c-native-planes-v1":
+                    families = {
+                        str(payload.get("family")) for payload, _role in references
+                    }
+                    if len(families) != 1:
+                        raise PackValidationError(
+                            f"selected p1016 tensor has ambiguous payload families: "
+                            f"{relative} -> {sorted(families)}"
+                        )
+                    name = _p1016_tensor_name(
+                        relative,
+                        payload_family=next(iter(families)),
+                    )[1]
+                else:
+                    name = _tensor_name(relative)
                 if name in tensor_index:
                     raise PackValidationError(f"duplicate tensor name: {name}")
                 destination_relative = Path("planes") / relative
+                packed_bits = {
+                    _index_bits(int(payload["k"]))
+                    for payload, role in references
+                    if payload.get("family") == "d4" and role == "codes"
+                }
+                if len(packed_bits) > 1:
+                    raise PackValidationError(
+                        f"selected D4 code tensor has conflicting index widths: "
+                        f"{relative} -> {sorted(packed_bits)}"
+                    )
                 repair_row = None
                 if repair is not None:
                     repair_row = materialize_codebook_plane(
@@ -877,19 +1239,58 @@ def export_pack(
                         output / destination_relative,
                         repair.codebooks,
                     )
-                if repair_row is None:
-                    actual_mode = _link_file(
-                        source, output / destination_relative, link_mode
+                if packed_bits:
+                    if repair_row is not None:
+                        raise PackValidationError(
+                            f"repair attempted to rewrite D4 code indices: {relative}"
+                        )
+                    metadata = _pack_index_npy(
+                        source,
+                        output / destination_relative,
+                        bits=next(iter(packed_bits)),
                     )
+                    actual_mode = "generated-v4-row-pack"
                 else:
-                    actual_mode = "materialized-repair"
-                    repair_rows.extend(repair_row)
-                metadata = _npy_metadata(output / destination_relative)
+                    if repair_row is None:
+                        actual_mode = _link_file(
+                            source, output / destination_relative, link_mode
+                        )
+                    else:
+                        actual_mode = "materialized-repair"
+                        repair_rows.extend(repair_row)
+                    metadata = _npy_metadata(output / destination_relative)
                 metadata["path"] = destination_relative.as_posix()
                 metadata["storage"] = {
                     "kind": "npy",
                     "path": destination_relative.as_posix(),
                 }
+                for payload, role in references:
+                    spec = payload["tensors"][role]
+                    spec.update(
+                        {
+                            "file": relative.as_posix(),
+                            "shape": metadata["shape"],
+                            "dtype": np.dtype(metadata["dtype"]).name,
+                            "data_bytes": metadata["data_bytes"],
+                            "data_sha256": metadata["data_sha256"],
+                        }
+                    )
+                    if metadata.get("encoding") == PACKED_INDEX_ENCODING:
+                        spec.update(
+                            {
+                                key: metadata[key]
+                                for key in (
+                                    "encoding",
+                                    "index_bits",
+                                    "values_per_row",
+                                    "packed_row_bytes",
+                                    "decoded_dtype",
+                                    "decoded_shape",
+                                    "decoded_data_bytes",
+                                    "decoded_data_sha256",
+                                )
+                            }
+                        )
                 tensor_index[name] = metadata
                 linked.append(
                     {
@@ -901,11 +1302,20 @@ def export_pack(
             if source_format == "p1016-true-c-native-planes-v1":
                 for source_meta in p1016_meta_paths:
                     relative = Path("planes") / source_meta.name
-                    actual_mode = _link_file(source_meta, output / relative, link_mode)
+                    match = P1016_META_RE.fullmatch(source_meta.name)
+                    if match is None:
+                        raise PackValidationError(
+                            f"unsupported p1016 metadata name: {source_meta.name}"
+                        )
+                    selected_document = p1016_documents[int(match.group(1))]
+                    (output / relative).write_text(
+                        json.dumps(selected_document, indent=2, sort_keys=True) + "\n",
+                        encoding="utf-8",
+                    )
                     linked.append(
                         {
                             "path": relative.as_posix(),
-                            "mode": actual_mode,
+                            "mode": "selected-manifest",
                             "role": "source_layer_meta",
                         }
                     )
@@ -1112,6 +1522,36 @@ def export_pack(
                 "port_base": "glm52-ds4-bq3-ptq-opd/docker/scripts/export_pack.py",
             },
         }
+        if source_format == "p1016-true-c-native-planes-v1":
+            dense_base_bytes = sum(
+                int(row["bytes"])
+                for row in file_entries
+                if row.get("role") == BASE_WEIGHTS_SHARD_ROLE
+            )
+            selected_layers: dict[str, dict[str, Any]] = {}
+            for selected_layer, document in sorted(p1016_documents.items()):
+                selected_layers[str(selected_layer)] = {}
+                for projection, suffix in (("fused13", "13"), ("down", "2")):
+                    selected_layers[str(selected_layer)][projection] = {
+                        "tiers": document[f"tier{suffix}"],
+                        "slots": document[f"slot{suffix}"],
+                        "families": document[f"family{suffix}"],
+                        "payloads": document["payloads"][projection],
+                    }
+            manifest["selected_payloads"] = {
+                "schema": "bs-pack-selected-payloads-v1",
+                "producer_stage": "smash export:v4-row-packed-selected-wire-v1",
+                "runtime_floor_bytes": runtime_floor_bytes,
+                "dense_base_bytes": dense_base_bytes,
+                "additional_resident_role_bytes": {
+                    "repair_state": sum(
+                        int(row["bytes"])
+                        for row in file_entries
+                        if row.get("role") == "repair_state"
+                    )
+                },
+                "layers": selected_layers,
+            }
         if serving_root is not None:
             manifest["provenance"]["serving_model_root"] = str(serving_root)
         if repair_summary is not None:
@@ -1345,6 +1785,7 @@ def _verify_tensors(root: Path, manifest: dict[str, Any]) -> tuple[int, list[int
                 raise PackValidationError(
                     f"tensor metadata mismatch for {name}.{key}: expected {recorded.get(key)!r}, got {metadata[key]!r}"
                 )
+        _verify_packed_index_metadata(name, recorded)
         suffix = match.group(2)
         if suffix == "experts.tier_map":
             if storage_kind == "npy":

@@ -30,6 +30,11 @@ def _parser() -> argparse.ArgumentParser:
     export = subparsers.add_parser("export", help="export quantizer output to bs-pack")
     export.add_argument("--source-root", type=Path, required=True)
     export.add_argument(
+        "--runtime-floor-bytes",
+        type=int,
+        help="required for p1016: documented runtime residency added to the memory preflight",
+    )
+    export.add_argument(
         "--serving-model-root",
         type=Path,
         help="base-model directory providing full config and tokenizer metadata",
@@ -165,6 +170,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                     link_mode=args.link_mode,
                     repair=repair,
                     serving_model_root=args.serving_model_root,
+                    runtime_floor_bytes=args.runtime_floor_bytes,
                 )
                 receipt = verify_pack(args.output)
                 result = {

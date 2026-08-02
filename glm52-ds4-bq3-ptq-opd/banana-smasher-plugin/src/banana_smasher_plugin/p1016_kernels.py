@@ -649,6 +649,7 @@ def _mixed_exact_gemv(
     family_codes,
     qtip_sources,
     d4_codes,
+    d4_index_bits,
     d4_scales,
     d4_codebooks,
     native_packed,
@@ -677,7 +678,8 @@ def _mixed_exact_gemv(
     is_native = family == 3
 
     qtip_ptr = tl.cast(tl.load(qtip_sources + expert).to(tl.int64), tl.pointer_type(tl.uint8))
-    d4_code_ptr = tl.cast(tl.load(d4_codes + expert).to(tl.int64), tl.pointer_type(tl.int16))
+    d4_code_ptr = tl.cast(tl.load(d4_codes + expert).to(tl.int64), tl.pointer_type(tl.uint8))
+    d4_bits = tl.load(d4_index_bits + expert).to(tl.int64)
     d4_scale_ptr = tl.cast(tl.load(d4_scales + expert).to(tl.int64), tl.pointer_type(tl.uint8))
     d4_cb_ptr = tl.cast(tl.load(d4_codebooks + expert).to(tl.int64), tl.pointer_type(tl.float16))
     native_packed_ptr = tl.cast(tl.load(native_packed + expert).to(tl.int64), tl.pointer_type(tl.uint8))
@@ -725,7 +727,31 @@ def _mixed_exact_gemv(
         qtip_weight = tl.load(lut_ptr + index * 2 + component, mask=qmask, other=0.0).to(tl.float32)
 
         d4mask = common_mask & is_d4
-        d4_code = tl.load(d4_code_ptr + n[:, None] * (K // 4) + (k[None, :] // 4), mask=d4mask, other=0).to(tl.int32)
+        d4_row_bytes = ((K // 4) * d4_bits + 7) // 8
+        d4_bit = (k[None, :] // 4) * d4_bits
+        d4_byte = d4_bit // 8
+        d4_shift = d4_bit & 7
+        d4_base = n[:, None] * d4_row_bytes + d4_byte
+        d4_word = (
+            tl.load(d4_code_ptr + d4_base, mask=d4mask, other=0).to(tl.int32)
+            | (
+                tl.load(
+                    d4_code_ptr + d4_base + 1,
+                    mask=d4mask & (d4_byte + 1 < d4_row_bytes),
+                    other=0,
+                ).to(tl.int32)
+                << 8
+            )
+            | (
+                tl.load(
+                    d4_code_ptr + d4_base + 2,
+                    mask=d4mask & (d4_byte + 2 < d4_row_bytes),
+                    other=0,
+                ).to(tl.int32)
+                << 16
+            )
+        )
+        d4_code = (d4_word >> d4_shift) & ((1 << d4_bits) - 1)
         d4_value = tl.load(d4_cb_ptr + d4_code * 4 + (k[None, :] & 3), mask=d4mask, other=0.0).to(tl.float32)
         d4_scale = tl.load(d4_scale_ptr + n[:, None] * (K // 32) + (k[None, :] // 32), mask=d4mask, other=127).to(tl.float32)
         d4_weight = d4_value * tl.exp2(d4_scale - 127.0)
@@ -757,7 +783,8 @@ def mixed_exact_gemv(
     _mixed_exact_gemv[(triton.cdiv(4096, 8), r)](
         x, expert_ids, family_codes,
         pointer_tables["qtip_sources"],
-        pointer_tables["d4_codes"], pointer_tables["d4_scales"],
+        pointer_tables["d4_codes"], pointer_tables["d4_index_bits"],
+        pointer_tables["d4_scales"],
         pointer_tables["d4_codebooks"], pointer_tables["native_packed"],
         pointer_tables["native_scales"], offsets2, offsets3, lut, y,
         R=r, N=4096, K=k, BN=8, BK=256,

@@ -21,6 +21,8 @@ _posix_fadvise = getattr(os, "posix_fadvise", None)
 _POSIX_FADV_DONTNEED = getattr(os, "POSIX_FADV_DONTNEED", 4)
 _PLANE_LOAD_PROGRESS: dict[Path, int] = {}
 _PLANE_LOAD_TOTALS: dict[Path, int] = {}
+OS_FLOOR_BYTES = 4 << 30
+SELECTION_SCHEMA = "bs-pack-selected-payloads-v1"
 
 
 class NativePlanePrerequisiteError(RuntimeError):
@@ -50,6 +52,142 @@ def _mem_available_kib() -> int:
         )
     except Exception:
         return -1
+
+
+def _local_capacity_bytes() -> int:
+    try:
+        pages = int(os.sysconf("SC_PHYS_PAGES"))
+        page_size = int(os.sysconf("SC_PAGE_SIZE"))
+    except (OSError, ValueError, TypeError) as exc:
+        raise _fail(f"cannot determine local memory capacity before allocation: {exc}") from exc
+    capacity = pages * page_size
+    if capacity <= OS_FLOOR_BYTES:
+        raise _fail(
+            f"local capacity {capacity} does not exceed required {OS_FLOOR_BYTES} byte OS floor"
+        )
+    return capacity
+
+
+def _selected_residency_preflight(
+    root: Path, selection: dict[str, Any]
+) -> dict[str, Any]:
+    producer = selection.get("producer_stage")
+    layers = selection.get("layers")
+    runtime_floor = selection.get("runtime_floor_bytes")
+    dense_base = selection.get("dense_base_bytes")
+    if not isinstance(producer, str) or not producer:
+        raise _fail("selected-payload manifest is missing producer_stage")
+    if not isinstance(layers, dict) or not layers:
+        raise _fail("selected-payload manifest has no layers")
+    if not isinstance(runtime_floor, int) or runtime_floor < 0:
+        raise _fail("selected-payload manifest runtime_floor_bytes is invalid")
+    if not isinstance(dense_base, int) or dense_base < 0:
+        raise _fail("selected-payload manifest dense_base_bytes is invalid")
+    additional = selection.get("additional_resident_role_bytes", {})
+    if not isinstance(additional, dict) or any(
+        not isinstance(role, str) or not isinstance(size, int) or size < 0
+        for role, size in additional.items()
+    ):
+        raise _fail("selected-payload manifest additional resident role bytes are invalid")
+
+    role_bytes: dict[str, int] = {}
+    seen_files: set[str] = set()
+    file_metadata: dict[str, tuple[list[int], str, int]] = {}
+    planes_root = (root / "planes").resolve()
+    for layer, projections in sorted(layers.items()):
+        if not isinstance(projections, dict):
+            raise _fail(f"selected-payload layer {layer} is not an object")
+        for projection, route in sorted(projections.items()):
+            payloads = route.get("payloads") if isinstance(route, dict) else None
+            if not isinstance(payloads, dict) or not payloads:
+                raise _fail(f"selected-payload route {layer}/{projection} has no payloads")
+            for tier, payload in sorted(payloads.items()):
+                tensors = payload.get("tensors") if isinstance(payload, dict) else None
+                if not isinstance(tensors, dict) or not tensors:
+                    raise _fail(f"selected payload {layer}/{projection}/{tier} has no tensors")
+                for role, spec in sorted(tensors.items()):
+                    relative = spec.get("file") if isinstance(spec, dict) else None
+                    data_bytes = spec.get("data_bytes") if isinstance(spec, dict) else None
+                    if not isinstance(relative, str) or not relative:
+                        raise _fail(
+                            f"selected payload {layer}/{projection}/{tier}/{role} has no explicit file"
+                        )
+                    relative_path = Path(relative)
+                    if (
+                        relative_path.is_absolute()
+                        or len(relative_path.parts) != 1
+                        or ".." in relative_path.parts
+                    ):
+                        raise _fail(f"selected payload has unsafe explicit file: {relative!r}")
+                    if not isinstance(data_bytes, int) or data_bytes < 0:
+                        raise _fail(
+                            f"selected payload {layer}/{projection}/{tier}/{role} has invalid data_bytes"
+                        )
+                    actual = file_metadata.get(relative)
+                    if actual is None:
+                        unresolved = planes_root / relative_path
+                        path = unresolved.resolve()
+                        if (
+                            planes_root not in path.parents
+                            or not unresolved.is_file()
+                            or unresolved.is_symlink()
+                        ):
+                            raise _fail(f"selected payload file is missing or unsafe: {relative}")
+                        try:
+                            array = np.load(path, mmap_mode="r", allow_pickle=False)
+                        except Exception as exc:
+                            raise _fail(
+                                f"cannot inspect selected payload before allocation {relative}: {exc}"
+                            ) from exc
+                        actual = (list(array.shape), str(array.dtype), int(array.nbytes))
+                        del array
+                        file_metadata[relative] = actual
+                    expected_shape = spec.get("shape") if isinstance(spec, dict) else None
+                    expected_dtype = spec.get("dtype") if isinstance(spec, dict) else None
+                    if (
+                        expected_shape != actual[0]
+                        or expected_dtype != actual[1]
+                        or data_bytes != actual[2]
+                    ):
+                        raise _fail(
+                            f"selected payload metadata drift {relative}: "
+                            f"manifest={expected_shape}/{expected_dtype}/{data_bytes} "
+                            f"actual={actual[0]}/{actual[1]}/{actual[2]}; "
+                            f"producer_stage={producer}; remediation=re-export the selected pack"
+                        )
+                    if relative in seen_files:
+                        continue
+                    seen_files.add(relative)
+                    key = f"selected:{role}"
+                    role_bytes[key] = role_bytes.get(key, 0) + actual[2]
+    role_bytes["dense_base"] = dense_base
+    role_bytes["runtime_floor"] = runtime_floor
+    for role, size in additional.items():
+        role_bytes[f"additional:{role}"] = size
+    resident = sum(role_bytes.values())
+    capacity = _local_capacity_bytes()
+    budget = capacity - OS_FLOOR_BYTES
+    report = {
+        "producer_stage": producer,
+        "role_bytes": dict(sorted(role_bytes.items())),
+        "selected_file_count": len(seen_files),
+        "resident_bytes": resident,
+        "capacity_bytes": capacity,
+        "os_floor_bytes": OS_FLOOR_BYTES,
+        "budget_bytes": budget,
+    }
+    if resident > budget:
+        math_text = " + ".join(
+            f"{role}={value}" for role, value in sorted(role_bytes.items())
+        )
+        raise _fail(
+            "STRUCTURAL_MEMORY_PREFLIGHT_OVER_BUDGET at t=0 before tensor allocation: "
+            f"{math_text}; resident={resident}; capacity={capacity}; "
+            f"os_floor={OS_FLOOR_BYTES}; budget={budget}; over={resident - budget}; "
+            f"producer_stage={producer}; remediation=re-export/re-tier the selected manifest payloads "
+            "or reduce the documented runtime floor"
+        )
+    return report
 
 
 def _release_mmap_pages(path: Path, array: np.ndarray) -> None:
@@ -85,6 +223,8 @@ class NativePlanePack:
     layers: tuple[int, ...]
     layout_sha256: str
     architecture: str
+    selected_payloads: dict[str, Any]
+    residency: dict[str, Any]
 
     @classmethod
     def from_model_root(cls, model_root: str | Path) -> "NativePlanePack":
@@ -135,7 +275,25 @@ class NativePlanePack:
             raise _fail("pack layer list is malformed") from exc
         if len(layers) != len(set(layers)) or layers != tuple(sorted(layers)):
             raise _fail(f"pack layer list is duplicated or unordered: {layers}")
-        pack = cls(root, layers, layout, str(quant.get("architecture", "sm_120")))
+        selection = manifest.get("selected_payloads")
+        if not isinstance(selection, dict) or selection.get("schema") != SELECTION_SCHEMA:
+            raise _fail(
+                f"pack manifest must own exactly one {SELECTION_SCHEMA} selection; no fallback is allowed"
+            )
+        selection_layers = selection.get("layers")
+        if not isinstance(selection_layers, dict) or set(selection_layers) != {
+            str(layer) for layer in layers
+        }:
+            raise _fail("selected-payload manifest layer set does not match pack layers")
+        residency = _selected_residency_preflight(root, selection)
+        pack = cls(
+            root,
+            layers,
+            layout,
+            str(quant.get("architecture", "")),
+            selection,
+            residency,
+        )
         for layer in layers:
             meta = _json(pack.meta_path(layer))
             if (
@@ -148,6 +306,15 @@ class NativePlanePack:
 
     def meta_path(self, layer: int) -> Path:
         return self.root / "planes" / f"layer_{int(layer):03d}.meta.json"
+
+    def selected_projection(self, layer: int, projection: str) -> dict[str, Any]:
+        try:
+            value = self.selected_payloads["layers"][str(int(layer))][projection]
+        except (KeyError, TypeError) as exc:
+            raise _fail(f"manifest selection missing layer {layer} projection {projection}") from exc
+        if not isinstance(value, dict):
+            raise _fail(f"manifest selection route {layer}/{projection} is not an object")
+        return value
 
 
 @dataclass
@@ -292,23 +459,75 @@ class NativePlaneLayer:
         return tensor
 
     def _load_projection(self, projection: str) -> ProjectionState:
-        suffix = "13" if projection == "fused13" else "2"
         input_width = int(self.meta["K13" if projection == "fused13" else "K2"])
         output_width = int(self.meta["N13" if projection == "fused13" else "N2"])
         experts = int(self.meta["E"])
-        tiers_value = self.meta.get(f"tier{suffix}")
-        slots_value = self.meta.get(f"slot{suffix}")
-        families_value = self.meta.get(f"family{suffix}")
+        selected = self.pack.selected_projection(self.layer_index, projection)
+        tiers_value = selected.get("tiers")
+        slots_value = selected.get("slots")
+        families_value = selected.get("families")
         if not all(isinstance(value, list) and len(value) == experts for value in (tiers_value, slots_value, families_value)):
             raise _fail(f"layer {self.layer_index} {projection} route shape drift")
-        tiers = tuple(str(value) for value in tiers_value)
-        slots = torch.tensor(slots_value, dtype=torch.int64, device=self.device)
-        families = torch.tensor(families_value, dtype=torch.int8, device=self.device)
-        if set(int(value) for value in families_value) - {0, 1, 2, 3}:
+        tier_values = cast(list[Any], tiers_value)
+        slot_values = cast(list[Any], slots_value)
+        family_values = cast(list[Any], families_value)
+        tiers = tuple(str(value) for value in tier_values)
+        if not all(isinstance(value, int) and value >= 0 for value in slot_values):
+            raise _fail(f"layer {self.layer_index} {projection} selected slots are malformed")
+        if len(set(zip(tiers, slot_values, strict=True))) != experts:
+            raise _fail(
+                f"layer {self.layer_index} {projection} selected cell binds more than once"
+            )
+        if not all(isinstance(value, int) for value in family_values) or set(
+            family_values
+        ) - {0, 1, 2, 3}:
             raise _fail(f"layer {self.layer_index} {projection} has unsupported family code")
-        specs = (self.meta.get("payloads") or {}).get(projection)
+        specs = selected.get("payloads")
         if not isinstance(specs, dict) or not specs:
-            raise _fail(f"layer {self.layer_index} {projection} payload map missing")
+            raise _fail(f"layer {self.layer_index} {projection} selected payload map missing")
+        routed_tiers = set(tiers)
+        if set(specs) != routed_tiers:
+            raise _fail(
+                f"layer {self.layer_index} {projection} selected payload set drift: "
+                f"routes={sorted(routed_tiers)} payloads={sorted(specs)}"
+            )
+        family_codes = self.meta["family_codes"]
+        d4_bits_by_tier: dict[str, int] = {}
+        for tier, payload_spec in specs.items():
+            if not isinstance(payload_spec, dict):
+                raise _fail(f"layer {self.layer_index} {projection}/{tier} payload is malformed")
+            if payload_spec.get("family") != "d4":
+                continue
+            code_spec = (payload_spec.get("tensors") or {}).get("codes")
+            if not isinstance(code_spec, dict):
+                raise _fail(f"layer {self.layer_index} {projection}/{tier} D4 codes missing")
+            bits = code_spec.get("index_bits")
+            codebook_size = payload_spec.get("k")
+            if (
+                code_spec.get("encoding") != "little-endian-packed-index-rows-v1"
+                or not isinstance(bits, int)
+                or not 1 <= bits <= 16
+                or not isinstance(codebook_size, int)
+                or codebook_size != 1 << bits
+                or code_spec.get("dtype") != "uint8"
+            ):
+                raise _fail(
+                    f"layer {self.layer_index} {projection}/{tier} D4 codes are not "
+                    "the required V4 little-endian row-packed payload"
+                )
+            d4_bits_by_tier[tier] = bits
+        for expert, tier in enumerate(tiers):
+            payload_spec = specs[tier]
+            payload_family = (
+                payload_spec.get("family") if isinstance(payload_spec, dict) else None
+            )
+            if family_codes.get(payload_family) != family_values[expert]:
+                raise _fail(
+                    f"layer {self.layer_index} {projection}/{tier} family binding drift "
+                    f"at expert {expert}"
+                )
+        slots = torch.tensor(slot_values, dtype=torch.int64, device=self.device)
+        families = torch.tensor(family_values, dtype=torch.int8, device=self.device)
         payloads: dict[str, dict[str, torch.Tensor]] = {}
         for tier, payload_spec in specs.items():
             tensor_specs = payload_spec.get("tensors") if isinstance(payload_spec, dict) else None
@@ -320,7 +539,7 @@ class NativePlaneLayer:
             if tier not in payloads:
                 raise _fail(f"layer {self.layer_index} {projection} missing tier {tier}")
             payload = payloads[tier]
-            slot = int(slots_value[expert])
+            slot = int(slot_values[expert])
             expert_ids = payload.get("expert_ids")
             if expert_ids is None or slot < 0 or slot >= expert_ids.numel() or int(expert_ids[slot]) != expert:
                 raise _fail(
@@ -346,6 +565,11 @@ class NativePlaneLayer:
             "d4_codebooks": pointers("codebook"),
             "native_packed": pointers("packed"),
             "native_scales": pointers("scales"),
+            "d4_index_bits": torch.tensor(
+                [d4_bits_by_tier.get(tier, 0) for tier in tiers],
+                dtype=torch.int32,
+                device=self.device,
+            ),
         }
         input_ones = torch.ones(input_width, dtype=torch.float32, device=self.device)
         output_ones = torch.ones(output_width, dtype=torch.float32, device=self.device)

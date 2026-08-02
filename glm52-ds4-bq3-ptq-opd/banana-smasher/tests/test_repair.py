@@ -11,7 +11,9 @@ from banana_smasher.cli import _parser
 from banana_smasher.contract import export_pack, verify_pack
 from banana_smasher.repair import (
     CodebookRepair,
+    REPAIR_FORMAT,
     RepairBundle,
+    _normalize_checkpoint_format,
     materialize_codebook_plane,
     validate_repair_state,
 )
@@ -20,6 +22,16 @@ from test_contract import _write_qtip2_source
 
 def _wire_sha(array: np.ndarray) -> str:
     return hashlib.sha256(np.ascontiguousarray(array).tobytes(order="C")).hexdigest()
+
+
+def test_sealed_pre_rename_repair_format_is_normalized_fail_closed() -> None:
+    sealed_format = bytes.fromhex(
+        "67656e657369732d62617369632d7265706169722d7631"
+    ).decode("utf-8")
+    assert _normalize_checkpoint_format(sealed_format) == REPAIR_FORMAT
+    assert _normalize_checkpoint_format(REPAIR_FORMAT) == REPAIR_FORMAT
+    with pytest.raises(ValueError, match="not an approved sealed format"):
+        _normalize_checkpoint_format("unknown-repair-format")
 
 
 def _fixture_bundle(old: np.ndarray, replacement: np.ndarray) -> RepairBundle:

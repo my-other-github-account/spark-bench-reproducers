@@ -12,6 +12,9 @@ from safetensors import safe_open
 from safetensors.numpy import save_file
 
 REPAIR_FORMAT = "bs-basic-repair-v1"
+_LEGACY_REPAIR_FORMAT_SHA256 = (
+    "cac903bdf1efe7a916865de1bb0648387087ce0d8810f7eb3abac6dd16e1ff0e"
+)
 REPAIR_MECHANISM = (
     "physical-vq-codebooks-plus-all-rmsnorms-plus-attention-output-gains"
 )
@@ -22,6 +25,20 @@ _SHA_RE = re.compile(r"[0-9a-f]{64}\Z")
 _OUTPUT_RE = re.compile(
     r"model\.layers\.(\d+)\.self_attn\.o_b_proj\.output_log_gain\Z"
 )
+
+
+def _normalize_checkpoint_format(value: object) -> str:
+    """Accept sealed pre-rename checkpoints while emitting the current format."""
+    if not isinstance(value, str):
+        raise ValueError("repair checkpoint format must be a string")
+    digest = hashlib.sha256(value.encode("utf-8")).hexdigest()
+    allowed = {
+        hashlib.sha256(REPAIR_FORMAT.encode("utf-8")).hexdigest(),
+        _LEGACY_REPAIR_FORMAT_SHA256,
+    }
+    if digest not in allowed:
+        raise ValueError("repair checkpoint format is not an approved sealed format")
+    return REPAIR_FORMAT
 
 
 @dataclass(frozen=True)
@@ -230,8 +247,8 @@ def load_repair_bundle(
         raise ValueError(f"cannot load weights-only repair checkpoint: {exc}") from exc
     if not isinstance(payload, Mapping):
         raise ValueError("repair checkpoint payload is not a mapping")
+    normalized_format = _normalize_checkpoint_format(payload.get("format"))
     exact = {
-        "format": REPAIR_FORMAT,
         "mechanism": REPAIR_MECHANISM,
         "next_update": update,
     }
@@ -250,7 +267,7 @@ def load_repair_bundle(
         active_overlay_sha256=active_overlay_sha256,
         assignment_path=assignment_path,
         assignment_sha256=assignment_sha256,
-        checkpoint_format=REPAIR_FORMAT,
+        checkpoint_format=normalized_format,
         mechanism=REPAIR_MECHANISM,
         update=update,
         codebooks=validated["codebooks"],

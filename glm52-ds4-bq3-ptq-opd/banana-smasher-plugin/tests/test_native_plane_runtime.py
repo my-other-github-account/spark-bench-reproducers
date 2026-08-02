@@ -27,7 +27,32 @@ from banana_smasher_plugin.native_planes import (
 def _write_array(root: Path, name: str, value: np.ndarray) -> dict[str, object]:
     path = root / name
     np.save(path, value)
-    return {"file": name, "shape": list(value.shape), "dtype": str(value.dtype)}
+    return {
+        "file": name,
+        "shape": list(value.shape),
+        "dtype": str(value.dtype),
+        "data_bytes": int(value.nbytes),
+    }
+
+
+def _write_packed_codes(
+    root: Path, name: str, *, rows: int, outputs: int
+) -> dict[str, object]:
+    value = np.zeros((rows, outputs, 1), dtype=np.uint8)
+    spec = _write_array(root, name, value)
+    spec.update(
+        {
+            "encoding": "little-endian-packed-index-rows-v1",
+            "index_bits": 4,
+            "values_per_row": 1,
+            "packed_row_bytes": 1,
+            "decoded_dtype": "int16",
+            "decoded_shape": [rows, outputs, 1],
+            "decoded_data_bytes": rows * outputs * 2,
+            "decoded_data_sha256": "0" * 64,
+        }
+    )
+    return spec
 
 
 def _tiny_pack(root: Path, *, layout: str = EXPECTED_LAYOUT_SHA256) -> Path:
@@ -44,10 +69,11 @@ def _tiny_pack(root: Path, *, layout: str = EXPECTED_LAYOUT_SHA256) -> Path:
                     "expert_ids": _write_array(
                         planes, f"layer_000.d4_k16.{suffix}.expert_ids.npy", np.array([0, 1], dtype=np.int16)
                     ),
-                    "codes": _write_array(
+                    "codes": _write_packed_codes(
                         planes,
                         f"layer_000.d4_k16.{suffix}.codes.npy",
-                        np.zeros((2, width, 1), dtype=np.int16),
+                        rows=2,
+                        outputs=width,
                     ),
                     "scales": _write_array(
                         planes,
@@ -92,6 +118,23 @@ def _tiny_pack(root: Path, *, layout: str = EXPECTED_LAYOUT_SHA256) -> Path:
         "source_format": "p1016-true-c-native-planes-v1",
         "layers": [0],
         "tensor_layout_sha256": layout,
+        "selected_payloads": {
+            "schema": "bs-pack-selected-payloads-v1",
+            "producer_stage": "smash export:selected-payload-wire-v1",
+            "runtime_floor_bytes": 0,
+            "dense_base_bytes": 0,
+            "layers": {
+                "0": {
+                    projection: {
+                        "tiers": list(meta[f"tier{suffix}"]),
+                        "slots": list(meta[f"slot{suffix}"]),
+                        "families": list(meta[f"family{suffix}"]),
+                        "payloads": payloads[projection],
+                    }
+                    for projection, suffix in (("fused13", "13"), ("down", "2"))
+                }
+            },
+        },
     }
     (root / "BANANA_PACK_MANIFEST.json").write_text(json.dumps(manifest))
     (root / "config.json").write_text(
@@ -140,6 +183,91 @@ def test_plane_loader_moves_named_planes_and_dispatches_projection(tmp_path: Pat
     assert calls == [("fused13", (2, 4), (1, 0))]
     assert layer.state("fused13").families.tolist() == [2, 2]
     assert set(layer.state("fused13").payloads) == {"d4_k16"}
+    assert layer.state("fused13").payloads["d4_k16"]["codes"].dtype == torch.uint8
+    assert layer.state("fused13").pointer_tables["d4_index_bits"].tolist() == [4, 4]
+
+
+def test_manifest_selection_is_the_only_payload_allocation_source(tmp_path: Path) -> None:
+    root = _tiny_pack(tmp_path / "model")
+    meta_path = root / "planes/layer_000.meta.json"
+    meta = json.loads(meta_path.read_text())
+    candidate = {
+        "family": "d4",
+        "d": 4,
+        "k": 32,
+        "tensors": {
+            "expert_ids": _write_array(
+                root / "planes", "layer_000.candidate.13.expert_ids.npy", np.array([0], dtype=np.int16)
+            ),
+            "codes": _write_array(
+                root / "planes", "layer_000.candidate.13.codes.npy", np.zeros((1, 4, 1), dtype=np.int16)
+            ),
+        },
+    }
+    meta["payloads"]["fused13"]["candidate_nonfixed_tier"] = candidate
+    meta_path.write_text(json.dumps(meta))
+
+    pack = NativePlanePack.from_model_root(root)
+    layer = NativePlaneLayer(pack, 0, device="cpu", dispatch=lambda **kwargs: kwargs["x"])
+
+    assert set(layer.state("fused13").payloads) == {"d4_k16"}
+
+
+def test_manifest_selection_rejects_duplicate_cell_before_plane_allocation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = _tiny_pack(tmp_path / "model")
+    manifest_path = root / "BANANA_PACK_MANIFEST.json"
+    manifest = json.loads(manifest_path.read_text())
+    manifest["selected_payloads"]["layers"]["0"]["fused13"]["slots"] = [0, 0]
+    manifest_path.write_text(json.dumps(manifest))
+    pack = NativePlanePack.from_model_root(root)
+    allocations: list[object] = []
+
+    def forbidden_tensor(*args, **kwargs):
+        allocations.append((args, kwargs))
+        raise AssertionError("plane allocation happened before exact-once binding gate")
+
+    monkeypatch.setattr(NativePlaneLayer, "_tensor", forbidden_tensor)
+    with pytest.raises(NativePlanePrerequisiteError, match="binds more than once"):
+        NativePlaneLayer(pack, 0, device="cpu", dispatch=lambda **kwargs: kwargs["x"])
+
+    assert allocations == []
+
+
+def test_structural_memory_preflight_fails_before_tensor_allocation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = _tiny_pack(tmp_path / "model")
+    manifest_path = root / "BANANA_PACK_MANIFEST.json"
+    manifest = json.loads(manifest_path.read_text())
+    manifest["selected_payloads"]["dense_base_bytes"] = 101
+    manifest["selected_payloads"]["runtime_floor_bytes"] = 17
+    manifest_path.write_text(json.dumps(manifest))
+    monkeypatch.setattr(
+        native_planes,
+        "_local_capacity_bytes",
+        lambda: native_planes.OS_FLOOR_BYTES + 100,
+    )
+    allocations: list[object] = []
+
+    def forbidden_tensor(*args, **kwargs):
+        allocations.append((args, kwargs))
+        raise AssertionError("tensor allocation happened before memory preflight")
+
+    monkeypatch.setattr(torch, "tensor", forbidden_tensor)
+    with pytest.raises(NativePlanePrerequisiteError) as caught:
+        NativePlanePack.from_model_root(root)
+
+    message = str(caught.value)
+    assert allocations == []
+    assert "STRUCTURAL_MEMORY_PREFLIGHT_OVER_BUDGET at t=0 before tensor allocation" in message
+    assert "dense_base=101" in message
+    assert "runtime_floor=17" in message
+    assert "selected:codes=" in message
+    assert "os_floor=4294967296" in message
+    assert "producer_stage=smash export:selected-payload-wire-v1" in message
+    assert "remediation=" in message
 
 
 def test_streamed_plane_load_releases_mmap_pages_and_logs_watermark(
@@ -342,7 +470,9 @@ def test_quant_config_selects_only_stock_deepseek_routed_experts(
         config.get_quant_method(layer, "model.layers.bad.ffn.experts")
 
 
-def test_missing_plane_and_missing_kernel_fail_loudly(tmp_path: Path) -> None:
+def test_missing_plane_and_missing_kernel_fail_loudly(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     root = _tiny_pack(tmp_path / "model")
     (root / "planes/layer_000.meta.json").unlink()
     with pytest.raises(NativePlanePrerequisiteError, match=FAST_PATH_ERROR):
@@ -350,6 +480,13 @@ def test_missing_plane_and_missing_kernel_fail_loudly(tmp_path: Path) -> None:
 
     root = _tiny_pack(tmp_path / "model2")
     pack = NativePlanePack.from_model_root(root)
+
+    def missing_dispatch() -> None:
+        raise NativePlanePrerequisiteError(
+            f"{FAST_PATH_ERROR}: accelerated dispatch unavailable"
+        )
+
+    monkeypatch.setattr(native_planes, "_load_accelerated_dispatch", missing_dispatch)
     with pytest.raises(NativePlanePrerequisiteError, match="accelerated dispatch"):
         NativePlaneLayer(pack, 0, device="cpu", dispatch=None)
 
