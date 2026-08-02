@@ -37,8 +37,8 @@
       "sha256": "86f78efb6f86f11dcd93cf20dfc246c82444c91c0d1448c063cfb9ef473bdd3a"
     },
     "README.md": {
-      "bytes": 7428,
-      "sha256": "e21325f184bf2c310697c4ec52466acb8f76d42b288a4d2fc8521cdb1f40140e"
+      "bytes": 8643,
+      "sha256": "ddb58a51a7c560284da0de4b37bb1b2d9a29f7fd8b073b7579b7c974cc96820b"
     },
     "RELEASE_PRESEAL.md": {
       "bytes": 4451,
@@ -97,8 +97,8 @@
       "sha256": "34f40520b7d320005683457f14717185855f70f1db75418c1d8e5a739a7690fd"
     },
     "golden-container/prepare_external_pack.py": {
-      "bytes": 4680,
-      "sha256": "1e7680195489f9e44d47d065b1ac87663f52ebbc154bf9cece99a266e50f6e13"
+      "bytes": 4667,
+      "sha256": "5a6d37a113d0c4a70278af1f237048f9fe90cceda29c2542460817fb4b085659"
     },
     "golden-container/publish_local_registry.sh": {
       "bytes": 1330,
@@ -121,8 +121,8 @@
       "sha256": "9be4baed123cb85ad440df474dad5ce06b569849e2013e81d06b0ba91dcb6599"
     },
     "golden-container/verify_image_static.py": {
-      "bytes": 5476,
-      "sha256": "a3544aa7349d2ab23c4ae506514b3695a680433121e8203d0151ec4db86968cf"
+      "bytes": 5504,
+      "sha256": "b6ecc288018d0a0e13309b254f3ee00ccae254adc25a189ed3cb735fe3284a6a"
     },
     "kernels/cubins-e43/moe_w3_mm_k2048.cubin": {
       "bytes": 19520,
@@ -257,8 +257,8 @@
       "sha256": "97f2fde1a14a1d7cf8f194bbf6f7cfacd2e8e378efe438a8d5fd32c41f2d4f99"
     },
     "pyproject.toml": {
-      "bytes": 972,
-      "sha256": "fbfabe6460ed761c42d34c7bc7ba31d3df9969d0b51eaa24298bdce88de12a13"
+      "bytes": 1103,
+      "sha256": "74c943dcdde85c75d31a4852c31e271ce993da8b8f6e7b4a9ac4fa41549f4000"
     },
     "schema/bs-kernel-cache-v1.schema.json": {
       "bytes": 1023,
@@ -309,8 +309,8 @@
       "sha256": "702b2d0e57d0c58e612a6179676e8b358c87a5dfb5eaab591f4807587dbb8a5c"
     },
     "src/banana_smasher/cli.py": {
-      "bytes": 23762,
-      "sha256": "c0cf7685c6c229faa56c12caf11d229627cf901e8d930eb87db98cbe4d18ddc1"
+      "bytes": 28568,
+      "sha256": "e079fb47c049d8af1f5252dcf23e9ab88d5ae21924812dc6e63336dd7be43eda"
     },
     "src/banana_smasher/contract.py": {
       "bytes": 41897,
@@ -335,6 +335,10 @@
     "src/banana_smasher/fwht.py": {
       "bytes": 3836,
       "sha256": "16eea326db3a40fffa579e7b75c5ac1a7719d4dfed912ba04c98932249115f50"
+    },
+    "src/banana_smasher/knapsack.py": {
+      "bytes": 24304,
+      "sha256": "74e38e5070d8347588ecbe39fa609ef58a4c4bdaaf3f3e40f85476ac6349619d"
     },
     "src/banana_smasher/loader.py": {
       "bytes": 7474,
@@ -361,8 +365,8 @@
       "sha256": "04bdc3a403791c6962f98e77a9911e52729c8f186aa7f3127fa1c8b2008993e4"
     },
     "src/banana_smasher/solver_qtip_profile.py": {
-      "bytes": 30675,
-      "sha256": "712669cfc78bd927db34f50c00932c41d40aef012d8789beff7a53138df9ad31"
+      "bytes": 43846,
+      "sha256": "ffa8b6e181e7876bb217b597c978ce12dea778c38431b4e6343e9c0a2d75a501"
     },
     "src/banana_smasher/update.py": {
       "bytes": 33095,
@@ -432,6 +436,10 @@
       "bytes": 3019,
       "sha256": "3a258e5a7b8974fd689da18fb0bce114be134ed79934fedc5d45e9eb89aa9fe1"
     },
+    "tests/test_knapsack.py": {
+      "bytes": 9955,
+      "sha256": "23f7c653fe9481ff07022344b3aaaf363d34ec3e1552c893f375c994bc99163b"
+    },
     "tests/test_loader.py": {
       "bytes": 2940,
       "sha256": "3aec3d345738eaab9c925f1af8d845d3dfa4033e9f0915101cd2f308292cdb9f"
@@ -441,8 +449,8 @@
       "sha256": "967d03d982ffa855b5da29c76ccdeabe221989ed71569659f18e47cf4c9e7d65"
     },
     "tests/test_release_surfaces.py": {
-      "bytes": 4751,
-      "sha256": "ecdc47f478738b51e351f48c37332e6a272f73a4d9e3e76db0f0b2e4dc465f4a"
+      "bytes": 5206,
+      "sha256": "8dce43ea41c9bc600eb731af7a10297ff77ed7c0088825b1dd9f7ef43f74d49c"
     },
     "tests/test_repack.py": {
       "bytes": 1623,
@@ -797,8 +805,8 @@
       "sha256": "56b36196ec0e1db8af60b51d02bb488c10171d4eec7bda842bc623a454c2ade8"
     },
     "wheels/banana_smasher-1.0.0-py3-none-any.whl": {
-      "bytes": 79718,
-      "sha256": "7e013a92fa1c560574cffbd086ed35048de4dc7a96de385639fa0d4cbcff4bd9"
+      "bytes": 203646,
+      "sha256": "0953659a435b67a48ccc6a76b7f32680fec8a09ac6f365c2cb1af89668611650"
     }
   },
   "flashinfer_cache_runtime_path": "/root/.cache/flashinfer/0.6.14/cached_ops",

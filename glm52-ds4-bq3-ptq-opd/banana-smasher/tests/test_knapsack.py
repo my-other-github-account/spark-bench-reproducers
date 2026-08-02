@@ -2,11 +2,12 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shlex
 from pathlib import Path
 
 import pytest
 
-from banana_smasher.cli import main
+from banana_smasher.cli import _parser, main
 from banana_smasher.knapsack import KnapsackValidationError, run_knapsack
 
 
@@ -58,7 +59,7 @@ def _fixture_run(
         anchors[tier] = {
             "path": relative.as_posix(),
             "sha256": digest,
-            "producer_command": f"smash anchor --run-root {root} --tier {tier}",
+            "producer_command": f"smash anchor --run-root {root}",
         }
         rows.extend(
             {"cell_id": cell, "tier": tier, "damage": damage}
@@ -81,7 +82,7 @@ def _fixture_run(
         "damage_rows": {
             "path": damage_path.as_posix(),
             "sha256": damage_sha,
-            "producer_command": f"smash damage --run-root {root}",
+            "producer_command": f"smash anchor --run-root {root}",
         },
     }
     _write_json(root / "MANIFEST.json", manifest)
@@ -129,7 +130,7 @@ def test_knapsack_preflights_every_intended_anchor_and_names_missing_producer(
     manifest["anchor_manifests"][missing_tier] = {  # type: ignore[index]
         "path": f"anchors/{missing_tier}/MANIFEST.json",
         "sha256": "0" * 64,
-        "producer_command": f"smash anchor --run-root {root} --tier {missing_tier}",
+        "producer_command": "unsupported private producer",
     }
     _write_json(root / "MANIFEST.json", manifest)
 
@@ -138,7 +139,10 @@ def test_knapsack_preflights_every_intended_anchor_and_names_missing_producer(
 
     message = str(caught.value)
     assert missing_tier in message
-    assert f"smash anchor --run-root {root} --tier {missing_tier}" in message
+    producer = message.rsplit("required producer: ", 1)[1]
+    assert producer == f"smash anchor --run-root {root}"
+    parsed = _parser().parse_args(shlex.split(producer)[1:])
+    assert parsed.command == "anchor"
     assert not (root / "knapsack").exists()
 
 
@@ -174,3 +178,94 @@ def test_knapsack_rejects_basis_mismatch(tmp_path: Path) -> None:
         run_knapsack(run_root=root, envelope_bytes=16)
 
     assert not (root / "knapsack").exists()
+
+
+def test_knapsack_normalizes_large_exact_byte_coefficients(tmp_path: Path) -> None:
+    root = tmp_path / "run"
+    tiers = ("compact", "quality")
+    manifest = _fixture_run(root, tiers=tiers)
+    cell = "L000/fused13/E000"
+    for tier_index, tier in enumerate(tiers):
+        anchor_path = root / manifest["anchor_manifests"][tier]["path"]  # type: ignore[index]
+        anchor = json.loads(anchor_path.read_text())
+        anchor["cells"] = [{"cell_id": cell, "bytes": 2**53 + tier_index}]
+        digest = _write_json(anchor_path, anchor)
+        manifest["anchor_manifests"][tier]["sha256"] = digest  # type: ignore[index]
+    damage_path = root / manifest["damage_rows"]["path"]  # type: ignore[index]
+    damage = json.loads(damage_path.read_text())
+    damage["rows"] = [
+        {"cell_id": cell, "tier": tiers[0], "damage": 10.0},
+        {"cell_id": cell, "tier": tiers[1], "damage": 0.0},
+    ]
+    damage_digest = _write_json(damage_path, damage)
+    manifest["damage_rows"]["sha256"] = damage_digest  # type: ignore[index]
+    _write_json(root / "MANIFEST.json", manifest)
+
+    result = run_knapsack(run_root=root, envelope_bytes=2**53 + 1)
+
+    assert result["byte_accounting"]["assigned_bytes"] == 2**53 + 1
+    assert result["objective"]["total_damage"] == 0.0
+
+
+def test_knapsack_requires_zero_relative_mip_gap(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import scipy.optimize
+
+    root = tmp_path / "run"
+    _fixture_run(root)
+    real_milp = scipy.optimize.milp
+
+    def assert_exact_milp(*args: object, options: object = None, **kwargs: object) -> object:
+        assert isinstance(options, dict)
+        assert options.get("mip_rel_gap") == 0.0
+        return real_milp(*args, options=options, **kwargs)
+
+    monkeypatch.setattr(scipy.optimize, "milp", assert_exact_milp)
+
+    run_knapsack(run_root=root, envelope_bytes=16)
+
+
+def test_knapsack_receipt_conflict_does_not_publish_assignment(tmp_path: Path) -> None:
+    root = tmp_path / "run"
+    _fixture_run(root)
+    receipt = root / "knapsack" / "RECEIPT.json"
+    _write_json(receipt, {"status": "different sealed receipt"})
+
+    with pytest.raises(FileExistsError, match="refusing to replace different sealed output"):
+        run_knapsack(run_root=root, envelope_bytes=16)
+
+    assert not (root / "knapsack" / "ASSIGNMENT.json").exists()
+
+
+def test_knapsack_receipt_uses_preflighted_source_byte_counts(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import scipy.optimize
+
+    root = tmp_path / "run"
+    manifest = _fixture_run(root)
+    expected_anchor_bytes = {
+        tier: len((root / descriptor["path"]).read_bytes())
+        for tier, descriptor in manifest["anchor_manifests"].items()  # type: ignore[union-attr]
+    }
+    damage_path = root / manifest["damage_rows"]["path"]  # type: ignore[index]
+    expected_damage_bytes = len(damage_path.read_bytes())
+    drifting_anchor = root / next(iter(manifest["anchor_manifests"].values()))["path"]  # type: ignore[union-attr,index]
+    real_milp = scipy.optimize.milp
+
+    def mutate_source_after_preflight(*args: object, **kwargs: object) -> object:
+        solution = real_milp(*args, **kwargs)
+        drifting_anchor.write_bytes(b"{}\n")
+        damage_path.write_bytes(b"{}\n")
+        return solution
+
+    monkeypatch.setattr(scipy.optimize, "milp", mutate_source_after_preflight)
+
+    run_knapsack(run_root=root, envelope_bytes=16)
+
+    receipt = json.loads((root / "knapsack" / "RECEIPT.json").read_text())
+    assert {row["tier"]: row["bytes"] for row in receipt["anchor_manifests"]} == (
+        expected_anchor_bytes
+    )
+    assert receipt["damage_rows"]["bytes"] == expected_damage_bytes

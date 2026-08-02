@@ -19,7 +19,9 @@ class _Source:
     path: Path
     relative_path: str
     sha256: str
+    byte_count: int
     producer_command: str
+    remedy_command: str
     payload: dict[str, Any]
 
 
@@ -91,14 +93,14 @@ def _preflight_source(
     expected_sha = _sha_field(descriptor.get("sha256"), label=f"{label} sha256")
     if not path.is_file():
         raise KnapsackValidationError(
-            f"{missing_message}: {path}; required producer: {producer_command}"
+            f"{missing_message}: {path}; required producer: {fallback_producer}"
         )
     payload = path.read_bytes()
     actual_sha = _sha256(payload)
     if actual_sha != expected_sha:
         raise KnapsackValidationError(
             f"{label} SHA-256 mismatch: {path}; expected {expected_sha}, got {actual_sha}; "
-            f"required producer: {producer_command}"
+            f"required producer: {fallback_producer}"
         )
     try:
         value = json.loads(payload)
@@ -110,7 +112,9 @@ def _preflight_source(
         path=path,
         relative_path=relative_path,
         sha256=actual_sha,
+        byte_count=len(payload),
         producer_command=producer_command,
+        remedy_command=fallback_producer,
         payload=value,
     )
 
@@ -236,7 +240,7 @@ def _damage_values(
         cell, tier = missing[0]
         raise KnapsackValidationError(
             f"missing damage row for cell {cell!r}, intended tier {tier!r}; "
-            f"required producer: {source.producer_command}"
+            f"required producer: {source.remedy_command}"
         )
     return values
 
@@ -270,6 +274,14 @@ def _write_once(path: Path, value: object) -> tuple[str, int]:
     finally:
         temporary.unlink(missing_ok=True)
     return digest, len(payload)
+
+
+def _preflight_write_once(path: Path, value: object) -> None:
+    """Refuse conflicting sealed outputs before publishing either paired output."""
+
+    payload = _canonical_json(value)
+    if path.exists() and path.read_bytes() != payload:
+        raise FileExistsError(f"refusing to replace different sealed output: {path}")
 
 
 def _output_path(root: Path, value: Path | None, *, default: str, label: str) -> Path:
@@ -308,29 +320,34 @@ def run_knapsack(
 
     # Complete local+SHA preflight for every declared tier before parsing or solving any one tier.
     anchor_sources: dict[str, _Source] = {}
+    anchor_producer = f"smash anchor --run-root {root}"
     for tier in tiers:
         descriptor = descriptors.get(tier)
-        fallback = f"smash anchor --run-root {root} --tier {tier}"
         if descriptor is None:
             raise KnapsackValidationError(
                 f"missing intended anchor manifest descriptor for tier {tier!r}; "
-                f"required producer: {fallback}"
+                f"required producer: {anchor_producer}"
             )
         anchor_sources[tier] = _preflight_source(
             root=root,
             descriptor=descriptor,
             label=f"anchor manifest for tier {tier!r}",
             missing_message=f"missing intended anchor manifest for tier {tier!r}",
-            fallback_producer=fallback,
+            fallback_producer=anchor_producer,
         )
 
     damage_descriptor = manifest.get("damage_rows")
+    if damage_descriptor is None:
+        raise KnapsackValidationError(
+            "missing damage rows manifest descriptor; "
+            f"required producer: {anchor_producer}"
+        )
     damage_source = _preflight_source(
         root=root,
         descriptor=damage_descriptor,
         label="damage rows manifest",
         missing_message="missing damage rows manifest",
-        fallback_producer=f"smash damage --run-root {root}",
+        fallback_producer=anchor_producer,
     )
 
     costs: dict[str, dict[str, int]] = {}
@@ -369,9 +386,46 @@ def run_knapsack(
             "(requires scipy)"
         ) from exc
 
+    # HiGHS accepts only float64 coefficients. Subtract the mandatory per-cell
+    # baseline in Python integers, divide the remaining byte deltas by their
+    # exact GCD, and refuse any still-binding row outside exact float64 range.
+    baseline_by_cell = {
+        cell: min(costs[tier][cell] for tier in tiers) for cell in cells
+    }
+    remaining_envelope = envelope_bytes - minimum_required_bytes
+    byte_deltas = {
+        (cell, tier): costs[tier][cell] - baseline_by_cell[cell]
+        for cell in cells
+        for tier in tiers
+    }
+    feasible_positive_deltas = [
+        delta for delta in byte_deltas.values() if 0 < delta <= remaining_envelope
+    ]
+    byte_divisor = math.gcd(*feasible_positive_deltas) if feasible_positive_deltas else 1
+    scaled_capacity = remaining_envelope // byte_divisor
+    scaled_deltas = {
+        key: delta // byte_divisor
+        for key, delta in byte_deltas.items()
+        if delta <= remaining_envelope
+    }
+    maximum_scaled_use = sum(
+        max(scaled_deltas.get((cell, tier), 0) for tier in tiers) for cell in cells
+    )
+    exact_float_integer_max = 2**53
+    enforce_byte_constraint = scaled_capacity < maximum_scaled_use
+    if enforce_byte_constraint and (
+        scaled_capacity > exact_float_integer_max
+        or any(delta > exact_float_integer_max for delta in scaled_deltas.values())
+    ):
+        raise KnapsackValidationError(
+            "exact byte constraint remains outside float64 integer range after "
+            f"baseline/GCD normalization: capacity={scaled_capacity}, "
+            f"divisor={byte_divisor}"
+        )
+
     variable_count = len(cells) * len(tiers)
     objective = np.empty(variable_count, dtype=np.float64)
-    byte_costs = np.empty(variable_count, dtype=np.float64)
+    variable_upper = np.ones(variable_count, dtype=np.float64)
     row_indices: list[int] = []
     column_indices: list[int] = []
     coefficients: list[float] = []
@@ -379,26 +433,41 @@ def run_knapsack(
         for tier_index, tier in enumerate(tiers):
             variable_index = cell_index * len(tiers) + tier_index
             objective[variable_index] = damages[(cell, tier)]
-            byte_costs[variable_index] = costs[tier][cell]
-            row_indices.extend((cell_index, len(cells)))
-            column_indices.extend((variable_index, variable_index))
-            coefficients.extend((1.0, float(costs[tier][cell])))
+            row_indices.append(cell_index)
+            column_indices.append(variable_index)
+            coefficients.append(1.0)
+            delta = byte_deltas[(cell, tier)]
+            if delta > remaining_envelope:
+                variable_upper[variable_index] = 0.0
+            elif enforce_byte_constraint:
+                row_indices.append(len(cells))
+                column_indices.append(variable_index)
+                coefficients.append(float(scaled_deltas[(cell, tier)]))
+    constraint_count = len(cells) + int(enforce_byte_constraint)
     matrix = coo_matrix(
         (coefficients, (row_indices, column_indices)),
-        shape=(len(cells) + 1, variable_count),
+        shape=(constraint_count, variable_count),
     ).tocsr()
-    lower = np.concatenate((np.ones(len(cells)), np.array([-np.inf])))
-    upper = np.concatenate((np.ones(len(cells)), np.array([float(envelope_bytes)])))
+    lower = np.ones(constraint_count)
+    upper = np.ones(constraint_count)
+    if enforce_byte_constraint:
+        lower[-1] = -np.inf
+        upper[-1] = float(scaled_capacity)
     solution = milp(
         c=objective,
         integrality=np.ones(variable_count, dtype=np.int8),
-        bounds=Bounds(np.zeros(variable_count), np.ones(variable_count)),
+        bounds=Bounds(np.zeros(variable_count), variable_upper),
         constraints=LinearConstraint(matrix, lower, upper),
-        options={"presolve": True},
+        options={"presolve": True, "mip_rel_gap": 0.0},
     )
     if not solution.success or solution.x is None or int(solution.status) != 0:
         raise RuntimeError(
             f"exact knapsack solve failed: status={solution.status}, message={solution.message}"
+        )
+    if float(getattr(solution, "mip_gap", math.inf)) != 0.0:
+        raise RuntimeError(
+            "exact knapsack solve returned a nonzero MIP gap: "
+            f"{getattr(solution, 'mip_gap', None)}"
         )
     rounded = np.rint(solution.x).astype(np.int8)
     if not np.allclose(solution.x, rounded, rtol=0.0, atol=1e-6):
@@ -449,7 +518,9 @@ def run_knapsack(
         },
         "assignments": assignments,
     }
-    assignment_sha, assignment_bytes = _write_once(output_path, assignment_value)
+    assignment_payload = _canonical_json(assignment_value)
+    assignment_sha = _sha256(assignment_payload)
+    assignment_bytes = len(assignment_payload)
     receipt_value = {
         "schema": "banana-smasher-knapsack-receipt-v1",
         "status": "PASS",
@@ -469,7 +540,7 @@ def run_knapsack(
                 "tier": tier,
                 "path": anchor_sources[tier].relative_path,
                 "sha256": anchor_sources[tier].sha256,
-                "bytes": anchor_sources[tier].path.stat().st_size,
+                "bytes": anchor_sources[tier].byte_count,
                 "producer_command": anchor_sources[tier].producer_command,
             }
             for tier in tiers
@@ -477,7 +548,7 @@ def run_knapsack(
         "damage_rows": {
             "path": damage_source.relative_path,
             "sha256": damage_source.sha256,
-            "bytes": damage_source.path.stat().st_size,
+            "bytes": damage_source.byte_count,
             "producer_command": damage_source.producer_command,
         },
         "assignment": {
@@ -490,8 +561,28 @@ def run_knapsack(
             "status": int(solution.status),
             "message": str(solution.message),
             "mip_gap": float(getattr(solution, "mip_gap", 0.0)),
+            "byte_normalization": {
+                "baseline_bytes": minimum_required_bytes,
+                "remaining_envelope_bytes": remaining_envelope,
+                "gcd_divisor": byte_divisor,
+                "scaled_capacity": scaled_capacity,
+                "constraint_required": enforce_byte_constraint,
+            },
         },
     }
+    # Validate both immutable destinations before publishing either half of the
+    # assignment/receipt pair. The receipt is fully staged from validated input
+    # bytes and the canonical assignment payload before any PASS file appears.
+    _preflight_write_once(output_path, assignment_value)
+    _preflight_write_once(receipt_path, receipt_value)
+    written_assignment_sha, written_assignment_bytes = _write_once(
+        output_path, assignment_value
+    )
+    if (written_assignment_sha, written_assignment_bytes) != (
+        assignment_sha,
+        assignment_bytes,
+    ):
+        raise RuntimeError("canonical assignment changed during pair publication")
     receipt_sha, receipt_bytes = _write_once(receipt_path, receipt_value)
     return {
         "status": "PASS",
