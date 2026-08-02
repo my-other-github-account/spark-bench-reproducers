@@ -32,14 +32,36 @@ RUN cd /src/flashinfer_python-0.6.12 \
     && mkdir -p /wheel \
     && python3 -m wheel pack --dest-dir /wheel .
 
+FROM ${VLLM_IMAGE} AS deepgemm-builder
+USER root
+ARG DEEPGEMM_SOURCE_REPO=https://github.com/jasl/DeepGEMM.git
+ARG DEEPGEMM_SOURCE_COMMIT=7a7a41a1bac7dacabe74057e7600e59f98f85bce
+RUN apt-get update && apt-get install -y --no-install-recommends git \
+    && rm -rf /var/lib/apt/lists/* \
+    && python3 -m pip install --no-cache-dir \
+      build==1.3.0 ninja==1.13.0 packaging==25.0 setuptools==80.10.2 wheel==0.46.3 \
+    && git init /tmp/deep-gemm \
+    && git -C /tmp/deep-gemm remote add origin "${DEEPGEMM_SOURCE_REPO}" \
+    && git -C /tmp/deep-gemm fetch --depth=1 origin "${DEEPGEMM_SOURCE_COMMIT}" \
+    && git -C /tmp/deep-gemm checkout --detach FETCH_HEAD \
+    && test "$(git -C /tmp/deep-gemm rev-parse HEAD)" = "${DEEPGEMM_SOURCE_COMMIT}" \
+    && git -C /tmp/deep-gemm submodule update --init --recursive --depth=1 \
+    && DG_FORCE_BUILD=1 DG_USE_LOCAL_VERSION=0 \
+      python3 -m build --wheel --no-isolation --outdir /wheels /tmp/deep-gemm \
+    && test -f /wheels/deep_gemm-2.5.0-cp312-cp312-linux_aarch64.whl \
+    && python3 -m zipfile -t /wheels/deep_gemm-2.5.0-cp312-cp312-linux_aarch64.whl \
+    && rm -rf /tmp/deep-gemm
+
 FROM ${VLLM_IMAGE} AS runtime
 USER root
 ARG VLLM_UPSTREAM_REV
 COPY --from=package-builder /wheels/banana_smasher-1.0.0-py3-none-any.whl /tmp/wheels/
 COPY --from=package-builder /wheels/banana_smasher_plugin-0.2.0-py3-none-any.whl /tmp/wheels/
 COPY --from=flashinfer-builder /wheel/flashinfer_python-0.6.12-py3-none-any.whl /tmp/wheels/
+COPY --from=deepgemm-builder /wheels/deep_gemm-2.5.0-cp312-cp312-linux_aarch64.whl /tmp/wheels/
 RUN python3 -m pip install --no-cache-dir --no-deps --force-reinstall \
       /tmp/wheels/flashinfer_python-0.6.12-py3-none-any.whl \
+      /tmp/wheels/deep_gemm-2.5.0-cp312-cp312-linux_aarch64.whl \
       /tmp/wheels/banana_smasher-1.0.0-py3-none-any.whl \
       /tmp/wheels/banana_smasher_plugin-0.2.0-py3-none-any.whl \
     && rm -rf /tmp/wheels
@@ -63,7 +85,7 @@ RUN set -eux; \
     python3 /opt/banana-smasher/bin/verify_public_image.py; \
     python3 /opt/banana-smasher/bin/write_package_receipt.py \
       /opt/banana-smasher/provenance/package-sbom.json; \
-    python3 -c 'import json; p="/opt/banana-smasher/provenance/source.json"; open(p,"w").write(json.dumps({"base_image":"vllm/vllm-openai:v0.24.0@sha256:32445b36556244d8a721cd21a2b47a7915bc6408432d05aaeab205bb223ced8b","vllm_upstream_revision":"ee0da84a","packages_built_from_checkout":["banana-smasher","banana-smasher-plugin"]},indent=2,sort_keys=True)+"\\n")'
+    python3 -c 'import json; p="/opt/banana-smasher/provenance/source.json"; open(p,"w").write(json.dumps({"base_image":"vllm/vllm-openai:v0.24.0@sha256:32445b36556244d8a721cd21a2b47a7915bc6408432d05aaeab205bb223ced8b","deep_gemm_source_commit":"7a7a41a1bac7dacabe74057e7600e59f98f85bce","deep_gemm_source_repo":"https://github.com/jasl/DeepGEMM.git","vllm_upstream_revision":"ee0da84a","packages_built_from_checkout":["banana-smasher","banana-smasher-plugin","deep-gemm"]},indent=2,sort_keys=True)+"\\n")'
 
 ENV PYTHONNOUSERSITE=1 \
     PYTHONUNBUFFERED=1 \

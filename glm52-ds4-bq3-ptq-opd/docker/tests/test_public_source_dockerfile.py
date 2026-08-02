@@ -17,6 +17,10 @@ def test_public_source_dockerfile_contract() -> None:
     assert "COPY banana-smasher-plugin /src/banana-smasher-plugin" in text
     assert "python3 -m build --wheel" in text
     assert "mkdir -p /wheel" in text
+    assert "https://github.com/jasl/DeepGEMM.git" in text
+    assert "7a7a41a1bac7dacabe74057e7600e59f98f85bce" in text
+    assert "DG_FORCE_BUILD=1" in text
+    assert "deep_gemm-2.5.0" in text
     assert "banana_smasher_plugin:register" not in text  # verified by the image script
     assert "libcudart_stub.so" in text
     assert "libcudart.so.13" in text
