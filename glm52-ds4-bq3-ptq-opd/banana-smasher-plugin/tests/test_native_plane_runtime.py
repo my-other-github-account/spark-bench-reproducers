@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import inspect
 import json
 import sys
+from contextlib import nullcontext
 from pathlib import Path
 from types import ModuleType, SimpleNamespace
 
@@ -518,6 +520,7 @@ def test_dense_weight_map_preflight_maps_stacked_attention_scales_and_fails_clos
             "layers.0.attn.wq_a.weight": "model-00001-of-00001.safetensors",
             "layers.0.attn.wkv.weight": "model-00001-of-00001.safetensors",
             "layers.0.ffn.experts.0.w1.weight": "model-00001-of-00001.safetensors",
+            "mtp.0.attn.q_norm.weight": "model-00001-of-00001.safetensors",
         }
     }
     (root / "model.safetensors.index.json").write_text(json.dumps(index))
@@ -547,14 +550,18 @@ def test_dense_weight_map_preflight_maps_stacked_attention_scales_and_fails_clos
         config,
         mapped_names,
         map_checkpoint_names=lambda names: [
-            name.replace("layers.", "model.layers.", 1).replace(
-                ".scale", ".weight_scale_inv"
-            )
+            (
+                f"model.{name}" if name.startswith("mtp.") else name.replace(
+                    "layers.", "model.layers.", 1
+                )
+            ).replace(".scale", ".weight_scale_inv")
             for name in names
         ],
+        mtp_enabled=False,
     )
     assert report["dense_checkpoint_names"] == 4
     assert report["mapped_named_parameters"] == 2
+    assert report["excluded_disabled_mtp_names"] == 1
     assert config.dense_preflight_passed is True
 
     with pytest.raises(NativePlanePrerequisiteError, match="DENSE_WEIGHT_MAP_PREFLIGHT"):
@@ -567,6 +574,7 @@ def test_dense_weight_map_preflight_maps_stacked_attention_scales_and_fails_clos
                 )
                 for name in names
             ],
+            mtp_enabled=False,
         )
 
 
@@ -633,6 +641,7 @@ def test_registered_deepseek_loader_runs_full_preflight_before_weight_loading(
                 "weight_map": {
                     "layers.0.attn.wq_a.scale": "one.safetensors",
                     "layers.0.attn.wkv.scale": "one.safetensors",
+                    "mtp.0.attn.q_norm.weight": "one.safetensors",
                 }
             }
         )
@@ -656,15 +665,19 @@ def test_registered_deepseek_loader_runs_full_preflight_before_weight_loading(
     class Mapper:
         def apply_list(self, names):
             return [
-                name.replace("layers.", "model.layers.", 1).replace(
-                    ".scale", ".weight_scale_inv"
-                )
+                (
+                    f"model.{name}" if name.startswith("mtp.") else name.replace(
+                        "layers.", "model.layers.", 1
+                    )
+                ).replace(".scale", ".weight_scale_inv")
                 for name in names
             ]
 
     class DeepseekV4ForCausalLM(torch.nn.Module):
-        def __init__(self):
+        def __init__(self, *, vllm_config, prefix=""):
             super().__init__()
+            self.received_vllm_config = vllm_config
+            self.received_prefix = prefix
             self.model = SimpleNamespace(quant_config=config)
             self.hf_to_vllm_mapper = Mapper()
             self.register_parameter(
@@ -701,10 +714,65 @@ def test_registered_deepseek_loader_runs_full_preflight_before_weight_loading(
     )
     monkeypatch.setitem(sys.modules, model_module.__name__, model_module)
 
+    original_init_signature = inspect.signature(DeepseekV4ForCausalLM.__init__)
     quantization.install_deepseek_v4_dense_preflight()
-    model = DeepseekV4ForCausalLM()
+    assert inspect.signature(DeepseekV4ForCausalLM.__init__) == original_init_signature
+    model = DeepseekV4ForCausalLM(
+        vllm_config=SimpleNamespace(speculative_config=None),
+        prefix="model",
+    )
+    assert model.received_prefix == "model"
     assert model.load_weights([]) == {"loaded"}
     assert events == ["load"]
+
+    enabled_model = DeepseekV4ForCausalLM(
+        vllm_config=SimpleNamespace(
+            speculative_config=SimpleNamespace(method="mtp")
+        )
+    )
+    with pytest.raises(NativePlanePrerequisiteError, match=r"model\.mtp\.0"):
+        enabled_model.load_weights([])
+    assert events == ["load"]
+
+
+def test_real_vllm_initialize_model_forwards_vllm_config_after_plugin_install(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    loader_utils = pytest.importorskip("vllm.model_executor.model_loader.utils")
+    model_module = pytest.importorskip("vllm.models.deepseek_v4.nvidia.model")
+
+    received: dict[str, object] = {}
+
+    class DeepseekV4ForCausalLM(torch.nn.Module):
+        def __init__(self, *, vllm_config, prefix=""):
+            super().__init__()
+            received["vllm_config"] = vllm_config
+            received["prefix"] = prefix
+
+        def load_weights(self, weights):
+            return weights
+
+    monkeypatch.setattr(model_module, "DeepseekV4ForCausalLM", DeepseekV4ForCausalLM)
+    monkeypatch.setattr(
+        loader_utils,
+        "set_current_vllm_config",
+        lambda *args, **kwargs: nullcontext(),
+    )
+    monkeypatch.setattr(loader_utils, "record_metadata_for_reloading", lambda model: None)
+    sys.modules.pop("banana_smasher_plugin.quantization", None)
+    import banana_smasher_plugin.quantization as quantization
+
+    quantization.install_deepseek_v4_dense_preflight()
+    vllm_config = SimpleNamespace(quant_config=None)
+    model = loader_utils.initialize_model(
+        vllm_config,
+        model_class=DeepseekV4ForCausalLM,
+        model_config=SimpleNamespace(),
+        prefix="model",
+    )
+
+    assert isinstance(model, DeepseekV4ForCausalLM)
+    assert received == {"vllm_config": vllm_config, "prefix": "model"}
 
 
 def test_missing_plane_and_missing_kernel_fail_loudly(

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+from functools import wraps
 from pathlib import Path
 from typing import Any
 
@@ -49,11 +50,27 @@ def _stacked_dense_parameter_name(name: str) -> str:
     return name
 
 
+def _is_mtp_parameter_name(name: str) -> bool:
+    return name.startswith(("mtp.", "model.mtp."))
+
+
+def _runtime_mtp_enabled(model: Any) -> bool:
+    """Return False only for an explicitly disabled runtime MTP graph."""
+    if hasattr(model, "_banana_smasher_mtp_enabled"):
+        return bool(model._banana_smasher_mtp_enabled)
+    for candidate in (model, getattr(model, "model", None)):
+        vllm_config = getattr(candidate, "vllm_config", None)
+        if vllm_config is not None and hasattr(vllm_config, "speculative_config"):
+            return getattr(vllm_config.speculative_config, "method", None) == "mtp"
+    return True
+
+
 def preflight_dense_weight_map(
     config: "BananaSmasherQuantizationConfig",
     named_parameter_names: set[str],
     *,
     map_checkpoint_names,
+    mtp_enabled: bool = True,
 ) -> dict[str, int]:
     """Fail closed if any dense checkpoint key cannot reach a named parameter."""
     config.dense_preflight_passed = False
@@ -76,7 +93,8 @@ def preflight_dense_weight_map(
     dense_names = [
         name
         for name in mapped
-        if ".experts." not in name and not name.startswith("mtp.")
+        if ".experts." not in name
+        and (mtp_enabled or not _is_mtp_parameter_name(name))
     ]
     resolved = {_stacked_dense_parameter_name(name) for name in dense_names}
     missing = sorted(resolved - named_parameter_names)
@@ -90,12 +108,30 @@ def preflight_dense_weight_map(
     return {
         "dense_checkpoint_names": len(dense_names),
         "mapped_named_parameters": len(resolved),
+        "excluded_disabled_mtp_names": sum(
+            not mtp_enabled and _is_mtp_parameter_name(name) for name in mapped
+        ),
     }
 
 
 def install_deepseek_v4_dense_preflight() -> None:
     """Install the stock model's pre-load named-parameter gate once per process."""
     from vllm.models.deepseek_v4.nvidia.model import DeepseekV4ForCausalLM
+
+    original_init = DeepseekV4ForCausalLM.__init__
+    if not getattr(original_init, "_banana_smasher_mtp_state", False):
+
+        @wraps(original_init)
+        def init_with_mtp_state(model, *args, **kwargs):
+            vllm_config = kwargs.get("vllm_config")
+            original_init(model, *args, **kwargs)
+            if vllm_config is not None and hasattr(vllm_config, "speculative_config"):
+                model._banana_smasher_mtp_enabled = (
+                    getattr(vllm_config.speculative_config, "method", None) == "mtp"
+                )
+
+        setattr(init_with_mtp_state, "_banana_smasher_mtp_state", True)
+        DeepseekV4ForCausalLM.__init__ = init_with_mtp_state
 
     original = DeepseekV4ForCausalLM.load_weights
     if getattr(original, "_banana_smasher_dense_preflight", False):
@@ -113,6 +149,7 @@ def install_deepseek_v4_dense_preflight() -> None:
                 config,
                 {name for name, _ in model.named_parameters()},
                 map_checkpoint_names=mapper.apply_list,
+                mtp_enabled=_runtime_mtp_enabled(model),
             )
         return original(model, weights)
 
