@@ -38,6 +38,8 @@ ARG DEEPGEMM_SOURCE_REPO=https://github.com/jasl/DeepGEMM.git
 ARG DEEPGEMM_SOURCE_COMMIT=7a7a41a1bac7dacabe74057e7600e59f98f85bce
 RUN apt-get update && apt-get install -y --no-install-recommends \
       git \
+      libcublas-dev-13-0=13.1.1.3-1 \
+      libcusolver-dev-13-0=12.0.4.66-1 \
       libcusparse-dev-13-0=12.6.3.3-1 \
     && rm -rf /var/lib/apt/lists/* \
     && python3 -m pip install --no-cache-dir \
