@@ -174,6 +174,47 @@ def configure_stock_deepseek_v4_o_proj() -> bool:
     return True
 
 
+def configure_stock_deepseek_v4_attention_backend() -> bool:
+    """Route explicit stock FlashMLA DSv4 requests to FlashInfer on SM12x."""
+    from vllm.platforms import current_platform
+
+    capability = current_platform.get_device_capability()
+    if capability is None or capability.major != 12:
+        return False
+
+    module = importlib.import_module("vllm.models.deepseek_v4.nvidia.model")
+    original = module._select_dsv4_attn_cls
+    if getattr(original, "_banana_smasher_sm12x_attention", False):
+        return True
+    warned = False
+
+    @functools.wraps(original)
+    def select_supported_attention(vllm_config):
+        nonlocal warned
+        capability = module.current_platform.get_device_capability()
+        backend = vllm_config.attention_config.backend
+        if (
+            capability is not None
+            and capability.major == 12
+            and getattr(backend, "name", None) == "FLASHMLA_SPARSE_DSV4"
+        ):
+            if not warned:
+                _LOG.warning(
+                    "BANANA_SMASHER_DSV4_ATTENTION_BACKEND_OVERRIDE "
+                    "compute_capability=%d.%d requested=FLASHMLA_SPARSE_DSV4 "
+                    "selected=FLASHINFER_MLA_SPARSE_DSV4",
+                    capability.major,
+                    capability.minor,
+                )
+                warned = True
+            return module.DeepseekV4FlashInferSM120Attention
+        return original(vllm_config)
+
+    select_supported_attention._banana_smasher_sm12x_attention = True  # type: ignore[attr-defined]
+    module._select_dsv4_attn_cls = select_supported_attention
+    return True
+
+
 def configure_stock_mhc_backend() -> bool:
     """Route MHC away from DeepGEMM where its hyperconnection API is unsupported."""
     from vllm.platforms import current_platform
@@ -199,6 +240,7 @@ def register() -> None:
     global _REGISTERED
     if _REGISTERED:
         return
+    configure_stock_deepseek_v4_attention_backend()
     configure_stock_mhc_backend()
     configure_stock_deepseek_v4_o_proj()
     from .quantization import (
@@ -218,6 +260,7 @@ def register() -> None:
 
 
 __all__ = [
+    "configure_stock_deepseek_v4_attention_backend",
     "configure_stock_deepseek_v4_o_proj",
     "configure_stock_mhc_backend",
     "register",
