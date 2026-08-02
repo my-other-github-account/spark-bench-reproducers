@@ -225,6 +225,23 @@ def _parser() -> argparse.ArgumentParser:
     anchor.add_argument("--run-root", type=Path, required=True)
     anchor.add_argument("--detach", action="store_true")
 
+    knapsack = subparsers.add_parser(
+        "knapsack",
+        help="solve the manifest-declared open tier menu under an exact byte envelope",
+    )
+    knapsack.add_argument("--run-root", type=Path, required=True)
+    knapsack.add_argument("--envelope-bytes", type=int, required=True)
+    knapsack.add_argument(
+        "--output",
+        type=Path,
+        help="assignment path local to run root (default: knapsack/ASSIGNMENT.json)",
+    )
+    knapsack.add_argument(
+        "--receipt",
+        type=Path,
+        help="provenance receipt local to run root (default: knapsack/RECEIPT.json)",
+    )
+
     status = subparsers.add_parser(
         "status", help="inspect manifest stages and detached process identities"
     )
@@ -623,6 +640,15 @@ def main(argv: Sequence[str] | None = None) -> int:
                 )
             else:
                 result = run_anchor(run_root=args.run_root)
+        elif args.command == "knapsack":
+            from .knapsack import run_knapsack
+
+            result = run_knapsack(
+                run_root=args.run_root,
+                envelope_bytes=args.envelope_bytes,
+                output=args.output,
+                receipt=args.receipt,
+            )
         elif args.command == "status":
             from .workflow import workflow_status
 
