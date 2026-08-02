@@ -26,7 +26,7 @@
   "properties": {
     "schema": {"const": "bs-pack"},
     "schema_version": {"const": 1},
-    "source_format": {"enum": ["canonical-npy-v1", "genesis-materialized-layer-v1"]},
+    "source_format": {"enum": ["canonical-npy-v1", "banana-smasher-materialized-layer-v1"]},
     "model_id": {"type": "string", "minLength": 1},
     "instance_id": {"type": "string", "minLength": 1},
     "quant_method": {"const": "bs-mixed-tier"},

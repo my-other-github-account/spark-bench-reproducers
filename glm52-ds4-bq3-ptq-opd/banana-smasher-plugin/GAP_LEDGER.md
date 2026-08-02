@@ -35,3 +35,12 @@ Closed:
 Closed:
 - `GAP-V5-STOCK-MHC-SM121-001`: plugin registration now drives stock vLLM's public `VLLM_USE_DEEP_GEMM` selector off on SM121 before importing the quantization runtime. Stock `mhc_pre_tilelang` therefore uses its supported TileLang prenorm GEMM instead of calling DeepGEMM's architecture-rejected `tf32_hc_prenorm_gemm`; other compute capabilities retain stock selection. Because that operation is unsupported on SM121, an explicit DeepGEMM enable is deliberately overridden and the previous value is logged.
 - The focused SM121 regression proves the unmodified stock selector chooses DeepGEMM, then exercises the real DeepSeek-V4 `mhc_pre_tilelang` branch after plugin selection and rejects any call to the unsupported DeepGEMM hyperconnection API.
+
+## 2026-08-02 — stock sparse-MLA physical capability gate
+
+Closed:
+- `GAP-V5-STOCK-SPARSE-MLA-CAPABILITY-001`: the SM12x selector now checks stock vLLM's public `has_flashinfer_sparse_mla_sm120()` capability before selecting `FLASHINFER_MLA_SPARSE_DSV4`. If the installed FlashInfer package lacks either required public decode symbol, selection fails immediately with the producer remedy instead of choosing a backend that will fail later during layer construction.
+- The focused RED/GREEN regression physically models an unavailable sparse-decode API and proves the selector cannot return the FlashInfer SM12x attention class in that state. SM90a and SM100f continue through the untouched stock FlashMLA selector.
+
+Open dependency:
+- spark-4 has `flashinfer-python==0.6.14`, whose `flashinfer/decode.py:33-38` imports both required aliases from `flashinfer.mla`, but the installed package physically has no `flashinfer/mla.py`. Stock vLLM `flashinfer_sparse.py:110-120` and `:558-566` therefore reject the only SM12x sparse-MLA route. The dependency producer must supply a FlashInfer wheel containing callable `flashinfer.decode.trtllm_batch_decode_sparse_mla_dsv4` and `flashinfer.decode.trtllm_batch_decode_with_kv_cache_mla`; no A27 boot is legal against the current package.

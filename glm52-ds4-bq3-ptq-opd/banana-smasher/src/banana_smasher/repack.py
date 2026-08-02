@@ -14,8 +14,10 @@ from safetensors import safe_open
 from .contract import (
     MANIFEST_NAME,
     PackValidationError,
+    _canonical_json_bytes,
     _file_entry,
     _sha256_file,
+    _write_bytes_durable,
     load_manifest,
     verify_pack,
 )
@@ -329,7 +331,7 @@ def repack_to_safetensors(
     config_path = root / "config.json"
     config = json.loads(config_path.read_text(encoding="utf-8"))
     config["quantization_config"]["tensor_container"] = destination_relative.as_posix()
-    config_path.write_text(json.dumps(config, indent=2, sort_keys=True) + "\n")
+    _write_bytes_durable(config_path, _canonical_json_bytes(config))
     _replace_file_row(manifest, root, Path("config.json"), "model_config")
     _replace_file_row(manifest, root, destination_relative, "safetensors_container")
 
@@ -364,9 +366,7 @@ def repack_to_safetensors(
         "sha256": _sha256_file(destination),
     }
     manifest["files"].sort(key=lambda row: row["path"])
-    (root / MANIFEST_NAME).write_text(
-        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+    _write_bytes_durable(root / MANIFEST_NAME, _canonical_json_bytes(manifest))
     if drop_planes:
         _prune_empty_directories(root / "planes")
     verify_pack(root)

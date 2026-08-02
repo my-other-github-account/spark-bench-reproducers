@@ -1,79 +1,89 @@
-# Build and deploy the mixed-tier container
+# Public source container
 
-Prerequisites: one Linux aarch64 NVIDIA GB10 (`sm_121`) Spark with Docker, NVIDIA Container Toolkit, and Buildx; the frozen serving virtualenv in `docker/provenance/`; and a validated `genesis-pack` from `EXPORT.md`. Container boot is offline.
+This image is built only from this checkout and the official public
+`vllm/vllm-openai:v0.24.0` image. The base is pinned by digest and records the
+upstream vLLM revision `ee0da84a`. Both `banana-smasher` wheels are built in a
+builder stage from the checked-out package directories. The runtime image
+contains no copied host environment, named build context, credential, or model
+byte.
 
-## Three commands
+## Clone, build, run
 
-```bash
-sudo docker buildx build --load \
-  --build-context vllm_runtime=/opt/vllm-runtime \
-  --build-arg REQUIRE_KERNEL_CACHE=1 \
-  -t genesis-dsv4-mixed-tier:sm121 docker
-
-sudo docker run --rm --gpus all \
-  -v /path/to/genesis-pack:/model:ro \
-  -p 8000:8000 \
-  genesis-dsv4-mixed-tier:sm121
-
-curl -sS http://127.0.0.1:8000/v1/completions \
-  -H 'content-type: application/json' \
-  -d '{"model":"deepseek-v4-mixed-tier-prefill-ladder","prompt":"Write a Python function that adds two integers.","max_tokens":32,"temperature":0}'
-```
-
-The image accepts one deployment argument, defaulting to `/model`. It validates the pack, verifies the baked `sm_121` cache, binds product-scale file-backed residency, performs a deterministic startup completion, writes receipts, and stays ready on port 8000.
-
-## Bake the kernel cache
-
-A normal build requires committed `docker/triton-cache/CACHE_MANIFEST.json` and its hashed cache files. Create or refresh the cache only on the target architecture:
+These are the complete stranger-build commands. The run command has no runtime
+environment flags; `/model` is the only mount.
 
 ```bash
-cd glm52-ds4-bq3-ptq-opd
-VLLM_RUNTIME=/opt/vllm-runtime IMAGE=genesis-dsv4-mixed-tier:sm121 \
-  docker/scripts/build.sh
+git clone --branch t_63769bff-public-source https://github.com/my-other-github-account/spark-bench-reproducers.git
+cd spark-bench-reproducers/glm52-ds4-bq3-ptq-opd
+git rev-parse HEAD | tee SOURCE_COMMIT.txt
+docker build --no-cache --progress=plain -f docker/Dockerfile -t banana-smasher-serve:v5 . 2>&1 | tee docker-build.no-cache.log
+docker run --rm --gpus all -v pack:/model:ro -p8000:8000 banana-smasher-serve:v5
 ```
 
-The bake creates a seed image, runs all four decode kernels plus packed-VQ and dense-prefill shapes on GB10, verifies the precompiled MARLIN operator and every cache-file hash, and rebuilds the final runtime-only image. No compiler or package manager runs at startup.
-
-## Export and verify the pack
-
-Follow `EXPORT.md`, then run:
+The literal deployment shape is therefore:
 
 ```bash
-sudo docker run --rm \
-  -v /path/to/genesis-pack:/model:ro \
-  genesis-dsv4-mixed-tier:sm121 verify /model
+git clone <public-repository>
+docker build --no-cache -f docker/Dockerfile -t <tag> .
+docker run --gpus all -v pack:/model -p8000:8000 <tag>
 ```
 
-The pack must contain exactly 1,645 plane files and 101,346,700,411 resident bytes. Validation recomputes a canonical pack inventory from exact pack-relative paths, byte counts, and per-file SHA-256 values; the manifest separately preserves the upstream sealed source inventory identity.
+The image command is stock `vllm serve /model` with the validated SM121,
+UE8M0, KV-cache, graph-capture, and concurrency defaults already baked. Do not
+add environment flags to the run command.
 
-## Two cold container starts
+## Source-only U012 export
+
+Install the exporter from this checkout and regenerate the pack through its
+public command. The exporter canonicalizes and durably flushes JSON metadata
+before it hashes and writes the final manifest.
 
 ```bash
-docker/scripts/validate_spark7.sh \
-  genesis-dsv4-mixed-tier:sm121 \
-  /path/to/genesis-pack \
-  /path/to/validation-output
+python3 -m venv .venv-export
+. .venv-export/bin/activate
+python -m pip install ./banana-smasher
+smash export \
+  --source-root /path/to/sealed-U012-materialized-source \
+  --serving-model-root /path/to/public-DeepSeek-V4-Flash-metadata \
+  --output /path/to/U012-pack \
+  --model-id DeepSeek-V4-Flash-U012 \
+  --instance-id U012-public-export \
+  --link-mode copy
+smash verify /path/to/U012-pack
 ```
 
-This runs two fresh container processes, executes the canonical 2K/8K prefill ladder in each, enforces first token under 60 seconds, exact resident bytes, <=20% cross-restart prefill drift, and <=20% deviation from the sealed 1,142/2,167 prefill and 16.95 decode targets. It emits `deploy_validation.json` with image ID, pack-manifest hash, kernel-cache-manifest hash, TTFT, prefill tok/s, decode tok/s, and every gate result. Raw run directories may contain host-local details and are not publication artifacts; only the scrubbed summary is committed.
+Mount the verified output at `/model` for the stock run command. The image
+accepts no second artifact mount.
 
-## Expected startup receipt
+## Build receipts
 
-`/run/genesis/receipts/STARTUP_SMOKE.json` and the `GENESIS_STARTUP_SMOKE` log line contain:
+Capture immutable image and package evidence after the no-cache build:
 
-- `bind_seconds`
-- `first_token_seconds_from_container_start`
-- `smoke_response_seconds_from_container_start`
-- `prefill_tok_s`
-- `decode_tok_s`
-- `resident_product_bytes`
+```bash
+docker image inspect banana-smasher-serve:v5 --format '{{.Id}} {{json .RepoDigests}}' | tee image-digest.txt
+docker run --rm --entrypoint cat banana-smasher-serve:v5 \
+  /opt/banana-smasher/provenance/source.json | tee image-source.json
+docker run --rm --entrypoint cat banana-smasher-serve:v5 \
+  /opt/banana-smasher/provenance/package-sbom.json | tee package-sbom.json
+```
 
-## Failure behavior
+The package receipt inventories the installed serving packages and hashes every
+baked AOT cubin. The image build also fails unless TileLang resolves its
+`libcudart_stub.so` package path to the real cu13 runtime, the real runtime
+exports `cudaDeviceReset`, the patched FlashInfer communication import works,
+and the stock vLLM plugin entry point is installed.
 
-- Manifest/schema/hash failure: exit before GPU startup.
-- Wrong or missing `sm_121` cache: exit before serving.
-- Unexpected Triton shape: the immutable cache makes the compilation attempt visible and fatal.
-- Memory, residency, alias, layer, or tier gate failure: write a failure receipt and exit.
-- Startup deadline exceeded: terminate the server child and exit nonzero.
+## Ordered clean-room gate
 
-This is a systems-serving reproducer. The compact real-format overlay is uncalibrated and carries no quality claim.
+After the container becomes healthy, preserve raw responses and execute the
+ordered gate on the same untouched image and pack:
+
+1. `GET /health` and `GET /v1/models`.
+2. Three independent completions of at least 300 characters for manual
+   coherence review.
+3. One warm-up request at each capture size: C1, C2, C4, C8, C16.
+4. The measured C1-C16 decode matrix.
+5. The measured prefill ladder.
+
+Do not carry quality or performance rows from transferred or diagnostic images
+into the clean-room receipt.

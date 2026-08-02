@@ -7,7 +7,6 @@ from collections.abc import Sequence
 from pathlib import Path
 from typing import Any
 
-from .bootstrap import bootstrap_container, container_recipe_path
 from .contract import (
     PackValidationError,
     export_pack,
@@ -91,17 +90,6 @@ def _parser() -> argparse.ArgumentParser:
     validate.add_argument("--receipt", type=Path)
     validate.add_argument("--bank-teacher-logits", type=Path)
 
-    bootstrap = subparsers.add_parser(
-        "bootstrap", help="build or pull the stock-semantics vLLM container"
-    )
-    bootstrap.add_argument("--recipe", type=Path)
-    bootstrap.add_argument("--context", type=Path, default=Path.cwd())
-    bootstrap.add_argument(
-        "--image", default="bs-serve:banana-smasher-candidate"
-    )
-    bootstrap.add_argument("--docker-bin", default="docker")
-    bootstrap.add_argument("--pull", action="store_true")
-    bootstrap.add_argument("--receipt", type=Path, default=Path("BOOTSTRAP_RECEIPT.json"))
     return parser
 
 
@@ -209,18 +197,6 @@ def main(argv: Sequence[str] | None = None) -> int:
                     bank_teacher_logits=args.bank_teacher_logits,
                 ),
                 "command": "validate",
-            }
-        elif args.command == "bootstrap":
-            result = {
-                **bootstrap_container(
-                    recipe=args.recipe or container_recipe_path(),
-                    context=args.context,
-                    image=args.image,
-                    docker_bin=args.docker_bin,
-                    receipt_path=args.receipt,
-                    pull=args.pull,
-                ),
-                "command": "bootstrap",
             }
         else:  # pragma: no cover - argparse guarantees the choices
             parser.error(f"unsupported command {args.command!r}")

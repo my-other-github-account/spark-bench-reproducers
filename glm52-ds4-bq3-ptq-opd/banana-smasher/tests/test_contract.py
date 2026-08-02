@@ -103,6 +103,42 @@ def test_export_hardlinks_and_verify_refuses_payload_drift(tmp_path: Path) -> No
         verify_pack(output)
 
 
+@pytest.mark.skipif(
+    not Path("/proc/self/fd").is_dir(),
+    reason="fsync ordering probe requires Linux /proc/self/fd",
+)
+def test_export_fsyncs_metadata_before_manifest(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    source = _write_qtip2_source(tmp_path / "source")
+    output = tmp_path / "pack"
+    fsynced: list[str] = []
+    real_fsync = os.fsync
+
+    def record_fsync(fd: int) -> None:
+        try:
+            fsynced.append(Path(os.readlink(f"/proc/self/fd/{fd}")).name)
+        except OSError:
+            fsynced.append("<directory>")
+        real_fsync(fd)
+
+    monkeypatch.setattr(os, "fsync", record_fsync)
+    export_pack(
+        source_root=source,
+        output=output,
+        model_id="fixture-model",
+        instance_id="bs-pack-durable-metadata",
+        link_mode="copy",
+    )
+
+    config_event = next(index for index, name in enumerate(fsynced) if name == "config.json")
+    manifest_event = next(
+        index for index, name in enumerate(fsynced) if name == "BANANA_PACK_MANIFEST.json"
+    )
+    assert config_event < manifest_event
+    assert verify_pack(output)["status"] == "PASS"
+
+
 def test_verify_refuses_missing_pack_complete(tmp_path: Path) -> None:
     source = _write_qtip2_source(tmp_path / "source")
     output = tmp_path / "pack"

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -77,7 +78,6 @@ def test_smash_help_exposes_exactly_five_verbs() -> None:
         "verify",
         "serve-check",
         "validate",
-        "bootstrap",
     ]
 
 
@@ -108,32 +108,6 @@ def test_smash_validate_pack_compatibility_alias(tmp_path: Path, capsys) -> None
     receipt = json.loads(capsys.readouterr().out)
     assert receipt["command"] == "validate-pack"
     assert receipt["status"] == "PASS"
-
-
-def test_smash_bootstrap_defaults_to_candidate_tag(
-    tmp_path: Path, monkeypatch, capsys
-) -> None:
-    captured: dict[str, object] = {}
-
-    def fake_bootstrap(**kwargs):
-        captured.update(kwargs)
-        return {"status": "PASS"}
-
-    monkeypatch.setattr(cli_module, "bootstrap_container", fake_bootstrap)
-    assert (
-        main(
-            [
-                "bootstrap",
-                "--recipe",
-                str(tmp_path / "Dockerfile"),
-                "--context",
-                str(tmp_path),
-            ]
-        )
-        == 0
-    )
-    assert captured["image"] == "bs-serve:banana-smasher-candidate"
-    assert json.loads(capsys.readouterr().out)["status"] == "PASS"
 
 
 def test_smash_export_verify_and_safetensors_repack(tmp_path: Path, capsys) -> None:
@@ -218,6 +192,57 @@ def test_smash_export_merges_full_serving_config_and_tokenizer_files(
     }
     for name in ("tokenizer.json", "tokenizer_config.json", "generation_config.json"):
         assert (pack / name).read_bytes() == (serving_model / name).read_bytes()
+
+
+def test_smash_export_canonicalizes_newline_lost_json_metadata(tmp_path: Path, capsys) -> None:
+    source = _write_qtip2_source(tmp_path / "source")
+    serving_model = _write_serving_model(tmp_path / "serving-model")
+    for name in (
+        "config.json",
+        "tokenizer.json",
+        "tokenizer_config.json",
+        "generation_config.json",
+    ):
+        path = serving_model / name
+        path.write_bytes(path.read_bytes().rstrip(b"\n"))
+    pack = tmp_path / "pack"
+
+    assert (
+        main(
+            [
+                "export",
+                "--source-root",
+                str(source),
+                "--serving-model-root",
+                str(serving_model),
+                "--output",
+                str(pack),
+                "--model-id",
+                "fixture-model",
+                "--instance-id",
+                "canonical-json-newline",
+                "--link-mode",
+                "copy",
+            ]
+        )
+        == 0
+    )
+    assert json.loads(capsys.readouterr().out)["status"] == "PASS"
+
+    manifest = json.loads((pack / "BANANA_PACK_MANIFEST.json").read_text())
+    rows = {row["path"]: row for row in manifest["files"]}
+    for name in (
+        "config.json",
+        "tokenizer.json",
+        "tokenizer_config.json",
+        "generation_config.json",
+    ):
+        payload = (pack / name).read_bytes()
+        assert payload.endswith(b"\n")
+        assert not payload.endswith(b"\n\n")
+        assert rows[name]["bytes"] == len(payload)
+        assert rows[name]["sha256"] == hashlib.sha256(payload).hexdigest()
+    assert main(["verify", str(pack)]) == 0
 
 
 def test_smash_export_refresh_metadata_preserves_tensor_files(

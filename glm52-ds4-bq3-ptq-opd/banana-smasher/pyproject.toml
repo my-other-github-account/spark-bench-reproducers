@@ -23,7 +23,6 @@ packages = ["src/banana_smasher"]
 "PACK_FORMAT.md" = "banana_smasher/PACK_FORMAT.md"
 "README.md" = "banana_smasher/README.md"
 "schema" = "banana_smasher/schema"
-"golden-container" = "banana_smasher/golden-container"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

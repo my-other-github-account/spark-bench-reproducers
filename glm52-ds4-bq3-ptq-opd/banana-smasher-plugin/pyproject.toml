@@ -7,7 +7,11 @@ name = "banana-smasher-plugin"
 version = "0.2.0"
 description = "Stock-vLLM banana_smasher runtime plugin for native-plane packs"
 requires-python = ">=3.10"
-dependencies = ["numpy==2.3.5", "safetensors==0.8.0"]
+dependencies = [
+    "numpy==2.3.5",
+    "quack-kernels>=0.4.1,<0.5.1",
+    "safetensors==0.8.0",
+]
 
 [project.entry-points."vllm.general_plugins"]
 banana_smasher_plugin = "banana_smasher_plugin:register"

@@ -1,0 +1,23 @@
+{
+  "environment": {
+    "BANANA_SMASHER_AOT_ROOT": "/opt/banana-smasher/aot",
+    "CUDA_MODULE_LOADING": "LAZY",
+    "MALLOC_MMAP_THRESHOLD_": "65536",
+    "VLLM_MOE_W2_CUBIT_DIR": "/opt/banana-smasher/aot/cubins-sm120",
+    "VLLM_MOE_W3_CUBIT_DIR": "/opt/banana-smasher/aot/cubins-e43",
+    "VLLM_USE_DEEP_GEMM": "0"
+  },
+  "model": "/model",
+  "schema": "banana-smasher-runtime-defaults-v1",
+  "serve": {
+    "block_size": 256,
+    "cudagraph_capture_sizes": [1, 2, 4, 8, 16],
+    "gpu_memory_utilization": 0.8,
+    "kv_cache_dtype": "fp8",
+    "kv_cache_memory_bytes": 3221225472,
+    "max_model_len": 8192,
+    "max_num_batched_tokens": 512,
+    "max_num_seqs": 16,
+    "served_model_name": "banana-smasher-v5"
+  }
+}

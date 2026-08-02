@@ -1,75 +1,93 @@
 # syntax=docker/dockerfile:1.7
-ARG BASE_IMAGE=nvcr.io/nvidia/cuda:13.0.1-runtime-ubuntu24.04
-FROM ${BASE_IMAGE}
+ARG VLLM_IMAGE=vllm/vllm-openai:v0.24.0@sha256:32445b36556244d8a721cd21a2b47a7915bc6408432d05aaeab205bb223ced8b
+ARG VLLM_UPSTREAM_REV=ee0da84a
 
-ARG VLLM_VERSION=0.20.2rc1.dev3+gcb03fee32
-ARG TORCH_VERSION=2.11.0+cu130
-ARG TRITON_VERSION=3.6.0
-ARG REQUIRE_KERNEL_CACHE=1
+FROM ${VLLM_IMAGE} AS package-builder
+USER root
+RUN python3 -m pip install --no-cache-dir \
+      build==1.3.0 hatchling==1.27.0 wheel==0.46.3
+COPY banana-smasher /src/banana-smasher
+COPY banana-smasher-plugin /src/banana-smasher-plugin
+RUN python3 -m build --wheel --outdir /wheels /src/banana-smasher \
+    && python3 -m build --wheel --outdir /wheels /src/banana-smasher-plugin \
+    && python3 -m zipfile -t /wheels/banana_smasher-1.0.0-py3-none-any.whl \
+    && python3 -m zipfile -t /wheels/banana_smasher_plugin-0.2.0-py3-none-any.whl
 
-LABEL org.opencontainers.image.title="GENESIS DeepSeek-V4 mixed-tier serving reproducer" \
-      org.opencontainers.image.description="Offline sm_121 runtime for QTIP/trueVQ/native-MXFP4 dispatch" \
-      org.opencontainers.image.version="1.0"
+FROM ${VLLM_IMAGE} AS flashinfer-builder
+USER root
+ARG FLASHINFER_WHEEL_SHA256=0c7a01e586b4796810d974cbf13a9c0eb2ade6a94d12e3220cf7782a1c09b8d3
+RUN apt-get update && apt-get install -y --no-install-recommends git \
+    && rm -rf /var/lib/apt/lists/* \
+    && python3 -m pip install --no-cache-dir wheel==0.46.3 \
+    && python3 -m pip download --no-deps --only-binary=:all: \
+      --dest /src flashinfer-python==0.6.12 \
+    && echo "${FLASHINFER_WHEEL_SHA256}  /src/flashinfer_python-0.6.12-py3-none-any.whl" \
+      | sha256sum --check --strict \
+    && python3 -m wheel unpack --dest /src \
+      /src/flashinfer_python-0.6.12-py3-none-any.whl
+COPY docker/patches/flashinfer-real-libcudart.patch /tmp/
+RUN cd /src/flashinfer_python-0.6.12 \
+    && git apply --check --unidiff-zero /tmp/flashinfer-real-libcudart.patch \
+    && git apply --unidiff-zero /tmp/flashinfer-real-libcudart.patch \
+    && python3 -m wheel pack --dest-dir /wheel .
 
-ENV DEBIAN_FRONTEND=noninteractive \
-    PATH=/opt/vllm-runtime/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+FROM ${VLLM_IMAGE} AS runtime
+USER root
+ARG VLLM_UPSTREAM_REV
+COPY --from=package-builder /wheels/banana_smasher-1.0.0-py3-none-any.whl /tmp/wheels/
+COPY --from=package-builder /wheels/banana_smasher_plugin-0.2.0-py3-none-any.whl /tmp/wheels/
+COPY --from=flashinfer-builder /wheel/flashinfer_python-0.6.12-py3-none-any.whl /tmp/wheels/
+RUN python3 -m pip install --no-cache-dir --no-deps --force-reinstall \
+      /tmp/wheels/flashinfer_python-0.6.12-py3-none-any.whl \
+      /tmp/wheels/banana_smasher-1.0.0-py3-none-any.whl \
+      /tmp/wheels/banana_smasher_plugin-0.2.0-py3-none-any.whl \
+    && rm -rf /tmp/wheels
+
+COPY banana-smasher/kernels/cubins-sm120 /opt/banana-smasher/aot/cubins-sm120
+COPY banana-smasher/kernels/cubins-e43 /opt/banana-smasher/aot/cubins-e43
+COPY banana-smasher/vendor/flashinfer-autotune/0.6.14/121a \
+     /root/.cache/vllm/flashinfer_autotune_cache/0.6.14/121a
+COPY docker/runtime_defaults.json /opt/banana-smasher/runtime_defaults.json
+COPY docker/scripts/verify_public_image.py /opt/banana-smasher/bin/verify_public_image.py
+COPY docker/scripts/write_package_receipt.py /opt/banana-smasher/bin/write_package_receipt.py
+
+# TileLang's compatibility stub is a strict subset of the CUDA runtime. Bind its
+# public package path to the real cu13 runtime at image-build time, then verify
+# both the link target and the production FlashInfer import seam.
+RUN set -eux; \
+    stub="$(python3 -c 'import importlib.util,pathlib; s=importlib.util.find_spec("tilelang"); assert s and s.origin; print(pathlib.Path(s.origin).parent/"lib/libcudart_stub.so")')"; \
+    real="$(python3 -c 'import pathlib; m=sorted(pathlib.Path("/usr/local/lib/python3.12/dist-packages/nvidia/cu13/lib").glob("libcudart.so.13")); assert len(m)==1,m; print(m[0])')"; \
+    test -f "$stub"; test -f "$real"; rm -f "$stub"; ln -s "$real" "$stub"; \
+    test "$(readlink -f "$stub")" = "$(readlink -f "$real")"; \
+    python3 /opt/banana-smasher/bin/verify_public_image.py; \
+    python3 /opt/banana-smasher/bin/write_package_receipt.py \
+      /opt/banana-smasher/provenance/package-sbom.json; \
+    python3 -c 'import json; p="/opt/banana-smasher/provenance/source.json"; open(p,"w").write(json.dumps({"base_image":"vllm/vllm-openai:v0.24.0@sha256:32445b36556244d8a721cd21a2b47a7915bc6408432d05aaeab205bb223ced8b","vllm_upstream_revision":"ee0da84a","packages_built_from_checkout":["banana-smasher","banana-smasher-plugin"]},indent=2,sort_keys=True)+"\\n")'
+
+ENV PYTHONNOUSERSITE=1 \
     PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1 \
-    TRITON_CACHE_DIR=/opt/genesis/triton-cache \
-    TRITON_PRINT_AUTOTUNING=1 \
+    NVIDIA_VISIBLE_DEVICES=all \
+    NVIDIA_DRIVER_CAPABILITIES=compute,utility \
     CUDA_MODULE_LOADING=LAZY \
-    GENESIS_DISTRIBUTED_BACKEND=gloo \
-    P530_PREFILL_MODE=dense_all \
-    P530_DENSE_THRESHOLD=64 \
-    P530_DENSE_CHUNK_ROWS=256 \
-    P530_LAYER_STRIDE=43 \
-    GENESIS_STARTUP_DEADLINE_SECONDS=600
+    MALLOC_MMAP_THRESHOLD_=65536 \
+    TOKENIZERS_PARALLELISM=false \
+    VLLM_NO_USAGE_STATS=1 \
+    VLLM_USE_DEEP_GEMM=0 \
+    BANANA_SMASHER_AOT_ROOT=/opt/banana-smasher/aot \
+    VLLM_MOE_W2_CUBIT_DIR=/opt/banana-smasher/aot/cubins-sm120 \
+    VLLM_MOE_W3_CUBIT_DIR=/opt/banana-smasher/aot/cubins-e43
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-      ca-certificates libgomp1 libnuma1 python3 tini \
-    && rm -rf /var/lib/apt/lists/*
+LABEL org.opencontainers.image.title="banana-smasher public vLLM runtime" \
+      org.opencontainers.image.version="v5" \
+      org.opencontainers.image.base.name="vllm/vllm-openai:v0.24.0" \
+      org.opencontainers.image.base.digest="sha256:32445b36556244d8a721cd21a2b47a7915bc6408432d05aaeab205bb223ced8b" \
+      io.banana-smasher.vllm.upstream-revision="ee0da84a" \
+      io.banana-smasher.pack.mount="/model" \
+      io.banana-smasher.runtime-defaults="/opt/banana-smasher/runtime_defaults.json"
 
-# Triton builds its launcher with a host C compiler during the authorized cache
-# bake only. The final REQUIRE_KERNEL_CACHE=1 runtime image contains no compiler.
-RUN if [ "$REQUIRE_KERNEL_CACHE" = "0" ]; then \
-      apt-get update \
-      && apt-get install -y --no-install-recommends build-essential python3.12-dev \
-      && rm -rf /var/lib/apt/lists/*; \
-    fi
-
-# Named build context: --build-context vllm_runtime=/path/to/frozen/venv
-COPY --from=vllm_runtime / /opt/vllm-runtime/
-RUN /opt/vllm-runtime/bin/python -c "import importlib.metadata as m; expected={'vllm':'${VLLM_VERSION}','torch':'${TORCH_VERSION}','triton':'${TRITON_VERSION}'}; actual={k:m.version(k) for k in expected}; assert actual==expected,(actual,expected); print(actual)"
-
-WORKDIR /opt/genesis
-COPY runtime/ /opt/genesis/runtime/
-COPY scripts/ /opt/genesis/scripts/
-COPY artifacts/mixed_tier_compact.pt /opt/genesis/artifacts/mixed_tier_compact.pt
-COPY provenance/ /opt/genesis/provenance/
-COPY triton-cache/ /opt/genesis/triton-cache/
-
-# Source hosts may carry operator-private 0600 modes. The runtime intentionally
-# drops to uid 10001, so normalize only the immutable published payloads here.
-RUN chmod -R a+rX \
-      /opt/genesis/runtime \
-      /opt/genesis/scripts \
-      /opt/genesis/artifacts \
-      /opt/genesis/provenance
-
-RUN if [ "$REQUIRE_KERNEL_CACHE" = "1" ]; then \
-      TRITON_CACHE_DIR=/opt/genesis/triton-cache \
-      /opt/vllm-runtime/bin/python /opt/genesis/scripts/verify_kernel_cache.py; \
-    fi \
-    && chmod -R a-w /opt/genesis/triton-cache \
-    && groupadd --gid 10001 genesis \
-    && useradd --uid 10001 --gid 10001 --create-home --shell /usr/sbin/nologin genesis \
-    && install -d -o genesis -g genesis /run/genesis /tmp/genesis-download
-
-USER genesis:genesis
-WORKDIR /run/genesis
 EXPOSE 8000
-HEALTHCHECK --interval=15s --timeout=5s --start-period=60s --retries=4 \
-  CMD /opt/vllm-runtime/bin/python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health',timeout=3).read()" || exit 1
-
-ENTRYPOINT ["/usr/bin/tini", "--", "/opt/vllm-runtime/bin/python", "/opt/genesis/scripts/entrypoint.py"]
-CMD ["/model"]
+HEALTHCHECK --interval=10m --timeout=30s --start-period=20m --retries=2 \
+  CMD ["python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health',timeout=20).read()"]
+WORKDIR /
+ENTRYPOINT []
+CMD ["vllm", "serve", "/model", "--served-model-name", "banana-smasher-v5", "--trust-remote-code", "--tokenizer-mode", "deepseek_v4", "--kv-cache-dtype", "fp8", "--block-size", "256", "--max-model-len", "8192", "--gpu-memory-utilization", "0.80", "--kv-cache-memory-bytes", "3221225472", "--max-num-batched-tokens", "512", "--max-num-seqs", "16", "--compilation-config", "{\"cudagraph_capture_sizes\":[1,2,4,8,16]}", "--no-scheduler-reserve-full-isl", "--generation-config", "vllm", "--reasoning-parser", "deepseek_v4", "--default-chat-template-kwargs", "{\"enable_thinking\":true}", "--enable-auto-tool-choice", "--tool-call-parser", "deepseek_v4", "--host", "0.0.0.0", "--port", "8000"]
