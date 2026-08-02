@@ -76,8 +76,8 @@ def test_legacy_flashinfer_combines_separate_sparse_pools(
     query = torch.zeros((2, 64, 512), dtype=torch.bfloat16)
     swa_cache = torch.zeros((1, 1, 1, 512), dtype=torch.bfloat16)
     extra_cache = torch.ones((1, 1, 1, 512), dtype=torch.bfloat16)
-    swa_indices = torch.arange(256, dtype=torch.int32).reshape(2, 128)
-    extra_indices = torch.arange(8, dtype=torch.int32).reshape(2, 4)
+    swa_indices = torch.arange(256, dtype=torch.int32).reshape(2, 1, 128)
+    extra_indices = torch.arange(8, dtype=torch.int32).reshape(2, 1, 4)
     swa_lens = torch.tensor([7, 9], dtype=torch.int32)
     extra_lens = torch.tensor([3, 2], dtype=torch.int32)
     result = wrapped(
@@ -97,7 +97,8 @@ def test_legacy_flashinfer_combines_separate_sparse_pools(
     args, kwargs = api.calls[0]
     assert args == ()
     assert torch.equal(
-        kwargs["sparse_indices"], torch.cat((swa_indices, extra_indices), dim=-1)
+        kwargs["sparse_indices"],
+        torch.cat((swa_indices, extra_indices), dim=-1).reshape(query.shape[0], -1),
     )
     assert torch.equal(kwargs["sparse_topk_lens"], torch.tensor([131, 130]))
     assert torch.equal(kwargs["seq_lens"], swa_lens)

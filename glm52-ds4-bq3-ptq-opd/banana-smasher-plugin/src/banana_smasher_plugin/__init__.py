@@ -71,10 +71,13 @@ def configure_flashinfer_sparse_mla_signature_compat() -> bool:
             swa_topk_lens = kwargs.pop("swa_topk_lens")
             extra_indices = kwargs.pop("extra_sparse_indices", None)
             extra_topk_lens = kwargs.pop("extra_sparse_topk_lens", None)
+            combined_indices = swa_indices
             if extra_indices is not None:
-                kwargs["sparse_indices"] = torch.cat(
-                    (swa_indices, extra_indices), dim=-1
-                )
+                combined_indices = torch.cat((swa_indices, extra_indices), dim=-1)
+            token_count = query.shape[0]
+            kwargs["sparse_indices"] = combined_indices.reshape(
+                token_count, -1
+            ).contiguous()
             compressed_kv_cache = kwargs.get("compressed_kv_cache")
             if compressed_kv_cache is None:
                 kwargs["compressed_kv_cache"] = kwargs["swa_kv_cache"]
@@ -83,7 +86,6 @@ def configure_flashinfer_sparse_mla_signature_compat() -> bool:
                 total_topk_lens = total_topk_lens + extra_topk_lens
             kwargs["sparse_topk_lens"] = total_topk_lens
             kwargs["seq_lens"] = swa_topk_lens.reshape(-1).to(dtype=torch.int32)
-            token_count = query.shape[0]
             kwargs["cum_seq_lens_q"] = torch.arange(
                 token_count + 1, dtype=torch.int32, device=query.device
             )
