@@ -44,6 +44,12 @@ KERNEL_MANIFEST_NAME = "BS_KERNEL_CACHE_MANIFEST.json"
 SCHEMA = "bs-pack"
 SCHEMA_VERSION = 1
 QUANT_METHOD = "banana_smasher"
+DENSE_FP8_DESCRIPTOR_KEYS = (
+    "activation_scheme",
+    "fmt",
+    "scale_fmt",
+    "weight_block_size",
+)
 PACKED_INDEX_ENCODING = "little-endian-packed-index-rows-v1"
 TIER_FAMILIES = (
     "qtip2",
@@ -1023,6 +1029,26 @@ def _exchange_directories(first: Path, second: Path) -> None:
         os.close(parent_fd)
 
 
+def _merge_dense_fp8_descriptors(
+    pack_quantization_config: dict[str, Any],
+    serving_config: dict[str, Any],
+) -> dict[str, Any]:
+    source = serving_config.get("quantization_config")
+    if not isinstance(source, dict):
+        raise PackValidationError(
+            "serving config is missing the dense FP8 quantization_config"
+        )
+    missing = [key for key in DENSE_FP8_DESCRIPTOR_KEYS if key not in source]
+    if missing:
+        raise PackValidationError(
+            f"serving config is missing dense FP8 descriptors: {missing}"
+        )
+    merged = dict(pack_quantization_config)
+    for key in DENSE_FP8_DESCRIPTOR_KEYS:
+        merged[key] = copy.deepcopy(source[key])
+    return merged
+
+
 def refresh_serving_metadata(
     pack_root: str | Path,
     *,
@@ -1037,10 +1063,13 @@ def refresh_serving_metadata(
     current_config = json.loads(config_before)
     current_manifest = json.loads(manifest_before)
     quantization_config = dict(current_config["quantization_config"])
-    quantization_config["quant_method"] = QUANT_METHOD
     serving_root, serving_config, serving_payloads = _load_serving_model_metadata(
         serving_model_root
     )
+    quantization_config = _merge_dense_fp8_descriptors(
+        quantization_config, serving_config
+    )
+    quantization_config["quant_method"] = QUANT_METHOD
     merged_config = dict(serving_config)
     merged_config["quantization_config"] = quantization_config
 
@@ -1412,6 +1441,10 @@ def export_pack(
             "tensor_container": None,
             "kernel_cache_manifest": "BS_KERNEL_CACHE_MANIFEST.json",
         }
+        if serving_config is not None:
+            config["quantization_config"] = _merge_dense_fp8_descriptors(
+                config["quantization_config"], serving_config
+            )
         if repair is not None:
             config["quantization_config"].update(
                 {

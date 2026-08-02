@@ -19,7 +19,13 @@ def _write_serving_model(root: Path) -> Path:
                 "hidden_size": 4096,
                 "expert_dtype": "fp4",
                 "rope_scaling": {"type": "yarn", "factor": 16},
-                "quantization_config": {"quant_method": "fp8"},
+                "quantization_config": {
+                    "quant_method": "fp8",
+                    "activation_scheme": "dynamic",
+                    "fmt": "e4m3",
+                    "scale_fmt": "ue8m0",
+                    "weight_block_size": [128, 128],
+                },
             }
         )
         + "\n"
@@ -200,6 +206,10 @@ def test_smash_export_merges_full_serving_config_and_tokenizer_files(
     assert config["expert_dtype"] == "fp4"
     assert config["rope_scaling"] == {"type": "yarn", "factor": 16}
     assert config["quantization_config"]["quant_method"] == "banana_smasher"
+    assert config["quantization_config"]["activation_scheme"] == "dynamic"
+    assert config["quantization_config"]["fmt"] == "e4m3"
+    assert config["quantization_config"]["scale_fmt"] == "ue8m0"
+    assert config["quantization_config"]["weight_block_size"] == [128, 128]
     assert {row["path"] for row in manifest["files"]} >= {
         "config.json",
         "tokenizer.json",
@@ -265,7 +275,14 @@ def test_smash_export_refresh_metadata_preserves_tensor_files(
     assert refreshed["command"] == "export"
     assert refreshed["mode"] == "refresh-metadata"
     assert config["architectures"] == ["DeepseekV4ForCausalLM"]
-    assert config["quantization_config"] == old_quant
+    assert {
+        key: config["quantization_config"][key]
+        for key in old_quant
+    } == old_quant
+    assert config["quantization_config"]["activation_scheme"] == "dynamic"
+    assert config["quantization_config"]["fmt"] == "e4m3"
+    assert config["quantization_config"]["scale_fmt"] == "ue8m0"
+    assert config["quantization_config"]["weight_block_size"] == [128, 128]
     assert (os.stat(plane).st_ino, plane.read_bytes()) == before
     assert main(["verify", str(pack)]) == 0
 
@@ -373,7 +390,14 @@ def test_smash_refresh_metadata_adds_base_weights_without_tensor_rewrites(
     assert config["hidden_size"] == 4096
     assert config["rope_scaling"] == {"type": "yarn", "factor": 16}
     assert config["expert_dtype"] == "fp4"
-    assert config["quantization_config"] == old_quant
+    assert {
+        key: config["quantization_config"][key]
+        for key in old_quant
+    } == old_quant
+    assert config["quantization_config"]["activation_scheme"] == "dynamic"
+    assert config["quantization_config"]["fmt"] == "e4m3"
+    assert config["quantization_config"]["scale_fmt"] == "ue8m0"
+    assert config["quantization_config"]["weight_block_size"] == [128, 128]
     # metadata-only: quantized planes must be byte- and inode-identical
     assert (os.stat(plane).st_ino, plane.read_bytes()) == plane_before
     roles = {row["path"]: row["role"] for row in manifest["files"]}

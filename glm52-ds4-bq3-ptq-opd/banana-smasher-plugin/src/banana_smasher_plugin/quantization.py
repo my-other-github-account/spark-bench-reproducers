@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import re
 from pathlib import Path
 from typing import Any
@@ -20,8 +21,9 @@ try:
     from vllm.model_executor.layers.fused_moe.fused_moe_method_base import (
         FusedMoEMethodBase,
     )
-    from vllm.model_executor.layers.linear import LinearBase, UnquantizedLinearMethod
+    from vllm.model_executor.layers.linear import LinearBase
     from vllm.model_executor.layers.quantization.base_config import QuantizationConfig
+    from vllm.model_executor.layers.quantization.fp8 import Fp8Config, Fp8LinearMethod
 except ImportError as exc:  # pragma: no cover - wheel dependency is mandatory
     raise RuntimeError("banana-smasher-plugin requires stock vLLM") from exc
 
@@ -30,6 +32,92 @@ _DEEPSEEK_V4_EXPERT_PREFIX = re.compile(
     r"(?:^|\.)model\.layers\.(?P<layer>[0-9]+)\.ffn\.experts$"
 )
 QUANT_METHOD = "banana_smasher"
+_DENSE_STACKED_MAPPING = (
+    ("gate_up_proj", "w1"),
+    ("gate_up_proj", "w3"),
+    ("attn.fused_wqa_wkv", "attn.wq_a"),
+    ("attn.fused_wqa_wkv", "attn.wkv"),
+    ("compressor.fused_wkv_wgate", "compressor.wkv"),
+    ("compressor.fused_wkv_wgate", "compressor.wgate"),
+)
+
+
+def _stacked_dense_parameter_name(name: str) -> str:
+    for parameter_name, checkpoint_name in _DENSE_STACKED_MAPPING:
+        if checkpoint_name in name:
+            return name.replace(checkpoint_name, parameter_name)
+    return name
+
+
+def preflight_dense_weight_map(
+    config: "BananaSmasherQuantizationConfig",
+    named_parameter_names: set[str],
+    *,
+    map_checkpoint_names,
+) -> dict[str, int]:
+    """Fail closed if any dense checkpoint key cannot reach a named parameter."""
+    config.dense_preflight_passed = False
+    root = config.model_root
+    if root is None:
+        raise _fail("DENSE_WEIGHT_MAP_PREFLIGHT model root is not bound")
+    index_path = root / "model.safetensors.index.json"
+    try:
+        index = json.loads(index_path.read_text())
+        weight_map = index["weight_map"]
+    except Exception as exc:
+        raise _fail(
+            f"DENSE_WEIGHT_MAP_PREFLIGHT invalid or missing weight map {index_path}: {exc}"
+        ) from exc
+    if not isinstance(weight_map, dict) or not weight_map:
+        raise _fail("DENSE_WEIGHT_MAP_PREFLIGHT weight map is empty")
+    mapped = map_checkpoint_names(list(weight_map))
+    if not isinstance(mapped, list):
+        mapped = list(mapped)
+    dense_names = [
+        name
+        for name in mapped
+        if ".experts." not in name and not name.startswith("mtp.")
+    ]
+    resolved = {_stacked_dense_parameter_name(name) for name in dense_names}
+    missing = sorted(resolved - named_parameter_names)
+    if missing:
+        preview = ", ".join(missing[:8])
+        raise _fail(
+            "DENSE_WEIGHT_MAP_PREFLIGHT checkpoint names do not resolve to registered "
+            f"named parameters: missing={len(missing)} first=[{preview}]"
+        )
+    config.dense_preflight_passed = True
+    return {
+        "dense_checkpoint_names": len(dense_names),
+        "mapped_named_parameters": len(resolved),
+    }
+
+
+def install_deepseek_v4_dense_preflight() -> None:
+    """Install the stock model's pre-load named-parameter gate once per process."""
+    from vllm.models.deepseek_v4.nvidia.model import DeepseekV4ForCausalLM
+
+    original = DeepseekV4ForCausalLM.load_weights
+    if getattr(original, "_banana_smasher_dense_preflight", False):
+        return
+
+    def load_weights(model, weights):
+        config = getattr(getattr(model, "model", None), "quant_config", None)
+        if isinstance(config, BananaSmasherQuantizationConfig):
+            mapper = getattr(model, "hf_to_vllm_mapper", None)
+            if mapper is None or not callable(getattr(mapper, "apply_list", None)):
+                raise _fail(
+                    "DENSE_WEIGHT_MAP_PREFLIGHT stock DeepSeek-V4 weights mapper is unavailable"
+                )
+            preflight_dense_weight_map(
+                config,
+                {name for name, _ in model.named_parameters()},
+                map_checkpoint_names=mapper.apply_list,
+            )
+        return original(model, weights)
+
+    load_weights._banana_smasher_dense_preflight = True
+    DeepseekV4ForCausalLM.load_weights = load_weights
 
 
 class BananaSmasherMoEMethod(FusedMoEMethodBase):
@@ -92,14 +180,25 @@ class BananaSmasherMoEMethod(FusedMoEMethodBase):
             raise _fail(
                 f"accelerated native-plane layer requires CUDA, got device={device}"
             )
-        self.native_layer = NativePlaneLayer(
-            pack,
-            self.layer_index,
-            device=device,
-        )
-        # No dense routed-expert parameters are registered. The complete V5
-        # checkpoint intentionally carries only dense/non-expert shards; the
-        # immutable expert planes above are the sole routed weight source.
+        self.native_device = device
+        # No dense routed-expert parameters are registered. Plane allocation is
+        # deliberately deferred until after the full dense weight-map preflight.
+        layer.bs_native_plane_layer = None
+
+    def process_weights_after_loading(self, layer: RoutedExperts) -> None:
+        if not self.quant_config.dense_preflight_passed:
+            raise _fail(
+                "DENSE_WEIGHT_MAP_PREFLIGHT did not pass before expert plane allocation"
+            )
+        if self.native_layer is None:
+            pack = self.quant_config.pack
+            if pack is None:
+                raise _fail("quantization config was not bound to the stock model root")
+            self.native_layer = NativePlaneLayer(
+                pack,
+                self.layer_index,
+                device=self.native_device,
+            )
         layer.bs_native_plane_layer = self.native_layer
 
     def get_fused_moe_quant_config(self, layer: RoutedExperts) -> FusedMoEQuantConfig:
@@ -155,6 +254,35 @@ class BananaSmasherQuantizationConfig(QuantizationConfig):
         self.raw = dict(raw)
         self.model_root: Path | None = None
         self.pack: NativePlanePack | None = None
+        activation_scheme = self.raw.get("activation_scheme")
+        fmt = self.raw.get("fmt")
+        weight_block_size = self.raw.get("weight_block_size")
+        if activation_scheme != "dynamic" or fmt != "e4m3":
+            raise ValueError(
+                "banana-smasher-plugin requires dense FP8 descriptors "
+                "activation_scheme='dynamic' and fmt='e4m3'"
+            )
+        if (
+            not isinstance(weight_block_size, list)
+            or len(weight_block_size) != 2
+            or any(not isinstance(value, int) or value <= 0 for value in weight_block_size)
+        ):
+            raise ValueError(
+                "banana-smasher-plugin requires a two-dimensional dense FP8 weight_block_size"
+            )
+        self.dense_fp8_config = Fp8Config(
+            is_checkpoint_fp8_serialized=True,
+            activation_scheme=activation_scheme,
+            weight_block_size=list(weight_block_size),
+        )
+        scale_fmt = self.raw.get("scale_fmt")
+        if scale_fmt not in {"ue8m0", "float32"}:
+            raise ValueError(
+                "banana-smasher-plugin requires dense FP8 scale_fmt to be "
+                "'ue8m0' or 'float32'"
+            )
+        self.dense_fp8_config.is_scale_e8m0 = scale_fmt == "ue8m0"
+        self.dense_preflight_passed = False
 
     @classmethod
     def get_name(cls) -> str:
@@ -206,7 +334,7 @@ class BananaSmasherQuantizationConfig(QuantizationConfig):
         self, layer: torch.nn.Module, prefix: str
     ) -> Any | None:
         if isinstance(layer, LinearBase):
-            return UnquantizedLinearMethod()
+            return Fp8LinearMethod(self.dense_fp8_config)
         if not isinstance(layer, RoutedExperts):
             return None
         match = _DEEPSEEK_V4_EXPERT_PREFIX.search(prefix)

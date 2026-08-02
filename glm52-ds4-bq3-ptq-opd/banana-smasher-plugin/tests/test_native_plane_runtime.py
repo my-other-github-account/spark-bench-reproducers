@@ -320,6 +320,26 @@ def _install_fake_vllm(monkeypatch: pytest.MonkeyPatch) -> None:
     class UnquantizedLinearMethod:
         pass
 
+    class Fp8Config:
+        def __init__(
+            self,
+            is_checkpoint_fp8_serialized=False,
+            activation_scheme="dynamic",
+            ignored_layers=None,
+            weight_block_size=None,
+            store_dtype=None,
+        ):
+            self.is_checkpoint_fp8_serialized = is_checkpoint_fp8_serialized
+            self.activation_scheme = activation_scheme
+            self.ignored_layers = ignored_layers or []
+            self.weight_block_size = weight_block_size
+            self.store_dtype = store_dtype
+            self.is_scale_e8m0 = False
+
+    class Fp8LinearMethod:
+        def __init__(self, quant_config):
+            self.quant_config = quant_config
+
     class FusedMoEQuantConfig:
         @classmethod
         def make(cls, **kwargs):
@@ -334,6 +354,9 @@ def _install_fake_vllm(monkeypatch: pytest.MonkeyPatch) -> None:
         ),
         "vllm.model_executor.layers.quantization.base_config": ModuleType(
             "vllm.model_executor.layers.quantization.base_config"
+        ),
+        "vllm.model_executor.layers.quantization.fp8": ModuleType(
+            "vllm.model_executor.layers.quantization.fp8"
         ),
         "vllm.model_executor.layers.fused_moe": ModuleType(
             "vllm.model_executor.layers.fused_moe"
@@ -351,6 +374,10 @@ def _install_fake_vllm(monkeypatch: pytest.MonkeyPatch) -> None:
     modules[
         "vllm.model_executor.layers.quantization.base_config"
     ].QuantizationConfig = QuantizationConfig
+    modules["vllm.model_executor.layers.quantization.fp8"].Fp8Config = Fp8Config
+    modules["vllm.model_executor.layers.quantization.fp8"].Fp8LinearMethod = (
+        Fp8LinearMethod
+    )
     modules["vllm.model_executor.layers.fused_moe"].RoutedExperts = RoutedExperts
     modules[
         "vllm.model_executor.layers.fused_moe.fused_moe_method_base"
@@ -446,21 +473,31 @@ def test_quant_config_selects_only_stock_deepseek_routed_experts(
     root = _tiny_pack(tmp_path / "model")
     _install_fake_vllm(monkeypatch)
     from vllm.model_executor.layers.fused_moe import RoutedExperts
-    from vllm.model_executor.layers.linear import (
-        LinearBase,
-        UnquantizedLinearMethod,
-    )
+    from vllm.model_executor.layers.linear import LinearBase
+    from vllm.model_executor.layers.quantization.fp8 import Fp8LinearMethod
     from banana_smasher_plugin.quantization import (
         BananaSmasherMoEMethod,
         BananaSmasherQuantizationConfig,
     )
 
     raw = json.loads((root / "config.json").read_text())["quantization_config"]
+    raw.update(
+        {
+            "activation_scheme": "dynamic",
+            "fmt": "e4m3",
+            "scale_fmt": "ue8m0",
+            "weight_block_size": [128, 128],
+        }
+    )
     config = BananaSmasherQuantizationConfig.from_config(raw)
     config.maybe_update_config(str(root))
     assert config.get_quant_method(object(), "model.embed_tokens") is None
     linear_method = config.get_quant_method(LinearBase(), "model.layers.0.attn.q_proj")
-    assert isinstance(linear_method, UnquantizedLinearMethod)
+    assert isinstance(linear_method, Fp8LinearMethod)
+    assert linear_method.quant_config.is_checkpoint_fp8_serialized is True
+    assert linear_method.quant_config.activation_scheme == "dynamic"
+    assert linear_method.quant_config.weight_block_size == [128, 128]
+    assert linear_method.quant_config.is_scale_e8m0 is True
     layer = RoutedExperts()
     layer.moe_config = SimpleNamespace()
     method = config.get_quant_method(layer, "model.layers.0.ffn.experts")
@@ -468,6 +505,206 @@ def test_quant_config_selects_only_stock_deepseek_routed_experts(
     assert method.layer_index == 0
     with pytest.raises(NativePlanePrerequisiteError, match="DeepSeek-V4"):
         config.get_quant_method(layer, "model.layers.bad.ffn.experts")
+
+
+def test_dense_weight_map_preflight_maps_stacked_attention_scales_and_fails_closed(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = _tiny_pack(tmp_path / "model")
+    index = {
+        "weight_map": {
+            "layers.0.attn.wq_a.scale": "model-00001-of-00001.safetensors",
+            "layers.0.attn.wkv.scale": "model-00001-of-00001.safetensors",
+            "layers.0.attn.wq_a.weight": "model-00001-of-00001.safetensors",
+            "layers.0.attn.wkv.weight": "model-00001-of-00001.safetensors",
+            "layers.0.ffn.experts.0.w1.weight": "model-00001-of-00001.safetensors",
+        }
+    }
+    (root / "model.safetensors.index.json").write_text(json.dumps(index))
+    _install_fake_vllm(monkeypatch)
+    from banana_smasher_plugin.quantization import (
+        BananaSmasherQuantizationConfig,
+        preflight_dense_weight_map,
+    )
+
+    raw = json.loads((root / "config.json").read_text())["quantization_config"]
+    raw.update(
+        {
+            "activation_scheme": "dynamic",
+            "fmt": "e4m3",
+            "scale_fmt": "ue8m0",
+            "weight_block_size": [128, 128],
+        }
+    )
+    config = BananaSmasherQuantizationConfig.from_config(raw)
+    config.model_root = root
+    mapped_names = {
+        "model.layers.0.attn.fused_wqa_wkv.weight_scale_inv",
+        "model.layers.0.attn.fused_wqa_wkv.weight",
+    }
+
+    report = preflight_dense_weight_map(
+        config,
+        mapped_names,
+        map_checkpoint_names=lambda names: [
+            name.replace("layers.", "model.layers.", 1).replace(
+                ".scale", ".weight_scale_inv"
+            )
+            for name in names
+        ],
+    )
+    assert report["dense_checkpoint_names"] == 4
+    assert report["mapped_named_parameters"] == 2
+    assert config.dense_preflight_passed is True
+
+    with pytest.raises(NativePlanePrerequisiteError, match="DENSE_WEIGHT_MAP_PREFLIGHT"):
+        preflight_dense_weight_map(
+            config,
+            {"model.layers.0.attn.fused_wqa_wkv.weight"},
+            map_checkpoint_names=lambda names: [
+                name.replace("layers.", "model.layers.", 1).replace(
+                    ".scale", ".weight_scale_inv"
+                )
+                for name in names
+            ],
+        )
+
+
+def test_native_expert_allocation_is_deferred_until_dense_preflight_passes(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = _tiny_pack(tmp_path / "model")
+    _install_fake_vllm(monkeypatch)
+    import banana_smasher_plugin.quantization as quantization
+
+    raw = json.loads((root / "config.json").read_text())["quantization_config"]
+    raw.update(
+        {
+            "activation_scheme": "dynamic",
+            "fmt": "e4m3",
+            "scale_fmt": "ue8m0",
+            "weight_block_size": [128, 128],
+        }
+    )
+    config = quantization.BananaSmasherQuantizationConfig.from_config(raw)
+    config.pack = NativePlanePack.from_model_root(root)
+    method = object.__new__(quantization.BananaSmasherMoEMethod)
+    method.quant_config = config
+    method.layer_index = 0
+    method.prefix = "model.layers.0.ffn.experts"
+    method.native_layer = None
+    class Layer:
+        def buffers(self):
+            return iter([SimpleNamespace(device=torch.device("cuda"))])
+
+    layer = Layer()
+    calls: list[tuple[object, ...]] = []
+
+    class FakeNativePlaneLayer:
+        def __init__(self, *args, **kwargs):
+            calls.append((args, kwargs))
+
+    monkeypatch.setattr(quantization, "NativePlaneLayer", FakeNativePlaneLayer)
+    quantization.BananaSmasherMoEMethod.create_weights(
+        method,
+        layer,
+        num_experts=256,
+        hidden_size=4096,
+        intermediate_size_per_partition=2048,
+        params_dtype=torch.bfloat16,
+    )
+    assert calls == []
+    with pytest.raises(NativePlanePrerequisiteError, match="DENSE_WEIGHT_MAP_PREFLIGHT"):
+        quantization.BananaSmasherMoEMethod.process_weights_after_loading(method, layer)
+    assert calls == []
+    config.dense_preflight_passed = True
+    quantization.BananaSmasherMoEMethod.process_weights_after_loading(method, layer)
+    assert len(calls) == 1
+    assert layer.bs_native_plane_layer is method.native_layer
+
+
+def test_registered_deepseek_loader_runs_full_preflight_before_weight_loading(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = _tiny_pack(tmp_path / "model")
+    (root / "model.safetensors.index.json").write_text(
+        json.dumps(
+            {
+                "weight_map": {
+                    "layers.0.attn.wq_a.scale": "one.safetensors",
+                    "layers.0.attn.wkv.scale": "one.safetensors",
+                }
+            }
+        )
+    )
+    _install_fake_vllm(monkeypatch)
+    import banana_smasher_plugin.quantization as quantization
+
+    raw = json.loads((root / "config.json").read_text())["quantization_config"]
+    raw.update(
+        {
+            "activation_scheme": "dynamic",
+            "fmt": "e4m3",
+            "scale_fmt": "ue8m0",
+            "weight_block_size": [128, 128],
+        }
+    )
+    config = quantization.BananaSmasherQuantizationConfig.from_config(raw)
+    config.model_root = root
+    events: list[str] = []
+
+    class Mapper:
+        def apply_list(self, names):
+            return [
+                name.replace("layers.", "model.layers.", 1).replace(
+                    ".scale", ".weight_scale_inv"
+                )
+                for name in names
+            ]
+
+    class DeepseekV4ForCausalLM(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.model = SimpleNamespace(quant_config=config)
+            self.hf_to_vllm_mapper = Mapper()
+            self.register_parameter(
+                "dense_scale", torch.nn.Parameter(torch.ones(1), requires_grad=False)
+            )
+
+        def named_parameters(self, *args, **kwargs):
+            del args, kwargs
+            return iter(
+                [
+                    (
+                        "model.layers.0.attn.fused_wqa_wkv.weight_scale_inv",
+                        self.dense_scale,
+                    )
+                ]
+            )
+
+        def load_weights(self, weights):
+            del weights
+            assert config.dense_preflight_passed is True
+            events.append("load")
+            return {"loaded"}
+
+    model_module = ModuleType("vllm.models.deepseek_v4.nvidia.model")
+    model_module.DeepseekV4ForCausalLM = DeepseekV4ForCausalLM
+    monkeypatch.setitem(sys.modules, "vllm.models", ModuleType("vllm.models"))
+    monkeypatch.setitem(
+        sys.modules, "vllm.models.deepseek_v4", ModuleType("vllm.models.deepseek_v4")
+    )
+    monkeypatch.setitem(
+        sys.modules,
+        "vllm.models.deepseek_v4.nvidia",
+        ModuleType("vllm.models.deepseek_v4.nvidia"),
+    )
+    monkeypatch.setitem(sys.modules, model_module.__name__, model_module)
+
+    quantization.install_deepseek_v4_dense_preflight()
+    model = DeepseekV4ForCausalLM()
+    assert model.load_weights([]) == {"loaded"}
+    assert events == ["load"]
 
 
 def test_missing_plane_and_missing_kernel_fail_loudly(

@@ -3,7 +3,9 @@
 ## 2026-08-01 — stock-vLLM native-plane adapter
 
 Closed:
-- `GAP-V5-QUANT-METHOD-001`: the product method is single-sourced as `banana_smasher`; dense linear modules retain stock unquantized dispatch and only stock vLLM `RoutedExperts` at `model.layers.<0..42>.ffn.experts` bind native planes.
+- `GAP-V5-QUANT-METHOD-001`: the product method is single-sourced as `banana_smasher`; stock block-FP8 `LinearBase` modules use vLLM `Fp8LinearMethod`, including fused DeepSeek-V4 dense scale registration/loading, while only stock vLLM `RoutedExperts` at `model.layers.<0..42>.ffn.experts` bind native planes.
+- `GAP-V5-DENSE-FP8-DESCRIPTORS-001`: the canonical `smash export --refresh-metadata` path fail-closed copies `activation_scheme`, `fmt`, `scale_fmt`, and `weight_block_size` from the serving-model quantization config into the pack config without rewriting tensor payloads. Closure triple: canonical exporter/plugin code, focused stacked-scale plus full weight-map regressions, and the task recovery/install/boot receipts.
+- `GAP-V5-DENSE-WEIGHT-PREFLIGHT-001`: before routed expert plane allocation, the full dense checkpoint weight map is transformed through the stock DeepSeek-V4 mapper and checked against registered named parameters; unresolved fused or scale targets fail closed.
 - `GAP-V5-NATIVE-PLANE-FADVISE-001`: after every mmap-backed NPY plane is synchronously copied to its target tensor, the loader issues `POSIX_FADV_DONTNEED`, drops the mmap reference, and logs `loaded/total` plus `MemAvailable_kB` every 50 planes. This prevents V5's 103 GB file cache from remaining resident beside the 103 GB UMA/device allocation.
 - The model path supplied by stock vLLM is resolved through `quantization_config.pack_root`; no wrapper, environment path, or private vLLM checkout is required.
 - Every manifest-declared P1016 layer is metadata-bound before model construction continues; the pack manifest owns one explicit per-layer/projection selection, and only its routed tiers and named payload files may enter allocation. Candidate-only directory content is ignored and selected expert/slot rows must bind exactly once.
