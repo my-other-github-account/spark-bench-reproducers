@@ -391,6 +391,9 @@ def _install_fake_vllm(monkeypatch: pytest.MonkeyPatch) -> None:
     modules[
         "vllm.model_executor.layers.linear"
     ].UnquantizedLinearMethod = UnquantizedLinearMethod
+    # A real SM121 route test may have imported vllm.config earlier in this process.
+    # Keep this helper fully fake and order-independent instead of leaking that module.
+    monkeypatch.delitem(sys.modules, "vllm.config", raising=False)
     for name, module in modules.items():
         monkeypatch.setitem(sys.modules, name, module)
     sys.modules.pop("banana_smasher_plugin.quantization", None)
