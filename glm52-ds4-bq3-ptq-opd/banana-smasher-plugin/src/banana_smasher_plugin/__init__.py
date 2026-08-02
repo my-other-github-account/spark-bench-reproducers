@@ -34,26 +34,61 @@ def configure_flashinfer_sparse_mla_signature_compat() -> bool:
         parameter.kind is inspect.Parameter.VAR_KEYWORD
         for parameter in parameters.values()
     )
+    legacy_combined_sparse_api = (
+        not accepts_var_keyword
+        and "sparse_topk_lens" in parameters
+        and "seq_lens" in parameters
+        and "swa_topk_lens" not in parameters
+    )
     optional_compat_kwargs = (
         "extra_sparse_indices",
+        "extra_sparse_topk_lens",
         "swa_topk_lens",
     )
     unsupported_optional_kwargs = (
         ()
-        if accepts_var_keyword
+        if accepts_var_keyword or legacy_combined_sparse_api
         else tuple(
             name for name in optional_compat_kwargs if name not in parameters
         )
     )
     variant = (
-        "all_optional_kwargs"
-        if not unsupported_optional_kwargs
-        else "without_" + "+".join(unsupported_optional_kwargs)
+        "legacy_combined_sparse_api"
+        if legacy_combined_sparse_api
+        else (
+            "all_optional_kwargs"
+            if not unsupported_optional_kwargs
+            else "without_" + "+".join(unsupported_optional_kwargs)
+        )
     )
 
     @functools.wraps(original)
     def compatible_sparse_decode(*args, **kwargs):
-        if any(name in kwargs for name in unsupported_optional_kwargs):
+        if legacy_combined_sparse_api:
+            kwargs = kwargs.copy()
+            query = kwargs["query"]
+            swa_indices = kwargs["sparse_indices"]
+            swa_topk_lens = kwargs.pop("swa_topk_lens")
+            extra_indices = kwargs.pop("extra_sparse_indices", None)
+            extra_topk_lens = kwargs.pop("extra_sparse_topk_lens", None)
+            if extra_indices is not None:
+                kwargs["sparse_indices"] = torch.cat(
+                    (swa_indices, extra_indices), dim=-1
+                )
+            compressed_kv_cache = kwargs.get("compressed_kv_cache")
+            if compressed_kv_cache is None:
+                kwargs["compressed_kv_cache"] = kwargs["swa_kv_cache"]
+            total_topk_lens = torch.full_like(swa_topk_lens, 128)
+            if extra_topk_lens is not None:
+                total_topk_lens = total_topk_lens + extra_topk_lens
+            kwargs["sparse_topk_lens"] = total_topk_lens
+            kwargs["seq_lens"] = swa_topk_lens.reshape(-1).to(dtype=torch.int32)
+            token_count = query.shape[0]
+            kwargs["cum_seq_lens_q"] = torch.arange(
+                token_count + 1, dtype=torch.int32, device=query.device
+            )
+            kwargs["max_q_len"] = 1
+        elif any(name in kwargs for name in unsupported_optional_kwargs):
             kwargs = kwargs.copy()
             for name in unsupported_optional_kwargs:
                 kwargs.pop(name, None)
