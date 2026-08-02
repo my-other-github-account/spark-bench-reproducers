@@ -4,6 +4,7 @@ import functools
 import importlib
 import inspect
 import logging
+import math
 import os
 import sys
 
@@ -391,21 +392,57 @@ def configure_sparse_indexer_deep_gemm_backend() -> bool:
 
 
 def configure_stock_mhc_backend() -> bool:
-    """Route MHC away from DeepGEMM where its hyperconnection API is unsupported."""
+    """Route only unsupported SM121 MHC prenorm work to the TileLang kernel."""
     from vllm.platforms import current_platform
 
     capability = current_platform.get_device_capability()
     if capability is None or (capability.major, capability.minor) != (12, 1):
         return False
-    previous = os.environ.get("VLLM_USE_DEEP_GEMM")
-    os.environ["VLLM_USE_DEEP_GEMM"] = "0"
-    deep_gemm = sys.modules.get("vllm.utils.deep_gemm")
-    if deep_gemm is not None:
-        deep_gemm.is_deep_gemm_supported.cache_clear()
+
+    deep_gemm = importlib.import_module("vllm.utils.deep_gemm")
+    original = getattr(deep_gemm, "tf32_hc_prenorm_gemm")
+    if getattr(original, "_banana_smasher_sm121_mhc_tilelang", False):
+        return True
+    tilelang = importlib.import_module("vllm.model_executor.kernels.mhc.tilelang")
+    fallback = getattr(tilelang, "_tilelang_hc_prenorm_gemm")
+
+    @functools.wraps(original)
+    def tilelang_hc_prenorm_gemm(
+        x: torch.Tensor,
+        fn: torch.Tensor,
+        out: torch.Tensor,
+        sqrsum: torch.Tensor,
+        num_split: int,
+    ) -> None:
+        fn_rows = int(fn.shape[0])
+        hc_mult = math.isqrt(fn_rows + 1) - 1
+        if hc_mult <= 0 or hc_mult * hc_mult + 2 * hc_mult != fn_rows:
+            raise RuntimeError(
+                "cannot derive MHC multiplier from prenorm projection rows: "
+                f"fn.shape[0]={fn_rows}"
+            )
+        if int(x.shape[1]) % hc_mult != 0:
+            raise RuntimeError(
+                "MHC prenorm input width is not divisible by multiplier: "
+                f"x.shape[1]={int(x.shape[1])}, hc_mult={hc_mult}"
+            )
+        fallback(
+            x,
+            fn,
+            out,
+            sqrsum,
+            int(x.shape[1]) // hc_mult,
+            hc_mult,
+            n_splits=num_split,
+        )
+
+    tilelang_hc_prenorm_gemm._banana_smasher_sm121_mhc_tilelang = True  # type: ignore[attr-defined]
+    setattr(deep_gemm, "tf32_hc_prenorm_gemm", tilelang_hc_prenorm_gemm)
     _LOG.warning(
         "BANANA_SMASHER_MHC_BACKEND_OVERRIDE compute_capability=12.1 "
-        "VLLM_USE_DEEP_GEMM=%r->'0' reason=unsupported_hyperconnection_api",
-        previous,
+        "operation=tf32_hc_prenorm_gemm backend=tilelang "
+        "global_deep_gemm=%r",
+        os.environ.get("VLLM_USE_DEEP_GEMM"),
     )
     return True
 

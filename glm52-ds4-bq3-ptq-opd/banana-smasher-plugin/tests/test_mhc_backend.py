@@ -93,20 +93,67 @@ def test_public_indexer_backend_preserves_supported_pre_sm12x_deepgemm(
     assert external is sys.modules["deep_gemm"]
 
 
-def test_public_mhc_selector_disables_deepgemm_on_sm121(
+def test_public_mhc_selector_routes_only_prenorm_to_tilelang_on_sm121(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     platforms = ModuleType("vllm.platforms")
     platforms.current_platform = SimpleNamespace(
         get_device_capability=lambda: SimpleNamespace(major=12, minor=1)
     )
+    deep_gemm = ModuleType("vllm.utils.deep_gemm")
+    tilelang = ModuleType("vllm.model_executor.kernels.mhc.tilelang")
+    original_calls: list[object] = []
+    tilelang_calls: list[dict[str, int]] = []
+
+    def original_prenorm(*args, **kwargs):
+        original_calls.append((args, kwargs))
+        raise AssertionError("SM121 MHC must not call DeepGEMM prenorm")
+
+    def tilelang_prenorm(
+        x,
+        fn,
+        out,
+        sqrsum,
+        hidden_size,
+        hc_mult,
+        *,
+        n_splits,
+    ):
+        del x, fn, out, sqrsum
+        tilelang_calls.append(
+            {
+                "hidden_size": hidden_size,
+                "hc_mult": hc_mult,
+                "n_splits": n_splits,
+            }
+        )
+
+    setattr(deep_gemm, "tf32_hc_prenorm_gemm", original_prenorm)
+    setattr(tilelang, "_tilelang_hc_prenorm_gemm", tilelang_prenorm)
     monkeypatch.setitem(sys.modules, "vllm.platforms", platforms)
+    monkeypatch.setitem(sys.modules, "vllm.utils.deep_gemm", deep_gemm)
+    monkeypatch.setitem(
+        sys.modules,
+        "vllm.model_executor.kernels.mhc.tilelang",
+        tilelang,
+    )
     monkeypatch.setenv("VLLM_USE_DEEP_GEMM", "1")
 
     selector = getattr(banana_smasher_plugin, "configure_stock_mhc_backend", None)
     assert callable(selector), "public stock MHC backend selector is not installed"
     assert selector() is True
-    assert os.environ["VLLM_USE_DEEP_GEMM"] == "0"
+    assert os.environ["VLLM_USE_DEEP_GEMM"] == "1"
+    assert deep_gemm.tf32_hc_prenorm_gemm is not original_prenorm
+
+    x = torch.zeros((2, 8192))
+    fn = torch.zeros((24, 8192))
+    out = torch.zeros((1, 2, 24))
+    sqrsum = torch.zeros((1, 2))
+    deep_gemm.tf32_hc_prenorm_gemm(x, fn, out, sqrsum, 1)
+    assert original_calls == []
+    assert tilelang_calls == [
+        {"hidden_size": 2048, "hc_mult": 4, "n_splits": 1}
+    ]
 
 
 def test_public_deepseek_v4_o_proj_routes_stock_fp8_weights_to_triton_on_sm121(

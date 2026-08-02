@@ -33,8 +33,8 @@ Closed:
 ## 2026-08-02 — stock MHC DeepGEMM architecture routing
 
 Closed:
-- `GAP-V5-STOCK-MHC-SM121-001`: plugin registration now drives stock vLLM's public `VLLM_USE_DEEP_GEMM` selector off on SM121 before importing the quantization runtime. Stock `mhc_pre_tilelang` therefore uses its supported TileLang prenorm GEMM instead of calling DeepGEMM's architecture-rejected `tf32_hc_prenorm_gemm`; other compute capabilities retain stock selection. Because that operation is unsupported on SM121, an explicit DeepGEMM enable is deliberately overridden and the previous value is logged.
-- The focused SM121 regression proves the unmodified stock selector chooses DeepGEMM, then exercises the real DeepSeek-V4 `mhc_pre_tilelang` branch after plugin selection and rejects any call to the unsupported DeepGEMM hyperconnection API.
+- `GAP-V5-STOCK-MHC-SM121-001`: plugin registration now routes only stock vLLM's unsupported `tf32_hc_prenorm_gemm` operation to the architecture-supported TileLang prenorm kernel on SM121. Global DeepGEMM remains enabled for the sparse indexer and E8M0 kernels; other compute capabilities retain stock selection.
+- The focused SM121 regression keeps `VLLM_USE_DEEP_GEMM=1`, proves the MHC wrapper derives multiplier and hidden width from public tensor geometry, and rejects any call to the unsupported DeepGEMM hyperconnection API while preserving the rest of the backend.
 
 ## 2026-08-02 — stock sparse-MLA physical capability gate
 
