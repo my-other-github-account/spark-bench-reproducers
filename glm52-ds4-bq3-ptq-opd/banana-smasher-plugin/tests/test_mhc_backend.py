@@ -33,12 +33,17 @@ def _install_indexer_deep_gemm_modules(
     def external_logits(*args, **kwargs):
         return ("external-logits", args, kwargs)
 
+    def external_dense_logits(*args, **kwargs):
+        return ("external-dense-logits", args, kwargs)
+
     vendored.get_paged_mqa_logits_metadata = vendored_metadata
     external.get_paged_mqa_logits_metadata = external_metadata
     external.fp8_fp4_paged_mqa_logits = external_logits
+    setattr(external, "fp8_fp4_mqa_logits", external_dense_logits)
     utils._import_deep_gemm = lambda: vendored
     utils._get_paged_mqa_logits_metadata_impl = vendored_metadata
     utils._fp8_fp4_paged_mqa_logits_impl = None
+    setattr(utils, "_fp8_fp4_mqa_logits_impl", None)
 
     monkeypatch.setitem(sys.modules, "vllm.platforms", platforms)
     monkeypatch.setitem(sys.modules, "vllm.utils.deep_gemm", utils)
@@ -69,6 +74,9 @@ def test_public_indexer_backend_selects_external_sm12x_deepgemm(
         (2, 64, 20),
     )
     assert utils._fp8_fp4_paged_mqa_logits_impl is external.fp8_fp4_paged_mqa_logits
+    assert getattr(utils, "_fp8_fp4_mqa_logits_impl") is getattr(
+        external, "fp8_fp4_mqa_logits"
+    )
     assert utils._get_paged_mqa_logits_metadata_impl is not (
         vendored.get_paged_mqa_logits_metadata
     )

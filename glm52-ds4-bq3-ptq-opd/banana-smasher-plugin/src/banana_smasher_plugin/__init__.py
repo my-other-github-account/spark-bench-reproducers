@@ -361,6 +361,7 @@ def configure_sparse_indexer_deep_gemm_backend() -> bool:
     required = {
         "_get_paged_mqa_logits_metadata_impl": "get_paged_mqa_logits_metadata",
         "_fp8_fp4_paged_mqa_logits_impl": "fp8_fp4_paged_mqa_logits",
+        "_fp8_fp4_mqa_logits_impl": "fp8_fp4_mqa_logits",
     }
     selected: dict[str, object] = {}
     for slot, name in required.items():

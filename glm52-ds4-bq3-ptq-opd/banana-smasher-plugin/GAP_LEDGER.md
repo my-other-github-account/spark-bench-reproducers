@@ -50,5 +50,5 @@ Open dependency:
 
 Closed:
 - `GAP-V5-STOCK-INDEXER-SM12X-001`: stock vLLM 0.24 discovers its vendored DeepGEMM package on SM12x even though that package's paged-MQA metadata API rejects the architecture. The image now builds an external DeepGEMM wheel from a pinned public source revision that implements the SM12x indexer APIs.
-- Plugin registration selects that external backend once for the paged-MQA metadata and logits APIs on the SM12x architecture family. It fails immediately if either required API is absent, logs the selected module once, and preserves stock DeepGEMM selection on previously supported architecture families.
-- Focused RED/GREEN regressions cover the unsupported vendored SM121 implementation and the unchanged pre-SM12x route. The selector does not patch an installed vLLM tree and does not add a runtime flag.
+- Plugin registration selects that external backend once for the non-paged MQA logits, paged-MQA logits, and paged-MQA metadata APIs on the SM12x architecture family. It fails immediately if any required API is absent, logs the selected module once, and preserves stock DeepGEMM selection on previously supported architecture families.
+- Focused RED/GREEN regressions cover boot-order initialization with all three sparse-indexer bindings, the unsupported vendored SM121 implementation, and the unchanged pre-SM12x route. The selector does not patch an installed vLLM tree and does not add a runtime flag.
