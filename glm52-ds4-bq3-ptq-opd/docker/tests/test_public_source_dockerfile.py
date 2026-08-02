@@ -16,6 +16,9 @@ def test_public_source_dockerfile_contract() -> None:
     assert "COPY banana-smasher /src/banana-smasher" in text
     assert "COPY banana-smasher-plugin /src/banana-smasher-plugin" in text
     assert "python3 -m build --wheel" in text
+    assert "python3 -m pytest -q" in text
+    assert "/src/banana-smasher/tests" in text
+    assert "/src/banana-smasher-plugin/tests" in text
     assert "mkdir -p /wheel" in text
     assert "https://github.com/jasl/DeepGEMM.git" in text
     assert "7a7a41a1bac7dacabe74057e7600e59f98f85bce" in text

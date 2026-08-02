@@ -14,7 +14,7 @@ _REGISTERED = False
 
 
 def configure_flashinfer_sparse_mla_signature_compat() -> bool:
-    """Normalize the one FlashInfer sparse-MLA signature used by vLLM 0.24."""
+    """Normalize optional FlashInfer sparse-MLA kwargs used by vLLM 0.24."""
     api_name = "trtllm_batch_decode_sparse_mla_dsv4"
     decode = importlib.import_module("flashinfer.decode")
     target = getattr(decode, api_name)
@@ -30,21 +30,33 @@ def configure_flashinfer_sparse_mla_signature_compat() -> bool:
         raise RuntimeError(
             f"cannot inspect FlashInfer {api_name} signature for compatibility"
         ) from exc
-    accepts_swa_topk_lens = "swa_topk_lens" in parameters or any(
+    accepts_var_keyword = any(
         parameter.kind is inspect.Parameter.VAR_KEYWORD
         for parameter in parameters.values()
     )
+    optional_compat_kwargs = (
+        "extra_sparse_indices",
+        "swa_topk_lens",
+    )
+    unsupported_optional_kwargs = (
+        ()
+        if accepts_var_keyword
+        else tuple(
+            name for name in optional_compat_kwargs if name not in parameters
+        )
+    )
     variant = (
-        "with_swa_topk_lens"
-        if accepts_swa_topk_lens
-        else "without_swa_topk_lens"
+        "all_optional_kwargs"
+        if not unsupported_optional_kwargs
+        else "without_" + "+".join(unsupported_optional_kwargs)
     )
 
     @functools.wraps(original)
     def compatible_sparse_decode(*args, **kwargs):
-        if not accepts_swa_topk_lens and "swa_topk_lens" in kwargs:
+        if any(name in kwargs for name in unsupported_optional_kwargs):
             kwargs = kwargs.copy()
-            del kwargs["swa_topk_lens"]
+            for name in unsupported_optional_kwargs:
+                kwargs.pop(name, None)
         return original(*args, **kwargs)
 
     compatible_sparse_decode._banana_smasher_sparse_mla_signature_compat = True  # type: ignore[attr-defined]
