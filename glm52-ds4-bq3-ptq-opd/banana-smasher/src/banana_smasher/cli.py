@@ -134,6 +134,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                         args.output,
                         serving_model_root=args.serving_model_root,
                         link_mode=args.link_mode,
+                        runtime_floor_bytes=args.runtime_floor_bytes,
                     ),
                     "command": "export",
                     "output": str(args.output.resolve()),

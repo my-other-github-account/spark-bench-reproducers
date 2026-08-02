@@ -1054,8 +1054,13 @@ def refresh_serving_metadata(
     *,
     serving_model_root: str | Path,
     link_mode: Literal["hardlink", "copy", "auto"] = "hardlink",
+    runtime_floor_bytes: int | None = None,
 ) -> dict[str, Any]:
     """Atomically refresh serving metadata without rewriting tensor payloads."""
+    if runtime_floor_bytes is not None and (
+        not isinstance(runtime_floor_bytes, int) or runtime_floor_bytes < 0
+    ):
+        raise PackValidationError("runtime_floor_bytes must be a non-negative integer")
     pack_root = Path(pack_root).resolve()
     manifest_path = pack_root / MANIFEST_NAME
     manifest_before = manifest_path.read_bytes()
@@ -1126,6 +1131,12 @@ def refresh_serving_metadata(
                 for row in manifest["files"]
                 if row.get("role") == BASE_WEIGHTS_SHARD_ROLE
             )
+            if runtime_floor_bytes is not None:
+                selection["runtime_floor_bytes"] = runtime_floor_bytes
+        elif runtime_floor_bytes is not None:
+            raise PackValidationError(
+                "runtime_floor_bytes refresh requires selected_payloads metadata"
+            )
         manifest.setdefault("provenance", {})["serving_model_root"] = str(serving_root)
         staged_manifest = staging / MANIFEST_NAME
         staged_manifest.write_text(
@@ -1149,6 +1160,7 @@ def refresh_serving_metadata(
         "copied_files": list(SERVING_METADATA_FILES),
         "base_weights_shards": len(base_plan[0]) if base_plan is not None else 0,
         "base_weights_index": base_plan is not None,
+        "runtime_floor_bytes": runtime_floor_bytes,
         "config_sha256_before": _sha256_bytes(config_before),
         "config_sha256_after": staged_config_sha256,
         "manifest_sha256_before": _sha256_bytes(manifest_before),

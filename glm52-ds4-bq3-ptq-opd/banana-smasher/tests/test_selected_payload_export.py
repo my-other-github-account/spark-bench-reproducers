@@ -5,7 +5,11 @@ from pathlib import Path
 
 import numpy as np
 
-from banana_smasher.contract import export_pack, unpack_index_rows
+from banana_smasher.contract import (
+    export_pack,
+    refresh_serving_metadata,
+    unpack_index_rows,
+)
 
 
 def _save(root: Path, name: str, value: np.ndarray) -> dict[str, object]:
@@ -116,3 +120,57 @@ def test_export_physically_packs_d4_codes_and_records_lossless_decode(tmp_path: 
         )
         assert np.array_equal(decoded.astype(np.int16), expected[projection])
         assert spec["data_bytes"] < spec["decoded_data_bytes"]
+
+
+def test_metadata_refresh_canonically_resets_runtime_floor_without_rewriting_payloads(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "source"
+    _write_p1016_fixture(source)
+    output = tmp_path / "pack"
+    manifest_before = export_pack(
+        source_root=source,
+        output=output,
+        model_id="fixture",
+        instance_id="fixture-refresh",
+        runtime_floor_bytes=999,
+        link_mode="copy",
+    )
+    serving = tmp_path / "serving"
+    serving.mkdir()
+    (serving / "config.json").write_text(
+        json.dumps(
+            {
+                "architectures": ["DeepseekV4ForCausalLM"],
+                "quantization_config": {
+                    "quant_method": "fp8",
+                    "activation_scheme": "dynamic",
+                    "fmt": "e4m3",
+                    "scale_fmt": "ue8m0",
+                    "weight_block_size": [128, 128],
+                },
+            }
+        )
+    )
+    for name in (
+        "tokenizer.json",
+        "tokenizer_config.json",
+        "generation_config.json",
+    ):
+        (serving / name).write_text("{}\n")
+    payload_spec = manifest_before["selected_payloads"]["layers"]["0"]["fused13"][
+        "payloads"
+    ]["d4_k1024"]["tensors"]["codes"]
+    payload = output / "planes" / payload_spec["file"]
+    before = (payload.stat().st_ino, payload.read_bytes())
+
+    receipt = refresh_serving_metadata(
+        output,
+        serving_model_root=serving,
+        runtime_floor_bytes=123,
+    )
+    manifest = json.loads((output / "BANANA_PACK_MANIFEST.json").read_text())
+
+    assert receipt["runtime_floor_bytes"] == 123
+    assert manifest["selected_payloads"]["runtime_floor_bytes"] == 123
+    assert (payload.stat().st_ino, payload.read_bytes()) == before
