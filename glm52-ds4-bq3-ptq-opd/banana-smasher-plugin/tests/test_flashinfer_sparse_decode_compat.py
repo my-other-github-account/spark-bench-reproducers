@@ -115,6 +115,52 @@ def test_legacy_flashinfer_combines_separate_sparse_pools(
     )
 
 
+def test_legacy_flashinfer_restores_fp8_cache_views_and_query_dtype(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def target(
+        query,
+        swa_kv_cache,
+        workspace_buffer,
+        sparse_indices,
+        compressed_kv_cache,
+        sparse_topk_lens,
+        seq_lens,
+        *,
+        out=None,
+        bmm1_scale=1.0,
+        bmm2_scale=1.0,
+        sinks=None,
+        kv_layout="HND",
+        cum_seq_lens_q=None,
+        max_q_len=None,
+        enable_pdl=None,
+    ):
+        return query, swa_kv_cache, compressed_kv_cache
+
+    api = _install_api(monkeypatch, target)
+    assert banana_smasher_plugin.configure_flashinfer_sparse_mla_signature_compat()
+    wrapped = api.utils.flashinfer_trtllm_batch_decode_sparse_mla_dsv4
+    query = torch.zeros((2, 64, 512), dtype=torch.bfloat16)
+    swa_cache_fp8 = torch.zeros((1, 2, 1, 512), dtype=torch.float8_e4m3fn)
+    extra_cache_fp8 = torch.zeros((1, 2, 1, 512), dtype=torch.float8_e4m3fn)
+    wrapped(
+        query=query,
+        swa_kv_cache=swa_cache_fp8.view(torch.uint8),
+        workspace_buffer=torch.zeros(8, dtype=torch.uint8),
+        sparse_indices=torch.zeros((2, 1, 128), dtype=torch.int32),
+        compressed_kv_cache=extra_cache_fp8.view(torch.uint8),
+        out=torch.empty_like(query),
+        swa_topk_lens=torch.ones(2, dtype=torch.int32),
+    )
+    _, kwargs = api.calls[0]
+    assert kwargs["query"].dtype == torch.float8_e4m3fn
+    assert kwargs["swa_kv_cache"].dtype == torch.float8_e4m3fn
+    assert kwargs["compressed_kv_cache"].dtype == torch.float8_e4m3fn
+    assert kwargs["swa_kv_cache"].data_ptr() == swa_cache_fp8.data_ptr()
+    assert kwargs["compressed_kv_cache"].data_ptr() == extra_cache_fp8.data_ptr()
+
+
 def test_current_flashinfer_forwards_all_optional_kwargs(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:

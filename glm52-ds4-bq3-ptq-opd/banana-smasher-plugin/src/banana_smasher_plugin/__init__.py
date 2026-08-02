@@ -14,7 +14,7 @@ _REGISTERED = False
 
 
 def configure_flashinfer_sparse_mla_signature_compat() -> bool:
-    """Normalize optional FlashInfer sparse-MLA kwargs used by vLLM 0.24."""
+    """Bridge vLLM 0.24 and installed FlashInfer sparse-MLA API variants."""
     api_name = "trtllm_batch_decode_sparse_mla_dsv4"
     decode = importlib.import_module("flashinfer.decode")
     target = getattr(decode, api_name)
@@ -67,6 +67,12 @@ def configure_flashinfer_sparse_mla_signature_compat() -> bool:
         if legacy_combined_sparse_api:
             kwargs = kwargs.copy()
             query = kwargs["query"]
+            swa_kv_cache = kwargs["swa_kv_cache"]
+            if swa_kv_cache.dtype == torch.uint8:
+                swa_kv_cache = swa_kv_cache.view(torch.float8_e4m3fn)
+                kwargs["swa_kv_cache"] = swa_kv_cache
+                query = query.to(dtype=torch.float8_e4m3fn)
+                kwargs["query"] = query
             swa_indices = kwargs["sparse_indices"]
             swa_topk_lens = kwargs.pop("swa_topk_lens")
             extra_indices = kwargs.pop("extra_sparse_indices", None)
@@ -80,7 +86,11 @@ def configure_flashinfer_sparse_mla_signature_compat() -> bool:
             ).contiguous()
             compressed_kv_cache = kwargs.get("compressed_kv_cache")
             if compressed_kv_cache is None:
-                kwargs["compressed_kv_cache"] = kwargs["swa_kv_cache"]
+                kwargs["compressed_kv_cache"] = swa_kv_cache
+            elif compressed_kv_cache.dtype == torch.uint8:
+                kwargs["compressed_kv_cache"] = compressed_kv_cache.view(
+                    torch.float8_e4m3fn
+                )
             total_topk_lens = torch.full_like(swa_topk_lens, 128)
             if extra_topk_lens is not None:
                 total_topk_lens = total_topk_lens + extra_topk_lens
