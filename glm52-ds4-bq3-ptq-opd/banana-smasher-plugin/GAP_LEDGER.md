@@ -34,7 +34,8 @@ Closed:
 
 Closed:
 - `GAP-V5-STOCK-MHC-SM121-001`: plugin registration now routes only stock vLLM's unsupported `tf32_hc_prenorm_gemm` operation to the architecture-supported TileLang prenorm kernel on SM121. Global DeepGEMM remains enabled for the sparse indexer and E8M0 kernels; other compute capabilities retain stock selection.
-- The focused SM121 regression keeps `VLLM_USE_DEEP_GEMM=1`, proves the MHC wrapper derives multiplier and hidden width from public tensor geometry, and rejects any call to the unsupported DeepGEMM hyperconnection API while preserving the rest of the backend.
+- DeepGEMM's MHC splitter can request non-power-of-two counts (`48/24/12/6/3`) that do not partition the 16,384-wide TileLang input. The wrapper therefore computes the full prenorm in split zero with TileLang `n_splits=1` and zeroes the remaining partial buffers; stock vLLM's downstream reduction sums those buffers, preserving the full result without selecting a reference backend.
+- The focused SM121 regression keeps `VLLM_USE_DEEP_GEMM=1`, reproduces a non-dividing three-way split, proves split zero carries the full TileLang result and all unused partials are zero, and rejects any call to the unsupported DeepGEMM hyperconnection API while preserving the rest of the backend.
 
 ## 2026-08-02 — stock sparse-MLA physical capability gate
 

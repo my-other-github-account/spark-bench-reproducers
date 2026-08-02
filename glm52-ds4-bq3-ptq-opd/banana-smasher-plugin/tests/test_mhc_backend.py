@@ -119,14 +119,19 @@ def test_public_mhc_selector_routes_only_prenorm_to_tilelang_on_sm121(
         *,
         n_splits,
     ):
-        del x, fn, out, sqrsum
+        del fn
+        assert x.shape[1] % n_splits == 0
         tilelang_calls.append(
             {
                 "hidden_size": hidden_size,
                 "hc_mult": hc_mult,
                 "n_splits": n_splits,
+                "out_splits": out.shape[0],
+                "sqrsum_splits": sqrsum.shape[0],
             }
         )
+        out.fill_(7.0)
+        sqrsum.fill_(11.0)
 
     setattr(deep_gemm, "tf32_hc_prenorm_gemm", original_prenorm)
     setattr(tilelang, "_tilelang_hc_prenorm_gemm", tilelang_prenorm)
@@ -147,13 +152,23 @@ def test_public_mhc_selector_routes_only_prenorm_to_tilelang_on_sm121(
 
     x = torch.zeros((2, 8192))
     fn = torch.zeros((24, 8192))
-    out = torch.zeros((1, 2, 24))
-    sqrsum = torch.zeros((1, 2))
-    deep_gemm.tf32_hc_prenorm_gemm(x, fn, out, sqrsum, 1)
+    out = torch.ones((3, 2, 24))
+    sqrsum = torch.ones((3, 2))
+    deep_gemm.tf32_hc_prenorm_gemm(x, fn, out, sqrsum, 3)
     assert original_calls == []
     assert tilelang_calls == [
-        {"hidden_size": 2048, "hc_mult": 4, "n_splits": 1}
+        {
+            "hidden_size": 2048,
+            "hc_mult": 4,
+            "n_splits": 1,
+            "out_splits": 1,
+            "sqrsum_splits": 1,
+        }
     ]
+    assert torch.all(out[0] == 7.0)
+    assert torch.all(out[1:] == 0.0)
+    assert torch.all(sqrsum[0] == 11.0)
+    assert torch.all(sqrsum[1:] == 0.0)
 
 
 def test_public_deepseek_v4_o_proj_routes_stock_fp8_weights_to_triton_on_sm121(

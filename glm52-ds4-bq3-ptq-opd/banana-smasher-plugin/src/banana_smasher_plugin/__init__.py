@@ -426,14 +426,23 @@ def configure_stock_mhc_backend() -> bool:
                 "MHC prenorm input width is not divisible by multiplier: "
                 f"x.shape[1]={int(x.shape[1])}, hc_mult={hc_mult}"
             )
+        if num_split <= 0 or out.shape[0] != num_split or sqrsum.shape[0] != num_split:
+            raise RuntimeError(
+                "MHC prenorm split buffers do not match the requested split count: "
+                f"num_split={num_split}, out.shape[0]={out.shape[0]}, "
+                f"sqrsum.shape[0]={sqrsum.shape[0]}"
+            )
+        if num_split > 1:
+            out[1:].zero_()
+            sqrsum[1:].zero_()
         fallback(
             x,
             fn,
-            out,
-            sqrsum,
+            out[:1],
+            sqrsum[:1],
             int(x.shape[1]) // hc_mult,
             hc_mult,
-            n_splits=num_split,
+            n_splits=1,
         )
 
     tilelang_hc_prenorm_gemm._banana_smasher_sm121_mhc_tilelang = True  # type: ignore[attr-defined]
