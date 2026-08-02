@@ -44,3 +44,10 @@ Closed:
 
 Open dependency:
 - spark-4 has `flashinfer-python==0.6.14`, whose `flashinfer/decode.py:33-38` imports both required aliases from `flashinfer.mla`, but the installed package physically has no `flashinfer/mla.py`. Stock vLLM `flashinfer_sparse.py:110-120` and `:558-566` therefore reject the only SM12x sparse-MLA route. The dependency producer must supply a FlashInfer wheel containing callable `flashinfer.decode.trtllm_batch_decode_sparse_mla_dsv4` and `flashinfer.decode.trtllm_batch_decode_with_kv_cache_mla`; no A27 boot is legal against the current package.
+
+## 2026-08-02 — sparse-indexer DeepGEMM architecture routing
+
+Closed:
+- `GAP-V5-STOCK-INDEXER-SM12X-001`: stock vLLM 0.24 discovers its vendored DeepGEMM package on SM12x even though that package's paged-MQA metadata API rejects the architecture. The image now builds an external DeepGEMM wheel from a pinned public source revision that implements the SM12x indexer APIs.
+- Plugin registration selects that external backend once for the paged-MQA metadata and logits APIs on the SM12x architecture family. It fails immediately if either required API is absent, logs the selected module once, and preserves stock DeepGEMM selection on previously supported architecture families.
+- Focused RED/GREEN regressions cover the unsupported vendored SM121 implementation and the unchanged pre-SM12x route. The selector does not patch an installed vLLM tree and does not add a runtime flag.

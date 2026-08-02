@@ -284,6 +284,53 @@ def configure_stock_deepseek_v4_attention_backend() -> bool:
     return True
 
 
+def configure_sparse_indexer_deep_gemm_backend() -> bool:
+    """Select the public SM12x DeepGEMM indexer implementation once at boot."""
+    from vllm.platforms import current_platform
+
+    capability = current_platform.get_device_capability()
+    if capability is None or capability.major != 12:
+        return False
+
+    utils = importlib.import_module("vllm.utils.deep_gemm")
+    original_import = utils._import_deep_gemm
+    if getattr(original_import, "_banana_smasher_sm12x_indexer", False):
+        return True
+
+    external = importlib.import_module("deep_gemm")
+    required = {
+        "_get_paged_mqa_logits_metadata_impl": "get_paged_mqa_logits_metadata",
+        "_fp8_fp4_paged_mqa_logits_impl": "fp8_fp4_paged_mqa_logits",
+    }
+    selected: dict[str, object] = {}
+    for slot, name in required.items():
+        implementation = getattr(external, name, None)
+        if not callable(implementation):
+            raise RuntimeError(
+                "Public SM12x DeepGEMM sparse-indexer backend is incomplete: "
+                f"deep_gemm.{name} is not callable. Rebuild the pinned public "
+                "DeepGEMM source wheel."
+            )
+        selected[slot] = implementation
+
+    @functools.wraps(original_import)
+    def import_external_deep_gemm():
+        return external
+
+    import_external_deep_gemm._banana_smasher_sm12x_indexer = True  # type: ignore[attr-defined]
+    utils._import_deep_gemm = import_external_deep_gemm
+    for slot, implementation in selected.items():
+        setattr(utils, slot, implementation)
+    _LOG.warning(
+        "BANANA_SMASHER_INDEXER_DEEPGEMM_BACKEND "
+        "compute_capability=%d.%d module=%s source=public_external",
+        capability.major,
+        capability.minor,
+        getattr(external, "__name__", "deep_gemm"),
+    )
+    return True
+
+
 def configure_stock_mhc_backend() -> bool:
     """Route MHC away from DeepGEMM where its hyperconnection API is unsupported."""
     from vllm.platforms import current_platform
@@ -311,6 +358,7 @@ def register() -> None:
         return
     configure_flashinfer_sparse_mla_signature_compat()
     configure_stock_deepseek_v4_attention_backend()
+    configure_sparse_indexer_deep_gemm_backend()
     configure_stock_mhc_backend()
     configure_stock_deepseek_v4_o_proj()
     from .quantization import (
@@ -331,6 +379,7 @@ def register() -> None:
 
 __all__ = [
     "configure_flashinfer_sparse_mla_signature_compat",
+    "configure_sparse_indexer_deep_gemm_backend",
     "configure_stock_deepseek_v4_attention_backend",
     "configure_stock_deepseek_v4_o_proj",
     "configure_stock_mhc_backend",

@@ -10,6 +10,89 @@ import torch
 import banana_smasher_plugin
 
 
+def _install_indexer_deep_gemm_modules(
+    monkeypatch: pytest.MonkeyPatch,
+    *,
+    major: int,
+    minor: int,
+) -> tuple[ModuleType, ModuleType, ModuleType]:
+    platforms = ModuleType("vllm.platforms")
+    platforms.current_platform = SimpleNamespace(
+        get_device_capability=lambda: SimpleNamespace(major=major, minor=minor)
+    )
+    vendored = ModuleType("vllm.third_party.deep_gemm")
+    external = ModuleType("deep_gemm")
+    utils = ModuleType("vllm.utils.deep_gemm")
+
+    def vendored_metadata(*args):
+        raise RuntimeError("Unsupported architecture")
+
+    def external_metadata(*args):
+        return ("external-metadata", args)
+
+    def external_logits(*args, **kwargs):
+        return ("external-logits", args, kwargs)
+
+    vendored.get_paged_mqa_logits_metadata = vendored_metadata
+    external.get_paged_mqa_logits_metadata = external_metadata
+    external.fp8_fp4_paged_mqa_logits = external_logits
+    utils._import_deep_gemm = lambda: vendored
+    utils._get_paged_mqa_logits_metadata_impl = vendored_metadata
+    utils._fp8_fp4_paged_mqa_logits_impl = None
+
+    monkeypatch.setitem(sys.modules, "vllm.platforms", platforms)
+    monkeypatch.setitem(sys.modules, "vllm.utils.deep_gemm", utils)
+    monkeypatch.setitem(sys.modules, "vllm.third_party.deep_gemm", vendored)
+    monkeypatch.setitem(sys.modules, "deep_gemm", external)
+    return utils, vendored, external
+
+
+def test_public_indexer_backend_selects_external_sm12x_deepgemm(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    utils, vendored, external = _install_indexer_deep_gemm_modules(
+        monkeypatch,
+        major=12,
+        minor=1,
+    )
+
+    selector = getattr(
+        banana_smasher_plugin,
+        "configure_sparse_indexer_deep_gemm_backend",
+        None,
+    )
+    assert callable(selector), "public sparse-indexer DeepGEMM selector is missing"
+    assert selector() is True
+    assert utils._import_deep_gemm() is external
+    assert utils._get_paged_mqa_logits_metadata_impl(2, 64, 20) == (
+        "external-metadata",
+        (2, 64, 20),
+    )
+    assert utils._fp8_fp4_paged_mqa_logits_impl is external.fp8_fp4_paged_mqa_logits
+    assert utils._get_paged_mqa_logits_metadata_impl is not (
+        vendored.get_paged_mqa_logits_metadata
+    )
+
+
+def test_public_indexer_backend_preserves_supported_pre_sm12x_deepgemm(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    utils, vendored, external = _install_indexer_deep_gemm_modules(
+        monkeypatch,
+        major=9,
+        minor=0,
+    )
+    original_import = utils._import_deep_gemm
+    original_metadata = utils._get_paged_mqa_logits_metadata_impl
+
+    assert banana_smasher_plugin.configure_sparse_indexer_deep_gemm_backend() is False
+    assert utils._import_deep_gemm is original_import
+    assert utils._import_deep_gemm() is vendored
+    assert utils._get_paged_mqa_logits_metadata_impl is original_metadata
+    assert utils._fp8_fp4_paged_mqa_logits_impl is None
+    assert external is sys.modules["deep_gemm"]
+
+
 def test_public_mhc_selector_disables_deepgemm_on_sm121(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
