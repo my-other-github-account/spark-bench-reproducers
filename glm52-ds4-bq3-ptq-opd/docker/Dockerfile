@@ -29,6 +29,7 @@ COPY docker/patches/flashinfer-real-libcudart.patch /tmp/
 RUN cd /src/flashinfer_python-0.6.12 \
     && git apply --check --unidiff-zero /tmp/flashinfer-real-libcudart.patch \
     && git apply --unidiff-zero /tmp/flashinfer-real-libcudart.patch \
+    && mkdir -p /wheel \
     && python3 -m wheel pack --dest-dir /wheel .
 
 FROM ${VLLM_IMAGE} AS runtime

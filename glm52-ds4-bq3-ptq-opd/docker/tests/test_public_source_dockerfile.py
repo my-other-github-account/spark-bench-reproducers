@@ -16,6 +16,7 @@ def test_public_source_dockerfile_contract() -> None:
     assert "COPY banana-smasher /src/banana-smasher" in text
     assert "COPY banana-smasher-plugin /src/banana-smasher-plugin" in text
     assert "python3 -m build --wheel" in text
+    assert "mkdir -p /wheel" in text
     assert "banana_smasher_plugin:register" not in text  # verified by the image script
     assert "libcudart_stub.so" in text
     assert "libcudart.so.13" in text
