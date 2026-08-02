@@ -26,6 +26,8 @@ def test_public_source_dockerfile_contract() -> None:
     assert "76fd3daf7064b73924ebb3bcb1e93a8a26fc6da9" in text
     assert "0c5fda59bb6fa71eae875693a024bb0fb37ba7d6" in text
     assert "BUILD_NVEP=0" in text
+    assert "pip uninstall -y flashinfer-cubin flashinfer-jit-cache" in text
+    assert "FLASHINFER_DISABLE_VERSION_CHECK" not in text
     assert "flashinfer-python==0.6.12" not in text
     assert "https://github.com/jasl/DeepGEMM.git" in text
     assert "7a7a41a1bac7dacabe74057e7600e59f98f85bce" in text

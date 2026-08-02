@@ -94,6 +94,7 @@ RUN python3 -m pip install --no-cache-dir --no-deps --force-reinstall \
       /tmp/wheels/deep_gemm-2.5.0-cp312-cp312-linux_aarch64.whl \
       /tmp/wheels/banana_smasher-1.0.0-py3-none-any.whl \
       /tmp/wheels/banana_smasher_plugin-0.2.0-py3-none-any.whl \
+    && python3 -m pip uninstall -y flashinfer-cubin flashinfer-jit-cache \
     && rm -rf /tmp/wheels
 
 COPY banana-smasher/kernels/cubins-sm120 /opt/banana-smasher/aot/cubins-sm120
