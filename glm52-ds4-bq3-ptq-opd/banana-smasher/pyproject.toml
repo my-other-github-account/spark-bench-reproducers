@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "banana-smasher"
-version = "1.0.0"
+version = "1.0.2"
 description = "Fail-closed bs-pack tooling and shared serving loader"
 requires-python = ">=3.10"
 dependencies = ["numpy==2.3.5", "safetensors==0.8.0"]

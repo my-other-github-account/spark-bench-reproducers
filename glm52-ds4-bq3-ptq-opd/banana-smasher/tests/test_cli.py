@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import sys
+import types
 from pathlib import Path
 
 import banana_smasher.cli as cli_module
@@ -16,6 +18,47 @@ def test_smash_help_exposes_solve_before_update() -> None:
     commands = list(action.choices)
     assert commands[:5] == ["export", "verify", "serve-check", "validate", "bootstrap"]
     assert commands.index("solve") < commands.index("update")
+
+
+def test_smash_kernels_build_dispatches_public_qtip_producer(
+    monkeypatch, capsys
+) -> None:
+    captured: dict[str, object] = {}
+    module = types.ModuleType("banana_smasher.kernel_build")
+
+    def fake_build_kernel(**kwargs):
+        captured.update(kwargs)
+        return {"status": "PASS", "implementation": "fixture-exact-qtip2"}
+
+    setattr(module, "build_kernel", fake_build_kernel)
+    monkeypatch.setitem(sys.modules, "banana_smasher.kernel_build", module)
+
+    assert main(["kernels", "build", "--tier", "qtip", "--bpw", "2.00"]) == 0
+    assert captured == {"tier": "qtip", "bpw": 2.0}
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["status"] == "PASS"
+    assert payload["command"] == "kernels build"
+
+
+def test_smash_kernels_build_retains_root_build_traceback(
+    monkeypatch, capsys
+) -> None:
+    class BrokenTrellis(types.ModuleType):
+        def __getattr__(self, name: str):
+            if name == "exact":
+                raise RuntimeError("synthetic ninja or nvcc root failure")
+            raise AttributeError(name)
+
+    monkeypatch.setitem(
+        sys.modules,
+        "banana_smasher.trellis_v2",
+        BrokenTrellis("banana_smasher.trellis_v2"),
+    )
+
+    assert main(["kernels", "build", "--tier", "qtip", "--bpw", "2.00"]) == 2
+    payload = json.loads(capsys.readouterr().err)
+    assert "Traceback (most recent call last):" in payload["error"]
+    assert "synthetic ninja or nvcc root failure" in payload["error"]
 
 
 def test_smash_update_defaults_to_accelerated_full_depth_eight_segments() -> None:

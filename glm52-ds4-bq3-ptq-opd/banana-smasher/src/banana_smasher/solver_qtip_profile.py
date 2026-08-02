@@ -11,6 +11,7 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import math
 import os
 from pathlib import Path
 import sys
@@ -33,7 +34,7 @@ QTIP_RHT_SEED_MATERIAL = (
 # exact units. Candidate state, objectives, codebooks, weights, and assignments
 # remain unit-local.
 _MODULE_CACHE: dict[Path, Any] = {}
-_CAPTURE_CACHE: dict[tuple[Path, int, int], list[dict[str, Any]]] = {}
+_CAPTURE_CACHE: dict[tuple[Path, int, int, str], list[dict[str, Any]]] = {}
 _HESSIAN_BINDING_CACHE: dict[
     tuple[Path, str, Path, int, int], tuple[Path, int, dict[str, Any]]
 ] = {}
@@ -47,6 +48,76 @@ def _sha256(path: Path) -> str:
         for block in iter(lambda: handle.read(8 << 20), b""):
             h.update(block)
     return h.hexdigest()
+
+
+def _is_sha256(value: Any) -> bool:
+    return (
+        isinstance(value, str)
+        and len(value) == 64
+        and all(character in "0123456789abcdef" for character in value)
+    )
+
+
+def _is_md5(value: Any) -> bool:
+    return (
+        isinstance(value, str)
+        and len(value) == 32
+        and all(character in "0123456789abcdef" for character in value)
+    )
+
+
+def _md5(path: Path) -> str:
+    h = hashlib.md5()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(8 << 20), b""):
+            h.update(block)
+    return h.hexdigest()
+
+
+def _basis_sha(value: Any) -> str | None:
+    if isinstance(value, str):
+        return value
+    if isinstance(value, dict):
+        for key in ("index_sha256", "source_model_index_sha256", "sha256"):
+            candidate = value.get(key)
+            if isinstance(candidate, str):
+                return candidate
+    return None
+
+
+def _verify_basis(config: dict[str, Any], run_root: Path) -> dict[str, Any]:
+    model_root = Path(config["model_root"]).resolve()
+    index_path = model_root / "model.safetensors.index.json"
+    actual = _sha256(index_path)
+    identity = config.get("input_identity")
+    configured = (
+        _basis_sha(identity.get("model_index"))
+        if isinstance(identity, dict)
+        else None
+    )
+    if configured is None:
+        configured = _basis_sha(config.get("model_index"))
+    if configured is None:
+        raise ValueError("QTIP config lacks a SHA-bound model index identity")
+    if configured != actual:
+        raise ValueError(f"QTIP config model-index mismatch: {actual} != {configured}")
+
+    shards_path = run_root.resolve() / "SHARDS.json"
+    shards = json.loads(shards_path.read_text())
+    intended = _basis_sha(shards.get("intended_basis"))
+    if intended is None:
+        raise ValueError(f"SHARDS.json lacks intended_basis: {shards_path}")
+    if intended != actual:
+        raise ValueError(f"QTIP basis mismatch: {actual} != {intended}")
+    return {
+        "schema": "banana-smasher-qtip-basis-gate-v1",
+        "status": "PASS",
+        "index_path": str(index_path),
+        "index_sha256": actual,
+        "intended_basis": intended,
+        "shards_manifest": str(shards_path),
+        "shards_manifest_sha256": _sha256(shards_path),
+    }
 
 
 def _canonical_rht_seed(layer: int, expert: int, projection: str) -> int:
@@ -114,6 +185,305 @@ def _atomic_torch(path: Path, value: Any) -> None:
     os.replace(tmp, path)
 
 
+_QTIP_UNIT_PAYLOAD_SCHEMAS = {
+    (16, 3, 2): "ds4-qtip-hyb-bounded36-unit-v1",
+    (16, 2, 2): "banana-smasher-qtip2-public-unit-v1",
+}
+_QTIP_SOLVE_RECEIPT_SCHEMA = "banana-smasher-qtip-solve-v1"
+_QTIP_UNIT_REQUIRED_TENSORS = ("trellis", "SU", "SV", "Wscale", "tlut")
+
+
+def _is_sha256_digest(value: Any) -> bool:
+    return (
+        isinstance(value, str)
+        and len(value) == 64
+        and all(character in "0123456789abcdef" for character in value)
+    )
+
+
+def _run_intended_basis(root: Path) -> str:
+    """Read the run's intended model basis so existing units bind to THIS run."""
+    shards_path = root.resolve() / "SHARDS.json"
+    try:
+        shards = json.loads(shards_path.read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        raise RuntimeError(
+            f"existing QTIP unit cannot bind run basis: {shards_path}"
+        ) from exc
+    intended = _basis_sha(shards.get("intended_basis"))
+    if not _is_sha256_digest(intended):
+        raise RuntimeError(
+            f"existing QTIP unit cannot bind run basis: {shards_path}"
+        )
+    assert isinstance(intended, str)
+    return intended
+
+
+def _validated_existing_unit(
+    config_path: Path,
+    root: Path,
+    layer: int,
+    *,
+    profile_mode: bool,
+) -> dict[str, Any] | None:
+    """Return the receipt of an immutable, hash-valid existing PASS unit.
+
+    Returns ``None`` when the unit has never been solved (nothing durable
+    exists), so the caller computes it fresh.  Any partial, divergent,
+    corrupt, or internally inconsistent existing state raises instead of
+    silently rerunning or overwriting sealed bytes.  Profiling never
+    resumes: a profile receipt is a measurement, not a solve artifact.
+    """
+    if profile_mode:
+        return None
+    try:
+        config = json.loads(config_path.read_text())
+        configured_layer = config["layer"]
+        expert = config["expert"]
+        projection = config["projection"]
+        geometry = config.get("geometry", {"L": 16, "K": 3, "V": 2})
+        sealed_geometry = (geometry["L"], geometry["K"], geometry["V"])
+    except (KeyError, TypeError, ValueError, OSError, json.JSONDecodeError) as exc:
+        raise RuntimeError(
+            f"existing QTIP unit has invalid config: {config_path}"
+        ) from exc
+    if (
+        isinstance(configured_layer, bool)
+        or not isinstance(configured_layer, int)
+        or configured_layer != layer
+        or isinstance(expert, bool)
+        or not isinstance(expert, int)
+        or not 0 <= expert < 256
+        or not isinstance(projection, str)
+        or projection not in {"fused13", "down"}
+        or any(
+            isinstance(value, bool) or not isinstance(value, int)
+            for value in sealed_geometry
+        )
+        or sealed_geometry not in {(16, 3, 2), (16, 2, 2)}
+    ):
+        raise RuntimeError(
+            f"existing QTIP unit has invalid config identity: {config_path}"
+        )
+    out = root / "solve" / f"L{layer:03d}" / f"E{expert:03d}_{projection}"
+    artifact_path = out / "QTIP_UNIT.pt"
+    receipt_path = out / "QTIP_SOLVE_RECEIPT.json"
+    artifact_exists = artifact_path.is_file()
+    receipt_exists = receipt_path.is_file()
+    if not artifact_exists and not receipt_exists:
+        return None
+    if artifact_exists != receipt_exists:
+        raise RuntimeError(
+            "existing QTIP unit is partial: "
+            f"payload={artifact_exists} receipt={receipt_exists} unit={out}"
+        )
+    try:
+        receipt = json.loads(receipt_path.read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        raise RuntimeError(
+            f"existing QTIP unit receipt is corrupt: {receipt_path}"
+        ) from exc
+    if not isinstance(receipt, dict):
+        raise RuntimeError(
+            f"existing QTIP unit receipt is corrupt: {receipt_path}"
+        )
+    expected_identity = {
+        "schema": _QTIP_SOLVE_RECEIPT_SCHEMA,
+        "status": "PASS",
+        "layer": layer,
+        "expert": expert,
+        "projection": projection,
+    }
+    drift = {
+        key: (receipt.get(key), expected)
+        for key, expected in expected_identity.items()
+        if receipt.get(key) != expected
+    }
+    if drift:
+        raise RuntimeError(
+            f"existing QTIP unit identity drift at {receipt_path}: {drift}"
+        )
+    if receipt.get("config_sha256") != _sha256(config_path):
+        raise RuntimeError(
+            f"existing QTIP unit config hash drift: {config_path}"
+        )
+    run_basis = _run_intended_basis(root)
+    configured_basis = None
+    identity = config.get("input_identity")
+    if isinstance(identity, dict):
+        configured_basis = _basis_sha(identity.get("model_index"))
+    if configured_basis is None:
+        configured_basis = _basis_sha(config.get("model_index"))
+    try:
+        model_index = (
+            Path(str(config["model_root"])).resolve()
+            / "model.safetensors.index.json"
+        )
+    except (KeyError, OSError) as exc:
+        raise RuntimeError(
+            f"existing QTIP unit lacks model root: {config_path}"
+        ) from exc
+    if not model_index.is_file() or _sha256(model_index) != run_basis:
+        raise RuntimeError(
+            f"existing QTIP unit live model basis drift: {model_index}"
+        )
+    gate = receipt.get("basis_gate")
+    if (
+        not isinstance(gate, dict)
+        or gate.get("schema") != "banana-smasher-qtip-basis-gate-v1"
+        or gate.get("status") != "PASS"
+        or gate.get("index_sha256") != run_basis
+        or gate.get("intended_basis") != run_basis
+        or configured_basis != run_basis
+    ):
+        raise RuntimeError(f"existing QTIP unit basis drift: {receipt_path}")
+    try:
+        recorded_artifact = Path(str(receipt["artifact"])).resolve()
+    except (KeyError, OSError) as exc:
+        raise RuntimeError(
+            f"existing QTIP unit lacks an artifact path: {receipt_path}"
+        ) from exc
+    if recorded_artifact != artifact_path.resolve():
+        raise RuntimeError(
+            "existing QTIP unit artifact path drift: "
+            f"{recorded_artifact} != {artifact_path.resolve()}"
+        )
+    if not _is_sha256_digest(receipt.get("artifact_sha256")):
+        raise RuntimeError(
+            f"existing QTIP unit lacks a payload hash: {receipt_path}"
+        )
+    if receipt["artifact_sha256"] != _sha256(artifact_path):
+        raise RuntimeError(
+            f"existing QTIP unit payload hash drift: {artifact_path}"
+        )
+    try:
+        artifact = torch.load(
+            artifact_path,
+            map_location="cpu",
+            mmap=True,
+            weights_only=True,
+        )
+    except (OSError, RuntimeError, TypeError, ValueError) as exc:
+        raise RuntimeError(
+            f"existing QTIP unit payload is unreadable: {artifact_path}"
+        ) from exc
+    expected_payload_geometry = {
+        "L": sealed_geometry[0],
+        "K": sealed_geometry[1],
+        "V": sealed_geometry[2],
+        "tlut_bits": 9,
+        "decode_mode": "quantlut_sym",
+        "td_x": 16,
+        "td_y": 16,
+    }
+    if (
+        not isinstance(artifact, dict)
+        or artifact.get("schema") != _QTIP_UNIT_PAYLOAD_SCHEMAS[sealed_geometry]
+        or artifact.get("geometry") != expected_payload_geometry
+        or any(
+            not isinstance(artifact.get(key), torch.Tensor)
+            for key in _QTIP_UNIT_REQUIRED_TENSORS
+        )
+    ):
+        raise RuntimeError(
+            f"existing QTIP unit payload schema is invalid: {artifact_path}"
+        )
+    if not _is_sha256_digest(receipt.get("assignment_sha256")):
+        raise RuntimeError(
+            f"existing QTIP unit lacks an assignment digest: {receipt_path}"
+        )
+    if receipt["assignment_sha256"] != _tensor_sha256(artifact["trellis"]):
+        raise RuntimeError(
+            f"existing QTIP unit assignment digest drift: {artifact_path}"
+        )
+    total_wall_seconds = receipt.get("total_wall_seconds")
+    if (
+        isinstance(total_wall_seconds, bool)
+        or not isinstance(total_wall_seconds, (int, float))
+        or not math.isfinite(total_wall_seconds)
+        or total_wall_seconds < 0
+    ):
+        raise RuntimeError(
+            f"existing QTIP unit timing is invalid: {receipt_path}"
+        )
+    return receipt
+
+
+def _validated_existing_batch(
+    config_root: Path,
+    root: Path,
+    layer: int,
+    paths: list[Path],
+    existing_units: list[dict[str, Any] | None],
+    *,
+    tier: str | None,
+    all_cells: bool,
+    profile_mode: bool,
+) -> dict[str, Any] | None:
+    """Return an immutable complete-layer receipt after binding every unit."""
+    if profile_mode:
+        return None
+    receipt_path = root / "solve" / f"L{layer:03d}" / "QTIP_BATCH_RECEIPT.json"
+    if not receipt_path.is_file():
+        return None
+    if any(receipt is None for receipt in existing_units):
+        raise RuntimeError(
+            f"existing QTIP batch receipt has missing units: {receipt_path}"
+        )
+    try:
+        batch = json.loads(receipt_path.read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        raise RuntimeError(
+            f"existing QTIP batch receipt is corrupt: {receipt_path}"
+        ) from exc
+    if not isinstance(batch, dict):
+        raise RuntimeError(f"existing QTIP batch receipt is corrupt: {receipt_path}")
+    ordered_assignments = [
+        {
+            "layer": int(receipt["layer"]),
+            "expert": int(receipt["expert"]),
+            "projection": str(receipt["projection"]),
+            "assignment_sha256": str(receipt["assignment_sha256"]),
+        }
+        for receipt in existing_units
+        if receipt is not None
+    ]
+    assignment_payload = json.dumps(
+        ordered_assignments, separators=(",", ":"), sort_keys=True
+    ).encode()
+    expected = {
+        "schema": "banana-smasher-qtip-resident-batch-v1",
+        "status": "PASS",
+        "layer": layer,
+        "tier": tier,
+        "all_cells": all_cells,
+        "mode": "solve",
+        "units": len(paths),
+        "ordered_assignment_sha256": hashlib.sha256(assignment_payload).hexdigest(),
+        "ordered_assignments": ordered_assignments,
+        "config_root": str(config_root.resolve()),
+        "config_paths": [str(path.resolve()) for path in paths],
+    }
+    drift = {
+        key: (batch.get(key), value)
+        for key, value in expected.items()
+        if batch.get(key) != value
+    }
+    if drift:
+        raise RuntimeError(
+            f"existing QTIP batch receipt identity drift at {receipt_path}: {drift}"
+        )
+    return batch
+
+
+def _process_receipt() -> dict[str, int]:
+    stat = Path("/proc/self/stat")
+    return {
+        "pid": os.getpid(),
+        "startticks": int(stat.read_text().split()[21]) if stat.is_file() else 0,
+    }
+
+
 def _load_module(name: str, path: Path):
     path = path.resolve()
     cached = _MODULE_CACHE.get(path)
@@ -133,28 +503,101 @@ def _load_captures(
     root: Path,
     layer: int,
     windows: int,
+    *,
+    manifest_members: list[dict[str, dict[str, Any]]],
 ) -> list[dict[str, Any]]:
+    """Load the sealed routing captures only after binding them to run metadata.
+
+    Every capture payload and its producer receipt must match the SHA-256
+    records of the config-bound Hessian layer manifest.  Missing, partial,
+    malformed, or drifted routing data fails loudly here so that a later
+    zero-observation population can only be established over the complete
+    verified routing measure.
+    """
     root = root.resolve()
-    cache_key = (root, layer, windows)
+    if len(manifest_members) != windows:
+        raise RuntimeError(
+            "capture manifest member population mismatch: "
+            f"{len(manifest_members)} != {windows}"
+        )
+    binding_key = hashlib.sha256(
+        json.dumps(manifest_members, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+    cache_key = (root, layer, windows, binding_key)
     cached = _CAPTURE_CACHE.get(cache_key)
     if cached is not None:
         return cached
     rows = []
+    expected_builder: str | None = None
+    expected_corpus: str | None = None
     for window in range(windows):
         path = root / f"xmoe_L{layer:03d}_win{window:04d}.pt"
         done_path = path.with_suffix(path.suffix + ".DONE.json")
         if not path.is_file() or not done_path.is_file():
             raise FileNotFoundError(f"missing fit capture or receipt: {path}")
-        done = json.loads(done_path.read_text())
+        member = manifest_members[window]
+        for key, artifact_path in (("capture", path), ("capture_done", done_path)):
+            record = member.get(key) if isinstance(member, dict) else None
+            if not isinstance(record, dict):
+                raise RuntimeError(
+                    f"capture manifest member lacks {key}: window {window}"
+                )
+            if Path(str(record.get("path", ""))).resolve() != artifact_path.resolve():
+                raise RuntimeError(f"capture manifest {key} path drift: {artifact_path}")
+            if record.get("bytes") != artifact_path.stat().st_size:
+                raise RuntimeError(f"capture manifest {key} size drift: {artifact_path}")
+            digest = record.get("sha256")
+            if not _is_sha256(digest) or digest != _sha256(artifact_path):
+                raise RuntimeError(f"capture manifest {key} hash drift: {artifact_path}")
+        try:
+            done = json.loads(done_path.read_text())
+        except (OSError, json.JSONDecodeError) as exc:
+            raise RuntimeError(f"capture receipt is corrupt: {done_path}") from exc
+        expected_receipt = {
+            "file": path.name,
+            "bytes": path.stat().st_size,
+            "layer": layer,
+            "win": window,
+            "producer": "banana-smasher-public-capture-v1",
+        }
+        drift = {
+            key: (done.get(key), expected)
+            for key, expected in expected_receipt.items()
+            if done.get(key) != expected
+        }
+        if drift:
+            raise RuntimeError(f"capture receipt identity drift at {done_path}: {drift}")
+        recorded_md5 = done.get("md5")
+        if not _is_md5(recorded_md5) or recorded_md5 != _md5(path):
+            raise RuntimeError(f"capture receipt payload digest drift: {done_path}")
+        builder = done.get("source_builder_md5")
+        if not _is_md5(builder):
+            raise RuntimeError(f"capture builder identity missing: {done_path}")
+        if expected_builder is None:
+            expected_builder = builder
+        elif builder != expected_builder:
+            raise RuntimeError(f"capture builder identity mismatch: {done_path}")
         data = torch.load(path, map_location="cpu", mmap=True, weights_only=True)
         if int(data["layer"]) != layer or int(data["win"]) != window:
             raise RuntimeError(f"capture identity mismatch: {path}")
+        corpus = data.get("corpus_md5")
+        if not isinstance(corpus, str) or not corpus:
+            raise RuntimeError(f"capture corpus identity missing: {path}")
+        if done.get("corpus_md5") != corpus:
+            raise RuntimeError(f"capture receipt corpus identity drift: {done_path}")
+        if done.get("real_len") != int(data["x"].shape[0]):
+            raise RuntimeError(f"capture receipt row-count drift: {done_path}")
+        if expected_corpus is None:
+            expected_corpus = corpus
+        elif corpus != expected_corpus:
+            raise RuntimeError(f"capture corpus identity mismatch: {path}")
         rows.append({
             "window": window,
             "x": data["x"].to(torch.bfloat16).contiguous(),
             "topk": data["topk"].to(torch.int64).contiguous(),
             "route": data["w"].float().contiguous(),
-            "receipt_md5": done.get("md5"),
+            "source_builder_md5": builder,
+            "corpus_md5": corpus,
         })
     _CAPTURE_CACHE[cache_key] = rows
     return rows
@@ -216,6 +659,7 @@ def _bind_hessian_layer_manifest(
         "sha256": actual_sha,
         "windows": windows,
         "capture_root": str(capture_root),
+        "members": members,
     }
     value = (capture_root, windows, binding)
     _HESSIAN_BINDING_CACHE[cache_key] = value
@@ -283,7 +727,12 @@ def _prepare_fit_windows(
     expert: int,
     projection: str,
     device: torch.device,
+    population: dict[str, Any] | None = None,
 ) -> tuple[list[Any], dict[str, Any]]:
+    if population is not None and population.get("status") == "PASS_NO_OBSERVATION":
+        # A legitimately zero-routed expert has an exactly empty fit measure:
+        # there is no routed activation to derive, for either projection.
+        return [], {"mode": "no-observation", "projection": projection}
     routed = runner.expert_windows(captures, expert)
     if projection != "down":
         return routed, {"mode": "routed-source-activation"}
@@ -300,6 +749,230 @@ def _prepare_fit_windows(
     return windows, {
         "mode": "source-fused13",
         "source_weight": source_ref,
+    }
+
+
+# The sealed public model routes over exactly this many experts per MoE layer;
+# capture topk ids are validated against the same domain below.
+_EXPERT_DOMAIN = 256
+
+
+def _validate_routed_population(
+    captures: list[dict[str, Any]],
+    *,
+    expert: int,
+    expected_windows: int,
+) -> dict[str, Any]:
+    """Establish the exact routing measure for one expert over the sealed bank.
+
+    A zero-observation verdict (``rows=0`` and ``mass=0``) is only legitimate
+    when the requested expert is inside the model's expert domain and every
+    window of the complete manifest-bound capture population is present,
+    well-formed, identity-consistent, and free of malformed routing data.
+    Anything less fails loudly here instead of returning a population.
+    """
+    if isinstance(expert, bool) or not isinstance(expert, int):
+        raise RuntimeError(f"routed population expert id is not an integer: {expert!r}")
+    if not 0 <= expert < _EXPERT_DOMAIN:
+        raise RuntimeError(
+            "routed population expert outside the supported expert domain "
+            f"0..{_EXPERT_DOMAIN - 1}: {expert}"
+        )
+    if len(captures) != expected_windows:
+        raise RuntimeError(
+            f"routed data window population mismatch: {len(captures)} != {expected_windows}"
+        )
+    capture_rows = 0
+    routed_rows = 0
+    route_mass = 0.0
+    expected_builder: str | None = None
+    expected_corpus: str | None = None
+    integer_dtypes = {
+        torch.int8,
+        torch.int16,
+        torch.int32,
+        torch.int64,
+        torch.uint8,
+    }
+    for expected_window, capture in enumerate(captures):
+        if not isinstance(capture, dict):
+            raise RuntimeError(f"routed data window is not a mapping: {expected_window}")
+        if capture.get("window") != expected_window:
+            raise RuntimeError(
+                f"routed data window order mismatch: {capture.get('window')} != {expected_window}"
+            )
+        builder = capture.get("source_builder_md5")
+        corpus = capture.get("corpus_md5")
+        if not _is_md5(builder):
+            raise RuntimeError(f"routed data missing capture builder: window {expected_window}")
+        if not isinstance(corpus, str) or not corpus:
+            raise RuntimeError(f"routed data missing capture corpus: window {expected_window}")
+        if expected_builder is None:
+            expected_builder = builder
+        elif builder != expected_builder:
+            raise RuntimeError(f"routed data capture builder mismatch: window {expected_window}")
+        if expected_corpus is None:
+            expected_corpus = corpus
+        elif corpus != expected_corpus:
+            raise RuntimeError(f"routed data capture corpus mismatch: window {expected_window}")
+        for key in ("x", "topk", "route"):
+            if key not in capture:
+                raise RuntimeError(f"routed data missing {key}: window {expected_window}")
+            if not isinstance(capture[key], torch.Tensor):
+                raise RuntimeError(f"routed data {key} is not a tensor: window {expected_window}")
+        x = capture["x"]
+        topk = capture["topk"]
+        route = capture["route"]
+        if x.ndim != 2 or topk.ndim != 2 or route.ndim != 2:
+            raise RuntimeError(f"routed data shape rank mismatch: window {expected_window}")
+        if topk.shape != route.shape or x.shape[0] != topk.shape[0] or topk.shape[1] < 1:
+            raise RuntimeError(f"routed data shape mismatch: window {expected_window}")
+        if topk.dtype not in integer_dtypes:
+            raise RuntimeError(f"routed data expert id dtype is invalid: window {expected_window}")
+        if topk.numel() and (int(topk.min()) < 0 or int(topk.max()) >= _EXPERT_DOMAIN):
+            raise RuntimeError(
+                f"routed data expert id outside 0..{_EXPERT_DOMAIN - 1}: window {expected_window}"
+            )
+        if not route.is_floating_point():
+            raise RuntimeError(f"routed data route dtype is invalid: window {expected_window}")
+        if not bool(torch.isfinite(route).all()):
+            raise RuntimeError(f"routed data contains non-finite weights: window {expected_window}")
+        if route.numel() and bool((route <= 0).any()):
+            raise RuntimeError(
+                f"routed data contains non-positive routed weight: window {expected_window}"
+            )
+        if topk.shape[1] > 1:
+            ordered = topk.sort(dim=1).values
+            if bool((ordered[:, 1:] == ordered[:, :-1]).any()):
+                raise RuntimeError(
+                    f"routed data contains duplicate expert ids: window {expected_window}"
+                )
+        capture_rows += int(x.shape[0])
+        hit = topk.eq(expert)
+        routed_rows += int(hit.any(dim=1).sum())
+        route_mass += float((route * hit).double().sum())
+    if capture_rows <= 0:
+        raise RuntimeError("routed data capture population is empty")
+    if not math.isfinite(route_mass) or route_mass < 0.0:
+        raise RuntimeError(f"routed data mass is invalid: {route_mass}")
+    if (routed_rows == 0) != (route_mass == 0.0):
+        raise RuntimeError(
+            f"routed data population is inconsistent rows={routed_rows} mass={route_mass}"
+        )
+    no_observation = routed_rows == 0
+    return {
+        "schema": "banana-smasher-qtip-routed-population-v1",
+        "status": "PASS_NO_OBSERVATION" if no_observation else "PASS",
+        "expert": expert,
+        "windows": expected_windows,
+        "capture_rows": capture_rows,
+        "routed_rows": routed_rows,
+        "route_mass": route_mass,
+        "semantics": (
+            "empty-measure-objective-all-assignments-tie-canonical-zero-state"
+            if no_observation
+            else "capture-weighted-routed-objective"
+        ),
+    }
+
+
+def _build_no_observation_qtip(
+    runner: Any,
+    source_weight: torch.Tensor,
+    cb: Any,
+    kernel_decode: Any,
+    device: torch.device,
+    seed: int,
+    geometry: dict[str, Any],
+    population: dict[str, Any],
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Solve the empty-measure objective with its canonical minimum tie state.
+
+    With ``rows=0`` and ``mass=0`` the fit objective is identically zero for
+    every assignment, so every valid trellis state is exactly optimal.  The
+    public tie-break is the canonical all-zero valid trellis state, packed and
+    decoded through the same production wire path as a routed solve.  Nothing
+    is fabricated: the RHT signs and Wscale derive only from the seed policy,
+    the sealed codebook, and the source weight, exactly as in ``build_qtip``.
+    """
+    if population.get("status") != "PASS_NO_OBSERVATION":
+        raise RuntimeError(
+            f"no-observation builder requires PASS_NO_OBSERVATION: {population.get('status')!r}"
+        )
+    if population.get("routed_rows") != 0 or population.get("route_mass") != 0.0:
+        raise RuntimeError(
+            "no-observation builder requires rows=0 and mass=0: "
+            f"rows={population.get('routed_rows')!r} mass={population.get('route_mass')!r}"
+        )
+    sealed = (int(geometry["L"]), int(geometry["K"]), int(geometry["V"]))
+    if sealed not in set(_TIER_GEOMETRY.values()):
+        raise RuntimeError(
+            f"no-observation exact semantics are not defined for QTIP geometry {sealed}"
+        )
+    length, bits, values = sealed
+    tlut_bits = 9
+    version = int(math.log2(values))
+    m, k = source_weight.shape
+    torch.manual_seed(seed)
+    su = (torch.randn(k, device=device).sign() + 1e-5).sign().float()
+    sv = (torch.randn(m, device=device).sign() + 1e-5).sign().float()
+    weight = source_weight.to(device=device, dtype=torch.float32)
+    transformed = runner.fwht(runner.fwht(weight.T * sv).T * su)
+    wscale = transformed.square().mean().sqrt() / (
+        cb.lut.double().square().mean().sqrt().float() * 0.9
+    )
+    states = torch.zeros((m, k // values), dtype=torch.int64, device=device)
+    packed, pack_conformance = runner.pack_kernel_layout(cb, states, m, k)
+    index = torch.arange(1 << length, device=device)
+    quadratic = (index + 1) * index
+    sign_flip = 1 - ((quadratic >> (length - 1)) & 1) * 2
+    lut_index = (quadratic >> (length - tlut_bits - 1)) & ((1 << tlut_bits) - 1)
+    expanded = cb.tlut.float().to(device)[lut_index]
+    expanded[:, 0] *= sign_flip
+    quantized = kernel_decode.decode_compressed(
+        length, tlut_bits, bits, version, m, k, packed.reshape(-1), expanded
+    ) * wscale
+    reconstructed = runner.fwht(quantized.T).T * sv[:, None]
+    reconstructed = runner.fwht(reconstructed) * su
+    candidate = {
+        "schema": "ds4-qtip-hyb-bounded36-unit-v1",
+        "shape": [m, k],
+        "trellis": packed.cpu(),
+        "SU": su.half().cpu(),
+        "SV": sv.half().cpu(),
+        "Wscale": wscale.cpu(),
+        "tlut": cb.tlut.cpu(),
+        "reconstructed_weight": reconstructed.half().cpu(),
+        "geometry": {
+            "L": length,
+            "K": bits,
+            "V": values,
+            "tlut_bits": tlut_bits,
+            "decode_mode": "quantlut_sym",
+            "td_x": 16,
+            "td_y": 16,
+        },
+    }
+    decoded, conformance = runner.decode_packed(candidate, kernel_decode, device)
+    if not conformance.get("fp16_bit_exact"):
+        raise RuntimeError(f"no-observation packed decode conformance failed: {conformance}")
+    del decoded, reconstructed, quantized, transformed, states, weight
+    if device.type == "cuda":
+        torch.cuda.empty_cache()
+    return candidate, {
+        "rht_seed": seed,
+        "quant_seconds": 0.0,
+        "fit_rows": 0,
+        "fit_route_mass": 0.0,
+        "routed_population": population,
+        "objective": "zero routing measure makes every assignment exactly optimal",
+        "tie_break": "canonical all-zero valid trellis state",
+        "calibration_fabricated": False,
+        "fallback_used": False,
+        "expert_substituted": False,
+        "pruned": False,
+        "canonical_pack": pack_conformance,
+        "packed_decode": conformance,
     }
 
 
@@ -369,9 +1042,7 @@ def _install_configured_viterbi(
         )
     if sealed != (16, 2, 2):
         raise ValueError(f"unsupported QTIP geometry: {sealed}")
-    source_root = Path(config["trellis_v2_root"])
-    sys.path.insert(0, str(source_root))
-    from trellis_v2 import install_trellis_v2
+    from .trellis_v2 import install_trellis_v2
 
     metadata = install_trellis_v2(cb)
     cb._trellis_v2_collect_stats = False
@@ -426,6 +1097,7 @@ def main(
     projection = str(config["projection"])
     if projection not in {"fused13", "down"}:
         raise ValueError(projection)
+    basis_gate = _verify_basis(config, root)
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA required")
 
@@ -476,7 +1148,22 @@ def main(
         config,
         layer=layer,
     )
-    captures = _load_captures(capture_root, layer, fit_window_count)
+    captures = _load_captures(
+        capture_root,
+        layer,
+        fit_window_count,
+        manifest_members=hessian_binding["members"],
+    )
+    routed_population = _validate_routed_population(
+        captures,
+        expert=expert,
+        expected_windows=fit_window_count,
+    )
+    if profile_mode and routed_population["status"] == "PASS_NO_OBSERVATION":
+        raise RuntimeError(
+            "QTIP profiling is undefined for a zero-routed expert: "
+            f"L{layer:03d} E{expert:03d} {projection} has rows=0 mass=0"
+        )
     fit_windows, fit_source = _prepare_fit_windows(
         qv,
         captures,
@@ -485,6 +1172,7 @@ def main(
         expert=expert,
         projection=projection,
         device=torch.device("cuda"),
+        population=routed_population,
     )
     source_weight, source_ref = _load_weight(model_root, layer, expert, projection)
     staging_seconds = time.perf_counter() - outer_started
@@ -520,10 +1208,22 @@ def main(
         qv.decode_packed = original_decode
         torch.cuda.reset_peak_memory_stats()
         build_started = time.perf_counter()
-        candidate, build = qv.build_qtip(
-            source_weight, fit_windows, cb, ldlq, math_utils, kernel_decode,
-            torch.device("cuda"), seed,
-        )
+        if routed_population["status"] == "PASS_NO_OBSERVATION":
+            candidate, build = _build_no_observation_qtip(
+                qv,
+                source_weight,
+                cb,
+                kernel_decode,
+                torch.device("cuda"),
+                seed,
+                geometry,
+                routed_population,
+            )
+        else:
+            candidate, build = qv.build_qtip(
+                source_weight, fit_windows, cb, ldlq, math_utils, kernel_decode,
+                torch.device("cuda"), seed,
+            )
         torch.cuda.synchronize()
         build_seconds = time.perf_counter() - build_started
         reconstructed = candidate.pop("reconstructed_weight", None)
@@ -544,6 +1244,7 @@ def main(
             "fresh_no_warm_start": True,
             "public_command_config": str(config_path.resolve()),
             "config_sha256": _sha256(config_path),
+            "basis_gate": basis_gate,
             "epoch_started": epoch_started,
             "epoch_ended": time.time(),
             "total_wall_seconds": total_seconds,
@@ -615,6 +1316,7 @@ def main(
         "fresh_no_warm_start": True,
         "public_command_config": str(config_path.resolve()),
         "config_sha256": _sha256(config_path),
+        "basis_gate": basis_gate,
         "epoch_started": epoch_started,
         "epoch_ended": time.time(),
         "outer_wall_seconds": outer_seconds,
@@ -668,7 +1370,21 @@ def main(
     return receipt
 
 
-def _ordered_qtip_configs(config_root: Path, layer: int) -> list[Path]:
+_TIER_GEOMETRY = {
+    "qtip3": (16, 3, 2),
+    "qtip2": (16, 2, 2),
+}
+
+
+def _ordered_qtip_configs(
+    config_root: Path,
+    layer: int,
+    *,
+    tier: str | None = None,
+    all_cells: bool = False,
+) -> list[Path]:
+    if tier is not None and tier not in _TIER_GEOMETRY:
+        raise ValueError(f"unsupported QTIP tier: {tier}")
     projection_order = {"fused13": 0, "down": 1}
     rows: list[tuple[int, int, Path]] = []
     identities: set[tuple[int, str]] = set()
@@ -676,8 +1392,29 @@ def _ordered_qtip_configs(config_root: Path, layer: int) -> list[Path]:
         config = json.loads(path.read_text())
         if int(config["layer"]) != layer:
             continue
+        geometry = config.get("geometry", {"L": 16, "K": 3, "V": 2})
+        sealed = (int(geometry["L"]), int(geometry["K"]), int(geometry["V"]))
+        configured_tier = config.get("tier")
+        if configured_tier is not None:
+            configured_tier = str(configured_tier)
+            if configured_tier not in _TIER_GEOMETRY:
+                raise ValueError(f"unsupported QTIP tier in {path}: {configured_tier}")
+            if _TIER_GEOMETRY[configured_tier] != sealed:
+                raise ValueError(
+                    f"QTIP tier/geometry mismatch in {path}: {configured_tier} {sealed}"
+                )
+        derived_tier = next(
+            (name for name, expected in _TIER_GEOMETRY.items() if expected == sealed),
+            None,
+        )
+        if derived_tier is None:
+            raise ValueError(f"unsupported QTIP geometry in {path}: {sealed}")
+        if tier is not None and derived_tier != tier:
+            continue
         expert = int(config["expert"])
         projection = str(config["projection"])
+        if not 0 <= expert < 256:
+            raise ValueError(f"QTIP expert outside 0..255 in {path}: {expert}")
         if projection not in projection_order:
             raise ValueError(f"unsupported QTIP projection in {path}: {projection}")
         identity = (expert, projection)
@@ -688,8 +1425,15 @@ def _ordered_qtip_configs(config_root: Path, layer: int) -> list[Path]:
         identities.add(identity)
         rows.append((expert, projection_order[projection], path))
     if not rows:
-        raise ValueError(f"no L{layer:03d} QTIP configs under {config_root}")
-    return [path for _expert, _projection, path in sorted(rows)]
+        label = tier or "QTIP"
+        raise ValueError(f"no L{layer:03d} {label} configs under {config_root}")
+    ordered = [path for _expert, _projection, path in sorted(rows)]
+    if all_cells and len(ordered) != 512:
+        raise ValueError(
+            f"public {tier} --all-cells requires exactly 512 ordered configs "
+            f"for L{layer:03d}, got {len(ordered)}"
+        )
+    return ordered
 
 
 def main_many(
@@ -698,20 +1442,63 @@ def main_many(
     layer: int,
     *,
     limit: int | None = None,
+    tier: str | None = None,
+    all_cells: bool = False,
     profile_mode: bool = False,
 ) -> dict[str, Any]:
     """Solve an ordered config directory in one resident public process."""
     if limit is not None and limit < 1:
         raise ValueError("--qtip-units must be positive")
-    paths = _ordered_qtip_configs(config_root, layer)
+    if all_cells and limit is not None:
+        raise ValueError("--all-cells refuses a QTIP unit limit")
+    paths = _ordered_qtip_configs(
+        config_root,
+        layer,
+        tier=tier,
+        all_cells=all_cells,
+    )
     if limit is not None:
         paths = paths[:limit]
     batch_started = time.perf_counter()
     epoch_started = time.time()
     ordered_assignments = []
     unit_receipts = []
-    for path in paths:
-        receipt = main(path, root, layer, profile_mode=profile_mode)
+    resumed_units = 0
+    computed_units = 0
+    # Idempotent resume preflight: every pre-existing unit is hash-validated
+    # BEFORE any new compute so a divergent/corrupt/partial unit fails loudly
+    # instead of being rerun or overwritten.  Valid PASS units are skipped
+    # byte-for-byte (no content, metadata, or mtime rewrite); execution then
+    # continues at the first missing unit.
+    existing_units = [
+        _validated_existing_unit(
+            path,
+            root,
+            layer,
+            profile_mode=profile_mode,
+        )
+        for path in paths
+    ]
+    existing_batch = _validated_existing_batch(
+        config_root,
+        root,
+        layer,
+        paths,
+        existing_units,
+        tier=tier,
+        all_cells=all_cells,
+        profile_mode=profile_mode,
+    )
+    if existing_batch is not None:
+        print(json.dumps(existing_batch, sort_keys=True), flush=True)
+        return existing_batch
+    for path, existing in zip(paths, existing_units, strict=True):
+        if existing is None:
+            receipt = main(path, root, layer, profile_mode=profile_mode)
+            computed_units += 1
+        else:
+            receipt = existing
+            resumed_units += 1
         if not str(receipt.get("status", "")).startswith("PASS"):
             raise RuntimeError(f"resident QTIP unit failed: {path}")
         ordered_assignments.append(
@@ -729,15 +1516,14 @@ def main_many(
     ).encode()
     unit_wall_key = "outer_wall_seconds" if profile_mode else "total_wall_seconds"
     unit_wall_seconds = [float(receipt[unit_wall_key]) for receipt in unit_receipts]
-    process = {
-        "pid": os.getpid(),
-        "startticks": int(Path("/proc/self/stat").read_text().split()[21]),
-    }
+    process = _process_receipt()
     batch = {
         "schema": "banana-smasher-qtip-resident-batch-v1",
         "status": "PASS",
         "host": os.uname().nodename,
         "layer": layer,
+        "tier": tier,
+        "all_cells": all_cells,
         "mode": "profile" if profile_mode else "solve",
         "fresh_no_warm_start": True,
         "unit_state_isolation": "independent objectives/codebooks/weights/assignments",
@@ -752,6 +1538,8 @@ def main_many(
         "epoch_started": epoch_started,
         "epoch_ended": time.time(),
         "units": len(unit_receipts),
+        "resumed_units": resumed_units,
+        "computed_units": computed_units,
         "batch_wall_seconds": batch_wall_seconds,
         "mean_public_outer_seconds": batch_wall_seconds / len(unit_receipts),
         "mean_unit_receipt_outer_seconds": sum(unit_wall_seconds) / len(unit_wall_seconds),
