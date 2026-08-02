@@ -318,7 +318,12 @@ class BananaSmasherQuantizationConfig(QuantizationConfig):
                 "banana-smasher-plugin requires dense FP8 scale_fmt to be "
                 "'ue8m0' or 'float32'"
             )
-        self.dense_fp8_config.is_scale_e8m0 = scale_fmt == "ue8m0"
+        # ``scale_fmt`` describes the serialized checkpoint tensor.  Stock
+        # scaled-mm consumes float32 block scales; loading an E8M0 checkpoint
+        # tensor into the stock float32 parameter performs the required numeric
+        # conversion without changing the stock dense kernel dispatch.
+        self.dense_fp8_config.is_scale_e8m0 = False
+        self.dense_checkpoint_scale_fmt = scale_fmt
         self.dense_preflight_passed = False
 
     @classmethod
@@ -367,10 +372,33 @@ class BananaSmasherQuantizationConfig(QuantizationConfig):
                 f"native-plane architecture prerequisite mismatch: {self.pack.architecture}"
             )
 
+    def _select_stock_dense_backend(self) -> None:
+        if self.dense_checkpoint_scale_fmt != "ue8m0":
+            return
+        try:
+            from vllm.config import get_current_vllm_config_or_none
+        except ImportError:
+            # Lightweight unit-test stubs do not provide vLLM's process config.
+            return
+        vllm_config = get_current_vllm_config_or_none()
+        if vllm_config is None:
+            raise _fail(
+                "stock dense FP8 backend selection requires the active vLLM config"
+            )
+        backend = vllm_config.kernel_config.linear_backend
+        if backend == "auto":
+            vllm_config.kernel_config.linear_backend = "triton"
+        elif backend != "triton":
+            raise _fail(
+                "UE8M0 checkpoint scales normalized to stock float32 runtime "
+                f"scales require linear_backend='triton', got {backend!r}"
+            )
+
     def get_quant_method(
         self, layer: torch.nn.Module, prefix: str
     ) -> Any | None:
         if isinstance(layer, LinearBase):
+            self._select_stock_dense_backend()
             return Fp8LinearMethod(self.dense_fp8_config)
         if not isinstance(layer, RoutedExperts):
             return None

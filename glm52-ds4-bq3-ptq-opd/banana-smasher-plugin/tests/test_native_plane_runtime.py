@@ -499,7 +499,8 @@ def test_quant_config_selects_only_stock_deepseek_routed_experts(
     assert linear_method.quant_config.is_checkpoint_fp8_serialized is True
     assert linear_method.quant_config.activation_scheme == "dynamic"
     assert linear_method.quant_config.weight_block_size == [128, 128]
-    assert linear_method.quant_config.is_scale_e8m0 is True
+    assert linear_method.quant_config.is_scale_e8m0 is False
+    assert config.dense_checkpoint_scale_fmt == "ue8m0"
     layer = RoutedExperts()
     layer.moe_config = SimpleNamespace()
     method = config.get_quant_method(layer, "model.layers.0.ffn.experts")
@@ -773,6 +774,168 @@ def test_real_vllm_initialize_model_forwards_vllm_config_after_plugin_install(
 
     assert isinstance(model, DeepseekV4ForCausalLM)
     assert received == {"vllm_config": vllm_config, "prefix": "model"}
+
+
+def test_real_vllm_stock_fp8_route_uses_triton_for_normalized_ue8m0(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    pytest.importorskip("vllm.model_executor.kernels.linear")
+    if not torch.cuda.is_available():
+        pytest.skip("real stock-vLLM FP8 route regression requires CUDA")
+
+    from vllm.config import VllmConfig, set_current_vllm_config
+    from vllm.config.kernel import KernelConfig
+    import vllm.distributed.parallel_state as parallel_state
+    from vllm.model_executor.kernels.linear.scaled_mm.triton import (
+        TritonFp8BlockScaledMMKernel,
+    )
+    from vllm.model_executor.layers.linear import LinearBase
+
+    import banana_smasher_plugin.quantization as quantization
+
+    monkeypatch.setattr(
+        parallel_state,
+        "_TP",
+        SimpleNamespace(rank_in_group=0, world_size=1),
+    )
+    vllm_config = VllmConfig(
+        kernel_config=KernelConfig(linear_backend="auto"),
+    )
+    vllm_config.model_config = SimpleNamespace(
+        dtype=torch.bfloat16,
+        hf_text_config=SimpleNamespace(model_type="deepseek_v4"),
+    )
+    config = quantization.BananaSmasherQuantizationConfig.from_config(
+        {
+            "quant_method": "banana_smasher",
+            "format": "bs-pack",
+            "format_version": 1,
+            "activation_scheme": "dynamic",
+            "fmt": "e4m3",
+            "scale_fmt": "ue8m0",
+            "weight_block_size": [128, 128],
+        }
+    )
+    layer = object.__new__(LinearBase)
+    torch.nn.Module.__init__(layer)
+
+    with set_current_vllm_config(vllm_config):
+        method = config.get_quant_method(layer, "model.layers.0.attn.q_proj")
+        assert vllm_config.kernel_config.linear_backend == "triton"
+        method.out_dtype = torch.bfloat16
+        with torch.device("cuda"):
+            method.create_weights(
+                layer,
+                input_size_per_partition=4096,
+                output_partition_sizes=[1536],
+                input_size=4096,
+                output_size=1536,
+                params_dtype=torch.bfloat16,
+            )
+        layer.weight.data.fill_(0.25)
+        checkpoint_scale = torch.full(
+            layer.weight_scale_inv.shape,
+            127,
+            dtype=torch.uint8,
+            device="cuda",
+        ).view(torch.float8_e8m0fnu)
+        layer.weight_scale_inv.data.copy_(checkpoint_scale)
+        method.process_weights_after_loading(layer)
+        output = method.apply(
+            layer,
+            torch.full((1, 4096), 0.25, dtype=torch.bfloat16, device="cuda"),
+        )
+
+    assert isinstance(method.fp8_linear, TritonFp8BlockScaledMMKernel)
+    assert method.is_scale_e8m0 is False
+    assert layer.weight_scale_inv.dtype == torch.float32
+    assert output.shape == (1, 1536)
+    assert torch.isfinite(output).all()
+    torch.testing.assert_close(
+        output,
+        torch.full_like(output, 256.0),
+        rtol=0.0,
+        atol=0.0,
+    )
+
+
+def test_real_vllm_stock_cutlass_scaled_mm_accepts_ue8m0_checkpoint_scale(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    pytest.importorskip("vllm._custom_ops")
+    if not torch.cuda.is_available():
+        pytest.skip("real stock-vLLM scaled-mm regression requires CUDA")
+
+    from vllm import _custom_ops as ops
+    import vllm.distributed.parallel_state as parallel_state
+    from vllm.model_executor.layers.quantization import fp8 as fp8_module
+    from vllm.model_executor.layers.quantization.utils.fp8_utils import (
+        create_fp8_scale_parameter,
+    )
+    from vllm.model_executor.parameter import BlockQuantScaleParameter
+
+    import banana_smasher_plugin.quantization as quantization
+
+    monkeypatch.setattr(
+        fp8_module,
+        "get_current_vllm_config",
+        lambda: SimpleNamespace(model_config=SimpleNamespace(dtype=torch.bfloat16)),
+    )
+    monkeypatch.setattr(
+        parallel_state,
+        "_TP",
+        SimpleNamespace(rank_in_group=0, world_size=1),
+    )
+    config = quantization.BananaSmasherQuantizationConfig.from_config(
+        {
+            "quant_method": "banana_smasher",
+            "format": "bs-pack",
+            "format_version": 1,
+            "activation_scheme": "dynamic",
+            "fmt": "e4m3",
+            "scale_fmt": "ue8m0",
+            "weight_block_size": [128, 128],
+        }
+    )
+    method = fp8_module.Fp8LinearMethod(config.dense_fp8_config)
+    runtime_scale = create_fp8_scale_parameter(
+        BlockQuantScaleParameter,
+        [128],
+        128,
+        [128, 128],
+        None,
+        scale_dtype=(
+            torch.float8_e8m0fnu if method.is_scale_e8m0 else None
+        ),
+    ).cuda()
+    checkpoint_scale = torch.full(
+        runtime_scale.shape,
+        127,
+        dtype=torch.uint8,
+        device="cuda",
+    ).view(torch.float8_e8m0fnu)
+    runtime_scale.data.copy_(checkpoint_scale)
+
+    a = torch.full((1, 128), 0.25, dtype=torch.float8_e4m3fn, device="cuda")
+    b = torch.full(
+        (128, 128), 0.25, dtype=torch.float8_e4m3fn, device="cuda"
+    ).T
+    output = ops.cutlass_scaled_mm(
+        a,
+        b,
+        scale_a=torch.ones((1, 1), dtype=torch.float32, device="cuda"),
+        scale_b=runtime_scale,
+        out_dtype=torch.bfloat16,
+    )
+    assert runtime_scale.dtype == torch.float32
+    assert output.shape == (1, 128)
+    assert torch.isfinite(output).all()
+    torch.testing.assert_close(
+        output,
+        torch.full_like(output, 8.0),
+        rtol=0.0,
+        atol=0.0,
+    )
 
 
 def test_missing_plane_and_missing_kernel_fail_loudly(
