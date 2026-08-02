@@ -5,7 +5,8 @@
     "MALLOC_MMAP_THRESHOLD_": "65536",
     "VLLM_MOE_W2_CUBIT_DIR": "/opt/banana-smasher/aot/cubins-sm120",
     "VLLM_MOE_W3_CUBIT_DIR": "/opt/banana-smasher/aot/cubins-e43",
-    "VLLM_USE_DEEP_GEMM": "0"
+    "VLLM_USE_DEEP_GEMM": "1",
+    "VLLM_USE_DEEP_GEMM_E8M0": "1"
   },
   "model": "/model",
   "schema": "banana-smasher-runtime-defaults-v1",

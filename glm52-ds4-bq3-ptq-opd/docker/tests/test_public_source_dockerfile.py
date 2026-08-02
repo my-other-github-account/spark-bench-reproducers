@@ -82,7 +82,11 @@ def test_runtime_defaults_are_baked_and_parseable() -> None:
     assert defaults["serve"]["cudagraph_capture_sizes"] == [1, 2, 4, 8, 16]
     assert defaults["serve"]["max_num_seqs"] == 16
     assert defaults["serve"]["kv_cache_dtype"] == "fp8"
-    assert defaults["environment"]["VLLM_USE_DEEP_GEMM"] == "0"
+    assert defaults["environment"]["VLLM_USE_DEEP_GEMM"] == "1"
+    assert defaults["environment"]["VLLM_USE_DEEP_GEMM_E8M0"] == "1"
+    dockerfile = DOCKERFILE.read_text()
+    assert "VLLM_USE_DEEP_GEMM=1" in dockerfile
+    assert "VLLM_USE_DEEP_GEMM_E8M0=1" in dockerfile
 
 
 def test_readme_has_literal_stranger_path_and_no_runtime_environment_flags() -> None:
