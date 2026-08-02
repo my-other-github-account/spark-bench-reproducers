@@ -1,0 +1,39 @@
+# syntax=docker/dockerfile:1.7
+ARG VLLM_IMAGE=vllm/vllm-openai:v0.24.0@sha256:32445b36556244d8a721cd21a2b47a7915bc6408432d05aaeab205bb223ced8b
+
+FROM ${VLLM_IMAGE} AS flashinfer-wheel
+USER root
+ARG FLASHINFER_WHEEL_SHA256=0c7a01e586b4796810d974cbf13a9c0eb2ade6a94d12e3220cf7782a1c09b8d3
+RUN apt-get update && apt-get install -y --no-install-recommends git \
+    && rm -rf /var/lib/apt/lists/* \
+    && python3 -m pip install --no-cache-dir wheel==0.46.3
+RUN python3 -m pip download --no-deps --only-binary=:all: \
+      --dest /src flashinfer-python==0.6.12 \
+    && echo "${FLASHINFER_WHEEL_SHA256}  /src/flashinfer_python-0.6.12-py3-none-any.whl" \
+      | sha256sum --check --strict \
+    && python3 -m wheel unpack --dest /src \
+      /src/flashinfer_python-0.6.12-py3-none-any.whl
+COPY golden-container/flashinfer-real-libcudart.patch /tmp/flashinfer-real-libcudart.patch
+RUN mkdir -p /wheel \
+    && cd /src/flashinfer_python-0.6.12 \
+    && git apply --check --unidiff-zero /tmp/flashinfer-real-libcudart.patch \
+    && git apply --unidiff-zero /tmp/flashinfer-real-libcudart.patch \
+    && python3 -m wheel pack --dest-dir /wheel .
+
+FROM ${VLLM_IMAGE}
+USER root
+COPY --from=flashinfer-wheel /wheel/flashinfer_python-0.6.12-py3-none-any.whl /tmp/
+RUN python3 -m pip install --no-cache-dir --no-deps --force-reinstall \
+      /tmp/flashinfer_python-0.6.12-py3-none-any.whl \
+    && rm -f /tmp/flashinfer_python-0.6.12-py3-none-any.whl
+COPY golden-container/test_flashinfer_cudart_resolution.py \
+     /opt/banana-smasher/bin/test_flashinfer_cudart_resolution.py
+RUN python3 /opt/banana-smasher/bin/test_flashinfer_cudart_resolution.py --case real-first \
+    && python3 /opt/banana-smasher/bin/test_flashinfer_cudart_resolution.py --case stub-first
+LABEL org.opencontainers.image.title="banana-smasher vLLM FlashInfer libcudart fix" \
+      org.opencontainers.image.version="A31" \
+      io.banana-smasher.base="vllm/vllm-openai:v0.24.0@sha256:32445b36556244d8a721cd21a2b47a7915bc6408432d05aaeab205bb223ced8b" \
+      io.banana-smasher.flashinfer.source-wheel.sha256="0c7a01e586b4796810d974cbf13a9c0eb2ade6a94d12e3220cf7782a1c09b8d3" \
+      io.banana-smasher.flashinfer.backport="flashinfer-ai/flashinfer@bd6765dea271b23a579938132f8ca1b9cbf6a2a5"
+ENTRYPOINT []
+CMD ["vllm", "serve", "/model"]
