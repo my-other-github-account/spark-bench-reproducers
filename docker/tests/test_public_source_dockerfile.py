@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 import shlex
 import subprocess
 import sys
@@ -42,7 +43,7 @@ def test_public_source_dockerfile_contract() -> None:
     assert "FLASHINFER_DISABLE_VERSION_CHECK" not in text
     assert "flashinfer-python==0.6.12" not in text
     assert "https://github.com/deepseek-ai/DeepGEMM.git" in text
-    assert "891d57b4db1071624b5c8fa0d1e51cb317fa709f" in text
+    assert "a6b593d2826719dcf4892609af7b84ee23aaf32a" in text
     assert "DG_FORCE_BUILD=1" in text
     assert "cuda-nvrtc-dev-13-0=13.0.88-1" in text
     assert "deep_gemm-2.5.0" in text
@@ -69,6 +70,77 @@ def test_public_source_dockerfile_contract() -> None:
     )
     for token in forbidden:
         assert token not in lower
+
+
+def test_pinned_deepgemm_commit_is_publicly_fetchable_and_sm120_capable(
+    tmp_path: Path,
+) -> None:
+    """Reject fetchable DeepGEMM pins that omit the required SM120 sources."""
+    text = DOCKERFILE.read_text()
+    repo_match = re.search(r"^ARG DEEPGEMM_SOURCE_REPO=(\S+)$", text, re.MULTILINE)
+    commit_match = re.search(
+        r"^ARG DEEPGEMM_SOURCE_COMMIT=([0-9a-f]{40})$", text, re.MULTILINE
+    )
+    assert repo_match is not None
+    assert commit_match is not None
+    repo = repo_match.group(1)
+    commit = commit_match.group(1)
+
+    checkout = tmp_path / "deepgemm-fetch"
+    subprocess.run(
+        ["git", "init", str(checkout)],
+        check=True,
+        capture_output=True,
+        text=True,
+        timeout=30,
+    )
+    subprocess.run(
+        ["git", "-C", str(checkout), "remote", "add", "origin", repo],
+        check=True,
+        capture_output=True,
+        text=True,
+        timeout=30,
+    )
+    subprocess.run(
+        ["git", "-C", str(checkout), "fetch", "--depth=1", "origin", commit],
+        check=True,
+        capture_output=True,
+        text=True,
+        timeout=120,
+    )
+    fetched = subprocess.run(
+        ["git", "-C", str(checkout), "rev-parse", "FETCH_HEAD"],
+        check=True,
+        capture_output=True,
+        text=True,
+        timeout=30,
+    ).stdout.strip()
+    assert fetched == commit
+
+    tree = set(
+        subprocess.run(
+            ["git", "-C", str(checkout), "ls-tree", "-r", "--name-only", "FETCH_HEAD"],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=30,
+        ).stdout.splitlines()
+    )
+    required_sm120_sources = {
+        "csrc/jit_kernels/heuristics/sm120.hpp",
+        "csrc/jit_kernels/impls/sm120_fp8_fp4_gemm_1d1d.hpp",
+        "deep_gemm/include/deep_gemm/impls/sm120_fp8_fp4_gemm_1d1d.cuh",
+    }
+    assert required_sm120_sources <= tree
+
+    version_source = subprocess.run(
+        ["git", "-C", str(checkout), "show", "FETCH_HEAD:deep_gemm/__init__.py"],
+        check=True,
+        capture_output=True,
+        text=True,
+        timeout=30,
+    ).stdout
+    assert "__version__ = '2.5.0'" in version_source
 
 
 def test_source_receipt_writer_emits_one_valid_json_document(tmp_path: Path) -> None:

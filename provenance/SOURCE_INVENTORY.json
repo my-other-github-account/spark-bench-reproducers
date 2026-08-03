@@ -139,7 +139,7 @@
     {
       "byte_preserved": false,
       "bytes": 2761,
-      "output_sha256": "7d2735656dbf24bd8cec98ca46af3fea6ee45eb4720e5c1e2645fceed9f0f190",
+      "output_sha256": "11de00bb904f0e00bca4202d9233a7585973948870cf20817ea17c7bdbe35a3d",
       "path": "banana-smasher-plugin/tests/test_v4_fast_path_contract.py",
       "source_path": "banana-smasher-plugin/tests/test_v4_fast_path_contract.py",
       "source_sha256": "49434ec6ef468592c07438de912f5f7799eeb88daa12702e8d272034e8b82656"
@@ -595,7 +595,7 @@
     {
       "byte_preserved": false,
       "bytes": 13143,
-      "output_sha256": "30557407a4cf7e4ac9e169ba59a56e4497b0b1c87c5801c649628896cac42c56",
+      "output_sha256": "2a16c84300950a27e9d255f49ca80323f9b353e334ad8684353c7929b9e59705",
       "path": "docker/Dockerfile",
       "source_path": "docker/Dockerfile",
       "source_sha256": "a094b4f3347c09066b519a7cc58d7e5ca02fff1d2a3acdb06dcd8ee4a6be9d1d"
@@ -634,8 +634,8 @@
     },
     {
       "byte_preserved": false,
-      "bytes": 5939,
-      "output_sha256": "2acef431a5168d3a200aab890ead8e9a0990e7a4dc75c71a1a6a53e5a2be8905",
+      "bytes": 8114,
+      "output_sha256": "cb6a2e9b891c6d0caa61f7c32021d25e83dcd513907ddc6bad3d4b9ee34fd8bc",
       "path": "docker/tests/test_public_source_dockerfile.py",
       "source_path": "docker/tests/test_public_source_dockerfile.py",
       "source_sha256": "3c2c569c699c264b2438a6d1ffc71f081f3100b5abcdd84758fb734b456b1a07"

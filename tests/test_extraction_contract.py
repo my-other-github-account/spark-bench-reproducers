@@ -116,7 +116,7 @@ def test_runtime_pins_hooks_assets_and_exact_command() -> None:
         "b34f49255f1640542da91665f58558a3e5e308f1",
         "76fd3daf7064b73924ebb3bcb1e93a8a26fc6da9",
         "0c5fda59bb6fa71eae875693a024bb0fb37ba7d6",
-        "891d57b4db1071624b5c8fa0d1e51cb317fa709f",
+        "a6b593d2826719dcf4892609af7b84ee23aaf32a",
         "flashinfer-real-libcudart.patch",
         "libcudart.so.13",
         "COPY banana-smasher/kernels/cubins-sm120",
