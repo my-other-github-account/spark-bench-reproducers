@@ -134,7 +134,13 @@ def _fused_inv_rope_fp8_quant(*args, **kwargs):
 
 
 def configure_stock_deepseek_v4_o_proj() -> bool:
-    """Install the public SM12x DeepGEMM E8M0 grouped O-projection layout."""
+    """Install the public SM12x DeepGEMM E8M0 grouped O-projection layout.
+
+    The fused activation quantizer emits one scale row per token on SM10+.
+    Keep the stock SM10+ TMA-aligned ``gran_mn=1`` recipe on SM12x; using the
+    older SM90 ``gran_mn=128`` recipe only works accidentally for one token and
+    fails during multi-token profile runs.
+    """
     from vllm.platforms import current_platform
 
     capability = current_platform.get_device_capability()
@@ -150,7 +156,7 @@ def configure_stock_deepseek_v4_o_proj() -> bool:
     def sm12x_fp8_einsum_recipe():
         current = current_platform.get_device_capability()
         if current is not None and current.major == 12:
-            return (1, 128, 128), False
+            return (1, 1, 128), True
         return original_recipe()
 
     sm12x_fp8_einsum_recipe._banana_smasher_sm12x_deep_gemm = True  # type: ignore[attr-defined]
@@ -226,7 +232,7 @@ def configure_stock_deepseek_v4_o_proj() -> bool:
     _LOG.warning(
         "BANANA_SMASHER_DSV4_O_PROJ_LAYOUT "
         "compute_capability=%d.%d backend=deep_gemm_e8m0 "
-        "einsum_recipe=1x128x128 tma_aligned_scales=false",
+        "einsum_recipe=1x1x128 tma_aligned_scales=true",
         capability.major,
         capability.minor,
     )
