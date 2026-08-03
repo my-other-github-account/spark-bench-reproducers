@@ -4,8 +4,6 @@ import functools
 import importlib
 import inspect
 import logging
-import math
-import os
 import sys
 
 import torch
@@ -135,26 +133,8 @@ def _fused_inv_rope_fp8_quant(*args, **kwargs):
     return fused_inv_rope_fp8_quant(*args, **kwargs)
 
 
-def _triton_block_scaled_mm(
-    activation: torch.Tensor,
-    weight: torch.Tensor,
-    activation_scale: torch.Tensor,
-    weight_scale: torch.Tensor,
-) -> torch.Tensor:
-    # Importing the public backend module registers the custom op.
-    importlib.import_module("vllm.model_executor.kernels.linear.scaled_mm.triton")
-    return torch.ops.vllm.w8a8_triton_block_scaled_mm_func(
-        activation,
-        weight,
-        activation_scale,
-        weight_scale,
-        [128, 128],
-        torch.bfloat16,
-    )
-
-
 def configure_stock_deepseek_v4_o_proj() -> bool:
-    """Route SM12x output projection through stock vLLM's Triton FP8 kernel."""
+    """Install the public SM12x DeepGEMM E8M0 grouped O-projection layout."""
     from vllm.platforms import current_platform
 
     capability = current_platform.get_device_capability()
@@ -162,127 +142,91 @@ def configure_stock_deepseek_v4_o_proj() -> bool:
         return False
 
     module = importlib.import_module("vllm.models.deepseek_v4.nvidia.ops.o_proj")
-    original = module.deep_gemm_fp8_o_proj
-    if getattr(original, "_banana_smasher_sm12x_layout", False):
+    original_recipe = module.compute_fp8_einsum_recipe
+    if getattr(original_recipe, "_banana_smasher_sm12x_deep_gemm", False):
         return True
 
-    @functools.wraps(original)
-    def triton_fp8_o_proj(
-        o,
-        positions,
-        cos_sin_cache,
-        wo_a,
-        wo_b,
-        *,
-        n_groups: int,
-        heads_per_group: int,
-        nope_dim: int,
-        rope_dim: int,
-        o_lora_rank: int,
-        einsum_recipe: tuple[int, int, int],
-        tma_aligned_scales: bool,
+    @functools.wraps(original_recipe)
+    def sm12x_fp8_einsum_recipe():
+        current = current_platform.get_device_capability()
+        if current is not None and current.major == 12:
+            return (1, 128, 128), False
+        return original_recipe()
+
+    sm12x_fp8_einsum_recipe._banana_smasher_sm12x_deep_gemm = True  # type: ignore[attr-defined]
+    setattr(module, "compute_fp8_einsum_recipe", sm12x_fp8_einsum_recipe)
+
+    fp8_utils = importlib.import_module(
+        "vllm.model_executor.layers.quantization.utils.fp8_utils"
+    )
+    original_postprocess = fp8_utils.deepgemm_post_process_fp8_weight_block
+
+    @functools.wraps(original_postprocess)
+    def sm12x_fp8_weight_postprocess(
+        wq,
+        ws,
+        quant_block_shape,
+        use_e8m0,
+        is_bmm=False,
+        bmm_batch_size=0,
     ):
         current = current_platform.get_device_capability()
-        if current is None or current.major != 12:
-            return original(
-                o,
-                positions,
-                cos_sin_cache,
-                wo_a,
-                wo_b,
-                n_groups=n_groups,
-                heads_per_group=heads_per_group,
-                nope_dim=nope_dim,
-                rope_dim=rope_dim,
-                o_lora_rank=o_lora_rank,
-                einsum_recipe=einsum_recipe,
-                tma_aligned_scales=tma_aligned_scales,
+        if current is None or current.major != 12 or not is_bmm:
+            return original_postprocess(
+                wq,
+                ws,
+                quant_block_shape,
+                use_e8m0,
+                is_bmm=is_bmm,
+                bmm_batch_size=bmm_batch_size,
             )
-
-        input_width = heads_per_group * (nope_dim + rope_dim)
-        expected_weight_shape = (n_groups, o_lora_rank, input_width)
-        weight = wo_a.weight
-        if weight.dim() == 2:
-            flat_weight_shape = (n_groups * o_lora_rank, input_width)
-            if tuple(weight.shape) != flat_weight_shape:
-                raise RuntimeError(
-                    "stock DeepSeek-V4 o_proj flattened FP8 weight shape mismatch: "
-                    f"actual={tuple(weight.shape)} expected={flat_weight_shape}"
+        if ws.dtype in (torch.float8_e8m0fnu, torch.uint8):
+            ws = fp8_utils._upcast_e8m0_to_fp32(ws)
+        else:
+            if ws.dtype != torch.float32:
+                raise RuntimeError(f"unsupported FP8 block-scale dtype: {ws.dtype}")
+            if use_e8m0:
+                fp8_utils.requant_weight_ue8m0_inplace(
+                    wq, ws, block_size=quant_block_shape
                 )
-            weight = weight.view(expected_weight_shape)
-        elif tuple(weight.shape) != expected_weight_shape:
+        groups = int(bmm_batch_size)
+        if groups <= 0 or wq.ndim != 2 or ws.ndim != 2:
             raise RuntimeError(
-                "stock DeepSeek-V4 o_proj grouped FP8 weight shape mismatch: "
-                f"actual={tuple(weight.shape)} expected={expected_weight_shape}"
+                "SM12x DeepGEMM grouped O-projection requires flattened 2D "
+                f"weight/scales and positive group count; wq={tuple(wq.shape)} "
+                f"ws={tuple(ws.shape)} groups={groups}"
             )
-
-        expected_scale_shape = (
-            n_groups,
-            o_lora_rank // 128,
-            input_width // 128,
+        width = wq.size(1)
+        rows = wq.size(0) // groups
+        wq = wq.view(groups, rows, width)
+        ws = ws.view(
+            groups,
+            rows // quant_block_shape[0],
+            width // quant_block_shape[1],
         )
-        scale = wo_a.weight_scale_inv
-        if scale.dim() == 2:
-            flat_scale_shape = (
-                n_groups * expected_scale_shape[1],
-                expected_scale_shape[2],
-            )
-            if tuple(scale.shape) != flat_scale_shape:
-                raise RuntimeError(
-                    "stock DeepSeek-V4 o_proj flattened FP8 scale shape mismatch: "
-                    f"actual={tuple(scale.shape)} expected={flat_scale_shape}"
-                )
-            scale = scale.view(expected_scale_shape)
-        elif tuple(scale.shape) != expected_scale_shape:
-            raise RuntimeError(
-                "stock DeepSeek-V4 o_proj grouped FP8 scale shape mismatch: "
-                f"actual={tuple(scale.shape)} expected={expected_scale_shape}"
-            )
-        e8m0_dtype = getattr(torch, "float8_e8m0fnu", None)
-        if e8m0_dtype is not None and scale.dtype == e8m0_dtype:
-            scale = scale.to(torch.float32)
-        elif scale.dtype != torch.float32:
-            raise RuntimeError(
-                "stock DeepSeek-V4 SM12x Triton o_proj requires FP32 or E8M0 block scales, "
-                f"got dtype={scale.dtype}"
-            )
+        return wq, ws.contiguous()
 
-        o_fp8, o_scale = _fused_inv_rope_fp8_quant(
-            o,
-            positions,
-            cos_sin_cache,
-            n_groups=n_groups,
-            heads_per_group=heads_per_group,
-            nope_dim=nope_dim,
-            rope_dim=rope_dim,
-            tma_aligned_scales=False,
-        )
-        z = torch.stack(
-            [
-                _triton_block_scaled_mm(
-                    o_fp8[:, group, :].contiguous(),
-                    weight[group],
-                    o_scale[:, group, :].contiguous(),
-                    scale[group],
-                )
-                for group in range(n_groups)
-            ],
-            dim=1,
-        )
-        return wo_b(z.flatten(1))
-
-    triton_fp8_o_proj._banana_smasher_sm12x_layout = True  # type: ignore[attr-defined]
-    module.deep_gemm_fp8_o_proj = triton_fp8_o_proj
-    for name in (
-        "vllm.models.deepseek_v4.nvidia.flashmla",
-        "vllm.models.deepseek_v4.nvidia.flashinfer_sparse",
-    ):
-        loaded = sys.modules.get(name)
-        if loaded is not None and getattr(loaded, "deep_gemm_fp8_o_proj", None) is original:
-            loaded.deep_gemm_fp8_o_proj = triton_fp8_o_proj
+    sm12x_fp8_weight_postprocess._banana_smasher_sm12x_deep_gemm = True  # type: ignore[attr-defined]
+    setattr(
+        fp8_utils,
+        "deepgemm_post_process_fp8_weight_block",
+        sm12x_fp8_weight_postprocess,
+    )
+    for loaded in tuple(sys.modules.values()):
+        if (
+            loaded is not None
+            and getattr(loaded, "deepgemm_post_process_fp8_weight_block", None)
+            is original_postprocess
+        ):
+            setattr(
+                loaded,
+                "deepgemm_post_process_fp8_weight_block",
+                sm12x_fp8_weight_postprocess,
+            )
     _LOG.warning(
-        "BANANA_SMASHER_DSV4_O_PROJ_LAYOUT_OVERRIDE "
-        "compute_capability=%d.%d backend=stock_triton_fp8 grouped_bmm=true",
+        "BANANA_SMASHER_DSV4_O_PROJ_LAYOUT "
+        "compute_capability=%d.%d backend=deep_gemm_e8m0 "
+        "einsum_recipe=1x128x128 tma_aligned_scales=false",
         capability.major,
         capability.minor,
     )
@@ -417,61 +361,10 @@ def configure_sparse_indexer_deep_gemm_backend() -> bool:
             f"vLLM slots: {unresolved}"
         )
 
-    # The public external module has working SM12x sparse-MQA/indexer kernels,
-    # but its dense FP8 GEMM heuristic still classifies SM12x as generically
-    # supported and then aborts in layout.hpp with ``Unknown recipe``.  Keep the
-    # sparse slots above, while making dense DeepGEMM capability fail closed so
-    # stock vLLM uses its non-DeepGEMM linear kernels.  Patch already-imported
-    # support bindings as well as the warmup predicate, which does not consult
-    # ``is_deep_gemm_supported`` in vLLM 0.24.
-    original_support = utils.is_deep_gemm_supported
-    if not getattr(original_support, "_banana_smasher_sm12x_sparse_only", False):
-
-        @functools.wraps(original_support)
-        def sparse_only_deep_gemm_support() -> bool:
-            current = current_platform.get_device_capability()
-            if current is not None and current.major == 12:
-                return False
-            return original_support()
-
-        sparse_only_deep_gemm_support._banana_smasher_sm12x_sparse_only = True  # type: ignore[attr-defined]
-        utils.is_deep_gemm_supported = sparse_only_deep_gemm_support
-        for loaded in tuple(sys.modules.values()):
-            if (
-                loaded is not None
-                and getattr(loaded, "is_deep_gemm_supported", None)
-                is original_support
-            ):
-                setattr(
-                    loaded,
-                    "is_deep_gemm_supported",
-                    sparse_only_deep_gemm_support,
-                )
-
-    warmup = importlib.import_module(
-        "vllm.model_executor.warmup.deep_gemm_warmup"
-    )
-    original_warmup_predicate = warmup._fp8_linear_may_use_deep_gemm
-    if not getattr(
-        original_warmup_predicate,
-        "_banana_smasher_sm12x_sparse_only",
-        False,
-    ):
-
-        @functools.wraps(original_warmup_predicate)
-        def sparse_only_warmup_predicate(module) -> bool:
-            current = current_platform.get_device_capability()
-            if current is not None and current.major == 12:
-                return False
-            return original_warmup_predicate(module)
-
-        sparse_only_warmup_predicate._banana_smasher_sm12x_sparse_only = True  # type: ignore[attr-defined]
-        warmup._fp8_linear_may_use_deep_gemm = sparse_only_warmup_predicate
-
     _LOG.warning(
         "BANANA_SMASHER_INDEXER_DEEPGEMM_BACKEND "
         "compute_capability=%d.%d module=%s source=public_external "
-        "dense_fp8_recipe=disabled_sparse_only",
+        "dense_fp8_recipe=enabled_e8m0",
         capability.major,
         capability.minor,
         getattr(external, "__name__", "deep_gemm"),
@@ -525,68 +418,8 @@ def configure_sparse_indexer_topk_backend() -> bool:
 
 
 def configure_stock_mhc_backend() -> bool:
-    """Route only unsupported SM121 MHC prenorm work to the TileLang kernel."""
-    from vllm.platforms import current_platform
-
-    capability = current_platform.get_device_capability()
-    if capability is None or (capability.major, capability.minor) != (12, 1):
-        return False
-
-    deep_gemm = importlib.import_module("vllm.utils.deep_gemm")
-    original = getattr(deep_gemm, "tf32_hc_prenorm_gemm")
-    if getattr(original, "_banana_smasher_sm121_mhc_tilelang", False):
-        return True
-    tilelang = importlib.import_module("vllm.model_executor.kernels.mhc.tilelang")
-    fallback = getattr(tilelang, "_tilelang_hc_prenorm_gemm")
-
-    @functools.wraps(original)
-    def tilelang_hc_prenorm_gemm(
-        x: torch.Tensor,
-        fn: torch.Tensor,
-        out: torch.Tensor,
-        sqrsum: torch.Tensor,
-        num_split: int,
-    ) -> None:
-        fn_rows = int(fn.shape[0])
-        hc_mult = math.isqrt(fn_rows + 1) - 1
-        if hc_mult <= 0 or hc_mult * hc_mult + 2 * hc_mult != fn_rows:
-            raise RuntimeError(
-                "cannot derive MHC multiplier from prenorm projection rows: "
-                f"fn.shape[0]={fn_rows}"
-            )
-        if int(x.shape[1]) % hc_mult != 0:
-            raise RuntimeError(
-                "MHC prenorm input width is not divisible by multiplier: "
-                f"x.shape[1]={int(x.shape[1])}, hc_mult={hc_mult}"
-            )
-        if num_split <= 0 or out.shape[0] != num_split or sqrsum.shape[0] != num_split:
-            raise RuntimeError(
-                "MHC prenorm split buffers do not match the requested split count: "
-                f"num_split={num_split}, out.shape[0]={out.shape[0]}, "
-                f"sqrsum.shape[0]={sqrsum.shape[0]}"
-            )
-        if num_split > 1:
-            out[1:].zero_()
-            sqrsum[1:].zero_()
-        fallback(
-            x,
-            fn,
-            out[:1],
-            sqrsum[:1],
-            int(x.shape[1]) // hc_mult,
-            hc_mult,
-            n_splits=1,
-        )
-
-    tilelang_hc_prenorm_gemm._banana_smasher_sm121_mhc_tilelang = True  # type: ignore[attr-defined]
-    setattr(deep_gemm, "tf32_hc_prenorm_gemm", tilelang_hc_prenorm_gemm)
-    _LOG.warning(
-        "BANANA_SMASHER_MHC_BACKEND_OVERRIDE compute_capability=12.1 "
-        "operation=tf32_hc_prenorm_gemm backend=tilelang "
-        "global_deep_gemm=%r",
-        os.environ.get("VLLM_USE_DEEP_GEMM"),
-    )
-    return True
+    """Deprecated compatibility hook; stock public DeepGEMM owns MHC on SM12x."""
+    return False
 
 
 def register() -> None:
@@ -598,7 +431,6 @@ def register() -> None:
     configure_stock_deepseek_v4_attention_backend()
     configure_sparse_indexer_deep_gemm_backend()
     configure_sparse_indexer_topk_backend()
-    configure_stock_mhc_backend()
     configure_stock_deepseek_v4_o_proj()
     from .quantization import (
         BananaSmasherQuantizationConfig,

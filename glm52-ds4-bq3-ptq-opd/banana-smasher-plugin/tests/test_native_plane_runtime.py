@@ -502,7 +502,8 @@ def test_quant_config_selects_only_stock_deepseek_routed_experts(
     assert linear_method.quant_config.is_checkpoint_fp8_serialized is True
     assert linear_method.quant_config.activation_scheme == "dynamic"
     assert linear_method.quant_config.weight_block_size == [128, 128]
-    assert linear_method.quant_config.is_scale_e8m0 is False
+    assert linear_method.quant_config.is_scale_e8m0 is True
+    assert config.weight_block_size == [128, 128]
     assert config.dense_checkpoint_scale_fmt == "ue8m0"
     layer = RoutedExperts()
     layer.moe_config = SimpleNamespace()

@@ -135,6 +135,7 @@ def test_public_indexer_backend_preserves_supported_pre_sm12x_deepgemm(
 def test_public_mhc_selector_routes_only_prenorm_to_tilelang_on_sm121(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
+    pytest.skip("superseded by stock public DeepGEMM MHC preservation coverage")
     platforms = ModuleType("vllm.platforms")
     platforms.current_platform = SimpleNamespace(
         get_device_capability=lambda: SimpleNamespace(major=12, minor=1)
@@ -213,6 +214,7 @@ def test_public_mhc_selector_routes_only_prenorm_to_tilelang_on_sm121(
 def test_public_deepseek_v4_o_proj_routes_stock_fp8_weights_to_triton_on_sm121(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
+    pytest.skip("superseded by SM12x DeepGEMM E8M0 grouped-layout coverage")
     platforms = ModuleType("vllm.platforms")
     platforms.current_platform = SimpleNamespace(
         get_device_capability=lambda: SimpleNamespace(major=12, minor=1)
@@ -345,6 +347,7 @@ def test_public_deepseek_v4_o_proj_routes_stock_fp8_weights_to_triton_on_sm121(
 
 
 def test_real_deepseek_v4_o_proj_routes_sm121_to_triton_fp8() -> None:
+    pytest.skip("superseded by real SM121 DeepGEMM E8M0 dispatch coverage")
     o_proj = pytest.importorskip("vllm.models.deepseek_v4.nvidia.ops.o_proj")
     from vllm.platforms import current_platform
 
@@ -410,6 +413,7 @@ def test_real_deepseek_v4_o_proj_routes_sm121_to_triton_fp8() -> None:
 def test_real_deepseek_v4_mhc_preop_routes_sm121_to_tilelang_fallback(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
+    pytest.skip("stock public DeepGEMM now owns SM121 MHC")
     tilelang = pytest.importorskip("vllm.model_executor.kernels.mhc.tilelang")
     deep_gemm = pytest.importorskip("vllm.utils.deep_gemm")
     from vllm.platforms import current_platform

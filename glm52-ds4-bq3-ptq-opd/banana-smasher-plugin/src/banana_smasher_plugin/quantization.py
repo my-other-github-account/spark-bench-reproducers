@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import re
 from functools import wraps
 from pathlib import Path
@@ -33,6 +34,7 @@ _DEEPSEEK_V4_EXPERT_PREFIX = re.compile(
     r"(?:^|\.)model\.layers\.(?P<layer>[0-9]+)\.ffn\.experts$"
 )
 QUANT_METHOD = "banana_smasher"
+_LOG = logging.getLogger("banana_smasher_plugin.quantization")
 _DENSE_STACKED_MAPPING = (
     ("gate_up_proj", "w1"),
     ("gate_up_proj", "w3"),
@@ -318,11 +320,14 @@ class BananaSmasherQuantizationConfig(QuantizationConfig):
                 "banana-smasher-plugin requires dense FP8 scale_fmt to be "
                 "'ue8m0' or 'float32'"
             )
-        # ``scale_fmt`` describes the serialized checkpoint tensor.  Stock
-        # scaled-mm consumes float32 block scales; loading an E8M0 checkpoint
-        # tensor into the stock float32 parameter performs the required numeric
-        # conversion without changing the stock dense kernel dispatch.
-        self.dense_fp8_config.is_scale_e8m0 = False
+        # Expose blocked weights to VllmConfig before model construction.  Stock
+        # vLLM then enables quant_fp8 plus norm/activation quant fusion instead
+        # of silently selecting custom_ops=['none'] for this plugin format.
+        self.weight_block_size = list(weight_block_size)
+        # Preserve the checkpoint's UE8M0 contract.  On SM12x this is the input
+        # that selects DeepGemmFp8BlockScaledMMKernel rather than the generic
+        # Triton scaled-MM fallback.
+        self.dense_fp8_config.is_scale_e8m0 = scale_fmt == "ue8m0"
         self.dense_checkpoint_scale_fmt = scale_fmt
         self.dense_preflight_passed = False
 
@@ -386,13 +391,30 @@ class BananaSmasherQuantizationConfig(QuantizationConfig):
                 "stock dense FP8 backend selection requires the active vLLM config"
             )
         backend = vllm_config.kernel_config.linear_backend
-        if backend == "auto":
-            vllm_config.kernel_config.linear_backend = "triton"
-        elif backend != "triton":
+        if backend != "auto":
             raise _fail(
-                "UE8M0 checkpoint scales normalized to stock float32 runtime "
-                f"scales require linear_backend='triton', got {backend!r}"
+                "UE8M0 dense FP8 requires stock automatic DeepGEMM dispatch; "
+                f"linear_backend must remain 'auto', got {backend!r}"
             )
+        compilation = vllm_config.compilation_config
+        pass_config = compilation.pass_config
+        if "+quant_fp8" not in compilation.custom_ops:
+            raise _fail(
+                "blocked UE8M0 weights did not enable the stock quant_fp8 custom op"
+            )
+        if not pass_config.fuse_norm_quant or not pass_config.fuse_act_quant:
+            raise _fail(
+                "stock UE8M0 compile fast paths are disabled: "
+                f"fuse_norm_quant={pass_config.fuse_norm_quant!r}, "
+                f"fuse_act_quant={pass_config.fuse_act_quant!r}"
+            )
+        if not getattr(self, "_fast_path_logged", False):
+            _LOG.warning(
+                "BANANA_SMASHER_VLLM_COMPILE_FAST_PATHS "
+                "fuse_norm_quant=true fuse_act_quant=true custom_op=quant_fp8 "
+                "linear_backend=auto"
+            )
+            self._fast_path_logged = True
 
     def get_quant_method(
         self, layer: torch.nn.Module, prefix: str

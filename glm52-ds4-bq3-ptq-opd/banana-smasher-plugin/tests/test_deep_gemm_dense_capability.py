@@ -55,7 +55,7 @@ def _install_modules(
 
 
 @pytest.mark.parametrize(("minor"), [0, 1])
-def test_sm12x_keeps_sparse_deepgemm_but_rejects_dense_recipe_warmup(
+def test_sm12x_keeps_sparse_and_dense_deepgemm_recipe_warmup(
     monkeypatch: pytest.MonkeyPatch, minor: int
 ) -> None:
     utils, warmup = _install_modules(monkeypatch, major=12, minor=minor)
@@ -66,8 +66,8 @@ def test_sm12x_keeps_sparse_deepgemm_but_rejects_dense_recipe_warmup(
     assert callable(utils._fp8_fp4_mqa_logits_impl)
     assert callable(utils._get_mk_alignment_for_contiguous_layout_impl)
     assert callable(utils._fp8_gemm_nt_impl)
-    assert utils.is_deep_gemm_supported() is False
-    assert warmup._fp8_linear_may_use_deep_gemm(object()) is False
+    assert utils.is_deep_gemm_supported() is True
+    assert warmup._fp8_linear_may_use_deep_gemm(object()) is True
 
 
 def test_pre_sm12x_preserves_stock_dense_deepgemm_support(
