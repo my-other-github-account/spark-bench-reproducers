@@ -23,6 +23,7 @@ def _install_indexer_deep_gemm_modules(
     vendored = ModuleType("vllm.third_party.deep_gemm")
     external = ModuleType("deep_gemm")
     utils = ModuleType("vllm.utils.deep_gemm")
+    warmup = ModuleType("vllm.model_executor.warmup.deep_gemm_warmup")
 
     def vendored_metadata(*args):
         raise RuntimeError("Unsupported architecture")
@@ -36,19 +37,47 @@ def _install_indexer_deep_gemm_modules(
     def external_dense_logits(*args, **kwargs):
         return ("external-dense-logits", args, kwargs)
 
+    def external_fp8_gemm_nt(*args, **kwargs):
+        return ("external-fp8-gemm-nt", args, kwargs)
+
+    def external_alignment():
+        return 128
+
+    def lazy_init():
+        selected = utils._import_deep_gemm()
+        utils._get_paged_mqa_logits_metadata_impl = (
+            selected.get_paged_mqa_logits_metadata
+        )
+        utils._fp8_fp4_paged_mqa_logits_impl = selected.fp8_fp4_paged_mqa_logits
+        utils._fp8_fp4_mqa_logits_impl = selected.fp8_fp4_mqa_logits
+        utils._get_mk_alignment_for_contiguous_layout_impl = (
+            selected.get_mk_alignment_for_contiguous_layout
+        )
+        utils._fp8_gemm_nt_impl = selected.fp8_gemm_nt
+
     vendored.get_paged_mqa_logits_metadata = vendored_metadata
     external.get_paged_mqa_logits_metadata = external_metadata
     external.fp8_fp4_paged_mqa_logits = external_logits
     setattr(external, "fp8_fp4_mqa_logits", external_dense_logits)
+    external.fp8_gemm_nt = external_fp8_gemm_nt
+    external.get_mk_alignment_for_contiguous_layout = external_alignment
     utils._import_deep_gemm = lambda: vendored
+    utils._lazy_init = lazy_init
+    utils.is_deep_gemm_supported = lambda: True
     utils._get_paged_mqa_logits_metadata_impl = vendored_metadata
     utils._fp8_fp4_paged_mqa_logits_impl = None
     setattr(utils, "_fp8_fp4_mqa_logits_impl", None)
+    warmup._fp8_linear_may_use_deep_gemm = lambda _module: True
 
     monkeypatch.setitem(sys.modules, "vllm.platforms", platforms)
     monkeypatch.setitem(sys.modules, "vllm.utils.deep_gemm", utils)
     monkeypatch.setitem(sys.modules, "vllm.third_party.deep_gemm", vendored)
     monkeypatch.setitem(sys.modules, "deep_gemm", external)
+    monkeypatch.setitem(
+        sys.modules,
+        "vllm.model_executor.warmup.deep_gemm_warmup",
+        warmup,
+    )
     return utils, vendored, external
 
 
@@ -77,6 +106,8 @@ def test_public_indexer_backend_selects_external_sm12x_deepgemm(
     assert getattr(utils, "_fp8_fp4_mqa_logits_impl") is getattr(
         external, "fp8_fp4_mqa_logits"
     )
+    assert utils._get_mk_alignment_for_contiguous_layout_impl() == 128
+    assert utils._fp8_gemm_nt_impl is external.fp8_gemm_nt
     assert utils._get_paged_mqa_logits_metadata_impl is not (
         vendored.get_paged_mqa_logits_metadata
     )

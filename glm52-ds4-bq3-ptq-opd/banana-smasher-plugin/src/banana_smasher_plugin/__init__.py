@@ -362,17 +362,19 @@ def configure_sparse_indexer_deep_gemm_backend() -> bool:
         "_get_paged_mqa_logits_metadata_impl": "get_paged_mqa_logits_metadata",
         "_fp8_fp4_paged_mqa_logits_impl": "fp8_fp4_paged_mqa_logits",
         "_fp8_fp4_mqa_logits_impl": "fp8_fp4_mqa_logits",
+        "_get_mk_alignment_for_contiguous_layout_impl": (
+            "get_mk_alignment_for_contiguous_layout"
+        ),
+        "_fp8_gemm_nt_impl": "fp8_gemm_nt",
     }
-    selected: dict[str, object] = {}
-    for slot, name in required.items():
+    for name in required.values():
         implementation = getattr(external, name, None)
         if not callable(implementation):
             raise RuntimeError(
-                "Public SM12x DeepGEMM sparse-indexer backend is incomplete: "
+                "Public SM12x DeepGEMM backend is incomplete: "
                 f"deep_gemm.{name} is not callable. Rebuild the pinned public "
                 "DeepGEMM source wheel."
             )
-        selected[slot] = implementation
 
     @functools.wraps(original_import)
     def import_external_deep_gemm():
@@ -380,14 +382,144 @@ def configure_sparse_indexer_deep_gemm_backend() -> bool:
 
     import_external_deep_gemm._banana_smasher_sm12x_indexer = True  # type: ignore[attr-defined]
     utils._import_deep_gemm = import_external_deep_gemm
-    for slot, implementation in selected.items():
-        setattr(utils, slot, implementation)
+
+    # Do not populate only the sparse-indexer slots: vLLM's lazy initializer
+    # treats any populated implementation as evidence that *all* DeepGEMM
+    # symbols were resolved.  A partial table makes the later stock warmup fail
+    # on a missing alignment function.  Clear the table and let stock vLLM
+    # resolve the complete public module in one transaction.
+    implementation_slots = (
+        "_cublaslt_gemm_nt_impl",
+        "_fp8_gemm_nt_impl",
+        "_fp8_einsum_impl",
+        "_grouped_impl",
+        "_grouped_masked_impl",
+        "_grouped_fp4_impl",
+        "_fp8_fp4_mqa_logits_impl",
+        "_fp8_fp4_paged_mqa_logits_impl",
+        "_get_paged_mqa_logits_metadata_impl",
+        "_tf32_hc_prenorm_gemm_impl",
+        "_get_mn_major_tma_aligned_tensor_impl",
+        "_get_mk_alignment_for_contiguous_layout_impl",
+        "_get_theoretical_mk_alignment_for_contiguous_layout_impl",
+        "_transform_sf_into_required_layout_impl",
+        "_pack_ue8m0_to_int_impl",
+        "_get_mn_major_tma_aligned_packed_ue8m0_tensor_impl",
+        "_get_k_grouped_mn_major_tma_aligned_packed_ue8m0_tensor_impl",
+    )
+    for slot in implementation_slots:
+        setattr(utils, slot, None)
+    utils._lazy_init()
+    unresolved = [slot for slot in required if not callable(getattr(utils, slot, None))]
+    if unresolved:
+        raise RuntimeError(
+            "Public SM12x DeepGEMM registration did not initialize required "
+            f"vLLM slots: {unresolved}"
+        )
+
+    # The public external module has working SM12x sparse-MQA/indexer kernels,
+    # but its dense FP8 GEMM heuristic still classifies SM12x as generically
+    # supported and then aborts in layout.hpp with ``Unknown recipe``.  Keep the
+    # sparse slots above, while making dense DeepGEMM capability fail closed so
+    # stock vLLM uses its non-DeepGEMM linear kernels.  Patch already-imported
+    # support bindings as well as the warmup predicate, which does not consult
+    # ``is_deep_gemm_supported`` in vLLM 0.24.
+    original_support = utils.is_deep_gemm_supported
+    if not getattr(original_support, "_banana_smasher_sm12x_sparse_only", False):
+
+        @functools.wraps(original_support)
+        def sparse_only_deep_gemm_support() -> bool:
+            current = current_platform.get_device_capability()
+            if current is not None and current.major == 12:
+                return False
+            return original_support()
+
+        sparse_only_deep_gemm_support._banana_smasher_sm12x_sparse_only = True  # type: ignore[attr-defined]
+        utils.is_deep_gemm_supported = sparse_only_deep_gemm_support
+        for loaded in tuple(sys.modules.values()):
+            if (
+                loaded is not None
+                and getattr(loaded, "is_deep_gemm_supported", None)
+                is original_support
+            ):
+                setattr(
+                    loaded,
+                    "is_deep_gemm_supported",
+                    sparse_only_deep_gemm_support,
+                )
+
+    warmup = importlib.import_module(
+        "vllm.model_executor.warmup.deep_gemm_warmup"
+    )
+    original_warmup_predicate = warmup._fp8_linear_may_use_deep_gemm
+    if not getattr(
+        original_warmup_predicate,
+        "_banana_smasher_sm12x_sparse_only",
+        False,
+    ):
+
+        @functools.wraps(original_warmup_predicate)
+        def sparse_only_warmup_predicate(module) -> bool:
+            current = current_platform.get_device_capability()
+            if current is not None and current.major == 12:
+                return False
+            return original_warmup_predicate(module)
+
+        sparse_only_warmup_predicate._banana_smasher_sm12x_sparse_only = True  # type: ignore[attr-defined]
+        warmup._fp8_linear_may_use_deep_gemm = sparse_only_warmup_predicate
+
     _LOG.warning(
         "BANANA_SMASHER_INDEXER_DEEPGEMM_BACKEND "
-        "compute_capability=%d.%d module=%s source=public_external",
+        "compute_capability=%d.%d module=%s source=public_external "
+        "dense_fp8_recipe=disabled_sparse_only",
         capability.major,
         capability.minor,
         getattr(external, "__name__", "deep_gemm"),
+    )
+    return True
+
+
+def configure_sparse_indexer_topk_backend() -> bool:
+    """Route cluster-launch TopK to persistent TopK on SM12x devices.
+
+    vLLM 0.24 selects ``cooperative_topk`` for every CUDA capability >= 9.0,
+    but its cooperative cluster launch is rejected with ``cudaErrorInvalidValue``
+    on the SM120 capability family (including SM121).  The production
+    ``persistent_topk`` kernel accepts the same contract and remains exact, so
+    replace only this unsupported op on SM12x while preserving stock dispatch
+    everywhere else.
+    """
+    from vllm.platforms import current_platform
+
+    capability = current_platform.get_device_capability()
+    if capability is None or capability.major != 12:
+        return False
+
+    namespace = torch.ops._C
+    cooperative = getattr(namespace, "cooperative_topk", None)
+    persistent = getattr(namespace, "persistent_topk", None)
+    if not callable(cooperative):
+        raise RuntimeError("vLLM cooperative_topk op is unavailable")
+    if getattr(cooperative, "_banana_smasher_sm12x_persistent_topk", False):
+        return True
+    if not callable(persistent):
+        raise RuntimeError(
+            "SM12x sparse-indexer correction requires vLLM persistent_topk"
+        )
+
+    @functools.wraps(cooperative)
+    def sm12x_persistent_topk(*args, **kwargs):
+        return persistent(*args, **kwargs)
+
+    sm12x_persistent_topk._banana_smasher_sm12x_persistent_topk = True  # type: ignore[attr-defined]
+    sm12x_persistent_topk._banana_smasher_original_cooperative_topk = cooperative  # type: ignore[attr-defined]
+    setattr(namespace, "cooperative_topk", sm12x_persistent_topk)
+    _LOG.warning(
+        "BANANA_SMASHER_SPARSE_INDEXER_TOPK_OVERRIDE "
+        "compute_capability=%d.%d requested=cooperative_topk "
+        "selected=persistent_topk reason=sm12x_cluster_launch_unsupported",
+        capability.major,
+        capability.minor,
     )
     return True
 
@@ -465,6 +597,7 @@ def register() -> None:
     configure_flashinfer_sparse_mla_signature_compat()
     configure_stock_deepseek_v4_attention_backend()
     configure_sparse_indexer_deep_gemm_backend()
+    configure_sparse_indexer_topk_backend()
     configure_stock_mhc_backend()
     configure_stock_deepseek_v4_o_proj()
     from .quantization import (
