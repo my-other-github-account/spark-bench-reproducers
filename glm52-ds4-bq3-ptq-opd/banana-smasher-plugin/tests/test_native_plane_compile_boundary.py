@@ -64,7 +64,7 @@ def test_native_plane_forward_registers_opaque_vllm_compile_boundary(
     assert torch.all(result == 7)
 
     second = native_planes.NativePlaneLayer(pack, 0, device="cpu", dispatch=dispatch)
-    second.forward(torch.ones((1, 4)), torch.tensor([1]), "down")
+    second.forward(torch.ones((1, 2)), torch.tensor([1]), "down")
     assert len(registrations) == 1
     assert calls[-1] == (second._custom_op_key, 1)
     assert second._custom_op_key != layer._custom_op_key
