@@ -627,19 +627,25 @@ class NativePlaneLayer:
         range_error = (
             f"layer {self.layer_index} {projection} expert id out of range"
         )
-        # Keep the fail-closed range guards on the accelerator. Converting either
-        # predicate to a Python bool synchronizes the stream and is illegal while
-        # vLLM captures its startup CUDA graphs on SM12x.
-        torch.ops.aten._assert_async.msg(torch.all(expert_ids >= 0), range_error)
+        # Stock vLLM uses -1 as a graph-padding sentinel for inactive routed rows.
+        # Accept only that sentinel, clamp every id before any device pointer-table
+        # lookup, and zero inactive outputs.  The async guards still fail closed on
+        # values below -1 or above the immutable expert table without introducing
+        # a host synchronization during CUDA-graph capture.
+        expert_count = len(state.tiers)
+        torch.ops.aten._assert_async.msg(torch.all(expert_ids >= -1), range_error)
         torch.ops.aten._assert_async.msg(
-            torch.all(expert_ids < len(state.tiers)), range_error
+            torch.all(expert_ids < expert_count), range_error
         )
+        active_routes = (expert_ids >= 0) & (expert_ids < expert_count)
+        safe_expert_ids = expert_ids.clamp(min=0, max=expert_count - 1)
         result = self._dispatch(
             projection=projection,
             x=x,
-            expert_ids=expert_ids,
+            expert_ids=safe_expert_ids,
             state=state,
         )
+        result = torch.where(active_routes.reshape(-1, 1), result, 0)
         if tuple(result.shape) != (x.shape[0], state.output_width):
             raise _fail(
                 f"layer {self.layer_index} {projection} accelerated output shape drift: "

@@ -239,6 +239,31 @@ def test_plane_forward_async_guard_rejects_out_of_range_expert(tmp_path: Path) -
         layer.forward(torch.ones((2, 4)), torch.tensor([0, 2]), "fused13")
 
 
+def test_plane_forward_safely_zeroes_batched_padding_sentinel(tmp_path: Path) -> None:
+    pack = NativePlanePack.from_model_root(_tiny_pack(tmp_path / "model"))
+    observed_ids: list[torch.Tensor] = []
+
+    def dispatch(**kwargs):
+        safe_ids = kwargs["expert_ids"]
+        observed_ids.append(safe_ids.clone())
+        assert bool(torch.all((safe_ids >= 0) & (safe_ids < 2)))
+        return torch.full(
+            (safe_ids.numel(), kwargs["state"].output_width),
+            3.0,
+            dtype=torch.float32,
+        )
+
+    layer = NativePlaneLayer(pack, 0, device="cpu", dispatch=dispatch)
+    expert_ids = torch.tensor(([0, 1, 0, 1, 0, -1] * 16), dtype=torch.long)
+
+    result = layer.forward(torch.ones((96, 4)), expert_ids, "fused13")
+
+    assert observed_ids and observed_ids[0].shape == (96,)
+    assert torch.equal(observed_ids[0][5::6], torch.zeros(16, dtype=torch.long))
+    assert torch.count_nonzero(result[5::6]) == 0
+    assert torch.all(result[:5] == 3)
+
+
 def test_manifest_selection_is_the_only_payload_allocation_source(tmp_path: Path) -> None:
     root = _tiny_pack(tmp_path / "model")
     meta_path = root / "planes/layer_000.meta.json"
