@@ -451,6 +451,7 @@ def register() -> None:
 __all__ = [
     "configure_flashinfer_sparse_mla_signature_compat",
     "configure_sparse_indexer_deep_gemm_backend",
+    "configure_sparse_indexer_topk_backend",
     "configure_stock_deepseek_v4_attention_backend",
     "configure_stock_deepseek_v4_o_proj",
     "configure_stock_mhc_backend",

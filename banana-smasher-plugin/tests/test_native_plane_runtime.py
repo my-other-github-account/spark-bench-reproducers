@@ -399,6 +399,41 @@ def _install_fake_vllm(monkeypatch: pytest.MonkeyPatch) -> None:
     sys.modules.pop("banana_smasher_plugin.quantization", None)
 
 
+def test_dense_backend_preflight_preserves_enabled_original_compile_fast_paths(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _install_fake_vllm(monkeypatch)
+    pass_config = SimpleNamespace(fuse_norm_quant=True, fuse_act_quant=True)
+    compilation = SimpleNamespace(
+        custom_ops=["+quant_fp8"],
+        pass_config=pass_config,
+    )
+    active_config = SimpleNamespace(
+        kernel_config=SimpleNamespace(linear_backend="auto"),
+        compilation_config=compilation,
+    )
+    vllm_config = ModuleType("vllm.config")
+    vllm_config.get_current_vllm_config_or_none = lambda: active_config
+    monkeypatch.setitem(sys.modules, "vllm.config", vllm_config)
+
+    from banana_smasher_plugin.quantization import BananaSmasherQuantizationConfig
+
+    config = BananaSmasherQuantizationConfig(
+        {
+            "activation_scheme": "dynamic",
+            "fmt": "e4m3",
+            "weight_block_size": [128, 128],
+            "scale_fmt": "ue8m0",
+        }
+    )
+    config._select_stock_dense_backend()
+
+    assert pass_config.fuse_norm_quant is True
+    assert pass_config.fuse_act_quant is True
+    assert compilation.custom_ops == ["+quant_fp8"]
+    assert active_config.kernel_config.linear_backend == "auto"
+
+
 def test_native_moe_apply_uses_two_accelerated_projections_and_original_route_order(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

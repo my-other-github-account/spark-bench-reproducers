@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import json
+import shlex
+import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -47,6 +50,11 @@ def test_public_source_dockerfile_contract() -> None:
     assert "libcudart.so.13" in text
     assert "runtime_defaults.json" in text
     assert "cubins-sm120" in text and "cubins-e43" in text
+    assert "runtime/ASSET_MANIFEST.json" in text
+    assert "runtime/ACCELERATION_MANIFEST.json" in text
+    assert "provenance/SOURCE_INVENTORY.json" in text
+    assert "flashinfer-autotune/0.6.14" not in text
+    assert "flashinfer_autotune_cache/0.6.14" not in text
     assert 'CMD ["vllm", "serve", "/model"' in text
     forbidden = (
         "vllm_runtime",
@@ -60,6 +68,30 @@ def test_public_source_dockerfile_contract() -> None:
     )
     for token in forbidden:
         assert token not in lower
+
+
+def test_source_receipt_writer_emits_one_valid_json_document(tmp_path: Path) -> None:
+    line = next(
+        line.strip()
+        for line in DOCKERFILE.read_text().splitlines()
+        if 'p="/opt/banana-smasher/provenance/source.json"' in line
+    )
+    argv = shlex.split(line)
+    assert argv[:2] == ["python3", "-c"]
+    receipt_path = tmp_path / "source.json"
+    code = argv[2].replace(
+        "/opt/banana-smasher/provenance/source.json",
+        str(receipt_path),
+    )
+    subprocess.run([sys.executable, "-c", code], check=True)
+    raw = receipt_path.read_bytes()
+    assert raw.endswith(b"\n")
+    assert not raw.endswith(b"\\n")
+    receipt = json.loads(raw)
+    assert receipt["vllm_upstream_revision"] == "ee0da84a"
+    assert receipt["flashinfer_source_commit"] == (
+        "d020372b068f335e2fe427372e134977a2235c49"
+    )
 
 
 def test_runtime_removes_stale_flashinfer_binary_provider_namespaces() -> None:
@@ -89,12 +121,15 @@ def test_runtime_defaults_are_baked_and_parseable() -> None:
     assert "VLLM_USE_DEEP_GEMM_E8M0=1" in dockerfile
 
 
-def test_readme_has_literal_standalone_build_and_no_runtime_environment_flags() -> None:
+def test_readme_uses_release_helpers_and_no_runtime_environment_flags() -> None:
     text = DEPLOY.read_text()
-    assert "docker build --file docker/Dockerfile" in text
-    run_lines = [line for line in text.splitlines() if line.startswith("docker run --rm --gpus all")]
-    assert len(run_lines) == 1
-    assert "8000:8000" in run_lines[0]
-    assert " -e " not in run_lines[0]
-    assert run_lines[0].count(" -v ") == 1
+    assert "examples/build_image.sh" in text
+    assert "examples/serve.sh" in text
+    build = (ROOT / "examples/build_image.sh").read_text()
+    serve = (ROOT / "examples/serve.sh").read_text()
+    assert "docker buildx build" in build
+    assert "--platform linux/arm64" in build and "--no-cache" in build
+    assert "docker run --rm --gpus all" in serve
+    assert "8000:8000" in serve
+    assert "/root/.cache/vllm/flashinfer_autotune_cache" in serve
     assert "smash export" in text and "smash verify" in text

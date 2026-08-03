@@ -88,10 +88,15 @@
     },
     {
       "id": "flashinfer-autotune-cache",
-      "source": ["banana-smasher/vendor/flashinfer-autotune/0.6.14/121a"],
-      "build_dependency_or_asset": ["35 checked-in FlashInfer autotune_configs.json assets"],
-      "runtime_activation": ["copied to /root/.cache/vllm/flashinfer_autotune_cache/0.6.14/121a"],
-      "tests": ["tests/test_extraction_contract.py", "docker/tests/test_public_source_dockerfile.py"]
+      "source": ["provenance/EXCLUDED_FLASHINFER_CACHE.json", "docker/scripts/validate_flashinfer_cache.py", "examples/capture_flashinfer_cache.sh"],
+      "build_dependency_or_asset": ["runtime-generated FlashInfer 0.6.17 SM121 autotune cache on a persistent named volume"],
+      "runtime_activation": ["vLLM resolves /root/.cache/vllm/flashinfer_autotune_cache/0.6.17/121a", "examples/serve.sh optionally mounts a persistent named volume at the cache root"],
+      "tests": ["tests/test_corrected_acceptance.py", "docker/tests/test_public_source_dockerfile.py"],
+      "status": "gpu-regeneration-outstanding",
+      "active_cache_baked": false,
+      "required_version": "0.6.17",
+      "architecture": "121a",
+      "remaining_gate": "Linux ARM64 SM121 image boot, cache regeneration, capture, and validation"
     },
     {
       "id": "real-libcudart-link",

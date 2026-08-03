@@ -132,6 +132,30 @@ def test_public_indexer_backend_preserves_supported_pre_sm12x_deepgemm(
     assert external is sys.modules["deep_gemm"]
 
 
+def test_deprecated_stock_mhc_compatibility_hook_is_a_noop(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    platforms = ModuleType("vllm.platforms")
+    platforms.current_platform = SimpleNamespace(
+        get_device_capability=lambda: SimpleNamespace(major=12, minor=1)
+    )
+    deep_gemm = ModuleType("vllm.utils.deep_gemm")
+
+    def original_mhc(*args, **kwargs):
+        return None
+
+    deep_gemm.is_deep_gemm_supported = lambda: False
+    deep_gemm.tf32_hc_prenorm_gemm = original_mhc
+    monkeypatch.setitem(sys.modules, "vllm.platforms", platforms)
+    monkeypatch.setitem(sys.modules, "vllm.utils.deep_gemm", deep_gemm)
+
+    monkeypatch.delenv("BANANA_SMASHER_MHC_BACKEND_OVERRIDE", raising=False)
+
+    assert banana_smasher_plugin.configure_stock_mhc_backend() is False
+    assert deep_gemm.tf32_hc_prenorm_gemm is original_mhc
+    assert "BANANA_SMASHER_MHC_BACKEND_OVERRIDE" not in os.environ
+
+
 def test_public_mhc_selector_routes_only_prenorm_to_tilelang_on_sm121(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:

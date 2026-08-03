@@ -13,12 +13,24 @@
   "serve": {
     "block_size": 256,
     "cudagraph_capture_sizes": [1, 2, 4, 8, 16],
+    "default_chat_template_kwargs": {
+      "enable_thinking": true
+    },
+    "enable_auto_tool_choice": true,
+    "generation_config": "vllm",
     "gpu_memory_utilization": 0.8,
+    "host": "0.0.0.0",
     "kv_cache_dtype": "fp8",
     "kv_cache_memory_bytes": 3221225472,
     "max_model_len": 8192,
     "max_num_batched_tokens": 512,
     "max_num_seqs": 16,
-    "served_model_name": "banana-smasher-v5"
+    "no_scheduler_reserve_full_isl": true,
+    "port": 8000,
+    "reasoning_parser": "deepseek_v4",
+    "served_model_name": "banana-smasher-v5",
+    "tokenizer_mode": "deepseek_v4",
+    "tool_call_parser": "deepseek_v4",
+    "trust_remote_code": true
   }
 }

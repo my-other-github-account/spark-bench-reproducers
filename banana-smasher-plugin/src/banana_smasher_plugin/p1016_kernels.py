@@ -79,6 +79,7 @@ def _d4_gemv(
     N: tl.constexpr,
     K: tl.constexpr,
     D: tl.constexpr,
+    INDEX_BITS: tl.constexpr,
     BN: tl.constexpr,
     BK: tl.constexpr,
 ):
@@ -87,7 +88,7 @@ def _d4_gemv(
     n = pid_n * BN + tl.arange(0, BN)
     n_mask = n < N
     codes_ptr = tl.cast(
-        tl.load(codes_ptr_holder + r).to(tl.int64), tl.pointer_type(tl.int16)
+        tl.load(codes_ptr_holder + r).to(tl.int64), tl.pointer_type(tl.uint8)
     )
     scales_ptr = tl.cast(
         tl.load(scales_ptr_holder + r).to(tl.int64), tl.pointer_type(tl.uint8)
@@ -100,11 +101,31 @@ def _d4_gemv(
         k = k0 + tl.arange(0, BK)
         mask = n_mask[:, None] & (k[None, :] < K)
         x = tl.load(x_ptr + r * K + k, mask=k < K, other=0.0).to(tl.float32)
-        code = tl.load(
-            codes_ptr + n[:, None] * (K // D) + (k[None, :] // D),
-            mask=mask,
-            other=0,
-        ).to(tl.int32)
+        row_bytes = ((K // D) * INDEX_BITS + 7) // 8
+        bit = (k[None, :] // D) * INDEX_BITS
+        byte = bit // 8
+        shift = bit & 7
+        base = n[:, None] * row_bytes + byte
+        word = (
+            tl.load(codes_ptr + base, mask=mask, other=0).to(tl.int32)
+            | (
+                tl.load(
+                    codes_ptr + base + 1,
+                    mask=mask & (byte + 1 < row_bytes),
+                    other=0,
+                ).to(tl.int32)
+                << 8
+            )
+            | (
+                tl.load(
+                    codes_ptr + base + 2,
+                    mask=mask & (byte + 2 < row_bytes),
+                    other=0,
+                ).to(tl.int32)
+                << 16
+            )
+        )
+        code = (word >> shift) & ((1 << INDEX_BITS) - 1)
         value = tl.load(cb_ptr + code * D + (k[None, :] % D), mask=mask, other=0.0)
         scale = tl.load(
             scales_ptr + n[:, None] * (K // 32) + (k[None, :] // 32),
@@ -192,6 +213,13 @@ def pointer_holder(*tensors: torch.Tensor) -> torch.Tensor:
     )
 
 
+def _d4_index_bits(codebook: torch.Tensor) -> int:
+    size = int(codebook.shape[0])
+    if size < 2 or size > 65536 or size & (size - 1):
+        raise ValueError(f"D4 codebook size must be a power of two in [2, 65536], got {size}")
+    return size.bit_length() - 1
+
+
 def qtip_blocked(compressed: torch.Tensor, m: int, k: int, rate: int) -> torch.Tensor:
     compressed = compressed.contiguous().view(torch.uint16)
     blocked = (
@@ -240,19 +268,24 @@ def d4_gemv(
 ) -> torch.Tensor:
     x = x.to(torch.bfloat16).contiguous()
     r, k = x.shape
+    if codes.dtype != torch.uint8:
+        raise ValueError("D4 codes must use the accepted uint8 packed wire")
     n = codes.shape[0]
-    holders = pointer_holder(codes, scales, codebook)
+    code_holders = pointer_holder(*([codes] * r))
+    scale_holders = pointer_holder(*([scales] * r))
+    codebook_holders = pointer_holder(*([codebook] * r))
     y = torch.empty((r, n), dtype=torch.bfloat16, device=x.device)
     _d4_gemv[(triton.cdiv(n, 8), r)](
         x,
-        holders[0:1],
-        holders[1:2],
-        holders[2:3],
+        code_holders,
+        scale_holders,
+        codebook_holders,
         y,
         R=r,
         N=n,
         K=k,
         D=codebook.shape[-1],
+        INDEX_BITS=_d4_index_bits(codebook),
         BN=8,
         BK=256,
         num_warps=4,
@@ -411,7 +444,12 @@ def d4_gemv_batch(
     r, k = x.shape
     if not (len(codes) == len(scales) == len(codebooks) == r):
         raise ValueError("D4 batch state count mismatch")
+    if any(value.dtype != torch.uint8 for value in codes):
+        raise ValueError("D4 codes must use the accepted uint8 packed wire")
     n = codes[0].shape[0]
+    index_bits = {_d4_index_bits(codebook) for codebook in codebooks}
+    if len(index_bits) != 1:
+        raise ValueError("D4 batch codebooks must use one index width")
     code_holders = pointer_holder(*codes)
     scale_holders = pointer_holder(*scales)
     cb_holders = pointer_holder(*codebooks)
@@ -426,6 +464,7 @@ def d4_gemv_batch(
         N=n,
         K=k,
         D=codebooks[0].shape[-1],
+        INDEX_BITS=next(iter(index_bits)),
         BN=8,
         BK=256,
         num_warps=4,
@@ -540,6 +579,7 @@ def _d4_gemv_dynamic(
     codes_ptrs,
     scales_ptrs,
     codebook_ptrs,
+    INDEX_BITS_PTRS,
     y_ptr,
     EXPECTED_FAMILY: tl.constexpr,
     R: tl.constexpr,
@@ -555,15 +595,40 @@ def _d4_gemv_dynamic(
     n_mask = n < N
     expert = tl.load(expert_ids_ptr + r).to(tl.int64)
     active = tl.load(family_ptr + expert) == EXPECTED_FAMILY
-    codes_ptr = tl.cast(tl.load(codes_ptrs + expert).to(tl.int64), tl.pointer_type(tl.int16))
+    codes_ptr = tl.cast(tl.load(codes_ptrs + expert).to(tl.int64), tl.pointer_type(tl.uint8))
     scales_ptr = tl.cast(tl.load(scales_ptrs + expert).to(tl.int64), tl.pointer_type(tl.uint8))
     cb_ptr = tl.cast(tl.load(codebook_ptrs + expert).to(tl.int64), tl.pointer_type(tl.float16))
+    INDEX_BITS = tl.load(INDEX_BITS_PTRS + expert).to(tl.int32)
     acc = tl.zeros((BN,), tl.float32)
     for k0 in range(0, K, BK):
         k = k0 + tl.arange(0, BK)
         mask = active & n_mask[:, None] & (k[None, :] < K)
         x = tl.load(x_ptr + r * K + k, mask=active & (k < K), other=0.0).to(tl.float32)
-        code = tl.load(codes_ptr + n[:, None] * (K // D) + (k[None, :] // D), mask=mask, other=0).to(tl.int32)
+        row_bytes = ((K // D) * INDEX_BITS + 7) // 8
+        bit = (k[None, :] // D) * INDEX_BITS
+        byte = bit // 8
+        shift = bit & 7
+        base = n[:, None] * row_bytes + byte
+        word = (
+            tl.load(codes_ptr + base, mask=mask, other=0).to(tl.int32)
+            | (
+                tl.load(
+                    codes_ptr + base + 1,
+                    mask=mask & (byte + 1 < row_bytes),
+                    other=0,
+                ).to(tl.int32)
+                << 8
+            )
+            | (
+                tl.load(
+                    codes_ptr + base + 2,
+                    mask=mask & (byte + 2 < row_bytes),
+                    other=0,
+                ).to(tl.int32)
+                << 16
+            )
+        )
+        code = (word >> shift) & ((1 << INDEX_BITS) - 1)
         value = tl.load(cb_ptr + code * D + (k[None, :] % D), mask=mask, other=0.0)
         scale = tl.load(scales_ptr + n[:, None] * (K // 32) + (k[None, :] // 32), mask=mask, other=127).to(tl.float32)
         acc += tl.sum(value.to(tl.float32) * tl.exp2(scale - 127.0) * x[None, :], axis=1)
@@ -618,15 +683,39 @@ def qtip_raw_gemv_dynamic(x, expert_ids, family, source_ptrs, rate, lut, offsets
     return y
 
 
-def d4_gemv_dynamic(x, expert_ids, family, codes_ptrs, scales_ptrs, codebook_ptrs):
+def d4_gemv_dynamic(
+    x,
+    expert_ids,
+    family,
+    codes_ptrs,
+    scales_ptrs,
+    codebook_ptrs,
+    index_bits,
+):
     x = x.to(torch.bfloat16).contiguous()
     expert_ids = expert_ids.to(device=x.device, dtype=torch.long).reshape(-1)
+    index_bits = index_bits.to(device=x.device, dtype=torch.int32).reshape(-1)
     r, k = x.shape
     y = torch.empty((r, 4096), dtype=torch.bfloat16, device=x.device)
     _d4_gemv_dynamic[(triton.cdiv(4096, 8), r)](
-        x, expert_ids, family, codes_ptrs, scales_ptrs, codebook_ptrs, y,
-        EXPECTED_FAMILY=2, R=r, N=4096, K=k, D=4,
-        BN=8, BK=256, num_warps=4, num_stages=2)
+        x,
+        expert_ids,
+        family,
+        codes_ptrs,
+        scales_ptrs,
+        codebook_ptrs,
+        index_bits,
+        y,
+        EXPECTED_FAMILY=2,
+        R=r,
+        N=4096,
+        K=k,
+        D=4,
+        BN=8,
+        BK=256,
+        num_warps=4,
+        num_stages=2,
+    )
     return y
 
 

@@ -6,16 +6,30 @@ materialized quant source -> `smash export` -> `smash verify` -> self-contained 
 
 It does not contain training, solver orchestration, benchmark ledgers, or historical run artifacts.
 
-## Build the Python packages
+## Build and test both Python packages on a development host
+
+The following is the non-GPU static development gate. It builds, inspects, installs,
+and tests both wheels; installing only the exporter package is not a complete runtime
+setup.
 
 ```bash
 python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install --upgrade pip build
-python -m pip install -e ./banana-smasher
+python -m pip install pytest==8.4.2 ruff==0.12.7 numpy==2.3.5 safetensors==0.8.0 torch
+python -m build --wheel --outdir dist ./banana-smasher
+python -m build --wheel --outdir dist ./banana-smasher-plugin
+python -m zipfile -t dist/banana_smasher-1.0.0-py3-none-any.whl
+python -m zipfile -t dist/banana_smasher_plugin-0.2.0-py3-none-any.whl
+python -m pip install --no-deps --force-reinstall \
+  dist/banana_smasher-1.0.0-py3-none-any.whl \
+  dist/banana_smasher_plugin-0.2.0-py3-none-any.whl
+python -m pytest -q banana-smasher/tests banana-smasher-plugin/tests docker/tests tests
 ```
 
-The runtime image builds and installs both `banana-smasher` and `banana-smasher-plugin` from this checkout. The plugin is discovered from the `vllm.general_plugins` entry point; no `PYTHONPATH` overlay is used.
+These host tests do not install stock vLLM, FlashInfer, DeepGEMM, CUDA, or the
+GPU kernels. The complete runtime install is the pinned Linux ARM64 image below;
+only an SM120/SM121 GPU boot can prove its accelerator paths.
 
 ## Export and verify a model pack
 
@@ -35,21 +49,48 @@ smash verify "$MODEL_OUT"
 
 `examples/export_model.sh` provides the same fail-closed command. The resulting directory is self-contained and is the only directory mounted at `/model` for serving.
 
-## Build and serve
+## Build and serve the pinned Linux ARM64 image
+
+The release helper uses Docker Buildx with `--platform linux/arm64` and
+`--no-cache`; it never reuses an unproven release layer.
 
 ```bash
-docker build --file docker/Dockerfile --tag banana-smasher-runtime:local .
-docker run --rm --gpus all -p 8000:8000 -v "$MODEL_OUT:/model:ro" banana-smasher-runtime:local
+IMAGE=banana-smasher-runtime:local examples/build_image.sh
+MODEL_DIR="$MODEL_OUT" IMAGE=banana-smasher-runtime:local examples/serve.sh
 ```
 
-The image's exact `CMD` runs `vllm serve /model` with the pinned runtime defaults. Do not replace it with an alternate launcher.
+`examples/serve.sh` creates and mounts the named volume
+`banana-smasher-flashinfer-cache` at
+`/root/.cache/vllm/flashinfer_autotune_cache` by default, so a valid generated
+FlashInfer 0.6.17 cache survives container restarts. Set
+`FLASHINFER_CACHE_VOLUME=''` only for an intentionally ephemeral run. The image's
+exact `CMD` runs stock `vllm serve /model` with the pinned runtime defaults; do
+not replace it with an alternate launcher.
 
 ## OpenAI API smoke test
 
 ```bash
 python examples/smoke_api.py
-curl -sS http://localhost:8000/v1/chat/completions -H 'Content-Type: application/json' -d '{"model":"banana-smasher-v5","messages":[{"role":"user","content":"Reply with OK."}],"max_tokens":8}'
 ```
+
+The smoke script checks `/health`, proves `/v1/models` contains the expected
+served model, and only then requires a non-empty `/v1/chat/completions` response.
+
+## Capture a future FlashInfer 0.6.17 SM121 cache
+
+After a full GPU warmup has generated the cache in a running container, capture
+and validate it without renaming or editing any cache JSON:
+
+```bash
+CONTAINER=banana-smasher-runtime \
+CACHE_CAPTURE_DIR=/path/to/new-empty-capture \
+examples/capture_flashinfer_cache.sh
+```
+
+The validator rejects a path other than `0.6.17/121a`, mismatched
+`_metadata.flashinfer_version`, malformed members, symlinks, and unexpected
+files. No current-version cache is baked in this repository; regeneration,
+capture, and image admission remain an explicit Linux ARM64 SM121 hardware gate.
 
 ## Verification surfaces
 

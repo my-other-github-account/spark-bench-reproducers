@@ -1,0 +1,188 @@
+{
+  "architecture": "121a",
+  "bytes": 164546,
+  "canonical_records_sha256": "e9bbe2d71dd3465e87300a52c037f6b9b68b05b8879af9394ff31fbd535e1c84",
+  "excluded_version": "0.6.14",
+  "file_count": 35,
+  "members": [
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/085e5a49c2b6da4f96f9ccb8d12519ddaaa0f82a5fd0d67e05e238c3432db3e8/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/0af24237d28b539371d322acb8997755fa17cdd3af230f1131279ad5071ca43d/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/0f42d2e04f2ebb2f1f79cf54593a7f33fe14f30e6631c4624ebba546f8643840/autotune_configs.json",
+      "sha256": "c921b67f244a8240706dfca40dff152201880f6bc87f03f41e1c4ad21b9efcd1"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/145d88f9f1c2aeafb931e5454acd0030e318c02aab6eae75fda6b69bba55b4c6/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 4683,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/30bf96a9bebd7b7554f8cc32c73973efe91d7ff2bd321941aa5c4092b64a44b4/autotune_configs.json",
+      "sha256": "47aff426b0eda74d3922fa027b5d8b3ea547d7a1ddda39d6d81ff967d353fa46"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/319ae924887a56f4ce857ef2dc6212b9f738b51bad8326c48e0bfd2e2e8940e5/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 4682,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/35df21a068b911317b78b46c6af4562612a3d06c60dc2b881be1d6c1955215b8/autotune_configs.json",
+      "sha256": "f05a85b3dbb34471a005e478d335d85279ad1d9e010ee5b4ea573ee65c9e4569"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/36ac803258ea28c155c2c18f329c608c6c2e706d8c054248b99ac89d3f8727ec/autotune_configs.json",
+      "sha256": "4aaf38051c5c2c405f47dd6c4dc161dd700daf83c62293490a2905889e13bd4f"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/3a8aedac158c9a88e29eabf08e6d380cdab40f51529e6ec9209767aff3e52bf2/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/4dd23b285a75dd2a8a6396e4064fc0ad0b98b60d973efdbca54811b5ed60ae30/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/5028ca158fafffd826ea4715487f579fc270f65191084b0075c0ff0607b9a8aa/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/51a795d4418d7767ffad826578737298569f264badf668e35a732d2797071db3/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 6138,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/5597f3a58dd2ec2cac6db941dc4dcee2bbef787de965f35439f6b97480c25026/autotune_configs.json",
+      "sha256": "a2a4a9fefcd6f928384a5ab177c13152d422a827bc6f5f69430f54c6dd514854"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/5fd01e60908c7e3105912f7e619057cd3f061fca07a61394c55792c90294413c/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 4653,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/6024efa17f001c13aed9d432af238bf8139f67b4e5a18d4071963d3d2332c331/autotune_configs.json",
+      "sha256": "b7f2436926e44d369ed33ee50d85db504c2fed617130105dfe89321d45693fe2"
+    },
+    {
+      "bytes": 4683,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/62ab171c9057a2067b3417eb2867389270a8ce2313af584516c7e6087fd6b7db/autotune_configs.json",
+      "sha256": "1960562588217f922aa7a1fc91ebd9d505b16f45c8f63e1d9a11240e450c80a4"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/67759ad82857464020049b1d301b4b261bb8b3367d015dc934160cedfc395469/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/7838c7199f8632b739f51be82cdcc8c7a16b7b1e954cc6360d4d5db6dd0a9b84/autotune_configs.json",
+      "sha256": "b454281806543991cb1aedc10d770765643493545bf04f7ac602503b068991d7"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/7c7a5fc88054677f99c644e95535688709ba53ce2c473a5cdc54056dc047551c/autotune_configs.json",
+      "sha256": "bb641af14260f89a53bc8988138d85bacbb7fdf180e797aac19aac8955157554"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/7e2fb0d356ac970b7b89016b58f11e4881b2ad6dd20b75e8316d67c8a1780c58/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/87590b40c1e14df59ee2c21ead8d62ef6ea407bd51ed8c1b68c6437b250842fc/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/8fd52cd5918d4f6e5b294dd0d20ede2377dadfbf9526597ba8595b682249e9ee/autotune_configs.json",
+      "sha256": "1a9f1594c421f248b576cca62683fa0ab349805a46bf9ede51dc6ad11098caee"
+    },
+    {
+      "bytes": 4683,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/92b792d9b61c99bb5b763c2fd05c6b0acec90a5e6c225f757ffca80c2edf98c6/autotune_configs.json",
+      "sha256": "1bb61d0ae261aea9743053e6adef84095fde3147562ed029f9f4217fb2fc6873"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/9795db2f8d235e35cd36066743bd4aaeb6ce5e1e7484031b664b26c0c86087fb/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/a7e2f0c95e370180026b43d0437828d840bdd8a0d8155666393a107918ca3051/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/adecfc204e3eecb71874bf7a585c7984625c10104d0e2b868027ed7a18151505/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/b0edc62c9f291e8c22de2d349559651c139f70e6040747f32a64e006cb0a7175/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/bcc9447ae77a4df06e73dfd7373c587f463f0b711e12fcdb0f9f9972cd45ea0b/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/c0e9941f02b83a58f0d4cb2db4b884137952bedd534eda575117f1449cf188d3/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 4683,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/c17ebbe8b5aebac2da8a024668806d42b49a418a582fa310afdd4269b7720f01/autotune_configs.json",
+      "sha256": "5225b39d0dd6cd652e0919a8815e9206f846a965cf7625058e2cb4e7e8bf5a45"
+    },
+    {
+      "bytes": 4683,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/da5c2be19cb7b20ae14c2b6b4b0202eb12ba953a1061ec6787df50134df0ac40/autotune_configs.json",
+      "sha256": "de532086b129945272361baf2b87194d13e6839cb3cf05aa7f15075aa4ca2058"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/daf0dedb9834223b48906ec2beae5f781e7b49aed53b661ebdf60ab1d8e7fc0c/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/e528088bf2df5515939855f340585a9c4906ca2444c8fa1db8342d53f9582925/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/ea894f3915f2d213be21208779b2766f533309536b68af637b34de77c2b9a679/autotune_configs.json",
+      "sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
+    },
+    {
+      "bytes": 4654,
+      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/f99305f1600e2445761e84c06ca10099e54d3618084027243ce9df09fd40c813/autotune_configs.json",
+      "sha256": "286aa3881efc810729df84936d0102a5a98eec419f8985e98d341393c693ddc8"
+    }
+  ],
+  "reason": "flashinfer-version-mismatch",
+  "required_version": "0.6.17",
+  "schema": "banana-smasher-excluded-flashinfer-cache-v1",
+  "source_commit": "c00714c6803f7e2de7a95d103dbe172236b22adf"
+}

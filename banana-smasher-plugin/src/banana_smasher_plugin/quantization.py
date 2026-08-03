@@ -16,6 +16,8 @@ from .native_planes import (
     NativePlanePrerequisiteError,
     _fail,
 )
+from .contract import load_runtime_contract
+from .repair import apply_runtime_repairs
 
 try:
     from vllm.model_executor.layers.fused_moe import RoutedExperts
@@ -153,7 +155,21 @@ def install_deepseek_v4_dense_preflight() -> None:
                 map_checkpoint_names=mapper.apply_list,
                 mtp_enabled=_runtime_mtp_enabled(model),
             )
-        return original(model, weights)
+        result = original(model, weights)
+        if (
+            isinstance(config, BananaSmasherQuantizationConfig)
+            and config.raw.get("repair_format") == "bs-basic-repair-v1"
+        ):
+            if config.model_root is None:
+                raise _fail("DENSE_REPAIR_RUNTIME model root is not bound")
+            contract = load_runtime_contract(config.model_root)
+            repair_report = apply_runtime_repairs(model, contract)
+            _LOG.warning(
+                "BANANA_SMASHER_DENSE_REPAIR_APPLIED norms=%d output_log_gains=%d",
+                len(repair_report["norms"]),
+                len(repair_report["output_log_gains"]),
+            )
+        return result
 
     load_weights._banana_smasher_dense_preflight = True
     DeepseekV4ForCausalLM.load_weights = load_weights

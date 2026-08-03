@@ -29,7 +29,10 @@ def test_required_source_surfaces_exist() -> None:
         "docker/patches/flashinfer-real-libcudart.patch",
         "docker/runtime_defaults.json",
         "docker/scripts/verify_public_image.py",
+        "docker/scripts/validate_flashinfer_cache.py",
         "docker/scripts/write_package_receipt.py",
+        "runtime/ASSET_MANIFEST.json",
+        "provenance/EXCLUDED_FLASHINFER_CACHE.json",
     }
     missing = sorted(path for path in required if not (ROOT / path).is_file())
     assert not missing, f"missing retained source surfaces: {missing}"
@@ -38,12 +41,11 @@ def test_required_source_surfaces_exist() -> None:
 def test_all_runtime_aot_assets_exist() -> None:
     sm120 = list((ROOT / "banana-smasher/kernels/cubins-sm120").glob("*.cubin"))
     e43 = list((ROOT / "banana-smasher/kernels/cubins-e43").glob("*.cubin"))
-    autotune = list(
-        (ROOT / "banana-smasher/vendor/flashinfer-autotune").rglob("autotune_configs.json")
-    )
     assert len(sm120) == 26
     assert len(e43) == 6
-    assert len(autotune) == 35
+    assert sum(path.stat().st_size for path in sm120) == 490800
+    assert sum(path.stat().st_size for path in e43) == 154368
+    assert not list((ROOT / "banana-smasher").rglob("autotune_configs.json"))
     assert (
         ROOT / "banana-smasher-plugin/src/banana_smasher_plugin/qtip_tlut.npy"
     ).is_file()
@@ -63,7 +65,7 @@ def test_documented_product_path_and_examples_exist() -> None:
     )
     assert all((ROOT / path).is_file() for path in required)
     readme = (ROOT / "README.md").read_text()
-    for command in ("smash export", "smash verify", "docker build", "docker run", "/v1/chat/completions"):
+    for command in ("smash export", "smash verify", "examples/build_image.sh", "examples/serve.sh", "/v1/chat/completions"):
         assert command in readme
     export = (ROOT / "examples/export_model.sh").read_text()
     assert '--runtime-floor-bytes "${RUNTIME_FLOOR_BYTES:?required from a measured receipt}"' in export
@@ -119,7 +121,9 @@ def test_runtime_pins_hooks_assets_and_exact_command() -> None:
         "libcudart.so.13",
         "COPY banana-smasher/kernels/cubins-sm120",
         "COPY banana-smasher/kernels/cubins-e43",
-        "COPY banana-smasher/vendor/flashinfer-autotune/0.6.14/121a",
+        "COPY runtime/ASSET_MANIFEST.json",
+        "COPY runtime/ACCELERATION_MANIFEST.json",
+        "COPY provenance/SOURCE_INVENTORY.json",
         "python3 /opt/banana-smasher/bin/verify_public_image.py",
         "/opt/banana-smasher/provenance/package-sbom.json",
         'CMD ["vllm", "serve", "/model"',
@@ -143,7 +147,9 @@ def test_runtime_pins_hooks_assets_and_exact_command() -> None:
 def test_source_inventory_covers_and_hashes_every_retained_source_file() -> None:
     inventory = json.loads((ROOT / "provenance/SOURCE_INVENTORY.json").read_text())
     assert inventory["source_commit"] == "c00714c6803f7e2de7a95d103dbe172236b22adf"
-    entries = inventory["files"]
+    source_entries = inventory["files"]
+    generated_entries = inventory.get("generated_files", [])
+    entries = source_entries + generated_entries
     paths = {entry["path"] for entry in entries}
     retained_roots = (ROOT / "banana-smasher", ROOT / "banana-smasher-plugin", ROOT / "docker")
     actual = {
@@ -155,7 +161,7 @@ def test_source_inventory_covers_and_hashes_every_retained_source_file() -> None
         and ".pytest_cache" not in path.parts
     }
     assert paths == actual
-    for entry in entries:
+    for entry in source_entries:
         path = ROOT / entry["path"]
         digest = hashlib.sha256(path.read_bytes()).hexdigest()
         assert digest == entry["output_sha256"]
@@ -167,6 +173,10 @@ def test_source_inventory_covers_and_hashes_every_retained_source_file() -> None
             "docker",
         }
         assert entry["byte_preserved"] == (entry["source_sha256"] == digest)
+    for entry in generated_entries:
+        path = ROOT / entry["path"]
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == entry["output_sha256"]
+        assert entry["provenance"] == "corrective-review-generated"
 
 
 def test_no_campaign_private_or_original_work_license_material_leaks() -> None:
@@ -214,6 +224,8 @@ def test_no_campaign_private_or_original_work_license_material_leaks() -> None:
     assert ("Lic" + "ense ::") not in content
 
     for script in (ROOT / "examples").glob("*"):
+        if not script.is_file():
+            continue
         script_text = script.read_text(errors="ignore")
         assert ("/Use" + "rs/") not in script_text
         assert ("/ho" + "me/") not in script_text

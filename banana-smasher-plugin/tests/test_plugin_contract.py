@@ -9,7 +9,11 @@ import torch
 from safetensors.torch import save_file
 
 from banana_smasher_plugin.contract import PackContractError, load_runtime_contract
-from banana_smasher_plugin.repair import apply_dense_norm_repair, load_output_log_gains
+from banana_smasher_plugin.repair import (
+    apply_dense_norm_repair,
+    apply_runtime_repairs,
+    load_output_log_gains,
+)
 
 
 def _pack(root: Path) -> Path:
@@ -110,3 +114,35 @@ def test_dense_repair_and_output_gains_are_exact(tmp_path: Path) -> None:
     assert torch.equal(module.model.norm.weight, torch.arange(4, dtype=torch.float32))
     gains = load_output_log_gains(contract)
     assert gains == {"model.layers.0.self_attn.o_b_proj": pytest.approx(0.125)}
+
+
+def test_runtime_repairs_apply_rmsnorm_and_output_gain_once(tmp_path: Path) -> None:
+    contract = load_runtime_contract(_pack(tmp_path / "pack"))
+
+    class RMSNorm(torch.nn.Module):
+        def __init__(self) -> None:
+            super().__init__()
+            self.weight = torch.nn.Parameter(torch.ones(4))
+
+        def forward(self, value: torch.Tensor) -> torch.Tensor:
+            return value * self.weight
+
+    module = torch.nn.Module()
+    module.model = torch.nn.Module()
+    module.model.norm = RMSNorm()
+    module.model.layers = torch.nn.ModuleList([torch.nn.Module()])
+    module.model.layers[0].self_attn = torch.nn.Module()
+    module.model.layers[0].self_attn.o_b_proj = torch.nn.Identity()
+
+    first = apply_runtime_repairs(module, contract)
+    second = apply_runtime_repairs(module, contract)
+
+    assert first == {
+        "norms": ("model.norm.weight",),
+        "output_log_gains": ("model.layers.0.self_attn.o_b_proj",),
+    }
+    assert second == first
+    assert torch.equal(module.model.norm.weight, torch.arange(4, dtype=torch.float32))
+    output = module.model.layers[0].self_attn.o_b_proj(torch.ones(4))
+    expected = torch.ones(4) * torch.exp(torch.tensor(0.125))
+    assert torch.allclose(output, expected)

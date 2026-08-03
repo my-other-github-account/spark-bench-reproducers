@@ -2,6 +2,150 @@
   "files": [
     {
       "byte_preserved": true,
+      "bytes": 593,
+      "output_sha256": "2a522a7dc16d41a828f45f8443de6b5d8340ff0d0bfefc2eecbe50b92ef64c23",
+      "path": "banana-smasher-plugin/pyproject.toml",
+      "source_path": "banana-smasher-plugin/pyproject.toml",
+      "source_sha256": "2a522a7dc16d41a828f45f8443de6b5d8340ff0d0bfefc2eecbe50b92ef64c23"
+    },
+    {
+      "byte_preserved": false,
+      "bytes": 17825,
+      "output_sha256": "a1d3cc2cde210386c8c8138e49c832f1d9ef599989244e1a0f7454f0759583eb",
+      "path": "banana-smasher-plugin/src/banana_smasher_plugin/__init__.py",
+      "source_path": "banana-smasher-plugin/src/banana_smasher_plugin/__init__.py",
+      "source_sha256": "eef0c730a4ab25ef9e62862ce38a3f0380f997081a4f720e75b4e1b7466555e9"
+    },
+    {
+      "byte_preserved": true,
+      "bytes": 2832,
+      "output_sha256": "3a59ef5d5d21036a4904f6b60089f4f014fc7832007b0f42cb1773a667dd7f53",
+      "path": "banana-smasher-plugin/src/banana_smasher_plugin/contract.py",
+      "source_path": "banana-smasher-plugin/src/banana_smasher_plugin/contract.py",
+      "source_sha256": "3a59ef5d5d21036a4904f6b60089f4f014fc7832007b0f42cb1773a667dd7f53"
+    },
+    {
+      "byte_preserved": true,
+      "bytes": 28965,
+      "output_sha256": "50afaaf875282b483701141474cf11df02888c9f4ae8540bc2e81d1f5aaef0cb",
+      "path": "banana-smasher-plugin/src/banana_smasher_plugin/native_planes.py",
+      "source_path": "banana-smasher-plugin/src/banana_smasher_plugin/native_planes.py",
+      "source_sha256": "50afaaf875282b483701141474cf11df02888c9f4ae8540bc2e81d1f5aaef0cb"
+    },
+    {
+      "byte_preserved": false,
+      "bytes": 30043,
+      "output_sha256": "c041314bd62f058d239469cd8cd43b85b38d1320341dcf8a40e0c217b6ad9fc6",
+      "path": "banana-smasher-plugin/src/banana_smasher_plugin/p1016_kernels.py",
+      "source_path": "banana-smasher-plugin/src/banana_smasher_plugin/p1016_kernels.py",
+      "source_sha256": "74395899099737c8c0e8b5ca6d0b4eea99e6f802c2dde683934b1d01c0dd4c3a"
+    },
+    {
+      "byte_preserved": true,
+      "bytes": 4224,
+      "output_sha256": "ae499158dab839d08c29de0b4dde4a6b303e781dc24e62e4b33ac50309bc5147",
+      "path": "banana-smasher-plugin/src/banana_smasher_plugin/qtip_tlut.npy",
+      "source_path": "banana-smasher-plugin/src/banana_smasher_plugin/qtip_tlut.npy",
+      "source_sha256": "ae499158dab839d08c29de0b4dde4a6b303e781dc24e62e4b33ac50309bc5147"
+    },
+    {
+      "byte_preserved": false,
+      "bytes": 18059,
+      "output_sha256": "6a820e1da436dacb41c8dcf7c8c192e7c6c83e86dfcaf46f45ed7f0d432c796c",
+      "path": "banana-smasher-plugin/src/banana_smasher_plugin/quantization.py",
+      "source_path": "banana-smasher-plugin/src/banana_smasher_plugin/quantization.py",
+      "source_sha256": "faf06e9ae377ae55ce0ea6bf2a40388c1d8c1e5462944e624bb0610d8e183908"
+    },
+    {
+      "byte_preserved": false,
+      "bytes": 2814,
+      "output_sha256": "b35f78f3b0847aa199c84579db807ba1561c47045a78421b20e4d2a07e29acc4",
+      "path": "banana-smasher-plugin/src/banana_smasher_plugin/repair.py",
+      "source_path": "banana-smasher-plugin/src/banana_smasher_plugin/repair.py",
+      "source_sha256": "0de9656619f991ef8e12ef787a6232ce9993c34ae8d372388a191a5f91e27b90"
+    },
+    {
+      "byte_preserved": false,
+      "bytes": 1787,
+      "output_sha256": "a5d4d6adb174e9f0f0fcbe012f0c93f58c225b8f58d5429f0ed7c36b668098f2",
+      "path": "banana-smasher-plugin/tests/test_cutedsl_compat.py",
+      "source_path": "banana-smasher-plugin/tests/test_cutedsl_compat.py",
+      "source_sha256": "f94622073364f0f25d7efde0ded58a7afcba817c7e0d9e9c9c99757970da01df"
+    },
+    {
+      "byte_preserved": true,
+      "bytes": 3273,
+      "output_sha256": "344b67f2c2bc331c97aefa187ef49c059c35b160bbd842fc1cbc6048308f6637",
+      "path": "banana-smasher-plugin/tests/test_deep_gemm_dense_capability.py",
+      "source_path": "banana-smasher-plugin/tests/test_deep_gemm_dense_capability.py",
+      "source_sha256": "344b67f2c2bc331c97aefa187ef49c059c35b160bbd842fc1cbc6048308f6637"
+    },
+    {
+      "byte_preserved": true,
+      "bytes": 11696,
+      "output_sha256": "5cfdb0e39d3375c9f71f3098d302041fb7bd8f3a662a7f4441f3104743946842",
+      "path": "banana-smasher-plugin/tests/test_dsv4_attention_backend.py",
+      "source_path": "banana-smasher-plugin/tests/test_dsv4_attention_backend.py",
+      "source_sha256": "5cfdb0e39d3375c9f71f3098d302041fb7bd8f3a662a7f4441f3104743946842"
+    },
+    {
+      "byte_preserved": true,
+      "bytes": 7972,
+      "output_sha256": "42e4e3cb9504a6235cd95d9b7c7e4e41c3d0f72b9c8af350f24d85444817af7e",
+      "path": "banana-smasher-plugin/tests/test_flashinfer_sparse_decode_compat.py",
+      "source_path": "banana-smasher-plugin/tests/test_flashinfer_sparse_decode_compat.py",
+      "source_sha256": "42e4e3cb9504a6235cd95d9b7c7e4e41c3d0f72b9c8af350f24d85444817af7e"
+    },
+    {
+      "byte_preserved": false,
+      "bytes": 17640,
+      "output_sha256": "ca991364783bc91fa37a4c293d58579060aa356292da08b4952b66c0ccfdb171",
+      "path": "banana-smasher-plugin/tests/test_mhc_backend.py",
+      "source_path": "banana-smasher-plugin/tests/test_mhc_backend.py",
+      "source_sha256": "23f23b68101b4f16715eab2f6b78eed6413ff6e57d8cdb8e817480fdee32634c"
+    },
+    {
+      "byte_preserved": false,
+      "bytes": 37017,
+      "output_sha256": "31e60f0b4f3cd5b902fe79eaa2a4d15f8b3455bf4a5f025f9213276b2784da3d",
+      "path": "banana-smasher-plugin/tests/test_native_plane_runtime.py",
+      "source_path": "banana-smasher-plugin/tests/test_native_plane_runtime.py",
+      "source_sha256": "1f0e7ea212516b40f4c44c38b811c912e04b730ea94e267e7383731bac876183"
+    },
+    {
+      "byte_preserved": false,
+      "bytes": 5359,
+      "output_sha256": "01be3c13673a98e70a9f6e2dedbf616685a3cc1dd0604e989689554f19050fdf",
+      "path": "banana-smasher-plugin/tests/test_plugin_contract.py",
+      "source_path": "banana-smasher-plugin/tests/test_plugin_contract.py",
+      "source_sha256": "d39c191f1438057595fd085e43e22d1b18350f98f5c41dbdec89c8c6b3fa6f83"
+    },
+    {
+      "byte_preserved": true,
+      "bytes": 3432,
+      "output_sha256": "6e6df55d19d4726bdcc0f2c0a5cc15069c92f6b2d4dd9ba5df8e43851b131e1c",
+      "path": "banana-smasher-plugin/tests/test_sm121_deep_gemm_fast_paths.py",
+      "source_path": "banana-smasher-plugin/tests/test_sm121_deep_gemm_fast_paths.py",
+      "source_sha256": "6e6df55d19d4726bdcc0f2c0a5cc15069c92f6b2d4dd9ba5df8e43851b131e1c"
+    },
+    {
+      "byte_preserved": true,
+      "bytes": 4452,
+      "output_sha256": "95757180f2a2048acf657fddac4af5d8a38d9a9f26fd8eecb319018d6dea1451",
+      "path": "banana-smasher-plugin/tests/test_sparse_indexer_topk_backend.py",
+      "source_path": "banana-smasher-plugin/tests/test_sparse_indexer_topk_backend.py",
+      "source_sha256": "95757180f2a2048acf657fddac4af5d8a38d9a9f26fd8eecb319018d6dea1451"
+    },
+    {
+      "byte_preserved": true,
+      "bytes": 2761,
+      "output_sha256": "49434ec6ef468592c07438de912f5f7799eeb88daa12702e8d272034e8b82656",
+      "path": "banana-smasher-plugin/tests/test_v4_fast_path_contract.py",
+      "source_path": "banana-smasher-plugin/tests/test_v4_fast_path_contract.py",
+      "source_sha256": "49434ec6ef468592c07438de912f5f7799eeb88daa12702e8d272034e8b82656"
+    },
+    {
+      "byte_preserved": true,
       "bytes": 15116,
       "output_sha256": "8b25fb57f3bb405c80084f35a93c28c2e67555ca328bb298f6156b472a3ceb70",
       "path": "banana-smasher/BANANA_PACK_SPEC.md",
@@ -442,438 +586,6 @@
     },
     {
       "byte_preserved": true,
-      "bytes": 4296,
-      "output_sha256": "dc5c12f32964cd91bed5709b2f04fc312ba8b5e2794fc1a794e7e59eecdf7308",
-      "path": "banana-smasher/tools/seal_release.py",
-      "source_path": "banana-smasher/tools/seal_release.py",
-      "source_sha256": "dc5c12f32964cd91bed5709b2f04fc312ba8b5e2794fc1a794e7e59eecdf7308"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/085e5a49c2b6da4f96f9ccb8d12519ddaaa0f82a5fd0d67e05e238c3432db3e8/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/085e5a49c2b6da4f96f9ccb8d12519ddaaa0f82a5fd0d67e05e238c3432db3e8/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/0af24237d28b539371d322acb8997755fa17cdd3af230f1131279ad5071ca43d/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/0af24237d28b539371d322acb8997755fa17cdd3af230f1131279ad5071ca43d/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c921b67f244a8240706dfca40dff152201880f6bc87f03f41e1c4ad21b9efcd1",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/0f42d2e04f2ebb2f1f79cf54593a7f33fe14f30e6631c4624ebba546f8643840/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/0f42d2e04f2ebb2f1f79cf54593a7f33fe14f30e6631c4624ebba546f8643840/autotune_configs.json",
-      "source_sha256": "c921b67f244a8240706dfca40dff152201880f6bc87f03f41e1c4ad21b9efcd1"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/145d88f9f1c2aeafb931e5454acd0030e318c02aab6eae75fda6b69bba55b4c6/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/145d88f9f1c2aeafb931e5454acd0030e318c02aab6eae75fda6b69bba55b4c6/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4683,
-      "output_sha256": "47aff426b0eda74d3922fa027b5d8b3ea547d7a1ddda39d6d81ff967d353fa46",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/30bf96a9bebd7b7554f8cc32c73973efe91d7ff2bd321941aa5c4092b64a44b4/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/30bf96a9bebd7b7554f8cc32c73973efe91d7ff2bd321941aa5c4092b64a44b4/autotune_configs.json",
-      "source_sha256": "47aff426b0eda74d3922fa027b5d8b3ea547d7a1ddda39d6d81ff967d353fa46"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/319ae924887a56f4ce857ef2dc6212b9f738b51bad8326c48e0bfd2e2e8940e5/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/319ae924887a56f4ce857ef2dc6212b9f738b51bad8326c48e0bfd2e2e8940e5/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4682,
-      "output_sha256": "f05a85b3dbb34471a005e478d335d85279ad1d9e010ee5b4ea573ee65c9e4569",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/35df21a068b911317b78b46c6af4562612a3d06c60dc2b881be1d6c1955215b8/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/35df21a068b911317b78b46c6af4562612a3d06c60dc2b881be1d6c1955215b8/autotune_configs.json",
-      "source_sha256": "f05a85b3dbb34471a005e478d335d85279ad1d9e010ee5b4ea573ee65c9e4569"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "4aaf38051c5c2c405f47dd6c4dc161dd700daf83c62293490a2905889e13bd4f",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/36ac803258ea28c155c2c18f329c608c6c2e706d8c054248b99ac89d3f8727ec/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/36ac803258ea28c155c2c18f329c608c6c2e706d8c054248b99ac89d3f8727ec/autotune_configs.json",
-      "source_sha256": "4aaf38051c5c2c405f47dd6c4dc161dd700daf83c62293490a2905889e13bd4f"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/3a8aedac158c9a88e29eabf08e6d380cdab40f51529e6ec9209767aff3e52bf2/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/3a8aedac158c9a88e29eabf08e6d380cdab40f51529e6ec9209767aff3e52bf2/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/4dd23b285a75dd2a8a6396e4064fc0ad0b98b60d973efdbca54811b5ed60ae30/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/4dd23b285a75dd2a8a6396e4064fc0ad0b98b60d973efdbca54811b5ed60ae30/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/5028ca158fafffd826ea4715487f579fc270f65191084b0075c0ff0607b9a8aa/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/5028ca158fafffd826ea4715487f579fc270f65191084b0075c0ff0607b9a8aa/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/51a795d4418d7767ffad826578737298569f264badf668e35a732d2797071db3/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/51a795d4418d7767ffad826578737298569f264badf668e35a732d2797071db3/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 6138,
-      "output_sha256": "a2a4a9fefcd6f928384a5ab177c13152d422a827bc6f5f69430f54c6dd514854",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/5597f3a58dd2ec2cac6db941dc4dcee2bbef787de965f35439f6b97480c25026/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/5597f3a58dd2ec2cac6db941dc4dcee2bbef787de965f35439f6b97480c25026/autotune_configs.json",
-      "source_sha256": "a2a4a9fefcd6f928384a5ab177c13152d422a827bc6f5f69430f54c6dd514854"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/5fd01e60908c7e3105912f7e619057cd3f061fca07a61394c55792c90294413c/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/5fd01e60908c7e3105912f7e619057cd3f061fca07a61394c55792c90294413c/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4653,
-      "output_sha256": "b7f2436926e44d369ed33ee50d85db504c2fed617130105dfe89321d45693fe2",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/6024efa17f001c13aed9d432af238bf8139f67b4e5a18d4071963d3d2332c331/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/6024efa17f001c13aed9d432af238bf8139f67b4e5a18d4071963d3d2332c331/autotune_configs.json",
-      "source_sha256": "b7f2436926e44d369ed33ee50d85db504c2fed617130105dfe89321d45693fe2"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4683,
-      "output_sha256": "1960562588217f922aa7a1fc91ebd9d505b16f45c8f63e1d9a11240e450c80a4",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/62ab171c9057a2067b3417eb2867389270a8ce2313af584516c7e6087fd6b7db/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/62ab171c9057a2067b3417eb2867389270a8ce2313af584516c7e6087fd6b7db/autotune_configs.json",
-      "source_sha256": "1960562588217f922aa7a1fc91ebd9d505b16f45c8f63e1d9a11240e450c80a4"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/67759ad82857464020049b1d301b4b261bb8b3367d015dc934160cedfc395469/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/67759ad82857464020049b1d301b4b261bb8b3367d015dc934160cedfc395469/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "b454281806543991cb1aedc10d770765643493545bf04f7ac602503b068991d7",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/7838c7199f8632b739f51be82cdcc8c7a16b7b1e954cc6360d4d5db6dd0a9b84/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/7838c7199f8632b739f51be82cdcc8c7a16b7b1e954cc6360d4d5db6dd0a9b84/autotune_configs.json",
-      "source_sha256": "b454281806543991cb1aedc10d770765643493545bf04f7ac602503b068991d7"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "bb641af14260f89a53bc8988138d85bacbb7fdf180e797aac19aac8955157554",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/7c7a5fc88054677f99c644e95535688709ba53ce2c473a5cdc54056dc047551c/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/7c7a5fc88054677f99c644e95535688709ba53ce2c473a5cdc54056dc047551c/autotune_configs.json",
-      "source_sha256": "bb641af14260f89a53bc8988138d85bacbb7fdf180e797aac19aac8955157554"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/7e2fb0d356ac970b7b89016b58f11e4881b2ad6dd20b75e8316d67c8a1780c58/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/7e2fb0d356ac970b7b89016b58f11e4881b2ad6dd20b75e8316d67c8a1780c58/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/87590b40c1e14df59ee2c21ead8d62ef6ea407bd51ed8c1b68c6437b250842fc/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/87590b40c1e14df59ee2c21ead8d62ef6ea407bd51ed8c1b68c6437b250842fc/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "1a9f1594c421f248b576cca62683fa0ab349805a46bf9ede51dc6ad11098caee",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/8fd52cd5918d4f6e5b294dd0d20ede2377dadfbf9526597ba8595b682249e9ee/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/8fd52cd5918d4f6e5b294dd0d20ede2377dadfbf9526597ba8595b682249e9ee/autotune_configs.json",
-      "source_sha256": "1a9f1594c421f248b576cca62683fa0ab349805a46bf9ede51dc6ad11098caee"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4683,
-      "output_sha256": "1bb61d0ae261aea9743053e6adef84095fde3147562ed029f9f4217fb2fc6873",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/92b792d9b61c99bb5b763c2fd05c6b0acec90a5e6c225f757ffca80c2edf98c6/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/92b792d9b61c99bb5b763c2fd05c6b0acec90a5e6c225f757ffca80c2edf98c6/autotune_configs.json",
-      "source_sha256": "1bb61d0ae261aea9743053e6adef84095fde3147562ed029f9f4217fb2fc6873"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/9795db2f8d235e35cd36066743bd4aaeb6ce5e1e7484031b664b26c0c86087fb/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/9795db2f8d235e35cd36066743bd4aaeb6ce5e1e7484031b664b26c0c86087fb/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/a7e2f0c95e370180026b43d0437828d840bdd8a0d8155666393a107918ca3051/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/a7e2f0c95e370180026b43d0437828d840bdd8a0d8155666393a107918ca3051/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/adecfc204e3eecb71874bf7a585c7984625c10104d0e2b868027ed7a18151505/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/adecfc204e3eecb71874bf7a585c7984625c10104d0e2b868027ed7a18151505/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/b0edc62c9f291e8c22de2d349559651c139f70e6040747f32a64e006cb0a7175/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/b0edc62c9f291e8c22de2d349559651c139f70e6040747f32a64e006cb0a7175/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/bcc9447ae77a4df06e73dfd7373c587f463f0b711e12fcdb0f9f9972cd45ea0b/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/bcc9447ae77a4df06e73dfd7373c587f463f0b711e12fcdb0f9f9972cd45ea0b/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/c0e9941f02b83a58f0d4cb2db4b884137952bedd534eda575117f1449cf188d3/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/c0e9941f02b83a58f0d4cb2db4b884137952bedd534eda575117f1449cf188d3/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4683,
-      "output_sha256": "5225b39d0dd6cd652e0919a8815e9206f846a965cf7625058e2cb4e7e8bf5a45",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/c17ebbe8b5aebac2da8a024668806d42b49a418a582fa310afdd4269b7720f01/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/c17ebbe8b5aebac2da8a024668806d42b49a418a582fa310afdd4269b7720f01/autotune_configs.json",
-      "source_sha256": "5225b39d0dd6cd652e0919a8815e9206f846a965cf7625058e2cb4e7e8bf5a45"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4683,
-      "output_sha256": "de532086b129945272361baf2b87194d13e6839cb3cf05aa7f15075aa4ca2058",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/da5c2be19cb7b20ae14c2b6b4b0202eb12ba953a1061ec6787df50134df0ac40/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/da5c2be19cb7b20ae14c2b6b4b0202eb12ba953a1061ec6787df50134df0ac40/autotune_configs.json",
-      "source_sha256": "de532086b129945272361baf2b87194d13e6839cb3cf05aa7f15075aa4ca2058"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/daf0dedb9834223b48906ec2beae5f781e7b49aed53b661ebdf60ab1d8e7fc0c/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/daf0dedb9834223b48906ec2beae5f781e7b49aed53b661ebdf60ab1d8e7fc0c/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/e528088bf2df5515939855f340585a9c4906ca2444c8fa1db8342d53f9582925/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/e528088bf2df5515939855f340585a9c4906ca2444c8fa1db8342d53f9582925/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/ea894f3915f2d213be21208779b2766f533309536b68af637b34de77c2b9a679/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/ea894f3915f2d213be21208779b2766f533309536b68af637b34de77c2b9a679/autotune_configs.json",
-      "source_sha256": "c8ca161231fe50b9cb6f10269e0875bda98ba8a678de5720629fde0de224a296"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4654,
-      "output_sha256": "286aa3881efc810729df84936d0102a5a98eec419f8985e98d341393c693ddc8",
-      "path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/f99305f1600e2445761e84c06ca10099e54d3618084027243ce9df09fd40c813/autotune_configs.json",
-      "source_path": "banana-smasher/vendor/flashinfer-autotune/0.6.14/121a/f99305f1600e2445761e84c06ca10099e54d3618084027243ce9df09fd40c813/autotune_configs.json",
-      "source_sha256": "286aa3881efc810729df84936d0102a5a98eec419f8985e98d341393c693ddc8"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 593,
-      "output_sha256": "2a522a7dc16d41a828f45f8443de6b5d8340ff0d0bfefc2eecbe50b92ef64c23",
-      "path": "banana-smasher-plugin/pyproject.toml",
-      "source_path": "banana-smasher-plugin/pyproject.toml",
-      "source_sha256": "2a522a7dc16d41a828f45f8443de6b5d8340ff0d0bfefc2eecbe50b92ef64c23"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 17780,
-      "output_sha256": "eef0c730a4ab25ef9e62862ce38a3f0380f997081a4f720e75b4e1b7466555e9",
-      "path": "banana-smasher-plugin/src/banana_smasher_plugin/__init__.py",
-      "source_path": "banana-smasher-plugin/src/banana_smasher_plugin/__init__.py",
-      "source_sha256": "eef0c730a4ab25ef9e62862ce38a3f0380f997081a4f720e75b4e1b7466555e9"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 2832,
-      "output_sha256": "3a59ef5d5d21036a4904f6b60089f4f014fc7832007b0f42cb1773a667dd7f53",
-      "path": "banana-smasher-plugin/src/banana_smasher_plugin/contract.py",
-      "source_path": "banana-smasher-plugin/src/banana_smasher_plugin/contract.py",
-      "source_sha256": "3a59ef5d5d21036a4904f6b60089f4f014fc7832007b0f42cb1773a667dd7f53"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 28965,
-      "output_sha256": "50afaaf875282b483701141474cf11df02888c9f4ae8540bc2e81d1f5aaef0cb",
-      "path": "banana-smasher-plugin/src/banana_smasher_plugin/native_planes.py",
-      "source_path": "banana-smasher-plugin/src/banana_smasher_plugin/native_planes.py",
-      "source_sha256": "50afaaf875282b483701141474cf11df02888c9f4ae8540bc2e81d1f5aaef0cb"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 27429,
-      "output_sha256": "74395899099737c8c0e8b5ca6d0b4eea99e6f802c2dde683934b1d01c0dd4c3a",
-      "path": "banana-smasher-plugin/src/banana_smasher_plugin/p1016_kernels.py",
-      "source_path": "banana-smasher-plugin/src/banana_smasher_plugin/p1016_kernels.py",
-      "source_sha256": "74395899099737c8c0e8b5ca6d0b4eea99e6f802c2dde683934b1d01c0dd4c3a"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4224,
-      "output_sha256": "ae499158dab839d08c29de0b4dde4a6b303e781dc24e62e4b33ac50309bc5147",
-      "path": "banana-smasher-plugin/src/banana_smasher_plugin/qtip_tlut.npy",
-      "source_path": "banana-smasher-plugin/src/banana_smasher_plugin/qtip_tlut.npy",
-      "source_sha256": "ae499158dab839d08c29de0b4dde4a6b303e781dc24e62e4b33ac50309bc5147"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 17315,
-      "output_sha256": "faf06e9ae377ae55ce0ea6bf2a40388c1d8c1e5462944e624bb0610d8e183908",
-      "path": "banana-smasher-plugin/src/banana_smasher_plugin/quantization.py",
-      "source_path": "banana-smasher-plugin/src/banana_smasher_plugin/quantization.py",
-      "source_sha256": "faf06e9ae377ae55ce0ea6bf2a40388c1d8c1e5462944e624bb0610d8e183908"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 1165,
-      "output_sha256": "0de9656619f991ef8e12ef787a6232ce9993c34ae8d372388a191a5f91e27b90",
-      "path": "banana-smasher-plugin/src/banana_smasher_plugin/repair.py",
-      "source_path": "banana-smasher-plugin/src/banana_smasher_plugin/repair.py",
-      "source_sha256": "0de9656619f991ef8e12ef787a6232ce9993c34ae8d372388a191a5f91e27b90"
-    },
-    {
-      "byte_preserved": false,
-      "bytes": 1787,
-      "output_sha256": "a5d4d6adb174e9f0f0fcbe012f0c93f58c225b8f58d5429f0ed7c36b668098f2",
-      "path": "banana-smasher-plugin/tests/test_cutedsl_compat.py",
-      "source_path": "banana-smasher-plugin/tests/test_cutedsl_compat.py",
-      "source_sha256": "f94622073364f0f25d7efde0ded58a7afcba817c7e0d9e9c9c99757970da01df"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 3273,
-      "output_sha256": "344b67f2c2bc331c97aefa187ef49c059c35b160bbd842fc1cbc6048308f6637",
-      "path": "banana-smasher-plugin/tests/test_deep_gemm_dense_capability.py",
-      "source_path": "banana-smasher-plugin/tests/test_deep_gemm_dense_capability.py",
-      "source_sha256": "344b67f2c2bc331c97aefa187ef49c059c35b160bbd842fc1cbc6048308f6637"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 11696,
-      "output_sha256": "5cfdb0e39d3375c9f71f3098d302041fb7bd8f3a662a7f4441f3104743946842",
-      "path": "banana-smasher-plugin/tests/test_dsv4_attention_backend.py",
-      "source_path": "banana-smasher-plugin/tests/test_dsv4_attention_backend.py",
-      "source_sha256": "5cfdb0e39d3375c9f71f3098d302041fb7bd8f3a662a7f4441f3104743946842"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 7972,
-      "output_sha256": "42e4e3cb9504a6235cd95d9b7c7e4e41c3d0f72b9c8af350f24d85444817af7e",
-      "path": "banana-smasher-plugin/tests/test_flashinfer_sparse_decode_compat.py",
-      "source_path": "banana-smasher-plugin/tests/test_flashinfer_sparse_decode_compat.py",
-      "source_sha256": "42e4e3cb9504a6235cd95d9b7c7e4e41c3d0f72b9c8af350f24d85444817af7e"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 16727,
-      "output_sha256": "23f23b68101b4f16715eab2f6b78eed6413ff6e57d8cdb8e817480fdee32634c",
-      "path": "banana-smasher-plugin/tests/test_mhc_backend.py",
-      "source_path": "banana-smasher-plugin/tests/test_mhc_backend.py",
-      "source_sha256": "23f23b68101b4f16715eab2f6b78eed6413ff6e57d8cdb8e817480fdee32634c"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 35781,
-      "output_sha256": "1f0e7ea212516b40f4c44c38b811c912e04b730ea94e267e7383731bac876183",
-      "path": "banana-smasher-plugin/tests/test_native_plane_runtime.py",
-      "source_path": "banana-smasher-plugin/tests/test_native_plane_runtime.py",
-      "source_sha256": "1f0e7ea212516b40f4c44c38b811c912e04b730ea94e267e7383731bac876183"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4072,
-      "output_sha256": "d39c191f1438057595fd085e43e22d1b18350f98f5c41dbdec89c8c6b3fa6f83",
-      "path": "banana-smasher-plugin/tests/test_plugin_contract.py",
-      "source_path": "banana-smasher-plugin/tests/test_plugin_contract.py",
-      "source_sha256": "d39c191f1438057595fd085e43e22d1b18350f98f5c41dbdec89c8c6b3fa6f83"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 3432,
-      "output_sha256": "6e6df55d19d4726bdcc0f2c0a5cc15069c92f6b2d4dd9ba5df8e43851b131e1c",
-      "path": "banana-smasher-plugin/tests/test_sm121_deep_gemm_fast_paths.py",
-      "source_path": "banana-smasher-plugin/tests/test_sm121_deep_gemm_fast_paths.py",
-      "source_sha256": "6e6df55d19d4726bdcc0f2c0a5cc15069c92f6b2d4dd9ba5df8e43851b131e1c"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 4452,
-      "output_sha256": "95757180f2a2048acf657fddac4af5d8a38d9a9f26fd8eecb319018d6dea1451",
-      "path": "banana-smasher-plugin/tests/test_sparse_indexer_topk_backend.py",
-      "source_path": "banana-smasher-plugin/tests/test_sparse_indexer_topk_backend.py",
-      "source_sha256": "95757180f2a2048acf657fddac4af5d8a38d9a9f26fd8eecb319018d6dea1451"
-    },
-    {
-      "byte_preserved": true,
-      "bytes": 2761,
-      "output_sha256": "49434ec6ef468592c07438de912f5f7799eeb88daa12702e8d272034e8b82656",
-      "path": "banana-smasher-plugin/tests/test_v4_fast_path_contract.py",
-      "source_path": "banana-smasher-plugin/tests/test_v4_fast_path_contract.py",
-      "source_sha256": "49434ec6ef468592c07438de912f5f7799eeb88daa12702e8d272034e8b82656"
-    },
-    {
-      "byte_preserved": true,
       "bytes": 49,
       "output_sha256": "ee5d106c9eb090e0a2b4b314e6cceb32f4537d475d3aa22c1a0b6a42e2b408c5",
       "path": "docker/.dockerignore",
@@ -881,9 +593,9 @@
       "source_sha256": "ee5d106c9eb090e0a2b4b314e6cceb32f4537d475d3aa22c1a0b6a42e2b408c5"
     },
     {
-      "byte_preserved": true,
-      "bytes": 10888,
-      "output_sha256": "a094b4f3347c09066b519a7cc58d7e5ca02fff1d2a3acdb06dcd8ee4a6be9d1d",
+      "byte_preserved": false,
+      "bytes": 13118,
+      "output_sha256": "e0dd2918e5782400f42c7398dfd0898d83bd0a5c74e4e151d6fc5114af5ac138",
       "path": "docker/Dockerfile",
       "source_path": "docker/Dockerfile",
       "source_sha256": "a094b4f3347c09066b519a7cc58d7e5ca02fff1d2a3acdb06dcd8ee4a6be9d1d"
@@ -897,36 +609,50 @@
       "source_sha256": "0e96396eea6b4c5caad9f44a78888332ca5f8d3cbc479f7263cd05694f7e9451"
     },
     {
-      "byte_preserved": true,
-      "bytes": 758,
-      "output_sha256": "ccad362ca5758de66427665c8f01f7d0ac66fb3edfc2031f6ebdd0b071163613",
+      "byte_preserved": false,
+      "bytes": 1133,
+      "output_sha256": "7cab009574c774de215ee4dd0b1f1f407d918fde55092c135bf5a47ceff88ae9",
       "path": "docker/runtime_defaults.json",
       "source_path": "docker/runtime_defaults.json",
       "source_sha256": "ccad362ca5758de66427665c8f01f7d0ac66fb3edfc2031f6ebdd0b071163613"
     },
     {
-      "byte_preserved": true,
-      "bytes": 2126,
-      "output_sha256": "3d8de2a618c95a9e813762129043b4a53a539401bed021c1b45999678c8f4ca2",
+      "byte_preserved": false,
+      "bytes": 9915,
+      "output_sha256": "5839bb466fdc3dc20e24f46c6aa00859c0258fad36037edcfaf1582b0aa420bf",
       "path": "docker/scripts/verify_public_image.py",
       "source_path": "docker/scripts/verify_public_image.py",
       "source_sha256": "3d8de2a618c95a9e813762129043b4a53a539401bed021c1b45999678c8f4ca2"
     },
     {
-      "byte_preserved": true,
-      "bytes": 1729,
-      "output_sha256": "b6ce9faf6b178ac969eb80430a523ac2fdb22b2b3621eb468a0320f8d67f8356",
+      "byte_preserved": false,
+      "bytes": 2197,
+      "output_sha256": "360ddce36a887a68af9949557e4f36a356075271cad88bac59a2333b7ba75e79",
       "path": "docker/scripts/write_package_receipt.py",
       "source_path": "docker/scripts/write_package_receipt.py",
       "source_sha256": "b6ce9faf6b178ac969eb80430a523ac2fdb22b2b3621eb468a0320f8d67f8356"
     },
     {
       "byte_preserved": false,
-      "bytes": 4600,
-      "output_sha256": "ca4563cf3dcfc712f29127ead3b11c5af1487dea6c30a8c42a41af62874243d4",
+      "bytes": 5894,
+      "output_sha256": "865e0acb175d6138b3ebb421cf4be8856048575c0031f98b33235aff36c26848",
       "path": "docker/tests/test_public_source_dockerfile.py",
       "source_path": "docker/tests/test_public_source_dockerfile.py",
       "source_sha256": "3c2c569c699c264b2438a6d1ffc71f081f3100b5abcdd84758fb734b456b1a07"
+    }
+  ],
+  "generated_files": [
+    {
+      "bytes": 5053,
+      "output_sha256": "7e02ea798699092958ba49eff9e60cbc3b0c61341f2d1e734894d4955b71896c",
+      "path": "docker/scripts/validate_flashinfer_cache.py",
+      "provenance": "corrective-review-generated"
+    },
+    {
+      "bytes": 3265,
+      "output_sha256": "2064ec236229f1d7a67abdaeab090eb88549a09cbd60e26928000cc069ebdbaf",
+      "path": "docker/tests/test_exact_asset_admission.py",
+      "provenance": "corrective-review-generated"
     }
   ],
   "schema": "banana-smasher-source-inventory-v1",
