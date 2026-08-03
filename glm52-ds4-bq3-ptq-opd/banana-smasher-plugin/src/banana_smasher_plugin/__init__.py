@@ -134,13 +134,7 @@ def _fused_inv_rope_fp8_quant(*args, **kwargs):
 
 
 def configure_stock_deepseek_v4_o_proj() -> bool:
-    """Install the public SM12x DeepGEMM E8M0 grouped O-projection layout.
-
-    The fused activation quantizer emits one scale row per token on SM10+.
-    Keep the stock SM10+ TMA-aligned ``gran_mn=1`` recipe on SM12x; using the
-    older SM90 ``gran_mn=128`` recipe only works accidentally for one token and
-    fails during multi-token profile runs.
-    """
+    """Require vLLM's stock SM100+ packed-scale DeepGEMM O-projection."""
     from vllm.platforms import current_platform
 
     capability = current_platform.get_device_capability()
@@ -148,91 +142,18 @@ def configure_stock_deepseek_v4_o_proj() -> bool:
         return False
 
     module = importlib.import_module("vllm.models.deepseek_v4.nvidia.ops.o_proj")
-    original_recipe = module.compute_fp8_einsum_recipe
-    if getattr(original_recipe, "_banana_smasher_sm12x_deep_gemm", False):
-        return True
-
-    @functools.wraps(original_recipe)
-    def sm12x_fp8_einsum_recipe():
-        current = current_platform.get_device_capability()
-        if current is not None and current.major == 12:
-            return (1, 1, 128), True
-        return original_recipe()
-
-    sm12x_fp8_einsum_recipe._banana_smasher_sm12x_deep_gemm = True  # type: ignore[attr-defined]
-    setattr(module, "compute_fp8_einsum_recipe", sm12x_fp8_einsum_recipe)
-
-    fp8_utils = importlib.import_module(
-        "vllm.model_executor.layers.quantization.utils.fp8_utils"
-    )
-    original_postprocess = fp8_utils.deepgemm_post_process_fp8_weight_block
-
-    @functools.wraps(original_postprocess)
-    def sm12x_fp8_weight_postprocess(
-        wq,
-        ws,
-        quant_block_shape,
-        use_e8m0,
-        is_bmm=False,
-        bmm_batch_size=0,
-    ):
-        current = current_platform.get_device_capability()
-        if current is None or current.major != 12 or not is_bmm:
-            return original_postprocess(
-                wq,
-                ws,
-                quant_block_shape,
-                use_e8m0,
-                is_bmm=is_bmm,
-                bmm_batch_size=bmm_batch_size,
-            )
-        if ws.dtype in (torch.float8_e8m0fnu, torch.uint8):
-            ws = fp8_utils._upcast_e8m0_to_fp32(ws)
-        else:
-            if ws.dtype != torch.float32:
-                raise RuntimeError(f"unsupported FP8 block-scale dtype: {ws.dtype}")
-            if use_e8m0:
-                fp8_utils.requant_weight_ue8m0_inplace(
-                    wq, ws, block_size=quant_block_shape
-                )
-        groups = int(bmm_batch_size)
-        if groups <= 0 or wq.ndim != 2 or ws.ndim != 2:
-            raise RuntimeError(
-                "SM12x DeepGEMM grouped O-projection requires flattened 2D "
-                f"weight/scales and positive group count; wq={tuple(wq.shape)} "
-                f"ws={tuple(ws.shape)} groups={groups}"
-            )
-        width = wq.size(1)
-        rows = wq.size(0) // groups
-        wq = wq.view(groups, rows, width)
-        ws = ws.view(
-            groups,
-            rows // quant_block_shape[0],
-            width // quant_block_shape[1],
+    recipe, tma_aligned_scales = module.compute_fp8_einsum_recipe()
+    if recipe != (1, 1, 128) or tma_aligned_scales is not True:
+        raise RuntimeError(
+            "SM12x requires vLLM's stock SM100+ packed-scale DeepGEMM "
+            "O-projection contract: recipe=(1, 1, 128), "
+            f"tma_aligned_scales=True; observed recipe={recipe}, "
+            f"tma_aligned_scales={tma_aligned_scales}"
         )
-        return wq, ws.contiguous()
-
-    sm12x_fp8_weight_postprocess._banana_smasher_sm12x_deep_gemm = True  # type: ignore[attr-defined]
-    setattr(
-        fp8_utils,
-        "deepgemm_post_process_fp8_weight_block",
-        sm12x_fp8_weight_postprocess,
-    )
-    for loaded in tuple(sys.modules.values()):
-        if (
-            loaded is not None
-            and getattr(loaded, "deepgemm_post_process_fp8_weight_block", None)
-            is original_postprocess
-        ):
-            setattr(
-                loaded,
-                "deepgemm_post_process_fp8_weight_block",
-                sm12x_fp8_weight_postprocess,
-            )
     _LOG.warning(
         "BANANA_SMASHER_DSV4_O_PROJ_LAYOUT "
         "compute_capability=%d.%d backend=deep_gemm_e8m0 "
-        "einsum_recipe=1x1x128 tma_aligned_scales=true",
+        "einsum_recipe=1x1x128 tma_aligned_scales=true stock_sm100_plus=true",
         capability.major,
         capability.minor,
     )

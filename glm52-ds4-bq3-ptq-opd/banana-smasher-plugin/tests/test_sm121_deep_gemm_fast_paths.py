@@ -67,7 +67,7 @@ def _install_sm121_layout_modules(monkeypatch: pytest.MonkeyPatch):
     return o_proj, fp8_utils, stock_o_proj, delegated
 
 
-def test_sm121_o_proj_preserves_deepgemm_and_uses_dynamic_token_scale_layout(
+def test_sm121_o_proj_preserves_stock_sm100_scale_layout(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     o_proj, fp8_utils, stock_o_proj, delegated = _install_sm121_layout_modules(
@@ -76,14 +76,11 @@ def test_sm121_o_proj_preserves_deepgemm_and_uses_dynamic_token_scale_layout(
 
     assert banana_smasher_plugin.configure_stock_deepseek_v4_o_proj() is True
     assert o_proj.deep_gemm_fp8_o_proj is stock_o_proj
-    # The activation operand is quantized per token.  A recipe with
-    # gran_mn=128 only happens to work for a single token; profile batches with
-    # more than one token fail DeepGEMM's sf.size(-2) layout assertion.
     assert o_proj.compute_fp8_einsum_recipe() == ((1, 1, 128), True)
 
     wq = torch.zeros((256, 512), dtype=torch.float8_e4m3fn)
     ws = torch.ones((2, 4), dtype=torch.float32)
-    grouped_weight, raw_scales = fp8_utils.deepgemm_post_process_fp8_weight_block(
+    result = fp8_utils.deepgemm_post_process_fp8_weight_block(
         wq,
         ws,
         (128, 128),
@@ -91,18 +88,8 @@ def test_sm121_o_proj_preserves_deepgemm_and_uses_dynamic_token_scale_layout(
         is_bmm=True,
         bmm_batch_size=2,
     )
-    assert grouped_weight.shape == (2, 128, 512)
-    assert raw_scales.shape == (2, 1, 4)
-    assert raw_scales.is_contiguous()
-    assert delegated == []
-
-    assert (
-        fp8_utils.deepgemm_post_process_fp8_weight_block(
-            wq, ws, (128, 128), False, is_bmm=False
-        )
-        == "stock"
-    )
-    assert len(delegated) == 1
+    assert result == "stock"
+    assert delegated == [(wq, ws, (128, 128), False, True, 2)]
 
 
 def test_sm121_mhc_preserves_stock_public_deepgemm(
