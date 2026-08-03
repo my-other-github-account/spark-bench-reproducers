@@ -299,6 +299,111 @@ def configure_sparse_indexer_deep_gemm_backend() -> bool:
     return True
 
 
+def configure_deep_gemm_ue8m0_warmup_contract(*, warmup_module=None) -> bool:
+    """Give DeepGEMM 2.6.x valid UE8M0 dummy scales during warmup.
+
+    vLLM 0.24 creates its dummy FP32 activation-scale buffers with
+    ``torch.empty``.  DeepGEMM 2.6.x packs every element to UE8M0 and traps on
+    uninitialized sign or mantissa bits, including rows that are only padding.
+    Exact powers of two are valid, so initialize every dummy scale to one.
+    """
+    if warmup_module is None:
+        from vllm.platforms import current_platform
+
+        capability = current_platform.get_device_capability()
+        if capability is None or capability.major != 12:
+            return False
+        warmup_module = importlib.import_module(
+            "vllm.model_executor.warmup.deep_gemm_warmup"
+        )
+    original_dense = warmup_module._deepgemm_fp8_gemm_nt_warmup
+    original_grouped = (
+        warmup_module._deepgemm_grouped_fp8_gemm_nt_contiguous_warmup
+    )
+    if (
+        getattr(original_dense, "_banana_smasher_ue8m0_scales", False)
+        and getattr(original_grouped, "_banana_smasher_ue8m0_scales", False)
+    ):
+        return True
+
+    @functools.wraps(original_dense)
+    def ue8m0_safe_dense_warmup(w, ws, max_tokens, pbar=None):
+        if w.size() in warmup_module.FP8_GEMM_NT_WARMUP_CACHE:
+            return
+
+        n, k = w.size()
+        block_m = warmup_module.get_mk_alignment_for_contiguous_layout()[0]
+        device = w.device
+        a1q = torch.empty(
+            (max_tokens, k), device=device, dtype=torch.float8_e4m3fn
+        )
+        a1q_scales = torch.ones(
+            (max_tokens, k // block_m), device=device, dtype=torch.float32
+        )
+        out = torch.empty((max_tokens, n), device=device, dtype=torch.bfloat16)
+
+        for num_tokens in warmup_module._get_fp8_gemm_nt_m_values(w, max_tokens):
+            warmup_module.fp8_gemm_nt(
+                (a1q[:num_tokens], a1q_scales[:num_tokens]),
+                (w, ws),
+                out[:num_tokens],
+            )
+            if pbar is not None:
+                pbar.update(1)
+
+        warmup_module.FP8_GEMM_NT_WARMUP_CACHE.add(w.size())
+
+    @functools.wraps(original_grouped)
+    def ue8m0_safe_grouped_warmup(
+        w1, w2, w1_scale, w2_scale, num_topk, max_tokens, pbar=None
+    ):
+        cache = warmup_module.GROUPED_FP8_GEMM_NT_CONTIGUOUS_WARMUP_CACHE
+        if w1.size() in cache and w2.size() in cache:
+            return
+
+        max_m, block_m, warmup_cases = warmup_module._get_grouped_gemm_params(
+            w1, w2, num_topk, max_tokens
+        )
+        if not warmup_cases:
+            return
+        device = w1.device
+
+        def warm_one(w, w_scale):
+            _, n, k = w.size()
+            a1q = torch.empty((max_m, k), device=device, dtype=torch.float8_e4m3fn)
+            a1q_scales = torch.ones(
+                (max_m, k // block_m), device=device, dtype=torch.float32
+            )
+            out = torch.empty((max_m, n), device=device, dtype=torch.bfloat16)
+            for num_tokens, align_used, expert_ids in warmup_cases:
+                with warmup_module.mk_alignment_scope(align_used):
+                    warmup_module.m_grouped_fp8_gemm_nt_contiguous(
+                        (a1q[:num_tokens], a1q_scales[:num_tokens]),
+                        (w, w_scale),
+                        out[:num_tokens],
+                        expert_ids,
+                    )
+                if pbar is not None:
+                    pbar.update(1)
+
+        for w, ws in ((w1, w1_scale), (w2, w2_scale)):
+            if w.size() not in cache:
+                warm_one(w, ws)
+                cache.add(w.size())
+
+    ue8m0_safe_dense_warmup._banana_smasher_ue8m0_scales = True  # type: ignore[attr-defined]
+    ue8m0_safe_grouped_warmup._banana_smasher_ue8m0_scales = True  # type: ignore[attr-defined]
+    warmup_module._deepgemm_fp8_gemm_nt_warmup = ue8m0_safe_dense_warmup
+    warmup_module._deepgemm_grouped_fp8_gemm_nt_contiguous_warmup = (
+        ue8m0_safe_grouped_warmup
+    )
+    _LOG.warning(
+        "BANANA_SMASHER_DEEPGEMM_UE8M0_WARMUP "
+        "dense_dummy_scales=ones grouped_dummy_scales=ones padding=initialized"
+    )
+    return True
+
+
 def configure_sparse_indexer_topk_backend() -> bool:
     """Route cluster-launch TopK to persistent TopK on SM12x devices.
 
@@ -357,6 +462,7 @@ def register() -> None:
     configure_flashinfer_sparse_mla_signature_compat()
     configure_stock_deepseek_v4_attention_backend()
     configure_sparse_indexer_deep_gemm_backend()
+    configure_deep_gemm_ue8m0_warmup_contract()
     configure_sparse_indexer_topk_backend()
     configure_stock_deepseek_v4_o_proj()
     from .quantization import (
@@ -376,6 +482,7 @@ def register() -> None:
 
 
 __all__ = [
+    "configure_deep_gemm_ue8m0_warmup_contract",
     "configure_flashinfer_sparse_mla_signature_compat",
     "configure_sparse_indexer_deep_gemm_backend",
     "configure_stock_deepseek_v4_attention_backend",
