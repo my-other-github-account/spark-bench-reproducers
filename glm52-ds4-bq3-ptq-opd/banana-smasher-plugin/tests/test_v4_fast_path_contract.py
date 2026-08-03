@@ -47,7 +47,11 @@ def test_runtime_log_contract_accepts_only_v4_fast_paths() -> None:
 def test_public_image_pins_dense_sm121_deepgemm_source() -> None:
     dockerfile = (_repo_root() / "docker/Dockerfile").read_text()
     assert "https://github.com/deepseek-ai/DeepGEMM.git" in dockerfile
-    assert "a6b593d32eabfea81a699693a3e2ae1061cd835c" in dockerfile
+    assert "refs/tags/nv_dev_f8e8fb5" in dockerfile
+    assert "f8e8fb5830fa5cda6e4ea73d360bb3f21f87a3ca" in dockerfile
+    assert "deep_gemm-2.6.1" in dockerfile
+    assert "a6b593d32eabfea81a699693a3e2ae1061cd835c" not in dockerfile
+    assert "a6b593d2826719dcf4892609af7b84ee23aaf32a" not in dockerfile
     assert "https://github.com/jasl/DeepGEMM.git" not in dockerfile
     assert "7a7a41a1bac7dacabe74057e7600e59f98f85bce" not in dockerfile
 
