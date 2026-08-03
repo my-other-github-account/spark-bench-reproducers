@@ -8,6 +8,7 @@ RUN python3 -m pip install --no-cache-dir \
       build==1.3.0 hatchling==1.27.0 pytest==8.4.2 wheel==0.46.3
 COPY banana-smasher /src/banana-smasher
 COPY banana-smasher-plugin /src/banana-smasher-plugin
+COPY docker /src/docker
 RUN python3 -m build --wheel --outdir /wheels /src/banana-smasher \
     && python3 -m build --wheel --outdir /wheels /src/banana-smasher-plugin \
     && python3 -m zipfile -t /wheels/banana_smasher-1.0.0-py3-none-any.whl \

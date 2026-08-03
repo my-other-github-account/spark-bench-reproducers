@@ -15,6 +15,10 @@ def test_public_source_dockerfile_contract() -> None:
     assert "ee0da84a" in text
     assert "COPY banana-smasher /src/banana-smasher" in text
     assert "COPY banana-smasher-plugin /src/banana-smasher-plugin" in text
+    # Package tests read the public Dockerfile to enforce source pinning.  The
+    # package-builder stage must therefore carry that public input too; a clean
+    # image build must not depend on files left outside the stage filesystem.
+    assert "COPY docker /src/docker" in text
     assert "python3 -m build --wheel" in text
     assert "python3 -m pytest -q" in text
     assert "/src/banana-smasher/tests" in text
@@ -37,8 +41,10 @@ def test_public_source_dockerfile_contract() -> None:
     assert '"flashinfer-jit-cache" not in names' in text
     assert "FLASHINFER_DISABLE_VERSION_CHECK" not in text
     assert "flashinfer-python==0.6.12" not in text
-    assert "https://github.com/jasl/DeepGEMM.git" in text
-    assert "7a7a41a1bac7dacabe74057e7600e59f98f85bce" in text
+    assert "https://github.com/deepseek-ai/DeepGEMM.git" in text
+    assert "a6b593d32eabfea81a699693a3e2ae1061cd835c" in text
+    assert "https://github.com/jasl/DeepGEMM.git" not in text
+    assert "7a7a41a1bac7dacabe74057e7600e59f98f85bce" not in text
     assert "DG_FORCE_BUILD=1" in text
     assert "cuda-nvrtc-dev-13-0=13.0.88-1" in text
     assert "deep_gemm-2.5.0" in text
