@@ -57,6 +57,10 @@ def test_public_source_dockerfile_contract() -> None:
     assert "DG_FORCE_BUILD=1" in text
     assert "cuda-nvrtc-dev-13-0=13.0.88-1" in text
     assert "deep_gemm-2.6.1" in text
+    # Provenance must be valid JSON: append a real newline in the embedded
+    # Python writer, not the two literal characters backslash+n.
+    assert '+"\\\\n"' not in text
+    assert '+"\\n"' in text
     assert "banana_smasher_plugin:register" not in text  # verified by the image script
     assert "libcudart_stub.so" in text
     assert "libcudart.so.13" in text
