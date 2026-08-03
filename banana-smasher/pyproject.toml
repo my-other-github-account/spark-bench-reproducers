@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "banana-smasher"
+version = "1.0.0"
+description = "Fail-closed bs-pack tooling and shared serving loader"
+requires-python = ">=3.10"
+dependencies = ["numpy==2.3.5", "safetensors==0.8.0"]
+
+[project.optional-dependencies]
+test = ["pytest==8.4.2", "ruff==0.12.7"]
+
+[project.scripts]
+smash = "banana_smasher.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/banana_smasher"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"BANANA_PACK_SPEC.md" = "banana_smasher/BANANA_PACK_SPEC.md"
+"PACK_FORMAT.md" = "banana_smasher/PACK_FORMAT.md"
+"README.md" = "banana_smasher/README.md"
+"schema" = "banana_smasher/schema"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

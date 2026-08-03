@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://banana-smasher.local/schema/bs-pack-layer-meta-v1.schema.json",
+  "title": "bs-pack v1 per-layer metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema_version",
+    "layer",
+    "experts_per_layer",
+    "expert_partitions",
+    "tier_map",
+    "families",
+    "tensors"
+  ],
+  "properties": {
+    "schema": {"const": "bs-pack-layer-meta"},
+    "schema_version": {"const": 1},
+    "layer": {"type": "integer", "minimum": 0},
+    "experts_per_layer": {"const": 256},
+    "expert_partitions": {"const": [64, 64, 64, 64]},
+    "tier_map": {
+      "type": "string",
+      "pattern": "^layers\\.[0-9]+\\.experts\\.tier_map$"
+    },
+    "families": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": ["qtip2", "qtip3", "truevq_d4", "truevq_d8", "native_mxfp4"]
+      }
+    },
+    "tensors": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^layers\\.[0-9]+\\."}
+    }
+  }
+}

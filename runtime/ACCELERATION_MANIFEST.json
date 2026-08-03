@@ -1,0 +1,104 @@
+{
+  "schema": "banana-smasher-acceleration-manifest-v1",
+  "source_commit": "c00714c6803f7e2de7a95d103dbe172236b22adf",
+  "accelerations": [
+    {
+      "id": "bs-pack-export-verify",
+      "source": ["banana-smasher/src/banana_smasher/cli.py", "banana-smasher/src/banana_smasher/contract.py", "banana-smasher/src/banana_smasher/repack.py", "banana-smasher/src/banana_smasher/repair.py"],
+      "build_dependency_or_asset": ["banana-smasher wheel", "bs-pack JSON schemas"],
+      "runtime_activation": ["smash export", "smash verify", "smash serve-check"],
+      "tests": ["banana-smasher/tests/test_cli.py", "banana-smasher/tests/test_contract.py", "banana-smasher/tests/test_materialized_wire.py", "banana-smasher/tests/test_repack.py", "banana-smasher/tests/test_repair.py"]
+    },
+    {
+      "id": "stock-vllm-general-plugin",
+      "source": ["banana-smasher-plugin/pyproject.toml", "banana-smasher-plugin/src/banana_smasher_plugin/__init__.py"],
+      "build_dependency_or_asset": ["banana-smasher-plugin wheel", "vllm.general_plugins entry point"],
+      "runtime_activation": ["stock vLLM entry-point discovery calls banana_smasher_plugin:register"],
+      "tests": ["banana-smasher-plugin/tests/test_plugin_contract.py", "tests/test_extraction_contract.py"]
+    },
+    {
+      "id": "native-plane-p1016",
+      "source": ["banana-smasher-plugin/src/banana_smasher_plugin/native_planes.py", "banana-smasher-plugin/src/banana_smasher_plugin/quantization.py"],
+      "build_dependency_or_asset": ["numpy", "safetensors", "native plane pack"],
+      "runtime_activation": ["quantization_config.quant_method=banana_smasher", "stock DeepSeek routed-expert layer selection"],
+      "tests": ["banana-smasher-plugin/tests/test_native_plane_runtime.py", "banana-smasher-plugin/tests/test_plugin_contract.py"]
+    },
+    {
+      "id": "p1016-cutedsl-tlut",
+      "source": ["banana-smasher-plugin/src/banana_smasher_plugin/p1016_kernels.py", "banana-smasher-plugin/src/banana_smasher_plugin/qtip_tlut.npy"],
+      "build_dependency_or_asset": ["quack-kernels>=0.4.1,<0.5.1", "qtip_tlut.npy"],
+      "runtime_activation": ["native_planes loads mixed_exact_gemv", "QTIP family dispatch expands the packaged TLUT"],
+      "tests": ["banana-smasher-plugin/tests/test_cutedsl_compat.py", "banana-smasher-plugin/tests/test_native_plane_runtime.py"]
+    },
+    {
+      "id": "sm121-deepgemm-dense-e8m0",
+      "source": ["banana-smasher-plugin/src/banana_smasher_plugin/__init__.py", "banana-smasher-plugin/src/banana_smasher_plugin/quantization.py", "docker/Dockerfile"],
+      "build_dependency_or_asset": ["DeepGEMM a6b593d32eabfea81a699693a3e2ae1061cd835c", "deep_gemm-2.5.0 ARM64 wheel"],
+      "runtime_activation": ["VLLM_USE_DEEP_GEMM=1", "VLLM_USE_DEEP_GEMM_E8M0=1", "configure_stock_deepseek_v4_o_proj"],
+      "tests": ["banana-smasher-plugin/tests/test_sm121_deep_gemm_fast_paths.py", "banana-smasher-plugin/tests/test_deep_gemm_dense_capability.py", "banana-smasher-plugin/tests/test_v4_fast_path_contract.py"]
+    },
+    {
+      "id": "sm121-deepgemm-sparse-indexer",
+      "source": ["banana-smasher-plugin/src/banana_smasher_plugin/__init__.py", "docker/Dockerfile"],
+      "build_dependency_or_asset": ["pinned public DeepGEMM source wheel", "stock vLLM deep_gemm lazy slots"],
+      "runtime_activation": ["configure_sparse_indexer_deep_gemm_backend on SM12x"],
+      "tests": ["banana-smasher-plugin/tests/test_mhc_backend.py", "banana-smasher-plugin/tests/test_deep_gemm_dense_capability.py"]
+    },
+    {
+      "id": "sm121-persistent-topk",
+      "source": ["banana-smasher-plugin/src/banana_smasher_plugin/__init__.py"],
+      "build_dependency_or_asset": ["stock vLLM persistent_topk CUDA op"],
+      "runtime_activation": ["configure_sparse_indexer_topk_backend replaces cooperative_topk on SM12x"],
+      "tests": ["banana-smasher-plugin/tests/test_sparse_indexer_topk_backend.py"]
+    },
+    {
+      "id": "sm121-v4-attention-flashinfer",
+      "source": ["banana-smasher-plugin/src/banana_smasher_plugin/__init__.py", "docker/Dockerfile"],
+      "build_dependency_or_asset": ["FlashInfer d020372b068f335e2fe427372e134977a2235c49 plus three pinned V4 fixes"],
+      "runtime_activation": ["configure_stock_deepseek_v4_attention_backend routes supported SM12x requests to FlashInfer sparse MLA"],
+      "tests": ["banana-smasher-plugin/tests/test_dsv4_attention_backend.py", "banana-smasher-plugin/tests/test_flashinfer_sparse_decode_compat.py"]
+    },
+    {
+      "id": "stock-deepgemm-mhc",
+      "source": ["banana-smasher-plugin/src/banana_smasher_plugin/__init__.py", "docker/Dockerfile"],
+      "build_dependency_or_asset": ["pinned public DeepGEMM source wheel", "stock vLLM MHC path"],
+      "runtime_activation": ["plugin leaves MHC on the stock public DeepGEMM backend"],
+      "tests": ["banana-smasher-plugin/tests/test_sm121_deep_gemm_fast_paths.py", "banana-smasher-plugin/tests/test_mhc_backend.py"]
+    },
+    {
+      "id": "flashinfer-sparse-decode-compat",
+      "source": ["banana-smasher-plugin/src/banana_smasher_plugin/__init__.py"],
+      "build_dependency_or_asset": ["source-built FlashInfer sparse-MLA API"],
+      "runtime_activation": ["configure_flashinfer_sparse_mla_signature_compat during plugin registration"],
+      "tests": ["banana-smasher-plugin/tests/test_flashinfer_sparse_decode_compat.py", "banana-smasher-plugin/tests/test_dsv4_attention_backend.py"]
+    },
+    {
+      "id": "sm120-aot-cubins",
+      "source": ["banana-smasher/kernels/cubins-sm120"],
+      "build_dependency_or_asset": ["26 checked-in SM120 cubins copied by Docker"],
+      "runtime_activation": ["BANANA_SMASHER_AOT_ROOT", "VLLM_MOE_W2_CUBIT_DIR"],
+      "tests": ["tests/test_extraction_contract.py", "banana-smasher-plugin/tests/test_native_plane_runtime.py"]
+    },
+    {
+      "id": "e43-aot-cubins",
+      "source": ["banana-smasher/kernels/cubins-e43"],
+      "build_dependency_or_asset": ["6 checked-in E43 cubins copied by Docker"],
+      "runtime_activation": ["VLLM_MOE_W3_CUBIT_DIR"],
+      "tests": ["tests/test_extraction_contract.py"]
+    },
+    {
+      "id": "flashinfer-autotune-cache",
+      "source": ["banana-smasher/vendor/flashinfer-autotune/0.6.14/121a"],
+      "build_dependency_or_asset": ["35 checked-in FlashInfer autotune_configs.json assets"],
+      "runtime_activation": ["copied to /root/.cache/vllm/flashinfer_autotune_cache/0.6.14/121a"],
+      "tests": ["tests/test_extraction_contract.py", "docker/tests/test_public_source_dockerfile.py"]
+    },
+    {
+      "id": "real-libcudart-link",
+      "source": ["docker/patches/flashinfer-real-libcudart.patch", "docker/Dockerfile", "docker/scripts/verify_public_image.py"],
+      "build_dependency_or_asset": ["CUDA 13 libcudart.so.13", "patched source-built FlashInfer"],
+      "runtime_activation": ["image build replaces TileLang libcudart stub with a symlink to the real CUDA runtime", "verify_public_image.py validates the production import seam"],
+      "tests": ["docker/tests/test_public_source_dockerfile.py", "tests/test_extraction_contract.py"]
+    }
+  ]
+}
