@@ -95,6 +95,7 @@ def test_real_sm12x_corrected_topk_matches_torch_reference() -> None:
     capability = torch.cuda.get_device_capability()
     if capability[0] != 12:
         pytest.skip("real sparse-indexer TopK regression requires SM12x")
+    pytest.importorskip("vllm")
 
     from vllm.model_executor.layers.sparse_attn_indexer import (
         RADIX_TOPK_WORKSPACE_SIZE,

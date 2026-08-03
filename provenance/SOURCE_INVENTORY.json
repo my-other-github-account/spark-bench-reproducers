@@ -129,9 +129,9 @@
       "source_sha256": "6e6df55d19d4726bdcc0f2c0a5cc15069c92f6b2d4dd9ba5df8e43851b131e1c"
     },
     {
-      "byte_preserved": true,
-      "bytes": 4452,
-      "output_sha256": "95757180f2a2048acf657fddac4af5d8a38d9a9f26fd8eecb319018d6dea1451",
+      "byte_preserved": false,
+      "bytes": 4484,
+      "output_sha256": "27d4b9275b6e05f5bd77c9fc046b22cf21b7e99f46f9c4a75fe311960e4b0b10",
       "path": "banana-smasher-plugin/tests/test_sparse_indexer_topk_backend.py",
       "source_path": "banana-smasher-plugin/tests/test_sparse_indexer_topk_backend.py",
       "source_sha256": "95757180f2a2048acf657fddac4af5d8a38d9a9f26fd8eecb319018d6dea1451"
@@ -594,8 +594,8 @@
     },
     {
       "byte_preserved": false,
-      "bytes": 13118,
-      "output_sha256": "e0dd2918e5782400f42c7398dfd0898d83bd0a5c74e4e151d6fc5114af5ac138",
+      "bytes": 13142,
+      "output_sha256": "99319fad632404934281235157226f76d2e4f8d115a477aed8c5189147634d42",
       "path": "docker/Dockerfile",
       "source_path": "docker/Dockerfile",
       "source_sha256": "a094b4f3347c09066b519a7cc58d7e5ca02fff1d2a3acdb06dcd8ee4a6be9d1d"
@@ -634,8 +634,8 @@
     },
     {
       "byte_preserved": false,
-      "bytes": 5894,
-      "output_sha256": "865e0acb175d6138b3ebb421cf4be8856048575c0031f98b33235aff36c26848",
+      "bytes": 5939,
+      "output_sha256": "08b98365ea1b799670117b44599d9c228704368242e74142d45221484e5c5e6d",
       "path": "docker/tests/test_public_source_dockerfile.py",
       "source_path": "docker/tests/test_public_source_dockerfile.py",
       "source_sha256": "3c2c569c699c264b2438a6d1ffc71f081f3100b5abcdd84758fb734b456b1a07"

@@ -18,6 +18,7 @@ def test_public_source_dockerfile_contract() -> None:
     assert "ee0da84a" in text
     assert "COPY banana-smasher /src/banana-smasher" in text
     assert "COPY banana-smasher-plugin /src/banana-smasher-plugin" in text
+    assert "COPY docker /src/docker" in text
     assert "python3 -m build --wheel" in text
     assert "python3 -m pytest -q" in text
     assert "/src/banana-smasher/tests" in text
