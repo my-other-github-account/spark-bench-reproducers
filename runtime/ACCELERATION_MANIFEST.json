@@ -33,7 +33,7 @@
     {
       "id": "sm121-deepgemm-dense-e8m0",
       "source": ["banana-smasher-plugin/src/banana_smasher_plugin/__init__.py", "banana-smasher-plugin/src/banana_smasher_plugin/quantization.py", "docker/Dockerfile"],
-      "build_dependency_or_asset": ["DeepGEMM a6b593d32eabfea81a699693a3e2ae1061cd835c", "deep_gemm-2.5.0 ARM64 wheel"],
+      "build_dependency_or_asset": ["DeepGEMM 891d57b4db1071624b5c8fa0d1e51cb317fa709f", "deep_gemm-2.5.0 ARM64 wheel"],
       "runtime_activation": ["VLLM_USE_DEEP_GEMM=1", "VLLM_USE_DEEP_GEMM_E8M0=1", "configure_stock_deepseek_v4_o_proj"],
       "tests": ["banana-smasher-plugin/tests/test_sm121_deep_gemm_fast_paths.py", "banana-smasher-plugin/tests/test_deep_gemm_dense_capability.py", "banana-smasher-plugin/tests/test_v4_fast_path_contract.py"]
     },

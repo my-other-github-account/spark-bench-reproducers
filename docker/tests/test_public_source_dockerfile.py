@@ -42,7 +42,7 @@ def test_public_source_dockerfile_contract() -> None:
     assert "FLASHINFER_DISABLE_VERSION_CHECK" not in text
     assert "flashinfer-python==0.6.12" not in text
     assert "https://github.com/deepseek-ai/DeepGEMM.git" in text
-    assert "a6b593d32eabfea81a699693a3e2ae1061cd835c" in text
+    assert "891d57b4db1071624b5c8fa0d1e51cb317fa709f" in text
     assert "DG_FORCE_BUILD=1" in text
     assert "cuda-nvrtc-dev-13-0=13.0.88-1" in text
     assert "deep_gemm-2.5.0" in text

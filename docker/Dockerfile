@@ -72,10 +72,10 @@ RUN cd /tmp/flashinfer \
 FROM ${VLLM_IMAGE} AS deepgemm-builder
 USER root
 ARG DEEPGEMM_SOURCE_REPO=https://github.com/deepseek-ai/DeepGEMM.git
-# Public nv_dev revision used by the proven SM120/SM121 dense FP8 E8M0 path.
-ARG DEEPGEMM_SOURCE_COMMIT=a6b593d32eabfea81a699693a3e2ae1061cd835c
+# Public DeepGEMM 2.5.0 revision used by the SM120/SM121 dense FP8 E8M0 path.
+ARG DEEPGEMM_SOURCE_COMMIT=891d57b4db1071624b5c8fa0d1e51cb317fa709f
 RUN test "${DEEPGEMM_SOURCE_REPO}" = "https://github.com/deepseek-ai/DeepGEMM.git" \
-    && test "${DEEPGEMM_SOURCE_COMMIT}" = "a6b593d32eabfea81a699693a3e2ae1061cd835c"
+    && test "${DEEPGEMM_SOURCE_COMMIT}" = "891d57b4db1071624b5c8fa0d1e51cb317fa709f"
 RUN apt-get update && apt-get install -y --no-install-recommends \
       git \
       cuda-nvrtc-dev-13-0=13.0.88-1 \
@@ -151,7 +151,7 @@ RUN set -eux; \
     python3 /opt/banana-smasher/bin/verify_public_image.py; \
     python3 /opt/banana-smasher/bin/write_package_receipt.py \
       /opt/banana-smasher/provenance/package-sbom.json; \
-    python3 -c 'import json; p="/opt/banana-smasher/provenance/source.json"; open(p,"w").write(json.dumps({"base_image":"vllm/vllm-openai:v0.24.0@sha256:32445b36556244d8a721cd21a2b47a7915bc6408432d05aaeab205bb223ced8b","deep_gemm_source_commit":"a6b593d32eabfea81a699693a3e2ae1061cd835c","deep_gemm_source_repo":"https://github.com/deepseek-ai/DeepGEMM.git","flashinfer_source_commit":"d020372b068f335e2fe427372e134977a2235c49","flashinfer_source_repo":"https://github.com/flashinfer-ai/flashinfer.git","flashinfer_sm120_commits":["b34f49255f1640542da91665f58558a3e5e308f1","76fd3daf7064b73924ebb3bcb1e93a8a26fc6da9","0c5fda59bb6fa71eae875693a024bb0fb37ba7d6"],"vllm_upstream_revision":"ee0da84a","packages_built_from_checkout":["banana-smasher","banana-smasher-plugin","deep-gemm","flashinfer-python"]},indent=2,sort_keys=True)+"\n")'
+    python3 -c 'import json; p="/opt/banana-smasher/provenance/source.json"; open(p,"w").write(json.dumps({"base_image":"vllm/vllm-openai:v0.24.0@sha256:32445b36556244d8a721cd21a2b47a7915bc6408432d05aaeab205bb223ced8b","deep_gemm_source_commit":"891d57b4db1071624b5c8fa0d1e51cb317fa709f","deep_gemm_source_repo":"https://github.com/deepseek-ai/DeepGEMM.git","flashinfer_source_commit":"d020372b068f335e2fe427372e134977a2235c49","flashinfer_source_repo":"https://github.com/flashinfer-ai/flashinfer.git","flashinfer_sm120_commits":["b34f49255f1640542da91665f58558a3e5e308f1","76fd3daf7064b73924ebb3bcb1e93a8a26fc6da9","0c5fda59bb6fa71eae875693a024bb0fb37ba7d6"],"vllm_upstream_revision":"ee0da84a","packages_built_from_checkout":["banana-smasher","banana-smasher-plugin","deep-gemm","flashinfer-python"]},indent=2,sort_keys=True)+"\n")'
 
 ENV PYTHONNOUSERSITE=1 \
     PYTHONUNBUFFERED=1 \
