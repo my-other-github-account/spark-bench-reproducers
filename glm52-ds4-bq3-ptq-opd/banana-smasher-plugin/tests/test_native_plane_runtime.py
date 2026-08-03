@@ -189,6 +189,56 @@ def test_plane_loader_moves_named_planes_and_dispatches_projection(tmp_path: Pat
     assert layer.state("fused13").pointer_tables["d4_index_bits"].tolist() == [4, 4]
 
 
+def test_plane_forward_uses_capture_safe_async_expert_range_guards(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    pack = NativePlanePack.from_model_root(_tiny_pack(tmp_path / "model"))
+    calls: list[tuple[bool, str]] = []
+
+    def assert_async(condition: torch.Tensor, message: str) -> None:
+        calls.append((bool(condition.item()), message))
+        if not condition.item():
+            raise RuntimeError(message)
+
+    monkeypatch.setattr(torch.ops.aten._assert_async, "msg", assert_async)
+    monkeypatch.setattr(
+        torch,
+        "any",
+        lambda *_args, **_kwargs: (_ for _ in ()).throw(
+            AssertionError("host-synchronizing torch.any guard is forbidden")
+        ),
+    )
+    layer = NativePlaneLayer(
+        pack,
+        0,
+        device="cpu",
+        dispatch=lambda **kwargs: torch.zeros(
+            (kwargs["x"].shape[0], kwargs["state"].output_width)
+        ),
+    )
+
+    result = layer.forward(torch.ones((2, 4)), torch.tensor([0, 1]), "fused13")
+
+    assert result.shape == (2, 4)
+    assert calls == [
+        (True, "layer 0 fused13 expert id out of range"),
+        (True, "layer 0 fused13 expert id out of range"),
+    ]
+
+
+def test_plane_forward_async_guard_rejects_out_of_range_expert(tmp_path: Path) -> None:
+    pack = NativePlanePack.from_model_root(_tiny_pack(tmp_path / "model"))
+    layer = NativePlaneLayer(
+        pack,
+        0,
+        device="cpu",
+        dispatch=lambda **kwargs: kwargs["x"],
+    )
+
+    with pytest.raises(RuntimeError, match="expert id out of range"):
+        layer.forward(torch.ones((2, 4)), torch.tensor([0, 2]), "fused13")
+
+
 def test_manifest_selection_is_the_only_payload_allocation_source(tmp_path: Path) -> None:
     root = _tiny_pack(tmp_path / "model")
     meta_path = root / "planes/layer_000.meta.json"

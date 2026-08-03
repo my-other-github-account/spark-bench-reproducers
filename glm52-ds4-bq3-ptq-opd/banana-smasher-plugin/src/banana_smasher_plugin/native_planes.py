@@ -624,8 +624,16 @@ class NativePlaneLayer:
                 f"layer {self.layer_index} {projection} routed shape mismatch: "
                 f"x={tuple(x.shape)} ids={tuple(expert_ids.shape)} expected_k={state.input_width}"
             )
-        if bool(torch.any(expert_ids < 0)) or bool(torch.any(expert_ids >= len(state.tiers))):
-            raise _fail(f"layer {self.layer_index} {projection} expert id out of range")
+        range_error = (
+            f"layer {self.layer_index} {projection} expert id out of range"
+        )
+        # Keep the fail-closed range guards on the accelerator. Converting either
+        # predicate to a Python bool synchronizes the stream and is illegal while
+        # vLLM captures its startup CUDA graphs on SM12x.
+        torch.ops.aten._assert_async.msg(torch.all(expert_ids >= 0), range_error)
+        torch.ops.aten._assert_async.msg(
+            torch.all(expert_ids < len(state.tiers)), range_error
+        )
         result = self._dispatch(
             projection=projection,
             x=x,
