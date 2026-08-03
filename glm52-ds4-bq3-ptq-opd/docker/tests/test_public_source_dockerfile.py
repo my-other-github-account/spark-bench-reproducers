@@ -42,7 +42,14 @@ def test_public_source_dockerfile_contract() -> None:
     assert "FLASHINFER_DISABLE_VERSION_CHECK" not in text
     assert "flashinfer-python==0.6.12" not in text
     assert "https://github.com/deepseek-ai/DeepGEMM.git" in text
-    assert "a6b593d32eabfea81a699693a3e2ae1061cd835c" in text
+    # Fetch an advertised immutable nv_dev tag, then select the proven commit
+    # from its reachable history. GitHub rejects raw fetches of unadvertised
+    # object IDs even when that commit is an ancestor of a public tag.
+    assert "refs/tags/nv_dev_f8e8fb5" in text
+    assert "a6b593d2826719dcf4892609af7b84ee23aaf32a" in text
+    assert 'fetch --depth=10 origin "${DEEPGEMM_SOURCE_REF}"' in text
+    assert 'merge-base --is-ancestor "${DEEPGEMM_SOURCE_COMMIT}" FETCH_HEAD' in text
+    assert "a6b593d32eabfea81a699693a3e2ae1061cd835c" not in text
     assert "https://github.com/jasl/DeepGEMM.git" not in text
     assert "7a7a41a1bac7dacabe74057e7600e59f98f85bce" not in text
     assert "DG_FORCE_BUILD=1" in text
