@@ -18,7 +18,7 @@ def main() -> None:
     expected = {
         "banana-smasher": "1.0.0",
         "banana-smasher-plugin": "0.2.0",
-        "deep-gemm": "2.5.0",
+        "deep-gemm": "2.6.1",
         "flashinfer-python": "0.6.17",
         "tilelang": "0.1.9",
         "vllm": "0.24.0",

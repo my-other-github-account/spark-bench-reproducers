@@ -77,6 +77,12 @@ def test_public_source_dockerfile_contract() -> None:
         assert token not in lower
 
 
+def test_image_verifier_matches_official_deepgemm_package_version() -> None:
+    verifier = (ROOT / "docker/scripts/verify_public_image.py").read_text()
+    assert '"deep-gemm": "2.6.1"' in verifier
+    assert '"deep-gemm": "2.5.0"' not in verifier
+
+
 def test_runtime_removes_stale_flashinfer_binary_provider_namespaces() -> None:
     text = DOCKERFILE.read_text()
     uninstall = "pip uninstall -y flashinfer-cubin flashinfer-jit-cache"
