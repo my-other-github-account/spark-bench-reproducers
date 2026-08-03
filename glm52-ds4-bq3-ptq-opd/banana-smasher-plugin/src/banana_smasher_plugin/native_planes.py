@@ -391,6 +391,7 @@ def _ensure_native_plane_custom_op() -> bool:
         "banana_smasher_native_plane_forward",
         _native_plane_forward_op,
         fake_impl=_native_plane_forward_fake,
+        tags=(torch.Tag.cudagraph_unsafe,),
     )
     _NATIVE_PLANE_CUSTOM_OP_REGISTERED = True
     _NATIVE_PLANE_CUSTOM_OP_AVAILABLE = True

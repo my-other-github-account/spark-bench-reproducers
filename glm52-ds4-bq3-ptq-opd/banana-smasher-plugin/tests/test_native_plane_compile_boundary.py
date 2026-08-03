@@ -13,13 +13,13 @@ from test_native_plane_runtime import _tiny_pack
 def test_native_plane_forward_registers_opaque_vllm_compile_boundary(
     tmp_path: Path, monkeypatch,
 ) -> None:
-    registrations: list[tuple[str, object, object]] = []
+    registrations: list[tuple[str, object, object, tuple[torch.Tag, ...]]] = []
     calls: list[tuple[int, int]] = []
 
     torch_utils = ModuleType("vllm.utils.torch_utils")
 
-    def direct_register_custom_op(name, impl, *, fake_impl):
-        registrations.append((name, impl, fake_impl))
+    def direct_register_custom_op(name, impl, *, fake_impl, tags=()):
+        registrations.append((name, impl, fake_impl, tags))
 
         def invoke(x, expert_ids, layer_key, projection_key):
             calls.append((layer_key, projection_key))
@@ -58,6 +58,10 @@ def test_native_plane_forward_registers_opaque_vllm_compile_boundary(
     assert registrations and registrations[0][0] == "banana_smasher_native_plane_forward", (
         "NativePlaneLayer.forward must register one opaque vLLM custom-op boundary "
         "before torch.compile traces Python state and custom kernels"
+    )
+    assert torch.Tag.cudagraph_unsafe in registrations[0][3], (
+        "NativePlaneLayer.forward must register one opaque vLLM custom-op boundary "
+        "tagged cudagraph_unsafe so vLLM partitions the stateful kernels out of capture"
     )
     assert calls == [(layer._custom_op_key, 0)]
     assert result.shape == (2, 4)
