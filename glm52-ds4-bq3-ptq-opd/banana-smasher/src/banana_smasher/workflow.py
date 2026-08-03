@@ -36,6 +36,11 @@ def sha256_file(path: Path) -> str:
 def atomic_json(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     raw = (json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + "\n").encode()
+    atomic_bytes(path, raw)
+
+
+def atomic_bytes(path: Path, raw: bytes) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(f".{path.name}.{os.getpid()}.{uuid.uuid4().hex}.tmp")
     with temporary.open("xb") as handle:
         handle.write(raw)
@@ -169,7 +174,86 @@ def _validated_summary(
     assignment_sha = objective.get("assignment_sha256")
     if not isinstance(assignment_sha, str) or len(assignment_sha) != 64:
         return None
+    try:
+        _canonical_profile_artifacts(path, layer=layer, root=path.parents[2])
+    except ValueError:
+        return None
     return value
+
+
+def _canonical_profile_artifacts(
+    summary_path: Path,
+    *,
+    layer: int,
+    root: Path,
+) -> dict[str, dict[str, Any]]:
+    """Bind every canonical fixed-anchor producer member for one layer."""
+    summary_path = _require_contained(
+        summary_path, root, label=f"L{layer:03d} PROFILE_SUMMARY"
+    )
+    try:
+        summary = json.loads(summary_path.read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"invalid canonical profile summary: {summary_path}") from exc
+    profile_root = summary_path.parent
+    expected_summary = profile_root / "PROFILE_SUMMARY.json"
+    if summary_path != expected_summary:
+        raise ValueError(
+            f"canonical PROFILE_SUMMARY path mismatch: {summary_path} != {expected_summary}"
+        )
+
+    raw_members = {
+        "PROFILE_ROWS": summary.get("profile_rows", profile_root / "PROFILE_ROWS.jsonl"),
+        "SCIENTIFIC_ROWS": summary.get("scientific_rows", ""),
+        "OBJECTIVE": summary.get("objective_path", profile_root / "OBJECTIVE.json"),
+    }
+    paths: dict[str, Path] = {}
+    for name, raw in raw_members.items():
+        path = _require_contained(
+            Path(str(raw)), root, label=f"L{layer:03d} {name}"
+        )
+        if not path.is_file():
+            raise ValueError(f"missing canonical profile member {name}: {path}")
+        if path.parent != profile_root:
+            raise ValueError(f"canonical profile member {name} path drift: {path}")
+        paths[name] = path
+    if paths["PROFILE_ROWS"].name != "PROFILE_ROWS.jsonl":
+        raise ValueError(f"canonical PROFILE_ROWS path drift: {paths['PROFILE_ROWS']}")
+    if paths["OBJECTIVE"].name != "OBJECTIVE.json":
+        raise ValueError(f"canonical OBJECTIVE path drift: {paths['OBJECTIVE']}")
+    if paths["SCIENTIFIC_ROWS"].name not in {
+        "SCIENTIFIC_ROWS.pt",
+        "SCIENTIFIC_ROWS.json",
+    }:
+        raise ValueError(
+            f"canonical SCIENTIFIC_ROWS path drift: {paths['SCIENTIFIC_ROWS']}"
+        )
+
+    expected_hashes = {
+        "PROFILE_ROWS": summary.get("profile_rows_sha256"),
+        "SCIENTIFIC_ROWS": summary.get("scientific_rows_sha256"),
+        "OBJECTIVE": summary.get("objective_sha256"),
+    }
+    for name, expected in expected_hashes.items():
+        if expected is not None and expected != sha256_file(paths[name]):
+            raise ValueError(f"canonical profile member {name} hash drift: {paths[name]}")
+    try:
+        objective = json.loads(paths["OBJECTIVE"].read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"invalid canonical OBJECTIVE: {paths['OBJECTIVE']}") from exc
+    if objective.get("schema") != "banana-smasher-objective-v1":
+        raise ValueError(f"canonical OBJECTIVE schema drift: {paths['OBJECTIVE']}")
+    for key, expected in summary.get("objective", {}).items():
+        if objective.get(key) != expected:
+            raise ValueError(
+                f"canonical OBJECTIVE value drift for {key}: {paths['OBJECTIVE']}"
+            )
+    return {
+        "profile_summary": artifact(summary_path),
+        "profile_rows": artifact(paths["PROFILE_ROWS"]),
+        "scientific_rows": artifact(paths["SCIENTIFIC_ROWS"]),
+        "objective": artifact(paths["OBJECTIVE"]),
+    }
 
 
 def _adopt_pricing_summary(
@@ -285,6 +369,23 @@ def _adopt_pricing_summary(
     output.mkdir(parents=True, exist_ok=True)
     scientific_path = output / "SCIENTIFIC_ROWS.json"
     atomic_json(scientific_path, selected)
+    profile_rows_path = output / "PROFILE_ROWS.jsonl"
+    atomic_bytes(
+        profile_rows_path,
+        b"".join(
+            json.dumps(row, sort_keys=True, allow_nan=False).encode() + b"\n"
+            for row in selected
+        ),
+    )
+    objective_path = output / "OBJECTIVE.json"
+    atomic_json(
+        objective_path,
+        {
+            "schema": "banana-smasher-objective-v1",
+            **objective,
+            "assignment": assignment_payload,
+        },
+    )
     summary = {
         "schema": "banana-smasher-solver-profile-v1",
         "status": "PASS",
@@ -299,8 +400,12 @@ def _adopt_pricing_summary(
         "solver_rows": len(selected),
         "expected_solver_rows": len(selected),
         "objective": objective,
+        "profile_rows": str(profile_rows_path.resolve()),
+        "profile_rows_sha256": sha256_file(profile_rows_path),
         "scientific_rows": str(scientific_path.resolve()),
         "scientific_rows_sha256": sha256_file(scientific_path),
+        "objective_path": str(objective_path.resolve()),
+        "objective_sha256": sha256_file(objective_path),
         "source_pricing_manifest": artifact_bytes(complete_path, complete_raw),
         "source_pricing_rows": artifact_bytes(rows_path, rows_raw),
         "created_unix": time.time(),
@@ -647,13 +752,18 @@ def run_fresh_solve(
             summary["audit_codeword_assignments"] = audit_codeword_assignments
             summary["scientific_rows_sha256"] = sha256_file(scientific_path)
             atomic_json(summary_path, summary)
+            profile_artifacts = _canonical_profile_artifacts(
+                summary_path, layer=layer, root=tier_root
+            )
             layer_rows.append(
                 {
                     "layer": layer,
                     "resumed": resumed,
                     "objective": summary["objective"],
-                    "summary": artifact(summary_path),
-                    "scientific_rows": artifact(scientific_path),
+                    "summary": profile_artifacts["profile_summary"],
+                    "profile_rows": profile_artifacts["profile_rows"],
+                    "scientific_rows": profile_artifacts["scientific_rows"],
+                    "objective_artifact": profile_artifacts["objective"],
                 }
             )
         tier_manifest_path = tier_root / "MANIFEST.json"
@@ -771,14 +881,19 @@ def run_anchor(*, run_root: Path) -> dict[str, Any]:
         for row in layer_rows:
             if not isinstance(row, dict):
                 raise ValueError(f"invalid tier layer row: {tier_path}")
-            _validate_artifact_record(
-                row["summary"], root=tier_path.parent, label="layer summary"
-            )
-            _validate_artifact_record(
-                row["scientific_rows"],
-                root=tier_path.parent,
-                label="scientific rows",
-            )
+            for member, label in (
+                ("summary", "canonical profile member PROFILE_SUMMARY"),
+                ("profile_rows", "canonical profile member PROFILE_ROWS"),
+                ("scientific_rows", "canonical profile member SCIENTIFIC_ROWS"),
+                ("objective_artifact", "canonical profile member OBJECTIVE"),
+            ):
+                if member not in row:
+                    raise ValueError(
+                        f"missing canonical profile member {member.upper()}: {tier_path}"
+                    )
+                _validate_artifact_record(
+                    row[member], root=tier_path.parent, label=label
+                )
         layer_objectives = [
             {
                 "layer": int(row["layer"]),
@@ -829,9 +944,33 @@ def run_anchor(*, run_root: Path) -> dict[str, Any]:
                 "created_unix": time.time(),
             }
             atomic_json(layer_receipt_path, layer_receipt)
-            layer_receipts.append(
-                {"layer": objective_row["layer"], **artifact(layer_receipt_path)}
-            )
+            layer_record = {
+                "layer": objective_row["layer"],
+                **artifact(layer_receipt_path),
+            }
+            if len(tiers) == 1:
+                canonical_pass_path = (
+                    run_root / "layers" / f"L{objective_row['layer']:03d}_PASS.json"
+                )
+                canonical_pass = {
+                    "schema": "banana-smasher-fixed-anchor-pass-v1",
+                    "status": "PASS",
+                    "tier": tier,
+                    "layer": objective_row["layer"],
+                    "fixed_tier": True,
+                    "warm_start": False,
+                    "members": {
+                        "PROFILE_SUMMARY": source_row["summary"],
+                        "PROFILE_ROWS": source_row["profile_rows"],
+                        "SCIENTIFIC_ROWS": source_row["scientific_rows"],
+                        "OBJECTIVE": source_row["objective_artifact"],
+                    },
+                    "fixed_anchor_layer_receipt": artifact(layer_receipt_path),
+                    "created_unix": time.time(),
+                }
+                atomic_json(canonical_pass_path, canonical_pass)
+                layer_record["canonical_pass"] = artifact(canonical_pass_path)
+            layer_receipts.append(layer_record)
         named_manifest_path = run_root / "anchors" / f"ANCHOR_{tier}_MANIFEST.json"
         named_manifest = {
             "schema": "banana-smasher-fixed-anchor-manifest-v1",

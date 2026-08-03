@@ -37,12 +37,18 @@ def _fake_profile(argv, *, emit_summary=False):
     scientific = out / "SCIENTIFIC_ROWS.json"
     scientific.write_text(json.dumps(rows))
     scientific_sha256 = hashlib.sha256(scientific.read_bytes()).hexdigest()
+    profile_rows = out / "PROFILE_ROWS.jsonl"
+    profile_rows.write_text("".join(json.dumps(row) + "\n" for row in rows))
     objective = {
         "selected_cells": 1,
         "assignment_sha256": f"{layer + 1:064x}",
         "sum_relative_weighted_error": float(layer + 1) / 10.0,
         "sum_weighted_sse": float(layer + 1),
     }
+    objective_path = out / "OBJECTIVE.json"
+    objective_path.write_text(
+        json.dumps({"schema": "banana-smasher-objective-v1", **objective})
+    )
     summary = {
         "schema": "banana-smasher-solver-profile-v1",
         "status": "PASS",
@@ -56,6 +62,10 @@ def _fake_profile(argv, *, emit_summary=False):
         "exact_vectors": 1,
         "scientific_rows": str(scientific),
         "scientific_rows_sha256": scientific_sha256,
+        "profile_rows": str(profile_rows),
+        "profile_rows_sha256": hashlib.sha256(profile_rows.read_bytes()).hexdigest(),
+        "objective_path": str(objective_path),
+        "objective_sha256": hashlib.sha256(objective_path.read_bytes()).hexdigest(),
     }
     (out / "PROFILE_SUMMARY.json").write_text(json.dumps(summary))
     return summary
@@ -478,6 +488,77 @@ def test_anchor_consumes_solve_manifest_and_binds_outputs(
     assert chain["anchor_manifest"]["sha256"] == workflow.sha256_file(
         root / "anchors" / "MANIFEST.json"
     )
+
+
+def test_anchor_refuses_missing_canonical_profile_members(
+    tmp_path: Path, monkeypatch
+) -> None:
+    from banana_smasher import workflow
+
+    monkeypatch.setattr(workflow, "solver_profile_main", _fake_profile)
+    root = tmp_path / "run"
+    source = tmp_path / "source"
+    source.mkdir()
+    workflow.run_fresh_solve(
+        run_root=root,
+        source_root=source,
+        layers=[37],
+        tiers=["d4_k4096"],
+        windows=32,
+        staging_root=None,
+        reference_search=False,
+        hessian_manifest=None,
+    )
+    (
+        root
+        / "solve"
+        / "d4_k4096"
+        / "profile"
+        / "L037"
+        / "PROFILE_ROWS.jsonl"
+    ).unlink()
+
+    with pytest.raises(ValueError, match="missing canonical profile member.*PROFILE_ROWS"):
+        workflow.run_anchor(run_root=root)
+    assert not (root / "anchors" / "MANIFEST.json").exists()
+
+
+def test_anchor_writes_hash_complete_canonical_pass_for_single_tier(
+    tmp_path: Path, monkeypatch
+) -> None:
+    from banana_smasher import workflow
+
+    monkeypatch.setattr(workflow, "solver_profile_main", _fake_profile)
+    root = tmp_path / "run"
+    source = tmp_path / "source"
+    source.mkdir()
+    workflow.run_fresh_solve(
+        run_root=root,
+        source_root=source,
+        layers=[37],
+        tiers=["d4_k4096"],
+        windows=32,
+        staging_root=None,
+        reference_search=False,
+        hessian_manifest=None,
+    )
+    workflow.run_anchor(run_root=root)
+
+    pass_path = root / "layers" / "L037_PASS.json"
+    canonical_pass = json.loads(pass_path.read_text())
+    assert canonical_pass["schema"] == "banana-smasher-fixed-anchor-pass-v1"
+    assert canonical_pass["status"] == "PASS"
+    assert canonical_pass["tier"] == "d4_k4096"
+    assert canonical_pass["layer"] == 37
+    assert set(canonical_pass["members"]) == {
+        "PROFILE_SUMMARY",
+        "PROFILE_ROWS",
+        "SCIENTIFIC_ROWS",
+        "OBJECTIVE",
+    }
+    for record in canonical_pass["members"].values():
+        path = Path(record["path"])
+        assert record == workflow.artifact(path)
 
 
 def test_status_reports_live_process_with_matching_startticks(

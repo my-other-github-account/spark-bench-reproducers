@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 from concurrent.futures import ThreadPoolExecutor
 import gc
+import hashlib
 import json
 import math
 import os
@@ -52,6 +53,14 @@ def append_fsync(path: Path, obj: Any) -> None:
         f.write(json.dumps(obj, sort_keys=True) + "\n")
         f.flush()
         os.fsync(f.fileno())
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(8 << 20), b""):
+            digest.update(block)
+    return digest.hexdigest()
 
 
 def assignment_sha256(assignment_payload: dict[str, dict[str, Any]]) -> str:
@@ -726,7 +735,15 @@ def main(
         "sum_relative_weighted_error": sum(row["relative_weighted_error"] for row in assignments.values()),
         "sum_weighted_sse": sum(row["weighted_sse"] for row in assignments.values()),
     }
-    atomic_json(out / "OBJECTIVE.json", {"schema": "banana-smasher-objective-v1", **objective, "assignment": assignment_payload})
+    objective_path = out / "OBJECTIVE.json"
+    atomic_json(
+        objective_path,
+        {
+            "schema": "banana-smasher-objective-v1",
+            **objective,
+            "assignment": assignment_payload,
+        },
+    )
     save1 = time.perf_counter()
     rec.add("python_dispatch", "output.scientific_rows_and_objective", save1 - save0, save0, save1)
 
@@ -788,7 +805,12 @@ def main(
         ),
         "objective": objective,
         "audit_codeword_assignments": args.audit_codeword_assignments,
+        "profile_rows": str(rows_path),
+        "profile_rows_sha256": sha256_file(rows_path),
         "scientific_rows": str(scientific_path),
+        "scientific_rows_sha256": sha256_file(scientific_path),
+        "objective_path": str(objective_path),
+        "objective_sha256": sha256_file(objective_path),
         "epoch_started": epoch_started,
         "epoch_ended": epoch_ended,
         "outer_wall_s": outer_s,
@@ -804,7 +826,6 @@ def main(
         "subphases": rec.subphases,
         "sample_windows": window_rows,
         "plane_paths": {k: str(v) for k, v in paths.items()},
-        "profile_rows": str(rows_path),
         "bucket_definition": {
             "codebook_distance_sweeps": (
                 "all-candidate TF32x3 tensor-core top2 plus bound-gated fused IEEE-FP32 verification"
